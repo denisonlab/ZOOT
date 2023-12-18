@@ -1,0 +1,34 @@
+In this experiment we are testing how well people can pay attention 
+to specific moments in time, and judge what they saw at those moments. 
+
+On each trial you will see up to two patches with horizontal or vertical 
+lines flash on the screen one after another. Your task is to judge if they 
+are tilted slightly clockwise or counterclockwise from purely horizontal 
+or vertical.
+
+Before the patches appear, you will a tone that will tell 
+you which patch you are most likely to be asked to report on. A high tone 
+before the patches appear means you are most likely to be asked about the 
+first patch. A low tone means you are most likely to be asked about the second 
+patch. If you hear both tones together, you will have an equal chance of being 
+asked about either patch. During the task there will be two click sounds, which
+indicate when each patch may appear.
+
+After they two patches flash, you will hear a tone that will tell 
+you which patch to respond to on this trial. A high tone tells you to 
+report how the first patch was tilted. A low tone tells you to report 
+how the second patch was tilted. 
+
+You can press the 1 button to respond that it was tilted 
+counter-clockwise, and the 0 button to respond that it was clockwise.
+If you do not see a patch, press the M key.
+
+After you respond, you will get feedback on how you did. 
+Green = correct, red = incorrect, blue = no response. 
+
+This task is meant to be difficult, so don't be discouraged if 
+it feels tricky - try your best! Thank you for participating in our study.
+
+Press 1 to hear an example high tone. Press 2 to hear an example low tone. 
+Press 3 to hear an example "neutral" tone. Press any other key to start!
+
