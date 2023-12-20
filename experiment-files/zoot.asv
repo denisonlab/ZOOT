@@ -92,10 +92,6 @@ pahandle = PsychPortAudio('Open', [], [], reqlatencyclass, p.Fs, 1); % 1 = singl
 % Check all "devices" (keyboards, mice) for response input
 devNum = -1;
 
-respLeftCode=KbName(p.respLeft);
-respRightCode=KbName(p.respRight);
-respAbsent=KbName(p.respAbsent);
-
 %% %%%% Make stimuli %%%%
 %% Making images ...
 
@@ -103,40 +99,6 @@ respAbsent=KbName(p.respAbsent);
 pixelsPerDegree = ang2pix(1, p.screenSize(1), p.screenRes(1), p.viewDist, 'central');
 
 fixSize = p.fixSize*pixelsPerDegree;
-
-%% Make a gabor image
-% First make a grating image
-nTotalTrials=11;
-edgeWidth=round(p.apertureEdgeWidth*pixelsPerDegree);
-gratingRadius = round(p.gratingDiameter/2*pixelsPerDegree);
-
-phases=linspace(0,2*pi,nTotalTrials);
-phases_t1=phases(randperm(length(phases)));
-phases_t2=phases(randperm(length(phases)));
-p.phases=phases;
-
-for i=1:nTotalTrials
-    t1_grating = rd_grating(pixelsPerDegree, p.imSize, p.gratingSF, 0, phases_t1(i), 1);
-    % Place an Gaussian aperture on the image to turn it into a Gabor
-    im_t1= rd_aperture(t1_grating, p.aperture, gratingRadius, edgeWidth, p.angularFreq);
-    tex_t1=Screen('MakeTexture', window, im_t1);
-    gabor_t1=tex_t1;
-
-    t2_grating = rd_grating(pixelsPerDegree, p.imSize, p.gratingSF, 0, phases_t2(i), 1);
-    % Place an Gaussian aperture on the image to turn it into a Gabor
-     im_t2= rd_aperture(t2_grating, p.aperture, gratingRadius, edgeWidth, p.angularFreq);
-    tex_t2=Screen('MakeTexture', window, im_t2);
-    gabor_t2=tex_t2;
-end
-
-% % View the gabor
-% figure
-% imshow(gabor)
-
-%% Make the rects for placing the images in the window
-grating=rd_grating(pixelsPerDegree, p.imSize, p.gratingSF, 0, 0, 1);
-imSize = size(grating);
-imRect = CenterRectOnPoint([0 0 imSize(1) imSize(2)], cx+p.imPos(1), cy+p.imPos(2));
 
 %% Making sounds ...
 % 10^0.5 for every 10dB
@@ -170,9 +132,9 @@ cueTones(iF+1,:) = mean(cueTones,1); % neutral precue, both tones together
 % "response" = response category, e.g. CW/CCW
 trialsHeaders = {'precueValidity','target','T1Axis','T2Axis'...
     'T1Tilt','T2Tilt', 'T1Contrast', 'T2Contrast','precue','targetTilt','T1OriDeg','T2OriDeg',...
-    'responseKey','response','accuracy','rt_t1'};
+    'responseKey','response','accuracy','rt'};
 
-% make sure column indices match trials headers
+% make sure column indices match trials headers, returns a logical array 
 precueValidityIdx = strcmp(trialsHeaders,'precueValidity');
 targetIdx = strcmp(trialsHeaders,'target');
 T1AxisIdx = strcmp(trialsHeaders,'T1Axis');
@@ -186,6 +148,7 @@ precueIdx = strcmp(trialsHeaders,'precue');
 T1OriIdx = strcmp(trialsHeaders,'T1OriDeg');
 T2OriIdx = strcmp(trialsHeaders,'T2OriDeg');
 targetTiltIdx = strcmp(trialsHeaders,'targetTilt');
+targetContrastIdx = strcmp(trialsHeaders, 'targetContrast');
 
 responseKeyIdx = strcmp(trialsHeaders,'responseKey');
 responseIdx = strcmp(trialsHeaders,'response');
@@ -193,7 +156,7 @@ accuracyIdx = strcmp(trialsHeaders,'accuracy');
 rtIdx = strcmp(trialsHeaders,'rt');
 
 
-% full factorial design
+% full factorial design - creates matrix of trial conditions for full sesh
 trials = fullfact([numel(p.precueValidities) ...
     numel(p.targets) ...
     numel(p.axes) ...
@@ -204,26 +167,64 @@ trials = fullfact([numel(p.precueValidities) ...
     numel(p.contrasts)]);
 
 %% Set order of trial presentation
-nTrials = 1;
-trialOrder = randperm(nTrials);
+nTrials = 2;
+% nTrials = length(trials);
+trialOrder=randperm(nTrials);
+% trialOrder = Shuffle(trials,2);
+
+
+%% Make a gabor image
+% First make a grating image
+edgeWidth=round(p.apertureEdgeWidth*pixelsPerDegree);
+gratingRadius = round(p.gratingDiameter/2*pixelsPerDegree);
+
+gabors_t1=nan(1,nTrials);
+gabors_t2=nan(1,nTrials);
+
+phases=linspace(0,2*pi,nTrials);
+phases_t1=phases(randperm(length(phases)));
+phases_t2=phases(randperm(length(phases)));
+p.phases=phases;
+
+for i=1:nTrials
+    t1_grating = rd_grating(pixelsPerDegree, p.imSize, p.gratingSF, 0, phases_t1(i), p.contrasts(trials(i,7))); %creates grating 
+    % Place an Gaussian aperture on the image to turn it into a Gabor
+    im_t1= rd_aperture(t1_grating, p.aperture, gratingRadius, edgeWidth, p.angularFreq); %matrix for gaussian
+    tex_t1=Screen('MakeTexture', window, im_t1); %for psychtoolbox, need matrix to become a texture 
+    gabors_t1(i)=tex_t1;
+
+    t2_grating = rd_grating(pixelsPerDegree, p.imSize, p.gratingSF, 0, phases_t2(i), p.contrasts(trials(i,8)));
+    % Place an Gaussian aperture on the image to turn it into a Gabor
+     im_t2= rd_aperture(t2_grating, p.aperture, gratingRadius, edgeWidth, p.angularFreq);
+    tex_t2=Screen('MakeTexture', window, im_t2);
+    gabors_t2(i)=tex_t2;
+end
+
+% % View the gabor
+% figure
+% imshow(gabor)
+
+%% Make the rects for placing the images in the window
+grating=rd_grating(pixelsPerDegree, p.imSize, p.gratingSF, 0, 0, 1);
+imSize = size(grating);
+imRect = CenterRectOnPoint([0 0 imSize(1) imSize(2)], cx+p.imPos(1), cy+p.imPos(2));
 
 %% %%%% Eyetracker %%%%
 
-
-%% %%%% Present trials %%%%
-%% Show instruction screen and wait for a button press
+   %% Show instruction screen and wait for a button press
 Screen('FillRect', window, white*p.backgroundColor);
 DrawFormattedText(window, 'Press any key to begin', 'center', 'center', [1 1 1]*white);
 Screen('Flip', window);
- KbWait(devNum);
+KbWait(devNum);
 timeStart = GetSecs;
+%% %%%% Present trials %%%%
 
 for iTrial = 1:nTrials % the iteration in the trial loop
-    trialIdx = trialOrder(iTrial); % the trial number in the trials matrix
+    trialIdx = trialOrder(iTrial); % the current trial number in the trials matrix
 
     %% %%%% Present one trial %%%
     %% Get condition information for this trial
-    precueValidity = p.precueValidities(trials(trialIdx, precueValidityIdx));
+    precueValidity = p.precueValidities(trials(trialIdx, precueValidityIdx)); %saves each column in trials matrix as corresponding variable e.g. column 1 = precue validity 
     target = trials(trialIdx, targetIdx);
     T1Axis = trials(trialIdx, T1AxisIdx);
     T2Axis = trials(trialIdx, T2AxisIdx);
@@ -231,8 +232,10 @@ for iTrial = 1:nTrials % the iteration in the trial loop
     T2Tilt = trials(trialIdx, T2TiltIdx);
     T1Contrast = trials(trialIdx, T1ContrastIdx);
     T2Contrast = trials(trialIdx, T2ContrastIdx);
-    tilts = [T1Tilt T2Tilt];
+    tilts = p.tilts([T1Tilt T2Tilt]);
+    contrasts = p.contrasts([T1Contrast T2Contrast]);
 
+ 
     % precue
     precueName = p.precueNames{precueValidity};
     switch precueName
@@ -249,6 +252,8 @@ for iTrial = 1:nTrials % the iteration in the trial loop
 
     % target tilt
     targetTilt = tilts(target);
+    targetContrast = contrasts(target);
+   
 
     %% Set up stimuli for this trial
     % precue tone
@@ -256,19 +261,18 @@ for iTrial = 1:nTrials % the iteration in the trial loop
 
     % T1 orientation (rotation angle)
     T1Orientation = p.axes(T1Axis) + p.tilt*p.tilts(T1Tilt);
-    currTilt_stim1 =p.tilt*p.tilts(T1Tilt);
     
-
     % T2 orientation (rotation angle)
     T2Orientation = p.axes(T2Axis) + p.tilt*p.tilts(T2Tilt);
-    currTilt_stim2 =p.tilt*p.tilts(T2Tilt);
 
     % postcue tone
     postcueTone = cueTones(target,:);
 
     %% Store stimulus information in trials matrix
-  trials(trialIdx, precueIdx) = precue;
+    trials(trialIdx, precueIdx) = precue;
+    trials(trialIdx, targetIdx)=target;
     trials(trialIdx, targetTiltIdx) = targetTilt;
+    trials(trialIdx, targetContrastIdx) = targetContrast;
     trials(trialIdx, T1AxisIdx) = T1Axis;
     trials(trialIdx, T2AxisIdx) = T2Axis;
     trials(trialIdx, T1TiltIdx) = T1Tilt;
@@ -281,9 +285,8 @@ for iTrial = 1:nTrials % the iteration in the trial loop
 
     %% %%%% Play the trial %%%%
     %% Present fixation
-
     fixColor = p.fixColor;
-    drawFixation(window, cx, cy, fixSize, fixColor);
+    drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeFix = Screen('Flip', window);
 
     %% Present precue tone
@@ -291,25 +294,25 @@ for iTrial = 1:nTrials % the iteration in the trial loop
     timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); % waitForStart = 1 in order to return a timestamp of playback
 
     %% Present T1 
-    drawFixation(window, cx, cy, fixSize, fixColor);
-    Screen('DrawTexture', window, gabor_t1, [], imRect, T1Orientation);
+    drawFixation(window, cx, cy, fixSize, p.fixColor);
+    Screen('DrawTexture', window, gabors_t1(trialIdx), [], imRect, T1Orientation);
     timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
-    % PsychPortAudio('FillBuffer', pahandle, [p.sound; p.sound]);
-    % timeT1Click=PsychoPortAudio('Start', pahandle, 1, 0, 0);
+    PsychPortAudio('FillBuffer', pahandle, p.sound);
+    timeT1Click=PsychPortAudio('Start', pahandle, 1, 0, 0);
 
     % blank
     drawFixation(window, cx, cy, fixSize, fixColor);
     timeBlank1 = Screen('Flip', window, timeT1 + p.imDur - slack);
 
     %% Present T2 
-    drawFixation(window, cx, cy, fixSize, fixColor);
-    Screen('DrawTexture', window, gabor_t2, [], imRect, T2Orientation);
+    drawFixation(window, cx, cy, fixSize, p.fixColor);
+    Screen('DrawTexture', window, gabors_t2(trialIdx), [], imRect, T2Orientation);
     timeT2 = Screen('Flip', window, timeT1 + p.targetSOA - slack);
-    % PsychPortAudio('FillBuffer', pahandle, p.sound);
-    % timeTClick=PsychoPortAudio('Start', pahandle, 1, 0, 0);
+    PsychPortAudio('FillBuffer', pahandle, p.sound);
+    timeT2Click=PsychPortAudio('Start', pahandle, 1, 0, 0);
 
     % blank
-    drawFixation(window, cx, cy, fixSize, fixColor);
+    drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeBlank2 = Screen('Flip', window, timeT2 + p.imDur - slack);
 
     %% Present postcue
@@ -317,102 +320,50 @@ for iTrial = 1:nTrials % the iteration in the trial loop
     timePostcue = PsychPortAudio('Start', pahandle, [], timeT2 + p.postcueSOA, 1); % waitForStart = 1 in order to return a timestamp of playback
 
     %% response window 
-
-    drawFixation(window, cx, cy, fixSize, fixColor);
-    timeTargetResponseGo=Screen('Flip', window, timePostcue-slack);
-    Screen('Flip', window);
-drawFixation(window, cx, cy, fixSize, fixColor);
-    Screen('Flip', window);
+    drawFixation(window, cx, cy, fixSize, p.fixColor);
+    Screen('DrawingFinished', window)
+    timeTargetResponseGo=Screen('Flip', window, timePostcue +p.toneDur -slack);
+ 
     [timeTargetResponse, keyCode] = KbWait(devNum);
-    % timeTargetRT = timeTargetResponse-timeTargetResponseGo;
+    timeTargetRT = timeTargetResponse-timeTargetResponseGo;
     responseKey = find(keyCode);
     responseKeyName=KbName(responseKey);
+    response = find(strcmp(p.responseKeys,responseKeyName)); 
 
+    %% feedback
+    
 
-    %% feedback 
-       if ~p.watch_response %response has happened, so provide feedback
-            if p.staircasing==0 && p.stimmapping ==1
-                % ContrastT1High = contrasts(i)==1 | contrasts(i)==3
-                % ContrastT2High = contrasts(i)==1 | contrasts(i)==4
-                % ContrastT1Low = contrasts(i)==2 | contrasts(i)==4
-                % ContrastT2Low = contrasts(i)==2 | contrasts(i)==3
+    if response==3 % absent
+        responseTilt = 0;
+        correct = responseTilt==targetContrast;
+    else
+        responseTilt = p.tilts(response);
+        correct = targetTilt==responseTilt;
+    end
 
-                %1 =h/h, 2=l/l, 3=h/l, 
-                % 4=l/h
-                if currTilt_stim1<0 && responseKey==respLeftCode  %correct CCW
-                    correct=1;
-                elseif currTilt_stim1>0 && responseKey==respRightCode  %correct CW
-                    correct=1;
-                elseif currTilt_stim2<0 && responseKey==respLeftCode %correct t2 CCW
-                    correct=1;
-               elseif currTilt_stim2>0 && responseKey==respRightCode %correct t2 CW
-                    correct=1;
-                else
-                    correct=0;
-                end
+        if correct==1
+            fixColor=[0 1 0]*255; %green for correct
+        elseif correct ==0
+            fixColor=[1 0 0]*255; %red for incorrect
+        else 
+            fixColor=[0 0 1]*255; %blue for miss
+        end
 
-            elseif p.staircasing==0
-                if cues(currTrial,2)==1 %neutral postcue T1
-                    if (contrasts(currTrial)==1 || contrasts(currTrial)==3) && currTilt_stim1<0 && data_keyCode==respLeftCode % T1 CCW
-                        correct=1;
-                    elseif (contrasts(currTrial)==1 || contrasts(currTrial)==3) && currTilt_stim1>0 && data_keyCode==respRightCode %T1 CW
-                        correct=1;
-                    elseif (contrasts(currTrial)==2 || contrasts(currTrial)==4) && data_keyCode==respAbsent %T1 absent
-                        correct=1;
-                    else
-                        correct=0;
-                    end
-                elseif cues(currTrial,2)==2 % neutral postcue T2
-                    if (contrasts(currTrial)==1 || contrasts(currTrial)==4) && currTilt_stim2<0 && data_keyCode==respLeftCode % T2 CCW
-                        correct=1;
-                    elseif (contrasts(currTrial)==1 || contrasts(currTrial)==4) && currTilt_stim2>0 && data_keyCode==respRightCode %T2 CW
-                        correct=1;
-                    elseif (contrasts(currTrial)==2 || contrasts(currTrial)==3) && data_keyCode==respAbsent %T2 absent
-                        correct=1;
-                    else
-                        correct=0;
-                    end
-                else
-                    correct=0;
-                end
-            end 
-            if correct==1
-                p.fixColor=[0 1 0]; %green for correct
-            elseif correct ==0
-                p.fixColor=[1 0 0]; %red for incorrect
-            end
-       end 
-% 
-% feedbackLength=p.feedbackLength;
-%        for i=1:feedbackLength  
-            if correct==1
-                fixColor=[0 1 0]; %green for correct
-            elseif correct==0
-                fixColor=[1 0 0]; %red for incorrect
-                %         elseif answered_early==1 && i < p.feedbackLength || (watch_response==1 && i < p.feedbackLength)
-                %             fixColor=[0 0 1]; %if they haven't responded, make it blue
-                %         else
-                %             fixColor=p.dimFixColor; %finally set to dim. will be brighened for next trial
-            end
+        % Screen('Flip', window)
+        drawFixation(window, cx,cy, fixSize, fixColor);
+        timeFeedback = Screen('Flip', window);
+ 
 
+    drawFixation(window, cx,cy, fixSize, p.fixColor);
+    timeBlank3 = Screen('Flip', window, timeFeedback+1-slack);
 
-            Screen('Flip', window)
-            %draw fix
-            drawFixation(window, cx,cy, p.fixSize, fixColor);
-            % 
-            % %recommended optimization
-            % Screen('DrawingFinished',window);
-
-            %flip
-            timeFeedback = Screen('Flip', window, timePostcue + p.toneDur - slack);
-       % end 
-
-     
     %% Store trial info
-    % trials(trialIdx, t1rtIdx) = rt;
     trials(trialIdx, responseKeyIdx) = responseKey;
+    trials(trialIdx, responseIdx) = response;
+    trials(trialIdx, accuracyIdx) = correct;
+    trials(trialIdx, rtIdx) = timeTargetRT;
 
-    % DrawFormattedText(window, sprintf('Your reaction time was %.2f s!', rt), 'center', 'center', [1 1 1]*white);
+    % % DrawFormattedText(window, sprintf('Your reaction time was %.2f s!', rt), 'center', 'center', [1 1 1]*white);\
     Screen('Flip', window);
     WaitSecs(2);
 end

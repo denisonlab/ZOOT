@@ -5,7 +5,7 @@ function p = zootparams
 addpath data/ toolboxes/eyetrack-tools-master/ functions/ trial-structs/
 p.windowTesting=1;
 p.staircasing = 0;
-p.stimmapping = 1;
+p.stimmapping = 0;
 p.watch_response=0;
 p.comp = 'iMac';
 
@@ -81,7 +81,7 @@ p.angularFreq=8;
 %% Sounds
 p.volume=0.01;
 
-p.Fs = 44100; % samples per second
+p.Fs = 48000; % samples per second
 p.sampleRate=48000;
 p.toneFreqs = [784 523]; % Hz; [G5, C5]
 p.toneDur = 0.2; % seconds
@@ -128,9 +128,8 @@ p.sound = s;
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% response 
-p.respLeft='1!';
-p.respRight='2@';
-p.respAbsent='3#';
+p.responseNames = {'CCW','CW','absent'};
+p.responseKeys = {'1!','2@','3#'};
 
 p.deviceIndex = 1; % accept response from all inputs 
 p.eyeTrackerCalibrationKey='home';
@@ -139,7 +138,7 @@ p.precueSOA = 1; % precue to T1
 p.imDur = 0.05; % 50ms, target presentation duration
 p.targetSOA = 0.25; % s, T1 to T2
 p.postcueSOA = 0.5; % T2 to postcue
-p.feedbackLength=60; %frames, postcue to feedback 
+p.feedbackLength=0.5; %feedback color length 
 
 %% Condition information
 p.precueNames = {'valid','neutral','invalid'};
@@ -148,7 +147,7 @@ p.targets = {'T1','T2'};
 p.axisNames = {'V','H'};
 p.axes = [90 0];
 p.tiltNames = {'CCW','CW'};
-p.tilts = [1 -1];
+p.tilts = [-1 1];
 p.contrastNames = {'high', 'low'};
 p.contrasts = [1 0];
 
