@@ -139,7 +139,7 @@ p.imDur = 0.05; % 50ms, target presentation duration
 p.targetSOA = 0.25; % s, T1 to T2
 p.postcueSOA = 0.5; % T2 to postcue
 p.feedbackLength=0.5; %feedback color length 
-p.responseWindowDur=2; %2 second window allowed for response
+% p.responseWindowDur=2; %2 second window allowed for response
 
 %% Condition information
 p.precueNames = {'valid','neutral','invalid'};

@@ -322,30 +322,19 @@ for iTrial = 1:nTrials % the iteration in the trial loop
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     Screen('DrawingFinished', window)
     timeTargetResponseGo=Screen('Flip', window, timePostcue +p.toneDur -slack);
- 
-    responseKey = [];
-    while isempty(responseKey) && GetSecs < timeTargetResponseGo + p.responseWindowDur
+
     [timeTargetResponse, keyCode] = KbWait(devNum);
     timeTargetRT = timeTargetResponse-timeTargetResponseGo;
     responseKey = find(keyCode);
     responseKeyName=KbName(responseKey);
     response = find(strcmp(p.responseKeys,responseKeyName)); 
-    end 
 
-    if isempty(responseKey)
-        timeTargetRT = NaN;
-        responseKey = NaN;
-        responseKeyName=NaN;
-        response = NaN;
-    end 
 
     %% feedback
 
     if response==3 % absent
         responseTilt = 0;
         correct = responseTilt==targetContrast;
-    elseif isnan(response)
-        correct = NaN;
     else
         responseTilt = p.tilts(response);
         correct = targetTilt==responseTilt;
@@ -355,8 +344,6 @@ for iTrial = 1:nTrials % the iteration in the trial loop
         fixColor=[0 1 0]*255; %green for correct
     elseif correct ==0
         fixColor=[1 0 0]*255; %red for incorrect
-    else
-        fixColor=[0 0 1]*255; %blue for miss, need to incorporate in response window
     end
 
     % Screen('Flip', window)
@@ -365,8 +352,7 @@ for iTrial = 1:nTrials % the iteration in the trial loop
 
     drawFixation(window, cx,cy, fixSize, p.fixColor);
     timeBlank3 = Screen('Flip', window, timeFeedback+1-slack);
-
-
+    
     %% ITI 
 
     %% Store trial info
