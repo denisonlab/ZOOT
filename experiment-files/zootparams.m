@@ -17,7 +17,7 @@ switch p.comp
         p.screenRes = [2240 1260];
         p.viewDist = 57;
         p.refreshRate = 60;
-        p.dir = '/Users/jennymotzer/Documents/GitHub/TWCF_FOHO/ZOOT/experiment-files';
+        p.dir = '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files';
         p.retina = 1; disp('Testing mode for macbooks is active!');
         p.useKbQueue = 1;
         p.eyeTracking=0; disp('shutting off eyetracking since this is a test computer');
@@ -38,7 +38,7 @@ switch p.comp
         p.dir = '/Users/denisonlab-beh/Experiments/ZOOT/experiment-files';
         p.retina = 1;
         p.useKbQueue = 1;
-        p.eyeTracking=0; disp('shutting off eyetracking since this is a test computer');
+        p.eyeTracking=1;
     case 'denlab-eeg'
         p.screenSize = 53.5;
         p.screenRes = [1920 1080];
@@ -47,7 +47,7 @@ switch p.comp
         p.dir = '/Users/denisonlab-eeg/Experiments/ZOOT/experiment-files';
         p.retina = 1;
         p.useKbQueue = 1;
-        p.eyeTracking=0; disp('shutting off eyetracking since this is a test computer');
+        p.eyeTracking=1; 
 end 
 
 %% Fixation
@@ -139,6 +139,7 @@ p.imDur = 0.05; % 50ms, target presentation duration
 p.targetSOA = 0.25; % s, T1 to T2
 p.postcueSOA = 0.5; % T2 to postcue
 p.feedbackLength=0.5; %feedback color length 
+p.responseWindowDur=2; %2 second window allowed for response
 
 %% Condition information
 p.precueNames = {'valid','neutral','invalid'};
