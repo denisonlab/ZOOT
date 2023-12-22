@@ -151,5 +151,6 @@ p.tiltNames = {'CCW','CW'};
 p.tilts = [-1 1];
 p.contrastNames = {'high', 'low'};
 p.contrasts = [1 0];
+p.phases = [0 pi/2 pi 3*pi/2];
 
 

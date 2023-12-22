@@ -163,10 +163,9 @@ gratingRadius = round(p.gratingDiameter/2*pixelsPerDegree);
 gabors_t1=nan(1,nTrials);
 gabors_t2=nan(1,nTrials);
 
-phases=linspace(0,2*pi,nTrials);
+phases=p.phases;
 phases_t1=phases(randperm(length(phases)));
 phases_t2=phases(randperm(length(phases)));
-p.phases=phases;
 
 for i=1:nTrials
     t1_grating = rd_grating(pixelsPerDegree, p.imSize, p.gratingSF, 0, phases_t1(i), p.contrasts(trials(i,7))); %creates grating 
@@ -344,7 +343,6 @@ for iTrial = 1:nTrials % the iteration in the trial loop
         fixColor=[0 1 0]*255; %green for correct
     elseif correct ==0
         fixColor=[1 0 0]*255; %red for incorrect
-    %blue for miss, need to incorporate in response window
     end
 
     % Screen('Flip', window)
@@ -353,8 +351,7 @@ for iTrial = 1:nTrials % the iteration in the trial loop
 
     drawFixation(window, cx,cy, fixSize, p.fixColor);
     timeBlank3 = Screen('Flip', window, timeFeedback+1-slack);
-
-
+    
     %% ITI 
 
     %% Store trial info

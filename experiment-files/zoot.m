@@ -163,10 +163,9 @@ gratingRadius = round(p.gratingDiameter/2*pixelsPerDegree);
 gabors_t1=nan(1,nTrials);
 gabors_t2=nan(1,nTrials);
 
-phases=linspace(0,2*pi,nTrials);
-phases_t1=phases(randperm(length(phases)));
+phases=p.phases;
+phases_t1=phases(randperm(length(phases))); 
 phases_t2=phases(randperm(length(phases)));
-p.phases=phases;
 
 for i=1:nTrials
     t1_grating = rd_grating(pixelsPerDegree, p.imSize, p.gratingSF, 0, phases_t1(i), p.contrasts(trials(i,7))); %creates grating 
