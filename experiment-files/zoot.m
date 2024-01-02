@@ -151,7 +151,7 @@ trials = fullfact([numel(p.precueValidities) ...
     numel(p.contrasts)]);
 
 %% Set order of trial presentation
-nTrials = 2; % for debugging
+nTrials = 100; % for debugging
 % nTrials = length(trials); %for experiment
 trialOrder=randperm(nTrials);
 
@@ -163,7 +163,7 @@ gratingRadius = round(p.gratingDiameter/2*pixelsPerDegree);
 gabors_t1=nan(1,nTrials);
 gabors_t2=nan(1,nTrials);
 
-phases=p.phases;
+phases=linspace(0,2*pi,nTrials);
 phases_t1=phases(randperm(length(phases))); 
 phases_t2=phases(randperm(length(phases)));
 
