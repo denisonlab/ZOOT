@@ -1,15 +1,19 @@
-function expt = zoot(subjectID)
+function expt = zoot_main(subjectID)
 % tazoott
 %
 % jenny motzer
 % december 2023
 
 %% PTB setup
+
 % Check we are running PTB-3
 AssertOpenGL;
 
 % Skip screen tests - ONLY for demo, not for real experiments
 Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
+
+
+%% Input
 
 %% Basic info
 % Name the subject
@@ -17,15 +21,22 @@ if nargin==0
     error('Missing subject ID - call function with ID')
 end 
 
-% Load parameters for this experiment
-p = zootparams;
+directory = pwd; %get project directory path
+addpath(genpath(directory))
+data.directory=directory;
 
-cd(p.dir)
+%get parameters
+p=zootparams;
 
-currDir=pwd; %save current directory as variable
-addpath data/ toolboxes/eyetrack-tools-master/ functions/
-
-makeDirectories(subjectID, currDir);
+%subject data directory
+data.dataDir = sprintf('%s/data', pwd);
+if ~exist(data.dataDir, 'dir')
+    mkdir(data.dataDir)
+end 
+data.subDir =  sprintf('%s/%s', data.dataDir, subjectID);
+if ~exist(data.subDir, 'dir')
+    mkdir(data.subDir)
+end
 
 % Set tilt or get from thresholding procedure
 p.tilt = 2;
@@ -134,7 +145,7 @@ trialsHeaders = {'precueValidity','target','T1Axis','T2Axis'...
     'responseKey','response','accuracy','rt'};
 
 % make sure column indices match trials headers, returns a logical array 
-
+% this is used to get the index of each variable in the trials matrix
 for iF=1:numel(trialsHeaders)
     field=trialsHeaders{iF};
     idx.(field)=strcmp(trialsHeaders,field);
@@ -154,6 +165,7 @@ trials = fullfact([numel(p.precueValidities) ...
 nTrials = 2; % for debugging
 % nTrials = length(trials); %for experiment
 trialOrder=randperm(nTrials);
+block = 1;
 
 %% Make a gabor image
 % First make a grating image
@@ -163,8 +175,8 @@ gratingRadius = round(p.gratingDiameter/2*pixelsPerDegree);
 gabors_t1=nan(1,nTrials);
 gabors_t2=nan(1,nTrials);
 
-phases=p.phases;
-phases_t1=phases(randperm(length(phases)));
+phases=linspace(0,2*pi,nTrials);
+phases_t1=phases(randperm(length(phases))); 
 phases_t2=phases(randperm(length(phases)));
 
 for i=1:nTrials
@@ -203,7 +215,7 @@ timeStart = GetSecs;
 for iTrial = 1:nTrials % the iteration in the trial loop
     trialIdx = trialOrder(iTrial); % the current trial number in the trials matrix
 
-    %% %%%% Present one trial %%%
+    %% %%%% Present trials %%%
     %% Get condition information for this trial
     precueValidity = p.precueValidities(trials(trialIdx, idx.precueValidity)); %saves each column in trials matrix as corresponding variable e.g. column 1 = precue validity 
     target = trials(trialIdx, idx.target);
@@ -234,6 +246,7 @@ for iTrial = 1:nTrials % the iteration in the trial loop
     % target tilt
     targetTilt = tilts(target);
     targetContrast = contrasts(target);
+
    
 
     %% Set up stimuli for this trial
@@ -320,10 +333,10 @@ for iTrial = 1:nTrials % the iteration in the trial loop
     %% response window 
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     Screen('DrawingFinished', window)
-    timeTargetResponseGo=Screen('Flip', window, timePostcue +p.toneDur -slack);
+    timeTargetResponseWindow=Screen('Flip', window, timePostcue +p.toneDur -slack);
 
     [timeTargetResponse, keyCode] = KbWait(devNum);
-    timeTargetRT = timeTargetResponse-timeTargetResponseGo;
+    timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
     responseKey = find(keyCode);
     responseKeyName=KbName(responseKey);
     response = find(strcmp(p.responseKeys,responseKeyName)); 
@@ -347,12 +360,16 @@ for iTrial = 1:nTrials % the iteration in the trial loop
 
     % Screen('Flip', window)
     drawFixation(window, cx,cy, fixSize, fixColor);
-    timeFeedback = Screen('Flip', window);
+    timeFeedbackFix = Screen('Flip', window);
 
     drawFixation(window, cx,cy, fixSize, p.fixColor);
-    timeBlank3 = Screen('Flip', window, timeFeedback+1-slack);
+    timeBlank3 = Screen('Flip', window, timeFeedbackFix+1-slack);
     
-    %% ITI 
+    %% ITI
+    drawFixation(window, cx,cy, fixSize, p.fixColor);
+    timeITIstart = Screen('Flip', window, timeBlank3-slack);
+    drawFixation(window, cx,cy, fixSize, p.fixColor);
+    timeITIend = Screen('Flip', window, timeITIstart+p.ITI-slack);
 
     %% Store trial info
     trials(trialIdx, idx.responseKey) = responseKey;
@@ -362,21 +379,62 @@ for iTrial = 1:nTrials % the iteration in the trial loop
 
     % % DrawFormattedText(window, sprintf('Your reaction time was %.2f s!', rt), 'center', 'center', [1 1 1]*white);\
     Screen('Flip', window);
-    WaitSecs(2);
+    % WaitSecs(2);1
 end
-
+timeEnd = GetSecs;
 %% Store expt info
-expt.subjectID = subjectID;
-expt.p = p;
-expt.trialsHeaders = trialsHeaders;
-expt.trials = trials;
 
+timing.timeStart = timeStart;
+timing.timeFix(iTrial) = timeFix;
+timing.timePrecue{iTrial} = timePrecue;
+timing.timeT1(iTrial) = timeT1;
+timing.timeT1Click(iTrial) = timeT1Click;
+timing.timeBlank1(iTrial) = timeBlank1;
+timing.timeT2(iTrial) = timeT2;
+timing.timeT2Click(iTrial) = timeT2Click;
+timing.timeBlank2(iTrial) = timeBlank2;
+timing.timePostcue(iTrial) = timePostcue;
+timing.timeTargetResponseWindow(iTrial) = timeTargetResponseWindow;
+timing.timeTargetRT(iTrial) = timeTargetRT;
+timing.timeFeedbackFix(iTrial) = timeFeedbackFix;
+timing.timeBlank3(iTrial) = timeBlank3;
+timing.timeITIstart(iTrial) = timeITIstart;
+timing.timeITIend(iTrial) = timeITIend;
+timing.timeEnd(iTrial) = timeEnd;
+
+timing.precueSOA(iTrial)=timeT1(iTrial)-timePrecue(iTrial);
+timing.T1Dur(iTrial)=timeBlank1(iTrial)-timeT1(iTrial);
+timing.SOA(iTrial)=timeT2(iTrial)-timeT1(iTrial);
+timing.T2Dur(iTrial)=timeBlank2(iTrial)-timeT2(iTrial);
+timing.postcueSOA(iTrial)=timePostcue(iTrial)-timeT2(iTrial);
+timing.feedbackSOA(iTrial)=timeFeedbackFix(iTrial)-timePostcue(iTrial);
+timing.feedbackDur(iTrial)=timeBlank3(iTrial)-timeFeedbackFix(iTrial);
+timing.itiDur(iTrial) = timeITIend(iTrial) - timeITIstart(iTrial);
+
+data.subjectID = subjectID;
+data.p = p;
+data.trialsHeaders = trialsHeaders;
+data.trials = trials;
+data.trialOrder=trialOrder;
+dateStr = datetime('now', 'TimeZone', 'local', 'Format', 'yyMMdd_hhmm');
+data.whenSaved = datestr(now);
+data.dateTime=dateStr;
+data.timings=timing;
+%% save beh data
+filename=sprintf('%s/%s_mainExpt_%s_block%d.mat', data.subDir, subjectID, dateStr, block);
+data.filename = filename;
+save(filename,'data')
+disp('data saved!')
+
+if p.eyeTracking
+    rd_eyeLink('eyestop', window, {eyeFile, eyeDataDir})
+    movefile(['eyedata/' subjectID '/' eyeFile '.edf'], ['eyedata/' subjectID, 'eyeFileFull']) % what is this doing
+end
 %% Completion message
 WaitSecs(1);
 DrawFormattedText(window, 'All done! Thank you for your effort', 'center', 'center', 1);
 Screen('Flip', window);
 WaitSecs(3);
-timeExptEnd = GetSecs;
 
 %% Clean up
 PsychPortAudio('Stop', pahandle);

@@ -84,7 +84,7 @@ p.volume=0.01;
 p.Fs = 48000; % samples per second
 p.sampleRate=48000;
 p.toneFreqs = [784 523]; % Hz; [G5, C5]
-p.toneDur = 0.2; % seconds
+p.toneDur = 0.2; % seconds 
 p.toneVolume=0.5;
 p.toneEnvelope=1;%1 envelope on, 2 envelope off
 p.envRampDuration=10; %ms
@@ -135,10 +135,11 @@ p.deviceIndex = 1; % accept response from all inputs
 p.eyeTrackerCalibrationKey='home';
 %% Timing
 p.precueSOA = 1; % precue to T1
-p.imDur = 0.05; % 50ms, target presentation duration
-p.targetSOA = 0.25; % s, T1 to T2
+p.imDur = 0.05; % 50ms, target presentation duration - 0.05
+p.targetSOA = 0.25; % s, T1 to T2 - 0.25
 p.postcueSOA = 0.5; % T2 to postcue
 p.feedbackLength=0.5; %feedback color length 
+p.ITI=.75; %750 ms ITI
 % p.responseWindowDur=2; %2 second window allowed for response
 
 %% Condition information
@@ -146,7 +147,7 @@ p.precueNames = {'valid','neutral','invalid'};
 p.precueValidities = [1 1 1 2 3];
 p.targets = {'T1','T2'};
 p.axisNames = {'V','H'};
-p.axes = [90 0];
+p.axes = [0 90];
 p.tiltNames = {'CCW','CW'};
 p.tilts = [-1 1];
 p.contrastNames = {'high', 'low'};
