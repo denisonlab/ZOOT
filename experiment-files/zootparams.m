@@ -111,8 +111,8 @@ p.clickFreq = 8000;           % highest frequency of click peak in Hertz
 % "The Fourier transform of a square wave pulse is sin(x)/x"
 % Source: https://www.mathworks.com/matlabcentral/answers/1612350-how-to-program-a-click-stimulus?s_tid=prof_contriblnk
 % smallest it can  be on Linux and Sennheiser is 0.04644
-tvclick = linspace(0, p.clickDur*p.Fs, p.clickDur*p.Fs)/p.Fs;     % generate time vector (s)
-x              % x value based on the Fourier transform of a square wave, sin(x)/x
+tclick = linspace(0, p.clickDur*p.Fs, p.clickDur*p.Fs)/p.Fs;     % generate time vector (s)
+xValue = 2*pi*(tclick-p.clickRampDur)*p.clickFreq;               % x value based on the Fourier transform of a square wave, sin(x)/x
 s = sin(xValue)./(xValue);                              % generate the click
 
 clickRampDurSamples = 0:1/p.Fs:p.clickRampDur - 1/p.Fs;
