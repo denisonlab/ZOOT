@@ -1,4 +1,4 @@
-function [data] = zoot_main(subjectID)
+function [data] = zoot_easy_practice(subjectID)
 % tazoott
 %
 % jenny motzer
@@ -39,7 +39,7 @@ if ~exist(data.subDir, 'dir')
 end
 
 % Set tilt or get from thresholding procedure
-p.tilt = 2;
+p.tilt = p.practiceThreshold;
 
 PsychDefaultSetup(2); %psychtoolbox settings
 
@@ -140,9 +140,9 @@ cueTones(iF+1,:) = mean(cueTones,1); % neutral precue, both tones together
 % "axis" = V/H
 % "tilt" = CW/CCW
 % "response" = response category, e.g. CW/CCW
-trialsHeaders = {'precueValidity','target','T1Axis','T2Axis'...
-    'T1Tilt','T2Tilt', 'T1Contrast', 'T2Contrast','precue','targetTilt', 'targetContrast', 'T1OriDeg','T2OriDeg',...
-    'T1Phase', 'T2Phase', 'responseKey','response','accuracy','rt'};
+trialsHeaders = {'precueAllNeutral','target','T1Axis','T2Axis'...
+    'T1Tilt','T2Tilt', 'precue','targetTilt', 'T1OriDeg','T2OriDeg',...
+    'responseKey','response','accuracy','rt'};
 
 % make sure column indices match trials headers, returns a logical array 
 % this is used to get the index of each variable in the trials matrix
@@ -152,17 +152,14 @@ for iF=1:numel(trialsHeaders)
 end
 
 % full factorial design - creates matrix of trial conditions for full sesh
-trials = fullfact([numel(p.precueValidities) ...
+trials = fullfact([numel(p.precueAllNeutral) ...
     numel(p.targets) ...
     numel(p.axes) ...
     numel(p.axes) ...
     numel(p.tilts) ...
-    numel(p.tilts) ...
-    numel(p.contrasts) ...
-    numel(p.contrasts)]);
-
+    numel(p.tilts)]);
 %% Set order of trial presentation
-nTrials = 1; % for debugging
+nTrials = 32; % for debugging
 % nTrials = length(trials); %for experiment
 trialOrder=randperm(nTrials);
 block = 1;
@@ -175,18 +172,20 @@ gratingRadius = round(p.gratingDiameter/2*pixelsPerDegree);
 gabors_t1=nan(1,nTrials);
 gabors_t2=nan(1,nTrials);
 
+phases=linspace(0,2*pi,nTrials);
+phases_t1=phases(randperm(length(phases))); 
+phases_t2=phases(randperm(length(phases)));
+
 for i=1:nTrials
-    phases_t1=p.phases(randperm(length(p.phases),1));
-    phases_t2=p.phases(randperm(length(p.phases),1));
-    t1_grating = rd_grating(pixelsPerDegree, p.imSize, p.gratingSF, 0, phases_t1, p.contrasts(trials(i,7))); %creates grating
+    t1_grating = rd_grating(pixelsPerDegree, p.imSize, p.gratingSF, 0, phases_t1(i), 1); %creates grating 
     % Place an Gaussian aperture on the image to turn it into a Gabor
     im_t1= rd_aperture(t1_grating, p.aperture, gratingRadius, edgeWidth, p.angularFreq); %matrix for gaussian
-    tex_t1=Screen('MakeTexture', window, im_t1); %for psychtoolbox, need matrix to become a texture
+    tex_t1=Screen('MakeTexture', window, im_t1); %for psychtoolbox, need matrix to become a texture 
     gabors_t1(i)=tex_t1;
 
-    t2_grating = rd_grating(pixelsPerDegree, p.imSize, p.gratingSF, 0, phases_t2, p.contrasts(trials(i,8)));
+    t2_grating = rd_grating(pixelsPerDegree, p.imSize, p.gratingSF, 0, phases_t2(i), 1);
     % Place an Gaussian aperture on the image to turn it into a Gabor
-    im_t2= rd_aperture(t2_grating, p.aperture, gratingRadius, edgeWidth, p.angularFreq);
+     im_t2= rd_aperture(t2_grating, p.aperture, gratingRadius, edgeWidth, p.angularFreq);
     tex_t2=Screen('MakeTexture', window, im_t2);
     gabors_t2(i)=tex_t2;
 end
@@ -201,42 +200,6 @@ imSize = size(grating);
 imRect = CenterRectOnPoint([0 0 imSize(1) imSize(2)], cx+p.imPos(1), cy+p.imPos(2));
 
 %% %%%% Eyetracker %%%%
-if p.eyeTracking
-    %Snd('Open', pahandle); %nec for eyetracker
-    % Initialize eye tracker
-    [el, exitFlag] = rd_eyeLink('eyestart', window, eyeFile);
-    if exitFlag
-        return
-    end
-    
-    % Write subject ID into the edf file
-    Eyelink('message', 'BEGIN DESCRIPTIONS');
-    Eyelink('message', 'Subject code: %s', subjectID);
-    Eyelink('message', 'END DESCRIPTIONS');
-    
-    % No sounds indicating success of calibration
-    el.drift_correction_target_beep = [0 0 0];
-    el.drift_correction_failed_beep = [0 0 0];
-    el.drift_correction_success_beep = [0 0 0];
-    
-    % Accept input from all keyboards
-    el.devicenumber = -1; %see KbCheck for details of this value
-    
-    % Update with custom settings
-    EyelinkUpdateDefaults(el);
-    
-    % Calibrate eye tracker
-    [~, exitFlag] = rd_eyeLink('calibrate', window, el);
-    if exitFlag
-        return
-    end
-    
-    %start eyetracking
-    rd_eyeLink('trialstart', window, {el, 1});
-    % Start recording
-    rd_eyeLink('startrecording',window,{el,fixRect});
-    
-end
 
    %% Show instruction screen and wait for a button press
 Screen('FillRect', window, white*p.backgroundColor);
@@ -250,39 +213,35 @@ for iTrial = 1:nTrials % the iteration in the trial loop
     trialIdx = trialOrder(iTrial); % the current trial number in the trials matrix
 
     %% %%%% Present trials %%%
-    %% Get condition information for this trial
-    precueValidity = p.precueValidities(trials(trialIdx, idx.precueValidity)); %saves each column in trials matrix as corresponding variable e.g. column 1 = precue validity 
+    % Get condition information for this trial
+    precueAllNeutral = p.precueValidities(trials(trialIdx, idx.precueAllNeutral)); %saves each column in trials matrix as corresponding variable e.g. column 1 = precue validity 
     target = trials(trialIdx, idx.target);
     T1Axis = trials(trialIdx, idx.T1Axis);
     T2Axis = trials(trialIdx, idx.T2Axis);
     T1Tilt = trials(trialIdx, idx.T1Tilt);
     T2Tilt = trials(trialIdx, idx.T2Tilt);
-    T1Contrast = trials(trialIdx, idx.T1Contrast);
-    T2Contrast = trials(trialIdx, idx.T2Contrast);
-
     tilts = p.tilts([T1Tilt T2Tilt]);
-    contrasts = p.contrasts([T1Contrast T2Contrast]);
-
-    % precue
-    precueName = p.precueNames{precueValidity};
-    switch precueName
-        case 'valid'
-            precue = target;
-        case 'neutral'
-            precue = 3;
-        case 'invalid'
-            % precue = nontarget
-            precue = 3 - target;
-        otherwise
-            error('precueName not recognized')
-    end
+    % 
+    % % precue
+    % precueName = p.precueNames{precueValidity};
+    % switch precueName
+    %     case 'valid'
+    %         precue = target;
+    %     case 'neutral'
+    %         precue = 3;
+    %     case 'invalid'
+    %         % precue = nontarget
+    %         precue = 3 - target;
+    %     otherwise
+    %         error('precueName not recognized')
+    % end
 
     % target tilt
-    targetTilt = tilts(target);
-    targetContrast = contrasts(target);
+    targetTilt = tilts(target);  
+
     %% Set up stimuli for this trial
     % precue tone
-    precueTone = cueTones(precue,:);
+    precueTone = cueTones(3,:);
 
     % T1 orientation (rotation angle)
     T1Orientation = p.axes(T1Axis) + p.tilt*p.tilts(T1Tilt);
@@ -294,16 +253,13 @@ for iTrial = 1:nTrials % the iteration in the trial loop
     postcueTone = cueTones(target,:);
 
     %% Store stimulus information in trials matrix
-    trials(trialIdx, idx.precue) = precue;
+    % trials(trialIdx, idx.precue) = precue;
     trials(trialIdx, idx.target)=target;
     trials(trialIdx, idx.targetTilt) = targetTilt;
-    trials(trialIdx, idx.targetContrast) = targetContrast;
     trials(trialIdx, idx.T1Axis) = T1Axis;
     trials(trialIdx, idx.T2Axis) = T2Axis;
     trials(trialIdx, idx.T1Tilt) = T1Tilt;
     trials(trialIdx, idx.T2Tilt) = T2Tilt;
-    trials(trialIdx, idx.T1Contrast)= T1Contrast;
-    trials(trialIdx, idx.T2Contrast)= T2Contrast;
     trials(trialIdx, idx.T1OriDeg) = T1Orientation;
     trials(trialIdx, idx.T2OriDeg) = T2Orientation;
 
@@ -319,7 +275,6 @@ for iTrial = 1:nTrials % the iteration in the trial loop
     %% Present precue tone
     PsychPortAudio('FillBuffer', pahandle, precueTone);
     timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); % waitForStart = 1 in order to return a timestamp of playback
-    statusPrecue = PsychPortAudio('GetStatus', pahandle); % returns status struct with start time, stop time, etc. 
     if p.eyeTracking
         Eyelink('Message', 'EVENT_FIX')
     end
@@ -329,15 +284,14 @@ for iTrial = 1:nTrials % the iteration in the trial loop
     Screen('DrawTexture', window, gabors_t1(trialIdx), [], imRect, T1Orientation);
     timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
     PsychPortAudio('FillBuffer', pahandle, p.sound);
-    timeT1Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
-    statusT1Click = PsychPortAudio('GetStatus', pahandle);
+    timeT1Click=PsychPortAudio('Start', pahandle, 1, 0, 0);
     if p.eyeTracking
         Eyelink('Message', 'EVENT_FIX')
     end
 
     % blank
     drawFixation(window, cx, cy, fixSize, fixColor);
-    timeBlank1 = Screen('Flip', window, timeT1 + p.imDur - slack);
+    timeBlank1 = Screen('Flip', window, timeT1 + p.practiceImDur - slack);
     if p.eyeTracking
         Eyelink('Message', 'EVENT_FIX')
     end
@@ -345,25 +299,23 @@ for iTrial = 1:nTrials % the iteration in the trial loop
     %% Present T2 
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     Screen('DrawTexture', window, gabors_t2(trialIdx), [], imRect, T2Orientation);
-    timeT2 = Screen('Flip', window, timeT1 + p.targetSOA - slack);
+    timeT2 = Screen('Flip', window, timeT1 + p.practiceSOA - slack);
     PsychPortAudio('FillBuffer', pahandle, p.sound);
-    timeT2Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
-    statusT2Click = PsychPortAudio('GetStatus', pahandle);
+    timeT2Click=PsychPortAudio('Start', pahandle, 1, 0, 0);
     if p.eyeTracking
         Eyelink('Message', 'EVENT_FIX')
     end
 
     % blank
     drawFixation(window, cx, cy, fixSize, p.fixColor);
-    timeBlank2 = Screen('Flip', window, timeT2 + p.imDur - slack);
+    timeBlank2 = Screen('Flip', window, timeT2 + p.practiceImDur - slack);
     if p.eyeTracking
         Eyelink('Message', 'EVENT_FIX')
     end
 
     %% Present postcue
     PsychPortAudio('FillBuffer', pahandle, postcueTone);
-    timePostcue = PsychPortAudio('Start', pahandle, [], timeT2 + p.postcueSOA, 1) % waitForStart = 1 in order to return a timestamp of playback
-    statusPostcue = PsychPortAudio('GetStatus', pahandle);
+    timePostcue = PsychPortAudio('Start', pahandle, [], timeT2 + p.postcueSOA, 1); % waitForStart = 1 in order to return a timestamp of playback
 
     %% response window 
     drawFixation(window, cx, cy, fixSize, p.fixColor);
@@ -398,7 +350,7 @@ for iTrial = 1:nTrials % the iteration in the trial loop
     timeFeedbackFix = Screen('Flip', window);
 
     drawFixation(window, cx,cy, fixSize, p.fixColor);
-    timeBlank3 = Screen('Flip', window, timeFeedbackFix+p.feedbackLength-slack); % returns fixation to white 
+    timeBlank3 = Screen('Flip', window, timeFeedbackFix+1-slack);
     
     %% ITI
     drawFixation(window, cx,cy, fixSize, p.fixColor);
@@ -416,47 +368,36 @@ for iTrial = 1:nTrials % the iteration in the trial loop
     Screen('Flip', window);
     % WaitSecs(2);1
 
+timeEnd = GetSecs;
 %% Store expt info
-
 
 timing.timeStart = timeStart;
 timing.timeFix(iTrial) = timeFix;
-timing.timePrecue(iTrial) = timePrecue;
-timing.timePrecueOff(iTrial) = statusPrecue.EstimatedStopTime;
+timing.timePrecue{iTrial} = timePrecue;
 timing.timeT1(iTrial) = timeT1;
 timing.timeT1Click(iTrial) = timeT1Click;
-timing.timeT1ClickOff(iTrial) = statusT1Click.EstimatedStopTime;
 timing.timeBlank1(iTrial) = timeBlank1;
 timing.timeT2(iTrial) = timeT2;
 timing.timeT2Click(iTrial) = timeT2Click;
-timing.timeT2ClickOff(iTrial) = statusT2Click.EstimatedStopTime;
 timing.timeBlank2(iTrial) = timeBlank2;
 timing.timePostcue(iTrial) = timePostcue;
-timing.timePostcueOff(iTrial) = statusPostcue.EstimatedStopTime;
 timing.timeTargetResponseWindow(iTrial) = timeTargetResponseWindow;
 timing.timeTargetRT(iTrial) = timeTargetRT;
 timing.timeFeedbackFix(iTrial) = timeFeedbackFix;
 timing.timeBlank3(iTrial) = timeBlank3;
 timing.timeITIstart(iTrial) = timeITIstart;
 timing.timeITIend(iTrial) = timeITIend;
+timing.timeEnd(iTrial) = timeEnd;
 
-timing.precueSOA(iTrial)=timing.timeT1(iTrial)-timing.timePrecue(iTrial);
-timing.precueDur(iTrial)=timing.timePrecueOff(iTrial) - timing.timePrecue(iTrial);
-timing.T1Dur(iTrial)=timing.timeBlank1(iTrial)-timing.timeT1(iTrial);
-timing.T1ClickDur(iTrial) = timing.timeT1ClickOff(iTrial) -timing.timeT1Click(iTrial);
-timing.SOA(iTrial)=timing.timeT2(iTrial)-timing.timeT1(iTrial);
-timing.T2Dur(iTrial)=timing.timeBlank2(iTrial)-timing.timeT2(iTrial);
-timing.T2ClickDur(iTrial) = timing.timeT2ClickOff(iTrial) -timing.timeT2Click(iTrial);
-timing.postcueSOA(iTrial)=timing.timePostcue(iTrial)-timing.timeT2(iTrial); %come back to this one
-timing.postcueDur(iTrial)=timing.timePostcueOff(iTrial) - timing.timePostcue(iTrial);
-timing.feedbackSOA(iTrial)=timing.timeFeedbackFix(iTrial)-timing.timePostcue(iTrial); % time between postcue and fixation
-timing.feedbackDur(iTrial)=timing.timeBlank3(iTrial)-timing.timeFeedbackFix(iTrial);
-timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial);
-
+% timing.precueSOA(iTrial)=timing.timeT1(iTrial)-timing.timePrecue(iTrial);
+% timing.T1Dur(iTrial)=timing.timeBlank1(iTrial)-timing.timeT1(iTrial);
+% timing.SOA(iTrial)=timing.timeT2(iTrial)-timing.timeT1(iTrial);
+% timing.T2Dur(iTrial)=timing.timeBlank2(iTrial)-timing.timeT2(iTrial);
+% timing.postcueSOA(iTrial)=timing.timePostcue(iTrial)-timing.timeT2(iTrial);
+% timing.feedbackSOA(iTrial)=timing.timeFeedbackFix(iTrial)-timing.timePostcue(iTrial);
+% timing.feedbackDur(iTrial)=timing.timeBlank3(iTrial)-timing.timeFeedbackFix(iTrial);
+% timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial)
 end
-
-timeEnd = GetSecs;
-timing.timeEnd = timeEnd;
 
 data.subjectID = subjectID;
 data.p = p;

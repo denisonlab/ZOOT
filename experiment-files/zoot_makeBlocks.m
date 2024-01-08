@@ -1,0 +1,81 @@
+function [s] = zoot_makeBlocks(p, s, devNum, data)%% Choose order of trial presentation
+% makes block structure for zoot 
+
+% trialOrder = randperm(nTrials);
+% This randomizes trial order within reps, but not across reps. So we will
+% present every trial in one rep before moving on to the next rep. In this
+% way the experiment is blocked into complete reps (though the number of
+% trials per block may be different then the number of trials in a rep).
+nt = s.nTrials/s.nBlocks;
+trialSet = ones(nt,1)*(1:s.nBlocks);
+repOrders = [];
+for i=1:s.nBlocks
+    repOrders = [repOrders randperm(nt)'];
+end
+trialOrder0 = repOrders + (trialSet-1).*nt;
+trialOrder = trialOrder0(:);
+
+% Shuffle trials
+s.trials = s.trials(trialOrder,:); % shuffled orientation 
+
+% Check trial conds are shuffled evenly per block 
+if p.debug
+    count = 1; 
+    thisSet = []; 
+    for i = 1:p.nTrialsPerBlock:s.nTrials
+        thisSet(count,:) = s.trials(i:i+p.nTrialsPerBlock-1);
+        count = count+1; 
+    end
+    sumSet = sum(thisSet,2); % check sum per set is equal 
+end
+
+% Shuffle blocks (stream visiblity condition) 
+s.blockStreamStructures = [0 1 1 0;... % low high high low
+    [1 0 0 1]]; % high low low high 
+if p.sessionNum == 1
+    disp('Session 1') % if first session, randomly pick which stream sequence to use
+    s.blockStreamCond = randperm(size(s.blockStreamStructures,1),1);
+elseif p.sessionNum == 2
+    disp('Session 2') % if second session, pick unused stream sequence
+    % check for session 1 data files
+    directory = pwd; % set to hot-adapt/expt folder
+    subjectFolder = sprintf('%s/data/%s',directory, p.subjectID);
+    cd(subjectFolder)
+    listing = dir;
+    dataS1File = [];
+    for iFile = 1:numel(listing)
+        if contains(listing(iFile).name,'.mat') ...
+                && contains(listing(iFile).name,'mainExpt') ...
+                && contains(listing(iFile).name,'block1')
+            disp(['valid file ' listing(iFile).name])
+            dataS1File = listing(iFile).name;
+        else
+            disp(['invalid file ' listing(iFile).name])
+        end
+    end
+    % load block 1 data from session 1
+    dataS1FileFull = sprintf('%s/%s',subjectFolder,dataS1File);
+    dataS1 = load(dataS1FileFull);
+    cd(directory) % return to expt directory
+    % find blockStreamCond
+    if dataS1.data.s.blockStreamCond==1
+        s.blockStreamCond = 2;
+    elseif dataS1.data.s.blockStreamCond==2
+        s.blockStreamCond = 1;
+    else
+        error('Could not find block stream from S1')
+    end
+else % if more than two sessions
+    % disp(p.sessionNum) % if first session, randomly pick which stream sequence to use
+    s.blockStreamCond = randperm(size(s.blockStreamStructures,1),1);
+    % s.blockStreamCond = 2;  % for S40 
+end
+% s.streamCond = ones(size(s.streamCondIdx)); % 1 = high visibility stream 
+% s.streamCond(s.streamCondIdx<6) = 0; % 0 = low visibility stream  
+
+% EDIT FORCING LOW CONTRAST for S0006
+% s.streamCond = s.blockStreamStructures(1,:); 
+s.streamCond = s.blockStreamStructures(s.blockStreamCond,:); 
+
+s.streamConds = repelem(s.streamCond, 1, p.nTrialsPerBlock)';
+s.trials = cat(2, s.trials, s.streamConds); 

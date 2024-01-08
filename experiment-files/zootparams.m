@@ -103,7 +103,7 @@ p.SOADur = 0.220; % 0.250; % duration of SOA, seconds
 p.method = 'logarithmic';
 p.ISIDur = 0.800; %1.000;
 p.ISIOffsetDur = 0.470; %0.500;
-p.clickDur = 0.0005;           % duration of each click in seconds
+p.clickDur = 0.0005;           % duration of each click in seconds - 0.0005
 p.clickRampDur = p.clickDur/2;  % duration before the click peak in seconds
 p.clickFreq = 8000;           % highest frequency of click peak in Hertz
 
@@ -111,8 +111,8 @@ p.clickFreq = 8000;           % highest frequency of click peak in Hertz
 % "The Fourier transform of a square wave pulse is sin(x)/x"
 % Source: https://www.mathworks.com/matlabcentral/answers/1612350-how-to-program-a-click-stimulus?s_tid=prof_contriblnk
 % smallest it can  be on Linux and Sennheiser is 0.04644
-tclick = linspace(0, p.clickDur*p.Fs, p.clickDur*p.Fs)/p.Fs;     % generate time vector (s)
-xValue = 2*pi*(tclick-p.clickRampDur)*p.clickFreq;               % x value based on the Fourier transform of a square wave, sin(x)/x
+tvclick = linspace(0, p.clickDur*p.Fs, p.clickDur*p.Fs)/p.Fs;     % generate time vector (s)
+x              % x value based on the Fourier transform of a square wave, sin(x)/x
 s = sin(xValue)./(xValue);                              % generate the click
 
 clickRampDurSamples = 0:1/p.Fs:p.clickRampDur - 1/p.Fs;
@@ -145,6 +145,7 @@ p.ITI=.75; %750 ms ITI
 %% Condition information
 p.precueNames = {'valid','neutral','invalid'};
 p.precueValidities = [1 1 1 2 3];
+p.precueAllNeutral = 3;
 p.targets = {'T1','T2'};
 p.axisNames = {'V','H'};
 p.axes = [0 90];
@@ -152,6 +153,16 @@ p.tiltNames = {'CCW','CW'};
 p.tilts = [-1 1];
 p.contrastNames = {'high', 'low'};
 p.contrasts = [1 0];
-p.phases = [0 pi/2 pi 3*pi/2];
+p.phases = linspace(0,1.5*pi,4);
 
+%% easy practice 
+p.practiceThreshold = 5;
+p.practiceImDur = .5;
+p.practiceSOA = .75;
+
+%% Trial counts 
+% calculate minimum counterbalanced unit 640/8 = 80 --> 20
+p.nRepsPerBlock = 3; % 3; 
+p.nReps = 4; % 4; % block num? 
+p.nTrialsPerBlock = 36; % 36
 
