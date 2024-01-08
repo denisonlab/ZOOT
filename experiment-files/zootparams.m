@@ -3,7 +3,7 @@ function p = zootparams
 %% main settings
 
 addpath data/ toolboxes/eyetrack-tools-master/ functions/ trial-structs/
-p.windowTesting=1;
+p.windowTesting=0;
 p.staircasing = 0;
 p.stimmapping = 0;
 p.watch_response=0;

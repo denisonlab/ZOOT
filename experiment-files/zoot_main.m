@@ -318,7 +318,7 @@ for iTrial = 1:nTrials % the iteration in the trial loop
 
     %% Present precue tone
     PsychPortAudio('FillBuffer', pahandle, precueTone);
-    timePrecue = PsychPortAudio('Start', pahandle, 1, 0, 1); % waitForStart = 1 in order to return a timestamp of playback
+    timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); % waitForStart = 1 in order to return a timestamp of playback
     statusPrecue = PsychPortAudio('GetStatus', pahandle) % returns status struct with start time, stop time, etc. 
     if p.eyeTracking
         Eyelink('Message', 'EVENT_FIX')
