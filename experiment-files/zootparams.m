@@ -66,16 +66,15 @@ p.instructions=fileread('instructions.txt');
 %% Images
 p.backgroundColor = 0.5; % gray
 p.imPos = [0 0];
-p.imSize = 40; 
-p.gratingSize = 0.5; % grating diameter, in degrees visual angle
+p.imSize = 8; % should be degrees of visual angle 
 p.gratingSF = 4; % spatial frequency, in cycles per degree
-p.gaborSD = 1; % standard deviation, about 4 SDs will be visible at full contrast
-p.gratingDiameter=4;
-p.gratingBaseOrientations=[0 90];
+p.gratingSD = 0.7; % standard deviation, about 4 SDs will be visible at full contrast
+p.gratingDiameter = 8;
+p.gratingBaseOrientations =[0 90];
 p.gratingPhases ='rand';
-p.aperture = 'cosine';
-p.apertureEdgeWidth=1;
-p.angularFreq=8;
+p.aperture = 'gaussian'; % 'cosine'
+p.apertureEdgeWidth = 1;
+p.angularFreq = 8;
 
 
 %% Sounds
