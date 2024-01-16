@@ -3,7 +3,7 @@ function p = zootparams
 %% main settings
 
 addpath data/ toolboxes/eyetrack-tools-master/ functions/ trial-structs/
-p.windowTesting=0;
+p.windowTesting=1;
 p.staircasing = 0;
 p.stimmapping = 0;
 p.watch_response=0;
@@ -67,14 +67,14 @@ p.instructions=fileread('instructions.txt');
 p.backgroundColor = 0.5; % gray
 p.imPos = [0 0];
 p.imSize = 40; 
-p.gratingSize = 4; % grating diameter, in degrees visual angle
-p.gratingSF = 1; % spatial frequency, in cycles per degree
-p.gaborSD = 0.5; % about 4 SDs will be visible at full contrast
-p.gratingDiameter=[4 0.5];
+p.gratingSize = 0.5; % grating diameter, in degrees visual angle
+p.gratingSF = 4; % spatial frequency, in cycles per degree
+p.gaborSD = 1; % standard deviation, about 4 SDs will be visible at full contrast
+p.gratingDiameter=4;
 p.gratingBaseOrientations=[0 90];
 p.gratingPhases ='rand';
-p.aperture = 'cosine'
-p.apertureEdgeWidth=0.5;
+p.aperture = 'cosine';
+p.apertureEdgeWidth=1;
 p.angularFreq=8;
 
 
@@ -91,7 +91,7 @@ p.envRampDuration=10; %ms
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% JUNEAU'S CLICK SOUND %%%%%%%%%%%%%%%%%%%%%%%%%%
 % target click sounds
-p.Fs = 44100; % samples per second
+p.clickFs = 44100; % samples per second
 p.tLev = 80; %70; %80; % Target level, "dB SPL", arbitrary, usually at 80
 
 p.rms1Lev = 100; % Norm. value for RMS of 1, arbitrary
@@ -111,11 +111,11 @@ p.clickFreq = 8000;           % highest frequency of click peak in Hertz
 % "The Fourier transform of a square wave pulse is sin(x)/x"
 % Source: https://www.mathworks.com/matlabcentral/answers/1612350-how-to-program-a-click-stimulus?s_tid=prof_contriblnk
 % smallest it can  be on Linux and Sennheiser is 0.04644
-tclick = linspace(0, p.clickDur*p.Fs, p.clickDur*p.Fs)/p.Fs;     % generate time vector (s)
+tclick = linspace(0, p.clickDur*p.clickFs, p.clickDur*p.clickFs)/p.clickFs;     % generate time vector (s)
 xValue = 2*pi*(tclick-p.clickRampDur)*p.clickFreq;               % x value based on the Fourier transform of a square wave, sin(x)/x
 s = sin(xValue)./(xValue);                              % generate the click
 
-clickRampDurSamples = 0:1/p.Fs:p.clickRampDur - 1/p.Fs;
+clickRampDurSamples = 0:1/p.clickFs:p.clickRampDur - 1/p.clickFs;
 clickRampDurSamples = length(clickRampDurSamples); % number of samples for onset/offset ramps
 s = CosineSquaredRamp(s,clickRampDurSamples);
 s = s-mean(s); % Next three lines are setting the overall level
@@ -162,7 +162,10 @@ p.practiceSOA = .75;
 
 %% Trial counts 
 % calculate minimum counterbalanced unit 640/8 = 80 --> 20
-p.nRepsPerBlock = 3; % 3; 
-p.nReps = 4; % 4; % block num? 
-p.nTrialsPerBlock = 36; % 36
+p.nTotalTrials = 64;
+p.nTrialsPerBlock = 4; 
+% numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts);
+p.nBlocks = p.nTotalTrials / p.nTrialsPerBlock;
+p.nBlockPerSession = p.nBlocks/2;
+
 
