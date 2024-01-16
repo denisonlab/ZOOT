@@ -14,7 +14,6 @@ Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
 
 
 %% Input
-
 %% Basic info
 % Name the subject
 if nargin==0
@@ -37,6 +36,9 @@ data.subDir =  sprintf('%s/%s', data.dataDir, subjectID);
 if ~exist(data.subDir, 'dir')
     mkdir(data.subDir)
 end
+
+data.subjectID = subjectID;
+data.p = p;
 
 % Set tilt or get from thresholding procedure
 p.tilt = 2;
@@ -140,8 +142,8 @@ cueTones(iF+1,:) = mean(cueTones,1); % neutral precue, both tones together
 % "axis" = V/H
 % "tilt" = CW/CCW
 % "response" = response category, e.g. CW/CCW
-trialsHeaders = {'precueValidity','target','T1Axis','T2Axis'...
-    'T1Tilt','T2Tilt', 'T1Contrast', 'T2Contrast','precue','targetTilt', 'targetContrast', 'T1OriDeg','T2OriDeg',...
+trialsHeaders = {'precueValidity','target', 'T1Contrast', 'T2Contrast','T1Axis','T2Axis',...
+    'T1Tilt','T2Tilt','precue','targetTilt', 'targetContrast', 'T1OriDeg','T2OriDeg',...
     'T1Phase', 'T2Phase', 'responseKey','response','accuracy','rt'};
 
 % make sure column indices match trials headers, returns a logical array 
@@ -154,37 +156,41 @@ end
 % full factorial design - creates matrix of trial conditions for full sesh
 trials = fullfact([numel(p.precueValidities) ...
     numel(p.targets) ...
-    numel(p.axes) ...
-    numel(p.axes) ...
-    numel(p.tilts) ...
-    numel(p.tilts) ...
     numel(p.contrasts) ...
-    numel(p.contrasts)]);
+    numel(p.contrasts)...
+    numel(p.axes) ...
+    numel(p.axes) ...
+    numel(p.tilts) ...
+    numel(p.tilts)]);
+
 
 %% Set order of trial presentation
-nTrials = 1; % for debugging
-% nTrials = length(trials); %for experiment
-trialOrder=randperm(nTrials);
-block = 1;
+nTotalTrials = 64;%length(trials);
+% nTrials = nTotalTrials/2; 
 
 %% Make a gabor image
 % First make a grating image
 edgeWidth=round(p.apertureEdgeWidth*pixelsPerDegree);
 gratingRadius = round(p.gratingDiameter/2*pixelsPerDegree);
 
-gabors_t1=nan(1,nTrials);
-gabors_t2=nan(1,nTrials);
+gabors_t1=nan(1,nTotalTrials);
+gabors_t2=nan(1,nTotalTrials);
 
-for i=1:nTrials
+% phase (4) x contrast (1) maybe can come back to speed up image generation
+for i=1:nTotalTrials  % numel(p.phases) % should this be nTrials or nTotalTrials
+    % phase = p.phase(i); 
+    % 
+    % grating = rd_grating(pixelsPerDegree, p.imSize, p.gratingSF, 0, phases_t1, 1);
+
     phases_t1=p.phases(randperm(length(p.phases),1));
     phases_t2=p.phases(randperm(length(p.phases),1));
-    t1_grating = rd_grating(pixelsPerDegree, p.imSize, p.gratingSF, 0, phases_t1, p.contrasts(trials(i,7))); %creates grating
+    t1_grating = rd_grating(pixelsPerDegree, p.imSize, p.gratingSF, 0, phases_t1, p.contrasts(trials(i, idx.T1Contrast))); %creates grating
     % Place an Gaussian aperture on the image to turn it into a Gabor
     im_t1= rd_aperture(t1_grating, p.aperture, gratingRadius, edgeWidth, p.angularFreq); %matrix for gaussian
     tex_t1=Screen('MakeTexture', window, im_t1); %for psychtoolbox, need matrix to become a texture
     gabors_t1(i)=tex_t1;
 
-    t2_grating = rd_grating(pixelsPerDegree, p.imSize, p.gratingSF, 0, phases_t2, p.contrasts(trials(i,8)));
+    t2_grating = rd_grating(pixelsPerDegree, p.imSize, p.gratingSF, 0, phases_t2, p.contrasts(trials(i,idx.T2Contrast)));
     % Place an Gaussian aperture on the image to turn it into a Gabor
     im_t2= rd_aperture(t2_grating, p.aperture, gratingRadius, edgeWidth, p.angularFreq);
     tex_t2=Screen('MakeTexture', window, im_t2);
@@ -246,9 +252,11 @@ KbWait(devNum);
 timeStart = GetSecs;
 %% %%%% Present trials %%%%
 
-for iTrial = 1:nTrials % the iteration in the trial loop
-    trialIdx = trialOrder(iTrial); % the current trial number in the trials matrix
-
+data.trialOrder = zoot_makeBlocks(p, data); 
+block = 1;
+% trialOrder=randperm(nTotalTrials);
+for iTrial = 1:p.nTrialsPerBlock % the iteration in the trial loop
+    trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
     %% %%%% Present trials %%%
     %% Get condition information for this trial
     precueValidity = p.precueValidities(trials(trialIdx, idx.precueValidity)); %saves each column in trials matrix as corresponding variable e.g. column 1 = precue validity 
@@ -319,14 +327,15 @@ for iTrial = 1:nTrials % the iteration in the trial loop
     %% Present precue tone
     PsychPortAudio('FillBuffer', pahandle, precueTone);
     timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); % waitForStart = 1 in order to return a timestamp of playback
-    statusPrecue = PsychPortAudio('GetStatus', pahandle) % returns status struct with start time, stop time, etc. 
+    WaitSecs(p.toneDur + 0.01) % added to let PsychPortAudio close 
+    statusPrecue = PsychPortAudio('GetStatus', pahandle); % returns status struct with start time, stop time, etc. 
     if p.eyeTracking
         Eyelink('Message', 'EVENT_FIX')
     end
-
+    
     %% Present T1 
-    drawFixation(window, cx, cy, fixSize, p.fixColor);
     Screen('DrawTexture', window, gabors_t1(trialIdx), [], imRect, T1Orientation);
+    drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
     PsychPortAudio('FillBuffer', pahandle, p.sound);
     timeT1Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
@@ -343,8 +352,8 @@ for iTrial = 1:nTrials % the iteration in the trial loop
     end
 
     %% Present T2 
-    drawFixation(window, cx, cy, fixSize, p.fixColor);
     Screen('DrawTexture', window, gabors_t2(trialIdx), [], imRect, T2Orientation);
+    drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeT2 = Screen('Flip', window, timeT1 + p.targetSOA - slack);
     PsychPortAudio('FillBuffer', pahandle, p.sound);
     timeT2Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
@@ -362,8 +371,7 @@ for iTrial = 1:nTrials % the iteration in the trial loop
 
     %% Present postcue
     PsychPortAudio('FillBuffer', pahandle, postcueTone);
-    timePostcue = PsychPortAudio('Start', pahandle, [], timeT2 + p.postcueSOA, 1) % waitForStart = 1 in order to return a timestamp of playback
-    statusPostcue = PsychPortAudio('GetStatus', pahandle);
+    timePostcue = PsychPortAudio('Start', pahandle, [], timeT2 + p.postcueSOA, 1); % waitForStart = 1 in order to return a timestamp of playback
 
     %% response window 
     drawFixation(window, cx, cy, fixSize, p.fixColor);
@@ -376,6 +384,7 @@ for iTrial = 1:nTrials % the iteration in the trial loop
     responseKeyName=KbName(responseKey);
     response = find(strcmp(p.responseKeys,responseKeyName)); 
 
+    statusPostcue = PsychPortAudio('GetStatus', pahandle); % moved here to let PsychPortAudio close 
 
     %% feedback
 
@@ -412,12 +421,13 @@ for iTrial = 1:nTrials % the iteration in the trial loop
     trials(trialIdx, idx.accuracy) = correct;
     trials(trialIdx, idx.rt) = timeTargetRT;
 
+
+
     % % DrawFormattedText(window, sprintf('Your reaction time was %.2f s!', rt), 'center', 'center', [1 1 1]*white);\
     Screen('Flip', window);
     % WaitSecs(2);1
 
 %% Store expt info
-
 
 timing.timeStart = timeStart;
 timing.timeFix(iTrial) = timeFix;
@@ -453,30 +463,63 @@ timing.feedbackSOA(iTrial)=timing.timeFeedbackFix(iTrial)-timing.timePostcue(iTr
 timing.feedbackDur(iTrial)=timing.timeBlank3(iTrial)-timing.timeFeedbackFix(iTrial);
 timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial);
 
-end
 
+if mod(iTrial, p.nTrialsPerBlock)==0 || iTrial == nTrials
+    data.trialsHeaders = trialsHeaders;
+    data.trials = trials;
+    data.trialOrder=trialOrder;
+    dateStr = datetime('now', 'TimeZone', 'local', 'Format', 'yyMMdd_hhmm');
+    data.whenSaved = datestr(now);
+    data.dateTime=dateStr;
+    data.timings=timing;
+
+    filename = sprintf('%s/%s_mainExpt_%s_block%d.mat',data.subDir,subjectID,dateStr,block);
+    data.filename = filename;
+    save(filename,'data')
+    disp('data saved!')
+
+    % blockStartTrial = (iTrial/p.nTrialsPerBlock)*p.nTrialsPerBlock - p.nTrialsPerBlock + 1;
+    if blockStartTrial < 0 % we are doing less than one block
+        blockStartTrial = 1;
+    end
+    % trialsInBlock = trials(blockStartTrial:iTrial,:);
+    blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, ceil(nTrials/p.nTrialsPerBlock));
+    if iTrial==nTrials
+        keyMessage = ''; % last block
+    else
+        keyMessage = 'Press 1 to go on.';
+    end
+
+    blockAcc = mean(trials.correct(blockStartTrial:iTrial),'omitnan'); % discrimination (only target present)
+
+    breakMessage = sprintf('%s\n\n\%s\n\n\n%s', blockMessage, pointsMessages, keyMessage);
+    DrawFormattedText(window, breakMessage, 'center', 'center', [1 1 1]*s.white);
+    Screen('Flip', window);
+    WaitSecs(1);
+    if iTrial < s.nTrials
+        keyPressed = 0;
+        while ~keyPressed
+            if p.useKbQueue
+                [keyIsDown, firstPress] = KbQueueCheck();
+                keyCode = logical(firstPress);
+            else
+                [secs, keyCode] = KbWait(devNum);
+            end
+            if strcmp(KbName(keyCode),'1!')
+                keyPressed = 1;
+            end
+        end
+    end
+    block = block+1; % keep track of block for block message only
+
+    if p.eyeTracking
+        rd_eyeLink('eyestop', window, {eyeFile, eyeDataDir})
+        movefile(['eyedata/' subjectID '/' eyeFile '.edf'], ['eyedata/' subjectID, 'eyeFileFull']) % what is this doing
+end
+end
+end
 timeEnd = GetSecs;
 timing.timeEnd = timeEnd;
-
-data.subjectID = subjectID;
-data.p = p;
-data.trialsHeaders = trialsHeaders;
-data.trials = trials;
-data.trialOrder=trialOrder;
-dateStr = datetime('now', 'TimeZone', 'local', 'Format', 'yyMMdd_hhmm');
-data.whenSaved = datestr(now);
-data.dateTime=dateStr;
-data.timings=timing;
-%% save beh data
-filename=sprintf('%s/%s_mainExpt_%s_block%d.mat', data.subDir, subjectID, dateStr, block);
-data.filename = filename;
-save(filename,'data')
-disp('data saved!')
-
-if p.eyeTracking
-    rd_eyeLink('eyestop', window, {eyeFile, eyeDataDir})
-    movefile(['eyedata/' subjectID '/' eyeFile '.edf'], ['eyedata/' subjectID, 'eyeFileFull']) % what is this doing
-end
 %% Completion message
 WaitSecs(1);
 DrawFormattedText(window, 'All done! Thank you for your effort', 'center', 'center', 1);
