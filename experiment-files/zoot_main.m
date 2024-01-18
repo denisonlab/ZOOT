@@ -389,7 +389,7 @@ for iTrial = 1:p.nTotalTrials % p.nTrialsPerBlock % the iteration in the trial l
     statusPostcue = PsychPortAudio('GetStatus', pahandle); % moved here to let PsychPortAudio close
 
         % Feedback
-      correct = 0;
+      correct = 0; %or NaN to account for errors 
         if response==3 % absent
             responseTilt = 0;
             correct = responseTilt==targetContrast;
