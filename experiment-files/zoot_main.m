@@ -226,7 +226,9 @@ timeStart = GetSecs;
 
 %% %%%% Present trials %%%%
 % data.trialOrder = zoot_makeBlocks(p, data);
-trialOrder=randperm(p.nTotalTrials);
+% trialOrder=randperm(p.nTotalTrials);
+
+trialOrder = zoot_makeBlocks(p, data, trials); 
 
 block = 1;
 session = 1; % change this to be an input option 
@@ -426,7 +428,7 @@ for iTrial = 1:p.nTotalTrials % p.nTrialsPerBlock % the iteration in the trial l
     data.session(iTrial) = session; 
 
     % % DrawFormattedText(window, sprintf('Your reaction time was %.2f s!', rt), 'center', 'center', [1 1 1]*white);\
-1
+
     % WaitSecs(2);1
 
     %% Store timing
@@ -495,7 +497,7 @@ for iTrial = 1:p.nTotalTrials % p.nTrialsPerBlock % the iteration in the trial l
         
         pointsMessages = sprintf('p(correct) = %0.2f', blockAcc);
 
-        breakMessage = sprintf('%s\n\n\%s\n\n\n%s', blockMessage, pointsMessages, keyMessage);
+        breakMessage = sprintf('%s\n\n%s\n\n\n%s', blockMessage, pointsMessages, keyMessage);
         DrawFormattedText(window, breakMessage, 'center', 'center', [1 1 1]);
         Screen('Flip', window);
         WaitSecs(1);

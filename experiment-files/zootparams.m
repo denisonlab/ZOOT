@@ -162,8 +162,8 @@ p.practiceSOA = .75;
 %% Trial counts 
 % calculate minimum counterbalanced unit 640/8 = 80 --> 20
 p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
-p.nTrialsPerBlock = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
-%p.nTrialsPerBlock = 4; %debugging
+% p.nTrialsPerBlock = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
+p.nTrialsPerBlock = 4; %debugging
 p.nBlocks = p.nTotalTrials / p.nTrialsPerBlock;
 p.nBlockPerSession = p.nBlocks/2;
 

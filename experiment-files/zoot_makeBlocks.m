@@ -1,29 +1,43 @@
-function trialOrder = zoot_makeBlocks(p, data)
+function trialOrder = zoot_makeBlocks(p, data, trials)
 
 % Choose order of trial presentation
 % makes block structure for zoot 
 
-session =1; %manual variable
+nTrials = size(trials,1); % 640 
 
-filename = sprintf('%s/totalTrialOrder_%s.mat', data.subDir, data.subjectID); % variable subject ID 
+% Minimum counterbalanced unit of validity, target, contrasts = 40; 
+MCU = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); 
 
-% Generate 640 trial order shuffled 
-% Break the 640 into blocks 
+trialOrder = NaN(1,nTrials);
 
-if session == 1 || session == 3
+% Randomly shuffle within each MCU 
+for i = 1:MCU:nTrials
+    MCUIdx = i:i+MCU-1; 
+    shuffledMCUIdx = MCUIdx( randperm(length(MCUIdx)) ); 
+    trialOrder(MCUIdx) = shuffledMCUIdx; 
+end
 
-    totalTrialOrder = [];
-    for iBlock = 1:p.nBlocks
-        to = randperm(p.nTrialsPerBlock) + (iBlock-1)*p.nTrialsPerBlock;
-        totalTrialOrder = [totalTrialOrder; to];
-        save(filename, 'totalTrialOrder')
-        trialOrder=totalTrialOrder(1:nBlockPerSession,:); 
-    end
-
-else % use check if exist?
-   load(filename) 
-   trialOrder = totalTrialOrder(nBlockPerSession+1:end,:);
-end 
+% session =1; %manual variable
+% 
+% filename = sprintf('%s/totalTrialOrder_%s.mat', data.subDir, data.subjectID); % variable subject ID 
+% 
+% % Generate 640 trial order shuffled 
+% % Break the 640 into blocks 
+% 
+% if session == 1 || session == 3
+% 
+%     totalTrialOrder = [];
+%     for iBlock = 1:p.nBlocks
+%         to = randperm(p.nTrialsPerBlock) + (iBlock-1)*p.nTrialsPerBlock;
+%         totalTrialOrder = [totalTrialOrder; to];
+%         save(filename, 'totalTrialOrder')
+%         trialOrder=totalTrialOrder(1:nBlockPerSession,:); 
+%     end
+% 
+% else % use check if exist?
+%    load(filename) 
+%    trialOrder = totalTrialOrder(nBlockPerSession+1:end,:);
+% end 
 
 % % trialOrder = randperm(nTrials);
 % % This randomizes trial order within reps, but not across reps. So we will
