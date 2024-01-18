@@ -1,17 +1,15 @@
-function [data] = zoot_main(subjectID)
+function [data] = zoot_main(subjectID,p)
 % tazoott
 %
 % jenny motzer
 % december 2023
 
 %% PTB setup
-
 % Check we are running PTB-3
 AssertOpenGL;
 
 % Skip screen tests - ONLY for demo, not for real experiments
 Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
-
 
 %% Input
 %% Basic info
@@ -156,10 +154,6 @@ trials = fullfact([numel(p.precueValidities) ...
     numel(p.tilts) ...
     numel(p.tilts)]);
 
-%% Set order of trial presentation
-% nTotalTrials = 64;%length(trials);
-% % nTrials = nTotalTrials/2; 
-
 %% Make a gabor image
 % First make a grating image
 edgeWidth=round(p.apertureEdgeWidth*pixelsPerDegree);
@@ -232,9 +226,11 @@ timeStart = GetSecs;
 
 %% %%%% Present trials %%%%
 % data.trialOrder = zoot_makeBlocks(p, data);
+trialOrder=randperm(p.nTotalTrials);
+
 block = 1;
 session = 1; % change this to be an input option 
-trialOrder=randperm(p.nTotalTrials);
+
 for iTrial = 1:p.nTotalTrials % p.nTrialsPerBlock % the iteration in the trial loop
     % trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
     trialIdx = trialOrder(iTrial);
@@ -430,7 +426,7 @@ for iTrial = 1:p.nTotalTrials % p.nTrialsPerBlock % the iteration in the trial l
     data.session(iTrial) = session; 
 
     % % DrawFormattedText(window, sprintf('Your reaction time was %.2f s!', rt), 'center', 'center', [1 1 1]*white);\
-    Screen('Flip', window);
+1
     % WaitSecs(2);1
 
     %% Store timing

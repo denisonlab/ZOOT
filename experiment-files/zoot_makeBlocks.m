@@ -22,7 +22,7 @@ if session == 1 || session == 3
 
 else % use check if exist?
    load(filename) 
-   trialOrder = totalTrialOrder();
+   trialOrder = totalTrialOrder(nBlockPerSession+1:end,:);
 end 
 
 % % trialOrder = randperm(nTrials);
