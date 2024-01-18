@@ -11,10 +11,10 @@ MCU = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(
 trialOrder = NaN(1,nTrials);
 
 % Randomly shuffle within each MCU 
-for i = 1:MCU:nTrials
-    MCUIdx = i:i+MCU-1; 
-    shuffledMCUIdx = MCUIdx( randperm(length(MCUIdx)) ); 
-    trialOrder(MCUIdx) = shuffledMCUIdx; 
+for i = 1:MCU:nTrials % extracts by number pf trials per block (eg. numtrialsperblock = 40; 1 41 81 121, etc.)
+    MCUIdx = i:i+MCU-1; % extracts numbers between the nums in list above to get groups of 40 (eg. 1-40; 41-80, etc.)
+    shuffledMCUIdx = MCUIdx( randperm(length(MCUIdx)) ); % randomly shuffles each group of 40
+    trialOrder(MCUIdx) = shuffledMCUIdx; % returns 1 x 640 structure of trial order shuffled in groups of 40
 end
 
 % session =1; %manual variable
