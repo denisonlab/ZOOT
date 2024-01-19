@@ -373,20 +373,22 @@ for iTrial = 1:p.nTotalTrials % p.nTrialsPerBlock % the iteration in the trial l
 
     %% Present postcue
     PsychPortAudio('FillBuffer', pahandle, postcueTone);
-    timePostcue = PsychPortAudio('Start', pahandle, [], timeT2 + p.postcueSOA, 1); % waitForStart = 1 in order to return a timestamp of playback
+    timePostcue = PsychPortAudio('Start', pahandle, [], [], 1); % timeT2 + p.postcueSOA, waitForStart = 1 in order to return a timestamp of playback
 
     %% Response window
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     Screen('DrawingFinished', window);
     timeTargetResponseWindow=Screen('Flip', window, timePostcue +p.toneDur -slack);
 
+    statusPostcue = PsychPortAudio('GetStatus', pahandle); % moved here to let PsychPortAudio close
+    
     [timeTargetResponse, keyCode] = KbWait(devNum);
     timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
     responseKey = find(keyCode);
     responseKeyName=KbName(responseKey);
     response = find(strcmp(p.responseKeys,responseKeyName));
 
-    statusPostcue = PsychPortAudio('GetStatus', pahandle); % moved here to let PsychPortAudio close
+    % statusPostcue = PsychPortAudio('GetStatus', pahandle); % moved here to let PsychPortAudio close
 
         % Feedback
       correct = 0; %or NaN to account for errors 
@@ -467,12 +469,12 @@ for iTrial = 1:p.nTotalTrials % p.nTrialsPerBlock % the iteration in the trial l
 
     timing.T1Dur(iTrial)=timing.timeBlank1(iTrial)-timing.timeT1(iTrial);
     timing.T1ClickDur(iTrial) = timing.timeT1ClickOff(iTrial) -timing.timeT1Click(iTrial);
-    timing.T1ClickRequestedDur(iTrial) = timing.timeT1ClickRequestedOff(iTrial) -timing.timeT1Click(iTrial);
+    % timing.T1ClickRequestedDur(iTrial) = timing.timeT1ClickRequestedOff(iTrial) -timing.timeT1Click(iTrial);
 
     timing.SOA(iTrial)=timing.timeT2(iTrial)-timing.timeT1(iTrial);
     timing.T2Dur(iTrial)=timing.timeBlank2(iTrial)-timing.timeT2(iTrial);
     timing.T2ClickDur(iTrial) = timing.timeT2ClickOff(iTrial) -timing.timeT2Click(iTrial);
-    timing.T2ClickRequestedDur(iTrial) = timing.timeT1ClickRequestedOff(iTrial) -timing.timeT1Click(iTrial);
+    % timing.T2ClickRequestedDur(iTrial) = timing.timeT1ClickRequestedOff(iTrial) -timing.timeT1Click(iTrial);
  
     timing.postcueSOA(iTrial)=timing.timePostcue(iTrial)-timing.timeT2(iTrial); %come back to this one
     timing.postcueDur(iTrial)=timing.timePostcueOff(iTrial) - timing.timePostcue(iTrial);
