@@ -438,16 +438,20 @@ for iTrial = 1:p.nTotalTrials % p.nTrialsPerBlock % the iteration in the trial l
     timing.timeFix(iTrial) = timeFix;
     timing.timePrecue(iTrial) = timePrecue;
     timing.timePrecueOff(iTrial) = statusPrecue.EstimatedStopTime;
+    timing.timePrecueRequestedOff(iTrial)=statusPrecue.RequestedStopTime;
     timing.timeT1(iTrial) = timeT1;
     timing.timeT1Click(iTrial) = timeT1Click;
     timing.timeT1ClickOff(iTrial) = statusT1Click.EstimatedStopTime;
+      timing.timeT1ClickRequestedOff(iTrial)=statusT1Click.RequestedStopTime;
     timing.timeBlank1(iTrial) = timeBlank1; % fixation draw after T1 dur
     timing.timeT2(iTrial) = timeT2;
     timing.timeT2Click(iTrial) = timeT2Click;
     timing.timeT2ClickOff(iTrial) = statusT2Click.EstimatedStopTime;
+    timing.timeT2ClickRequestedOff(iTrial)=statusT2Click.RequestedStopTime;
     timing.timeBlank2(iTrial) = timeBlank2; %fixation draw after T2 dur
     timing.timePostcue(iTrial) = timePostcue;
     timing.timePostcueOff(iTrial) = statusPostcue.EstimatedStopTime;
+    timing.timePostcueRequestedOff(iTrial)=statusPostcue.RequestedStopTime;
     timing.timeTargetResponseWindow(iTrial) = timeTargetResponseWindow;
     timing.timeTargetRT(iTrial) = timeTargetRT;
     timing.timeFeedbackFix(iTrial) = timeFeedbackFix;
@@ -457,13 +461,23 @@ for iTrial = 1:p.nTotalTrials % p.nTrialsPerBlock % the iteration in the trial l
 
     timing.precueSOA(iTrial)=timing.timeT1(iTrial)-timing.timePrecue(iTrial);
     timing.precueDur(iTrial)=timing.timePrecueOff(iTrial) - timing.timePrecue(iTrial);
+    timing.precueRequestedDur(iTrial)=timing.timePrecueRequestedOff(iTrial) - timing.timePrecue(iTrial);
+
+
+
     timing.T1Dur(iTrial)=timing.timeBlank1(iTrial)-timing.timeT1(iTrial);
     timing.T1ClickDur(iTrial) = timing.timeT1ClickOff(iTrial) -timing.timeT1Click(iTrial);
+    timing.T1ClickRequestedDur(iTrial) = timing.timeT1ClickRequestedOff(iTrial) -timing.timeT1Click(iTrial);
+
     timing.SOA(iTrial)=timing.timeT2(iTrial)-timing.timeT1(iTrial);
     timing.T2Dur(iTrial)=timing.timeBlank2(iTrial)-timing.timeT2(iTrial);
     timing.T2ClickDur(iTrial) = timing.timeT2ClickOff(iTrial) -timing.timeT2Click(iTrial);
+    timing.T2ClickRequestedDur(iTrial) = timing.timeT1ClickRequestedOff(iTrial) -timing.timeT1Click(iTrial);
+ 
     timing.postcueSOA(iTrial)=timing.timePostcue(iTrial)-timing.timeT2(iTrial); %come back to this one
     timing.postcueDur(iTrial)=timing.timePostcueOff(iTrial) - timing.timePostcue(iTrial);
+    timing.postcueRequestedDur(iTrial)=timing.timePostcueRequestedOff(iTrial) - timing.timePostcue(iTrial);
+
     timing.feedbackSOA(iTrial)=timing.timeFeedbackFix(iTrial)-timing.timePostcue(iTrial); % time between postcue and fixation
     timing.feedbackDur(iTrial)=timing.timeBlank3(iTrial)-timing.timeFeedbackFix(iTrial);
     timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial);
