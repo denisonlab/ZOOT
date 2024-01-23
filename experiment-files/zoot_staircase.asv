@@ -1,8 +1,5 @@
-function [data] = zoot_main(s)
-% tazoott
-%
-% jenny motzer
-% december 2023
+function [data] = zoot_staircase(subjectID)
+% finds tilt threshold
 
 %% PTB setup
 % Check we are running PTB-3
@@ -18,13 +15,7 @@ if nargin==0
     error('Missing subject ID - call function with ID')
 end 
 
-directory = pwd; %get project directory path ZOOT level 
-% add check to make sure it's on the ZOOT directory and not something else
-% if strcmp last four letters are ZOOT then good keep going - how to check
-% this
-% % if not display warning 
-%     error('Directory is not ZOOOT')
-%
+directory = pwd; %get project directory path
 addpath(genpath(directory))
 data.directory = directory;
 
@@ -32,21 +23,19 @@ data.directory = directory;
 p = zootparams;
 
 %subject data directory
-data.dataDir = sprintf('%s/data', directory);
+data.dataDir = sprintf('%s/data', pwd);
 if ~exist(data.dataDir, 'dir')
     mkdir(data.dataDir)
 end 
-data.subDir =  sprintf('%s/%s', data.dataDir, s.subjectID);
+data.subDir =  sprintf('%s/%s', data.dataDir, subjectID);
 if ~exist(data.subDir, 'dir')
     mkdir(data.subDir)
 end
 
-data.subjectID = s.subjectID;
+data.subjectID = subjectID;
 data.p = p;
-data.s = s;
 
 % Set tilt or get from thresholding procedure
-p.tilt = 2;
 
 PsychDefaultSetup(2); %psychtoolbox settings
 
@@ -138,8 +127,8 @@ cueTones(iF+1,:) = mean(cueTones,1); % neutral precue, both tones together
 %     'T1Tilt','T2Tilt','precue','targetTilt', 'targetContrast', 'T1OriDeg','T2OriDeg',...
 %     'T1Phase', 'T2Phase', 'responseKey','response','accuracy','rt'};
 
-trialsHeaders = {'precueValidity','target', 'T1Contrast', 'T2Contrast','T1Axis','T2Axis',...
-     'T1Tilt','T2Tilt'}; 
+trialsHeaders = {'precueValidity','target','T1Axis','T2Axis',...
+   'T1Tilt','T2Tilt'}; 
 
 % Make a structure called TrialsPresented with all trial headers not in
 % fullfact + storing presented stim (do not override trials matrix)
@@ -154,12 +143,27 @@ end
 % full factorial design - creates matrix of trial conditions for full sesh
 trials = fullfact([numel(p.precueValidities) ...
     numel(p.targets) ...
-    numel(p.contrasts) ...
-    numel(p.contrasts)...
     numel(p.axes) ...
     numel(p.axes) ...
     numel(p.tilts) ...
     numel(p.tilts)]);
+
+%% set staircase conditions
+
+currentStaircase = 1; % start with first staircase
+
+% find index
+index_s1 = numel(p.stairs); % start at last step, easiest 
+index_s2 = 1; %start at first step, hardest 
+
+% track last few trial accuracy for updateStaircase.m
+lastFewAcc_s1 = [];
+lastFewAcc_s2 = [];
+
+%track trial counts for each staircase - is this needed?
+nTrials_s1=p.staircaseTrials;
+nTrials_s2=p.staircaseTrials;
+
 
 %% Make a gabor image
 % First make a grating image
@@ -235,12 +239,12 @@ timeStart = GetSecs;
 % data.trialOrder = zoot_makeBlocks(p, data);
 % trialOrder=randperm(p.nTotalTrials);
 
-trialOrder = zoot_makeBlocks(p, s); 
+trialOrder = randperm(p.staircaseTrials); 
 
-block = 1;
-% session = 1; % change this to be an input option 
 
-for iTrial = 1:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the trial loop
+session = 1; % change this to be an input option 
+
+for iTrial = 1:p.nTotalTrials % p.nTrialsPerBlock % the iteration in the trial loop
     % trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
     trialIdx = trialOrder(iTrial);
     %% Get condition information for this trial
@@ -250,8 +254,7 @@ for iTrial = 1:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the tr
     T2Axis = trials(trialIdx, idx.T2Axis);
     T1Tilt = trials(trialIdx, idx.T1Tilt);
     T2Tilt = trials(trialIdx, idx.T2Tilt);
-    T1Contrast = trials(trialIdx, idx.T1Contrast);
-    T2Contrast = trials(trialIdx, idx.T2Contrast);
+
 
     tilts = p.tilts([T1Tilt T2Tilt]);
     contrasts = p.contrasts([T1Contrast T2Contrast]);
@@ -283,10 +286,10 @@ for iTrial = 1:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the tr
     precueTone = cueTones(precue,:);
 
     % T1 orientation (rotation angle)
-    T1Orientation = p.axes(T1Axis) + p.tilt*p.tilts(T1Tilt);
+    T1Orientation = p.axes(T1Axis) + p.stairs(index_s1)*p.tilts(T1Tilt);
 
     % T2 orientation (rotation angle)
-    T2Orientation = p.axes(T2Axis) + p.tilt*p.tilts(T2Tilt);
+    T2Orientation = p.axes(T2Axis) + p.stairs(index_s2)*p.tilts(T2Tilt);
 
     % Postcue tone
     postcueTone = cueTones(target,:);
@@ -430,17 +433,27 @@ for iTrial = 1:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the tr
     drawFixation(window, cx,cy, fixSize, p.fixColor);
     timeITIend = Screen('Flip', window, timeITIstart+p.ITI-slack);
 
+
     %% Store data
     data.responseKey(iTrial) = responseKey;
     data.response(iTrial) = response;
     data.correct(iTrial) = correct;
     data.timeTargetRT(iTrial) = timeTargetRT;
     data.block(iTrial) = block; 
-    data.session(iTrial) = s.session; 
+    data.session(iTrial) = session; 
 
     % % DrawFormattedText(window, sprintf('Your reaction time was %.2f s!', rt), 'center', 'center', [1 1 1]*white);\
 
     % WaitSecs(2);1
+
+    %% update staircase
+    if currentStaircase == 1
+        [index_s1, lastFewAcc_s1] = updateStaircase(p.stairs, index_s1, lastFewAcc_s1, correct);
+        currentStaircase = 2;
+    elseif currentStaircase == 2
+        [index_s1, lastFewAcc_s2] = updateStaircase(p.stairs, index_s1, lastFewAcc_s2, correct);
+        currentStaircase = 1;
+    end
 
     %% Store timing
     timing.timeStart = timeStart;
@@ -448,8 +461,8 @@ for iTrial = 1:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the tr
     timing.timePrecue(iTrial) = timePrecue;
     timing.timePrecueOff(iTrial) = statusPrecue.EstimatedStopTime;
     timing.timeT1(iTrial) = timeT1;
-    timing.timeT1Click(iTrial) = timeT1Click; % This has jitter 
-    timing.timeT1ClickOff(iTrial) = statusT1Click.EstimatedStopTime; % This appears to not have jitter 
+    timing.timeT1Click(iTrial) = timeT1Click;
+    timing.timeT1ClickOff(iTrial) = statusT1Click.EstimatedStopTime;
     timing.timeBlank1(iTrial) = timeBlank1; % fixation draw after T1 dur
     timing.timeT2(iTrial) = timeT2;
     timing.timeT2Click(iTrial) = timeT2Click;
