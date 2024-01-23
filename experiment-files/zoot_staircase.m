@@ -1,4 +1,4 @@
-function [data] = zoot_staircase(subjectID)
+function [threshold] = zoot_staircase(s)
 % finds tilt threshold
 
 %% PTB setup
@@ -11,9 +11,6 @@ Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
 %% Input
 %% Basic info
 % Name the subject
-if nargin==0
-    error('Missing subject ID - call function with ID')
-end 
 
 directory = pwd; %get project directory path
 addpath(genpath(directory))
@@ -27,14 +24,13 @@ data.dataDir = sprintf('%s/data', pwd);
 if ~exist(data.dataDir, 'dir')
     mkdir(data.dataDir)
 end 
-data.subDir =  sprintf('%s/%s', data.dataDir, subjectID);
+data.subDir =  sprintf('%s/%s', data.dataDir, s.subjectID);
 if ~exist(data.subDir, 'dir')
     mkdir(data.subDir)
 end
 
-data.subjectID = subjectID;
+data.subjectID = s.subjectID;
 data.p = p;
-
 % Set tilt or get from thresholding procedure
 
 PsychDefaultSetup(2); %psychtoolbox settings
@@ -290,17 +286,17 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
 
     %% Store stimulus information in trials matrix - change so not overriding trials matrix
 
-    data.precue(iTrial) = precue; % these are indices 
-    data.target(iTrial) = target; 
-    data.targetTilt(iTrial) = targetTilt; 
-    data.T1Axis(iTrial) = T1Axis; 
-    data.T2Axis(iTrial) = T2Axis;
-    data.T1Tilt(iTrial) = T1Tilt;
-    data.T2Tilt(iTrial) = T2Tilt;
-    data.T1Orientation(iTrial) = T1Orientation;
-    data.T2Orientation(iTrial) = T2Orientation;
-    data.T1Phase(iTrial) = T1Phase; 
-    data.T2Phase(iTrial) = T2Phase; 
+    staircasedata.precue(iTrial) = precue; % these are indices
+    staircasedata.target(iTrial) = target;
+    staircasedata.targetTilt(iTrial) = targetTilt;
+    staircasedata.T1Axis(iTrial) = T1Axis;
+    staircasedata.T2Axis(iTrial) = T2Axis;
+    staircasedata.T1Tilt(iTrial) = T1Tilt;
+    staircasedata.T2Tilt(iTrial) = T2Tilt;
+    staircasedata.T1Orientation(iTrial) = T1Orientation;
+    staircasedata.T2Orientation(iTrial) = T2Orientation;
+    staircasedata.T1Phase(iTrial) = T1Phase;
+    staircasedata.T2Phase(iTrial) = T2Phase;
 
     %% %%%% Play the trial %%%%
     %% Present fixation
@@ -315,7 +311,7 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
     PsychPortAudio('FillBuffer', pahandle, precueTone);
     timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); % waitForStart = 1 in order to return a timestamp of playback
     WaitSecs(p.toneDur + 0.01); % added to let PsychPortAudio close
-    statusPrecue = PsychPortAudio('GetStatus', pahandle); % returns status struct with start time, stop time, etc.
+    staircasedata.statusPrecue = PsychPortAudio('GetStatus', pahandle); % returns status struct with start time, stop time, etc.
     if p.eyeTracking
         Eyelink('Message', 'EVENT_FIX')
     end
@@ -326,7 +322,7 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
     timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
     PsychPortAudio('FillBuffer', pahandle, p.sound);
     timeT1Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
-    statusT1Click = PsychPortAudio('GetStatus', pahandle);
+    staircasedata.statusT1Click = PsychPortAudio('GetStatus', pahandle);
     if p.eyeTracking
         Eyelink('Message', 'EVENT_FIX')
     end
@@ -344,7 +340,7 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
     timeT2 = Screen('Flip', window, timeT1 + p.targetSOA - slack);
     PsychPortAudio('FillBuffer', pahandle, p.sound);
     timeT2Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
-    statusT2Click = PsychPortAudio('GetStatus', pahandle);
+    staircasedata.statusT2Click = PsychPortAudio('GetStatus', pahandle);
     if p.eyeTracking
         Eyelink('Message', 'EVENT_FIX')
     end
@@ -421,7 +417,7 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
 
     % WaitSecs(2);1
 
-    %% update staircase
+    %% staircase update and calculations
     if currentStaircase == 1
         [index_s1, lastFewAcc_s1] = updateStaircase(p.stairs, index_s1, lastFewAcc_s1, correct);
         currentStaircase = 2;
@@ -429,6 +425,9 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
         [index_s1, lastFewAcc_s2] = updateStaircase(p.stairs, index_s1, lastFewAcc_s2, correct);
         currentStaircase = 1;
     end
+
+
+    reversals = findStaircaseReversals([abs])
 
     %% Store timing
     timing.timeStart = timeStart;

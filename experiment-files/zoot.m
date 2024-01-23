@@ -22,162 +22,16 @@ s.subjectID= input('Enter subject ID:  ', 's');
 s.session = input('Enter session number (1-4):  ');
 s.comp = input('Enter computer (iMac, denlab-beh, denlab-eeg):  ', 's');
 s.exptStage = input(['Which expt stage?', ...
-        '\n1 - staircasing', ...
-        '\n2 -  full main task', ...
+        '\n1 - easy practice' ...
+        '\n2 - staircasing', ...
+        '\n3 - full main task', ...
         '\n']);
 
-% %% Basic info
-% % Name the subject
-% % if nargin==0
-% %     error('Missing subject ID - call function with ID')
-% % end 
-% 
-% directory = pwd; %get project directory path
-% addpath(genpath(directory))
-% data.directory=directory;
-% 
-% %get parameters
-% p=zootparams;
-% 
-% %subject data directory
-% data.dataDir = sprintf('%s/data', pwd);
-% if ~exist(data.dataDir, 'dir')
-%     mkdir(data.dataDir)
-% end 
-% data.subDir =  sprintf('%s/%s', data.dataDir, subjectID);
-% if ~exist(data.subDir, 'dir')
-%     mkdir(data.subDir)
-% end
-% 
-% data.subjectID = subjectID;
-% data.p = p;
-% 
-% % Set tilt or get from thresholding procedure
-% p.tilt = 2;
-% 
-% PsychDefaultSetup(2); %psychtoolbox settings
-% 
-% 
-% %% %%%% Setup: window, sound, and keyboard %%%%
-% %% Window
-% % Here we open a PTB window and see how to get several properties of the
-% % window.
-% 
-% %% Setting up the window ...
-% % Pick the screen on which to display the window
-% screenNumber = max(Screen('Screens'));
-% 
-% % Check screen resolution
-% screenRes = Screen('Resolution',screenNumber);
-% 
-% % Get the color code for white
-% white = WhiteIndex(screenNumber);
-% grey=p.backgroundColor;
-% 
-% % Open a PTB window
-% if p.windowTesting==0
-%     [window, rect] = PsychImaging('OpenWindow', screenNumber, grey); % defaults to full screen
-% elseif p.windowTesting==1
-%     [window, rect] = PsychImaging('OpenWindow', screenNumber, grey, [0 0 600 400]);
-% end 
-% 
-% %% Getting many useful properties of the window ...
-% % Get x and y coordinates for the center of the window
-% [cx, cy] = RectCenter(rect);
-% 
-% % Get window size
-% [screenWidthPx, screenHeightPx] = Screen('WindowSize', window);
-% 
-% % Get refresh rate
-% flipInterval = Screen('GetFlipInterval', window); % frame duration (s)
-% 
-% % We will request the screen to flip half a refresh (the "slack" time) before we
-% % actually want the screen to change. This helps to avoid late screen
-% % flips. So let's define this "slack" variable for convenience.
-% slack = flipInterval/2;
-% 
-% Screen('TextFont', window, p.font); %setup text type
-% Screen('TextSize', window, p.fontSize);
-% 
-% DrawFormattedText(window, 'Setting up...', 'centerblock', 'center', 1);
-% Screen('Flip', window);
-% 
-% %% Sound
-% % Initialize the sound driver
-% InitializePsychSound(1); % 1 for precise timing
-% 
-% PsychPortAudio('Close');
-% 
-% % Open audio device for low-latency output
-% reqlatencyclass = 2; % Level 2 means: Take full control over the audio device, even if this causes other sound applications to fail or shutdown.
-% pahandle = PsychPortAudio('Open', [], [], reqlatencyclass, p.Fs, 1); % 1 = single-channel
-% 
-% %% Keyboard
-% % Check all "devices" (keyboards, mice) for response input
-% devNum = -1;
-% 
-% %% %%%% Make stimuli %%%%
-% %% Making images ...
-% 
-% %% Calculate stimulus dimensions (px) and position
-% pixelsPerDegree = ang2pix(1, p.screenSize(1), p.screenRes(1), p.viewDist, 'central');
-% 
-% fixSize = p.fixSize*pixelsPerDegree;
-% 
-% %% Making sounds ...
-% % 10^0.5 for every 10dB
-% %% Make a pure tone for each cue frequency
-% cueTones = [];
-% for iF = 1:numel(p.toneFreqs)
-%     tone0 = MakeBeep(p.toneFreqs(iF), p.toneDur, p.Fs);
-% 
-%     % Apply an envelope so the sound doesn't click at the beginning and end
-%     tone = applyEnvelope(tone0, p.Fs);
-% 
-%     cueTones(iF,:) = tone;
-% end
-% cueTones(iF+1,:) = mean(cueTones,1); % neutral precue, both tones together
-% 
-% % % View tone
-% % t = 1/p.Fs:1/p.Fs:p.toneDur;
-% % figure
-% % plot(t, tone)
-% % xlabel('Time (s)')
-% % ylabel('Amplitude')
-% 
-% % % Listen to tone
-% % sound(tone, p.Fs)
-% 
-% %% %%%% Generate trials in different conditions %%%%
-% % "precueValidity" = valid/neutral/invalid
-% % "target" = the stimulus that is postcued, which the subject responds to
-% % "axis" = V/H
-% % "tilt" = CW/CCW
-% % "response" = response category, e.g. CW/CCW
-% trialsHeaders = {'precueValidity','target', 'T1Contrast', 'T2Contrast','T1Axis','T2Axis',...
-%     'T1Tilt','T2Tilt','precue','targetTilt', 'targetContrast', 'T1OriDeg','T2OriDeg',...
-%     'T1Phase', 'T2Phase', 'responseKey','response','accuracy','rt'};
-% 
-% % make sure column indices match trials headers, returns a logical array 
-% % this is used to get the index of each variable in the trials matrix
-% for iF=1:numel(trialsHeaders)
-%     field=trialsHeaders{iF};
-%     idx.(field)=strcmp(trialsHeaders,field);
-% end
-% 
-% % full factorial design - creates matrix of trial conditions for full sesh
-% trials = fullfact([numel(p.precueValidities) ...
-%     numel(p.targets) ...
-%     numel(p.contrasts) ...
-%     numel(p.contrasts)...
-%     numel(p.axes) ...
-%     numel(p.axes) ...
-%     numel(p.tilts) ...
-%     numel(p.tilts)]);
+
 %% RUN
 switch s.exptStage
     case 1
-
+        [data]= zoot_staircase(s);
     case 2
        [data]= zoot_main(s);
 

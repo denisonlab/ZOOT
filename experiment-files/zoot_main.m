@@ -14,9 +14,6 @@ Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
 %% Input
 %% Basic info
 % Name the subject
-if nargin==0
-    error('Missing subject ID - call function with ID')
-end 
 
 directory = pwd; %get project directory path ZOOT level 
 % add check to make sure it's on the ZOOT directory and not something else
@@ -46,7 +43,13 @@ data.p = p;
 data.s = s;
 
 % Set tilt or get from thresholding procedure
-p.tilt = 2;
+if ~exist(['data/' subjectID '/threshold/threshold.mat'],'file')
+    error('WARNING: no thresholding file found')
+else
+    load(['data/' subjectID '/threshold/threshold.mat'],'threshold')
+    disp(['Using participant''s saved threshold which is: ' num2str(threshold.overallThreshold)]);
+    threshold=threshold.overallThreshold;
+end
 
 PsychDefaultSetup(2); %psychtoolbox settings
 

@@ -167,6 +167,6 @@ p.nTrialsPerBlock = numel(p.precueValidities) * numel(p.targets) * numel(p.contr
 p.nBlocks = p.nTotalTrials / p.nTrialsPerBlock;
 p.nBlockPerSession = p.nBlocks/2;
 %% staircasing
-p.stairs = [0.5 1 1.5 2 2.5 3 4 5 6 8];
+p.stairs = [.2 .4 .6 .8 1 1.2 1.4 2 3 5];
 p.staircaseTrials = numel(p.targets) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
 

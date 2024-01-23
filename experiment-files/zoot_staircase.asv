@@ -1,4 +1,4 @@
-function [data] = zoot_staircase(subjectID)
+function [data] = zoot_staircase(s)
 % finds tilt threshold
 
 %% PTB setup
@@ -11,9 +11,6 @@ Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
 %% Input
 %% Basic info
 % Name the subject
-if nargin==0
-    error('Missing subject ID - call function with ID')
-end 
 
 directory = pwd; %get project directory path
 addpath(genpath(directory))
@@ -27,14 +24,13 @@ data.dataDir = sprintf('%s/data', pwd);
 if ~exist(data.dataDir, 'dir')
     mkdir(data.dataDir)
 end 
-data.subDir =  sprintf('%s/%s', data.dataDir, subjectID);
+data.subDir =  sprintf('%s/%s', data.dataDir, s.subjectID);
 if ~exist(data.subDir, 'dir')
     mkdir(data.subDir)
 end
 
-data.subjectID = subjectID;
+data.subjectID = s.subjectID;
 data.p = p;
-
 % Set tilt or get from thresholding procedure
 
 PsychDefaultSetup(2); %psychtoolbox settings
@@ -161,8 +157,8 @@ lastFewAcc_s1 = [];
 lastFewAcc_s2 = [];
 
 %track trial counts for each staircase - is this needed?
-nTrials_s1=p.staircaseTrials;
-nTrials_s2=p.staircaseTrials;
+% nTrials_s1=p.staircaseTrials;
+% nTrials_s2=p.staircaseTrials;
 
 
 %% Make a gabor image
@@ -241,10 +237,7 @@ timeStart = GetSecs;
 
 trialOrder = randperm(p.staircaseTrials); 
 
-
-session = 1; % change this to be an input option 
-
-for iTrial = 1:p.nTotalTrials % p.nTrialsPerBlock % the iteration in the trial loop
+for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the trial loop
     % trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
     trialIdx = trialOrder(iTrial);
     %% Get condition information for this trial
@@ -255,9 +248,7 @@ for iTrial = 1:p.nTotalTrials % p.nTrialsPerBlock % the iteration in the trial l
     T1Tilt = trials(trialIdx, idx.T1Tilt);
     T2Tilt = trials(trialIdx, idx.T2Tilt);
 
-
     tilts = p.tilts([T1Tilt T2Tilt]);
-    contrasts = p.contrasts([T1Contrast T2Contrast]);
 
     % Phase: randomly selected per trial
     T1Phase = randperm(numel(p.phases),1);
@@ -279,14 +270,13 @@ for iTrial = 1:p.nTotalTrials % p.nTrialsPerBlock % the iteration in the trial l
 
     % Target tilt
     targetTilt = tilts(target);
-    targetContrast = contrasts(target);
 
     %% Set up stimuli for this trial
     % Precue tone
-    precueTone = cueTones(precue,:);
+    precueTone = cueTones(3,:); % all neutral precues
 
     % T1 orientation (rotation angle)
-    T1Orientation = p.axes(T1Axis) + p.stairs(index_s1)*p.tilts(T1Tilt);
+    T1Orientation = p.axes(T1Axis) + p.stairs(index_s1)*p.tilts(T1Tilt); % takes the axis (0 for vertical, 90 for horizonta), adds staircase tilt, multiplies by 1 or -1 for CCW/CW
 
     % T2 orientation (rotation angle)
     T2Orientation = p.axes(T2Axis) + p.stairs(index_s2)*p.tilts(T2Tilt);
@@ -295,33 +285,18 @@ for iTrial = 1:p.nTotalTrials % p.nTrialsPerBlock % the iteration in the trial l
     postcueTone = cueTones(target,:);
 
     %% Store stimulus information in trials matrix - change so not overriding trials matrix
-    % trials(trialIdx, idx.precue) = precue;
-    % trials(trialIdx, idx.target) = target;
-    % trials(trialIdx, idx.targetTilt) = targetTilt;
-    % trials(trialIdx, idx.targetContrast) = targetContrast;
-    % trials(trialIdx, idx.T1Axis) = T1Axis;
-    % trials(trialIdx, idx.T2Axis) = T2Axis;
-    % trials(trialIdx, idx.T1Tilt) = T1Tilt;
-    % trials(trialIdx, idx.T2Tilt) = T2Tilt;
-    % trials(trialIdx, idx.T1Contrast) = T1Contrast;
-    % trials(trialIdx, idx.T2Contrast) = T2Contrast;
-    % trials(trialIdx, idx.T1OriDeg) = T1Orientation;
-    % trials(trialIdx, idx.T2OriDeg) = T2Orientation;
 
-    data.precue(iTrial) = precue; % these are indices 
-    data.target(iTrial) = target; 
-    data.targetTilt(iTrial) = targetTilt; 
-    data.targetContrast(iTrial) = targetContrast; 
-    data.T1Axis(iTrial) = T1Axis; 
-    data.T2Axis(iTrial) = T2Axis;
-    data.T1Tilt(iTrial) = T1Tilt;
-    data.T2Tilt(iTrial) = T2Tilt;
-    data.T1Contrast(iTrial) = T1Contrast; 
-    data.T2Contrast(iTrial) = T2Contrast;
-    data.T1Orientation(iTrial) = T1Orientation;
-    data.T2Orientation(iTrial) = T2Orientation;
-    data.T1Phase(iTrial) = T1Phase; 
-    data.T2Phase(iTrial) = T2Phase; 
+    staircasedata.precue(iTrial) = precue; % these are indices
+    staircasedata.target(iTrial) = target;
+    staircasedata.targetTilt(iTrial) = targetTilt;
+    staircasedata.T1Axis(iTrial) = T1Axis;
+    staircasedata.T2Axis(iTrial) = T2Axis;
+    staircasedata.T1Tilt(iTrial) = T1Tilt;
+    staircasedata.T2Tilt(iTrial) = T2Tilt;
+    staircasedata.T1Orientation(iTrial) = T1Orientation;
+    staircasedata.T2Orientation(iTrial) = T2Orientation;
+    staircasedata.T1Phase(iTrial) = T1Phase;
+    staircasedata.T2Phase(iTrial) = T2Phase;
 
     %% %%%% Play the trial %%%%
     %% Present fixation
@@ -336,20 +311,18 @@ for iTrial = 1:p.nTotalTrials % p.nTrialsPerBlock % the iteration in the trial l
     PsychPortAudio('FillBuffer', pahandle, precueTone);
     timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); % waitForStart = 1 in order to return a timestamp of playback
     WaitSecs(p.toneDur + 0.01); % added to let PsychPortAudio close
-    statusPrecue = PsychPortAudio('GetStatus', pahandle); % returns status struct with start time, stop time, etc.
+    staircasedata.statusPrecue = PsychPortAudio('GetStatus', pahandle); % returns status struct with start time, stop time, etc.
     if p.eyeTracking
         Eyelink('Message', 'EVENT_FIX')
     end
 
     %% Present T1
-    if p.contrasts(T1Contrast)>0 
-        Screen('DrawTexture', window, gabors(T1Phase), [], imRect, T1Orientation);
-    end
+    Screen('DrawTexture', window, gabors(T1Phase), [], imRect, T1Orientation);
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
     PsychPortAudio('FillBuffer', pahandle, p.sound);
     timeT1Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
-    statusT1Click = PsychPortAudio('GetStatus', pahandle);
+    staircasedata.statusT1Click = PsychPortAudio('GetStatus', pahandle);
     if p.eyeTracking
         Eyelink('Message', 'EVENT_FIX')
     end
@@ -362,14 +335,12 @@ for iTrial = 1:p.nTotalTrials % p.nTrialsPerBlock % the iteration in the trial l
     end
 
     %% Present T2
-    if p.contrasts(T2Contrast)>0
-        Screen('DrawTexture', window, gabors(T2Phase), [], imRect, T2Orientation);
-    end
+    Screen('DrawTexture', window, gabors(T2Phase), [], imRect, T2Orientation);
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeT2 = Screen('Flip', window, timeT1 + p.targetSOA - slack);
     PsychPortAudio('FillBuffer', pahandle, p.sound);
     timeT2Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
-    statusT2Click = PsychPortAudio('GetStatus', pahandle);
+    staircasedata.statusT2Click = PsychPortAudio('GetStatus', pahandle);
     if p.eyeTracking
         Eyelink('Message', 'EVENT_FIX')
     end
@@ -446,7 +417,7 @@ for iTrial = 1:p.nTotalTrials % p.nTrialsPerBlock % the iteration in the trial l
 
     % WaitSecs(2);1
 
-    %% update staircase
+    %% staircase update and calculations
     if currentStaircase == 1
         [index_s1, lastFewAcc_s1] = updateStaircase(p.stairs, index_s1, lastFewAcc_s1, correct);
         currentStaircase = 2;
@@ -454,6 +425,9 @@ for iTrial = 1:p.nTotalTrials % p.nTrialsPerBlock % the iteration in the trial l
         [index_s1, lastFewAcc_s2] = updateStaircase(p.stairs, index_s1, lastFewAcc_s2, correct);
         currentStaircase = 1;
     end
+
+
+    reversals = findStaircaseReversals([abs])
 
     %% Store timing
     timing.timeStart = timeStart;
