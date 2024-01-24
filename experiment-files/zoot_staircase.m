@@ -12,12 +12,21 @@ Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
 %% Basic info
 % Name the subject
 
-directory = pwd; %get project directory path
-addpath(genpath(directory))
-data.directory = directory;
-
 %get parameters
 p = zootparams;
+
+%change directory
+cd(p.dir)
+
+directory = pwd; %get project directory path ZOOT level 
+% add check to make sure it's on the ZOOT directory and not something else
+% if strcmp last four letters are ZOOT then good keep going - how to check
+% this
+% % if not display warning 
+%     error('Directory is not ZOOOT')
+%
+addpath(genpath(directory))
+data.directory = directory;
 
 %subject data directory
 data.dataDir = sprintf('%s/data', pwd);

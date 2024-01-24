@@ -14,18 +14,23 @@ Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
 %% Input
 %% Basic info
 % Name the subject
-if nargin==0
-    error('Missing subject ID - call function with ID')
-end 
 
-directory = pwd; %get project directory path ZOOT level 
-% add check to make sure it's on the ZOOT directory and not something else
-% str
-addpath(genpath(directory))
-data.directory = directory;
 
 %get parameters
 p = zootparams;
+
+%change directory
+cd(p.dir)
+
+directory = pwd; %get project directory path ZOOT level 
+% add check to make sure it's on the ZOOT directory and not something else
+% if strcmp last four letters are ZOOT then good keep going - how to check
+% this
+% % if not display warning 
+%     error('Directory is not ZOOOT')
+%
+addpath(genpath(directory))
+data.directory = directory;
 
 %subject data directory
 data.dataDir = sprintf('%s/data', directory);
@@ -42,7 +47,15 @@ data.p = p;
 data.s = s;
 
 % Set tilt or get from thresholding procedure
-p.tilt = 2;
+% if ~exist(['data/' s.subjectID '/threshold/threshold.mat'],'file')
+%     error('WARNING: no thresholding file found')
+% else
+%     load(['data/' s.subjectID '/threshold/threshold.mat'],'threshold')
+%     disp(['Using participant''s saved threshold which is: ' num2str(threshold.overallThreshold)]);
+%     threshold=threshold.overallThreshold;
+% end
+
+p.tilt = 2; %debugging threshold 
 
 PsychDefaultSetup(2); %psychtoolbox settings
 
@@ -231,7 +244,7 @@ timeStart = GetSecs;
 % data.trialOrder = zoot_makeBlocks(p, data);
 % trialOrder=randperm(p.nTotalTrials);
 
-trialOrder = zoot_makeBlocks(p, data, trials, s); 
+trialOrder = zoot_makeBlocks(p, s); 
 
 block = 1;
 % session = 1; % change this to be an input option 
@@ -403,6 +416,8 @@ for iTrial = 1:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the tr
                 responseTilt = p.tilts(response);
                 correct = targetTilt==responseTilt;
             end
+        else 
+            
         end
 
     if correct==1
@@ -444,8 +459,8 @@ for iTrial = 1:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the tr
     timing.timePrecue(iTrial) = timePrecue;
     timing.timePrecueOff(iTrial) = statusPrecue.EstimatedStopTime;
     timing.timeT1(iTrial) = timeT1;
-    timing.timeT1Click(iTrial) = timeT1Click;
-    timing.timeT1ClickOff(iTrial) = statusT1Click.EstimatedStopTime;
+    timing.timeT1Click(iTrial) = timeT1Click; % This has jitter 
+    timing.timeT1ClickOff(iTrial) = statusT1Click.EstimatedStopTime; % This appears to not have jitter 
     timing.timeBlank1(iTrial) = timeBlank1; % fixation draw after T1 dur
     timing.timeT2(iTrial) = timeT2;
     timing.timeT2Click(iTrial) = timeT2Click;

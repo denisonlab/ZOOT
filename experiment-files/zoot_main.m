@@ -15,6 +15,13 @@ Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
 %% Basic info
 % Name the subject
 
+
+%get parameters
+p = zootparams;
+
+%change directory
+cd(p.dir)
+
 directory = pwd; %get project directory path ZOOT level 
 % add check to make sure it's on the ZOOT directory and not something else
 % if strcmp last four letters are ZOOT then good keep going - how to check
@@ -24,9 +31,6 @@ directory = pwd; %get project directory path ZOOT level
 %
 addpath(genpath(directory))
 data.directory = directory;
-
-%get parameters
-p = zootparams;
 
 %subject data directory
 data.dataDir = sprintf('%s/data', directory);
@@ -43,13 +47,15 @@ data.p = p;
 data.s = s;
 
 % Set tilt or get from thresholding procedure
-if ~exist(['data/' subjectID '/threshold/threshold.mat'],'file')
-    error('WARNING: no thresholding file found')
-else
-    load(['data/' subjectID '/threshold/threshold.mat'],'threshold')
-    disp(['Using participant''s saved threshold which is: ' num2str(threshold.overallThreshold)]);
-    threshold=threshold.overallThreshold;
-end
+% if ~exist(['data/' s.subjectID '/threshold/threshold.mat'],'file')
+%     error('WARNING: no thresholding file found')
+% else
+%     load(['data/' s.subjectID '/threshold/threshold.mat'],'threshold')
+%     disp(['Using participant''s saved threshold which is: ' num2str(threshold.overallThreshold)]);
+%     threshold=threshold.overallThreshold;
+% end
+
+p.tilt = 2; %debugging threshold 
 
 PsychDefaultSetup(2); %psychtoolbox settings
 
@@ -410,6 +416,8 @@ for iTrial = 1:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the tr
                 responseTilt = p.tilts(response);
                 correct = targetTilt==responseTilt;
             end
+        else 
+            correct = 0;
         end
 
     if correct==1

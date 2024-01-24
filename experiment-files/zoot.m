@@ -32,7 +32,7 @@ s.exptStage = input(['Which expt stage?', ...
 switch s.exptStage
     case 1
         [data]= zoot_staircase(s);
-    case 2
+    case 3
        [data]= zoot_main(s);
 
 end 
