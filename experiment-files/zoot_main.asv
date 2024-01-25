@@ -22,13 +22,7 @@ p = zootparams;
 %change directory
 cd(p.dir)
 
-directory = pwd; %get project directory path ZOOT level 
-% add check to make sure it's on the ZOOT directory and not something else
-% if strcmp last four letters are ZOOT then good keep going - how to check
-% this
-% % if not display warning 
-%     error('Directory is not ZOOOT')
-%
+directory = pwd; 
 addpath(genpath(directory))
 data.directory = directory;
 
@@ -46,14 +40,14 @@ data.subjectID = s.subjectID;
 data.p = p;
 data.s = s;
 
-% Set tilt or get from thresholding procedure
-% if ~exist(['data/' s.subjectID '/threshold/threshold.mat'],'file')
-%     error('WARNING: no thresholding file found')
-% else
-%     load(['data/' s.subjectID '/threshold/threshold.mat'],'threshold')
-%     disp(['Using participant''s saved threshold which is: ' num2str(threshold.overallThreshold)]);
-%     threshold=threshold.overallThreshold;
-% end
+Set tilt or get from thresholding procedure
+if ~exist(['data/' s.subjectID '/staircasing/threshold.mat'],'file')
+    error('WARNING: no thresholding file found')
+else
+    load(['data/' s.subjectID '/staircasing/threshold.mat'],'threshold')
+    disp(['Using participant''s saved threshold which is: ' num2str(threshold.threshold)]);
+    threshold=threshold.threshold;
+end
 
 p.tilt = 2; %debugging threshold 
 
@@ -244,12 +238,39 @@ timeStart = GetSecs;
 % data.trialOrder = zoot_makeBlocks(p, data);
 % trialOrder=randperm(p.nTotalTrials);
 
-trialOrder = zoot_makeBlocks(p, s); 
+% Change the directory to the subject data folder
+cd(data.subDir)
+listing = dir;
+count = 1;
+dataFileNames = []; 
+for iFile = 1:numel(listing)
+    if contains(listing(iFile).name,'.mat')
+        disp(['valid file ' listing(iFile).name])
+        dataFileNames{count} = listing(iFile).name;
+        count = count + 1;
+    else
+        disp(['invalid file ' listing(iFile).name])
+    end
+end
 
-block = 1;
-% session = 1; % change this to be an input option 
+% if we cant find any data for this person then start with trial 1
+if isempty(dataFileNames)
+    trialOrder = zoot_makeBlocks(p, s); 
+    trialCounter = 1;
+    block = 1;
+else 
+    load(dataFileNames{end}); % this isn't checking the time stamp yet 
+    % otherwise load the data w latest  time stamp and find the last trial
+    % that was left off
+    trialCounter = max(data.iTrial)+1;
+    block = max(data.block)+1;
+    trialOrder = data.trialOrder; 
+end
 
-for iTrial = 1:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the trial loop
+%change directory
+cd(p.dir)
+
+for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the trial loop
     % trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
     trialIdx = trialOrder(iTrial);
     %% Get condition information for this trial
@@ -292,28 +313,15 @@ for iTrial = 1:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the tr
     precueTone = cueTones(precue,:);
 
     % T1 orientation (rotation angle)
-    T1Orientation = p.axes(T1Axis) + p.tilt*p.tilts(T1Tilt);
+    T1Orientation = p.axes(T1Axis) + threshold*p.tilts(T1Tilt);
 
     % T2 orientation (rotation angle)
-    T2Orientation = p.axes(T2Axis) + p.tilt*p.tilts(T2Tilt);
+    T2Orientation = p.axes(T2Axis) + p.ti*p.tilts(T2Tilt);
 
     % Postcue tone
     postcueTone = cueTones(target,:);
 
     %% Store stimulus information in trials matrix - change so not overriding trials matrix
-    % trials(trialIdx, idx.precue) = precue;
-    % trials(trialIdx, idx.target) = target;
-    % trials(trialIdx, idx.targetTilt) = targetTilt;
-    % trials(trialIdx, idx.targetContrast) = targetContrast;
-    % trials(trialIdx, idx.T1Axis) = T1Axis;
-    % trials(trialIdx, idx.T2Axis) = T2Axis;
-    % trials(trialIdx, idx.T1Tilt) = T1Tilt;
-    % trials(trialIdx, idx.T2Tilt) = T2Tilt;
-    % trials(trialIdx, idx.T1Contrast) = T1Contrast;
-    % trials(trialIdx, idx.T2Contrast) = T2Contrast;
-    % trials(trialIdx, idx.T1OriDeg) = T1Orientation;
-    % trials(trialIdx, idx.T2OriDeg) = T2Orientation;
-
     data.precue(iTrial) = precue; % these are indices 
     data.target(iTrial) = target; 
     data.targetTilt(iTrial) = targetTilt; 
@@ -397,28 +405,27 @@ for iTrial = 1:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the tr
     timeTargetResponseWindow=Screen('Flip', window, timePostcue +p.toneDur -slack);
 
     statusPostcue = PsychPortAudio('GetStatus', pahandle); % moved here to let PsychPortAudio close
-    % 
-    [timeTargetResponse, keyCode] = KbWait(devNum);
-    timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
-    responseKey = find(keyCode);
-    responseKeyName=KbName(responseKey);
-    response = find(strcmp(p.responseKeys,responseKeyName));
 
+    response = [];
+    while isempty(response)
+        [timeTargetResponse, keyCode] = KbWait(devNum);
+        timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
+        responseKey = find(keyCode);
+        responseKeyName=KbName(responseKey);
+        response = find(strcmp(p.responseKeys,responseKeyName));
+    end
 
-
-        % Feedback
-      correct = 0; %or NaN to account for errors 
-        if response==3 % absent
-            responseTilt = 0;
-            correct = responseTilt==targetContrast;
-        elseif response==1 || response==2
-            if targetContrast == 1
-                responseTilt = p.tilts(response);
-                correct = targetTilt==responseTilt;
-            end
-        else 
-            
+    % Feedback
+    correct = 0;
+    if response==3 % absent
+        responseTilt = 0;
+        correct = responseTilt==targetContrast;
+    elseif response==1 || response==2
+        if targetContrast == 1
+            responseTilt = p.tilts(response);
+            correct = targetTilt==responseTilt;
         end
+    end
 
     if correct==1
         fixColor=[0 1 0]*255; % green for correct
@@ -448,6 +455,7 @@ for iTrial = 1:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the tr
     data.timeTargetRT(iTrial) = timeTargetRT;
     data.block(iTrial) = block; 
     data.session(iTrial) = s.session; 
+    data.iTrial(iTrial) = iTrial; 
 
     % % DrawFormattedText(window, sprintf('Your reaction time was %.2f s!', rt), 'center', 'center', [1 1 1]*white);\
 
@@ -498,7 +506,7 @@ for iTrial = 1:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the tr
         data.dateTime=dateStr;
         data.timings=timing;
 
-        filename = sprintf('%s/%s_mainExpt_%s_block%d.mat',data.subDir,subjectID,dateStr,block);
+        filename = sprintf('%s/%s_mainExpt_%s_block%d.mat',data.subDir,s.subjectID,dateStr,block);
         data.filename = filename;
         save(filename,'data')
         disp('data saved!')
@@ -541,7 +549,7 @@ for iTrial = 1:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the tr
 
         if p.eyeTracking
             rd_eyeLink('eyestop', window, {eyeFile, eyeDataDir})
-            movefile(['eyedata/' subjectID '/' eyeFile '.edf'], ['eyedata/' subjectID, 'eyeFileFull']) % what is this doing
+            movefile(['eyedata/' s.subjectID '/' eyeFile '.edf'], ['eyedata/' subjectID, 'eyeFileFull']) % what is this doing
         end
     end
 end

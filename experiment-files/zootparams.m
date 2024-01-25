@@ -155,18 +155,19 @@ p.contrasts = [1 0];
 p.phases = linspace(0,1.5*pi,4);
 
 %% easy practice 
-p.practiceThreshold = 5;
-p.practiceImDur = .5;
-p.practiceSOA = .75;
+p.practiceThreshold = 0.5;
+p.practiceImDur = p.imDur*10;
+p.practiceSOA = p.targetSOA*10;
+p.practicetoneDur = p.toneDur*10;
 
 %% Trial counts 
 % calculate minimum counterbalanced unit 640/8 = 80 --> 20
 p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
-p.nTrialsPerBlock = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
-% p.nTrialsPerBlock = 4; %debugging
+% p.nTrialsPerBlock = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
+p.nTrialsPerBlock = 4; %debugging
 p.nBlocks = p.nTotalTrials / p.nTrialsPerBlock;
 p.nBlockPerSession = p.nBlocks/2;
 %% staircasing
 p.stairs = [.2 .4 .6 .8 1 1.2 1.4 2 3 5];
-p.staircaseTrials = numel(p.targets) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
+p.staircaseTrials = numel(p.targets) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts)*2;
 

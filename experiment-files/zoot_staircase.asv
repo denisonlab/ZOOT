@@ -1,4 +1,4 @@
-function [data] = zoot_staircase(s)
+function t = zoot_staircase(s)
 % finds tilt threshold
 
 %% PTB setup
@@ -12,12 +12,15 @@ Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
 %% Basic info
 % Name the subject
 
-directory = pwd; %get project directory path
-addpath(genpath(directory))
-data.directory = directory;
-
 %get parameters
 p = zootparams;
+
+%change directory
+cd(p.dir)
+
+directory = pwd; 
+addpath(genpath(directory))
+data.directory = directory;
 
 %subject data directory
 data.dataDir = sprintf('%s/data', pwd);
@@ -27,6 +30,10 @@ end
 data.subDir =  sprintf('%s/%s', data.dataDir, s.subjectID);
 if ~exist(data.subDir, 'dir')
     mkdir(data.subDir)
+end
+data.stairDir =  sprintf('%s/%s', data.subDir, 'staircasing');
+if ~exist(data.stairDir, 'dir')
+    mkdir(data.stairDir)
 end
 
 data.subjectID = s.subjectID;
@@ -137,7 +144,7 @@ for iF=1:numel(trialsHeaders)
 end
 
 % full factorial design - creates matrix of trial conditions for full sesh
-trials = fullfact([numel(p.precueValidities) ...
+trials = fullfact([numel(p.precueAllNeutral) ...
     numel(p.targets) ...
     numel(p.axes) ...
     numel(p.axes) ...
@@ -272,31 +279,37 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
     targetTilt = tilts(target);
 
     %% Set up stimuli for this trial
+
+    
     % Precue tone
     precueTone = cueTones(3,:); % all neutral precues
-
-    % T1 orientation (rotation angle)
-    T1Orientation = p.axes(T1Axis) + p.stairs(index_s1)*p.tilts(T1Tilt); % takes the axis (0 for vertical, 90 for horizonta), adds staircase tilt, multiplies by 1 or -1 for CCW/CW
-
-    % T2 orientation (rotation angle)
-    T2Orientation = p.axes(T2Axis) + p.stairs(index_s2)*p.tilts(T2Tilt);
-
     % Postcue tone
     postcueTone = cueTones(target,:);
 
+    if currentStaircase == 1
+        % T1 orientation (rotation angle)
+        T1Orientation = p.axes(T1Axis) + p.stairs(index_s1)*p.tilts(T1Tilt); % takes the axis (0 for vertical, 90 for horizonta), adds staircase tilt, multiplies by 1 or -1 for CCW/CW
+        % T2 orientation (rotation angle)
+        T2Orientation = p.axes(T2Axis) + p.stairs(index_s1)*p.tilts(T2Tilt);
+    elseif currentStaircase ==2
+        T1Orientation = p.axes(T1Axis) + p.stairs(index_s2)*p.tilts(T1Tilt); % takes the axis (0 for vertical, 90 for horizonta), adds staircase tilt, multiplies by 1 or -1 for CCW/CW
+        % T2 orientation (rotation angle)
+        T2Orientation = p.axes(T2Axis) + p.stairs(index_s2)*p.tilts(T2Tilt);
+    end 
+
     %% Store stimulus information in trials matrix - change so not overriding trials matrix
 
-    staircasedata.precue(iTrial) = precue; % these are indices
-    staircasedata.target(iTrial) = target;
-    staircasedata.targetTilt(iTrial) = targetTilt;
-    staircasedata.T1Axis(iTrial) = T1Axis;
-    staircasedata.T2Axis(iTrial) = T2Axis;
-    staircasedata.T1Tilt(iTrial) = T1Tilt;
-    staircasedata.T2Tilt(iTrial) = T2Tilt;
-    staircasedata.T1Orientation(iTrial) = T1Orientation;
-    staircasedata.T2Orientation(iTrial) = T2Orientation;
-    staircasedata.T1Phase(iTrial) = T1Phase;
-    staircasedata.T2Phase(iTrial) = T2Phase;
+    data.precue(iTrial) = precue; % these are indices
+    data.target(iTrial) = target;
+    data.targetTilt(iTrial) = targetTilt;
+    data.T1Axis(iTrial) = T1Axis;
+    data.T2Axis(iTrial) = T2Axis;
+    data.T1Tilt(iTrial) = T1Tilt;
+    data.T2Tilt(iTrial) = T2Tilt;
+    data.T1Orientation(iTrial) = T1Orientation;
+    data.T2Orientation(iTrial) = T2Orientation;
+    data.T1Phase(iTrial) = T1Phase;
+    data.T2Phase(iTrial) = T2Phase;
 
     %% %%%% Play the trial %%%%
     %% Present fixation
@@ -311,7 +324,7 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
     PsychPortAudio('FillBuffer', pahandle, precueTone);
     timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); % waitForStart = 1 in order to return a timestamp of playback
     WaitSecs(p.toneDur + 0.01); % added to let PsychPortAudio close
-    staircasedata.statusPrecue = PsychPortAudio('GetStatus', pahandle); % returns status struct with start time, stop time, etc.
+    data.statusPrecue = PsychPortAudio('GetStatus', pahandle); % returns status struct with start time, stop time, etc.
     if p.eyeTracking
         Eyelink('Message', 'EVENT_FIX')
     end
@@ -322,7 +335,7 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
     timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
     PsychPortAudio('FillBuffer', pahandle, p.sound);
     timeT1Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
-    staircasedata.statusT1Click = PsychPortAudio('GetStatus', pahandle);
+    data.statusT1Click = PsychPortAudio('GetStatus', pahandle);
     if p.eyeTracking
         Eyelink('Message', 'EVENT_FIX')
     end
@@ -340,7 +353,7 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
     timeT2 = Screen('Flip', window, timeT1 + p.targetSOA - slack);
     PsychPortAudio('FillBuffer', pahandle, p.sound);
     timeT2Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
-    staircasedata.statusT2Click = PsychPortAudio('GetStatus', pahandle);
+    data.statusT2Click = PsychPortAudio('GetStatus', pahandle);
     if p.eyeTracking
         Eyelink('Message', 'EVENT_FIX')
     end
@@ -361,7 +374,7 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
     Screen('DrawingFinished', window);
     timeTargetResponseWindow=Screen('Flip', window, timePostcue +p.toneDur -slack);
 
-    statusPostcue = PsychPortAudio('GetStatus', pahandle); % moved here to let PsychPortAudio close
+    data.statusPostcue = PsychPortAudio('GetStatus', pahandle); % moved here to let PsychPortAudio close
     % 
     [timeTargetResponse, keyCode] = KbWait(devNum);
     timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
@@ -370,17 +383,14 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
     response = find(strcmp(p.responseKeys,responseKeyName));
 
 
-
-        % Feedback
+        %% Feedback
       correct = 0; %or NaN to account for errors 
         if response==3 % absent
             responseTilt = 0;
             correct = responseTilt==targetContrast;
         elseif response==1 || response==2
-            if targetContrast == 1
                 responseTilt = p.tilts(response);
                 correct = targetTilt==responseTilt;
-            end
         end
 
     if correct==1
@@ -410,8 +420,7 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
     data.response(iTrial) = response;
     data.correct(iTrial) = correct;
     data.timeTargetRT(iTrial) = timeTargetRT;
-    data.block(iTrial) = block; 
-    data.session(iTrial) = session; 
+    data.session(iTrial) = s.session; 
 
     % % DrawFormattedText(window, sprintf('Your reaction time was %.2f s!', rt), 'center', 'center', [1 1 1]*white);\
 
@@ -422,28 +431,30 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
         [index_s1, lastFewAcc_s1] = updateStaircase(p.stairs, index_s1, lastFewAcc_s1, correct);
         currentStaircase = 2;
     elseif currentStaircase == 2
-        [index_s1, lastFewAcc_s2] = updateStaircase(p.stairs, index_s1, lastFewAcc_s2, correct);
+        [index_s2, lastFewAcc_s2] = updateStaircase(p.stairs, index_s2, lastFewAcc_s2, correct);
         currentStaircase = 1;
-    end
+   end
 
-
-    reversals = findStaircaseReversals([abs])
+    thresholddata.index_s1(iTrial) = index_s1;
+    thresholddata.index_s2(iTrial) = index_s2;
+    thresholddata.staircase1val(iTrial) = p.stairs(index_s1);
+    thresholddata.staircase2val(iTrial) = p.stairs(index_s2);
 
     %% Store timing
     timing.timeStart = timeStart;
     timing.timeFix(iTrial) = timeFix;
     timing.timePrecue(iTrial) = timePrecue;
-    timing.timePrecueOff(iTrial) = statusPrecue.EstimatedStopTime;
+    timing.timePrecueOff(iTrial) = data.statusPrecue.EstimatedStopTime;
     timing.timeT1(iTrial) = timeT1;
     timing.timeT1Click(iTrial) = timeT1Click;
-    timing.timeT1ClickOff(iTrial) = statusT1Click.EstimatedStopTime;
+    timing.timeT1ClickOff(iTrial) = data.statusT1Click.EstimatedStopTime;
     timing.timeBlank1(iTrial) = timeBlank1; % fixation draw after T1 dur
     timing.timeT2(iTrial) = timeT2;
     timing.timeT2Click(iTrial) = timeT2Click;
-    timing.timeT2ClickOff(iTrial) = statusT2Click.EstimatedStopTime;
+    timing.timeT2ClickOff(iTrial) = data.statusT2Click.EstimatedStopTime;
     timing.timeBlank2(iTrial) = timeBlank2; %fixation draw after T2 dur
     timing.timePostcue(iTrial) = timePostcue;
-    timing.timePostcueOff(iTrial) = statusPostcue.EstimatedStopTime;
+    timing.timePostcueOff(iTrial) = data.statusPostcue.EstimatedStopTime;
     timing.timeTargetResponseWindow(iTrial) = timeTargetResponseWindow;
     timing.timeTargetRT(iTrial) = timeTargetRT;
     timing.timeFeedbackFix(iTrial) = timeFeedbackFix;
@@ -465,7 +476,7 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
     timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial);
 
     % If last trial in a block, save data... 
-    if mod(iTrial, p.nTrialsPerBlock)==0 || iTrial == p.nTotalTrials
+    if mod(iTrial, p.staircaseTrials)==0 || iTrial == p.staircaseTrials
         data.trialsHeaders = trialsHeaders;
         data.trials = trials;
         data.trialOrder=trialOrder;
@@ -474,46 +485,46 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
         data.dateTime=dateStr;
         data.timings=timing;
 
-        filename = sprintf('%s/%s_mainExpt_%s_block%d.mat',data.subDir,subjectID,dateStr,block);
+        filename = sprintf('%s/%s_staircasing_%s.mat',data.stairDir,s.subjectID,dateStr);
         data.filename = filename;
         save(filename,'data')
         disp('data saved!')
 
-        blockStartTrial = (iTrial/p.nTrialsPerBlock)*p.nTrialsPerBlock - p.nTrialsPerBlock + 1;
-        if blockStartTrial < 0 % we are doing less than one block
-            blockStartTrial = 1;
-        end
-        % trialsInBlock = trials(blockStartTrial:iTrial,:);
-        blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, ceil(p.nTotalTrials/p.nTrialsPerBlock));
-        if iTrial==p.nTotalTrials
-            keyMessage = ''; % last block
-        else
-            keyMessage = 'Press 1 to go on.';
-        end
-
-        blockAcc = mean(data.correct(blockStartTrial:iTrial),'omitnan'); % discrimination (only target present)
-        
-        pointsMessages = sprintf('p(correct) = %0.2f', blockAcc);
-
-        breakMessage = sprintf('%s\n\n%s\n\n\n%s', blockMessage, pointsMessages, keyMessage);
-        DrawFormattedText(window, breakMessage, 'center', 'center', [1 1 1]);
-        Screen('Flip', window);
-        WaitSecs(1);
-        if iTrial < p.nTotalTrials
-            keyPressed = 0;
-            while ~keyPressed
-                % if p.useKbQueue
-                %     [keyIsDown, firstPress] = KbQueueCheck();
-                %     keyCode = logical(firstPress);
-                % else
-                    [secs, keyCode] = KbWait(devNum);
-                % end
-                if strcmp(KbName(keyCode),'1!')
-                    keyPressed = 1;
-                end
-            end
-        end
-        block = block+1; % keep track of block for block message only
+        % blockStartTrial = (iTrial/p.nTrialsPerBlock)*p.nTrialsPerBlock - p.nTrialsPerBlock + 1;
+        % if blockStartTrial < 0 % we are doing less than one block
+        %     blockStartTrial = 1;
+        % end
+        % % trialsInBlock = trials(blockStartTrial:iTrial,:);
+        % blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, ceil(p.nTotalTrials/p.nTrialsPerBlock));
+        % if iTrial==p.nTotalTrials
+        %     keyMessage = ''; % last block
+        % else
+        %     keyMessage = 'Press 1 to go on.';
+        % end
+        % 
+        % blockAcc = mean(data.correct(blockStartTrial:iTrial),'omitnan'); % discrimination (only target present)
+        % 
+        % pointsMessages = sprintf('p(correct) = %0.2f', blockAcc);
+        % 
+        % breakMessage = sprintf('%s\n\n%s\n\n\n%s', blockMessage, pointsMessages, keyMessage);
+        % DrawFormattedText(window, breakMessage, 'center', 'center', [1 1 1]);
+        % Screen('Flip', window);
+        % WaitSecs(1);
+        % if iTrial < p.nTotalTrials
+        %     keyPressed = 0;
+        %     while ~keyPressed
+        %         % if p.useKbQueue
+        %         %     [keyIsDown, firstPress] = KbQueueCheck();
+        %         %     keyCode = logical(firstPress);
+        %         % else
+        %             [secs, keyCode] = KbWait(devNum);
+        %         % end
+        %         if strcmp(KbName(keyCode),'1!')
+        %             keyPressed = 1;
+        %         end
+        %     end
+        % end
+        % block = block+1; % keep track of block for block message only
 
         if p.eyeTracking
             rd_eyeLink('eyestop', window, {eyeFile, eyeDataDir})
@@ -523,6 +534,14 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
 end
 timeEnd = GetSecs;
 timing.timeEnd = timeEnd;
+
+staircaseavgs = [mean(thresholddata.staircase1val(end-5:end)) mean(thresholddata.staircase2val(end-5:end))]; % mean or median?
+thresholdNu = mean(staircaseavgs);
+
+thresholdFile = sprintf('%s/%s_threshold_%s.mat',data.stairDir,s.subjectID,dateStr);
+        data.filename = thresholdFile;
+        save(filename,'data')
+        disp('data saved!')
 
 %% Completion message
 WaitSecs(1);
