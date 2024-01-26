@@ -17,7 +17,7 @@ Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
 
 
 %get parameters
-p = zootparams;
+p = zootparams(s);
 
 %change directory
 cd(p.dir)
@@ -40,7 +40,7 @@ data.subjectID = s.subjectID;
 data.p = p;
 data.s = s;
 
-Set tilt or get from thresholding procedure
+%Set tilt or get from thresholding procedure
 if ~exist(['data/' s.subjectID '/staircasing/threshold.mat'],'file')
     error('WARNING: no thresholding file found')
 else
@@ -48,8 +48,8 @@ else
     disp(['Using participant''s saved threshold which is: ' num2str(threshold.threshold)]);
     threshold=threshold.threshold;
 end
-
-p.tilt = 2; %debugging threshold 
+% 
+% p.tilt = 2; %debugging threshold 
 
 PsychDefaultSetup(2); %psychtoolbox settings
 
@@ -316,7 +316,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     T1Orientation = p.axes(T1Axis) + threshold*p.tilts(T1Tilt);
 
     % T2 orientation (rotation angle)
-    T2Orientation = p.axes(T2Axis) + p.ti*p.tilts(T2Tilt);
+    T2Orientation = p.axes(T2Axis) + threshold*p.tilts(T2Tilt);
 
     % Postcue tone
     postcueTone = cueTones(target,:);
@@ -506,6 +506,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         data.dateTime=dateStr;
         data.timings=timing;
 
+
+        switch s.exptStage 
+            case 4
         filename = sprintf('%s/%s_mainExpt_%s_block%d.mat',data.subDir,s.subjectID,dateStr,block);
         data.filename = filename;
         save(filename,'data')

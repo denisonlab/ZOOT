@@ -13,7 +13,7 @@ Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
 % Name the subject
 
 %get parameters
-p = zootparams;
+p = zootparams(s);
 
 %change directory
 cd(p.dir)

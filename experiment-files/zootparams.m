@@ -1,4 +1,4 @@
-function p = zootparams
+function p = zootparams(s);
 
 %% main settings
 
@@ -112,18 +112,18 @@ p.clickFreq = 8000;           % highest frequency of click peak in Hertz
 % smallest it can  be on Linux and Sennheiser is 0.04644
 tclick = linspace(0, p.clickDur*p.clickFs, p.clickDur*p.clickFs)/p.clickFs;     % generate time vector (s)
 xValue = 2*pi*(tclick-p.clickRampDur)*p.clickFreq;               % x value based on the Fourier transform of a square wave, sin(x)/x
-s = sin(xValue)./(xValue);                              % generate the click
+c = sin(xValue)./(xValue);                              % generate the click
 
 clickRampDurSamples = 0:1/p.clickFs:p.clickRampDur - 1/p.clickFs;
 clickRampDurSamples = length(clickRampDurSamples); % number of samples for onset/offset ramps
-s = CosineSquaredRamp(s,clickRampDurSamples);
-s = s-mean(s); % Next three lines are setting the overall level
-s = s./rms(s);
-s = s.*p.tScale;
+c = CosineSquaredRamp(c,clickRampDurSamples);
+c = c-mean(c); % Next three lines are setting the overall level
+c = c./rms(c);
+c = c.*p.tScale;
 
 clickOffsetDur = round((0.200-p.clickDur)*44100);
 
-p.sound = s;
+p.sound = c;
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% response 
@@ -154,11 +154,23 @@ p.contrastNames = {'high', 'low'};
 p.contrasts = [1 0];
 p.phases = linspace(0,1.5*pi,4);
 
-%% easy practice 
-p.practiceThreshold = 0.5;
-p.practiceImDur = p.imDur*10;
-p.practiceSOA = p.targetSOA*10;
-p.practicetoneDur = p.toneDur*10;
+%% practice settings
+switch s.exptStage
+    case 0
+        p.practiceThreshold = 5;
+        p.imDur = p.imDur*4;
+        p.targetSOA = p.targetSOA*4;
+        p.contrasts =1;
+        p.nTotalTrials = numel(p.targets) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
+    case 1
+        p.practiceThreshold = 5;
+        p.contrasts=1;
+        p.nTotalTrials = numel(p.targets) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
+    case 3
+        p.contrasts = 1;
+        p.precueValidities = 1;
+        p.nTotalTrials = numel(p.targets) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
+end
 
 %% Trial counts 
 % calculate minimum counterbalanced unit 640/8 = 80 --> 20
