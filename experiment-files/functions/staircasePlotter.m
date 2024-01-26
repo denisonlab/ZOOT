@@ -5,4 +5,5 @@ hold on
 plot(abs(threshold.staircase2val),'LineWidth',2);
 title('Staircase accuracies','FontSize',18);
 xlabel('Trial','FontSize',14);
+xlim([0 65])
 ylabel('Orientation','FontSize',14)

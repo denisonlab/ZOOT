@@ -1,4 +1,4 @@
-function t = zoot_staircase(s)
+function [data threshold] = zoot_staircase(s)
 % finds tilt threshold
 
 %% PTB setup
@@ -242,18 +242,19 @@ timeStart = GetSecs;
 % data.trialOrder = zoot_makeBlocks(p, data);
 % trialOrder=randperm(p.nTotalTrials);
 
-trialOrder = randperm(p.staircaseTrials); 
+trial_structure = repmat(trials,2,1); %double trials for double staircase 
+trialOrder = randperm(numel(trial_structure(:,1))); 
 
-for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the trial loop
+for iTrial = 1:numel(trialOrder) % p.nTrialsPerBlock % the iteration in the trial loop
     % trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
     trialIdx = trialOrder(iTrial);
     %% Get condition information for this trial
-    precueValidity = p.precueValidities(trials(trialIdx, idx.precueValidity)); % saves each column in trials matrix as corresponding variable e.g. column 1 = precue validity
-    target = trials(trialIdx, idx.target);
-    T1Axis = trials(trialIdx, idx.T1Axis);
-    T2Axis = trials(trialIdx, idx.T2Axis);
-    T1Tilt = trials(trialIdx, idx.T1Tilt);
-    T2Tilt = trials(trialIdx, idx.T2Tilt);
+    precueValidity = p.precueValidities(trial_structure(trialIdx, idx.precueValidity)); % saves each column in trials matrix as corresponding variable e.g. column 1 = precue validity
+    target = trial_structure(trialIdx, idx.target);
+    T1Axis = trial_structure(trialIdx, idx.T1Axis);
+    T2Axis = trial_structure(trialIdx, idx.T2Axis);
+    T1Tilt = trial_structure(trialIdx, idx.T1Tilt);
+    T2Tilt = trial_structure(trialIdx, idx.T2Tilt);
 
     tilts = p.tilts([T1Tilt T2Tilt]);
 
@@ -297,7 +298,7 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
         T2Orientation = p.axes(T2Axis) + p.stairs(index_s2)*p.tilts(T2Tilt);
     end 
 
-    %% Store stimulus information in trials matrix - change so not overriding trials matrix
+    %% Store stimulus information in trials matrix - change so not overwriting trials matrix
 
     data.precue(iTrial) = precue; % these are indices
     data.target(iTrial) = target;
@@ -435,10 +436,10 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
         currentStaircase = 1;
    end
 
-    thresholddata.index_s1(iTrial) = index_s1;
-    thresholddata.index_s2(iTrial) = index_s2;
-    thresholddata.staircase1val(iTrial) = p.stairs(index_s1);
-    thresholddata.staircase2val(iTrial) = p.stairs(index_s2);
+    threshold.index_s1(iTrial) = index_s1;
+    threshold.index_s2(iTrial) = index_s2;
+    threshold.staircase1val(iTrial) = p.stairs(index_s1);
+    threshold.staircase2val(iTrial) = p.stairs(index_s2);
 
     %% Store timing
     timing.timeStart = timeStart;
@@ -535,13 +536,13 @@ end
 timeEnd = GetSecs;
 timing.timeEnd = timeEnd;
 
-staircaseavgs = [mean(thresholddata.staircase1val(end-5:end)) mean(thresholddata.staircase2val(end-5:end))]; % mean or median?
-thresholdNu = mean(staircaseavgs);
+threshold.staircaseavgs = [mean(threshold.staircase1val(end-5:end)) mean(threshold.staircase2val(end-5:end))]; % mean or median?
+threshold.threshold = mean(threshold.staircaseavgs);
 
-thresholdFile = sprintf('%s/%s_threshold_%s.mat',data.stairDir,s.subjectID,dateStr);
-        data.filename = thresholdFile;
-        save(filename,'data')
-        disp('data saved!')
+thresholdFile = sprintf('%s/threshold.mat', data.stairDir);
+threshold.thresholdFile = thresholdFile;
+save(thresholdFile,'threshold')
+disp('threshold saved!')
 
 %% Completion message
 WaitSecs(1);

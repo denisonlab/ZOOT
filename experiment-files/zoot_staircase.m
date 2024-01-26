@@ -242,18 +242,19 @@ timeStart = GetSecs;
 % data.trialOrder = zoot_makeBlocks(p, data);
 % trialOrder=randperm(p.nTotalTrials);
 
-trialOrder = randperm(p.staircaseTrials); 
+trial_structure = repmat(trials,2,1); %double trials for double staircase 
+trialOrder = randperm(numel(trial_structure(:,1))); 
 
-for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the trial loop
+for iTrial = 1:numel(trialOrder) % p.nTrialsPerBlock % the iteration in the trial loop
     % trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
     trialIdx = trialOrder(iTrial);
     %% Get condition information for this trial
-    precueValidity = p.precueValidities(trials(trialIdx, idx.precueValidity)); % saves each column in trials matrix as corresponding variable e.g. column 1 = precue validity
-    target = trials(trialIdx, idx.target);
-    T1Axis = trials(trialIdx, idx.T1Axis);
-    T2Axis = trials(trialIdx, idx.T2Axis);
-    T1Tilt = trials(trialIdx, idx.T1Tilt);
-    T2Tilt = trials(trialIdx, idx.T2Tilt);
+    precueValidity = p.precueValidities(trial_structure(trialIdx, idx.precueValidity)); % saves each column in trials matrix as corresponding variable e.g. column 1 = precue validity
+    target = trial_structure(trialIdx, idx.target);
+    T1Axis = trial_structure(trialIdx, idx.T1Axis);
+    T2Axis = trial_structure(trialIdx, idx.T2Axis);
+    T1Tilt = trial_structure(trialIdx, idx.T1Tilt);
+    T2Tilt = trial_structure(trialIdx, idx.T2Tilt);
 
     tilts = p.tilts([T1Tilt T2Tilt]);
 
@@ -297,7 +298,7 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
         T2Orientation = p.axes(T2Axis) + p.stairs(index_s2)*p.tilts(T2Tilt);
     end 
 
-    %% Store stimulus information in trials matrix - change so not overriding trials matrix
+    %% Store stimulus information in trials matrix - change so not overwriting trials matrix
 
     data.precue(iTrial) = precue; % these are indices
     data.target(iTrial) = target;
@@ -376,22 +377,21 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
 
     data.statusPostcue = PsychPortAudio('GetStatus', pahandle); % moved here to let PsychPortAudio close
     % 
-    [timeTargetResponse, keyCode] = KbWait(devNum);
-    timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
-    responseKey = find(keyCode);
-    responseKeyName=KbName(responseKey);
-    response = find(strcmp(p.responseKeys,responseKeyName));
+      response = [];
+    while isempty(response)
+        [timeTargetResponse, keyCode] = KbWait(devNum);
+        timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
+        responseKey = find(keyCode);
+        responseKeyName=KbName(responseKey);
+        response = find(strcmp(p.responseKeys,responseKeyName));
+    end
 
-
-        %% Feedback
-      correct = 0; %or NaN to account for errors 
-        if response==3 % absent
-            responseTilt = 0;
-            correct = responseTilt==targetContrast;
-        elseif response==1 || response==2
-                responseTilt = p.tilts(response);
-                correct = targetTilt==responseTilt;
-        end
+    % Feedback
+    correct = 0;
+    if response==1 || response==2
+            responseTilt = p.tilts(response);
+            correct = targetTilt==responseTilt;
+    end
 
     if correct==1
         fixColor=[0 1 0]*255; % green for correct
@@ -479,6 +479,7 @@ for iTrial = 1:p.staircaseTrials % p.nTrialsPerBlock % the iteration in the tria
     if mod(iTrial, p.staircaseTrials)==0 || iTrial == p.staircaseTrials
         data.trialsHeaders = trialsHeaders;
         data.trials = trials;
+        data.trial_structure = trial_structure;
         data.trialOrder=trialOrder;
         dateStr = datetime('now', 'TimeZone', 'local', 'Format', 'yyMMdd_hhmm');
         data.whenSaved = datestr(now);

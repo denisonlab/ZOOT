@@ -17,7 +17,7 @@ function zoot
 s.subjectID = 'S0004';
 s.session = 1; 
 s.comp = 'iMac'; 
-s.exptStage = 2; 
+s.exptStage = 3; 
 
 %% Input
 % s.subjectID= input('Enter subject ID:  ', 's');
