@@ -1,4 +1,4 @@
-function [data threshold] = zoot_staircase(s)
+   function [data threshold] = zoot_staircase(s)
 % finds tilt threshold
 
 %% PTB setup

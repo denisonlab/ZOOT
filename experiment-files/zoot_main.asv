@@ -35,20 +35,33 @@ data.subDir =  sprintf('%s/%s', data.dataDir, s.subjectID);
 if ~exist(data.subDir, 'dir')
     mkdir(data.subDir)
 end
+data.pracDir =  sprintf('%s/%s', data.subDir, 'practice');
+if ~exist(data.pracDir, 'dir')
+    mkdir(data.pracDir)
+end
+data.behDir =  sprintf('%s/%s', data.subDir, 'beh');
+if ~exist(data.behDir, 'dir')
+    mkdir(data.behDir)
+end
 
 data.subjectID = s.subjectID;
 data.p = p;
 data.s = s;
 
-%Set tilt or get from thresholding procedure
-if ~exist(['data/' s.subjectID '/staircasing/threshold.mat'],'file')
-    error('WARNING: no thresholding file found')
-else
-    load(['data/' s.subjectID '/staircasing/threshold.mat'],'threshold')
-    disp(['Using participant''s saved threshold which is: ' num2str(threshold.threshold)]);
-    threshold=threshold.threshold;
+threshold = [];
+if s.exptStage > 2
+    if ~exist(['data/' s.subjectID '/staircasing/threshold.mat'],'file')
+        error('WARNING: no thresholding file found')
+    else
+        load(['data/' s.subjectID '/staircasing/threshold.mat'],'threshold')
+        disp(['Using participant''s saved threshold which is: ' num2str(threshold.threshold)]);
+        threshold=threshold.threshold;
+    end
+elseif s.exptStage < 2
+    threshold = p.practiceThreshold;
+    disp('Using practice threshold which is: 5')
 end
-% 
+%
 % p.tilt = 2; %debugging threshold 
 
 PsychDefaultSetup(2); %psychtoolbox settings
@@ -308,9 +321,31 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     targetTilt = tilts(target);
     targetContrast = contrasts(target);
 
+    %% thresholding threshold
+    if s.exptStage == 2
+        currentStaircase = 1; % start with first staircase
+
+        % find index
+        index_s1 = numel(p.stairs); % start at last step, easiest
+        index_s2 = 1; %start at first step, hardest
+
+        % track last few trial accuracy for updateStaircase.m
+        lastFewAcc_s1 = [];
+        lastFewAcc_s2 = [];
+
+        if currentStaircase == 1
+            threshold = p.stairs(index_s1);
+        elseif currentStaircase == 2
+            threshold = p.stairs(index_s2);
+        end
+    end
     %% Set up stimuli for this trial
     % Precue tone
-    precueTone = cueTones(precue,:);
+    if s.exptStage > 2
+        precueTone = cueTones(precue,:);
+    else
+        precueTone = cueTones(3,:);
+    end
 
     % T1 orientation (rotation angle)
     T1Orientation = p.axes(T1Axis) + threshold*p.tilts(T1Tilt);
@@ -461,6 +496,21 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
     % WaitSecs(2);1
 
+    %% staircase update and calculations
+    if s.exptStage == 2
+        if currentStaircase == 1
+            [index_s1, lastFewAcc_s1] = updateStaircase(p.stairs, index_s1, lastFewAcc_s1, correct);
+            currentStaircase = 2;
+        elseif currentStaircase == 2
+            [index_s2, lastFewAcc_s2] = updateStaircase(p.stairs, index_s2, lastFewAcc_s2, correct);
+            currentStaircase = 1;
+        end
+        staircase.index_s1(iTrial) = index_s1;
+        staircase.index_s2(iTrial) = index_s2;
+        staircase.staircase1val(iTrial) = p.stairs(index_s1);
+        staircase.staircase2val(iTrial) = p.stairs(index_s2);
+   end
+
     %% Store timing
     timing.timeStart = timeStart;
     timing.timeFix(iTrial) = timeFix;
@@ -506,50 +556,69 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         data.dateTime=dateStr;
         data.timings=timing;
 
-
-        switch s.exptStage 
+        switch s.exptStage
+            case 0 
+                filename = sprintf('%s/%s_intro_%s_block%d.mat',data.subDir,s.subjectID,dateStr,block);
+                data.filename = filename;
+                save(filename,'data')
+                disp('data saved!')
+            case 1 % need to reach 75% accuracy to move to thresholding
+                filename = sprintf('%s/%s_neutral_practice_%s_block%d.mat',data.subDir,s.subjectID,dateStr,block);
+                data.filename = filename;
+                save(filename,'data')
+                disp('data saved!')
+                if iTrial == p.nTotalTrials
+                    practiceAcc = mean(data.correct(1:end), 'omitnan')*100;
+                    practiceMessage = sprintf('Great job! You''ve completed the first practice session! Your accuracy was %0.2f %%',practiceAcc);
+                    DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
+                end 
+            case 3
+                 filename = sprintf('%s/%s_practice_mainExpt_%s_block%d.mat',data.subDir,s.subjectID,dateStr,block);
+                data.filename = filename;
+                save(filename,'data')
+                disp('data saved!')
             case 4
-        filename = sprintf('%s/%s_mainExpt_%s_block%d.mat',data.subDir,s.subjectID,dateStr,block);
-        data.filename = filename;
-        save(filename,'data')
-        disp('data saved!')
+                filename = sprintf('%s/%s_mainExpt_%s_block%d.mat',data.subDir,s.subjectID,dateStr,block);
+                data.filename = filename;
+                save(filename,'data')
+                disp('data saved!')
 
-        blockStartTrial = (iTrial/p.nTrialsPerBlock)*p.nTrialsPerBlock - p.nTrialsPerBlock + 1;
-        if blockStartTrial < 0 % we are doing less than one block
-            blockStartTrial = 1;
-        end
-        % trialsInBlock = trials(blockStartTrial:iTrial,:);
-        blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, ceil(p.nTotalTrials/p.nTrialsPerBlock));
-        if iTrial==p.nTotalTrials
-            keyMessage = ''; % last block
-        else
-            keyMessage = 'Press 1 to go on.';
-        end
-
-        blockAcc = mean(data.correct(blockStartTrial:iTrial),'omitnan'); % discrimination (only target present)
-        
-        pointsMessages = sprintf('p(correct) = %0.2f', blockAcc);
-
-        breakMessage = sprintf('%s\n\n%s\n\n\n%s', blockMessage, pointsMessages, keyMessage);
-        DrawFormattedText(window, breakMessage, 'center', 'center', [1 1 1]);
-        Screen('Flip', window);
-        WaitSecs(1);
-        if iTrial < p.nTotalTrials
-            keyPressed = 0;
-            while ~keyPressed
-                % if p.useKbQueue
-                %     [keyIsDown, firstPress] = KbQueueCheck();
-                %     keyCode = logical(firstPress);
-                % else
-                    [secs, keyCode] = KbWait(devNum);
-                % end
-                if strcmp(KbName(keyCode),'1!')
-                    keyPressed = 1;
+                blockStartTrial = (iTrial/p.nTrialsPerBlock)*p.nTrialsPerBlock - p.nTrialsPerBlock + 1;
+                if blockStartTrial < 0 % we are doing less than one block
+                    blockStartTrial = 1;
                 end
-            end
-        end
-        block = block+1; % keep track of block for block message only
+                % trialsInBlock = trials(blockStartTrial:iTrial,:);
+                blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, ceil(p.nTotalTrials/p.nTrialsPerBlock));
+                if iTrial==p.nTotalTrials
+                    keyMessage = ''; % last block
+                else
+                    keyMessage = 'Press 1 to go on.';
+                end
 
+                blockAcc = mean(data.correct(blockStartTrial:iTrial),'omitnan'); % discrimination (only target present)
+
+                pointsMessages = sprintf('p(correct) = %0.2f', blockAcc);
+
+                breakMessage = sprintf('%s\n\n%s\n\n\n%s', blockMessage, pointsMessages, keyMessage);
+                DrawFormattedText(window, breakMessage, 'center', 'center', [1 1 1]);
+                Screen('Flip', window);
+                WaitSecs(1);
+                if iTrial < p.nTotalTrials
+                    keyPressed = 0;
+                    while ~keyPressed
+                        % if p.useKbQueue
+                        %     [keyIsDown, firstPress] = KbQueueCheck();
+                        %     keyCode = logical(firstPress);
+                        % else
+                        [secs, keyCode] = KbWait(devNum);
+                        % end
+                        if strcmp(KbName(keyCode),'1!')
+                            keyPressed = 1;
+                        end
+                    end
+                end
+                block = block+1; % keep track of block for block message only
+        end
         if p.eyeTracking
             rd_eyeLink('eyestop', window, {eyeFile, eyeDataDir})
             movefile(['eyedata/' s.subjectID '/' eyeFile '.edf'], ['eyedata/' subjectID, 'eyeFileFull']) % what is this doing
@@ -559,6 +628,15 @@ end
 timeEnd = GetSecs;
 timing.timeEnd = timeEnd;
 
+if s.exptStage ==2
+    threshold.staircaseavgs = [mean(threshold.staircase1val(end-5:end)) mean(threshold.staircase2val(end-5:end))]; % mean or median?
+    threshold.threshold = mean(threshold.staircaseavgs);
+
+    thresholdFile = sprintf('%s/threshold.mat', data.stairDir);
+    threshold.thresholdFile = thresholdFile;
+    save(thresholdFile,'threshold')
+    disp('threshold saved!')
+end
 %% Completion message
 WaitSecs(1);
 DrawFormattedText(window, 'All done! Thank you for your effort', 'center', 'center', 1);

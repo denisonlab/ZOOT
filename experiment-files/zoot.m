@@ -12,24 +12,25 @@ function zoot
 % AssertOpenGL;
 % 
 % % Skip screen tests - ONLY for demo, not for real experiments
-% Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
+Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
 
-% s.subjectID = 'S0004'; %debugging 
-% s.session = 1; 
-% s.comp = 'iMac'; 
-% s.exptStage = 4; 
+s.subjectID = 'S0004'; %debugging 
+s.session = 1; 
+s.comp = 'iMac'; 
+s.exptStage = 2; 
 
 %% Input
-s.subjectID= input('Enter subject ID:  ', 's');
-s.session = input('Enter session number (1-4):  ');
-s.comp = input('Enter computer (iMac, denlab-beh, denlab-eeg):  ', 's');
-s.exptStage = input(['Which expt stage?', ...
-        '\n0 - intro' ...
-        '\n1 - easy practice' ...
-        '\n2 - staircasing', ...
-        '\n3 - valid practice', ...
-        '\n4 - full main task', ...
-        '\n']);
+% s.subjectID= input('Enter subject ID:  ', 's');
+% s.session = input('Enter session number (1-4):  ');
+% s.comp = input('Enter computer (iMac, denlab-beh, denlab-eeg):  ', 's');
+% s.exptStage = input(['Which expt stage?', ...
+%         '\n0 - intro' ...
+%         '\n1 - neutral practice' ...
+%         '\n2 - staircasing', ...
+%         '\n3 - valid practice', ...
+%         '\n4 - full task practice', ...
+%         '\n5 - main task', ...
+%         '\n']);
 
 
 %% RUN
@@ -39,8 +40,12 @@ switch s.exptStage
     case 1
         [data]  = zoot_main(s);
     case 2
-        [data, threshold]= zoot_staircase(s);
+        [data] = zoot_main(s);
+    case 3 
+        [data]= zoot_main(s);
     case 4
+        [data]= zoot_main(s);
+    case 5
         [data]= zoot_main(s);
 
 end

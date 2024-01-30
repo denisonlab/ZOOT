@@ -144,7 +144,6 @@ p.ITI=.75; %750 ms ITI
 %% Condition information
 p.precueNames = {'valid','neutral','invalid'};
 p.precueValidities = [1 1 1 2 3];
-p.precueAllNeutral = 3;
 p.targets = {'T1','T2'};
 p.axisNames = {'V','H'};
 p.axes = [0 90];
@@ -155,28 +154,32 @@ p.contrasts = [1 0];
 p.phases = linspace(0,1.5*pi,4);
 
 %% practice settings
+
+p.practiceThreshold = 5;
+p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
+
 switch s.exptStage
     case 0
-        p.practiceThreshold = 5;
+        p.precueValidities = 3; % all neutral
         p.imDur = p.imDur*4;
         p.targetSOA = p.targetSOA*4;
-        p.contrasts =1;
-        p.nTotalTrials = numel(p.targets) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
+        p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
     case 1
-        p.practiceThreshold = 5;
-        p.contrasts=1;
-        p.nTotalTrials = numel(p.targets) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
+        p.precueValidities = 3; % all neutral
+        p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
+    case 2
+        p.precueValidities = 3; % all neutral
+        p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
     case 3
-        p.contrasts = 1;
-        p.precueValidities = 1;
-        p.nTotalTrials = numel(p.targets) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
+        p.precueValidities = 1; % all valid 
+        p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
 end
 
 %% Trial counts 
 % calculate minimum counterbalanced unit 640/8 = 80 --> 20
-p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
-% p.nTrialsPerBlock = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
-p.nTrialsPerBlock = 4; %debugging
+p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts); 
+p.nTrialsPerBlock = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
+%p.nTrialsPerBlock = 4; %debugging
 p.nBlocks = p.nTotalTrials / p.nTrialsPerBlock;
 p.nBlockPerSession = p.nBlocks/2;
 %% staircasing

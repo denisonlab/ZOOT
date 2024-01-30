@@ -1,4 +1,4 @@
-function p = zootparams(s)
+function p = zootparams(s);
 
 %% main settings
 
@@ -112,18 +112,18 @@ p.clickFreq = 8000;           % highest frequency of click peak in Hertz
 % smallest it can  be on Linux and Sennheiser is 0.04644
 tclick = linspace(0, p.clickDur*p.clickFs, p.clickDur*p.clickFs)/p.clickFs;     % generate time vector (s)
 xValue = 2*pi*(tclick-p.clickRampDur)*p.clickFreq;               % x value based on the Fourier transform of a square wave, sin(x)/x
-s = sin(xValue)./(xValue);                              % generate the click
+c = sin(xValue)./(xValue);                              % generate the click
 
 clickRampDurSamples = 0:1/p.clickFs:p.clickRampDur - 1/p.clickFs;
 clickRampDurSamples = length(clickRampDurSamples); % number of samples for onset/offset ramps
-s = CosineSquaredRamp(s,clickRampDurSamples);
-s = s-mean(s); % Next three lines are setting the overall level
-s = s./rms(s);
-s = s.*p.tScale;
+c = CosineSquaredRamp(c,clickRampDurSamples);
+c = c-mean(c); % Next three lines are setting the overall level
+c = c./rms(c);
+c = c.*p.tScale;
 
 clickOffsetDur = round((0.200-p.clickDur)*44100);
 
-p.sound = s;
+p.sound = c;
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% response 
@@ -144,7 +144,6 @@ p.ITI=.75; %750 ms ITI
 %% Condition information
 p.precueNames = {'valid','neutral','invalid'};
 p.precueValidities = [1 1 1 2 3];
-p.precueAllNeutral = 3;
 p.targets = {'T1','T2'};
 p.axisNames = {'V','H'};
 p.axes = [0 90];
@@ -155,23 +154,28 @@ p.contrasts = [1 0];
 p.phases = linspace(0,1.5*pi,4);
 
 %% practice settings
-if s.exptStage == 0
-    p.practiceThreshold = 5;
-    p.practiceImDur = p.imDur*4;
-    p.practiceSOA = p.targetSOA*4;
-    p.contrasts =1;
-elseif s.exptStage == 1
-    p.practiceThreshold = 5;
-    p.contrasts=1;
-elseif s.exptStage == 3
-    p.contrasts = 1;
-    p.precueV
+
+p.practiceThreshold = 5;
+p.practicenTotalTrials = 
+
+switch s.exptStage
+    case 0
+        p.precueValidities = 3; % all neutral
+        p.imDur = p.imDur*4;
+        p.targetSOA = p.targetSOA*4;
+    case 1
+        p.precueValidities = 3; % all neutral
+    case 2
+        p.precueValidities = 3; % all neutral
+    case 3
+        p.precueValidities = 1; % all valid 
+end
 
 %% Trial counts 
 % calculate minimum counterbalanced unit 640/8 = 80 --> 20
-p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
-% p.nTrialsPerBlock = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
-p.nTrialsPerBlock = 4; %debugging
+p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts); 
+p.nTrialsPerBlock = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
+%p.nTrialsPerBlock = 4; %debugging
 p.nBlocks = p.nTotalTrials / p.nTrialsPerBlock;
 p.nBlockPerSession = p.nBlocks/2;
 %% staircasing

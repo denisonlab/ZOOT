@@ -1,4 +1,4 @@
-function [data threshold] = zoot_staircase(s)
+    function [data threshold] = zoot_staircase(s)
 % finds tilt threshold
 
 %% PTB setup
@@ -13,7 +13,7 @@ Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
 % Name the subject
 
 %get parameters
-p = zootparams;
+p = zootparams(s);
 
 %change directory
 cd(p.dir)
@@ -377,22 +377,21 @@ for iTrial = 1:numel(trialOrder) % p.nTrialsPerBlock % the iteration in the tria
 
     data.statusPostcue = PsychPortAudio('GetStatus', pahandle); % moved here to let PsychPortAudio close
     % 
-    [timeTargetResponse, keyCode] = KbWait(devNum);
-    timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
-    responseKey = find(keyCode);
-    responseKeyName=KbName(responseKey);
-    response = find(strcmp(p.responseKeys,responseKeyName));
+      response = [];
+    while isempty(response)
+        [timeTargetResponse, keyCode] = KbWait(devNum);
+        timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
+        responseKey = find(keyCode);
+        responseKeyName=KbName(responseKey);
+        response = find(strcmp(p.responseKeys,responseKeyName));
+    end
 
-
-        %% Feedback
-      correct = 0; %or NaN to account for errors 
-        if response==3 % absent
-            responseTilt = 0;
-            correct = responseTilt==targetContrast;
-        elseif response==1 || response==2
-                responseTilt = p.tilts(response);
-                correct = targetTilt==responseTilt;
-        end
+    % Feedback
+    correct = 0;
+    if response==1 || response==2
+            responseTilt = p.tilts(response);
+            correct = targetTilt==responseTilt;
+    end
 
     if correct==1
         fixColor=[0 1 0]*255; % green for correct
@@ -480,6 +479,7 @@ for iTrial = 1:numel(trialOrder) % p.nTrialsPerBlock % the iteration in the tria
     if mod(iTrial, p.staircaseTrials)==0 || iTrial == p.staircaseTrials
         data.trialsHeaders = trialsHeaders;
         data.trials = trials;
+        data.trial_structure = trial_structure;
         data.trialOrder=trialOrder;
         dateStr = datetime('now', 'TimeZone', 'local', 'Format', 'yyMMdd_hhmm');
         data.whenSaved = datestr(now);
