@@ -208,7 +208,7 @@ end
 imSize = size(grating); % pixels 
 imRect = CenterRectOnPoint([0 0 imSize(1) imSize(2)], cx+p.imPos(1), cy+p.imPos(2));
 
-%% %%%% Eyetracker %%%%
+% %% %%%% Eyetracker %%%%
 if p.eyeTracking
     %Snd('Open', pahandle); %nec for eyetracker
     % Initialize eye tracker
@@ -589,7 +589,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
-            case 4
+            case {4,5}
                 filename = sprintf('%s/%s_mainExpt_%s_block%d.mat',data.subDir,s.subjectID,dateStr,block);
                 data.filename = filename;
                 save(filename,'data')
@@ -641,11 +641,12 @@ timeEnd = GetSecs;
 timing.timeEnd = timeEnd;
 
 if s.exptStage ==2
-    threshold.staircaseavgs = [mean(threshold.staircase1val(end-5:end)) mean(threshold.staircase2val(end-5:end))]; % mean or median?
-    threshold.threshold = mean(threshold.staircaseavgs);
-
+    staircase.staircaseavgs = [mean(staircase.staircase1val(end-5:end)) mean(staircase.staircase2val(end-5:end))]; % mean or median?
+    staircase.threshold = mean(staircase.staircaseavgs);
+    
     thresholdFile = sprintf('%s/threshold.mat', data.stairDir);
-    threshold.thresholdFile = thresholdFile;
+    staircase.thresholdFile = thresholdFile;
+    data.staircase = staircase; 
     save(thresholdFile,'threshold')
     disp('threshold saved!')
 end

@@ -3,15 +3,15 @@ function p = zootparams(s);
 %% main settings
 
 addpath data/ toolboxes/eyetrack-tools-master/ functions/ trial-structs/
-p.windowTesting=1;
+p.windowTesting=0;
 p.staircasing = 0;
 p.stimmapping = 0;
 p.watch_response=0;
-p.comp = 'iMac';
+
 
 %% Screen
 
-switch p.comp
+switch s.comp
     case 'iMac'
         p.screenSize = 52.7;
         p.screenRes = [2240 1260];
@@ -35,10 +35,10 @@ switch p.comp
         p.screenRes = [1920 1080];
         p.viewDist = 75;
         p.refreshRate = 120;
-        p.dir = '/Users/denisonlab-beh/Experiments/ZOOT/experiment-files';
+        p.dir = '/home/denisonlab-beh/Experiments/ZOOT/experiment-files';
         p.retina = 1;
         p.useKbQueue = 1;
-        p.eyeTracking=1;
+        p.eyeTracking=0; %switch back to 1 
     case 'denlab-eeg'
         p.screenSize = 53.5;
         p.screenRes = [1920 1080];
@@ -160,16 +160,17 @@ p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * nu
 
 switch s.exptStage
     case 0
-        p.precueValidities = 3; % all neutral
+        p.precueValidities = 3; % all neutral slow practice 
         p.imDur = p.imDur*4;
         p.targetSOA = p.targetSOA*4;
         p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
     case 1
-        p.precueValidities = 3; % all neutral
+        p.precueValidities = 3; % all neutral practice
         p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
     case 2
-        p.precueValidities = 3; % all neutral
-        p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
+        p.precueValidities = 3; % all neutral threshold
+        p.nTotalTrials = 10; % numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
+        p.nTrialsPerBlock = p.nTotalTrials;
     case 3
         p.precueValidities = 1; % all valid 
         p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
@@ -177,11 +178,11 @@ end
 
 %% Trial counts 
 % calculate minimum counterbalanced unit 640/8 = 80 --> 20
-p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts); 
-p.nTrialsPerBlock = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
-%p.nTrialsPerBlock = 4; %debugging
-p.nBlocks = p.nTotalTrials / p.nTrialsPerBlock;
-p.nBlockPerSession = p.nBlocks/2;
+% p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts); 
+% p.nTrialsPerBlock = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
+% %p.nTrialsPerBlock = 4; %debugging
+% p.nBlocks = p.nTotalTrials / p.nTrialsPerBlock;
+% p.nBlockPerSession = p.nBlocks/2;
 %% staircasing
 p.stairs = [.2 .4 .6 .8 1 1.2 1.4 2 3 5];
 p.staircaseTrials = numel(p.targets) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts)*2;
