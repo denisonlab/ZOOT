@@ -272,17 +272,23 @@ for iFile = 1:numel(listing)
 end
 
 % if we cant find any data for this person then start with trial 1
-if isempty(dataFileNames)
-    trialOrder = zoot_makeBlocks(p, s); 
-    trialCounter = 1;
-    block = 1;
+
+if s.exptStage == 4 || s.exptStage == 5
+    if isempty(dataFileNames)
+        trialOrder = zoot_makeBlocks(p, s);
+        trialCounter = 1;
+        block = 1;
+    else
+        load(dataFileNames{end}); % this isn't checking the time stamp yet
+        % otherwise load the data w latest  time stamp and find the last trial
+        % that was left off
+        trialCounter = max(data.iTrial)+1;
+        block = max(data.block)+1;
+        trialOrder = data.trialOrder;
+    end
 else 
-    load(dataFileNames{end}); % this isn't checking the time stamp yet 
-    % otherwise load the data w latest  time stamp and find the last trial
-    % that was left off
-    trialCounter = max(data.iTrial)+1;
-    block = max(data.block)+1;
-    trialOrder = data.trialOrder; 
+    trialOrder=randperm(p.nTotalTrials);
+    trialCounter = 1;
 end
 
 %change directory
@@ -495,9 +501,12 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     data.response(iTrial) = response;
     data.correct(iTrial) = correct;
     data.timeTargetRT(iTrial) = timeTargetRT;
-    data.block(iTrial) = block; 
     data.session(iTrial) = s.session; 
     data.iTrial(iTrial) = iTrial; 
+
+    if s.exptStage == 4 || s.exptStage == 5
+        data.block(iTrial) = block;
+    end 
 
     % % DrawFormattedText(window, sprintf('Your reaction time was %.2f s!', rt), 'center', 'center', [1 1 1]*white);\
 
