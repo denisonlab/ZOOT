@@ -3,7 +3,6 @@ function p = zootparams(s);
 %% main settings
 
 addpath data/ toolboxes/eyetrack-tools-master/ functions/ trial-structs/
-p.windowTesting=1;
 p.staircasing = 0;
 p.stimmapping = 0;
 p.watch_response=0;
@@ -21,6 +20,7 @@ switch s.comp
         p.retina = 1; disp('Testing mode for macbooks is active!');
         p.useKbQueue = 1;
         p.eyeTracking=0; disp('shutting off eyetracking since this is a test computer');
+        p.windowTesting=1;
     case 'xps13'
         p.screenSize = 34.0;
         p.screenRes = [1920 1200];
@@ -39,6 +39,7 @@ switch s.comp
         p.retina = 1;
         p.useKbQueue = 1;
         p.eyeTracking=0; %switch back to 1 
+        p.windowTesting=0;
     case 'denlab-eeg'
         p.screenSize = 53.5;
         p.screenRes = [1920 1080];
@@ -48,6 +49,7 @@ switch s.comp
         p.retina = 1;
         p.useKbQueue = 1;
         p.eyeTracking=1; 
+        p.windowTesting=0;
 end 
 
 %% Fixation
@@ -169,7 +171,7 @@ switch s.exptStage
         p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
     case 2
         p.precueValidities = 3; % all neutral threshold
-        p.nTotalTrials = 10; % numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
+        p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
         p.nTrialsPerBlock = p.nTotalTrials;
     case 3
         p.precueValidities = 1; % all valid 
