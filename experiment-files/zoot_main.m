@@ -334,7 +334,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
     %% thresholding threshold
     if s.exptStage == 2
-        currentStaircase = 1; % start with first staircase
+        if iTrial == 1
+            currentStaircase = 1; % start with first staircase
+        end
 
         % find index
         index_s1 = numel(p.stairs); % start at last step, easiest

@@ -360,14 +360,16 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         precueTone = cueTones(3,:);
     end
 
-    % T1 orientation (rotation angle)
-    T1Orientation = p.axes(T1Axis) + threshold*p.tilts(T1Tilt);
-
-    % T2 orientation (rotation angle)
-    T2Orientation = p.axes(T2Axis) + threshold*p.tilts(T2Tilt);
-
-    % Postcue tone
-    postcueTone = cueTones(target,:);
+    if currentStaircase == 1
+        % T1 orientation (rotation angle)
+        T1Orientation = p.axes(T1Axis) + threshold*p.tilts(T1Tilt); % takes the axis (0 for vertical, 90 for horizonta), adds staircase tilt, multiplies by 1 or -1 for CCW/CW
+        % T2 orientation (rotation angle)
+        T2Orientation = p.axes(T2Axis) + p.stairs(index_s1)*p.tilts(T2Tilt);
+    elseif currentStaircase ==2
+        T1Orientation = p.axes(T1Axis) + p.stairs(index_s2)*p.tilts(T1Tilt); % takes the axis (0 for vertical, 90 for horizonta), adds staircase tilt, multiplies by 1 or -1 for CCW/CW
+        % T2 orientation (rotation angle)
+        T2Orientation = p.axes(T2Axis) + p.stairs(index_s2)*p.tilts(T2Tilt);
+    end
 
     %% Store stimulus information in trials matrix - change so not overriding trials matrix
     data.precue(iTrial) = precue; % these are indices 
