@@ -65,6 +65,19 @@ if s.exptStage > 2
 elseif s.exptStage < 2
     threshold = p.practiceThreshold;
     disp('Using practice threshold which is: 5')
+elseif s.exptStage == 2
+    currentStaircase = 1; % start with first staircase
+    % find index
+    index_s1 = numel(p.stairs); % start at last step, easiest
+    index_s2 = 1; %start at first step, hardest
+    lastFewAcc_s1 = [];
+    lastFewAcc_s2 = [];
+
+    if currentStaircase == 1
+        threshold = p.stairs(index_s1);
+    elseif currentStaircase == 2
+        threshold = p.stairs(index_s2);
+    end
 end
 %
 % p.tilt = 2; %debugging threshold 
@@ -332,26 +345,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     targetTilt = tilts(target);
     targetContrast = contrasts(target);
 
-    %% thresholding threshold
-    if s.exptStage == 2
-        currentStaircase = 1; % start with first staircase
-
-        % find index
-        index_s1 = numel(p.stairs); % start at last step, easiest
-        index_s2 = 1; %start at first step, hardest
-
-        % track last few trial accuracy for updateStaircase.m
-        if iTrial == trialCounter 
-            lastFewAcc_s1 = [];
-            lastFewAcc_s2 = [];
-        end
-
-        if currentStaircase == 1
-            threshold = p.stairs(index_s1);
-        elseif currentStaircase == 2
-            threshold = p.stairs(index_s2);
-        end
-    end
+ 
     %% Set up stimuli for this trial
     % Precue tone
     if s.exptStage > 2
@@ -514,18 +508,21 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
     %% staircase update and calculations
     if s.exptStage == 2
-        if currentStaircase == 1
-            [index_s1, lastFewAcc_s1] = updateStaircase(p.stairs, index_s1, lastFewAcc_s1, correct);
-            currentStaircase = 2;
-        elseif currentStaircase == 2
-            [index_s2, lastFewAcc_s2] = updateStaircase(p.stairs, index_s2, lastFewAcc_s2, correct);
-            currentStaircase = 1;
-        end
         staircase.index_s1(iTrial) = index_s1;
         staircase.index_s2(iTrial) = index_s2;
         staircase.staircase1val(iTrial) = p.stairs(index_s1);
         staircase.staircase2val(iTrial) = p.stairs(index_s2);
-   end
+
+        if currentStaircase == 1
+            [index_s1, lastFewAcc_s1] = updateStaircase(p.stairs, index_s1, lastFewAcc_s1, correct);
+            currentStaircase = 2;
+            threshold = p.stairs(index_s2);
+        elseif currentStaircase == 2
+            [index_s2, lastFewAcc_s2] = updateStaircase(p.stairs, index_s2, lastFewAcc_s2, correct);
+            currentStaircase = 1;
+            threshold = p.stairs(index_s1);
+        end
+    end
 
     %% Store timing
     timing.timeStart = timeStart;

@@ -514,6 +514,11 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
     %% staircase update and calculations
     if s.exptStage == 2
+        staircase.index_s1(iTrial) = index_s1;
+        staircase.index_s2(iTrial) = index_s2;
+        staircase.staircase1val(iTrial) = p.stairs(index_s1);
+        staircase.staircase2val(iTrial) = p.stairs(index_s2);
+
         if currentStaircase == 1
             [index_s1, lastFewAcc_s1] = updateStaircase(p.stairs, index_s1, lastFewAcc_s1, correct);
             currentStaircase = 2;
@@ -521,11 +526,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
             [index_s2, lastFewAcc_s2] = updateStaircase(p.stairs, index_s2, lastFewAcc_s2, correct);
             currentStaircase = 1;
         end
-        staircase.index_s1(iTrial) = index_s1;
-        staircase.index_s2(iTrial) = index_s2;
-        staircase.staircase1val(iTrial) = p.stairs(index_s1);
-        staircase.staircase2val(iTrial) = p.stairs(index_s2);
-   end
+    end
 
     %% Store timing
     timing.timeStart = timeStart;
