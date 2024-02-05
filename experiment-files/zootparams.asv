@@ -53,7 +53,7 @@ switch s.comp
 end 
 
 %% Fixation
-p.fixSize = 0.15; % diameter of the fixation circle, in degrees visual angle
+p.fixSize = 0.5; % diameter of the fixation circle, in degrees visual angle
 p.fixColor = 1; % white
 p.dimFixColor = 0.25; %dimmed for ITI
 p.fixLineWidth = 3;

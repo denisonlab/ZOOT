@@ -16,8 +16,8 @@ Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
 
 s.subjectID = 'test'; %debugging 
 s.session = 1; 
-s.comp = 'denlab-beh'; 
-s.exptStage = 2; 
+s.comp = 'iMac'; 
+s.exptStage = 5; 
 
 %% Input
 % s.subjectID= input('Enter subject ID:  ', 's');
