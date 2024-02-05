@@ -58,9 +58,9 @@ if s.exptStage > 2
     if ~exist(['data/' s.subjectID '/staircasing/threshold.mat'],'file')
         error('WARNING: no thresholding file found')
     else
-        load(['data/' s.subjectID '/staircasing/threshold.mat'],'threshold')
-        disp(['Using participant''s saved threshold which is: ' num2str(threshold.threshold)]);
-        threshold=threshold.threshold;
+        load(['data/' s.subjectID '/staircasing/threshold.mat'],'staircase')
+        disp(['Using participant''s saved threshold which is: ' num2str(staircase.threshold)]);
+        threshold=staircase.threshold;
     end
 elseif s.exptStage < 2
     threshold = p.practiceThreshold;
@@ -649,11 +649,11 @@ timing.timeEnd = timeEnd;
 if s.exptStage ==2
     staircase.staircaseavgs = [mean(staircase.staircase1val(end-5:end)) mean(staircase.staircase2val(end-5:end))]; % mean or median?
     staircase.threshold = mean(staircase.staircaseavgs);
-    
+    data.staircase = staircase; 
+
     thresholdFile = sprintf('%s/threshold.mat', data.stairDir);
     staircase.thresholdFile = thresholdFile;
-    data.staircase = staircase; 
-    save(thresholdFile,'threshold')
+    save(thresholdFile,'staircase')
     disp('threshold saved!')
 end
 %% Completion message
