@@ -13,8 +13,6 @@ Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
 
 %% Input
 %% Basic info
-% Name the subject
-
 
 %get parameters
 p = zootparams(s);
@@ -58,9 +56,9 @@ if s.exptStage > 2
     if ~exist(['data/' s.subjectID '/staircasing/threshold.mat'],'file')
         error('WARNING: no thresholding file found')
     else
-        load(['data/' s.subjectID '/staircasing/threshold.mat'],'threshold')
-        disp(['Using participant''s saved threshold which is: ' num2str(threshold.threshold)]);
-        threshold=threshold.threshold;
+        load(['data/' s.subjectID '/staircasing/threshold.mat'],'staircase')
+        disp(['Using participant''s saved threshold which is: ' num2str(staircase.threshold)]);
+        threshold=staircase.threshold;
     end
 elseif s.exptStage < 2
     threshold = p.practiceThreshold;
@@ -83,6 +81,16 @@ end
 % p.tilt = 2; %debugging threshold 
 
 PsychDefaultSetup(2); %psychtoolbox settings
+
+%% Eye data i/o
+eyeDataDir = 'eyedata';
+eyeFile = sprintf('%s%s', subjectID([1:2 end-1:end]), datestr(now, 'mmdd'));
+
+% Check to see if this eye file already exists
+existingEyeFile = dir(sprintf('%s/%s.edf', eyeDataDir, eyeFile));
+if ~isempty(existingEyeFile) && p.eyeTracking
+%     error('eye file already exists! please choose another name.')
+end
 
 %% %%%% Setup: window, sound, and keyboard %%%%
 %% Window
@@ -291,6 +299,7 @@ if s.exptStage == 4 || s.exptStage == 5
         trialOrder = zoot_makeBlocks(p, s);
         trialCounter = 1;
         block = 1;
+        eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
     else
         load(dataFileNames{end}); % this isn't checking the time stamp yet
         % otherwise load the data w latest  time stamp and find the last trial
@@ -298,6 +307,7 @@ if s.exptStage == 4 || s.exptStage == 5
         trialCounter = max(data.iTrial)+1;
         block = max(data.block)+1;
         trialOrder = data.trialOrder;
+        eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
     end
 else 
     trialOrder=randperm(p.nTotalTrials);
@@ -310,6 +320,11 @@ cd(p.dir)
 for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the trial loop
     % trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
     trialIdx = trialOrder(iTrial);
+
+    if trialCounter>1
+        eyeSkip(trialIdx) = stopThisTrial; % this is for the previous trial
+    end
+    stopThisTrial = 0;
     %% Get condition information for this trial
     precueValidity = p.precueValidities(trials(trialIdx, idx.precueValidity)); % saves each column in trials matrix as corresponding variable e.g. column 1 = precue validity
     target = trials(trialIdx, idx.target);
@@ -379,13 +394,24 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     data.T1Phase(iTrial) = T1Phase; 
     data.T2Phase(iTrial) = T2Phase; 
 
-    %% %%%% Play the trial %%%%
+    %% %%%% Play the trial %%%
     %% Present fixation
-    fixColor = p.fixColor;
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeFix = Screen('Flip', window);
     if p.eyeTracking
-        Eyelink('Message', 'EVENT_FIX')
+        Eyelink('Message', 'FixOn')
+    end
+
+   % Check fixation hold
+    if p.eyeTracking
+        driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad});
+        
+        if driftCorrected
+            % restart trial
+            DrawFormattedText(window, 'x', 'center', 'center', white);
+            drawPlaceholders(window, white, p.backgroundColor*white, phRect, p.phLineWidth, p.showPlaceholders)
+            timeFix = Screen('Flip', window);
+        end
     end
 
     %% Present precue tone
@@ -393,10 +419,24 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); % waitForStart = 1 in order to return a timestamp of playback
     WaitSecs(p.toneDur + 0.01); % added to let PsychPortAudio close
     statusPrecue = PsychPortAudio('GetStatus', pahandle); % returns status struct with start time, stop time, etc.
-    if p.eyeTracking
-        Eyelink('Message', 'EVENT_FIX')
-    end
 
+   if p.eyeTracking
+        Eyelink('Message', 'EVENT_CUE');
+    end
+    
+    % Check for eye movements
+    if p.eyeTracking
+        while GetSecs < timePrecue + p.precueSOA - p.eyeSlack && ~stopThisTrial
+            WaitSecs(.01);
+            %             fixation = mod(iTrial,10); %%% for testing
+            fixCue = rd_eyeLink('fixcheck', window, {cx, cy, rad});
+            [stopThisTrial, trialOrder, nTrials] = fixationBreakTasks(...
+                fixation, window, white*p.backgroundColor, trialOrder, iTrial, nTrials);
+        end
+        if stopThisTrial
+            continue
+        end
+    end
     %% Present T1
     if p.contrasts(T1Contrast)>0 
         Screen('DrawTexture', window, gabors(T1Phase), [], imRect, T1Orientation);
@@ -407,14 +447,28 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     timeT1Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
     statusT1Click = PsychPortAudio('GetStatus', pahandle);
     if p.eyeTracking
-        Eyelink('Message', 'EVENT_FIX')
+        Eyelink('Message', 'T1')
     end
 
     % blank
     drawFixation(window, cx, cy, fixSize, fixColor);
     timeBlank1 = Screen('Flip', window, timeT1 + p.imDur - slack);
     if p.eyeTracking
-        Eyelink('Message', 'EVENT_FIX')
+        Eyelink('Message', 'SOA')
+    end
+
+      % Check for eye movements
+    if p.eyeTracking
+        while GetSecs < timePrecue + p.SOA - p.eyeSlack && ~stopThisTrial
+            WaitSecs(.01);
+            %             fixation = mod(iTrial,10); %%% for testing
+            fixT1 = rd_eyeLink('fixcheck', window, {cx, cy, rad});
+            [stopThisTrial, trialOrder, nTrials] = fixationBreakTasks(...
+                fixation, window, white*p.backgroundColor, trialOrder, iTrial, nTrials);
+        end
+        if stopThisTrial
+            continue
+        end
     end
 
     %% Present T2
@@ -427,19 +481,36 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     timeT2Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
     statusT2Click = PsychPortAudio('GetStatus', pahandle);
     if p.eyeTracking
-        Eyelink('Message', 'EVENT_FIX')
+        Eyelink('Message', 'T2')
     end
 
     % blank
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeBlank2 = Screen('Flip', window, timeT2 + p.imDur - slack);
     if p.eyeTracking
-        Eyelink('Message', 'EVENT_FIX')
+        Eyelink('Message', 'PostcueSOA')
     end
+      % Check for eye movements
+    if p.eyeTracking
+        while GetSecs < timePrecue + p.postcueSOA - p.eyeSlack && ~stopThisTrial
+            WaitSecs(.01);
+            %             fixation = mod(iTrial,10); %%% for testing
+            fixT2 = rd_eyeLink('fixcheck', window, {cx, cy, rad});
+            [stopThisTrial, trialOrder, nTrials] = fixationBreakTasks(...
+                fixation, window, white*p.backgroundColor, trialOrder, iTrial, nTrials);
+        end
+        if stopThisTrial
+            continue
+        end
+    end
+
 
     %% Present postcue
     PsychPortAudio('FillBuffer', pahandle, postcueTone);
     timePostcue = PsychPortAudio('Start', pahandle, [], timeT2 + p.postcueSOA, 1); % timeT2 + p.postcueSOA, waitForStart = 1 in order to return a timestamp of playback
+     if p.eyeTracking
+        Eyelink('Message', 'Postcue')
+    end
 
     %% Response window
     drawFixation(window, cx, cy, fixSize, p.fixColor);
@@ -456,6 +527,10 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         responseKeyName=KbName(responseKey);
         response = find(strcmp(p.responseKeys,responseKeyName));
     end
+
+    if p.eyeTracking
+        Eyelink('Message', 'TRIAL_END');
+     end
 
     % Feedback
     correct = 0;
@@ -484,6 +559,8 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     drawFixation(window, cx,cy, fixSize, p.fixColor);
     timeBlank3 = Screen('Flip', window, timeFeedbackFix+p.feedbackLength-slack); % returns fixation to white
 
+     
+
     %% ITI
     drawFixation(window, cx,cy, fixSize, p.fixColor);
     timeITIstart = Screen('Flip', window, timeBlank3-slack);
@@ -497,6 +574,12 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     data.timeTargetRT(iTrial) = timeTargetRT;
     data.session(iTrial) = s.session; 
     data.iTrial(iTrial) = iTrial; 
+
+    if p.eyeTracking
+        data.eye.fixCue(iTrial) = fixCue;
+        data.eye.fixT1(iTrial) = fixT1;
+        data.eye.fixT2(iTrial) = fixT2;
+    end
 
     if s.exptStage == 4 || s.exptStage == 5
         data.block(iTrial) = block;
@@ -568,6 +651,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         data.whenSaved = datestr(now);
         data.dateTime=dateStr;
         data.timings=timing;
+        data.eye = eye;
 
         switch s.exptStage
             case 0
@@ -648,13 +732,12 @@ timing.timeEnd = timeEnd;
 
 if s.exptStage ==2
     staircase.staircaseavgs = [mean(staircase.staircase1val(end-5:end)) mean(staircase.staircase2val(end-5:end))]; % mean or median?
-    OverallThreshold = mean(staircase.staircaseavgs);
+    staircase.threshold = mean(staircase.staircaseavgs);
     data.staircase = staircase; 
-    data.staircase.threshold = OverallThreshold;
 
     thresholdFile = sprintf('%s/threshold.mat', data.stairDir);
     staircase.thresholdFile = thresholdFile;
-    save(thresholdFile,'threshold')
+    save(thresholdFile,'staircase')
     disp('threshold saved!')
 end
 %% Completion message
@@ -662,6 +745,15 @@ WaitSecs(1);
 DrawFormattedText(window, 'All done! Thank you for your effort', 'center', 'center', 1);
 Screen('Flip', window);
 WaitSecs(3);
+
+%% save eye data 
+if p.eyeTracking
+    rd_eyeLink('eyestop', window, {eyeFile, eyeDataDir});
+    
+    % rename eye file
+    eyeFileFull = sprintf('%s/%s_TemporalAttention_%s.edf', eyeDataDir, subjectID, datestr(now, 'yyyymmdd'));
+    copyfile(sprintf('%s/%s.edf', eyeDataDir, eyeFile), eyeFileFull)
+end
 
 %% Clean up
 PsychPortAudio('Stop', pahandle);

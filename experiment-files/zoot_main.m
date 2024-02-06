@@ -231,7 +231,7 @@ end
 imSize = size(grating); % pixels 
 imRect = CenterRectOnPoint([0 0 imSize(1) imSize(2)], cx+p.imPos(1), cy+p.imPos(2));
 
-% %% %%%% Eyetracker %%%%
+%% %% %%%% Eyetracker %%%%
 if p.eyeTracking
     %Snd('Open', pahandle); %nec for eyetracker
     % Initialize eye tracker
@@ -262,12 +262,7 @@ if p.eyeTracking
         return
     end
 
-    %start eyetracking
-    rd_eyeLink('trialstart', window, {el, 1});
-    % Start recording
-    rd_eyeLink('startrecording',window,{el,fixRect});
-end
-
+ 
 %% Show instruction screen and wait for a button press
 Screen('FillRect', window, white*p.backgroundColor);
 DrawFormattedText(window, 'Press any key to begin', 'center', 'center', [1 1 1]*white);
