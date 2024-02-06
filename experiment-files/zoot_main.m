@@ -262,7 +262,7 @@ if p.eyeTracking
         return
     end
 
- 
+end
 %% Show instruction screen and wait for a button press
 Screen('FillRect', window, white*p.backgroundColor);
 DrawFormattedText(window, 'Press any key to begin', 'center', 'center', [1 1 1]*white);
