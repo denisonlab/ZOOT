@@ -86,7 +86,7 @@ PsychDefaultSetup(2); %psychtoolbox settings
 
 %% Eye data i/o
 eyeDataDir = 'eyedata';
-eyeFile = sprintf('%s%s', subjectID([1:2 end-1:end]), datestr(now, 'mmdd'));
+eyeFile = sprintf('%s%s', s.subjectID, datestr(now, 'mmdd'));
 
 % Check to see if this eye file already exists
 existingEyeFile = dir(sprintf('%s/%s.edf', eyeDataDir, eyeFile));
@@ -242,7 +242,7 @@ if p.eyeTracking
 
     % Write subject ID into the edf file
     Eyelink('message', 'BEGIN DESCRIPTIONS');
-    Eyelink('message', 'Subject code: %s', subjectID);
+    Eyelink('message', 'Subject code: %s', s.subjectID);
     Eyelink('message', 'END DESCRIPTIONS');
 
     % No sounds indicating success of calibration
@@ -725,7 +725,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         end
         if p.eyeTracking
             rd_eyeLink('eyestop', window, {eyeFile, eyeDataDir})
-            movefile(['eyedata/' s.subjectID '/' eyeFile '.edf'], ['eyedata/' subjectID, 'eyeFileFull']) % what is this doing
+            movefile(['eyedata/' s.subjectID '/' eyeFile '.edf'], ['eyedata/' s.subjectID, 'eyeFileFull']) % what is this doing
         end
     end
 end
@@ -753,7 +753,7 @@ if p.eyeTracking
     rd_eyeLink('eyestop', window, {eyeFile, eyeDataDir});
     
     % rename eye file
-    eyeFileFull = sprintf('%s/%s_TemporalAttention_%s.edf', eyeDataDir, subjectID, datestr(now, 'yyyymmdd'));
+    eyeFileFull = sprintf('%s/%s_TemporalAttention_%s.edf', eyeDataDir, s.subjectID, datestr(now, 'yyyymmdd'));
     copyfile(sprintf('%s/%s.edf', eyeDataDir, eyeFile), eyeFileFull)
 end
 

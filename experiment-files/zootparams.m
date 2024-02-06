@@ -38,7 +38,7 @@ switch s.comp
         p.dir = '/home/denisonlab-beh/Experiments/ZOOT/experiment-files';
         p.retina = 1;
         p.useKbQueue = 1;
-        p.eyeTracking=0; %switch back to 1 
+        p.eyeTracking=1; %switch back to 1 
         p.windowTesting=0;
     case 'denlab-eeg'
         p.screenSize = 53.5;
