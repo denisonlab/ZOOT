@@ -142,6 +142,7 @@ Screen('Flip', window);
 InitializePsychSound(1); % 1 for precise timing
 
 PsychPortAudio('Close');
+Snd('Open', pahandle, 1); %nec for eyetracker
 
 % Open audio device for low-latency output
 reqlatencyclass = 2; % Level 2 means: Take full control over the audio device, even if this causes other sound applications to fail or shutdown.
@@ -157,6 +158,8 @@ devNum = -1;
 %% Calculate stimulus dimensions (px) and position
 pixelsPerDegree = ang2pix(1, p.screenSize(1), p.screenRes(1), p.viewDist, 'central');
 fixSize = p.fixSize*pixelsPerDegree;
+
+rad = round(ang2pix(p.eyeRad, p.screenSize(1), p.screenRes(1), p.viewDist, 'central'));
 
 %% Making sounds ...
 % 10^0.5 for every 10dB
@@ -322,6 +325,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         eyeSkip(trialIdx) = stopThisTrial; % this is for the previous trial
     end
     stopThisTrial = 0;
+
     %% Get condition information for this trial
     precueValidity = p.precueValidities(trials(trialIdx, idx.precueValidity)); % saves each column in trials matrix as corresponding variable e.g. column 1 = precue validity
     target = trials(trialIdx, idx.target);
