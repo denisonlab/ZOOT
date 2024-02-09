@@ -156,7 +156,7 @@ reqlatencyclass = 2; % Level 2 means: Take full control over the audio device, e
 % pahandle = PsychPortAudio('Open', [], [], reqlatencyclass, p.Fs, 1); % 1 = single-channel
 % Snd('Open', pahandle, 1); %nec for eyetracker
 
-deviceName = 'Scarlett'; % 'Scarlett'; 'sysdefault'
+deviceName = 'sysdefault'; % 'Scarlett'; 
 pahandle = denlab_openAudio(deviceName, reqlatencyclass, p.Fs); 
 
 %% Keyboard
@@ -422,8 +422,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     end
 
     %% Present precue tone
-    bufferhandle = PsychPortAudio('CreateBuffer', pahandle, precueTone);
-    PsychPortAudio('FillBuffer', pahandle, bufferhandle);
+    PsychPortAudio('FillBuffer', pahandle, precueTone);
     timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); % waitForStart = 1 in order to return a timestamp of playback
     WaitSecs(p.toneDur + 0.01); % added to let PsychPortAudio close
     statusPrecue = PsychPortAudio('GetStatus', pahandle); % returns status struct with start time, stop time, etc.
