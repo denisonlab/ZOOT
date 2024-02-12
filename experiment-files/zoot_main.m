@@ -146,18 +146,18 @@ Screen('Flip', window);
 
 %% Sound
 % Initialize the sound driver
-% InitializePsychSound(1); % 1 for precise timing
-% 
-% PsychPortAudio('Close');
+InitializePsychSound(1); % 1 for precise timing
+
+PsychPortAudio('Close');
 
 
 % Open audio device for low-latency output
-reqlatencyclass = 2; % Level 2 means: Take full control over the audio device, even if this causes other sound applications to fail or shutdown.
-% pahandle = PsychPortAudio('Open', [], [], reqlatencyclass, p.Fs, 1); % 1 = single-channel
-% Snd('Open', pahandle, 1); %nec for eyetracker
+reqlatencyclass = 1; % Level 1 means: try to get lowest latency that is possible under the constraint of reliable playback, freedom of choice for all parameters and interoperability with other applications
+pahandle = PsychPortAudio('Open', [], [], reqlatencyclass, p.Fs, 1); % 1 = single-channel
+Snd('Open', pahandle, 1); %nec for eyetracker
 
-deviceName = 'Scarlett'; % 'Scarlett'; 'sysdefault'
-pahandle = denlab_openAudio(deviceName, reqlatencyclass, p.Fs); 
+% deviceName = 'Scarlett'; % 'Scarlett'; 'sysdefault'
+% pahandle = denlab_openAudio(deviceName, reqlatencyclass, p.Fs); 
 
 %% Keyboard
 % Check all "devices" (keyboards, mice) for response input
