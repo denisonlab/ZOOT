@@ -10,7 +10,7 @@ eyeFile = sprintf('%s%s', subjectID, datestr(now, 'mmdd'));
 
 nTrials = 10;
 rad = 70; % radius of allowable eye movement in pixels
-
+ 
 %% Screen
 screenNumber = max(Screen('Screens'));
 [window rect] = Screen('OpenWindow', screenNumber);

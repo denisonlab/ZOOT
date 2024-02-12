@@ -90,7 +90,7 @@ end
 PsychDefaultSetup(2); %psychtoolbox settings
 
 %% Eye data i/o
-eyeFile = [s.subjectID(1:2) datestr(now, 'mmdd')];           
+eyeFile = [s.subjectID(1:2) '0' num2str(s.session) datestr(now, 'mmdd')];           
 %% %%%% Setup: window, sound, and keyboard %%%%
 %% Window
 % Here we open a PTB window and get several properties of the window
@@ -108,7 +108,7 @@ grey=p.backgroundColor;
 
 % Open a PTB window
 if p.windowTesting==0
-    [window, rect] = PsychImaging('OpenWindow', screenNumber, grey); % defaults to full screen
+    [window, rect] = PsychImaging('OpenWindow', screenNumber, grey, []); % defaults to full screen
 elseif p.windowTesting==1
     [window, rect] = PsychImaging('OpenWindow', screenNumber, grey, [0 0 600 400]);
 end 
@@ -153,7 +153,7 @@ PsychPortAudio('Close');
 
 % Open audio device for low-latency output
 reqlatencyclass = 1; % Level 1 means: try to get lowest latency that is possible under the constraint of reliable playback, freedom of choice for all parameters and interoperability with other applications
-pahandle = PsychPortAudio('Open', [], [], reqlatencyclass, p.Fs, 1); % 1 = single-channel
+pahandle = PsychPortAudio('Open', [], 1, reqlatencyclass, p.Fs, 2); % 1 = single-channel, 2 = dual-channel (for eyelink)
 Snd('Open', pahandle, 1); %nec for eyetracker
 
 % deviceName = 'Scarlett'; % 'Scarlett'; 'sysdefault'
@@ -376,6 +376,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     else
         precueTone = cueTones(3,:);
     end
+    precueTone = repmat(precueTone,2,1); % two audio channels
 
     % T1 orientation (rotation angle)
     T1Orientation = p.axes(T1Axis) + threshold*p.tilts(T1Tilt);
@@ -385,6 +386,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
     % Postcue tone
     postcueTone = cueTones(target,:);
+    postcueTone = repmat(postcueTone,2,1); % two audio channels
 
     %% Store stimulus information in trials matrix - change so not overriding trials matrix
     data.precue(iTrial) = precue; % these are indices 
@@ -422,8 +424,8 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     end
 
     %% Present precue tone
-    bufferhandle = PsychPortAudio('CreateBuffer', pahandle, precueTone);
-    PsychPortAudio('FillBuffer', pahandle, bufferhandle);
+    % bufferhandle = PsychPortAudio('CreateBuffer', pahandle, precueTone);
+    PsychPortAudio('FillBuffer', pahandle, precueTone);
     timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); % waitForStart = 1 in order to return a timestamp of playback
     WaitSecs(p.toneDur + 0.01); % added to let PsychPortAudio close
     statusPrecue = PsychPortAudio('GetStatus', pahandle); % returns status struct with start time, stop time, etc.
@@ -459,7 +461,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     end
 
     % blank
-    drawFixation(window, cx, cy, fixSize, fixColor);
+    drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeBlank1 = Screen('Flip', window, timeT1 + p.imDur - slack);
     if p.eyeTracking
         Eyelink('Message', 'SOA')

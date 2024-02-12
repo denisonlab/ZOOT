@@ -36,9 +36,10 @@ switch s.comp
         p.viewDist = 75;
         p.refreshRate = 120;
         p.dir = '/home/denisonlab-beh/Experiments/ZOOT/experiment-files';
-        p.retina = 1;
+        p.retina = 0;
         p.useKbQueue = 1;
-        p.eyeTracking=1; %switch back to 1 
+        p.eyeTracking = 1; %switch back to 1 
+        p.eyeSlack = 0.12;
         p.windowTesting=0;
     case 'denlab-eeg'
         p.screenSize = 53.5;
@@ -48,8 +49,8 @@ switch s.comp
         p.dir = '/Users/denisonlab-eeg/Experiments/ZOOT/experiment-files';
         p.retina = 1;
         p.useKbQueue = 1;
-        p.eyeTracking=1; 
-        p.windowTesting=0;
+        p.eyeTracking = 1; 
+        p.windowTesting = 0;
 end 
 
 %% Fixation
