@@ -46,11 +46,12 @@ switch s.comp
         p.screenRes = [1920 1080];
         p.viewDist = 57;
         p.refreshRate = 120;
-        p.dir = '/Users/denisonlab-eeg/Experiments/ZOOT/experiment-files';
+        p.dir = '/home/denisonlab/Experiments/ZOOT/experiment-files';
         p.retina = 1;
         p.useKbQueue = 1;
         p.eyeTracking = 1; 
         p.windowTesting = 0;
+        p.eyeSlack = 0.12;
 end 
 
 %% Fixation

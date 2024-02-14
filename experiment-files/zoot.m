@@ -16,7 +16,7 @@ Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
 
 s.subjectID = 'S0004'; %debugging 
 s.session = 1; 
-s.comp = 'denlab-beh'; 
+s.comp = 'denlab-eeg'; 
 s.exptStage = 5; 
 
 %% Input
