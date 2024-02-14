@@ -1,4 +1,4 @@
-c   c c cv        v   % rd_eyeTrackTester.m
+% rd_eyeTrackTester.m
 %
 % This is designed to be a very simple "experiment" that can be used to
 % test and/or demonstrate the use of rd_eyeLink.m.

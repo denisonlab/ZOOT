@@ -271,7 +271,7 @@ if p.eyeTracking
     if exitFlag
         return
     end
-
+    
 end
 %% Show instruction screen and wait for a button press
 Screen('FillRect', window, white*p.backgroundColor);
@@ -323,6 +323,9 @@ end
 
 %change directory
 cd(p.dir)
+
+rd_eyeLink('trialstart', window, {el, 1});
+rd_eyeLink('startrecording', window, {el, fixRect});
 
 for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the trial loop
     % trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
