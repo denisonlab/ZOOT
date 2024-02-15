@@ -442,10 +442,11 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         while GetSecs < timePrecue + p.precueSOA - p.eyeSlack && ~stopThisTrial
             WaitSecs(.01);
             %             fixation = mod(iTrial,10); %%% for testing
-            fixCue = rd_eyeLink('fixcheck', window, {cx, cy, rad});
+            fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
             [stopThisTrial, trialOrder, p.nTrialsPerBlock] = fixationBreakTasks(...
-                fixCue, window, white*p.backgroundColor, trialOrder, iTrial, p.nTrialsPerBlock);
+                fixation, window, white*p.backgroundColor, trialOrder, iTrial, p.nTrialsPerBlock);
         end
+        fixCue(iTrial) = fixation;
         if stopThisTrial
             continue
         end
@@ -475,10 +476,11 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         while GetSecs < timePrecue + p.targetSOA - p.eyeSlack && ~stopThisTrial
             WaitSecs(.01);
             %             fixation = mod(iTrial,10); %%% for testing
-            fixT1 = rd_eyeLink('fixcheck', window, {cx, cy, rad});
+            fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
             [stopThisTrial, trialOrder, p.nTrialsPerBlock] = fixationBreakTasks(...
-                fixT1, window, white*p.backgroundColor, trialOrder, iTrial, p.nTrialsPerBlock);
+                fixation, window, white*p.backgroundColor, trialOrder, iTrial, p.nTrialsPerBlock);
         end
+        fixT1(iTrial) = fixation;
         if stopThisTrial
             continue
         end
@@ -508,10 +510,11 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         while GetSecs < timePrecue + p.postcueSOA - p.eyeSlack && ~stopThisTrial
             WaitSecs(.01);
             %             fixation = mod(iTrial,10); %%% for testing
-            fixT2 = rd_eyeLink('fixcheck', window, {cx, cy, rad});
+            fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
             [stopThisTrial, trialOrder, p.nTrialsPerBlock] = fixationBreakTasks(...
-                fixT2, window, white*p.backgroundColor, trialOrder, iTrial, p.nTrialsPerBlock);
+                fixation, window, white*p.backgroundColor, trialOrder, iTrial, p.nTrialsPerBlock);
         end
+        fixT2(iTrial) = fixation;
         if stopThisTrial
             continue
         end
@@ -589,7 +592,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     data.iTrial(iTrial) = iTrial; 
 
     if p.eyeTracking
-        data.eye.fixCue(iTrial) = fixCue;
+        data.eye.fixCue = fixCue;
         data.eye.fixT1(iTrial) = fixT1;
         data.eye.fixT2(iTrial) = fixT2;
     end
