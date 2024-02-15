@@ -129,7 +129,6 @@ c = c.*p.tScale;
 clickOffsetDur = round((0.200-p.clickDur)*44100);
 
 p.sound = c;
-p.sound = repmat(p.sound,2,1); % two audio channels
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

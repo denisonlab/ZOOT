@@ -443,8 +443,8 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
             WaitSecs(.01);
             %             fixation = mod(iTrial,10); %%% for testing
             fixCue = rd_eyeLink('fixcheck', window, {cx, cy, rad});
-            [stopThisTrial, trialOrder, nTrials] = fixationBreakTasks(...
-                fixation, window, white*p.backgroundColor, trialOrder, iTrial, nTrials);
+            [stopThisTrial, trialOrder, p.nTrialsPerBlock] = fixationBreakTasks(...
+                fixCue, window, white*p.backgroundColor, trialOrder, iTrial, p.nTrialsPerBlock);
         end
         if stopThisTrial
             continue
@@ -472,12 +472,12 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
       % Check for eye movements
     if p.eyeTracking
-        while GetSecs < timePrecue + p.SOA - p.eyeSlack && ~stopThisTrial
+        while GetSecs < timePrecue + p.targetSOA - p.eyeSlack && ~stopThisTrial
             WaitSecs(.01);
             %             fixation = mod(iTrial,10); %%% for testing
             fixT1 = rd_eyeLink('fixcheck', window, {cx, cy, rad});
-            [stopThisTrial, trialOrder, nTrials] = fixationBreakTasks(...
-                fixation, window, white*p.backgroundColor, trialOrder, iTrial, nTrials);
+            [stopThisTrial, trialOrder, p.nTrialsPerBlock] = fixationBreakTasks(...
+                fixT1, window, white*p.backgroundColor, trialOrder, iTrial, p.nTrialsPerBlock);
         end
         if stopThisTrial
             continue
@@ -509,8 +509,8 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
             WaitSecs(.01);
             %             fixation = mod(iTrial,10); %%% for testing
             fixT2 = rd_eyeLink('fixcheck', window, {cx, cy, rad});
-            [stopThisTrial, trialOrder, nTrials] = fixationBreakTasks(...
-                fixation, window, white*p.backgroundColor, trialOrder, iTrial, nTrials);
+            [stopThisTrial, trialOrder, p.nTrialsPerBlock] = fixationBreakTasks(...
+                fixT2, window, white*p.backgroundColor, trialOrder, iTrial, p.nTrialsPerBlock);
         end
         if stopThisTrial
             continue
