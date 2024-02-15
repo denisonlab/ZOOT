@@ -442,7 +442,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         while GetSecs < timePrecue + p.precueSOA - p.eyeSlack && ~stopThisTrial
             WaitSecs(.01);
             %             fixation = mod(iTrial,10); %%% for testing
-            fixCue = rd_eyeLink('fixcheck', window, {cx, cy, rad});
+            fixCue = rd_eyeLink('fixcheck', window, {cx, cy, p.eyeRad});
             [stopThisTrial, trialOrder, p.nTrialsPerBlock] = fixationBreakTasks(...
                 fixCue, window, white*p.backgroundColor, trialOrder, iTrial, p.nTrialsPerBlock);
         end
@@ -475,7 +475,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         while GetSecs < timePrecue + p.targetSOA - p.eyeSlack && ~stopThisTrial
             WaitSecs(.01);
             %             fixation = mod(iTrial,10); %%% for testing
-            fixT1 = rd_eyeLink('fixcheck', window, {cx, cy, rad});
+            fixT1 = rd_eyeLink('fixcheck', window, {cx, cy, p.eyeRad});
             [stopThisTrial, trialOrder, p.nTrialsPerBlock] = fixationBreakTasks(...
                 fixT1, window, white*p.backgroundColor, trialOrder, iTrial, p.nTrialsPerBlock);
         end
@@ -508,7 +508,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         while GetSecs < timePrecue + p.postcueSOA - p.eyeSlack && ~stopThisTrial
             WaitSecs(.01);
             %             fixation = mod(iTrial,10); %%% for testing
-            fixT2 = rd_eyeLink('fixcheck', window, {cx, cy, rad});
+            fixT2 = rd_eyeLink('fixcheck', window, {cx, cy, p.eyeRad});
             [stopThisTrial, trialOrder, p.nTrialsPerBlock] = fixationBreakTasks(...
                 fixT2, window, white*p.backgroundColor, trialOrder, iTrial, p.nTrialsPerBlock);
         end
