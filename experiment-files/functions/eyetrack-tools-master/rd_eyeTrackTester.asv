@@ -10,7 +10,7 @@ eyeDataDir = 'eyedata';
 eyeFile = sprintf('%s%s', subjectID, datestr(now, 'mmdd'));
 
 nTrials = 10;
-rad = 70; % radius of allowable eye movement in pixels
+rad = 3; % radius of allowable eye movement in pixels
 
 %% Screen
 screenNumber = max(Screen('Screens'));
@@ -25,7 +25,9 @@ Screen('Flip', window);
 
 %define fixation box for eyetracker
 viewDist = 57; %eeg room = 57, behav room = 75
-ppd = ang2pix(1, 53.5, 1920, viewDist, 'central'); % pixels per degree
+ppd = ang2 
+v 
+11123wpix(1, 53.5, 1920, viewDist, 'central'); % pixels per degree
 fixBoxWidth=5*ppd; %width of fixation box in deg
 fixRect = [cx-.5*fixBoxWidth, cy-.5*fixBoxWidth, cx+.5*fixBoxWidth, cy+.5*fixBoxWidth];
 %% Initialize eye tracker

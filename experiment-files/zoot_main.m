@@ -324,7 +324,6 @@ end
 %change directory
 cd(p.dir)
 
-rd_eyeLink('trialstart', window, {el, 1});
 rd_eyeLink('startrecording', window, {el, fixRect});
 
 for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the trial loop
@@ -417,7 +416,8 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
    % Check fixation hold
     if p.eyeTracking
-        driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad});
+        driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, p.eyeRad});
+    
         
         if driftCorrected
             % restart trial
