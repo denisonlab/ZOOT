@@ -38,7 +38,11 @@ switch s.comp
         p.dir = '/home/denisonlab-beh/Experiments/ZOOT/experiment-files';
         p.retina = 0;
         p.useKbQueue = 1;
-        p.eyeTracking = 1; %switch back to 1 
+        if s.exptStage > 0
+            p.eyeTracking = 1; %switch back to 1
+        else 
+            p.eyeTracking = 0;
+        end 
         p.eyeSlack = 0.12;
         p.windowTesting=0;
     case 'denlab-eeg'
@@ -175,22 +179,23 @@ switch s.exptStage
     case 1
         p.precueValidities = 3; % all neutral practice
         p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
-        p.nTrialsPerBlock = p.nTotalTrials;
+        p.nTrialsPerBlock = 10; %32 %p.nTotalTrials;
     case 2
         p.precueValidities = 3; % all neutral threshold
-        p.nTotalTrials = 10;%numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
+        p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
         p.nTrialsPerBlock = p.nTotalTrials;
         p.stairs = [.2 .4 .6 .8 1 1.2 1.4 2 3 5];
     case 3
         p.precueValidities = 1; % all valid
         p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
-    case 4
+        p.nTrialsPerBlock = 32;
+    case 4 % full task practice
         p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
         p.nTrialsPerBlock = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
         %p.nTrialsPerBlock = 4; %debugging
         p.nBlocks = 1;
         p.nBlockPerSession = 1;
-    case 5
+    case 5 % main task
         p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
         p.nTrialsPerBlock = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
         %p.nTrialsPerBlock = 4; %debugging

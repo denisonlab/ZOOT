@@ -24,7 +24,7 @@ Screen('FillRect', window, 128)
 Screen('Flip', window);
 
 %define fixation box for eyetracker
-viewDist = 57; %eeg room = 57, behav room = 75
+viewDist = 75; %eeg room = 57, behav room = 75
 ppd = ang2pix(1, 53.5, 1920, viewDist, 'central'); % pixels per degree
 fixBoxWidth=5*ppd; %width of fixation box in deg
 fixRect = [cx-.5*fixBoxWidth, cy-.5*fixBoxWidth, cx+.5*fixBoxWidth, cy+.5*fixBoxWidth];

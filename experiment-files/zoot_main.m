@@ -319,12 +319,15 @@ if s.exptStage == 4 || s.exptStage == 5
 else 
     trialOrder=randperm(p.nTotalTrials);
     trialCounter = 1;
+    block = 1;
 end
 
 %change directory
 cd(p.dir)
 
-rd_eyeLink('startrecording', window, {el, fixRect});
+if p.eyeTracking
+    rd_eyeLink('startrecording', window, {el, fixRect});
+end
 
 for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the trial loop
     % trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
@@ -682,8 +685,19 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
                 disp('data saved!')
                 if iTrial == p.nTotalTrials
                     practiceAcc = mean(data.correct(1:end), 'omitnan')*100;
-                    practiceMessage = sprintf('Great job! You''ve completed the first practice session! Your accuracy was %0.2f %%',practiceAcc);
-                    DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
+                    if practiceAcc >=.75
+                        practiceMessage = sprintf(['Great job! You''ve completed the first practice session! Your accuracy was %0.2f %%. ' ...
+                            'You are ready to move on to thresholding!'],practiceAcc);
+                        DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
+                        Screen('Flip', window)
+                    else
+                        practiceMessage = sprintf(['Great job! You''ve completed the block %d of the first practice session! Your accuracy was %0.2f %%. ' ...
+                            'Press any key to keep practicing'],block, practiceAcc);
+                        DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
+                        Screen('Flip', window)
+                        block = block + 1;
+                        KbWait(devNum);
+                    end
                 end
             case 2
                 filename = sprintf('%s/%s_staircasing_%s.mat',data.stairDir,s.subjectID,dateStr);
@@ -738,7 +752,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
                 block = block+1; % keep track of block for block message only
         end
         if p.eyeTracking
-            rd_eyeLink('eyestop', window, {eyeFile, eyeDataDir})
+            rd_eyeLink('eyestop', window, {eyeFile, data.eyeDir})
             movefile(['eyedata/' s.subjectID '/' eyeFile '.edf'], ['eyedata/' s.subjectID, 'eyeFileFull']) % what is this doing
         end
     end
