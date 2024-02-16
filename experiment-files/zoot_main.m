@@ -593,8 +593,8 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
     if p.eyeTracking
         data.eye.fixCue = fixCue;
-        data.eye.fixT1(iTrial) = fixT1;
-        data.eye.fixT2(iTrial) = fixT2;
+        data.eye.fixT1= fixT1;
+        data.eye.fixT2= fixT2;
     end
 
     if s.exptStage == 4 || s.exptStage == 5
