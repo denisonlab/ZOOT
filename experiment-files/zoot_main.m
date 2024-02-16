@@ -84,8 +84,6 @@ elseif s.exptStage == 2
         threshold = p.stairs(index_s2);
     end
 end
-%
-% p.tilt = 2; %debugging threshold 
 
 PsychDefaultSetup(2); %psychtoolbox settings
 
