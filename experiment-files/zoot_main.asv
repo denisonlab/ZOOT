@@ -595,9 +595,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     data.iTrial(iTrial) = iTrial; 
 
     if p.eyeTracking
-        eye.fixCue = fixCue;
-        eye.fixT1= fixT1;
-        eye.fixT2= fixT2;
+        data.eye.fixCue = fixCue;
+        data.eye.fixT1= fixT1;
+        data.eye.fixT2= fixT2;
     end
 
     if s.exptStage == 4 || s.exptStage == 5
@@ -765,11 +765,11 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
                 end
                 block = block+1; % keep track of block for block message only
         end
-
+        
+        if p.eyeTracking
+            rd_eyeLink('eyestop', window, {eyeFile, data.eyeDir}
+        end
     end
-end
-if p.eyeTracking
-    rd_eyeLink('eyestop', window, {eyeFile, data.eyeDir});
 end
 timeEnd = GetSecs;
 timing.timeEnd = timeEnd;
