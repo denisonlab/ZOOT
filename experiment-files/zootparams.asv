@@ -77,8 +77,7 @@ p.backgroundColor = 0.5; % gray
 p.imPos = [0 0];
 p.gratingSF = 4; % spatial frequency, in cycles per degree, 4
 p.gratingSD = 0.7; % standard deviation, about 4 SDs will be visible at full contrast, 0.7
-p.gratingDiameter = 2.8; %8
-p.gratingImSize = 40; 
+p.gratingDiameter = 40; %8
 p.gratingBaseOrientations =[0 90];
 p.gratingPhases ='rand';
 p.aperture = 'gaussian'; % 'cosine'
@@ -161,7 +160,7 @@ p.axes = [0 90];
 p.tiltNames = {'CCW','CW'};
 p.tilts = [-1 1];
 p.contrastNames = {'high', 'low'};
-p.contrasts = [1 0]; % set back to 1 0
+p.contrasts = [1 0];
 p.phases = linspace(0,1.5*pi,4);
 
 %% practice settings

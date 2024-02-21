@@ -221,7 +221,7 @@ gratingRadius = round(p.gratingDiameter/2*pixelsPerDegree);
 % phase (4) x contrast (1) maybe can come back to speed up image generation
 for i=1:numel(p.phases) % we will just make four gratings of different phases, to be used across T1 and T2; nTotalTrials  %  % should this be nTrials or nTotalTrials
     contrast = 1; 
-    grating = rd_grating(pixelsPerDegree, p.gratingDiameter, p.gratingSF, 0, p.phases(i), contrast); % creates grating 
+    grating = rd_grating(pixelsPerDegree, p.gratingImSize, p.gratingSF, 0, p.phases(i), contrast); % creates grating 
     switch p.aperture 
         case 'cosine'
             im = rd_aperture(grating, p.aperture, gratingRadius, edgeWidth, p.angularFreq); % matrix for gaussian
@@ -439,19 +439,19 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     end
     
     % Check for eye movements
-    if p.eyeTracking
-        while GetSecs < timePrecue + p.precueSOA - p.eyeSlack && ~stopThisTrial
-            WaitSecs(.01);
-            %             fixation = mod(iTrial,10); %%% for testing
-            fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
-            [stopThisTrial, trialOrder, p.nTrialsPerBlock] = fixationBreakTasks(...
-                fixation, window, white*p.backgroundColor, trialOrder, iTrial, p.nTrialsPerBlock);
-        end
-        fixCue(iTrial) = fixation;
-        if stopThisTrial
-            continue
-        end
-    end
+    % if p.eyeTracking
+    %     while GetSecs < timePrecue + p.precueSOA - p.eyeSlack && ~stopThisTrial
+    %         WaitSecs(.01);
+    %         %             fixation = mod(iTrial,10); %%% for testing
+    %         fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
+    %         [stopThisTrial, trialOrder, p.nTrialsPerBlock] = fixationBreakTasks(...
+    %             fixation, window, white*p.backgroundColor, trialOrder, iTrial, p.nTrialsPerBlock);
+    %     end
+    %     fixCue(iTrial) = fixation;
+    %     if stopThisTrial
+    %         continue
+    %     end
+    % end
     %% Present T1
     if p.contrasts(T1Contrast)>0 
         Screen('DrawTexture', window, gabors(T1Phase), [], imRect, T1Orientation);
@@ -472,9 +472,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         Eyelink('Message', 'SOA')
     end
 
-      % Check for eye movements
+    % Check for eye movements
     if p.eyeTracking
-        while GetSecs < timePrecue + p.targetSOA - p.eyeSlack && ~stopThisTrial
+        while GetSecs < timePrecue + p.targetSOA - p.eyeSlack && ~stopThisTrial 
             WaitSecs(.01);
             %             fixation = mod(iTrial,10); %%% for testing
             fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});

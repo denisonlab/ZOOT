@@ -84,8 +84,6 @@ elseif s.exptStage == 2
         threshold = p.stairs(index_s2);
     end
 end
-%
-% p.tilt = 2; %debugging threshold 
 
 PsychDefaultSetup(2); %psychtoolbox settings
 
@@ -460,7 +458,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     end
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
-    PsychPortAudio('FillBuffer', pahandle, p.sound);
+    1PsychPortAudio('FillBuffer', pahandle, p.sound);
     timeT1Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
     statusT1Click = PsychPortAudio('GetStatus', pahandle);
     if p.eyeTracking
@@ -595,9 +593,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     data.iTrial(iTrial) = iTrial; 
 
     if p.eyeTracking
-        data.eye.fixCue = fixCue;
-        data.eye.fixT1= fixT1;
-        data.eye.fixT2= fixT2;
+        eye.fixCue = fixCue;
+        eye.fixT1= fixT1;
+        eye.fixT2= fixT2;
     end
 
     if s.exptStage == 4 || s.exptStage == 5
@@ -765,11 +763,11 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
                 end
                 block = block+1; % keep track of block for block message only
         end
-        
-        if p.eyeTracking
-            rd_eyeLink('eyestop', window, {eyeFile, data.eyeDir}
-        end
+
     end
+end
+if p.eyeTracking
+    rd_eyeLink('eyestop', window, {eyeFile, data.eyeDir});
 end
 timeEnd = GetSecs;
 timing.timeEnd = timeEnd;
