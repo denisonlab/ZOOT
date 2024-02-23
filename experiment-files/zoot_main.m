@@ -264,6 +264,8 @@ if p.eyeTracking
     % Update with custom settings
     EyelinkUpdateDefaults(el);
 
+    fixations = []; 
+
     % Calibrate eye tracker
     [~, exitFlag] = rd_eyeLink('calibrate', window, el);
     if exitFlag
@@ -474,14 +476,25 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
     % Check for eye movements
     if p.eyeTracking
-        while GetSecs < timePrecue + p.targetSOA - p.eyeSlack && ~stopThisTrial 
+        while GetSecs < timeT1 + p.imDur + p.targetSOA - p.eyeSlack && ~stopThisTrial
             WaitSecs(.01);
             %             fixation = mod(iTrial,10); %%% for testing
             fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
             [stopThisTrial, trialOrder, p.nTrialsPerBlock] = fixationBreakTasks(...
                 fixation, window, white*p.backgroundColor, trialOrder, iTrial, p.nTrialsPerBlock);
+
+            fixT1(iTrial) = fixation;
+
+            fixations = [fixations fixation];
+            if fixation==0 % numel(fixations)>=3 && sum(fixations(end-2:end))>3
+                DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
+                Screen('Flip', window);
+                KbWait(devNum);
+            end
+
         end
-        fixT1(iTrial) = fixation;
+
+
         if stopThisTrial
             continue
         end
@@ -506,16 +519,26 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     if p.eyeTracking
         Eyelink('Message', 'PostcueSOA')
     end
-      % Check for eye movements
+
+    % Check for eye movements
     if p.eyeTracking
-        while GetSecs < timePrecue + p.postcueSOA - p.eyeSlack && ~stopThisTrial
+        while GetSecs < timeT2 + p.imDur - p.eyeSlack && ~stopThisTrial
             WaitSecs(.01);
             %             fixation = mod(iTrial,10); %%% for testing
             fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
             [stopThisTrial, trialOrder, p.nTrialsPerBlock] = fixationBreakTasks(...
                 fixation, window, white*p.backgroundColor, trialOrder, iTrial, p.nTrialsPerBlock);
+
+            fixT2(iTrial) = fixation;
+
+            fixations = [fixations fixation];
+            if fixation==0 % numel(fixations)>=3 && sum(fixations(end-2:end))>3
+                DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
+                Screen('Flip', window);
+                KbWait(devNum);
+            end
         end
-        fixT2(iTrial) = fixation;
+
         if stopThisTrial
             continue
         end
@@ -576,7 +599,6 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     drawFixation(window, cx,cy, fixSize, p.fixColor);
     timeBlank3 = Screen('Flip', window, timeFeedbackFix+p.feedbackLength-slack); % returns fixation to white
 
-     
 
     %% ITI
     drawFixation(window, cx,cy, fixSize, p.fixColor);
@@ -593,9 +615,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     data.iTrial(iTrial) = iTrial; 
 
     if p.eyeTracking
-        eye.fixCue = fixCue;
-        eye.fixT1= fixT1;
-        eye.fixT2= fixT2;
+        % eye.fixCue = fixCue;
+        % eye.fixT1= fixT1;
+        % eye.fixT2= fixT2;
     end
 
     if s.exptStage == 4 || s.exptStage == 5
