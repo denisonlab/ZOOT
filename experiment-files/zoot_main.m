@@ -437,8 +437,8 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
    if p.eyeTracking
         Eyelink('Message', 'EVENT_CUE');
     end
-    
-    % Check for eye movements
+    % 
+    % % Check for eye movements
     % if p.eyeTracking
     %     while GetSecs < timePrecue + p.precueSOA - p.eyeSlack && ~stopThisTrial
     %         WaitSecs(.01);
