@@ -825,47 +825,6 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
                     end
                 end
                 block = block+1; % keep track of block for block message only
-            case {5}
-                filename = sprintf('%s/%s_mainExpt_%s_block%d_session%d.mat',data.subDir,s.subjectID,dateStr,block, s.session);
-                data.filename = filename;
-                save(filename,'data')
-                disp('data saved!')
-
-                blockStartTrial = (iTrial/p.nTrialsPerBlock)*p.nTrialsPerBlock - p.nTrialsPerBlock + 1;
-                if blockStartTrial < 0 % we are doing less than one block
-                    blockStartTrial = 1;
-                end
-                % trialsInBlock = trials(blockStartTrial:iTrial,:);
-                blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, ceil(p.nTotalTrials/p.nTrialsPerBlock));
-                if iTrial==p.nTotalTrials
-                    keyMessage = ''; % last block
-                else
-                    keyMessage = 'Press 1 to go on.';
-                end
-
-                blockAcc = mean(data.correct(blockStartTrial:iTrial),'omitnan'); % discrimination (only target present)
-
-                pointsMessages = sprintf('p(correct) = %0.2f', blockAcc);
-
-                breakMessage = sprintf('%s\n\n%s\n\n\n%s', blockMessage, pointsMessages, keyMessage);
-                DrawFormattedText(window, breakMessage, 'center', 'center', [1 1 1]);
-                Screen('Flip', window);
-                WaitSecs(1);
-                if iTrial < p.nTotalTrials
-                    keyPressed = 0;
-                    while ~keyPressed
-                        % if p.useKbQueue
-                        %     [keyIsDown, firstPress] = KbQueueCheck();
-                        %     keyCode = logical(firstPress);
-                        % else
-                        [secs, keyCode] = KbWait(devNum);
-                        % end
-                        if strcmp(KbName(keyCode),'1!')
-                            keyPressed = 1;
-                        end
-                    end
-                end
-                block = block+1; % keep track of block for block message only
         end
 
     end
@@ -879,7 +838,7 @@ timing.timeEnd = timeEnd;
 if s.exptStage ==2
     staircase.staircaseavgs = [mean(staircase.staircase1val(end-5:end)) mean(staircase.staircase2val(end-5:end))]; % mean or median?
     staircase.threshold = mean(staircase.staircaseavgs);
-    data.staircase = staircase;
+    data.staircase = staircase; 
 
     thresholdFile = sprintf('%s/threshold.mat', data.stairDir);
     staircase.thresholdFile = thresholdFile;
