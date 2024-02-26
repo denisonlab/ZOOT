@@ -179,7 +179,7 @@ switch s.exptStage
     case 1
         p.precueValidities = 3; % all neutral practice
         p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
-        p.nTrialsPerBlock = 10; %32 %p.nTotalTrials;
+        p.nTrialsPerBlock = 32; %p.nTotalTrials;
     case 2
         p.precueValidities = 3; % all neutral threshold
         p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);

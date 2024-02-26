@@ -743,6 +743,36 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
+                if iTrial == p.nTrialsPerBlock
+                    practiceAcc = mean(data.correct(1:end), 'omitnan')*100;
+                    if practiceAcc >=75
+                        practiceMessage = sprintf(['Great job! You''ve completed the first practice session! Your accuracy was %0.2f %%. ' ...
+                            'You are ready to move on to thresholding!'],practiceAcc);
+                        DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
+                        Screen('Flip', window)
+                    else
+                        practiceMessage = sprintf(['Great job! You''ve completed block %d of the first practice session! Your accuracy was %0.2f %%. ' ...
+                            'Press any key to keep practicing'],block, practiceAcc);
+                        DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
+                        Screen('Flip', window)
+                      WaitSecs(1);
+                if iTrial < p.nTotalTrials
+                    keyPressed = 0;
+                    while ~keyPressed
+                        % if p.useKbQueue
+                        %     [keyIsDown, firstPress] = KbQueueCheck();
+                        %     keyCode = logical(firstPress);
+                        % else
+                        [secs, keyCode] = KbWait(devNum);
+                        % end
+                        if strcmp(KbName(keyCode),'1!')
+                            keyPressed = 1;
+                        end
+                    end
+                end
+                block = block+1; % keep track of block for block message only
+                    end
+                end
             case {4,5}
                 filename = sprintf('%s/%s_mainExpt_%s_block%d.mat',data.subDir,s.subjectID,dateStr,block);
                 data.filename = filename;
@@ -812,7 +842,7 @@ WaitSecs(3);
 
 %% Save eye data and shut down the eye tracker
 if p.eyeTracking
-    rd_eyeLink('eyestop', window, {eyeFile, eyeDataDir});
+    rd_eyeLink('eyestop', window, {eyeFile, eyeDir});
 
     %convert to the more informative name, and save to correct directory
     data.eyeFile = eyeFile;
