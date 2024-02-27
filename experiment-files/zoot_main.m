@@ -51,6 +51,10 @@ data.eyeDir =  sprintf('%s/%s', data.subDir, 'eyedata');
 if ~exist(data.eyeDir, 'dir')
     mkdir(data.eyeDir)
 end
+data.eyeDataDir = sprintf('%s/%s', data.eyeDir, 'eye');
+if ~exist(data.eyeDataDir, 'dir')
+    mkdir(data.eyeDataDir)
+end
 
 
 
@@ -148,13 +152,13 @@ InitializePsychSound(1); % 1 for precise timing
 
 PsychPortAudio('Close');
 
+% deviceName = 'Scarlett'; % 'Scarlett'; 'sysdefault'
 
 % Open audio device for low-latency output
 reqlatencyclass = 1; % Level 1 means: try to get lowest latency that is possible under the constraint of reliable playback, freedom of choice for all parameters and interoperability with other applications
-pahandle = PsychPortAudio('Open', [], 1, reqlatencyclass, p.Fs, 2); % 1 = single-channel, 2 = dual-channel (for eyelink)
+pahandle = PsychPortAudio('Open', 6, [], reqlatencyclass, p.Fs, 2); % 1 = single-channel, 2 = dual-channel (for eyelink)
 Snd('Open', pahandle, 1); %nec for eyetracker
 
-% deviceName = 'Scarlett'; % 'Scarlett'; 'sysdefault'
 % pahandle = denlab_openAudio(deviceName, reqlatencyclass, p.Fs); 
 
 %% Keyboard
@@ -750,12 +754,14 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
                             'You are ready to move on to thresholding!'],practiceAcc);
                         DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
                         Screen('Flip', window)
+                        WaitSecs(1)
                     else
                         practiceMessage = sprintf(['Great job! You''ve completed block %d of the first practice session! Your accuracy was %0.2f %%. ' ...
                             'Press any key to keep practicing'],block, practiceAcc);
                         DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
                         Screen('Flip', window)
-                      WaitSecs(1);
+                        WaitSecs(1);
+                        p.nTrialsPerBlock = p.nTrialsPerBlock + 32;
                 if iTrial < p.nTotalTrials
                     keyPressed = 0;
                     while ~keyPressed
@@ -783,6 +789,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
                 if blockStartTrial < 0 % we are doing less than one block
                     blockStartTrial = 1;
                 end
+           
                 % trialsInBlock = trials(blockStartTrial:iTrial,:);
                 blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, ceil(p.nTotalTrials/p.nTrialsPerBlock));
                 if iTrial==p.nTotalTrials
