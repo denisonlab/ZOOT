@@ -238,6 +238,8 @@ end
 
 %% Orientation pseudorandomization
     % T1 orientation (rotation angle)
+    T1Oris = [];
+    T2Oris = [];
     for iT1Axis=1:numel(p.axes)
         for iT1Tilt=1:numel(p.tilts)
             T1Ori = p.axes(iT1Axis) + threshold*p.tilts(iT1Tilt); % creates the four different orientations
@@ -407,8 +409,8 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     precueTone = repmat(precueTone,2,1); % two audio channels
 
     %Tilt: randomly selected per trial
-    T1Orientation = randperm(T1Orientations); 
-    T2Orientation = randperm(T2Orientations);
+    T1Orientation = randperm(numel(T1Oris),1); 
+    T2Orientation = randperm(numel(T2Oris),1);
 
     % Postcue tone
     postcueTone = cueTones(target,:);
@@ -486,11 +488,10 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         end
     end
     %% Present T1
-    for iT1Orientation = 1:numel(T1Orientation)
-        if p.contrasts(T1Contrast)>0
-            Screen('DrawTexture', window, gabors(T1Phase), [], imRect, T1Orientation(i));
-        end
-    end 
+    if p.contrasts(T1Contrast)>0
+        Screen('DrawTexture', window, gabors(T1Phase), [], imRect, T1Orientation);
+    end
+
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
     PsychPortAudio('FillBuffer', pahandle, p.sound);
@@ -534,7 +535,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     end
 
     %% Present T2
-    for iT2Orientation = 1:numel(T2Orientation)
+
         if p.contrasts(T2Contrast)>0
             Screen('DrawTexture', window, gabors(T2Phase), [], imRect, T2Orientation(i));
         end
