@@ -136,19 +136,7 @@ p.sound = c;
 p.sound = repmat(p.sound,2,1); % two audio channels
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-p.deviceName = 'Scarlett'; %'Scarlett'; %'Analog'; %'Speaker'; %'Scarlett'; %Scarlett';%'Scarlett'; %'Headphones';
-% 'Headphones' for Juneau's AirPods Pro on his computer
-% 'Scarlett' for FocusRite Audio Interface
-% 'Crestron' for Lab Meeting Display
-% 'Speaker' for Laptop Speakers
-% 'Analog' for EEG Room -> Linux -> Speakers
-PsychPortAudioDevices = PsychPortAudio('GetDevices');
-PsychPortAudioDeviceIndex = [PsychPortAudioDevices.DeviceIndex];
-PsychPortAudioDeviceNames = {PsychPortAudioDevices.DeviceName};
-DeviceNameIndex = find(contains(PsychPortAudioDeviceNames,p.deviceName));
-% Careful, this takes the FIRST deviceNum that qualifies from
-% DeviceNameIndex
-p.deviceNum = PsychPortAudioDeviceIndex(DeviceNameIndex(:,1));
+
 
 %% response 
 p.responseNames = {'CCW','CW','absent'};

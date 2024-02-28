@@ -152,14 +152,14 @@ InitializePsychSound(1); % 1 for precise timing
 
 PsychPortAudio('Close');
 
-% deviceName = 'Scarlett'; % 'Scarlett'; 'sysdefault'
+deviceName = 'Scarlett'; % 'Scarlett'; 'sysdefault'
 
 % Open audio device for low-latency output
 reqlatencyclass = 1; % Level 1 means: try to get lowest latency that is possible under the constraint of reliable playback, freedom of choice for all parameters and interoperability with other applications
-pahandle = PsychPortAudio('Open', 6, [], reqlatencyclass, p.Fs, 2); % 1 = single-channel, 2 = dual-channel (for eyelink)
-Snd('Open', pahandle, 1); %nec for eyetracker
+% pahandle = PsychPortAudio('Open', 6, [], reqlatencyclass, p.Fs, 2); % 1 = single-channel, 2 = dual-channel (for eyelink)
+% Snd('Open', pahandle, 1); %nec for eyetracker
 
-% pahandle = denlab_openAudio(deviceName, reqlatencyclass, p.Fs); 
+pahandle = denlab_openAudio(deviceName, reqlatencyclass, p.Fs); 
 
 %% Keyboard
 % Check all "devices" (keyboards, mice) for response input
@@ -290,7 +290,7 @@ timeStart = GetSecs;
 % trialOrder=randperm(p.nTotalTrials);
 
 % Change the directory to the subject data folder
-cd(data.subDir)
+cd(data.behDir)
 listing = dir;
 count = 1;
 dataFileNames = []; 
@@ -709,12 +709,12 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
         switch s.exptStage
             case 0
-                filename = sprintf('%s/%s_intro_%s_block%d.mat',data.subDir,s.subjectID,dateStr,block);
+                filename = sprintf('%s/%s_intro_%s_block%d.mat',data.pracDir,s.subjectID,dateStr,block);
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
             case 1 % need to reach 75% accuracy to move to thresholding
-                filename = sprintf('%s/%s_neutral_practice_%s_block%d.mat',data.subDir,s.subjectID,dateStr,block);
+                filename = sprintf('%s/%s_neutral_practice_%s_block%d.mat',data.pracDir,s.subjectID,dateStr,block);
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
@@ -725,27 +725,30 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
                             'You are ready to move on to thresholding!'],practiceAcc);
                         DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
                         Screen('Flip', window)
+                        KbWait(devNum)
+                        sca
                     else
-                        practiceMessage = sprintf(['Great job! You''ve completed block %d of the first practice session! Your accuracy was %0.2f %%. ' ...
-                            'Press any key to keep practicing'],block, practiceAcc);
+                        practiceMessage = sprintf(['Great job! You''ve completed a block of the first practice session! Your accuracy was %0.2f %%. ' ...
+                            'Let''s keep practicing!'],practiceAcc);
                         DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
                         Screen('Flip', window)
-                      WaitSecs(1);
-                if iTrial < p.nTotalTrials
-                    keyPressed = 0;
-                    while ~keyPressed
-                        % if p.useKbQueue
-                        %     [keyIsDown, firstPress] = KbQueueCheck();
-                        %     keyCode = logical(firstPress);
-                        % else
-                        [secs, keyCode] = KbWait(devNum);
-                        % end
-                        if strcmp(KbName(keyCode),'1!')
-                            keyPressed = 1;
-                        end
-                    end
-                end
-                block = block+1; % keep track of block for block message only
+                        KbWait(devNum)
+                        sca
+                % if iTrial < p.nTotalTrials
+                %     keyPressed = 0;
+                %     while ~keyPressed
+                %         % if p.useKbQueue
+                %         %     [keyIsDown, firstPress] = KbQueueCheck();
+                %         %     keyCode = logical(firstPress);
+                %         % else
+                %         [secs, keyCode] = KbWait(devNum);
+                %         % end
+                %         if strcmp(KbName(keyCode),'1!')
+                %             keyPressed = 1;
+                %         end
+                %     end
+                % end
+                % block = block+1; % keep track of block for block message only
                     end
                 end
             case 2
@@ -754,44 +757,45 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
                 save(filename,'data')
                 disp('data saved!')
             case 3
-                filename = sprintf('%s/%s_practice_mainExpt_%s_block%d.mat',data.subDir,s.subjectID,dateStr,block);
+                filename = sprintf('%s/%s_valid_practice_%s_block%d.mat',data.pracDir,s.subjectID,dateStr,block);
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
-                if iTrial == p.nTrialsPerBlock
+                  if iTrial == p.nTrialsPerBlock
                     practiceAcc = mean(data.correct(1:end), 'omitnan')*100;
                     if practiceAcc >=75
-                        practiceMessage = sprintf(['Great job! You''ve completed the first practice session! Your accuracy was %0.2f %%. ' ...
-                            'You are ready to move on to thresholding!'],practiceAcc);
+                        practiceMessage = sprintf(['Great job! You''ve completed the second practice session! Your accuracy was %0.2f %%. ' ...
+                            'You are ready to move on to the main task!'],practiceAcc);
                         DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
                         Screen('Flip', window)
-                        WaitSecs(1)
+                        KbWait(devNum)
+                        sca
                     else
-                        practiceMessage = sprintf(['Great job! You''ve completed block %d of the first practice session! Your accuracy was %0.2f %%. ' ...
-                            'Press any key to keep practicing'],block, practiceAcc);
+                        practiceMessage = sprintf(['Great job! You''ve completed a block of the second practice session! Your accuracy was %0.2f %%. ' ...
+                            'Let''s keep practicing!'], practiceAcc);
                         DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
                         Screen('Flip', window)
-                        WaitSecs(1);
-                        p.nTrialsPerBlock = p.nTrialsPerBlock + 32;
-                if iTrial < p.nTotalTrials
-                    keyPressed = 0;
-                    while ~keyPressed
-                        % if p.useKbQueue
-                        %     [keyIsDown, firstPress] = KbQueueCheck();
-                        %     keyCode = logical(firstPress);
-                        % else
-                        [secs, keyCode] = KbWait(devNum);
-                        % end
-                        if strcmp(KbName(keyCode),'1!')
-                            keyPressed = 1;
-                        end
-                    end
-                end
-                block = block+1; % keep track of block for block message only
+                        KbWait(devNum)
+                        sca
+                % if iTrial < p.nTotalTrials
+                %     keyPressed = 0;
+                %     while ~keyPressed
+                %         % if p.useKbQueue
+                %         %     [keyIsDown, firstPress] = KbQueueCheck();
+                %         %     keyCode = logical(firstPress);
+                %         % else
+                %         [secs, keyCode] = KbWait(devNum);
+                %         % end
+                %         if strcmp(KbName(keyCode),'1!')
+                %             keyPressed = 1;
+                %         end
+                %     end
+                % end
+                % block = block+1; % keep track of block for block message only
                     end
                 end
             case {4}
-                filename = sprintf('%s/%s_mainExptPract_%s_block%d.mat',data.subDir,s.subjectID,dateStr,block);
+                filename = sprintf('%s/%s_mainExptPract_%s_block%d.mat',data.pracDir,s.subjectID,dateStr,block);
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
@@ -832,7 +836,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
                 end
                 block = block+1; % keep track of block for block message only
             case {5}
-                filename = sprintf('%s/%s_mainExpt_%s_block%d_session%d.mat',data.subDir,s.subjectID,dateStr,block, s.session);
+                filename = sprintf('%s/%s_mainExpt_%s_block%d_session%d.mat',data.behDir,s.subjectID,dateStr,block, s.session);
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
@@ -878,7 +882,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     end
 end
 if p.eyeTracking
-    rd_eyeLink('eyestop', window, {eyeFile, data.eyeDir});
+    rd_eyeLink('eyestop', window, {eyeFile, data.eyeDataDir});
 end
 timeEnd = GetSecs;
 timing.timeEnd = timeEnd;
