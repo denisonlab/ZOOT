@@ -12,6 +12,7 @@ function [stairIdx, lastFewAcc] = updateStaircase(stairs, stairIdx, lastFewAcc, 
 %edited by MLE to reset tracker at level changes - 2021-10-21
 
 % keep track of last 3 trials
+
 lastFewAcc = [lastFewAcc correct];
 % if numel(lastFewAcc)>3
 %     lastFewAcc = lastFewAcc(end-2:end);

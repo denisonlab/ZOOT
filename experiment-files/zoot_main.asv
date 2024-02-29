@@ -68,7 +68,7 @@ if s.exptStage > 2
         error('WARNING: no thresholding file found')
     else
         load(['data/' s.subjectID '/staircasing/threshold.mat'],'staircase')
-        disp(['Using participant''s saved threshold which is: ' num2str(staircase.threshold)]);
+        disp(['Using participant''s saved threshold which is: ' num2str(staircase.threshold)]); % staircase.threshold
         threshold=staircase.threshold;
     end
 elseif s.exptStage < 2
@@ -331,17 +331,17 @@ if s.exptStage == 4 || s.exptStage == 5
         trialOrder = zoot_makeBlocks(p, s);
         trialCounter = 1;
         block = 1;
-        eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
+        % eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
     else
-        load(dataFileNames{end}); % this isn't checking the time stamp yet
+        dataPrevious = load(dataFileNames{end}); % this isn't checking the time stamp yet
         % otherwise load the data w latest  time stamp and find the last trial
         % that was left off
-        trialCounter = max(data.iTrial)+1;
-        block = max(data.block)+1;
-        trialOrder = data.trialOrder;
-        eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
+        trialCounter = max(dataPrevious.data.iTrial)+1;
+        block = max(dataPrevious.data.block)+1;
+        trialOrder = dataPrevious.data.trialOrder;
+        % eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
     end
-else 
+else
     trialOrder=randperm(p.nTotalTrials);
     trialCounter = 1;
     block = 1;
@@ -358,22 +358,23 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     % trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
     trialIdx = trialOrder(iTrial);
 
-    if trialCounter>1
-        eyeSkip(trialIdx) = stopThisTrial; % this is for the previous trial
-    end
+    % if trialCounter>1
+    %     stopThisTrial = 1; 
+    %     eyeSkip(trialIdx) = stopThisTrial; % this is for the previous trial
+    % end
     stopThisTrial = 0;
 
     %% Get condition information for this trial
     precueValidity = p.precueValidities(trials(trialIdx, idx.precueValidity)); % saves each column in trials matrix as corresponding variable e.g. column 1 = precue validity
     target = trials(trialIdx, idx.target);
-    T1Axis = trials(trialIdx, idx.T1Axis);
-    T2Axis = trials(trialIdx, idx.T2Axis);
-    T1Tilt = trials(trialIdx, idx.T1Tilt);
-    T2Tilt = trials(trialIdx, idx.T2Tilt);
+    % T1Axis = trials(trialIdx, idx.T1Axis);
+    % T2Axis = trials(trialIdx, idx.T2Axis);
+    % T1Tilt = trials(trialIdx, idx.T1Tilt);
+    % T2Tilt = trials(trialIdx, idx.T2Tilt);
     T1Contrast = trials(trialIdx, idx.T1Contrast);
     T2Contrast = trials(trialIdx, idx.T2Contrast);
 
-    tilts = p.tilts([T1Tilt T2Tilt]);
+    % tilts = p.tilts([T1Tilt T2Tilt]);
     contrasts = p.contrasts([T1Contrast T2Contrast]);
 
     % Phase: randomly selected per trial
@@ -395,7 +396,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     end
 
     % Target tilt
-    targetTilt = tilts(target);
+    % targetTilt = tilts(target);
     targetContrast = contrasts(target);
 
  
@@ -412,6 +413,20 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     T1Orientation = randperm(numel(T1Oris),1); 
     T2Orientation = randperm(numel(T2Oris),1);
 
+    if T1Orientation == 1 || T1Orientation == 3
+        T1Tilt = p.tilts(1);
+    else
+        T1Tilt = p.tilts(2);
+    end
+    if T2Orientation == 1 || T2Orientation == 3
+        T2Tilt = p.tilts(1);
+    else
+        T2Tilt = p.tilts(2);
+    end
+
+    tilts = [T1Tilt T2Tilt];
+    targetTilt = tilts(target);
+
     % Postcue tone
     postcueTone = cueTones(target,:);
     postcueTone = repmat(postcueTone,2,1); % two audio channels
@@ -421,8 +436,8 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     data.target(iTrial) = target; 
     data.targetTilt(iTrial) = targetTilt; 
     data.targetContrast(iTrial) = targetContrast; 
-    data.T1Axis(iTrial) = T1Axis; 
-    data.T2Axis(iTrial) = T2Axis;
+    % data.T1Axis(iTrial) = T1Axis; 
+    % data.T2Axis(iTrial) = T2Axis;
     data.T1Tilt(iTrial) = T1Tilt;
     data.T2Tilt(iTrial) = T2Tilt;
     data.T1Contrast(iTrial) = T1Contrast; 
@@ -489,7 +504,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     end
     %% Present T1
     if p.contrasts(T1Contrast)>0
-        Screen('DrawTexture', window, gabors(T1Phase), [], imRect, T1Orientation);
+        Screen('DrawTexture', window, gabors(T1Phase), [], imRect, T1Oris(T1Orientation));
     end
 
     drawFixation(window, cx, cy, fixSize, p.fixColor);
@@ -535,11 +550,10 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     end
 
     %% Present T2
-
-        if p.contrasts(T2Contrast)>0
-            Screen('DrawTexture', window, gabors(T2Phase), [], imRect, T2Orientation(i));
-        end
+    if p.contrasts(T2Contrast)>0
+        Screen('DrawTexture', window, gabors(T2Phase), [], imRect, T2Oris(T2Orientation));
     end
+
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeT2 = Screen('Flip', window, timeT1 + p.targetSOA - slack);
     PsychPortAudio('FillBuffer', pahandle, p.sound);
@@ -649,12 +663,13 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     data.timeTargetRT(iTrial) = timeTargetRT;
     data.session(iTrial) = s.session; 
     data.iTrial(iTrial) = iTrial; 
-
-    if p.eyeTracking
-        % eye.fixCue = fixCue;
-        % eye.fixT1= fixT1;
-        % eye.fixT2= fixT2;
-    end
+    data.stopThisTrial(iTrial) = stopThisTrial;
+    % 
+    % if p.eyeTracking
+    %     % eye.fixCue = fixCue;
+    %     % eye.fixT1= fixT1;
+    %     % eye.fixT2= fixT2;
+    % end
 
     if s.exptStage == 4 || s.exptStage == 5
         data.block(iTrial) = block;
@@ -671,14 +686,16 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         staircase.staircase1val(iTrial) = p.stairs(index_s1);
         staircase.staircase2val(iTrial) = p.stairs(index_s2);
 
-        if currentStaircase == 1
-            [index_s1, lastFewAcc_s1] = updateStaircase(p.stairs, index_s1, lastFewAcc_s1, correct);
-            currentStaircase = 2;
-            threshold = p.stairs(index_s2);
-        elseif currentStaircase == 2
-            [index_s2, lastFewAcc_s2] = updateStaircase(p.stairs, index_s2, lastFewAcc_s2, correct);
-            currentStaircase = 1;
-            threshold = p.stairs(index_s1);
+        if targetContrast == 1
+            if currentStaircase == 1
+                [index_s1, lastFewAcc_s1] = updateStaircase(p.stairs, index_s1, lastFewAcc_s1, correct);
+                currentStaircase = 2;
+                threshold = p.stairs(index_s2);
+            elseif currentStaircase == 2
+                [index_s2, lastFewAcc_s2] = updateStaircase(p.stairs, index_s2, lastFewAcc_s2, correct);
+                currentStaircase = 1;
+                threshold = p.stairs(index_s1);
+            end
         end
     end
 
@@ -926,7 +943,7 @@ WaitSecs(3);
 
 %% Save eye data and shut down the eye tracker
 if p.eyeTracking
-    rd_eyeLink('eyestop', window, {eyeFile, eyeDir});
+    rd_eyeLink('eyestop', window, {eyeFile, data.eyeDir});
 
     %convert to the more informative name, and save to correct directory
     data.eyeFile = eyeFile;
