@@ -452,7 +452,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     %% %%%% Play the trial %%%
     %% Present fixation
     if oscilloscope == 1
-        Screen('FillRect', window, black, [0 0 600 400])
+        Screen('FillRect', window, black, [0 0 200 200])
     end 
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeFix = Screen('Flip', window);
@@ -475,7 +475,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     %% Present precue tone
     % bufferhandle = PsychPortAudio('CreateBuffer', pahandle, precueTone);
     if oscilloscope == 1
-        Screen('FillRect', window, black, [0 0 600 400])
+        Screen('FillRect', window, black, [0 0 200 200])
     end 
     PsychPortAudio('FillBuffer', pahandle, precueTone);
     timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); % waitForStart = 1 in order to return a timestamp of playback
@@ -515,7 +515,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         Screen('DrawTexture', window, gabors(T1Phase), [], imRect, T1Oris(T1Orientation));
     end
     if oscilloscope == 1
-        Screen('FillRect', window, white, [0 0 600 400])
+        Screen('FillRect', window, white, [0 0 200 200])
     end
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
@@ -527,7 +527,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     end
 
     if oscilloscope == 1
-        Screen('FillRect', window, black, [0 0 600 400])
+        Screen('FillRect', window, black, [0 0 200 200])
     end 
     % blank
     drawFixation(window, cx, cy, fixSize, p.fixColor);
@@ -568,7 +568,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     end
 
     if oscilloscope == 1
-        Screen('FillRect', window, white, [0 0 600 400])
+        Screen('FillRect', window, white, [0 0 200 200])
     end 
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeT2 = Screen('Flip', window, timeT1 + p.targetSOA - slack);
@@ -580,7 +580,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     end
 
     if oscilloscope == 1
-        Screen('FillRect', window, black, [0 0 600 400])
+        Screen('FillRect', window, black, [0 0 200 200])
     end 
     % blank
     drawFixation(window, cx, cy, fixSize, p.fixColor);
@@ -616,7 +616,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
     %% Present postcue
     if oscilloscope == 1
-        Screen('FillRect', window, black, [0 0 600 400])
+        Screen('FillRect', window, black, [0 0 200 200])
     end 
     PsychPortAudio('FillBuffer', pahandle, postcueTone);
     timePostcue = PsychPortAudio('Start', pahandle, [], timeT2 + p.postcueSOA, 1); % timeT2 + p.postcueSOA, waitForStart = 1 in order to return a timestamp of playback
@@ -625,6 +625,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     end
 
     %% Response window
+     if oscilloscope == 1
+        Screen('FillRect', window, black, [0 0 200 200])
+    end 
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     Screen('DrawingFinished', window);
     timeTargetResponseWindow=Screen('Flip', window, timePostcue +p.toneDur -slack);
@@ -663,18 +666,29 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     % else
     %     fixColor=[0 0 1]*255; % blue if timeout (but maybe irrelevant for now) 
     end
+    if oscilloscope == 1
+        Screen('FillRect', window, black, [0 0 200 200])
+    end
 
     % Screen('Flip', window)
     drawFixation(window, cx,cy, fixSize, fixColor);
     timeFeedbackFix = Screen('Flip', window);
-
+  if oscilloscope == 1
+        Screen('FillRect', window, black, [0 0 200 200])
+    end
     drawFixation(window, cx,cy, fixSize, p.fixColor);
     timeBlank3 = Screen('Flip', window, timeFeedbackFix+p.feedbackLength-slack); % returns fixation to white
 
 
     %% ITI
+     if oscilloscope == 1
+        Screen('FillRect', window, black, [0 0 200 200])
+    end 
     drawFixation(window, cx,cy, fixSize, p.fixColor);
     timeITIstart = Screen('Flip', window, timeBlank3-slack);
+      if oscilloscope == 1
+        Screen('FillRect', window, black, [0 0 200 200])
+    end
     drawFixation(window, cx,cy, fixSize, p.fixColor);
     timeITIend = Screen('Flip', window, timeITIstart+p.ITI-slack);
 
