@@ -90,6 +90,7 @@ elseif s.exptStage == 2
 end
 
 PsychDefaultSetup(2); %psychtoolbox settings
+oscilloscope = 1;
 
 %% Eye data i/o
 eyeFile = [s.subjectID(1:2) '0' num2str(s.session) datestr(now, 'mmdd')];           
@@ -106,6 +107,7 @@ screenRes = Screen('Resolution',screenNumber);
 
 % Get the color code for white
 white = WhiteIndex(screenNumber);
+black = BlackIndex(screenNumber);
 grey=p.backgroundColor;
 
 % Open a PTB window
@@ -449,6 +451,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
     %% %%%% Play the trial %%%
     %% Present fixation
+    if oscilloscope == 1
+        Screen('FillRect', window, black, [0 0 600 400])
+    end 
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeFix = Screen('Flip', window);
     if p.eyeTracking
@@ -469,6 +474,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
     %% Present precue tone
     % bufferhandle = PsychPortAudio('CreateBuffer', pahandle, precueTone);
+    if oscilloscope == 1
+        Screen('FillRect', window, black, [0 0 600 400])
+    end 
     PsychPortAudio('FillBuffer', pahandle, precueTone);
     timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); % waitForStart = 1 in order to return a timestamp of playback
     WaitSecs(p.toneDur + 0.01); % added to let PsychPortAudio close
@@ -506,7 +514,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     if p.contrasts(T1Contrast)>0
         Screen('DrawTexture', window, gabors(T1Phase), [], imRect, T1Oris(T1Orientation));
     end
-
+    if oscilloscope == 1
+        Screen('FillRect', window, white, [0 0 600 400])
+    end
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
     PsychPortAudio('FillBuffer', pahandle, p.sound);
@@ -516,6 +526,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         Eyelink('Message', 'T1')
     end
 
+    if oscilloscope == 1
+        Screen('FillRect', window, black, [0 0 600 400])
+    end 
     % blank
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeBlank1 = Screen('Flip', window, timeT1 + p.imDur - slack);
@@ -554,6 +567,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         Screen('DrawTexture', window, gabors(T2Phase), [], imRect, T2Oris(T2Orientation));
     end
 
+    if oscilloscope == 1
+        Screen('FillRect', window, white, [0 0 600 400])
+    end 
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeT2 = Screen('Flip', window, timeT1 + p.targetSOA - slack);
     PsychPortAudio('FillBuffer', pahandle, p.sound);
@@ -563,6 +579,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         Eyelink('Message', 'T2')
     end
 
+    if oscilloscope == 1
+        Screen('FillRect', window, black, [0 0 600 400])
+    end 
     % blank
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeBlank2 = Screen('Flip', window, timeT2 + p.imDur - slack);
@@ -596,6 +615,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
 
     %% Present postcue
+    if oscilloscope == 1
+        Screen('FillRect', window, black, [0 0 600 400])
+    end 
     PsychPortAudio('FillBuffer', pahandle, postcueTone);
     timePostcue = PsychPortAudio('Start', pahandle, [], timeT2 + p.postcueSOA, 1); % timeT2 + p.postcueSOA, waitForStart = 1 in order to return a timestamp of playback
      if p.eyeTracking

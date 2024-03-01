@@ -106,6 +106,7 @@ screenRes = Screen('Resolution',screenNumber);
 
 % Get the color code for white
 white = WhiteIndex(screenNumber);
+black = Black
 grey=p.backgroundColor;
 
 % Open a PTB window
@@ -449,6 +450,8 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
     %% %%%% Play the trial %%%
     %% Present fixation
+    if oscilloscope == 1
+        Screen('FillRect', window, )
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeFix = Screen('Flip', window);
     if p.eyeTracking
