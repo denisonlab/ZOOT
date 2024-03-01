@@ -38,11 +38,12 @@ switch s.comp
         p.dir = '/home/denisonlab-beh/Experiments/ZOOT/experiment-files';
         p.retina = 0;
         p.useKbQueue = 1;
-        if s.exptStage > 0
-            p.eyeTracking = 1; %switch back to 1
-        else 
-            p.eyeTracking = 0;
-        end 
+        p.eyeTracking = 1;
+        % if s.exptStage > 0
+        %     p.eyeTracking = 1; %switch back to 1
+        % else 
+        %     p.eyeTracking = 0;
+        % end 
         p.eyeSlack = 0.12;
         p.windowTesting=0;
     case 'denlab-eeg'
@@ -61,6 +62,7 @@ end
 %% Fixation
 p.fixSize = 0.25; % diameter of the fixation circle, in degrees visual angle
 p.fixColor = 1; % white
+p.dimTargetColor = 0.75; 
 p.dimFixColor = 0.25; %dimmed for ITI
 p.fixLineWidth = 3;
 p.fixRadius=3;
@@ -158,7 +160,7 @@ p.precueNames = {'valid','neutral','invalid'};
 p.precueValidities = [1 1 1 2 3];
 p.targets = {'T1','T2'};
 p.axisNames = {'V','H'};
-p.axes = [0 90];
+p.axes = [0 90]; %  90
 p.tiltNames = {'CCW','CW'};
 p.tilts = [-1 1];
 p.contrastNames = {'high', 'low'};

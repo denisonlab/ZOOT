@@ -15,7 +15,6 @@ Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
 %% Basic info
 % Name the subject
 
-
 %get parameters
 p = zootparams(s);
 
@@ -69,7 +68,7 @@ if s.exptStage > 2
     else
         load(['data/' s.subjectID '/staircasing/threshold.mat'],'staircase')
         disp(['Using participant''s saved threshold which is: ' num2str(staircase.threshold)]); % staircase.threshold
-        threshold=staircase.threshold;
+        threshold= staircase.threshold;
     end
 elseif s.exptStage < 2
     threshold = p.practiceThreshold;
@@ -518,7 +517,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     if oscilloscope == 1
         Screen('FillRect', window, white, [0 0 200 200])
     end
-    drawFixation(window, cx, cy, fixSize, p.fixColor);
+    drawFixation(window, cx, cy, fixSize, p.dimTargetColor);
     timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
     PsychPortAudio('FillBuffer', pahandle, p.sound);
     timeT1Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
@@ -571,7 +570,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     if oscilloscope == 1
         Screen('FillRect', window, white, [0 0 200 200])
     end 
-    drawFixation(window, cx, cy, fixSize, p.fixColor);
+    drawFixation(window, cx, cy, fixSize, p.dimTargetColor);
     timeT2 = Screen('Flip', window, timeT1 + p.targetSOA - slack);
     PsychPortAudio('FillBuffer', pahandle, p.sound);
     timeT2Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
@@ -674,7 +673,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     % Screen('Flip', window)
     drawFixation(window, cx,cy, fixSize, fixColor);
     timeFeedbackFix = Screen('Flip', window);
-  if oscilloscope == 1
+    if oscilloscope == 1
         Screen('FillRect', window, black, [0 0 200 200])
     end
     drawFixation(window, cx,cy, fixSize, p.fixColor);
@@ -682,12 +681,12 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
 
     %% ITI
-     if oscilloscope == 1
+    if oscilloscope == 1
         Screen('FillRect', window, black, [0 0 200 200])
     end 
     drawFixation(window, cx,cy, fixSize, p.fixColor);
     timeITIstart = Screen('Flip', window, timeBlank3-slack);
-      if oscilloscope == 1
+    if oscilloscope == 1
         Screen('FillRect', window, black, [0 0 200 200])
     end
     drawFixation(window, cx,cy, fixSize, p.fixColor);
@@ -701,7 +700,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     data.session(iTrial) = s.session; 
     data.iTrial(iTrial) = iTrial; 
     data.stopThisTrial(iTrial) = stopThisTrial;
-    data.validity(iTrial) = validity;
+    % data.validity(iTrial) = validity;
     % 
     % if p.eyeTracking
     %     % eye.fixCue = fixCue;
