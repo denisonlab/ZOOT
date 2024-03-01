@@ -90,7 +90,7 @@ elseif s.exptStage == 2
 end
 
 PsychDefaultSetup(2); %psychtoolbox settings
-oscilloscope = 1;
+oscilloscope = 0; % set to 1 for oscilloscope squares
 
 %% Eye data i/o
 eyeFile = [s.subjectID(1:2) '0' num2str(s.session) datestr(now, 'mmdd')];           
@@ -414,18 +414,17 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     %Tilt: randomly selected per trial
     T1Orientation = randperm(numel(T1Oris),1); 
     T2Orientation = randperm(numel(T2Oris),1);
-
-    if T1Orientation == 1 || T1Orientation == 3
+ 
+    if T1Orientation == 1 && T2Orientation == 1
         T1Tilt = p.tilts(1);
-    else
-        T1Tilt = p.tilts(2);
-    end
-    if T2Orientation == 1 || T2Orientation == 3
         T2Tilt = p.tilts(1);
-    else
+        T1Axis = p.axes(1);
+        T2Axis = p.axes(1);
+    elseif T1Orientation == 1 && T2Orientation == 2
+        T1Tilt = p.tilts(1);
         T2Tilt = p.tilts(2);
-    end
-
+        T1Axis = p.axes(1);
+        T2Axis = p.axes(1);
     tilts = [T1Tilt T2Tilt];
     targetTilt = tilts(target);
 
@@ -686,7 +685,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     end 
     drawFixation(window, cx,cy, fixSize, p.fixColor);
     timeITIstart = Screen('Flip', window, timeBlank3-slack);
-    
+      if oscilloscope == 1
+        Screen('FillRect', window, black, [0 0 200 200])
+    end
     drawFixation(window, cx,cy, fixSize, p.fixColor);
     timeITIend = Screen('Flip', window, timeITIstart+p.ITI-slack);
 
@@ -926,9 +927,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
                     keyMessage = 'Press 1 to go on.';
                 end
 
-                blockAcc = mean(data.correct(blockStartTrial:iTrial),'omitnan'); % discrimination (only target present)
+                blockAcc = mean(data.correct(blockStartTrial:iTrial),'omitnan')*100; % discrimination (only target present)
 
-                pointsMessages = sprintf('p(correct) = %0.2f', blockAcc);
+                pointsMessages = sprintf('Your accuracy was %0.2f %%!', blockAcc);
 
                 breakMessage = sprintf('%s\n\n%s\n\n\n%s', blockMessage, pointsMessages, keyMessage);
                 DrawFormattedText(window, breakMessage, 'center', 'center', [1 1 1]);

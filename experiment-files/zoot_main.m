@@ -90,7 +90,7 @@ elseif s.exptStage == 2
 end
 
 PsychDefaultSetup(2); %psychtoolbox settings
-oscilloscope = 1;
+oscilloscope = 0; % set to 1 for oscilloscope squares
 
 %% Eye data i/o
 eyeFile = [s.subjectID(1:2) '0' num2str(s.session) datestr(now, 'mmdd')];           
@@ -415,6 +415,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     T1Orientation = randperm(numel(T1Oris),1); 
     T2Orientation = randperm(numel(T2Oris),1);
 
+ 
     if T1Orientation == 1 || T1Orientation == 3
         T1Tilt = p.tilts(1);
     else
@@ -700,6 +701,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     data.session(iTrial) = s.session; 
     data.iTrial(iTrial) = iTrial; 
     data.stopThisTrial(iTrial) = stopThisTrial;
+    data.validity(iTrial) = validity;
     % 
     % if p.eyeTracking
     %     % eye.fixCue = fixCue;
@@ -928,9 +930,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
                     keyMessage = 'Press 1 to go on.';
                 end
 
-                blockAcc = mean(data.correct(blockStartTrial:iTrial),'omitnan'); % discrimination (only target present)
+                blockAcc = mean(data.correct(blockStartTrial:iTrial),'omitnan')*100; % discrimination (only target present)
 
-                pointsMessages = sprintf('p(correct) = %0.2f', blockAcc);
+                pointsMessages = sprintf('Your accuracy was %0.2f %%!', blockAcc);
 
                 breakMessage = sprintf('%s\n\n%s\n\n\n%s', blockMessage, pointsMessages, keyMessage);
                 DrawFormattedText(window, breakMessage, 'center', 'center', [1 1 1]);
