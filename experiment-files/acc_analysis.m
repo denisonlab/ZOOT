@@ -53,10 +53,11 @@ vAcc = (vSum / nVal)*100;
 iAcc = (iSum / nInval)*100;
 
 figure(1);
+subplot(1,3,3)
 vec = [vAcc nAcc iAcc];
 bar(vec)
-ylim([50 100])
-title('accuracy per attention condition')
+ylim([40 100])
+title('GA')
 ylabel('accuracy %')
 set(gca, 'ytick', 50:10:100)
 set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
@@ -65,6 +66,100 @@ ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'off';
 
+
+nT1Sum = 0;
+vT1Sum = 0;
+iT1Sum = 0;
+nT2Sum = 0;
+vT2Sum = 0;
+iT2Sum = 0;
+
+for iAttCond = 1:numel(precue)
+    if target(iAttCond) == 1
+    if data.correct(iAttCond) == 1
+        if precue(iAttCond) == 3 % neutral precue
+            nT1Sum = nT1Sum + 1;
+        elseif precue(iAttCond) == target(iAttCond) % valid precue
+            vT1Sum = vT1Sum + 1;
+        elseif precue(iAttCond) ~= target(iAttCond)% invalid precue
+            iT1Sum = iT1Sum + 1;
+        end
+    end
+    end 
+    if target(iAttCond) == 2
+    if data.correct(iAttCond) == 1
+        if precue(iAttCond) == 3 % neutral precue
+            nT2Sum = nT2Sum + 1;
+        elseif precue(iAttCond) == target(iAttCond) % valid precue
+            vT2Sum = vT2Sum + 1;
+        elseif precue(iAttCond) ~= target(iAttCond)% invalid precue
+            iT2Sum = iT2Sum + 1;
+        end
+    end
+    end 
+end 
+
+nT1Neut = 0;
+nT1Val = 0;
+nT1Inval = 0;
+nT2Neut = 0;
+nT2Val = 0;
+nT2Inval = 0;
+for iAttCond = 1:numel(precue)
+    if target(iAttCond) == 1
+        if precue(iAttCond) == 3 % neutral precue
+            nT1Neut = nT1Neut + 1;
+        elseif precue(iAttCond) == target(iAttCond) % valid precue
+            nT1Val = nT1Val + 1;
+        elseif precue(iAttCond) ~= target(iAttCond)% invalid precue
+            nT1Inval = nT1Inval + 1;
+        end
+    end
+    if target(iAttCond) == 2
+        if precue(iAttCond) == 3 % neutral precue
+            nT2Neut = nT2Neut + 1;
+        elseif precue(iAttCond) == target(iAttCond) % valid precue
+            nT2Val = nT2Val + 1;
+        elseif precue(iAttCond) ~= target(iAttCond)% invalid precue
+            nT2Inval = nT2Inval + 1;
+        end
+    end
+end
+
+
+nT1Acc = (nT1Sum / nT1Neut)*100;
+vT1Acc = (vT1Sum / nT1Val)*100;
+iT1Acc = (iT1Sum / nT1Inval)*100;
+nT2Acc = (nT2Sum / nT2Neut)*100;
+vT2Acc = (vT2Sum / nT2Val)*100;
+iT2Acc = (iT2Sum / nT2Inval)*100;
+
+subplot(1,3,1)
+T1Acc = [vT1Acc nT1Acc iT1Acc];
+bar(T1Acc)
+ylim([40 100])
+title('T1')
+ylabel('accuracy %')
+set(gca, 'ytick', 50:10:100)
+set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
+ytickformat('percentage')
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'off';
+
+
+subplot(1,3,2)
+T2Acc = [vT2Acc nT2Acc iT2Acc];
+bar(T2Acc)
+ylim([40 100])
+title('T2')
+ylabel('accuracy %')
+set(gca, 'ytick', 50:10:100)
+set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
+ytickformat('percentage')
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'off';
 
 %% target presence 
 

@@ -21,6 +21,7 @@ switch s.comp
         p.useKbQueue = 1;
         p.eyeTracking=0; disp('shutting off eyetracking since this is a test computer');
         p.windowTesting=1;
+        p.deviceName = 'iMac Speakers';
     case 'xps13'
         p.screenSize = 34.0;
         p.screenRes = [1920 1200];
@@ -40,12 +41,13 @@ switch s.comp
         p.useKbQueue = 1;
         % p.eyeTracking = 1;
         if s.exptStage > 0
-            p.eyeTracking = 1; 
-        else 
+            p.eyeTracking = 1;
+        else
             p.eyeTracking = 0;
-        end 
+        end
         p.eyeSlack = 0.12;
         p.windowTesting=0;
+        p.deviceName = 'Scarlett';
     case 'denlab-eeg'
         p.screenSize = 53.5;
         p.screenRes = [1920 1080];
@@ -54,10 +56,11 @@ switch s.comp
         p.dir = '/home/denisonlab/Experiments/ZOOT/experiment-files';
         p.retina = 1;
         p.useKbQueue = 1;
-        p.eyeTracking = 1; 
+        p.eyeTracking = 1;
         p.windowTesting = 0;
         p.eyeSlack = 0.12;
-end 
+        p.deviceName = 'Scarlett';
+end
 
 %% Fixation
 p.fixSize = 0.25; % diameter of the fixation circle, in degrees visual angle

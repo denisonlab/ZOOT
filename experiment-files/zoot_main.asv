@@ -213,7 +213,7 @@ trials = fullfact([numel(p.precueValidities) ...
     numel(p.tilts) ...
     numel(p.tilts)]);
 
-trialsTA = trials(:,5:end); % shuffles T1 and T2 tilt and axis so pseudo-counterbalanced per block but still fully counterbalanced per experiment
+trialsTA = trials(:,5:end); % shuffles T1 and T2 tilt and axis so pseudo
 for iCol = 1:size(trialsTA,2)
     takeCol = trialsTA(:,iCol);
     shuffCol = takeCol(randperm(length(takeCol)));
