@@ -208,3 +208,5 @@ switch s.exptStage
         p.nBlocks = p.nTotalTrials / p.nTrialsPerBlock;
         p.nBlockPerSession = p.nBlocks/2;
 end
+%% debugging
+p.stimDebug = 1; % if 1, each trial ends with the target orientation and response 

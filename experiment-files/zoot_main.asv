@@ -213,7 +213,7 @@ trials = fullfact([numel(p.precueValidities) ...
     numel(p.tilts) ...
     numel(p.tilts)]);
 
-trialsTA = trials(:,5:end); % shuffles T1 and T2 tilt and axis so pseudo
+trialsTA = trials(:,5:end); % shuffles T1 and T2 tilt and axis so pseudo-counterbalanced per block but still fully counterbalanced per experiment
 for iCol = 1:size(trialsTA,2)
     takeCol = trialsTA(:,iCol);
     shuffCol = takeCol(randperm(length(takeCol)));
@@ -360,7 +360,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     T1Contrast = trials(trialIdx, idx.T1Contrast);
     T2Contrast = trials(trialIdx, idx.T2Contrast);
 
-    % tilts = p.tilts([T1Tilt T2Tilt]);
+    tilts = p.tilts([T1Tilt T2Tilt]);
+    tiltNames = p.tiltNames([T1Tilt T2Tilt]);
+    axesNames = p.axisNames([T1Tilt T2Tilt]);
     contrasts = p.contrasts([T1Contrast T2Contrast]);
 
     % Phase: randomly selected per trial
@@ -383,6 +385,8 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
     % Target tilt
     targetTilt = tilts(target);
+    targetTiltName = tiltNames(target);
+    targetAxisName = axesNames(target);
     targetContrast = contrasts(target);
 
  
@@ -651,10 +655,17 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     if oscilloscope == 1
         Screen('FillRect', window, black, [0 0 200 200])
     end
+
+    if p.stimDebug == 1
+        stimDebugMessage = sprintf('You responded %d and the stimulus was tilted %d and %d. Press any key to move on', response, targetTiltName, targetAxisName);
+        DrawFormattedText(window, stimDebugMessage, 'center', 'center', [1 1 1]*white)
+        Screen('Flip', window)
+        WaitSecs(1)
+        KbWait(devNum)
+    end
+
     drawFixation(window, cx,cy, fixSize, p.fixColor);
     timeBlank3 = Screen('Flip', window, timeFeedbackFix+p.feedbackLength-slack); % returns fixation to white
-
-
     %% ITI
     if oscilloscope == 1
         Screen('FillRect', window, black, [0 0 200 200])
