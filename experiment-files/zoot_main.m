@@ -385,8 +385,8 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
     % Target tilt
     targetTilt = tilts(target);
-    targetTiltName = tiltNames(target);
-    targetAxisName = axesNames(target);
+    targetTiltName = string(tiltNames(target));
+    targetAxisName = string(axesNames(target));
     targetContrast = contrasts(target);
 
  
@@ -656,8 +656,9 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
         Screen('FillRect', window, black, [0 0 200 200])
     end
 
+    responseTiltName = string(p.tiltNames(response));
     if p.stimDebug == 1
-        stimDebugMessage = sprintf('You responded %d and the stimulus was tilted %d and %d. Press any key to move on', response, targetTiltName, targetAxisName);
+        stimDebugMessage = sprintf('You responded %s and the stimulus was %s and %s. Press any key to move on', responseTiltName, targetTiltName, targetAxisName);
         DrawFormattedText(window, stimDebugMessage, 'center', 'center', [1 1 1]*white)
         Screen('Flip', window)
         WaitSecs(1)
