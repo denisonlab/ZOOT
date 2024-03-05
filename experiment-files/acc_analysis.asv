@@ -609,13 +609,13 @@ vaaT2Acc = (vaaT2Sum / nT2VAA)*100;
 iaaT2Acc = (iaaT2Sum / nT2IAA)*100;
 
 figure(4);
-subplot(4,2,1)
+subplot(4,4,1)
 ppT1Acc = [vppT1Acc nppT1Acc ippT1Acc];
 bar(ppT1Acc)
 % ylim([40 100])
 title('present/present T1')
 ylabel('accuracy %')
-set(gca, 'ytick', 0:10:100)
+set(gca, 'ytick', 50:10:100)
 set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
 ytickformat('percentage')
 ax = gca;
@@ -623,46 +623,46 @@ ax.XGrid = 'off';
 ax.YGrid = 'off';
 
 
-subplot(4,2,2)
+subplot(4,4,2)
 ppT2Acc = [vppT2Acc nppT2Acc ippT2Acc];
 bar(ppT2Acc)
 % ylim([40 100])
 title('present/present T2')
 ylabel('accuracy %')
-set(gca, 'ytick', 0:10:100)
+set(gca, 'ytick', 50:10:100)
 set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
 ytickformat('percentage')
 ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'off';
 
-subplot(4,2,3)
+subplot(4,4,3)
 paT1Acc = [vpaT1Acc npaT1Acc ipaT1Acc];
 bar(paT1Acc)
 % ylim([40 100])
 title('present/absent T1')
 ylabel('accuracy %')
-set(gca, 'ytick', 0:10:100)
+set(gca, 'ytick', 50:10:100)
 set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
 ytickformat('percentage')
 ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'off';
 
-subplot(4,2,4)
+subplot(4,4,4)
 paT2Acc = [vpaT2Acc npaT2Acc ipaT2Acc];
 bar(paT2Acc)
 % ylim([40 100])
 title('present/absent T2')
 ylabel('accuracy %')
-set(gca, 'ytick', 0:10:100)
+set(gca, 'ytick', 50:10:100)
 set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
 ytickformat('percentage')
 ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'off';
 
-subplot(4,2,5)
+subplot(4,4,5)
 apT1Acc = [vapT1Acc napT1Acc iapT1Acc];
 bar(apT1Acc)
 % ylim([40 100])
@@ -675,7 +675,7 @@ ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'off';
 
-subplot(4,2,6)
+subplot(4,4,6)
 apT2Acc = [vapT2Acc napT2Acc iapT2Acc];
 bar(apT2Acc)
 % ylim([40 100])
@@ -688,7 +688,7 @@ ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'off';
 
-subplot(4,2,7)
+subplot(4,4,7)
 aaT1Acc = [vaaT1Acc naaT1Acc iaaT1Acc];
 bar(aaT1Acc)
 % ylim([40 100])
@@ -701,7 +701,7 @@ ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'off';
 
-subplot(4,2,8)
+subplot(4,4,8)
 aaT2Acc = [vaaT2Acc naaT2Acc iaaT2Acc];
 bar(aaT2Acc)
 % ylim([40 100])
