@@ -220,7 +220,6 @@ for iCol = 1:size(trialsTA,2)
     trials(:,iCol+4) = shuffCol;
 end 
 
-
 %% Make a gabor image
 % First make a grating image
 edgeWidth=round(p.apertureEdgeWidth*pixelsPerDegree);
@@ -385,9 +384,14 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
     % Target tilt
     targetTilt = tilts(target);
-    targetTiltName = string(tiltNames(target));
-    targetAxisName = string(axesNames(target));
     targetContrast = contrasts(target);
+    if targetContrast>0
+        targetTiltName = string(tiltNames(target));
+        targetAxisName = string(axesNames(target));
+    else
+        targetTiltName = 'NA';
+        targetAxisName = 'NA';
+    end
 
  
     %% Set up stimuli for this trial
@@ -655,8 +659,11 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     if oscilloscope == 1
         Screen('FillRect', window, black, [0 0 200 200])
     end
-
+if response == 3
+    responseTiltName = 'absent';
+elseif response == 1 || response == 2
     responseTiltName = string(p.tiltNames(response));
+end 
     if p.stimDebug == 1
         stimDebugMessage = sprintf('You responded %s and the stimulus was %s and %s. Press any key to move on', responseTiltName, targetTiltName, targetAxisName);
         DrawFormattedText(window, stimDebugMessage, 'center', 'center', [1 1 1]*white)
@@ -678,6 +685,29 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     end
     drawFixation(window, cx,cy, fixSize, p.fixColor);
     timeITIend = Screen('Flip', window, timeITIstart+p.ITI-slack);
+
+    % if p.eyeTracking
+    %     while GetSecs < timeITIend - p.eyeSlack && ~stopThisTrial
+    %         WaitSecs(.01);
+    %         %             fixation = mod(iTrial,10); %%% for testing
+    %         fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
+    %         [stopThisTrial, trialOrder, p.nTrialsPerBlock] = fixationBreakTasks(...
+    %             fixation, window, white*p.backgroundColor, trialOrder, iTrial, p.nTrialsPerBlock);
+    % 
+    %         fixITI(iTrial) = fixation;
+    % 
+    %         fixations = [fixations fixation];
+    %         if fixation==0 % numel(fixations)>=3 && sum(fixations(end-2:end))>3
+    %             DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
+    %             Screen('Flip', window);
+    %             KbWait(devNum);
+    %         end
+    %     end
+    % 
+    %     if stopThisTrial
+    %         continue
+    %     end
+    % end
 
     %% Store data
     data.responseKey(iTrial) = responseKey;

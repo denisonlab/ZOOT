@@ -39,7 +39,7 @@ switch s.comp
         p.dir = '/home/denisonlab-beh/Experiments/ZOOT/experiment-files';
         p.retina = 0;
         p.useKbQueue = 1;
-        % p.eyeTracking = 1;
+        % p.eyeTracking = 0;
         if s.exptStage > 0
             p.eyeTracking = 1;
         else
@@ -209,4 +209,4 @@ switch s.exptStage
         p.nBlockPerSession = p.nBlocks/2;
 end
 %% debugging
-p.stimDebug = 1; % if 1, each trial ends with the target orientation and response 
+p.stimDebug = 0; % if 1, each trial ends with the target orientation and response 
