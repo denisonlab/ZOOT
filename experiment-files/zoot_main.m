@@ -213,12 +213,12 @@ trials = fullfact([numel(p.precueValidities) ...
     numel(p.tilts) ...
     numel(p.tilts)]);
 
-trialsTA = trials(:,5:end); % shuffles T1 and T2 tilt and axis so pseudo-counterbalanced per block but still fully counterbalanced per experiment
-for iCol = 1:size(trialsTA,2)
-    takeCol = trialsTA(:,iCol);
-    shuffCol = takeCol(randperm(length(takeCol)));
-    trials(:,iCol+4) = shuffCol;
-end 
+% trialsTA = trials(:,5:end); % shuffles T1 and T2 tilt and axis so pseudo-counterbalanced per block but still fully counterbalanced per experiment
+% for iCol = 1:size(trialsTA,2)
+%     takeCol = trialsTA(:,iCol);
+%     shuffCol = takeCol(randperm(length(takeCol)));
+%     trials(:,iCol+4) = shuffCol;
+% end 
 
 %% Make a gabor image
 % First make a grating image
@@ -313,7 +313,7 @@ end
 
 if s.exptStage == 4 || s.exptStage == 5
     if isempty(dataFileNames)
-        trialOrder = zoot_makeBlocks(p, s);
+        trialOrder = zoot_makeBlocks(p);
         trialCounter = 1;
         block = 1;
         % eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
@@ -361,7 +361,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
 
     tilts = p.tilts([T1Tilt T2Tilt]);
     tiltNames = p.tiltNames([T1Tilt T2Tilt]);
-    axesNames = p.axisNames([T1Tilt T2Tilt]);
+    axesNames = p.axisNames([T1Axis T2Axis]);
     contrasts = p.contrasts([T1Contrast T2Contrast]);
 
     % Phase: randomly selected per trial
@@ -659,6 +659,7 @@ for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteratio
     if oscilloscope == 1
         Screen('FillRect', window, black, [0 0 200 200])
     end
+
 if response == 3
     responseTiltName = 'absent';
 elseif response == 1 || response == 2
