@@ -339,7 +339,9 @@ if p.eyeTracking
     rd_eyeLink('startrecording', window, {el, fixRect});
 end
 
-for iTrial = trialCounter:p.nTotalTrials % 1280 p.nTrialsPerBlock % the iteration in the trial loop
+iTrial = 1;
+% for iTrial = trialCounter:p.nTotalTrials% 1280 p.nTrialsPerBlock % the iteration in the trial loop
+while iTrial <= p.nTotalTrials
     % trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
     trialIdx = trialOrder(iTrial);
 
@@ -910,6 +912,7 @@ end
         end
 
     end
+    iTrial = iTrial + 1;
 end
 if p.eyeTracking
     rd_eyeLink('eyestop', window, {eyeFile, data.eyeDataDir});
