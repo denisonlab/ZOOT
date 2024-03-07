@@ -15,7 +15,7 @@ if fixation==0
     % this can be easily done by appending the trial number to the end of
     % trialOrder
     trialOrder(end+1) = trialOrder(iTrial);
-    % nTrials = nTrials + 1;
+    nTrials = nTrials + 1;
 else
     stopThisTrial = 0;
 end

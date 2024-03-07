@@ -72,7 +72,7 @@ p.dimTargetColor = 0.75;
 p.dimFixColor = 0.25; %dimmed for ITI
 p.fixLineWidth = 3;
 p.fixRadius=3;
-p.eyeRad = 1.5;
+p.eyeRad = 2.5;
 p.noFixTrials=[]; %variable that will contain missed trials 
 
 %% Instructions
