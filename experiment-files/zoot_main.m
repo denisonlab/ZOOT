@@ -914,9 +914,9 @@ end
     end
     iTrial = iTrial + 1;
 end
-if p.eyeTracking
-    rd_eyeLink('eyestop', window, {eyeFile, data.eyeDataDir});
-end
+% if p.eyeTracking
+%     rd_eyeLink('eyestop', window, {eyeFile, data.eyeDataDir});
+% end
 timeEnd = GetSecs;
 timing.timeEnd = timeEnd;
 
@@ -943,7 +943,7 @@ if p.eyeTracking
     %convert to the more informative name, and save to correct directory
     data.eyeFile = eyeFile;
     save(filename,'eyedata')
-    disp('data saved!')
+    disp('eye data saved!')
 end
 
 %end of run loop
