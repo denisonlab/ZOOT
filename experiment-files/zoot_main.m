@@ -687,29 +687,6 @@ end
     drawFixation(window, cx,cy, fixSize, p.fixColor);
     timeITIend = Screen('Flip', window, timeITIstart+p.ITI-slack);
 
-    % if p.eyeTracking
-    %     while GetSecs < timeITIend - p.eyeSlack && ~stopThisTrial
-    %         WaitSecs(.01);
-    %         %             fixation = mod(iTrial,10); %%% for testing
-    %         fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
-    %         [stopThisTrial, trialOrder, p.nTrialsPerBlock] = fixationBreakTasks(...
-    %             fixation, window, white*p.backgroundColor, trialOrder, iTrial, p.nTrialsPerBlock);
-    % 
-    %         fixITI(iTrial) = fixation;
-    % 
-    %         fixations = [fixations fixation];
-    %         if fixation==0 % numel(fixations)>=3 && sum(fixations(end-2:end))>3
-    %             DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
-    %             Screen('Flip', window);
-    %             KbWait(devNum);
-    %         end
-    %     end
-    % 
-    %     if stopThisTrial
-    %         continue
-    %     end
-    % end
-
     %% Store data
     data.responseKey(iTrial) = responseKey;
     data.response(iTrial) = response;
@@ -718,21 +695,11 @@ end
     data.session(iTrial) = s.session; 
     data.iTrial(iTrial) = iTrial; 
     data.stopThisTrial(iTrial) = stopThisTrial;
-    % data.validity(iTrial) = validity;
-    % 
-    % if p.eyeTracking
-    %     % eye.fixCue = fixCue;
-    %     % eye.fixT1= fixT1;
-    %     % eye.fixT2= fixT2;
-    % end
+ 
 
     if s.exptStage == 4 || s.exptStage == 5
         data.block(iTrial) = block;
     end 
-
-    % % DrawFormattedText(window, sprintf('Your reaction time was %.2f s!', rt), 'center', 'center', [1 1 1]*white);\
-
-    % WaitSecs(2);1
 
     %% staircase update and calculations
     if s.exptStage == 2
@@ -827,21 +794,6 @@ end
                         Screen('Flip', window)
                         KbWait(devNum)
                         sca
-                % if iTrial < p.nTotalTrials
-                %     keyPressed = 0;
-                %     while ~keyPressed
-                %         % if p.useKbQueue
-                %         %     [keyIsDown, firstPress] = KbQueueCheck();
-                %         %     keyCode = logical(firstPress);
-                %         % else
-                %         [secs, keyCode] = KbWait(devNum);
-                %         % end
-                %         if strcmp(KbName(keyCode),'1!')
-                %             keyPressed = 1;
-                %         end
-                %     end
-                % end
-                % block = block+1; % keep track of block for block message only
                     end
                 end
             case 2
@@ -870,21 +822,6 @@ end
                         Screen('Flip', window)
                         KbWait(devNum)
                         sca
-                % if iTrial < p.nTotalTrials
-                %     keyPressed = 0;
-                %     while ~keyPressed
-                %         % if p.useKbQueue
-                %         %     [keyIsDown, firstPress] = KbQueueCheck();
-                %         %     keyCode = logical(firstPress);
-                %         % else
-                %         [secs, keyCode] = KbWait(devNum);
-                %         % end
-                %         if strcmp(KbName(keyCode),'1!')
-                %             keyPressed = 1;
-                %         end
-                %     end
-                % end
-                % block = block+1; % keep track of block for block message only
                     end
                 end
             case {4}
@@ -940,7 +877,7 @@ end
                 end
            
                 % trialsInBlock = trials(blockStartTrial:iTrial,:);
-                blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, ceil(p.nTotalTrials/p.nTrialsPerBlock));
+                blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, p.nBlocks);
                 if iTrial==p.nTotalTrials
                     keyMessage = ''; % last block
                 else
