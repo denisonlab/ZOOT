@@ -487,9 +487,8 @@ while iTrial <= p.nTotalTrials
                 DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                 Screen('Flip', window);
                 KbWait(devNum);
-                data.stopThisTrial(iTrial) = 1;
             end
-            data.skippedTrials(iTrial) = trialOrder(iTrial);
+            data.skippedTrials = [skippedTrials trialOrder(iTrial)];
         end
 
 
@@ -539,9 +538,8 @@ while iTrial <= p.nTotalTrials
                 DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                 Screen('Flip', window);
                 KbWait(devNum);
-                data.stopThisTrial(iTrial) = 1;
             end
-            data.skippedTrials(iTrial) = trialOrder(iTrial);;
+            data.skippedTrials = [skippedTrials trialOrder(iTrial)];
         end
 
 
@@ -593,9 +591,8 @@ while iTrial <= p.nTotalTrials
                 DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                 Screen('Flip', window);
                 KbWait(devNum);
-                data.stopThisTrial(iTrial) = 1;
             end
-            data.skippedTrials(iTrial) = trialOrder(iTrial);
+            data.skippedTrials = [skippedTrials trialOrder(iTrial)];
         end
 
         if stopThisTrial
@@ -624,17 +621,13 @@ while iTrial <= p.nTotalTrials
 
     statusPostcue = PsychPortAudio('GetStatus', pahandle); % moved here to let PsychPortAudio close
 
-    if ~stopThisTrial
-        response = [];
-        while isempty(response)
-            [timeTargetResponse, keyCode] = KbWait(devNum);
-            timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
-            responseKey = find(keyCode);
-            responseKeyName=KbName(responseKey);
-            response = find(strcmp(p.responseKeys,responseKeyName));
-        end
-    else 
-        response = NaN;
+    response = [];
+    while isempty(response)
+        [timeTargetResponse, keyCode] = KbWait(devNum);
+        timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
+        responseKey = find(keyCode);
+        responseKeyName=KbName(responseKey);
+        response = find(strcmp(p.responseKeys,responseKeyName));
     end
 
     if p.eyeTracking
