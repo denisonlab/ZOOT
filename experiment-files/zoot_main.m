@@ -46,13 +46,13 @@ data.stairDir =  sprintf('%s/%s', data.subDir, 'staircasing');
 if ~exist(data.stairDir, 'dir')
     mkdir(data.stairDir)
 end
-data.eyeDir =  sprintf('%s/%s', data.subDir, 'eyedata');
-if ~exist(data.eyeDir, 'dir')
-    mkdir(data.eyeDir)
+eyedata.eyeDir =  sprintf('%s/%s', data.subDir, 'eyedata');
+if ~exist(eyedata.eyeDir, 'dir')
+    mkdir(eyedata.eyeDir)
 end
-data.eyeDataDir = sprintf('%s/%s', data.eyeDir, 'eye');
-if ~exist(data.eyeDataDir, 'dir')
-    mkdir(data.eyeDataDir)
+eyedata.eyeDataDir = sprintf('%s/%s', eyedata.eyeDir, 'eye');
+if ~exist(eyedata.eyeDataDir, 'dir')
+    mkdir(eyedata.eyeDataDir)
 end
 
 
@@ -767,7 +767,7 @@ end
         data.whenSaved = datestr(now);
         data.dateTime=dateStr;
         data.timings=timing;
-        data.eye = eye;
+        eyedata.eye = eye;
 
         switch s.exptStage
             case 0
@@ -938,7 +938,7 @@ WaitSecs(3);
 
 %% Save eye data and shut down the eye tracker
 if p.eyeTracking
-    rd_eyeLink('eyestop', window, {eyeFile, data.eyeDir});
+    rd_eyeLink('eyestop', window, {eyeFile, eyedata.eyeDir});
 
     %convert to the more informative name, and save to correct directory
     data.eyeFile = eyeFile;
