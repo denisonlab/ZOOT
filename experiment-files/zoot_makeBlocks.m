@@ -2,18 +2,18 @@ function trialOrder = zoot_makeBlocks(p)
 
 % Choose order of trial presentation
 % makes block structure for zoot 
-
-% nTrials = 1280; % size(trials,1); % 640 - 320 per session x 4 = 1280 
-
+% 
+% % nTrials = 1280; % size(trials,1); % 640 - 320 per session x 4 = 1280 
+% 
 nTrials = p.nTotalTrials;
 trialOrder = randperm(nTrials);
-
 % 
+% % 
 % trialOrder = [];
 % for iRep = 1:p.nReps
 %     trialOrder = [trialOrder randperm(nTrials)];
 % end
-
+% 
 
 % % Minimum counterbalanced unit of validity, target, contrasts = 40; 
 % MCU = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); 

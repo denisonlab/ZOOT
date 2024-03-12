@@ -314,21 +314,21 @@ end
 if s.exptStage == 4 || s.exptStage == 5
     if isempty(dataFileNames)
         trialOrder = zoot_makeBlocks(p);
-        trialCounter = 1;
+        iTrial = 1;
         block = 1;
         % eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
     else
         dataPrevious = load(dataFileNames{end}); % this isn't checking the time stamp yet
         % otherwise load the data w latest  time stamp and find the last trial
         % that was left off
-        trialCounter = max(dataPrevious.data.iTrial)+1;
+        iTrial = max(dataPrevious.data.iTrial)+1;
         block = max(dataPrevious.data.block)+1;
-        trialOrder = dataPrevious.data.trialOrder;
+        trialOrder = dataPrevious.data.TrialOrder;
         % eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
     end
 else
     trialOrder=randperm(p.nTotalTrials);
-    trialCounter = 1;
+    iTrial = 1;
     block = 1;
 end
 
@@ -338,9 +338,8 @@ cd(p.dir)
 if p.eyeTracking
     rd_eyeLink('startrecording', window, {el, fixRect});
 end
-
-iTrial = 1;
-data.skippedTrials = [];
+% 
+goodTrial = 1;
 % for iTrial = trialCounter:p.nTotalTrials% 1280 p.nTrialsPerBlock % the iteration in the trial loop
 while iTrial <= p.nTotalTrials
     % trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
@@ -438,7 +437,7 @@ while iTrial <= p.nTotalTrials
     %% %%%% Play the trial %%%
     %% Present fixation
     if oscilloscope == 1
-        Screen('FillRect', window, black, [0 0 200 200])
+        Screen('FillRect', window, black, [])
     end 
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     timeFix = Screen('Flip', window);
@@ -461,7 +460,7 @@ while iTrial <= p.nTotalTrials
     %% Present precue tone
     % bufferhandle = PsychPortAudio('CreateBuffer', pahandle, precueTone);
     if oscilloscope == 1
-        Screen('FillRect', window, black, [0 0 200 200])
+        Screen('FillRect', window, black, [])
     end 
     PsychPortAudio('FillBuffer', pahandle, precueTone);
     timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); % waitForStart = 1 in order to return a timestamp of playback
@@ -476,24 +475,34 @@ while iTrial <= p.nTotalTrials
     if p.eyeTracking
         while GetSecs < timePrecue + p.precueSOA - p.eyeSlack && ~stopThisTrial
             WaitSecs(.01);
-          fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
+             fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
             [stopThisTrial, trialOrder, p.nTotalTrials] = fixationBreakTasks(...
                 fixation, window, white*p.backgroundColor, trialOrder, iTrial, p.nTotalTrials);
 
-            fixCue(iTrial) = fixation;
+            % fixCue(iTrial) = fixation;
 
             fixations = [fixations fixation];
-            if fixation==0 % numel(fixations)>=3 && sum(fixations(end-2:end))>3
-                DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
-                Screen('Flip', window);
-                KbWait(devNum);
-                data.stopThisTrial(iTrial) = 1;
-            end
-            data.skippedTrials(iTrial) = trialOrder(iTrial);
+
+            if fixation == 0
+                stimDebugMessage = sprintf('iTrial is %d, trialIdx is %d, sTT is %d . Press to move on', iTrial, trialIdx, stopThisTrial);
+                DrawFormattedText(window, stimDebugMessage, 'center', 'center', [1 1 1]*white)
+                Screen('Flip', window)
+                WaitSecs(1)
+                KbWait(devNum)
+            end 
+
+        %     if fixation==0 % numel(fixations)>=3 && sum(fixations(end-2:end))>3
+        %         goodTrial = 0;
+        %         sprintf
+        %         DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
+        %         Screen('Flip', window);
+        %         KbWait(devNum);
+        %     end
         end
 
 
-        if stopThisTrial
+         if stopThisTrial
+             iTrial = iTrial + 1;
             continue
         end
     end
@@ -502,7 +511,7 @@ while iTrial <= p.nTotalTrials
         Screen('DrawTexture', window, gabors(T1Phase), [], imRect, T1Orientation);
     end
     if oscilloscope == 1
-        Screen('FillRect', window, white, [0 0 200 200])
+        Screen('FillRect', window, white, [])
     end
     drawFixation(window, cx, cy, fixSize, p.dimTargetColor);
     timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
@@ -514,7 +523,7 @@ while iTrial <= p.nTotalTrials
     end
 
     if oscilloscope == 1
-        Screen('FillRect', window, black, [0 0 200 200])
+        Screen('FillRect', window, black, [])
     end 
     % blank
     drawFixation(window, cx, cy, fixSize, p.fixColor);
@@ -536,12 +545,11 @@ while iTrial <= p.nTotalTrials
 
             fixations = [fixations fixation];
             if fixation==0 % numel(fixations)>=3 && sum(fixations(end-2:end))>3
+                goodTrial = 0;
                 DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                 Screen('Flip', window);
                 KbWait(devNum);
-                data.stopThisTrial(iTrial) = 1;
             end
-            data.skippedTrials(iTrial) = trialOrder(iTrial);;
         end
 
 
@@ -556,7 +564,7 @@ while iTrial <= p.nTotalTrials
     end
 
     if oscilloscope == 1
-        Screen('FillRect', window, white, [0 0 200 200])
+        Screen('FillRect', window, white, [])
     end 
     drawFixation(window, cx, cy, fixSize, p.dimTargetColor);
     timeT2 = Screen('Flip', window, timeT1 + p.targetSOA - slack);
@@ -568,7 +576,7 @@ while iTrial <= p.nTotalTrials
     end
 
     if oscilloscope == 1
-        Screen('FillRect', window, black, [0 0 200 200])
+        Screen('FillRect', window, black, [])
     end 
     % blank
     drawFixation(window, cx, cy, fixSize, p.fixColor);
@@ -590,12 +598,11 @@ while iTrial <= p.nTotalTrials
 
             fixations = [fixations fixation];
             if fixation==0 % numel(fixations)>=3 && sum(fixations(end-2:end))>3
+                goodTrial = 0;
                 DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                 Screen('Flip', window);
                 KbWait(devNum);
-                data.stopThisTrial(iTrial) = 1;
             end
-            data.skippedTrials(iTrial) = trialOrder(iTrial);
         end
 
         if stopThisTrial
@@ -606,7 +613,7 @@ while iTrial <= p.nTotalTrials
 
     %% Present postcue
     if oscilloscope == 1
-        Screen('FillRect', window, black, [0 0 200 200])
+        Screen('FillRect', window, black, [])
     end 
     PsychPortAudio('FillBuffer', pahandle, postcueTone);
     timePostcue = PsychPortAudio('Start', pahandle, [], timeT2 + p.postcueSOA, 1); % timeT2 + p.postcueSOA, waitForStart = 1 in order to return a timestamp of playback
@@ -616,7 +623,7 @@ while iTrial <= p.nTotalTrials
 
     %% Response window
      if oscilloscope == 1
-        Screen('FillRect', window, black, [0 0 200 200])
+        Screen('FillRect', window, black, [])
     end 
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     Screen('DrawingFinished', window);
@@ -624,7 +631,7 @@ while iTrial <= p.nTotalTrials
 
     statusPostcue = PsychPortAudio('GetStatus', pahandle); % moved here to let PsychPortAudio close
 
-    if ~stopThisTrial
+    if goodTrial ==1
         response = [];
         while isempty(response)
             [timeTargetResponse, keyCode] = KbWait(devNum);
@@ -642,6 +649,7 @@ while iTrial <= p.nTotalTrials
      end
 
     % Feedback
+    if goodTrial == 1
     correct = 0;
     if response==3 % absent
         responseTilt = 0;
@@ -652,6 +660,9 @@ while iTrial <= p.nTotalTrials
             correct = targetTilt==responseTilt;
         end
     end
+    else 
+        correct = NaN;
+end 
 
     if correct==1
         fixColor=[0 1 0]*255; % green for correct
@@ -661,14 +672,14 @@ while iTrial <= p.nTotalTrials
     %     fixColor=[0 0 1]*255; % blue if timeout (but maybe irrelevant for now) 
     end
     if oscilloscope == 1
-        Screen('FillRect', window, black, [0 0 200 200])
+        Screen('FillRect', window, black, [])
     end
 
     % Screen('Flip', window)
     drawFixation(window, cx,cy, fixSize, fixColor);
     timeFeedbackFix = Screen('Flip', window);
     if oscilloscope == 1
-        Screen('FillRect', window, black, [0 0 200 200])
+        Screen('FillRect', window, black, [])
     end
 
 if response == 3
@@ -688,12 +699,12 @@ end
     timeBlank3 = Screen('Flip', window, timeFeedbackFix+p.feedbackLength-slack); % returns fixation to white
     %% ITI
     if oscilloscope == 1
-        Screen('FillRect', window, black, [0 0 200 200])
+        Screen('FillRect', window, black, [])
     end 
     drawFixation(window, cx,cy, fixSize, p.fixColor);
     timeITIstart = Screen('Flip', window, timeBlank3-slack);
     if oscilloscope == 1
-        Screen('FillRect', window, black, [0 0 200 200])
+        Screen('FillRect', window, black, [])
     end
     drawFixation(window, cx,cy, fixSize, p.fixColor);
     timeITIend = Screen('Flip', window, timeITIstart+p.ITI-slack);
@@ -771,7 +782,7 @@ end
     if mod(iTrial, p.nTrialsPerBlock)==0 || iTrial == p.nTotalTrials
         data.trialsHeaders = trialsHeaders;
         data.trials = trials;
-        data.trialOrder=trialOrder;
+        data.TrialOrder=trialOrder;
         dateStr = datetime('now', 'TimeZone', 'local', 'Format', 'yyMMdd_hhmm');
         data.whenSaved = datestr(now);
         data.dateTime=dateStr;
