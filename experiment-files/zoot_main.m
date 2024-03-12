@@ -9,7 +9,7 @@ function [data] = zoot_main(s)
 AssertOpenGL;
 
 % Skip screen tests - ONLY for demo, not for real experiments
-Screen('Preference', 'SkipSyncTests', 1); % set to 0 for real experiment
+Screen('Preference', 'SkipSyncTests', 0); % set to 0 for real experiment
 
 %% Input
 %% Basic info
@@ -50,10 +50,10 @@ eyedata.eyeDir =  sprintf('%s/%s', data.subDir, 'eyedata');
 if ~exist(eyedata.eyeDir, 'dir')
     mkdir(eyedata.eyeDir)
 end
-eyedata.eyeDataDir = sprintf('%s/%s', eyedata.eyeDir, 'eye');
-if ~exist(eyedata.eyeDataDir, 'dir')
-    mkdir(eyedata.eyeDataDir)
-end
+% eyedata.eyeDataDir = sprintf('%s/%s', eyedata.eyeDir, 'eye');
+% if ~exist(eyedata.eyeDataDir, 'dir')
+%     mkdir(eyedata.eyeDataDir)
+% end
 
 
 
@@ -730,7 +730,7 @@ while iTrial <= p.nTotalTrials
     % Feedback
     % if goodTrial == 1
     correct = 0;
-    correct = double(correct);
+    % correct = double(correct);
     if response==3 % absent
         responseTilt = 0;
         correct = responseTilt==targetContrast;
@@ -740,6 +740,7 @@ while iTrial <= p.nTotalTrials
             correct = targetTilt==responseTilt;
         end
     end
+    correct = double(correct);
 %     else 
 %         correct = NaN;
 % end 
