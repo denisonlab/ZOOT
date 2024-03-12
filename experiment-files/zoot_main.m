@@ -323,7 +323,7 @@ if s.exptStage == 4 || s.exptStage == 5
         % that was left off
         iTrial = max(dataPrevious.data.iTrial)+1;
         block = max(dataPrevious.data.block)+1;
-        trialOrder = dataPrevious.data.TrialOrder;
+        trialOrder = dataPrevious.data.trialOrder;
         % eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
     end
 else
@@ -521,33 +521,26 @@ while iTrial <= p.nTotalTrials
 
             if fixation==0
                 stopThisTrial = 1;
-
-                % blank the screen, make a sound, and give a time out
-                % soundsc(fixBreakSound)
-                Screen('FillRect', window, fillColor);
-                Screen('Flip', window);
                 WaitSecs(1);
+                % stimDebugMessage = sprintf('iTrial is %d, trialIdx is %d, sTT is %d . Press to move on', iTrial, trialIdx, stopThisTrial);
+                % DrawFormattedText(window, stimDebugMessage, 'center', 'center', [1 1 1]*white)
+                % Screen('Flip', window)
+                % WaitSecs(1)
+                % KbWait(devNum)
 
-
-                stimDebugMessage = sprintf('iTrial is %d, trialIdx is %d, sTT is %d . Press to move on', iTrial, trialIdx, stopThisTrial);
-                DrawFormattedText(window, stimDebugMessage, 'center', 'center', [1 1 1]*white)
-                Screen('Flip', window)
-                WaitSecs(1)
-                KbWait(devNum)
                 % redo this trial at the end of the experiment
                 % this can be easily done by appending the trial number to the end of
                 % trialOrder
                 trialOrder(end+1) = trialOrder(iTrial);
                 data.stopThisTrial(iTrial) = stopThisTrial;
                 skippedTrials(end+1) = trialOrder(iTrial);
+                data.response(iTrial) = NaN;
+                data.correct(iTrial) = NaN;
                 p.nTotalTrials = p.nTotalTrials + 1;
                 iTrial = iTrial + 1;
-                % else
-                %     stopThisTrial = 0;
-                % end
+         
           
             % fixations = [fixations fixation];
-            % if fixation==0 % numel(fixations)>=3 && sum(fixations(end-2:end))>3
                 DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                 Screen('Flip', window);
                 KbWait(devNum);
@@ -589,21 +582,38 @@ while iTrial <= p.nTotalTrials
         while GetSecs < timeT1 + p.imDur + p.targetSOA - p.eyeSlack && ~stopThisTrial
             WaitSecs(.01);
             %             fixation = mod(iTrial,10); %%% for testing
-            fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
-            [stopThisTrial, trialOrder, p.nTotalTrials] = fixationBreakTasks(...
-                fixation, window, white*p.backgroundColor, trialOrder, iTrial, p.nTotalTrials);
+                fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
+            % [stopThisTrial, trialOrder, p.nTotalTrials] = fixationBreakTasks(...
+            %     fixation, window, white*p.backgroundColor, trialOrder, iTrial, p.nTotalTrials);
+            %
+            % fixT2(iTrial) = fixation;
+             fixations = [fixations fixation];
 
-            fixT1(iTrial) = fixation;
+            if fixation==0
+                stopThisTrial = 1;
+                WaitSecs(1);
+                % stimDebugMessage = sprintf('iTrial is %d, trialIdx is %d, sTT is %d . Press to move on', iTrial, trialIdx, stopThisTrial);
+                % DrawFormattedText(window, stimDebugMessage, 'center', 'center', [1 1 1]*white)
+                % Screen('Flip', window)
+                % WaitSecs(1)
+                % KbWait(devNum)
 
-            fixations = [fixations fixation];
-            if fixation==0 % numel(fixations)>=3 && sum(fixations(end-2:end))>3
-                goodTrial = 0;
+                % redo this trial at the end of the experiment
+                % this can be easily done by appending the trial number to the end of
+                % trialOrder
+                trialOrder(end+1) = trialOrder(iTrial);
+                data.stopThisTrial(iTrial) = stopThisTrial;
+                skippedTrials(end+1) = trialOrder(iTrial);
+                p.nTotalTrials = p.nTotalTrials + 1;
+                iTrial = iTrial + 1;
+         
+          
+            % fixations = [fixations fixation];
                 DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                 Screen('Flip', window);
                 KbWait(devNum);
             end
         end
-
 
         if stopThisTrial
             continue
@@ -642,7 +652,7 @@ while iTrial <= p.nTotalTrials
         while GetSecs < timeT2 + p.imDur - p.eyeSlack && ~stopThisTrial
             WaitSecs(.01);
             %             fixation = mod(iTrial,10); %%% for testing
-            fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
+              fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
             % [stopThisTrial, trialOrder, p.nTotalTrials] = fixationBreakTasks(...
             %     fixation, window, white*p.backgroundColor, trialOrder, iTrial, p.nTotalTrials);
             %
@@ -651,12 +661,12 @@ while iTrial <= p.nTotalTrials
 
             if fixation==0
                 stopThisTrial = 1;
-
-                % blank the screen, make a sound, and give a time out
-                % soundsc(fixBreakSound)
-                Screen('FillRect', window, fillColor);
-                Screen('Flip', window);
                 WaitSecs(1);
+                % stimDebugMessage = sprintf('iTrial is %d, trialIdx is %d, sTT is %d . Press to move on', iTrial, trialIdx, stopThisTrial);
+                % DrawFormattedText(window, stimDebugMessage, 'center', 'center', [1 1 1]*white)
+                % Screen('Flip', window)
+                % WaitSecs(1)
+                % KbWait(devNum)
 
                 % redo this trial at the end of the experiment
                 % this can be easily done by appending the trial number to the end of
@@ -666,12 +676,8 @@ while iTrial <= p.nTotalTrials
                 skippedTrials(end+1) = trialOrder(iTrial);
                 p.nTotalTrials = p.nTotalTrials + 1;
                 iTrial = iTrial + 1;
-                % else
-                %     stopThisTrial = 0;
-                % end
-
+        
             % fixations = [fixations fixation];
-            % if fixation==0 % numel(fixations)>=3 && sum(fixations(end-2:end))>3
                 DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                 Screen('Flip', window);
                 KbWait(devNum);
@@ -704,7 +710,7 @@ while iTrial <= p.nTotalTrials
 
     statusPostcue = PsychPortAudio('GetStatus', pahandle); % moved here to let PsychPortAudio close
 
-    if goodTrial ==1
+    % if goodTrial ==1
         response = [];
         while isempty(response)
             [timeTargetResponse, keyCode] = KbWait(devNum);
@@ -713,17 +719,18 @@ while iTrial <= p.nTotalTrials
             responseKeyName=KbName(responseKey);
             response = find(strcmp(p.responseKeys,responseKeyName));
         end
-    else 
-        response = NaN;
-    end
+    % else 
+    %     response = NaN;
+    % end
 
     if p.eyeTracking
         Eyelink('Message', 'TRIAL_END');
      end
 
     % Feedback
-    if goodTrial == 1
+    % if goodTrial == 1
     correct = 0;
+    correct = double(correct);
     if response==3 % absent
         responseTilt = 0;
         correct = responseTilt==targetContrast;
@@ -733,9 +740,9 @@ while iTrial <= p.nTotalTrials
             correct = targetTilt==responseTilt;
         end
     end
-    else 
-        correct = NaN;
-end 
+%     else 
+%         correct = NaN;
+% end 
 
     if correct==1
         fixColor=[0 1 0]*255; % green for correct
@@ -790,6 +797,7 @@ end
     data.session(iTrial) = s.session; 
     data.iTrial(iTrial) = iTrial; 
     data.stopThisTrial(iTrial) = stopThisTrial;
+    data.skippedTrials = skippedTrials;
  
 
     if s.exptStage == 4 || s.exptStage == 5
@@ -855,7 +863,7 @@ end
     if mod(iTrial, p.nTrialsPerBlock)==0 || iTrial == p.nTotalTrials
         data.trialsHeaders = trialsHeaders;
         data.trials = trials;
-        data.TrialOrder=trialOrder;
+        data.trialOrder=trialOrder;
         dateStr = datetime('now', 'TimeZone', 'local', 'Format', 'yyMMdd_hhmm');
         data.whenSaved = datestr(now);
         data.dateTime=dateStr;
