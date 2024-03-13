@@ -89,7 +89,7 @@ elseif s.exptStage == 2
 end
 
 PsychDefaultSetup(2); %psychtoolbox settings
-oscilloscope = 0; % set to 1 for oscilloscope squares
+oscilloscope = 1; % set to 1 for oscilloscope squares
 
 %% Eye data i/o
 eyeFile = [s.subjectID(1:2) '0' num2str(s.session) datestr(now, 'mmdd')];           
@@ -508,7 +508,7 @@ while iTrial <= p.nTotalTrials
     % end
     % 
      % Check for eye movements
-    if p.eyeTracking
+     if p.eyeTracking
         while GetSecs < timePrecue + p.precueSOA - p.eyeSlack && ~stopThisTrial
             WaitSecs(.01);
             %             fixation = mod(iTrial,10); %%% for testing
@@ -532,10 +532,10 @@ while iTrial <= p.nTotalTrials
                 % this can be easily done by appending the trial number to the end of
                 % trialOrder
                 trialOrder(end+1) = trialOrder(iTrial);
-                data.stopThisTrial(iTrial) = stopThisTrial;
+                stopThisTrial = stopThisTrial;
                 skippedTrials(end+1) = trialOrder(iTrial);
-                data.response(iTrial) = NaN;
-                data.correct(iTrial) = NaN;
+                response = NaN;
+                correct = NaN;
                 p.nTotalTrials = p.nTotalTrials + 1;
                 iTrial = iTrial + 1;
          
@@ -589,7 +589,7 @@ while iTrial <= p.nTotalTrials
             % fixT2(iTrial) = fixation;
              fixations = [fixations fixation];
 
-            if fixation==0
+              if fixation==0
                 stopThisTrial = 1;
                 WaitSecs(1);
                 % stimDebugMessage = sprintf('iTrial is %d, trialIdx is %d, sTT is %d . Press to move on', iTrial, trialIdx, stopThisTrial);
@@ -602,11 +602,12 @@ while iTrial <= p.nTotalTrials
                 % this can be easily done by appending the trial number to the end of
                 % trialOrder
                 trialOrder(end+1) = trialOrder(iTrial);
-                data.stopThisTrial(iTrial) = stopThisTrial;
+                stopThisTrial(iTrial) = stopThisTrial;
                 skippedTrials(end+1) = trialOrder(iTrial);
+                response(iTrial) = NaN;
+                correct(iTrial) = NaN;
                 p.nTotalTrials = p.nTotalTrials + 1;
                 iTrial = iTrial + 1;
-         
           
             % fixations = [fixations fixation];
                 DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
@@ -659,7 +660,7 @@ while iTrial <= p.nTotalTrials
             % fixT2(iTrial) = fixation;
              fixations = [fixations fixation];
 
-            if fixation==0
+             if fixation==0
                 stopThisTrial = 1;
                 WaitSecs(1);
                 % stimDebugMessage = sprintf('iTrial is %d, trialIdx is %d, sTT is %d . Press to move on', iTrial, trialIdx, stopThisTrial);
@@ -672,8 +673,10 @@ while iTrial <= p.nTotalTrials
                 % this can be easily done by appending the trial number to the end of
                 % trialOrder
                 trialOrder(end+1) = trialOrder(iTrial);
-                data.stopThisTrial(iTrial) = stopThisTrial;
+                stopThisTrial(iTrial) = stopThisTrial;
                 skippedTrials(end+1) = trialOrder(iTrial);
+                response(iTrial) = NaN;
+                correct(iTrial) = NaN;
                 p.nTotalTrials = p.nTotalTrials + 1;
                 iTrial = iTrial + 1;
         

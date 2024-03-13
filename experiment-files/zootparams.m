@@ -42,12 +42,12 @@ switch s.comp
         p.dir = '/home/denisonlab-beh/Experiments/ZOOT/experiment-files';
         p.retina = 0;
         p.useKbQueue = 1;
-        % p.eyeTracking = 0;
-        if s.exptStage > 0
-            p.eyeTracking = 1;
-        else
-            p.eyeTracking = 0;
-        end
+        p.eyeTracking = 0;
+        % if s.exptStage > 0
+        %     % p.eyeTracking = 1;
+        % else
+        %     p.eyeTracking = 0;
+        % end
         p.eyeSlack = 0.12;
         p.windowTesting=0;
         p.deviceName = 'Scarlett';
