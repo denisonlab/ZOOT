@@ -42,12 +42,12 @@ switch s.comp
         p.dir = '/home/denisonlab-beh/Experiments/ZOOT/experiment-files';
         p.retina = 0;
         p.useKbQueue = 1;
-        p.eyeTracking = 0;
-        % if s.exptStage > 0
-        %     % p.eyeTracking = 1;
-        % else
-        %     p.eyeTracking = 0;
-        % end
+        % p.eyeTracking = 0;
+        if s.exptStage > 0
+            p.eyeTracking = 1;
+        else
+            p.eyeTracking = 0;
+        end
         p.eyeSlack = 0.12;
         p.windowTesting=0;
         p.deviceName = 'Scarlett';
@@ -206,7 +206,7 @@ switch s.exptStage
         p.nBlockPerSession = 1;
     case 5 % main task
         p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
-        p.nTrialsPerBlock = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
+        p.nTrialsPerBlock = 10; %numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
         %p.nTrialsPerBlock = 4; %debugging
         p.nBlocks = p.nTotalTrials / p.nTrialsPerBlock;
         p.nBlockPerSession = p.nBlocks/2;

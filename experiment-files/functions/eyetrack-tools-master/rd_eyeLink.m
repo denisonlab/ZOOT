@@ -152,9 +152,9 @@ switch command
         % start only when we are recording and the subject is fixating
         el = in{1};
         trialNum = in{2};
-%         cx = in{3};
-%         cy = in{4};
-%         rad = in{5};
+        cx = in{3};
+        cy = in{4};
+        rad = in{5};
 % %         
         driftCorrected = 0;
         
@@ -162,30 +162,30 @@ switch command
         % Start the trial only when 1) eyetracker is recording, 2) subject
         % is fixating
         ready = 0; 
-        while ~ready
-            % Check that we are recording
-            err=Eyelink('CheckRecording');
-            if err~=0
-                rd_eyeLink('startrecording', window, el);
-            end
-
-            % Verify that the subject is holding fixation for some set
-            % time before allowing the trial to start. A
-            % timeout period is built into this function.
-            fixation = rd_eyeLink('fixholdcheck', window, {cx, cy, rad});
-
-            % Drift correct if fixation timed out
-            if ~fixation
-                rd_eyeLink('driftcorrect', window, {el, cx, cy});
-                driftCorrected = 1;
-                ready = 0;
-            else
-                ready = 1;
-            end
-        end
-        
-        out = driftCorrected;
-        % out=0;
+        % while ~ready
+        %     % Check that we are recording
+        %     err=Eyelink('CheckRecording');
+        %     if err~=0
+        %         rd_eyeLink('startrecording', window, el);
+        %     end
+        % 
+        %     % Verify that the subject is holding fixation for some set
+        %     % time before allowing the trial to start. A
+        %     % timeout period is built into this function.
+        %     fixation = rd_eyeLink('fixholdcheck', window, {cx, cy, rad});
+        % 
+        %     % Drift correct if fixation timed out
+        %     if ~fixation
+        %         rd_eyeLink('driftcorrect', window, {el, cx, cy});
+        %         driftCorrected = 1;
+        %         ready = 0;
+        %     else
+        %         ready = 1;
+        %     end
+        % end
+        % 
+        % out = driftCorrected;
+        out=0;
         
         Eyelink('Message', 'TRIALID %d', trialNum);
          % This supplies the title at the bottom of the eyetracker display

@@ -89,7 +89,7 @@ elseif s.exptStage == 2
 end
 
 PsychDefaultSetup(2); %psychtoolbox settings
-oscilloscope = 1; % set to 1 for oscilloscope squares
+oscilloscope = 0; % set to 1 for oscilloscope squares
 
 %% Eye data i/o
 eyeFile = [s.subjectID(1:2) '0' num2str(s.session) datestr(now, 'mmdd')];           
@@ -316,7 +316,7 @@ if s.exptStage == 4 || s.exptStage == 5
         trialOrder = zoot_makeBlocks(p);
         iTrial = 1;
         block = 1;
-        % eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
+        eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
     else
         dataPrevious = load(dataFileNames{end}); % this isn't checking the time stamp yet
         % otherwise load the data w latest  time stamp and find the last trial
@@ -324,7 +324,7 @@ if s.exptStage == 4 || s.exptStage == 5
         iTrial = max(dataPrevious.data.iTrial)+1;
         block = max(dataPrevious.data.block)+1;
         trialOrder = dataPrevious.data.trialOrder;
-        % eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
+        eyeSkip = dataPrevious.data.eyeSkip; % trials skipped due to an eye movement, same size as trials matrix
     end
 else
     trialOrder=randperm(p.nTotalTrials);
@@ -339,18 +339,19 @@ if p.eyeTracking
     rd_eyeLink('startrecording', window, {el, fixRect});
 end
 % 
-skippedTrials = [];
+skippedTrials = []; % skipped trial order number
+iTrialskipped = []; % skipped iTrial number
+stopThisTrial = 0;
 % for iTrial = trialCounter:p.nTotalTrials% 1280 p.nTrialsPerBlock % the iteration in the trial loop
 while iTrial <= p.nTotalTrials
     % trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
-    trialIdx = trialOrder(iTrial);
 
-    % if trialCounter>1
-    %     stopThisTrial = 1; 
-    %     eyeSkip(trialIdx) = stopThisTrial; % this is for the previous trial
-    % end
+    if iTrial> 1 
+        eyeSkip(iTrial-1) = stopThisTrial; % this is for the previous trial
+    end
     stopThisTrial = 0;
 
+     trialIdx = trialOrder(iTrial);
     %% Get condition information for this trial
     precueValidity = p.precueValidities(trials(trialIdx, idx.precueValidity)); % saves each column in trials matrix as corresponding variable e.g. column 1 = precue validity
     target = trials(trialIdx, idx.target);
@@ -448,8 +449,8 @@ while iTrial <= p.nTotalTrials
    % Check fixation hold
     if p.eyeTracking
         driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad});
-    
-        
+
+
         if driftCorrected
             % restart trial
             DrawFormattedText(window, 'x', 'center', 'center', white);
@@ -533,8 +534,9 @@ while iTrial <= p.nTotalTrials
                 % trialOrder
                 trialOrder(end+1) = trialOrder(iTrial);
                 skippedTrials(end+1) = trialOrder(iTrial);
-                response = NaN;
-                correct = NaN;
+                iTrialskipped(end+1) = iTrial;
+                % response = NaN;
+                % correct = NaN;
                 p.nTotalTrials = p.nTotalTrials + 1;
                 iTrial = iTrial + 1;
          
@@ -601,10 +603,10 @@ while iTrial <= p.nTotalTrials
                 % this can be easily done by appending the trial number to the end of
                 % trialOrder
                 trialOrder(end+1) = trialOrder(iTrial);
-                stopThisTrial(iTrial) = stopThisTrial;
                 skippedTrials(end+1) = trialOrder(iTrial);
-                response(iTrial) = NaN;
-                correct(iTrial) = NaN;
+                iTrialskipped(end+1) = iTrial;
+                % response(iTrial) = NaN;
+                % correct(iTrial) = NaN;
                 p.nTotalTrials = p.nTotalTrials + 1;
                 iTrial = iTrial + 1;
           
@@ -660,7 +662,7 @@ while iTrial <= p.nTotalTrials
              fixations = [fixations fixation];
 
              if fixation==0
-                stopThisTrial = 1;
+                stopThisTrial= 1;
                 WaitSecs(1);
                 % stimDebugMessage = sprintf('iTrial is %d, trialIdx is %d, sTT is %d . Press to move on', iTrial, trialIdx, stopThisTrial);
                 % DrawFormattedText(window, stimDebugMessage, 'center', 'center', [1 1 1]*white)
@@ -672,10 +674,10 @@ while iTrial <= p.nTotalTrials
                 % this can be easily done by appending the trial number to the end of
                 % trialOrder
                 trialOrder(end+1) = trialOrder(iTrial);
-                stopThisTrial(iTrial) = stopThisTrial;
                 skippedTrials(end+1) = trialOrder(iTrial);
-                response(iTrial) = NaN;
-                correct(iTrial) = NaN;
+                iTrialskipped(end+1) = iTrial;
+                % response(iTrial) = NaN;
+                % correct(iTrial) = NaN;
                 p.nTotalTrials = p.nTotalTrials + 1;
                 iTrial = iTrial + 1;
         
@@ -730,7 +732,7 @@ while iTrial <= p.nTotalTrials
      end
 
     % Feedback
-    % if goodTrial == 1
+    % % if goodTrial == 1
     correct = NaN;
     % correct = double(correct);
     if response==3 % absent
@@ -799,10 +801,9 @@ end
     data.timeTargetRT(iTrial) = timeTargetRT;
     data.session(iTrial) = s.session; 
     data.iTrial(iTrial) = iTrial; 
-    data.stopThisTrial(iTrial) = stopThisTrial;
     data.skippedTrials = skippedTrials;
+    data.iTrialskipped = iTrialskipped;
  
-
     if s.exptStage == 4 || s.exptStage == 5
         data.block(iTrial) = block;
     end 
@@ -872,6 +873,7 @@ end
         data.dateTime=dateStr;
         data.timings=timing;
         eyedata.eye = eye;
+        data.eyeSkip = eyeSkip;
 
         switch s.exptStage
             case 0
