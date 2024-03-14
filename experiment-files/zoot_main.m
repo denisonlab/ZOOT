@@ -939,20 +939,20 @@ end
                 DrawFormattedText(window, breakMessage, 'center', 'center', [1 1 1]);
                 Screen('Flip', window);
                 WaitSecs(1);
-                if iTrial < p.nTotalTrials
-                    keyPressed = 0;
-                    while ~keyPressed
-                        % if p.useKbQueue
-                        %     [keyIsDown, firstPress] = KbQueueCheck();
-                        %     keyCode = logical(firstPress);
-                        % else
-                        [secs, keyCode] = KbWait(devNum);
-                        % end
-                        if strcmp(KbName(keyCode),'1!')
-                            keyPressed = 1;
-                        end
-                    end
-                end
+                % if iTrial < p.nTotalTrials
+                %     keyPressed = 0;
+                %     while ~keyPressed
+                %         % if p.useKbQueue
+                %         %     [keyIsDown, firstPress] = KbQueueCheck();
+                %         %     keyCode = logical(firstPress);
+                %         % else
+                %         [secs, keyCode] = KbWait(devNum);
+                %         % end
+                %         if strcmp(KbName(keyCode),'1!')
+                %             keyPressed = 1;
+                %         end
+                %     end
+                % end
                 block = block+1; % keep track of block for block message only
         end
 
