@@ -319,6 +319,7 @@ if s.exptStage == 4 || s.exptStage == 5
         dataPrevious = load(dataFileNames{end}); % this isn't checking the time stamp yet
         % otherwise load the data w latest  time stamp and find the last trial
         % that was left off
+        data = dataPrevious.data;
         iTrial = max(dataPrevious.data.iTrial)+1;
         block = max(dataPrevious.data.block)+1;
         trialOrder = dataPrevious.data.trialOrder;
@@ -541,10 +542,10 @@ while iTrial <= p.nTotalTrials
         while GetSecs < timeT1 + p.imDur + p.targetSOA - p.eyeSlack && ~stopThisTrial
             WaitSecs(.01);
             %             fixation = mod(iTrial,10); %%% for testing
-                fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
-             fixations = [fixations fixation];
+            fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
+            fixations = [fixations fixation];
 
-              if fixation==0
+            if fixation==0
                 stopThisTrial = 1;
                 WaitSecs(1);
                 % stimDebugMessage = sprintf('iTrial is %d, trialIdx is %d, sTT is %d . Press to move on', iTrial, trialIdx, stopThisTrial);
@@ -562,7 +563,6 @@ while iTrial <= p.nTotalTrials
                 p.nTotalTrials = p.nTotalTrials + 1;
                 iTrial = iTrial + 1;
           
-            % fixations = [fixations fixation];
                 DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                 Screen('Flip', window);
                 KbWait(devNum);
@@ -607,10 +607,6 @@ while iTrial <= p.nTotalTrials
             WaitSecs(.01);
             %             fixation = mod(iTrial,10); %%% for testing
               fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
-            % [stopThisTrial, trialOrder, p.nTotalTrials] = fixationBreakTasks(...
-            %     fixation, window, white*p.backgroundColor, trialOrder, iTrial, p.nTotalTrials);
-            %
-            % fixT2(iTrial) = fixation;
              fixations = [fixations fixation];
 
              if fixation==0
@@ -628,12 +624,9 @@ while iTrial <= p.nTotalTrials
                 trialOrder(end+1) = trialOrder(iTrial);
                 skippedTrials(end+1) = trialOrder(iTrial);
                 iTrialskipped(end+1) = iTrial;
-                % response(iTrial) = NaN;
-                % correct(iTrial) = NaN;
                 p.nTotalTrials = p.nTotalTrials + 1;
                 iTrial = iTrial + 1;
         
-            % fixations = [fixations fixation];
                 DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                 Screen('Flip', window);
                 KbWait(devNum);
@@ -666,31 +659,26 @@ while iTrial <= p.nTotalTrials
 
     statusPostcue = PsychPortAudio('GetStatus', pahandle); % moved here to let PsychPortAudio close
 
-    % if goodTrial ==1
-        response = [];
-        while isempty(response)
-            [timeTargetResponse, keyCode] = KbWait(devNum);
-            timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
-            responseKey = find(keyCode);
-            responseKeyName=KbName(responseKey);
-            response = find(strcmp(p.responseKeys,responseKeyName));
-        end
-    % else 
-    %     response = NaN;
-    % end
+    response = [];
+    while isempty(response)
+        [timeTargetResponse, keyCode] = KbWait(devNum);
+        timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
+        responseKey = find(keyCode);
+        responseKeyName=KbName(responseKey);
+        response = find(strcmp(p.responseKeys,responseKeyName));
+    end
+
 
     if p.eyeTracking
         Eyelink('Message', 'TRIAL_END');
      end
 
     % Feedback
-    % % if goodTrial == 1
     correct = NaN;
-    % correct = double(correct);
-    if response==3 % absent
+    if response==3 % reported absent
         responseTilt = 0;
         correct = responseTilt==targetContrast;
-    elseif response==1 || response==2
+    elseif response==1 || response==2 % reported present
         if targetContrast == 1
             responseTilt = p.tilts(response);
             correct = targetTilt==responseTilt;
@@ -698,10 +686,8 @@ while iTrial <= p.nTotalTrials
             correct = 0;
         end
     end
-    correct = double(correct);
-%     else 
-%         correct = NaN;
-% end 
+    correct = double(correct); % needs to be converted from logical to double to include NaN for skipped trials
+
 
     if correct==1
         fixColor=[0 1 0]*255; % green for correct
@@ -726,7 +712,7 @@ if response == 3
 elseif response == 1 || response == 2
     responseTiltName = string(p.tiltNames(response));
 end 
-    if p.stimDebug == 1
+    if p.stimDebug == 1 % to verify that stimulus orientation is showing what it is supposed to 
         stimDebugMessage = sprintf('You responded %s and the stimulus was %s and %s. Press any key to move on', responseTiltName, targetTiltName, targetAxisName);
         DrawFormattedText(window, stimDebugMessage, 'center', 'center', [1 1 1]*white)
         Screen('Flip', window)
@@ -828,6 +814,12 @@ end
         data.timings=timing;
         eyedata.eye = eye;
         data.eyeSkip = eyeSkip;
+
+    if iTrial == p.nTotalTrials
+        mess = sprintf('p.nTotalTrials is %d', p.nTotalTrials)
+        DrawFormattedText(window, mess, 'center', 'center', [1 1 1])
+        Screen('Flip', window)
+        KbWait(devNum)
 
         switch s.exptStage
             case 0

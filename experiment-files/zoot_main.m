@@ -319,6 +319,7 @@ if s.exptStage == 4 || s.exptStage == 5
         dataPrevious = load(dataFileNames{end}); % this isn't checking the time stamp yet
         % otherwise load the data w latest  time stamp and find the last trial
         % that was left off
+        data = dataPrevious.data;
         iTrial = max(dataPrevious.data.iTrial)+1;
         block = max(dataPrevious.data.block)+1;
         trialOrder = dataPrevious.data.trialOrder;
@@ -341,7 +342,7 @@ skippedTrials = []; % skipped trial order number
 iTrialskipped = []; % skipped iTrial number
 stopThisTrial = 0;
 % for iTrial = trialCounter:p.nTotalTrials% 1280 p.nTrialsPerBlock % the iteration in the trial loop
-while iTrial <= p.nTotalTrials
+while iTrial <= size(trialOrder, 2)
     % trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
 
     if iTrial> 1 
@@ -803,7 +804,7 @@ end
     timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial);
 
     % If last trial in a block, save data... 
-    if mod(iTrial, p.nTrialsPerBlock)==0 || iTrial == p.nTotalTrials
+    if mod(iTrial, p.nTrialsPerBlock)==0 || iTrial == size(trialOrder,2)
         data.trialsHeaders = trialsHeaders;
         data.trials = trials;
         data.trialOrder=trialOrder;
@@ -939,20 +940,20 @@ end
                 DrawFormattedText(window, breakMessage, 'center', 'center', [1 1 1]);
                 Screen('Flip', window);
                 WaitSecs(1);
-                % if iTrial < p.nTotalTrials
-                %     keyPressed = 0;
-                %     while ~keyPressed
-                %         % if p.useKbQueue
-                %         %     [keyIsDown, firstPress] = KbQueueCheck();
-                %         %     keyCode = logical(firstPress);
-                %         % else
-                %         [secs, keyCode] = KbWait(devNum);
-                %         % end
-                %         if strcmp(KbName(keyCode),'1!')
-                %             keyPressed = 1;
-                %         end
-                %     end
-                % end
+                if iTrial < p.nTotalTrials
+                    keyPressed = 0;
+                    while ~keyPressed
+                        % if p.useKbQueue
+                        %     [keyIsDown, firstPress] = KbQueueCheck();
+                        %     keyCode = logical(firstPress);
+                        % else
+                        [secs, keyCode] = KbWait(devNum);
+                        % end
+                        if strcmp(KbName(keyCode),'1!')
+                            keyPressed = 1;
+                        end
+                    end
+                end
                 block = block+1; % keep track of block for block message only
         end
 
@@ -987,7 +988,8 @@ if p.eyeTracking
 
     %convert to the more informative name, and save to correct directory
     data.eyeFile = eyeFile;
-    save(filename,'eyedata')
+    eyefilename = 'eyeFile.mat';
+    save(eyefilename,'eyedata')
     disp('eye data saved!')
 end
 
