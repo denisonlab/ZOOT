@@ -342,7 +342,7 @@ skippedTrials = []; % skipped trial order number
 iTrialskipped = []; % skipped iTrial number
 stopThisTrial = 0;
 % for iTrial = trialCounter:p.nTotalTrials% 1280 p.nTrialsPerBlock % the iteration in the trial loop
-while iTrial <= p.nTotalTrials
+while iTrial <= size(trialOrder, 2)
     % trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
 
     if iTrial> 1 
@@ -446,7 +446,7 @@ while iTrial <= p.nTotalTrials
 
    % Check fixation hold
     if p.eyeTracking
-        driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad});
+        driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect});
 
 
         if driftCorrected
@@ -676,9 +676,11 @@ while iTrial <= p.nTotalTrials
     % Feedback
     correct = NaN;
     if response==3 % reported absent
+        seen = 0;
         responseTilt = 0;
         correct = responseTilt==targetContrast;
     elseif response==1 || response==2 % reported present
+        seen = 1;
         if targetContrast == 1
             responseTilt = p.tilts(response);
             correct = targetTilt==responseTilt;
@@ -741,6 +743,8 @@ end
     data.timeTargetRT(iTrial) = timeTargetRT;
     data.session(iTrial) = s.session; 
     data.iTrial(iTrial) = iTrial; 
+    data.seen(iTrial) = seen;
+    data.correctDis(iTrial) = correctDis;
     data.skippedTrials = skippedTrials;
     data.iTrialskipped = iTrialskipped;
  
@@ -804,7 +808,7 @@ end
     timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial);
 
     % If last trial in a block, save data... 
-    if mod(iTrial, p.nTrialsPerBlock)==0 || iTrial == p.nTotalTrials
+    if mod(iTrial, p.nTrialsPerBlock)==0 || iTrial == size(trialOrder,2)
         data.trialsHeaders = trialsHeaders;
         data.trials = trials;
         data.trialOrder=trialOrder;
@@ -814,12 +818,6 @@ end
         data.timings=timing;
         eyedata.eye = eye;
         data.eyeSkip = eyeSkip;
-
-    if iTrial == p.nTotalTrials
-        mess = sprintf('p.nTotalTrials is %d', p.nTotalTrials)
-        DrawFormattedText(window, mess, 'center', 'center', [1 1 1])
-        Screen('Flip', window)
-        KbWait(devNum)
 
         switch s.exptStage
             case 0
@@ -994,7 +992,8 @@ if p.eyeTracking
 
     %convert to the more informative name, and save to correct directory
     data.eyeFile = eyeFile;
-    save(filename,'eyedata')
+    eyefilename = 'eyeFile.mat';
+    save(eyefilename,'eyedata')
     disp('eye data saved!')
 end
 

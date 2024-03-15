@@ -446,7 +446,7 @@ while iTrial <= size(trialOrder, 2)
 
    % Check fixation hold
     if p.eyeTracking
-        driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad});
+        driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect});
 
 
         if driftCorrected
@@ -676,9 +676,11 @@ while iTrial <= size(trialOrder, 2)
     % Feedback
     correct = NaN;
     if response==3 % reported absent
+        seen = 0;
         responseTilt = 0;
         correct = responseTilt==targetContrast;
     elseif response==1 || response==2 % reported present
+        seen = 1;
         if targetContrast == 1
             responseTilt = p.tilts(response);
             correct = targetTilt==responseTilt;
@@ -741,6 +743,8 @@ end
     data.timeTargetRT(iTrial) = timeTargetRT;
     data.session(iTrial) = s.session; 
     data.iTrial(iTrial) = iTrial; 
+    data.seen(iTrial) = seen;
+    data.correctDis(iTrial) = correctDis;
     data.skippedTrials = skippedTrials;
     data.iTrialskipped = iTrialskipped;
  
