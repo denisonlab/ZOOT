@@ -89,7 +89,7 @@ elseif s.exptStage == 2
 end
 
 PsychDefaultSetup(2); %psychtoolbox settings
-oscilloscope = 0; % set to 1 for oscilloscope squares
+oscilloscope = 1; % set to 1 for oscilloscope squares
 
 %% Eye data i/o
 eyeFile = [s.subjectID(1:2) '0' num2str(s.session) datestr(now, 'mmdd')];           
@@ -446,7 +446,7 @@ while iTrial <= size(trialOrder, 2)
 
    % Check fixation hold
     if p.eyeTracking
-        driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect});
+        driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad});
 
 
         if driftCorrected
@@ -519,8 +519,8 @@ while iTrial <= size(trialOrder, 2)
         Screen('FillRect', window, white, [])
     end
     drawFixation(window, cx, cy, fixSize, p.dimTargetColor);
-    timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
     PsychPortAudio('FillBuffer', pahandle, p.sound);
+    timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
     timeT1Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
     statusT1Click = PsychPortAudio('GetStatus', pahandle);
     if p.eyeTracking
@@ -690,6 +690,13 @@ while iTrial <= size(trialOrder, 2)
     end
     correct = double(correct); % needs to be converted from logical to double to include NaN for skipped trials
 
+    correctDis = NaN; % if target was reported as seen, how often was the discrimination reported correctly?
+    if seen 
+        if targetContrast == 1
+            correctDis = responseTilt == targetTilt;
+        end 
+    end 
+    correctDis = double(correctDis);
 
     if correct==1
         fixColor=[0 1 0]*255; % green for correct
@@ -794,6 +801,7 @@ end
     timing.timeITIstart(iTrial) = timeITIstart;
     timing.timeITIend(iTrial) = timeITIend;
 
+    timing.fixSOA(iTrial) = timing.timePrecue(iTrial) - timing.timeFix(iTrial);
     timing.precueSOA(iTrial)=timing.timeT1(iTrial)-timing.timePrecue(iTrial);
     timing.precueDur(iTrial)=timing.timePrecueOff(iTrial) - timing.timePrecue(iTrial);
     timing.T1Dur(iTrial)=timing.timeBlank1(iTrial)-timing.timeT1(iTrial);

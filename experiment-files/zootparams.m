@@ -42,12 +42,12 @@ switch s.comp
         p.dir = '/home/denisonlab-beh/Experiments/ZOOT/experiment-files';
         p.retina = 0;
         p.useKbQueue = 1;
-        % p.eyeTracking = 0;
-        if s.exptStage > 0
-            p.eyeTracking = 1;
-        else
-            p.eyeTracking = 0;
-        end
+        p.eyeTracking = 0;
+        % if s.exptStage > 0
+        %     p.eyeTracking = 1;
+        % else
+        %     p.eyeTracking = 0;
+        % end
         p.eyeSlack = 0.12;
         p.windowTesting=0;
         p.deviceName = 'Scarlett';
@@ -97,8 +97,9 @@ p.angularFreq = 8;
 %% Sounds
 p.volume=0.01;
 
-p.Fs = 48000; % samples per second, 48000
-p.sampleRate=48000;
+p.Fs = 44100; % samples per second
+% p.Fs = 48000; % samples per second, 48000
+% p.sampleRate=48000;
 p.toneFreqs = [784 523]; % Hz; [G5, C5]
 p.toneDur = 0.2; % seconds 
 p.toneVolume=0.5;
@@ -107,7 +108,7 @@ p.envRampDuration=10; %ms
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% JUNEAU'S CLICK SOUND %%%%%%%%%%%%%%%%%%%%%%%%%%
 % target click sounds
-p.clickFs = 44100; % samples per second
+% p.clickFs = 44100; % samples per second
 p.tLev = 80; %70; %80; % Target level, "dB SPL", arbitrary, usually at 80
 
 p.rms1Lev = 100; % Norm. value for RMS of 1, arbitrary
@@ -127,11 +128,11 @@ p.clickFreq = 8000;           % highest frequency of click peak in Hertz
 % "The Fourier transform of a square wave pulse is sin(x)/x"
 % Source: https://www.mathworks.com/matlabcentral/answers/1612350-how-to-program-a-click-stimulus?s_tid=prof_contriblnk
 % smallest it can  be on Linux and Sennheiser is 0.04644
-tclick = linspace(0, p.clickDur*p.clickFs, p.clickDur*p.clickFs)/p.clickFs;     % generate time vector (s)
-xValue = 2*pi*(tclick-p.clickRampDur)*p.clickFreq;               % x value based on the Fourier transform of a square wave, sin(x)/x
+p.tclick = linspace(0, p.clickDur*p.Fs, p.clickDur*p.Fs)/p.Fs;     % generate time vector (s)
+xValue = 2*pi*(p.tclick-p.clickRampDur)*p.clickFreq;               % x value based on the Fourier transform of a square wave, sin(x)/x
 c = sin(xValue)./(xValue);                              % generate the click
 
-clickRampDurSamples = 0:1/p.clickFs:p.clickRampDur - 1/p.clickFs;
+clickRampDurSamples = 0:1/p.Fs:p.clickRampDur - 1/p.Fs;
 clickRampDurSamples = length(clickRampDurSamples); % number of samples for onset/offset ramps
 c = CosineSquaredRamp(c,clickRampDurSamples);
 c = c-mean(c); % Next three lines are setting the overall level

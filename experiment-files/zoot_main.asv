@@ -690,6 +690,13 @@ while iTrial <= size(trialOrder, 2)
     end
     correct = double(correct); % needs to be converted from logical to double to include NaN for skipped trials
 
+    correctDisc = NaN;
+    if seen 
+        if targetContrast == 1
+            correctDisc = responseTilt == targetTilt;
+        end 
+    end 
+    
 
     if correct==1
         fixColor=[0 1 0]*255; % green for correct

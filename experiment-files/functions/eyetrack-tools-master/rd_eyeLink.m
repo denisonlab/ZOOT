@@ -166,9 +166,9 @@ switch command
         while ~ready
             %Check that we are recording
             err=Eyelink('CheckRecording');
-            if err~=0
-                rd_eyeLink('startrecording', window, {fixRect});
-            end
+            % if err~=0
+            %     rd_eyeLink('startrecording', window, {fixRect});
+            % end
 
             % Verify that the subject is holding fixation for some set
             % time before allowing the trial to start. A
