@@ -89,7 +89,7 @@ elseif s.exptStage == 2
 end
 
 PsychDefaultSetup(2); %psychtoolbox settings
-oscilloscope = 1; % set to 1 for oscilloscope squares
+oscilloscope = 0; % set to 1 for oscilloscope squares
 
 %% Eye data i/o
 eyeFile = [s.subjectID(1:2) '0' num2str(s.session) datestr(now, 'mmdd')];           
@@ -510,7 +510,8 @@ while iTrial <= size(trialOrder, 2)
         if stopThisTrial
             continue
         end
-    end
+     end
+      
     %% Present T1
     if p.contrasts(T1Contrast)>0
         Screen('DrawTexture', window, gabors(T1Phase), [], imRect, T1Orientation);
