@@ -202,13 +202,11 @@ switch s.exptStage
     case 4 % full task practice
         p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
         p.nTrialsPerBlock = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
-        %p.nTrialsPerBlock = 4; %debugging
         p.nBlocks = 1;
         p.nBlockPerSession = 1;
     case 5 % main task
         p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
-        p.nTrialsPerBlock = 5; %numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
-        %p.nTrialsPerBlock = 4; %debugging
+        p.nTrialsPerBlock = 5;% numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
         p.nBlocks = p.nTotalTrials / p.nTrialsPerBlock;
         p.nBlockPerSession = p.nBlocks/2;
 end
