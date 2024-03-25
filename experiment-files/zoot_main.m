@@ -333,10 +333,10 @@ end
 
 %change directory
 cd(p.dir)
-
-if p.eyeTracking
-    rd_eyeLink('startrecording', window, {el, fixRect});
-end
+% 
+% if p.eyeTracking
+%     rd_eyeLink('startrecording', window, {el, fixRect});
+% end
 % 
 skippedTrials = []; % skipped trial order number
 iTrialskipped = []; % skipped iTrial number
@@ -444,9 +444,12 @@ while iTrial <= size(trialOrder, 2)
         Eyelink('Message', 'FixOn')
     end
 
+ 
    % Check fixation hold
     if p.eyeTracking
-        driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad});
+        rd_eyeLink('startrecording', window, {el, fixRect});
+        driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect});
+       
 
 
         if driftCorrected
@@ -455,6 +458,12 @@ while iTrial <= size(trialOrder, 2)
             timeFix = Screen('Flip', window);
         end
     end
+
+     [keyCode] = KbCheck(devNum);
+     if keyCode == p.eyeTrackerCalibrationKey
+                   rd_eyeLink('calibrate', window, el);
+                       rd_eyeLink('trialstart', window, {el, 1});
+     end 
 
     %% Present precue tone
     % bufferhandle = PsychPortAudio('CreateBuffer', pahandle, precueTone);
@@ -674,6 +683,7 @@ while iTrial <= size(trialOrder, 2)
             end
         else
             response = 0;
+            responseKey = 0;
         end
 
 

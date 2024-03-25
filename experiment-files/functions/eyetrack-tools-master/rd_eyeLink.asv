@@ -155,7 +155,7 @@ switch command
         cx = in{3};
         cy = in{4};
         rad = in{5};
-        fixRect = in{6};
+        %fixRect = in{6}
 % %         
         driftCorrected = 0;
         
@@ -167,13 +167,13 @@ switch command
             %Check that we are recording
             err=Eyelink('CheckRecording');
             if err~=0
-                rd_eyeLink('startrecording', window, {fixRect});
+                rd_eyeLink('startrecording', window, {el, fixRect}); %
             end
 
             % Verify that the subject is holding fixation for some set
             % time before allowing the trial to start. A
             % timeout period is built into this function.
-            fixation = rd_eyeLink('fixholdcheck', window, {cx, cy, rad});
+            fixation = rd_eyeLink('fixholdcheck', window, {cx, cy, rad}); % 0 or 1
 
             % Drift correct if fixation timed out
             if ~fixation

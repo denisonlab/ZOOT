@@ -155,7 +155,7 @@ switch command
         cx = in{3};
         cy = in{4};
         rad = in{5};
-        %fixRect = in{6}
+        fixRect = in{6};
 % %         
         driftCorrected = 0;
         
@@ -166,10 +166,9 @@ switch command
         while ~ready
             %Check that we are recording
             err=Eyelink('CheckRecording');
-            % if err~=0
-            %     rd_eyeLink('startrecording', window, {el, fixRect}); %
-            %     cx, cy
-            % end
+            if err~=0
+                rd_eyeLink('startrecording', window, {el, fixRect}); %
+            end
 
             % Verify that the subject is holding fixation for some set
             % time before allowing the trial to start. A
