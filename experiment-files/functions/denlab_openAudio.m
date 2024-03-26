@@ -18,7 +18,7 @@ function pahandle = denlab_openAudio(deviceName, reqlatencyclass, Fs)
 PsychPortAudio('Close');
 
 % Initialize the sound driver
-InitializePsychSound(0); %0 = reallyneedlowlatency
+InitializePsychSound(1); %0 = reallyneedlowlatency
 
 %% Find all sound devices 
 PsychPortAudioDevices = PsychPortAudio('GetDevices');

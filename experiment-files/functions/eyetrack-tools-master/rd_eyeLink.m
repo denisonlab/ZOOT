@@ -156,9 +156,10 @@ switch command
         cy = in{4};
         rad = in{5};
         fixRect = in{6};
-% %         
+        % %
         driftCorrected = 0;
-        
+        calibrateCheck = 0;
+
         
         % Start the trial only when 1) eyetracker is recording, 2) subject
         % is fixating
@@ -175,11 +176,15 @@ switch command
             % timeout period is built into this function.
             fixation = rd_eyeLink('fixholdcheck', window, {cx, cy, rad}); % 0 or 1
 
-            % Drift correct if fixation timed out
-            if ~fixation
-          
+            % Drift check if fixation timed out, if drift check occurs
+            % three consecutive times, recalibrate
+            if ~fixation && calibrateCheck < 2
                 rd_eyeLink('driftcorrect', window, {el, cx, cy});
                 driftCorrected = 1;
+                ready = 0;
+                calibrateCheck = calibrateCheck + 1;
+            elseif ~fixation && calibrateCheck >= 2
+                rd_eyeLink('calibrate', window, el)
                 ready = 0;
             else
                 ready = 1;
@@ -322,10 +327,15 @@ trialNum= in{2};
         el = in{1};
         cx = in{2};
         cy = in{3};
-        
+
+        devNum = -1; 
+        DrawFormattedText(window, 'Fixation lost. Please get the experimenter to recalibrate', 'center', 'center', [1 1 1]);
+        Screen('Flip', window)
+        KbWait(devNum)
+
         Eyelink('Message', 'DRIFT_CORRECTION');
-         driftCorrection = EyelinkDoDriftCorrect(el, cx, cy, 1, 1);
-        
+        driftCorrection = EyelinkDoDriftCorrect(el, cx, cy, 1, 1);
+
         out = driftCorrection;
         
     case 'stoprecording'
