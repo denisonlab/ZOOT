@@ -324,7 +324,7 @@ trialNum= in{2};
         cy = in{3};
         
         Eyelink('Message', 'DRIFT_CORRECTION');
-        driftCorrection = EyelinkDoDriftCorrect(el, cx, cy, 1, 1);
+         driftCorrection = EyelinkDoDriftCorrect(el, cx, cy, 1, 1);
         
         out = driftCorrection;
         

@@ -155,7 +155,7 @@ switch command
         cx = in{3};
         cy = in{4};
         rad = in{5};
-        %fixRect = in{6}
+        fixRect = in{6};
 % %         
         driftCorrected = 0;
         
@@ -324,7 +324,7 @@ trialNum= in{2};
         cy = in{3};
         
         Eyelink('Message', 'DRIFT_CORRECTION');
-        driftCorrection = EyelinkDoDriftCorrect(el, cx, cy, 1, 1);
+         driftCorrection = EyelinkDoDriftCorrect(el, cx, cy, 1, 1);
         
         out = driftCorrection;
         
