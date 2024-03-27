@@ -780,8 +780,8 @@ while iTrial <= size(trialOrder, 2)
         data.iTrial(iTrial) = iTrial;
         data.seen(iTrial) = seen;
         data.correctDis(iTrial) = correctDis;
-        data.skippedTrials = skippedTrials;
-        data.iTrialskipped = iTrialskipped;
+        % data.skippedTrials = skippedTrials;
+        % data.iTrialskipped = iTrialskipped;
 
         if s.exptStage == 4 || s.exptStage == 5
             data.block(iTrial) = block;
@@ -855,6 +855,8 @@ while iTrial <= size(trialOrder, 2)
         data.timings=timing;
         eyedata.eye = eye;
         data.eyeSkip = eyeSkip;
+        data.skippedTrials = skippedTrials;
+        data.iTrialskipped = iTrialskipped;
 
         switch s.exptStage
             case 0
@@ -973,7 +975,7 @@ while iTrial <= size(trialOrder, 2)
                     else 
                          keyMessage = 'Press 1 to go on.';
                     end
-                elseif block == p.Blocks + 1
+                elseif block == p.nBlocks + 1
                     keyMessage = ''; % last block
                 else
                     keyMessage = 'Press 1 to go on.';
