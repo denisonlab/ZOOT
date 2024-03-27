@@ -334,10 +334,10 @@ end
 %change directory
 cd(p.dir)
 % 
-% if p.eyeTracking
-%     rd_eyeLink('startrecording', window, {el, fixRect});
-% end
-% 
+if p.eyeTracking
+    rd_eyeLink('startrecording', window, {el, fixRect});
+end
+
 skippedTrials = []; % skipped trial order number
 iTrialskipped = []; % skipped iTrial number
 stopThisTrial = 0;
@@ -447,7 +447,7 @@ while iTrial <= size(trialOrder, 2)
  
    % Check fixation hold
     if p.eyeTracking
-        rd_eyeLink('startrecording', window, {el, fixRect});
+        % rd_eyeLink('startrecording', window, {el, fixRect});
         driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect});
        
 
@@ -715,6 +715,8 @@ while iTrial <= size(trialOrder, 2)
             if targetContrast == 1
                 correctDis = responseTilt == targetTilt;
             end
+        elseif seen == 0
+            correctDis = -1; %reported absent, using -1 because NaN already used for skipped trials
         end
         correctDis = double(correctDis);
 
