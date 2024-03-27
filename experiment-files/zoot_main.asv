@@ -967,13 +967,7 @@ while iTrial <= size(trialOrder, 2)
            
                 % trialsInBlock = trials(blockStartTrial:iTrial,:);
                 blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, p.nBlocks);
-                if iTrial == p.nTotalTrials
-                    if isempty(skippedTrials)
-                        keyMessage = ''; % last block
-                    else 
-                         keyMessage = 'Press 1 to go on.';
-                    end
-                elseif block == p.Blocks + 1
+                if iTrial==p.nTotalTrials
                     keyMessage = ''; % last block
                 else
                     keyMessage = 'Press 1 to go on.';
