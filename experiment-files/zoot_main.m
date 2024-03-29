@@ -50,10 +50,6 @@ eyedata.eyeDir =  sprintf('%s/%s', data.subDir, 'eyedata');
 if ~exist(eyedata.eyeDir, 'dir')
     mkdir(eyedata.eyeDir)
 end
-% eyedata.eyeDataDir = sprintf('%s/%s', eyedata.eyeDir, 'eye');
-% if ~exist(eyedata.eyeDataDir, 'dir')
-%     mkdir(eyedata.eyeDataDir)
-% end
 
 
 
@@ -310,22 +306,22 @@ end
 % if we cant find any data for this person then start with trial 1
 
 if s.exptStage == 4 || s.exptStage == 5
-    if isempty(dataFileNames)
-        trialOrder = zoot_makeBlocks(p);
-        iTrial = 1;
-        block = 1;
-        eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
+        if isempty(dataFileNames)
+            trialOrder = zoot_makeBlocks(p);
+            iTrial = 1;
+            block = 1;
+            eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
+        else
+            dataPrevious = load(dataFileNames{end}); % this isn't checking the time stamp yet
+            % otherwise load the data w latest  time stamp and find the last trial
+            % that was left off
+            data = dataPrevious.data;
+            iTrial = max(dataPrevious.data.iTrial)+1;
+            block = max(dataPrevious.data.block)+1;
+            trialOrder = dataPrevious.data.trialOrder;
+            eyeSkip = dataPrevious.data.eyeSkip; % trials skipped due to an eye movement, same size as trials matrix
+        end
     else
-        dataPrevious = load(dataFileNames{end}); % this isn't checking the time stamp yet
-        % otherwise load the data w latest  time stamp and find the last trial
-        % that was left off
-        data = dataPrevious.data;
-        iTrial = max(dataPrevious.data.iTrial)+1;
-        block = max(dataPrevious.data.block)+1;
-        trialOrder = dataPrevious.data.trialOrder;
-        eyeSkip = dataPrevious.data.eyeSkip; % trials skipped due to an eye movement, same size as trials matrix
-    end
-else
     trialOrder=randperm(p.nTotalTrials);
     iTrial = 1;
     block = 1;
@@ -454,6 +450,9 @@ while iTrial <= size(trialOrder, 2)
 
         if driftCorrected
             % restart trial
+            DrawFormattedText(window, 'Please press space when ready.', 'center', 'center', [1 1 1]*white);
+            Screen('Flip', window);
+            KbWait(devNum);
             drawFixation(window, cx, cy, fixSize, p.fixColor);
             timeFix = Screen('Flip', window);
         end
@@ -530,9 +529,9 @@ while iTrial <= size(trialOrder, 2)
             Screen('FillRect', window, white, [])
         end
         drawFixation(window, cx, cy, fixSize, p.dimTargetColor);
-        % PsychPortAudio('FillBuffer', pahandle, p.sound);
         timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
-        % timeT1Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
+        % PsychPortAudio('FillBuffer', pahandle, p.sound);
+        % timeT1Click=PsychPortAudio('Start', pahandle, 1, timePrecue+p.precueSOA - slack, 0); % 1 0 1 
         % statusT1Click = PsychPortAudio('GetStatus', pahandle);
         if p.eyeTracking
             Eyelink('Message', 'T1')
@@ -715,9 +714,7 @@ while iTrial <= size(trialOrder, 2)
             if targetContrast == 1
                 correctDis = responseTilt == targetTilt;
             end
-        elseif seen == 0
-            correctDis = -1; %reported absent, using -1 because NaN already used for skipped trials
-        end
+        end 
         correctDis = double(correctDis);
 
         if ~stopThisTrial
@@ -775,8 +772,8 @@ while iTrial <= size(trialOrder, 2)
         data.iTrial(iTrial) = iTrial;
         data.seen(iTrial) = seen;
         data.correctDis(iTrial) = correctDis;
-        data.skippedTrials = skippedTrials;
-        data.iTrialskipped = iTrialskipped;
+        % data.skippedTrials = skippedTrials;
+        % data.iTrialskipped = iTrialskipped;
 
         if s.exptStage == 4 || s.exptStage == 5
             data.block(iTrial) = block;
@@ -850,6 +847,8 @@ while iTrial <= size(trialOrder, 2)
         data.timings=timing;
         eyedata.eye = eye;
         data.eyeSkip = eyeSkip;
+        data.skippedTrials = skippedTrials;
+        data.iTrialskipped = iTrialskipped;
 
         switch s.exptStage
             case 0
@@ -962,7 +961,13 @@ while iTrial <= size(trialOrder, 2)
            
                 % trialsInBlock = trials(blockStartTrial:iTrial,:);
                 blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, p.nBlocks);
-                if iTrial==p.nTotalTrials
+                if iTrial == p.nTotalTrials
+                    if isempty(skippedTrials)
+                        keyMessage = ''; % last block
+                    else 
+                         keyMessage = 'Press 1 to go on.';
+                    end
+                elseif block == p.nBlocks + 1
                     keyMessage = ''; % last block
                 else
                     keyMessage = 'Press 1 to go on.';
@@ -1012,6 +1017,16 @@ if s.exptStage ==2
     save(thresholdFile,'staircase')
     disp('threshold saved!')
 end
+
+%% compile session files 
+
+cd(data.behDir)
+data.sesDir =  sprintf('session %d', s.session);
+if ~exist(data.sesDir, 'dir')
+    mkdir(data.sesDir)
+end
+movefile('*.mat', data.sesDir)
+
 %% Completion message
 WaitSecs(1);
 DrawFormattedText(window, 'All done! Thank you for your effort', 'center', 'center', 1);
@@ -1023,7 +1038,7 @@ if p.eyeTracking
     rd_eyeLink('eyestop', window, {eyeFile, eyedata.eyeDir});
 
     %convert to the more informative name, and save to correct directory
-    data.eyeFile = eyeFile;
+    eyedata.eyeFile = eyeFile;
     eyefilename = 'eyeFile.mat';
     save(eyefilename,'eyedata')
     disp('eye data saved!')
