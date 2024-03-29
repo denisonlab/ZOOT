@@ -50,10 +50,6 @@ eyedata.eyeDir =  sprintf('%s/%s', data.subDir, 'eyedata');
 if ~exist(eyedata.eyeDir, 'dir')
     mkdir(eyedata.eyeDir)
 end
-% eyedata.eyeDataDir = sprintf('%s/%s', eyedata.eyeDir, 'eye');
-% if ~exist(eyedata.eyeDataDir, 'dir')
-%     mkdir(eyedata.eyeDataDir)
-% end
 
 
 
@@ -1042,7 +1038,7 @@ if p.eyeTracking
     rd_eyeLink('eyestop', window, {eyeFile, eyedata.eyeDir});
 
     %convert to the more informative name, and save to correct directory
-    data.eyeFile = eyeFile;
+    eyedata.eyeFile = eyeFile;
     eyefilename = 'eyeFile.mat';
     save(eyefilename,'eyedata')
     disp('eye data saved!')
