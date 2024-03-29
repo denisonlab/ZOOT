@@ -1029,8 +1029,13 @@ data.sesDir =  sprintf('session %d', s.session);
 if ~exist(data.sesDir, 'dir')
     mkdir(data.sesDir)
 end
-movefile('*.mat', data.sesDir)
+movefile('*.ma')
 
+findFiles = dir(fullfile(data.behDir, '*.mat'));
+for iFile = 1:length(findFiles)
+    fileName = findFiles(iFile).name;
+    movefile(fileName(iFile), data.sesDir)
+end
 %% Completion message
 WaitSecs(1);
 DrawFormattedText(window, 'All done! Thank you for your effort', 'center', 'center', 1);
