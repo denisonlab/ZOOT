@@ -6,19 +6,19 @@ fp = figureparams;
 subs = {'pilot'};
 
 
-for iSub=length(subs)
+for iSub=length(subs) % for participant
     SID = subs{iSub};
     behDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/'];
     cd(behDir);
-
-    findFiles = dir(fullfile(behDir, '*.mat'));
-    for iFile = 1:length(findFiles)
-        fileName = findFiles(iFile).name;
-        load(fileName)
+    for iSession = 1:numel(behDir) % for session 
+        sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/session' iSession];
+        findFiles = dir(fullfile(sesDir, '*.mat'));
+        for iFile = 1:length(findFiles) % for file
+            fileName = findFiles(iFile).name;
+            load(fileName)
+        end
     end
-end
-
-
+end 
 %% attention condition
 
 precue = data.precue;
