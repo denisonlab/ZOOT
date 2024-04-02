@@ -9,7 +9,7 @@ function [data] = zoot_main(s)
 AssertOpenGL;
 
 % Skip screen tests - ONLY for demo, not for real experiments
-Screen('Preference', 'SkipSyncTests', 0); % set to 0 for real experiment
+Screen('Preference', 'SkipSyncTests', 0); % set to 0 for real experiment 
 
 %% Input
 %% Basic info
@@ -50,10 +50,6 @@ eyedata.eyeDir =  sprintf('%s/%s', data.subDir, 'eyedata');
 if ~exist(eyedata.eyeDir, 'dir')
     mkdir(eyedata.eyeDir)
 end
-% eyedata.eyeDataDir = sprintf('%s/%s', eyedata.eyeDir, 'eye');
-% if ~exist(eyedata.eyeDataDir, 'dir')
-%     mkdir(eyedata.eyeDataDir)
-% end
 
 
 
@@ -308,10 +304,11 @@ for iFile = 1:numel(listing)
 end
 
 % if we cant find any data for this person then start with trial 1
-
+trialOrder = zoot_makeBlocks(p);
 if s.exptStage == 4 || s.exptStage == 5
+    if s.session == 1
         if isempty(dataFileNames)
-            trialOrder = zoot_makeBlocks(p);
+            sesTrialOrder = trialOrder(1:p.nTotalTrials);
             iTrial = 1;
             block = 1;
             eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
@@ -323,14 +320,37 @@ if s.exptStage == 4 || s.exptStage == 5
             iTrial = max(dataPrevious.data.iTrial)+1;
             block = max(dataPrevious.data.block)+1;
             trialOrder = dataPrevious.data.trialOrder;
+            sesTrialOrder = dataPrevious.data.ses1TrialOrder;
+            iTrialskipped = dataPrevious.data.iTrialskipped_ses1;
+            skippedTrials = dataPrevious.data.skippedTrials_ses1;
             eyeSkip = dataPrevious.data.eyeSkip; % trials skipped due to an eye movement, same size as trials matrix
         end
-    else
+    elseif s.session == 2
+        dataPrevious = load(dataFileNames{end});
+        findSes2File = dir('*_session2.mat');
+        if isempty(findSes2File)
+            data = dataPrevious.data;
+            iTrial = 1;
+            block = 1;
+            trialOrder = dataPrevious.data.trialOrder;
+            sesTrialOrder = trialOrder(p.nTotalTrials+1:end); % is p.nTotalTrials still 640 or updated?
+            eyeSkip = dataPrevious.data.eyeSkip; % trials skipped due to an eye movement, same size as trials matrix
+        else 
+         data = dataPrevious.data;
+            iTrial = dataPrevious.data.iTrial(end)+1;
+            block = dataPrevious.data.block(end)+1;
+            trialOrder = dataPrevious.data.trialOrder;
+            sesTrialOrder = dataPrevious.data.ses2TrialOrder;
+            iTrialskipped = dataPrevious.data.iTrialskipped_ses2;
+            skippedTrials = dataPrevious.data.skippedTrials_ses2;
+            eyeSkip = dataPrevious.data.eyeSkip; % trials skipped due to an eye movement, same size as trials matrix
+        end
+    else 
     trialOrder=randperm(p.nTotalTrials);
     iTrial = 1;
     block = 1;
 end
-
+end 
 %change directory
 cd(p.dir)
 % 
@@ -342,7 +362,7 @@ skippedTrials = []; % skipped trial order number
 iTrialskipped = []; % skipped iTrial number
 stopThisTrial = 0;
 % for iTrial = trialCounter:p.nTotalTrials% 1280 p.nTrialsPerBlock % the iteration in the trial loop
-while iTrial <= size(trialOrder, 2)
+while iTrial <= size(sesTrialOrder, 2)
     % trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
 
     if iTrial> 1 
@@ -353,7 +373,7 @@ while iTrial <= size(trialOrder, 2)
     end
     stopThisTrial = 0;
 
-     trialIdx = trialOrder(iTrial);
+     trialIdx = sesTrialOrder(iTrial);
     %% Get condition information for this trial
     precueValidity = p.precueValidities(trials(trialIdx, idx.precueValidity)); % saves each column in trials matrix as corresponding variable e.g. column 1 = precue validity
     target = trials(trialIdx, idx.target);
@@ -507,8 +527,8 @@ while iTrial <= size(trialOrder, 2)
                 % redo this trial at the end of the experiment
                 % this can be easily done by appending the trial number to the end of
                 % trialOrder
-                trialOrder(end+1) = trialOrder(iTrial);
-                skippedTrials(end+1) = trialOrder(iTrial);
+                sesTrialOrder(end+1) = sesTrialOrder(iTrial);
+                skippedTrials(end+1) = sesTrialOrder(iTrial);
                 iTrialskipped(end+1) = iTrial;
                 p.nTotalTrials = p.nTotalTrials + 1;
                 % iTrial = iTrial + 1;
@@ -571,8 +591,8 @@ while iTrial <= size(trialOrder, 2)
                     % redo this trial at the end of the experiment
                     % this can be easily done by appending the trial number to the end of
                     % trialOrder
-                    trialOrder(end+1) = trialOrder(iTrial);
-                    skippedTrials(end+1) = trialOrder(iTrial);
+                    sesTrialOrder(end+1) = sesTrialOrder(iTrial);
+                    skippedTrials(end+1) = sesTrialOrder(iTrial);
                     iTrialskipped(end+1) = iTrial;
                     p.nTotalTrials = p.nTotalTrials + 1;
                     % iTrial = iTrial + 1;
@@ -636,8 +656,8 @@ while iTrial <= size(trialOrder, 2)
                     % redo this trial at the end of the experiment
                     % this can be easily done by appending the trial number to the end of
                     % trialOrder
-                    trialOrder(end+1) = trialOrder(iTrial);
-                    skippedTrials(end+1) = trialOrder(iTrial);
+                    sesTrialOrder(end+1) = sesTrialOrder(iTrial);
+                    skippedTrials(end+1) = sesTrialOrder(iTrial);
                     iTrialskipped(end+1) = iTrial;
                     p.nTotalTrials = p.nTotalTrials + 1;
                     % iTrial = iTrial + 1;
@@ -841,18 +861,28 @@ while iTrial <= size(trialOrder, 2)
         timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial);
         end 
     % If last trial in a block, save data... 
-    if mod(iTrial, p.nTrialsPerBlock)==0 || iTrial == size(trialOrder,2)
+    if mod(iTrial, p.nTrialsPerBlock)==0 || iTrial == size(sesTrialOrder,2)
         data.trialsHeaders = trialsHeaders;
         data.trials = trials;
         data.trialOrder=trialOrder;
+        if s.session == 1 % how to make this dynamic?
+            data.ses1TrialOrder = data.sesTrialOrder;
+        elseif s.session == 2
+            data.ses2TrialOrder = data.sesTrialOrder;
+        end 
         dateStr = datetime('now', 'TimeZone', 'local', 'Format', 'yyMMdd_hhmm');
         data.whenSaved = datestr(now);
         data.dateTime=dateStr;
         data.timings=timing;
         eyedata.eye = eye;
         data.eyeSkip = eyeSkip;
-        data.skippedTrials = skippedTrials;
-        data.iTrialskipped = iTrialskipped;
+        if s.session == 1
+            data.skippedTrials_ses1 = skippedTrials;
+            data.iTrialskipped_ses1 = iTrialskipped;
+        elseif s.session == 2
+            data.skippedTrials_ses2 = skippedTrials;
+            data.iTrialskipped_ses2 = iTrialskipped;
+        end 
 
         switch s.exptStage
             case 0
@@ -1024,18 +1054,17 @@ end
 
 %% compile session files 
 
-cd(data.behDir)
-data.sesDir =  sprintf('session %d', s.session);
-if ~exist(data.sesDir, 'dir')
-    mkdir(data.sesDir)
-end
-movefile('*.ma')
 
-findFiles = dir(fullfile(data.behDir, '*.mat'));
-for iFile = 1:length(findFiles)
-    fileName = findFiles(iFile).name;
-    movefile(fileName(iFile), data.sesDir)
-end
+% cd(data.behDir)
+% data.sesDir =  sprintf('%s/session %d', data.behDir, s.session);
+% if ~exist(data.sesDir, 'dir')
+%     mkdir(data.sesDir)
+% end
+% movefile('*.mat', data.sesDir)
+% 
+% if s.session == 2
+%     movefile()
+
 %% Completion message
 WaitSecs(1);
 DrawFormattedText(window, 'All done! Thank you for your effort', 'center', 'center', 1);
@@ -1047,8 +1076,8 @@ if p.eyeTracking
     rd_eyeLink('eyestop', window, {eyeFile, eyedata.eyeDir});
 
     %convert to the more informative name, and save to correct directory
-    data.eyeFile = eyeFile;
-    eyefilename = 'eyeFile.mat';
+    eyedata.eyeFile = eyeFile;
+    eyefilename =  sprintf('%s/%s_eyeFile_%s_block%d_session%d.mat',data.behDir,s.subjectID,dateStr,block, s.session);
     save(eyefilename,'eyedata')
     disp('eye data saved!')
 end

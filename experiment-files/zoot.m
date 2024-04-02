@@ -21,7 +21,7 @@ Screen('Preference', 'SkipSyncTests', 0); % set to 0 for real experiment
 
 %% Input
 s.subjectID= input('Enter subject ID:  ', 's');
-s.session = input('Enter session number (1-4):  ');
+s.session = input('Enter session number (1-2):  ');
 s.comp = input('Enter computer (iMac, denlab-beh, denlab-eeg):  ', 's');
 s.exptStage = input(['Which expt stage?', ...
         '\n0 - intro' ...

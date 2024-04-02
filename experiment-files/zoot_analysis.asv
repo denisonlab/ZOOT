@@ -1,0 +1,56 @@
+clear all
+
+fp = figureparams;
+%% load data
+
+subs = {'pilot'};
+
+for iSub=length(subs) % for participant
+    SID = subs{iSub};
+    behDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/'];
+    cd(behDir);
+    findFiles = dir('*_block17_*.mat'); % shouldn't be hardcoded, find way to find highest block # and load it?
+    for iFile = 1:length(findFiles) % for file
+        fileName = findFiles(iFile).name;
+        load(fileName)
+
+
+        %% logical indexing
+        contrastNames = data.p.contrastNames;
+        trials = data.trials;
+        trialsHeaders = data.trialsHeaders;
+        target = data.targets;
+        correct = data.correct;
+        seen = data.seen;
+        correctDis = data.correctDis;
+
+        % get indices p to use in trials matrix 
+        presentIdx = find(strcmp(contrastNames, 'high'));
+        absentIdx = find(strcmp(contrastNames, 'low'));
+
+        t1TargIdx = find(strcmp(target, 'T1'));
+        t2TargIdx = find(strcmp(target, 'T2'));
+
+        % correctIdx = find(correct == 1);
+        % seenIdx = find(seen == 1);
+        % notSeenIdx = find(seen == 0);
+
+        % find the indicies of trials with each condition
+        t1Present = trials(:,strcmp(trialsHeaders, 'T1Contrast')) == presentIdx;
+        t1Absent = trials(:,strcmp(trialsHeaders, 'T1Contrast')) == absentIdx;
+        t2Present = trials(:,strcmp(trialsHeaders, 'T2Contrast')) == presentIdx;
+        t2Absent = trials(:,strcmp(trialsHeaders, 'T2Contrast')) == absentIdx;
+        
+        t1Target = trials(:, strcmp(trialsHeaders, 'target' )) == t1TargIdx;
+        t2Target = trials(:, strcmp(trialsHeaders, 'target')) == t2TargIdx;
+
+        % find indices of trials with both conditions 
+        ppIdx = t1Present & t2Present;
+        paIdx = t1Present & t2Absent;
+        apIdx = t1Absent & t2Present;
+        aaIdx = t1Absent & t1Absent;
+
+
+
+    end
+end

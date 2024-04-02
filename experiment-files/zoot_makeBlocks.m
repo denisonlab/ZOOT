@@ -5,15 +5,15 @@ function trialOrder = zoot_makeBlocks(p)
 % 
 % % nTrials = 1280; % size(trials,1); % 640 - 320 per session x 4 = 1280 
 % 
-nTrials = p.nTotalTrials;
-trialOrder = randperm(nTrials);
+nTrials = p.nTotalTrials; % 640
 % 
 % % 
-% trialOrder = [];
-% for iRep = 1:p.nReps
-%     trialOrder = [trialOrder randperm(nTrials)];
-% end
-% 
+trialOrder = [];
+for iRep = 1:p.nReps
+    trialShuffle = randperm(nTrials);
+    trialOrder = [trialOrder trialShuffle];
+end
+
 
 % % Minimum counterbalanced unit of validity, target, contrasts = 40; 
 % MCU = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); 

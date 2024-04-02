@@ -5,20 +5,23 @@ fp = figureparams;
 
 subs = {'pilot'};
 
+accTargetPresence = [];
 
 for iSub=length(subs) % for participant
     SID = subs{iSub};
     behDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/'];
     cd(behDir);
-    for iSession = 1:numel(behDir) % for session 
-        sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/session' iSession];
-        findFiles = dir(fullfile(sesDir, '*.mat'));
+    % sessions = {'session 1', 'session 2'};
+    % % for iSession = 1:numel(sessions) % for session 
+    %     sesNum = sessions{iSession};
+    %     sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
+    %     cd(sesDir)
+        findFiles = dir('*_block17_*.mat'); % shouldn't be hardcoded, find way to find highest block # and load it?
         for iFile = 1:length(findFiles) % for file
             fileName = findFiles(iFile).name;
             load(fileName)
-        end
-    end
-end 
+        
+ 
 %% attention condition
 
 precue = data.precue;
@@ -26,12 +29,12 @@ target = data.target;
 
 nTrialsCompleted = numel(precue);
 findNeut = find(precue == 3);
-nNeut = numel(findNeut);
+nNeut = numel(findNeut); % number of total neutral trials per participant
 findVal = find(precue == target);
-nVal = numel(findVal);
-nInval = nTrialsCompleted - nNeut - nVal;
+nVal = numel(findVal); % number of total valid trials
+nInval = nTrialsCompleted - nNeut - nVal; %number of total invalid trials 
 
-nSum = 0;
+nSum = 0; %sum of correct trials for each attention condition 
 vSum = 0;
 iSum = 0;
 
@@ -51,24 +54,7 @@ nAcc = (nSum / nNeut)*100;
 vAcc = (vSum / nVal)*100;
 iAcc = (iSum / nInval)*100;
 
-figure(1);
-sgtitle('attention condition accuracy per target')
-subplot(1,3,3)
-vec = [vAcc nAcc iAcc];
-b = bar(vec)
-ylim([40 100])
-title('GA')
-ylabel('accuracy %')
-set(gca, 'ytick', 50:10:100)
-set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
-ytickformat('percentage')
-ax = gca;
-ax.XGrid = 'off';
-ax.YGrid = 'off';
-b.FaceColor = 'flat';
-b.CData(1,:) = fp.blue;
-b.CData(2,:) = fp.orange;
-b.CData(3,:) = fp.gold;
+
 
 
 nT1Sum = 0;
@@ -138,40 +124,6 @@ nT2Acc = (nT2Sum / nT2Neut)*100;
 vT2Acc = (vT2Sum / nT2Val)*100;
 iT2Acc = (iT2Sum / nT2Inval)*100;
 
-subplot(1,3,1)
-T1Acc = [vT1Acc nT1Acc iT1Acc];
-b = bar(T1Acc);
-ylim([40 100])
-title('T1')
-ylabel('accuracy %')
-set(gca, 'ytick', 50:10:100)
-set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
-ytickformat('percentage')
-ax = gca;
-ax.XGrid = 'off';
-ax.YGrid = 'off';
-b.FaceColor = 'flat';
-b.CData(1,:) = fp.blue;
-b.CData(2,:) = fp.orange;
-b.CData(3,:) = fp.gold;
-
-
-subplot(1,3,2)
-T2Acc = [vT2Acc nT2Acc iT2Acc];
-b = bar(T2Acc);
-ylim([40 100])
-title('T2')
-ylabel('accuracy %')
-set(gca, 'ytick', 50:10:100)
-set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
-ytickformat('percentage')
-ax = gca;
-ax.XGrid = 'off';
-ax.YGrid = 'off';
-b.FaceColor = 'flat';
-b.CData(1,:) = fp.blue;
-b.CData(2,:) = fp.orange;
-b.CData(3,:) = fp.gold;
 
 %% target presence 
 
@@ -199,29 +151,9 @@ for iAttCond = 1:numel(precue)
     end
 end 
 
-ppAcc = (ppSum / nTPC)*100;
-paAcc = (paSum / nTPC)*100;
-apAcc = (apSum / nTPC)*100;
-aaAcc = (aaSum / nTPC)*100;
+accTP_sp = [(aaSum / nTPC) (paSum / nTPC) (apSum / nTPC) (ppSum / nTPC)];
 
-figure(2);
-targAcc = [aaAcc paAcc apAcc ppAcc];
-b = bar(targAcc)
-ylim([50 100])
-title('accuracy per target presence')
-ylabel('accuracy %')
-set(gca, 'ytick', 50:10:100)
-set(gca, 'xticklabel', {'Absent/Absent', 'Present/Absent', 'Absent/Present', 'Present/Present'})
-ytickformat('percentage')
-ax = gca;
-ax.XGrid = 'off';
-ax.YGrid = 'off';
-% b.FaceColor = 'flat';
-% b.CData(1,:) = fp.blue;
-% b.CData(2,:) = fp.orange;
-% b.CData(3,:) = fp.gold;
-% b.CData(4,:) = fp.green;
-
+accTargetPresence = [accTargetPresence; accTP_sp];
 
 %% accuracy of target presence + attention condition
 
@@ -341,67 +273,6 @@ vaaAcc = (vaaSum / nVAA)*100;
 iaaAcc = (iaaSum / nIAA)*100;
 
 
-figure(3)
-sgtitle('target presence attention condition accuracy')
-subplot(2,2,1) %two rows, two columns, first position
-vec1 = [vppAcc nppAcc ippAcc];
-b = bar(vec1);
-ylim([40 100])
-title('present/present')
-ylabel('accuracy %')
-set(gca, 'ytick', 50:10:100)
-set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
-ytickformat('percentage')
-b.FaceColor = 'flat';
-b.CData(1,:) = fp.blue;
-b.CData(2,:) = fp.orange;
-b.CData(3,:) = fp.gold;
-
-subplot(2,2,2)
-vec2 = [vpaAcc npaAcc ipaAcc];
-b = bar(vec2);
-ylim([40 100])
-title('present/absent')
-ylabel('accuracy %')
-set(gca, 'ytick', 50:10:100)
-set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
-ytickformat('percentage')
-b.FaceColor = 'flat';
-b.CData(1,:) = fp.blue;
-b.CData(2,:) = fp.orange;
-b.CData(3,:) = fp.gold;
-
-subplot(2,2,3)
-vec3 = [vapAcc napAcc iapAcc];
-b = bar(vec3);
-ylim([40 100])
-title('absent/present')
-ylabel('accuracy %')
-set(gca, 'ytick', 50:10:100)
-set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
-ytickformat('percentage')
-b.FaceColor = 'flat';
-b.CData(1,:) = fp.blue;
-b.CData(2,:) = fp.orange;
-b.CData(3,:) = fp.gold;
-
-subplot(2,2,4)
-vec4 = [vaaAcc naaAcc iaaAcc];
-b = bar(vec4);
-ylim([40 100])
-title('absent/absent')
-ylabel('accuracy %')
-set(gca, 'ytick', 50:10:100)
-set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
-ytickformat('percentage')
-b.FaceColor = 'flat';
-b.CData(1,:) = fp.blue;
-b.CData(2,:) = fp.orange;
-b.CData(3,:) = fp.gold;
-
-ax = gca;
-ax.XGrid = 'off';
-ax.YGrid = 'off';
 
 
 
@@ -641,13 +512,152 @@ iapT2Acc = (iapT2Sum / nT2IAP)*100;
 naaT2Acc = (naaT2Sum / nT2NAA)*100; % aa
 vaaT2Acc = (vaaT2Sum / nT2VAA)*100;
 iaaT2Acc = (iaaT2Sum / nT2IAA)*100;
+        end 
+end 
+%% graphs
+%% figure 1
+figure(1);
+sgtitle('attention condition accuracy per target')
+subplot(1,3,3)
+vec = [vAcc nAcc iAcc];
+b = bar(vec);
+ylim([40 100])
+title('GA')
+ylabel('accuracy %')
+set(gca, 'ytick', 40:10:100)
+set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
+ytickformat('percentage')
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'off';
+b.FaceColor = 'flat';
+b.CData(1,:) = fp.blue;
+b.CData(2,:) = fp.orange;
+b.CData(3,:) = fp.gold;
 
+subplot(1,3,1)
+T1Acc = [vT1Acc nT1Acc iT1Acc];
+b = bar(T1Acc);
+ylim([40 100])
+title('T1')
+ylabel('accuracy %')
+set(gca, 'ytick', 40:10:100)
+set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
+ytickformat('percentage')
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'off';
+b.FaceColor = 'flat';
+b.CData(1,:) = fp.blue;
+b.CData(2,:) = fp.orange;
+b.CData(3,:) = fp.gold;
+
+subplot(1,3,2)
+T2Acc = [vT2Acc nT2Acc iT2Acc];
+b = bar(T2Acc);
+ylim([40 100])
+title('T2')
+ylabel('accuracy %')
+set(gca, 'ytick', 40:10:100)
+set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
+ytickformat('percentage')
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'off';
+b.FaceColor = 'flat';
+b.CData(1,:) = fp.blue;
+b.CData(2,:) = fp.orange;
+b.CData(3,:) = fp.gold;
+
+%% figure 2
+figure(2);
+
+targetPresence = bar(accTargetPresence*100);
+ylim([40 100])
+title('accuracy per target presence')
+ylabel('accuracy %')
+set(gca, 'ytick', 40:10:100)
+set(gca, 'xticklabel', {'Absent/Absent', 'Present/Absent', 'Absent/Present', 'Present/Present'})
+ytickformat('percentage')
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'off';
+% b.FaceColor = 'flat';
+% b.CData(1,:) = fp.blue;
+% b.CData(2,:) = fp.orange;
+% b.CData(3,:) = fp.gold;
+% b.CData(4,:) = fp.green;
+
+%% figure 3
+figure(3)
+sgtitle('target presence attention condition accuracy')
+subplot(2,2,1) %two rows, two columns, first position
+vec1 = [vppAcc nppAcc ippAcc];
+b = bar(vec1);
+ylim([40 100])
+title('present/present')
+ylabel('accuracy %')
+set(gca, 'ytick', 40:10:100)
+set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
+ytickformat('percentage')
+b.FaceColor = 'flat';
+b.CData(1,:) = fp.blue;
+b.CData(2,:) = fp.orange;
+b.CData(3,:) = fp.gold;
+
+subplot(2,2,2)
+vec2 = [vpaAcc npaAcc ipaAcc];
+b = bar(vec2);
+ylim([40 100])
+title('present/absent')
+ylabel('accuracy %')
+set(gca, 'ytick',40:10:100)
+set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
+ytickformat('percentage')
+b.FaceColor = 'flat';
+b.CData(1,:) = fp.blue;
+b.CData(2,:) = fp.orange;
+b.CData(3,:) = fp.gold;
+
+subplot(2,2,3)
+vec3 = [vapAcc napAcc iapAcc];
+b = bar(vec3);
+ylim([40 100])
+title('absent/present')
+ylabel('accuracy %')
+set(gca, 'ytick', 40:10:100)
+set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
+ytickformat('percentage')
+b.FaceColor = 'flat';
+b.CData(1,:) = fp.blue;
+b.CData(2,:) = fp.orange;
+b.CData(3,:) = fp.gold;
+
+subplot(2,2,4)
+vec4 = [vaaAcc naaAcc iaaAcc];
+b = bar(vec4);
+ylim([40 100])
+title('absent/absent')
+ylabel('accuracy %')
+set(gca, 'ytick', 40:10:100)
+set(gca, 'xticklabel', {'Valid', 'Neutral', 'Invalid'})
+ytickformat('percentage')
+b.FaceColor = 'flat';
+b.CData(1,:) = fp.blue;
+b.CData(2,:) = fp.orange;
+b.CData(3,:) = fp.gold;
+
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'off';
+
+%% figure 4
 figure(4);
 sgtitle('target presence attention condition accuracy per target')
 subplot(4,2,1)
 ppT1Acc = [vppT1Acc nppT1Acc ippT1Acc];
 b = bar(ppT1Acc);
-ylim([50 100])
+ylim([40 100])
 title('present/present T1')
 ylabel('accuracy %')
 set(gca, 'ytick', 0:10:100)
@@ -665,7 +675,7 @@ b.CData(3,:) = fp.gold;
 subplot(4,2,2)
 ppT2Acc = [vppT2Acc nppT2Acc ippT2Acc];
 b=bar(ppT2Acc);
-ylim([50 100])
+ylim([40 100])
 title('present/present T2')
 ylabel('accuracy %')
 set(gca, 'ytick', 0:10:100)
@@ -682,7 +692,7 @@ b.CData(3,:) = fp.gold;
 subplot(4,2,3)
 paT1Acc = [vpaT1Acc npaT1Acc ipaT1Acc];
 b = bar(paT1Acc);
-ylim([50 100])
+ylim([40 100])
 title('present/absent T1')
 ylabel('accuracy %')
 set(gca, 'ytick', 0:10:100)
@@ -699,7 +709,7 @@ b.CData(3,:) = fp.gold;
 subplot(4,2,4)
 paT2Acc = [vpaT2Acc npaT2Acc ipaT2Acc];
 b=bar(paT2Acc);
-ylim([50 100])
+ylim([40 100])
 title('present/absent T2')
 ylabel('accuracy %')
 set(gca, 'ytick', 0:10:100)
@@ -716,7 +726,7 @@ b.CData(3,:) = fp.gold;
 subplot(4,2,5)
 apT1Acc = [vapT1Acc napT1Acc iapT1Acc];
 b = bar(apT1Acc);
-ylim([50 100])
+ylim([40 100])
 title('absent/present T1')
 ylabel('accuracy %')
 set(gca, 'ytick', 0:10:100)
@@ -733,7 +743,7 @@ b.CData(3,:) = fp.gold;
 subplot(4,2,6)
 apT2Acc = [vapT2Acc napT2Acc iapT2Acc];
 b=bar(apT2Acc);
-ylim([50 100])
+ylim([40 100])
 title('absent/present T2')
 ylabel('accuracy %')
 set(gca, 'ytick', 0:10:100)
@@ -750,7 +760,7 @@ b.CData(3,:) = fp.gold;
 subplot(4,2,7)
 aaT1Acc = [vaaT1Acc naaT1Acc iaaT1Acc];
 b = bar(aaT1Acc);
-ylim([50 100])
+ylim([40 100])
 title('absent/absent T1')
 ylabel('accuracy %')
 set(gca, 'ytick', 0:10:100)
@@ -767,7 +777,7 @@ b.CData(3,:) = fp.gold;
 subplot(4,2,8)
 aaT2Acc = [vaaT2Acc naaT2Acc iaaT2Acc];
 b=bar(aaT2Acc);
-ylim([50 100])
+ylim([40 100])
 title('absent/absent T2')
 ylabel('accuracy %')
 set(gca, 'ytick', 0:10:100)
@@ -780,3 +790,5 @@ b.FaceColor = 'flat';
 b.CData(1,:) = fp.blue;
 b.CData(2,:) = fp.orange;
 b.CData(3,:) = fp.gold;
+
+ 
