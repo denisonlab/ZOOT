@@ -7,19 +7,32 @@ subs = {'pilot'};
 
 for iSub=length(subs) % for participant
     SID = subs{iSub};
-    behDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/'];
+    behDir = ['/Users/Jenny Motzer/OneDrive/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/'];
     cd(behDir);
     findFiles = dir('*_block17_*.mat'); % shouldn't be hardcoded, find way to find highest block # and load it?
     for iFile = 1:length(findFiles) % for file
         fileName = findFiles(iFile).name;
         load(fileName)
+        
+% replace NaNs in data.correct with real values
+        findNaN = isnan(data.correct); % returns 640 x 1 logical, 1 if NaN at that index
+        findNaNIdx = find(findNaN ==1); % list of NaN only indices
+        nAppended = length(data.correct) - data.p.nTotalTrials -1;
+        findAppended = data.correct(end-nAppended:end); % find indices of appended data.correct
+        for i= 1:numel(findAppended)
+            idx = findNaNIdx(i);
+            newCorr = findAppended(i);
+            data.correct(idx) = newCorr; % replace NaNs with appropriate appended data.correct value
+            data.correct = data.correct(1:data.p.nTotalTrials); % removed appendeds
+            data.correct = logical(data.correct);
+        end 
 
 
         %% logical indexing
         contrastNames = data.p.contrastNames;
         trials = data.trials;
         trialsHeaders = data.trialsHeaders;
-        target = data.targets;
+        target = data.p.targets;
         correct = data.correct;
         seen = data.seen;
         correctDis = data.correctDis;
@@ -51,6 +64,8 @@ for iSub=length(subs) % for participant
         aaIdx = t1Absent & t1Absent;
 
 
-
     end
 end
+
+
+%% figures 
