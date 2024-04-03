@@ -7,7 +7,7 @@ subs = {'pilot'};
 
 for iSub=length(subs) % for participant
     SID = subs{iSub};
-    behDir = ['/Users/Jenny Motzer/OneDrive/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/'];
+    behDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/'];
     cd(behDir);
     findFiles = dir('*_block17_*.mat'); % shouldn't be hardcoded, find way to find highest block # and load it?
     for iFile = 1:length(findFiles) % for file
@@ -34,6 +34,7 @@ for iSub=length(subs) % for participant
         trialsHeaders = data.trialsHeaders;
         target = data.p.targets;
         correct = data.correct;
+        precueValidities = data.p.precueValidities;
         seen = data.seen;
         correctDis = data.correctDis;
 
@@ -44,11 +45,12 @@ for iSub=length(subs) % for participant
         t1TargIdx = find(strcmp(target, 'T1'));
         t2TargIdx = find(strcmp(target, 'T2'));
 
-        % correctIdx = find(correct == 1);
-        % seenIdx = find(seen == 1);
-        % notSeenIdx = find(seen == 0);
+        validIdxs = find(precueValidities == 1);
+        invalidIdx = find(precueValidities ==3);
+        neutralIdx = find(precueValidities==2);
 
-        % find the indicies of trials with each condition
+        % find the indicies of trials with each condition - returns
+        % logicals, 1 = condition met 
         t1Present = trials(:,strcmp(trialsHeaders, 'T1Contrast')) == presentIdx;
         t1Absent = trials(:,strcmp(trialsHeaders, 'T1Contrast')) == absentIdx;
         t2Present = trials(:,strcmp(trialsHeaders, 'T2Contrast')) == presentIdx;
@@ -57,11 +59,22 @@ for iSub=length(subs) % for participant
         t1Target = trials(:, strcmp(trialsHeaders, 'target' )) == t1TargIdx;
         t2Target = trials(:, strcmp(trialsHeaders, 'target')) == t2TargIdx;
 
+        valid = sum(trials(:,strcmp(trialsHeaders, 'precueValidity')) == validIdxs,2);
+        valid = logical(valid);
+        invalid = trials(:,strcmp(trialsHeaders, 'precueValidity')) == invalidIdx;
+        neutral = trials(:,strcmp(trialsHeaders, 'precueValidity')) == neutralIdx;
+
+        %
+        acc = [validCorr/valid neutralCorr/neutral invalidCorr/invalid]*100;
+        
+        
         % find indices of trials with both conditions 
         ppIdx = t1Present & t2Present;
         paIdx = t1Present & t2Absent;
         apIdx = t1Absent & t2Present;
         aaIdx = t1Absent & t1Absent;
+
+
 
 
     end
