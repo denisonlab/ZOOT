@@ -326,7 +326,6 @@ if s.exptStage == 4 || s.exptStage == 5
             eyeSkip = dataPrevious.data.eyeSkip; % trials skipped due to an eye movement, same size as trials matrix
         end
     elseif s.session == 2
-        dataPrevious = load(dataFileNames{end});
         findSes2File = dir('*_session2.mat');
         if isempty(findSes2File)
             data = dataPrevious.data;
@@ -431,7 +430,6 @@ while iTrial <= size(sesTrialOrder, 2)
     %Orientation 
     T1Orientation = p.axes(T1Axis) + threshold*p.tilts(T1Tilt); % creates the four different orientations
     T2Orientation = p.axes(T2Axis) + threshold*p.tilts(T2Tilt);
-
 
     % Postcue tone
     postcueTone = cueTones(target,:);
@@ -866,9 +864,9 @@ while iTrial <= size(sesTrialOrder, 2)
         data.trials = trials;
         data.trialOrder=trialOrder;
         if s.session == 1 % how to make this dynamic?
-            data.ses1TrialOrder = data.sesTrialOrder;
+            data.ses1TrialOrder = sesTrialOrder;
         elseif s.session == 2
-            data.ses2TrialOrder = data.sesTrialOrder;
+            data.ses2TrialOrder = sesTrialOrder;
         end 
         dateStr = datetime('now', 'TimeZone', 'local', 'Format', 'yyMMdd_hhmm');
         data.whenSaved = datestr(now);
@@ -1055,15 +1053,13 @@ end
 %% compile session files 
 
 
-% cd(data.behDir)
-% data.sesDir =  sprintf('%s/session %d', data.behDir, s.session);
-% if ~exist(data.sesDir, 'dir')
-%     mkdir(data.sesDir)
-% end
-% movefile('*.mat', data.sesDir)
-% 
-% if s.session == 2
-%     movefile()
+cd(data.behDir)
+data.sesDir =  sprintf('%s/session %d', data.behDir, s.session);
+if ~exist(data.sesDir, 'dir')
+    mkdir(data.sesDir)
+end
+movefile('*.mat', data.sesDir)
+
 
 %% Completion message
 WaitSecs(1);
