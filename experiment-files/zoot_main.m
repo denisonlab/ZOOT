@@ -287,9 +287,9 @@ for iFile = 1:numel(listing)
     if contains(listing(iFile).name,'.mat')
         disp(['valid file ' listing(iFile).name])
         dataFileNames{count} = listing(iFile).name;
-        if contains(listing(iFile).name, 'session2')
-            ses2Files{count} = listing(iFile.name);
-        end 
+        % if contains(listing(iFile).name, 'session2')
+        %     ses2Files{count} = listing(iFile.name);
+        % end 
         count = count + 1;
     else
         disp(['invalid file ' listing(iFile).name])
@@ -297,57 +297,58 @@ for iFile = 1:numel(listing)
 end
 
 % if we cant find any data for this person then start with trial 1
-trialOrder = zoot_makeBlocks(p);
+% trialOrder = zoot_makeBlocks(p);
 if s.exptStage == 4 || s.exptStage == 5
-    if s.session == 1
-        if isempty(dataFileNames)
-            trialOrder = zoot_makeBlocks(p);
-            % sesTrialOrder = trialOrder(1:p.nTotalTrials);
-            iTrial = 1;
-            block = 1;
-            eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
-        else
-            dataPrevious = load(dataFileNames{end}); % this isn't checking the time stamp yet
-            % otherwise load the data w latest  time stamp and find the last trial
-            % that was left off
-            data = dataPrevious.data;
-            iTrial = max(dataPrevious.data.iTrial)+1;
-            block = max(dataPrevious.data.block)+1;
-            trialOrder = dataPrevious.data.trialOrder;
-            % sesTrialOrder = dataPrevious.data.ses1TrialOrder;
-            iTrialskipped = dataPrevious.data.iTrialskipped;
-            skippedTrials = dataPrevious.data.skippedTrials;
-            eyeSkip = dataPrevious.data.eyeSkip; % trials skipped due to an eye movement, same size as trials matrix
-        end
-    elseif s.session == 2
-        if isempty(ses2Files)
-            trialOrder = zoot_makeBlocks(p);
-            iTrial = 1;
-            block = 1;
-            % trialOrder = dataPrevious.data.trialOrder;
-            % sesTrialOrder = trialOrder(p.nTotalTrials+1:end); % is p.nTotalTrials still 640 or updated?
-            eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
-        else
-            dataPrevious = load(dataFileNames{end}); % this isn't checking the time stamp yet
-            data = dataPrevious.data;
-            iTrial = dataPrevious.data.iTrial(end)+1;
-            block = dataPrevious.data.block(end)+1;
-            trialOrder = dataPrevious.data.trialOrder;
-            % sesTrialOrder = dataPrevious.data.ses2TrialOrder;
-            iTrialskipped = dataPrevious.data.iTrialskipped;
-            skippedTrials = dataPrevious.data.skippedTrials;
-            eyeSkip = dataPrevious.data.eyeSkip; % trials skipped due to an eye movement, same size as trials matrix
-        end
-    else
-        trialOrder=randperm(p.nTotalTrials);
+    % if s.session == 1
+    if isempty(dataFileNames)
+        trialOrder = zoot_makeBlocks(p);
+        % sesTrialOrder = trialOrder(1:p.nTotalTrials);
         iTrial = 1;
         block = 1;
+        eyeSkip = zeros(size(p.nTotalTrials,1),1); % trials skipped due to an eye movement, same size as trials matrix
+    else
+        dataPrevious = load(dataFileNames{end}); % this isn't checking the time stamp yet
+        % otherwise load the data w latest  time stamp and find the last trial
+        % that was left off
+        data = dataPrevious.data;
+        iTrial = max(dataPrevious.data.iTrial)+1;
+        block = max(dataPrevious.data.block)+1;
+        trialOrder = dataPrevious.data.trialOrder;
+        % sesTrialOrder = dataPrevious.data.ses1TrialOrder;
+        iTrialskipped = dataPrevious.data.iTrialskipped;
+        skippedTrials = dataPrevious.data.skippedTrials;
+        eyeSkip = dataPrevious.data.eyeSkip; % trials skipped due to an eye movement, same size as trials matrix
+        timing = dataPrevious.data.timings;
     end
+    % elseif s.session == 2
+    %     if isempty(ses2Files)
+    %         trialOrder = zoot_makeBlocks(p);
+    %         iTrial = 1;
+    %         block = 1;
+    %         % trialOrder = dataPrevious.data.trialOrder;
+    %         % sesTrialOrder = trialOrder(p.nTotalTrials+1:end); % is p.nTotalTrials still 640 or updated?
+    %         eyeSkip = zeros(size(p.nTotalTrials,1),1); % trials skipped due to an eye movement, same size as trials matrix
+    %     else
+    %         dataPrevious = load(dataFileNames{end}); % this isn't checking the time stamp yet
+    %         data = dataPrevious.data;
+    %         iTrial = dataPrevious.data.iTrial(end)+1;
+    %         block = dataPrevious.data.block(end)+1;
+    %         trialOrder = dataPrevious.data.trialOrder;
+    %         % sesTrialOrder = dataPrevious.data.ses2TrialOrder;
+    %         iTrialskipped = dataPrevious.data.iTrialskipped;
+    %         skippedTrials = dataPrevious.data.skippedTrials;
+    %         eyeSkip = dataPrevious.data.eyeSkip; % trials skipped due to an eye movement, same size as trials matrix
+    %     end
+else
+    trialOrder=randperm(p.nTotalTrials);
+    iTrial = 1;
+    block = 1;
 end
- 
+% end
+
 %change directory
 cd(p.dir)
-% 
+%
 if p.eyeTracking
     rd_eyeLink('startrecording', window, {el, fixRect});
 end
@@ -358,15 +359,15 @@ stopThisTrial = 0;
 while iTrial <= size(trialOrder, 2)
     % trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
 
-    if iTrial> 1 
+    if iTrial> 1
         eyeSkip(iTrial-1) = stopThisTrial; % this is for the previous trial
-        if stopThisTrial ==1 
-            data.correct(iTrial-1) = NaN; % if previous trial was skipped, record NaN for correct 
-        end 
+        if stopThisTrial ==1
+            data.correct(iTrial-1) = NaN; % if previous trial was skipped, record NaN for correct
+        end
     end
     stopThisTrial = 0;
 
-     trialIdx = trialOrder(iTrial);
+    trialIdx = trialOrder(iTrial);
     %% Get condition information for this trial
     precueValidity = p.precueValidities(trials(trialIdx, idx.precueValidity)); % saves each column in trials matrix as corresponding variable e.g. column 1 = precue validity
     target = trials(trialIdx, idx.target);
@@ -411,7 +412,7 @@ while iTrial <= size(trialOrder, 2)
         targetAxisName = 'NA';
     end
 
- 
+
     %% Set up stimuli for this trial
     % Precue tone
     if s.exptStage > 2
@@ -421,7 +422,7 @@ while iTrial <= size(trialOrder, 2)
     end
     precueTone = repmat(precueTone,2,1); % two audio channels
 
-    %Orientation 
+    %Orientation
     T1Orientation = p.axes(T1Axis) + threshold*p.tilts(T1Tilt); % creates the four different orientations
     T2Orientation = p.axes(T2Axis) + threshold*p.tilts(T2Tilt);
 
