@@ -287,7 +287,9 @@ for iFile = 1:numel(listing)
     if contains(listing(iFile).name,'.mat')
         disp(['valid file ' listing(iFile).name])
         dataFileNames{count} = listing(iFile).name;
-        if contains(listing(iFile).name, '*')
+        if contains(listing(iFile).name, 'session2')
+            ses2Files{count} = listing(iFile.name);
+        end 
         count = count + 1;
     else
         disp(['invalid file ' listing(iFile).name])
@@ -318,15 +320,14 @@ if s.exptStage == 4 || s.exptStage == 5
             eyeSkip = dataPrevious.data.eyeSkip; % trials skipped due to an eye movement, same size as trials matrix
         end
     elseif s.session == 2
-        findSes2File = dir('*_session2.mat');
-        if isempty(findSes2File)
+        if isempty(ses2Files)
             trialOrder = zoot_makeBlocks(p);
             iTrial = 1;
             block = 1;
             % trialOrder = dataPrevious.data.trialOrder;
             % sesTrialOrder = trialOrder(p.nTotalTrials+1:end); % is p.nTotalTrials still 640 or updated?
             eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
-        else 
+        else
             dataPrevious = load(dataFileNames{end}); % this isn't checking the time stamp yet
             data = dataPrevious.data;
             iTrial = dataPrevious.data.iTrial(end)+1;
@@ -337,12 +338,13 @@ if s.exptStage == 4 || s.exptStage == 5
             skippedTrials = dataPrevious.data.skippedTrials;
             eyeSkip = dataPrevious.data.eyeSkip; % trials skipped due to an eye movement, same size as trials matrix
         end
-    else 
-    trialOrder=randperm(p.nTotalTrials);
-    iTrial = 1;
-    block = 1;
+    else
+        trialOrder=randperm(p.nTotalTrials);
+        iTrial = 1;
+        block = 1;
+    end
 end
-end 
+ 
 %change directory
 cd(p.dir)
 % 
@@ -856,6 +858,7 @@ while iTrial <= size(trialOrder, 2)
         data.dateTime=dateStr;
         data.timings=timing;
         eyedata.eye = eye;
+        eyeSkip(iTrial) = stopThisTrial;
         data.eyeSkip = eyeSkip;
         data.skippedTrials = skippedTrials;
         data.iTrialskipped = iTrialskipped;
