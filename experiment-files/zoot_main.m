@@ -305,6 +305,8 @@ if s.exptStage == 4 || s.exptStage == 5
         % sesTrialOrder = trialOrder(1:p.nTotalTrials);
         iTrial = 1;
         block = 1;
+        iTrialskipped = [];
+        skippedTrials = [];
         eyeSkip = zeros(size(p.nTotalTrials,1),1); % trials skipped due to an eye movement, same size as trials matrix
     else
         dataPrevious = load(dataFileNames{end}); % this isn't checking the time stamp yet
@@ -353,8 +355,7 @@ if p.eyeTracking
     rd_eyeLink('startrecording', window, {el, fixRect});
 end
 
-skippedTrials = []; % skipped trial order number
-iTrialskipped = []; % skipped iTrial number
+
 stopThisTrial = 0;
 while iTrial <= size(trialOrder, 2)
     % trialIdx = trialOrder(block, iTrial); % the current trial number in the trials matrix
@@ -1034,13 +1035,13 @@ end
 
 %% compile session files 
 
-
-cd(data.behDir)
-data.sesDir =  sprintf('%s/session %d', data.behDir, s.session);
-if ~exist(data.sesDir, 'dir')
-    mkdir(data.sesDir)
-end
-movefile('*.mat', data.sesDir)
+% 
+% cd(data.behDir)
+% data.sesDir =  sprintf('%s/session %d', data.behDir, s.session);
+% if ~exist(data.sesDir, 'dir')
+%     mkdir(data.sesDir)
+% end
+% movefile('*_session1*.mat', data.sesDir)
 
 
 %% Completion message
