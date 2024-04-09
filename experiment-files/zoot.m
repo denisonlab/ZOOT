@@ -16,7 +16,7 @@ Screen('Preference', 'SkipSyncTests', 0); % set to 0 for real experiment
 % 
 s.subjectID = 'pilot'; %debugging 
 s.session = 1; 
-s.comp = 'denlab-beh'; 
+s.comp = 'iMac'; 
 s.exptStage = 5; 
 
 %% Input
