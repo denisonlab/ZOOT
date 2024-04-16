@@ -305,7 +305,7 @@ if s.exptStage == 4 || s.exptStage == 5
             % sesTrialOrder = trialOrder(1:p.nTotalTrials);
             iTrial = 1;
             block = 1;
-            eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
+            eyeSkip = zeros(size(40,1),1); % trials skipped due to an eye movement, same size as trials matrix
         else
             dataPrevious = load(dataFileNames{end}); % this isn't checking the time stamp yet
             % otherwise load the data w latest  time stamp and find the last trial
@@ -326,7 +326,7 @@ if s.exptStage == 4 || s.exptStage == 5
             block = 1;
             % trialOrder = dataPrevious.data.trialOrder;
             % sesTrialOrder = trialOrder(p.nTotalTrials+1:end); % is p.nTotalTrials still 640 or updated?
-            eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
+            eyeSkip = zeros(size(40,1),1); % trials skipped due to an eye movement, same size as trials matrix
         else
             dataPrevious = load(dataFileNames{end}); % this isn't checking the time stamp yet
             data = dataPrevious.data;
@@ -543,9 +543,9 @@ while iTrial <= size(trialOrder, 2)
         end
         drawFixation(window, cx, cy, fixSize, p.dimTargetColor);
         timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
-        PsychPortAudio('FillBuffer', pahandle, p.sound);
-        timeT1Click=PsychPortAudio('Start', pahandle, 1, timePrecue+p.precueSOA - slack, 0); % 1 0 1
-        statusT1Click = PsychPortAudio('GetStatus', pahandle);
+        % PsychPortAudio('FillBuffer', pahandle, p.sound);
+        % timeT1Click=PsychPortAudio('Start', pahandle, 1, timePrecue+p.precueSOA - slack, 0); % 1 0 1
+        % statusT1Click = PsychPortAudio('GetStatus', pahandle);
         if p.eyeTracking
             Eyelink('Message', 'T1')
         end
@@ -608,9 +608,9 @@ while iTrial <= size(trialOrder, 2)
         end
         drawFixation(window, cx, cy, fixSize, p.dimTargetColor);
         timeT2 = Screen('Flip', window, timeT1 + p.targetSOA - slack);
-        PsychPortAudio('FillBuffer', pahandle, p.sound);
-        timeT2Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
-        statusT2Click = PsychPortAudio('GetStatus', pahandle);
+        % PsychPortAudio('FillBuffer', pahandle, p.sound);
+        % timeT2Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
+        % statusT2Click = PsychPortAudio('GetStatus', pahandle);
         if p.eyeTracking
             Eyelink('Message', 'T2')
         end
@@ -819,12 +819,12 @@ while iTrial <= size(trialOrder, 2)
         timing.timePrecue(iTrial) = timePrecue;
         timing.timePrecueOff(iTrial) = statusPrecue.EstimatedStopTime;
         timing.timeT1(iTrial) = timeT1;
-        timing.timeT1Click(iTrial) = timeT1Click; % This has jitter
-        timing.timeT1ClickOff(iTrial) = statusT1Click.EstimatedStopTime; % This appears to not have jitter
+        % timing.timeT1Click(iTrial) = timeT1Click; % This has jitter
+        % timing.timeT1ClickOff(iTrial) = statusT1Click.EstimatedStopTime; % This appears to not have jitter
         timing.timeBlank1(iTrial) = timeBlank1; % fixation draw after T1 dur
         timing.timeT2(iTrial) = timeT2;
-        timing.timeT2Click(iTrial) = timeT2Click;
-        timing.timeT2ClickOff(iTrial) = statusT2Click.EstimatedStopTime;
+        % timing.timeT2Click(iTrial) = timeT2Click;
+        % timing.timeT2ClickOff(iTrial) = statusT2Click.EstimatedStopTime;
         timing.timeBlank2(iTrial) = timeBlank2; %fixation draw after T2 dur
         timing.timePostcue(iTrial) = timePostcue;
         timing.timePostcueOff(iTrial) = statusPostcue.EstimatedStopTime;
@@ -839,10 +839,10 @@ while iTrial <= size(trialOrder, 2)
         timing.precueSOA(iTrial)=timing.timeT1(iTrial)-timing.timePrecue(iTrial);
         timing.precueDur(iTrial)=timing.timePrecueOff(iTrial) - timing.timePrecue(iTrial);
         timing.T1Dur(iTrial)=timing.timeBlank1(iTrial)-timing.timeT1(iTrial);
-        timing.T1ClickDur(iTrial) = timing.timeT1ClickOff(iTrial) -timing.timeT1Click(iTrial);
+        % timing.T1ClickDur(iTrial) = timing.timeT1ClickOff(iTrial) -timing.timeT1Click(iTrial);
         timing.SOA(iTrial)=timing.timeT2(iTrial)-timing.timeT1(iTrial);
         timing.T2Dur(iTrial)=timing.timeBlank2(iTrial)-timing.timeT2(iTrial);
-        timing.T2ClickDur(iTrial) = timing.timeT2ClickOff(iTrial) -timing.timeT2Click(iTrial);
+        % timing.T2ClickDur(iTrial) = timing.timeT2ClickOff(iTrial) -timing.timeT2Click(iTrial);
         timing.postcueSOA(iTrial)=timing.timePostcue(iTrial)-timing.timeT2(iTrial); %come back to this one
         timing.postcueDur(iTrial)=timing.timePostcueOff(iTrial) - timing.timePostcue(iTrial);
         timing.feedbackSOA(iTrial)=timing.timeFeedbackFix(iTrial)-timing.timePostcue(iTrial); % time between postcue and fixation
