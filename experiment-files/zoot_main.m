@@ -543,9 +543,9 @@ while iTrial <= size(trialOrder, 2)
         end
         drawFixation(window, cx, cy, fixSize, p.dimTargetColor);
         timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
-        % PsychPortAudio('FillBuffer', pahandle, p.sound);
-        % timeT1Click=PsychPortAudio('Start', pahandle, 1, timePrecue+p.precueSOA - slack, 0); % 1 0 1
-        % statusT1Click = PsychPortAudio('GetStatus', pahandle);
+        PsychPortAudio('FillBuffer', pahandle, p.sound);
+        timeT1Click=PsychPortAudio('Start', pahandle, 1, timePrecue+p.precueSOA - slack, 0); % 1 0 1
+        statusT1Click = PsychPortAudio('GetStatus', pahandle);
         if p.eyeTracking
             Eyelink('Message', 'T1')
         end
@@ -608,9 +608,9 @@ while iTrial <= size(trialOrder, 2)
         end
         drawFixation(window, cx, cy, fixSize, p.dimTargetColor);
         timeT2 = Screen('Flip', window, timeT1 + p.targetSOA - slack);
-        % PsychPortAudio('FillBuffer', pahandle, p.sound);
-        % timeT2Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
-        % statusT2Click = PsychPortAudio('GetStatus', pahandle);
+        PsychPortAudio('FillBuffer', pahandle, p.sound);
+        timeT2Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
+        statusT2Click = PsychPortAudio('GetStatus', pahandle);
         if p.eyeTracking
             Eyelink('Message', 'T2')
         end
