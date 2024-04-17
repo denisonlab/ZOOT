@@ -1,9 +1,9 @@
 clear all
 
 fp = figureparams;
-%% compile data
+%% compile 
 
-subs = {'pilot'};
+subs = {'test'};
 fields = {'precue','target', 'T1Contrast', 'T2Contrast', 'seen', 'correct', 'correctDis', 'eyeSkip'}; % fieldnames(data);
 for iF = 1:numel(fields) % initialize
     dataAll.(fields{iF}) = [];
@@ -15,12 +15,12 @@ for iSub=1:length(subs) % for participant
     SID = subs{iSub};
     behDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/'];
     cd(behDir);
-    sessions = {'session 2'};
+    sessions = {'no click'};
     for iSession = 1:numel(sessions) % for session
         sesNum = sessions{iSession};
         sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
         cd(sesDir)
-        findFiles = dir('*_block17_*.mat'); % for session shouldn't be hardcoded, find way to find highest block # and load it?
+        findFiles = dir('*.mat'); % for session shouldn't be hardcoded, find way to find highest block # and load it?
         for iFile = 1:length(findFiles) % for file
             fileName = findFiles(iFile).name;
             load(fileName)
@@ -34,6 +34,7 @@ for iSub=1:length(subs) % for participant
     end
 end
 
+%% filter  
 correct = dataAll.correct == 1;
 T1Contrast = dataAll.T1Contrast;
 T2Contrast = dataAll.T2Contrast;
@@ -42,22 +43,22 @@ precue = dataAll.precue;
 target = dataAll.target;
 
 %target presence 
-PresentPresent = T1Contrast == 1 & T2Contrast == 1 & correct & ~eyeSkip;
-PresentAbsent = T1Contrast == 1 & T2Contrast == 2 & correct & ~eyeSkip;
-AbsentPresent = T1Contrast == 2 & T2Contrast == 1 & correct & ~eyeSkip;
-AbsentAbsent = T1Contrast == 2 & T2Contrast == 2 & correct & ~eyeSkip;
+PresentPresent = T1Contrast == 1 & T2Contrast == 1 & correct; %& ~eyeSkip;
+PresentAbsent = T1Contrast == 1 & T2Contrast == 2 & correct ;%& ~eyeSkip;
+AbsentPresent = T1Contrast == 2 & T2Contrast == 1 & correct ;%& ~eyeSkip;
+AbsentAbsent = T1Contrast == 2 & T2Contrast == 2 & correct ;%& ~eyeSkip;
 
-nPresentPresent = T1Contrast == 1 & T2Contrast == 1 & ~eyeSkip;
-nPresentAbsent = T1Contrast == 1 & T2Contrast == 2 & ~eyeSkip;
-nAbsentPresent = T1Contrast == 2 & T2Contrast == 1 & ~eyeSkip;
-nAbsentAbsent = T1Contrast == 2 & T2Contrast == 2 & ~eyeSkip;
+nPresentPresent = T1Contrast == 1 & T2Contrast == 1 ;%& ~eyeSkip;
+nPresentAbsent = T1Contrast == 1 & T2Contrast == 2 ;%& ~eyeSkip;
+nAbsentPresent = T1Contrast == 2 & T2Contrast == 1 ;%& ~eyeSkip;
+nAbsentAbsent = T1Contrast == 2 & T2Contrast == 2 ;% ~eyeSkip;
 
 targPresAcc = [sum(PresentPresent)/sum(nPresentPresent) sum(PresentAbsent)/sum(nPresentAbsent) sum(AbsentPresent)/sum(nAbsentPresent) sum(AbsentAbsent)/sum(nAbsentAbsent)]*100;
 
 % validity 
 
-Neutral = precue == 3 & correct & ~eyeSkip;
-Invalid = (precue == 1| precue == 2) & precue ~= target & correct & ~eyeSkip;
+Neutral = precue == 3 & correct ;%& ~eyeSkip;
+Invalid = (precue == 1| precue == 2) & precue ~= target & correct %& ~eyeSkip;
 Valid = precue == target & correct & ~eyeSkip;
 
 nValid = precue == target & ~eyeSkip;
@@ -355,4 +356,52 @@ ax.XGrid = 'off';
 ax.YGrid = 'off';
 
 
-%% f
+%% figure 5
+figure(5)
+sgtitle('target presence x attention condition x target accuracy')
+subplot(2,2,1) %two rows, two columns, first position
+PrePreAcc = [PrePreT1; PrePreT2];
+b = bar(PrePreAcc);
+ylim([40 100])
+title('target present/nontarget present')
+ylabel('accuracy %')
+set(gca, 'ytick', 40:10:100)
+set(gca, 'xticklabel', {'T1', 'T2'})
+ytickformat('percentage')
+
+
+subplot(2,2,2)
+PreAbsAcc = [PreAbsT1; AbsPreT2];
+b = bar(PreAbsAcc);
+ylim([40 100])
+title('target present/nontarget absent')
+set(gca, 'ytick',40:10:100)
+set(gca, 'xticklabel', {'T1', 'T2'})
+ytickformat('percentage')
+
+
+subplot(2,2,3)
+AbsPreAcc = [AbsPreT1; PreAbsT2];
+b = bar(AbsPreAcc);
+ylim([40 100])
+title('target absent/nontarget present')
+ylabel('accuracy %')
+set(gca, 'ytick', 40:10:100)
+set(gca, 'xticklabel', {'T1', 'T2'})
+ytickformat('percentage')
+
+subplot(2,2,4)
+AbsAbsAcc = [AbsAbsT1; AbsAbsT2];
+b = bar(AbsAbsAcc);
+ylim([40 100])
+title('target absent/nontarget absent')
+set(gca, 'ytick', 40:10:100)
+set(gca, 'xticklabel', {'T1', 'T2'})
+ytickformat('percentage')
+
+legend('Valid', 'Neutral', 'Invalid')
+lgd.Layout.Tile = 'east';
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'off';
+

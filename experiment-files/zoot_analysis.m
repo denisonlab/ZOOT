@@ -3,7 +3,7 @@ clear all
 fp = figureparams;
 %% compile 
 
-subs = {'pilot'};
+subs = {'test'};
 fields = {'precue','target', 'T1Contrast', 'T2Contrast', 'seen', 'correct', 'correctDis', 'eyeSkip'}; % fieldnames(data);
 for iF = 1:numel(fields) % initialize
     dataAll.(fields{iF}) = [];
@@ -15,12 +15,12 @@ for iSub=1:length(subs) % for participant
     SID = subs{iSub};
     behDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/'];
     cd(behDir);
-    sessions = {'session 1', 'session 2'};
+    sessions = {'no click'};
     for iSession = 1:numel(sessions) % for session
         sesNum = sessions{iSession};
         sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
         cd(sesDir)
-        findFiles = dir('*_block17_*.mat'); % for session shouldn't be hardcoded, find way to find highest block # and load it?
+        findFiles = dir('*_block3_*.mat'); % for session shouldn't be hardcoded, find way to find highest block # and load it?
         for iFile = 1:length(findFiles) % for file
             fileName = findFiles(iFile).name;
             load(fileName)
@@ -43,27 +43,27 @@ precue = dataAll.precue;
 target = dataAll.target;
 
 %target presence 
-PresentPresent = T1Contrast == 1 & T2Contrast == 1 & correct & ~eyeSkip;
-PresentAbsent = T1Contrast == 1 & T2Contrast == 2 & correct & ~eyeSkip;
-AbsentPresent = T1Contrast == 2 & T2Contrast == 1 & correct & ~eyeSkip;
-AbsentAbsent = T1Contrast == 2 & T2Contrast == 2 & correct & ~eyeSkip;
+PresentPresent = T1Contrast == 1 & T2Contrast == 1 & correct; %& ~eyeSkip;
+PresentAbsent = T1Contrast == 1 & T2Contrast == 2 & correct ;%& ~eyeSkip;
+AbsentPresent = T1Contrast == 2 & T2Contrast == 1 & correct ;%& ~eyeSkip;
+AbsentAbsent = T1Contrast == 2 & T2Contrast == 2 & correct ;%& ~eyeSkip;
 
-nPresentPresent = T1Contrast == 1 & T2Contrast == 1 & ~eyeSkip;
-nPresentAbsent = T1Contrast == 1 & T2Contrast == 2 & ~eyeSkip;
-nAbsentPresent = T1Contrast == 2 & T2Contrast == 1 & ~eyeSkip;
-nAbsentAbsent = T1Contrast == 2 & T2Contrast == 2 & ~eyeSkip;
+nPresentPresent = T1Contrast == 1 & T2Contrast == 1 ;%& ~eyeSkip;
+nPresentAbsent = T1Contrast == 1 & T2Contrast == 2 ;%& ~eyeSkip;
+nAbsentPresent = T1Contrast == 2 & T2Contrast == 1 ;%& ~eyeSkip;
+nAbsentAbsent = T1Contrast == 2 & T2Contrast == 2 ;% ~eyeSkip;
 
 targPresAcc = [sum(PresentPresent)/sum(nPresentPresent) sum(PresentAbsent)/sum(nPresentAbsent) sum(AbsentPresent)/sum(nAbsentPresent) sum(AbsentAbsent)/sum(nAbsentAbsent)]*100;
 
 % validity 
 
-Neutral = precue == 3 & correct & ~eyeSkip;
-Invalid = (precue == 1| precue == 2) & precue ~= target & correct & ~eyeSkip;
-Valid = precue == target & correct & ~eyeSkip;
+Neutral = precue == 3 & correct ;%& ~eyeSkip;
+Invalid = (precue == 1| precue == 2) & precue ~= target & correct ;%& ~eyeSkip;
+Valid = precue == target & correct ;%& ~eyeSkip;
 
-nValid = precue == target & ~eyeSkip;
-nInvalid = (precue == 1| precue == 2) & precue ~= target & ~eyeSkip;
-nNeutral = precue == 3 & ~eyeSkip;
+nValid = precue == target ;%& ~eyeSkip;
+nInvalid = (precue == 1| precue == 2) & precue ~= target;% & ~eyeSkip;
+nNeutral = precue == 3  ;% &~eyeSkip;
 
 validityAcc = [sum(Valid)/sum(nValid) sum(Invalid)/sum(nInvalid) sum(Neutral)/sum(nNeutral)]*100;
 
