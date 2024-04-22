@@ -415,11 +415,11 @@ while iTrial <= size(trialOrder, 2)
  
     %% Set up stimuli for this trial
     % Precue tone
-    if s.exptStage > 2
-        precueTone = cueTones(precue,:);
-    else
+    % if s.exptStage > 2
+    %     precueTone = cueTones(precue,:);
+    % else
         precueTone = cueTones(3,:);
-    end
+    % end
     precueTone = repmat(precueTone,2,1); % two audio channels
 
     %Orientation 
@@ -1034,14 +1034,14 @@ end
 
 %% compile session files 
 
-
-cd(data.behDir)
-data.sesDir =  sprintf('%s/session %d', data.behDir, s.session);
-if ~exist(data.sesDir, 'dir')
-    mkdir(data.sesDir)
+if s.exptStage == 5
+    cd(data.behDir)
+    data.sesDir =  sprintf('%s/session %d', data.behDir, s.session);
+    if ~exist(data.sesDir, 'dir')
+        mkdir(data.sesDir)
+    end
+    movefile('*.mat', data.sesDir)
 end
-movefile('*.mat', data.sesDir)
-
 
 %% Completion message
 WaitSecs(1);
