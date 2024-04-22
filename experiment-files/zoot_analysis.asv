@@ -17,12 +17,12 @@ for iSub=1:length(subs) % for participant
     SID = subs{iSub};
     behDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/'];
     cd(behDir);
-    sessions = {''};
+    sessions = {'session 1'};
     for iSession = 1:numel(sessions) % for session
         sesNum = sessions{iSession};
         sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
         cd(sesDir)
-        findFiles = dir('*_block2_*.mat'); % for session shouldn't be hardcoded, find way to find highest block # and load it?
+        findFiles = dir('*_1002_block2_*.mat'); % for session shouldn't be hardcoded, find way to find highest block # and load it?
         for iFile = 1:length(findFiles) % for file
             fileName = findFiles(iFile).name;
             load(fileName)
@@ -62,8 +62,7 @@ nAbsentAbsent = T1Contrast == 2 & T2Contrast == 2 ;% ~eyeSkip;
 targPresAcc = [sum(PresentPresent)/sum(nPresentPresent) sum(PresentAbsent)/sum(nPresentAbsent) sum(AbsentPresent)/sum(nAbsentPresent) sum(AbsentAbsent)/sum(nAbsentAbsent)]*100;
 
 % validity 
-Neutral = correct; 
-nNeutral = numel(data.precue);
+
 Neutral = precue == 3 & correct ;%& ~eyeSkip;
 Invalid = (precue == 1| precue == 2) & precue ~= target & correct ;%& ~eyeSkip;
 Valid = precue == target & correct ;%& ~eyeSkip;
@@ -414,6 +413,25 @@ ax.YGrid = 'off';
 
 
 %% piloting
+Neutral = correct; 
+nNeutral = numel(data.precue);
+NeutralT1 = Neutral & target == 1;
+NeutralT2 = Neutral & target == 2;
+
+
+nNeutralT1 = nNeutral & target == 1;
+nNeutralT2 = nNeutral & target == 2;
+
+%target presence 
+PresentPresent = T1Contrast == 1 & T2Contrast == 1 & correct; %& ~eyeSkip;
+PresentAbsent = T1Contrast == 1 & T2Contrast == 2 & correct ;%& ~eyeSkip;
+AbsentPresent = T1Contrast == 2 & T2Contrast == 1 & correct ;%& ~eyeSkip;
+AbsentAbsent = T1Contrast == 2 & T2Contrast == 2 & correct ;%& ~eyeSkip;
+
+nPresentPresent = T1Contrast == 1 & T2Contrast == 1 ;%& ~eyeSkip;
+nPresentAbsent = T1Contrast == 1 & T2Contrast == 2 ;%& ~eyeSkip;
+nAbsentPresent = T1Contrast == 2 & T2Contrast == 1 ;%& ~eyeSkip;
+nAbsentAbsent = T1Contrast == 2 & T2Contrast == 2 ;% ~eyeSkip;
 
 PrePreT1 = NeutralT1 & PresentPresent;
 PrePreT2 = NeutralT2 & PresentPresent;
@@ -444,7 +462,7 @@ AbsAbsT2 =  sum(AbsAbsT2)/sum(nAbsAbsT2) *100;
 
 
 figure(6)
-sgtitle('target presence x attention condition x target accuracy')
+sgtitle('600 ms SOA - after increasing tone interval')
 subplot(2,2,1) %two rows, two columns, first position
 PrePreAcc = [PrePreT1; PrePreT2];
 b = bar(PrePreAcc);
