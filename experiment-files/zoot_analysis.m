@@ -5,7 +5,7 @@ clear all
 fp = figureparams;
 %% compile 
 
-subs = {'test'};
+subs = {'S0004'};
 fields = {'precue','target', 'T1Contrast', 'T2Contrast', 'seen', 'correct', 'correctDis', 'eyeSkip'}; % fieldnames(data);
 for iF = 1:numel(fields) % initialize
     dataAll.(fields{iF}) = [];
@@ -17,12 +17,12 @@ for iSub=1:length(subs) % for participant
     SID = subs{iSub};
     behDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/'];
     cd(behDir);
-    sessions = {'click'};
+    sessions = {''};
     for iSession = 1:numel(sessions) % for session
         sesNum = sessions{iSession};
         sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
         cd(sesDir)
-        findFiles = dir('*_block17_*.mat'); % for session shouldn't be hardcoded, find way to find highest block # and load it?
+        findFiles = dir('*_block2_*.mat'); % for session shouldn't be hardcoded, find way to find highest block # and load it?
         for iFile = 1:length(findFiles) % for file
             fileName = findFiles(iFile).name;
             load(fileName)
@@ -43,6 +43,10 @@ T2Contrast = dataAll.T2Contrast;
 eyeSkip = dataAll.eyeSkip == 1;
 precue = dataAll.precue;
 target = dataAll.target;
+
+
+% neutral piloting
+correctNeut = correct;
 
 %target presence 
 PresentPresent = T1Contrast == 1 & T2Contrast == 1 & correct; %& ~eyeSkip;
@@ -406,4 +410,3 @@ lgd.Layout.Tile = 'east';
 ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'off';
-
