@@ -62,7 +62,7 @@ switch s.comp
         p.eyeTracking = 1;
         p.windowTesting = 0;
         p.eyeSlack = 0.12;
-        p.deviceName = 'Scarlett';
+        p.deviceName = 'sysdefault';
 end
 
 %% Fixation
@@ -100,7 +100,7 @@ p.volume=0.01;
 p.Fs = 44100; % samples per second
 % p.Fs = 48000; % samples per second, 48000
 % p.sampleRate=48000;
-p.toneFreqs = [1046.5 440]; %[784 523]; % Hz; [G5, C5]
+p.toneFreqs = [784 523]; % Hz; [G5, C5],  [1046.5 440]; %
 p.toneDur = 0.2; % seconds 
 p.toneVolume=0.5;
 p.toneEnvelope=1;%1 envelope on, 2 envelope off
@@ -156,7 +156,7 @@ p.eyeTrackerCalibrationKey='home';
 %% Timing
 p.precueSOA = 1; % precue to T1
 p.imDur = 0.05; % 50ms, target presentation duration - 0.05
-p.targetSOA = 0.25; % s, T1 to T2 - 0.25
+p.targetSOA = 0.3; % s, T1 to T2 - 0.25
 p.postcueSOA = 0.5; % T2 to postcue
 p.feedbackLength=0.5; %feedback color length 
 p.ITI=.75; %750 ms ITI
