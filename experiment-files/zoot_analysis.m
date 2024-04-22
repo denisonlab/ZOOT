@@ -1,5 +1,7 @@
 clear all
 
+
+
 fp = figureparams;
 %% compile 
 
@@ -15,12 +17,12 @@ for iSub=1:length(subs) % for participant
     SID = subs{iSub};
     behDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/'];
     cd(behDir);
-    sessions = {'no click'};
+    sessions = {'click'};
     for iSession = 1:numel(sessions) % for session
         sesNum = sessions{iSession};
         sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
         cd(sesDir)
-        findFiles = dir('*_block3_*.mat'); % for session shouldn't be hardcoded, find way to find highest block # and load it?
+        findFiles = dir('*_block17_*.mat'); % for session shouldn't be hardcoded, find way to find highest block # and load it?
         for iFile = 1:length(findFiles) % for file
             fileName = findFiles(iFile).name;
             load(fileName)
@@ -312,10 +314,10 @@ sgtitle('target presence x attention condition x target accuracy')
 subplot(2,2,1) %two rows, two columns, first position
 PrePreAcc = [PrePreT1; PrePreT2];
 b = bar(PrePreAcc);
-ylim([40 100])
+ylim([30 100])
 title('present/present')
 ylabel('accuracy %')
-set(gca, 'ytick', 40:10:100)
+set(gca, 'ytick', 30:10:100)
 set(gca, 'xticklabel', {'T1', 'T2'})
 ytickformat('percentage')
 
@@ -323,9 +325,9 @@ ytickformat('percentage')
 subplot(2,2,2)
 PreAbsAcc = [PreAbsT1; PreAbsT2];
 b = bar(PreAbsAcc);
-ylim([40 100])
+ylim([30 100])
 title('present/absent')
-set(gca, 'ytick',40:10:100)
+set(gca, 'ytick',30:10:100)
 set(gca, 'xticklabel', {'T1', 'T2'})
 ytickformat('percentage')
 
@@ -333,19 +335,19 @@ ytickformat('percentage')
 subplot(2,2,3)
 AbsPreAcc = [AbsPreT1; AbsPreT2];
 b = bar(AbsPreAcc);
-ylim([40 100])
+ylim([30 100])
 title('absent/present')
 ylabel('accuracy %')
-set(gca, 'ytick', 40:10:100)
+set(gca, 'ytick', 30:10:100)
 set(gca, 'xticklabel', {'T1', 'T2'})
 ytickformat('percentage')
 
 subplot(2,2,4)
 AbsAbsAcc = [AbsAbsT1; AbsAbsT2];
 b = bar(AbsAbsAcc);
-ylim([40 100])
+ylim([30 100])
 title('absent/absent')
-set(gca, 'ytick', 40:10:100)
+set(gca, 'ytick', 30:10:100)
 set(gca, 'xticklabel', {'T1', 'T2'})
 ytickformat('percentage')
 
@@ -362,10 +364,10 @@ sgtitle('target presence x attention condition x target accuracy')
 subplot(2,2,1) %two rows, two columns, first position
 PrePreAcc = [PrePreT1; PrePreT2];
 b = bar(PrePreAcc);
-ylim([40 100])
+ylim([30 100])
 title('target present/nontarget present')
 ylabel('accuracy %')
-set(gca, 'ytick', 40:10:100)
+set(gca, 'ytick', 30:10:100)
 set(gca, 'xticklabel', {'T1', 'T2'})
 ytickformat('percentage')
 
@@ -373,9 +375,9 @@ ytickformat('percentage')
 subplot(2,2,2)
 PreAbsAcc = [PreAbsT1; AbsPreT2];
 b = bar(PreAbsAcc);
-ylim([40 100])
+ylim([30 100])
 title('target present/nontarget absent')
-set(gca, 'ytick',40:10:100)
+set(gca, 'ytick',30:10:100)
 set(gca, 'xticklabel', {'T1', 'T2'})
 ytickformat('percentage')
 
@@ -383,19 +385,19 @@ ytickformat('percentage')
 subplot(2,2,3)
 AbsPreAcc = [AbsPreT1; PreAbsT2];
 b = bar(AbsPreAcc);
-ylim([40 100])
+ylim([30 100])
 title('target absent/nontarget present')
 ylabel('accuracy %')
-set(gca, 'ytick', 40:10:100)
+set(gca, 'ytick', 30:10:100)
 set(gca, 'xticklabel', {'T1', 'T2'})
 ytickformat('percentage')
 
 subplot(2,2,4)
 AbsAbsAcc = [AbsAbsT1; AbsAbsT2];
 b = bar(AbsAbsAcc);
-ylim([40 100])
+ylim([30 100])
 title('target absent/nontarget absent')
-set(gca, 'ytick', 40:10:100)
+set(gca, 'ytick', 30:10:100)
 set(gca, 'xticklabel', {'T1', 'T2'})
 ytickformat('percentage')
 

@@ -305,7 +305,7 @@ if s.exptStage == 4 || s.exptStage == 5
             % sesTrialOrder = trialOrder(1:p.nTotalTrials);
             iTrial = 1;
             block = 1;
-            eyeSkip = zeros(size(40,1),1); % trials skipped due to an eye movement, same size as trials matrix
+            eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
         else
             dataPrevious = load(dataFileNames{end}); % this isn't checking the time stamp yet
             % otherwise load the data w latest  time stamp and find the last trial
@@ -326,7 +326,7 @@ if s.exptStage == 4 || s.exptStage == 5
             block = 1;
             % trialOrder = dataPrevious.data.trialOrder;
             % sesTrialOrder = trialOrder(p.nTotalTrials+1:end); % is p.nTotalTrials still 640 or updated?
-            eyeSkip = zeros(size(40,1),1); % trials skipped due to an eye movement, same size as trials matrix
+            eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
         else
             dataPrevious = load(dataFileNames{end}); % this isn't checking the time stamp yet
             data = dataPrevious.data;
