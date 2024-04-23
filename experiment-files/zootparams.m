@@ -159,6 +159,7 @@ p.imDur = 0.05; % 50ms, target presentation duration - 0.05
 p.targetSOA = 0.3; % s, T1 to T2 - 0.25
 p.postcueSOA = 0.5; % T2 to postcue
 p.feedbackLength=0.5; %feedback color length 
+p.gocueSOA = 0.6; %postcue to go cue - 0.6 (Denison, Carrasco, & Heeger, 2021)
 p.ITI=.75; %750 ms ITI
 % p.responseWindowDur=2; %2 second window allowed for response
 

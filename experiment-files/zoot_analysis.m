@@ -17,12 +17,12 @@ for iSub=1:length(subs) % for participant
     SID = subs{iSub};
     behDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/'];
     cd(behDir);
-    sessions = {'session 1'};
+    sessions = {''};
     for iSession = 1:numel(sessions) % for session
         sesNum = sessions{iSession};
         sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
         cd(sesDir)
-        findFiles = dir('*_1002_block2_*.mat'); % for session shouldn't be hardcoded, find way to find highest block # and load it?
+        findFiles = dir('*block2_*.mat'); % for session shouldn't be hardcoded, find way to find highest block # and load it?
         for iFile = 1:length(findFiles) % for file
             fileName = findFiles(iFile).name;
             load(fileName)
@@ -462,7 +462,7 @@ AbsAbsT2 =  sum(AbsAbsT2)/sum(nAbsAbsT2) *100;
 
 
 figure(6)
-sgtitle('600 ms SOA - after increasing tone interval')
+sgtitle('300 ms SOA - after increasing tone interval')
 subplot(2,2,1) %two rows, two columns, first position
 PrePreAcc = [PrePreT1; PrePreT2];
 b = bar(PrePreAcc);

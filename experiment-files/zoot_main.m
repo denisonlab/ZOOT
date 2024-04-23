@@ -674,6 +674,25 @@ while iTrial <= size(trialOrder, 2)
             Eyelink('Message', 'Postcue')
         end
 
+
+        %% Present go cue 
+        if oscilloscope == 1
+            Screen('FillRect', window, black, [])
+        end
+        drawFixation(window, cx, cy, fixSize, p.dimFixColor);
+        timeGoDim = Screen('Flip', window, timePostcue + p.gocueSOA - slack);
+
+        if oscilloscope == 1
+            Screen('FillRect', window, black, [])
+        end
+        % blank
+        drawFixation(window, cx, cy, fixSize, p.fixColor);
+        timeBlank3 = Screen('Flip', window, timeGoDim + p.imDur - slack);
+
+
+       
+
+
         %% Response window
         if oscilloscope == 1
             Screen('FillRect', window, black, [])
@@ -763,13 +782,13 @@ while iTrial <= size(trialOrder, 2)
             end
 
             drawFixation(window, cx,cy, fixSize, p.fixColor);
-            timeBlank3 = Screen('Flip', window, timeFeedbackFix+p.feedbackLength-slack); % returns fixation to white
+            timeBlank4 = Screen('Flip', window, timeFeedbackFix+p.feedbackLength-slack); % returns fixation to white
             %% ITI
             if oscilloscope == 1
                 Screen('FillRect', window, black, [])
             end
             drawFixation(window, cx,cy, fixSize, p.fixColor);
-            timeITIstart = Screen('Flip', window, timeBlank3-slack);
+            timeITIstart = Screen('Flip', window, timeBlank4-slack);
             if oscilloscope == 1
                 Screen('FillRect', window, black, [])
             end
@@ -819,19 +838,19 @@ while iTrial <= size(trialOrder, 2)
         timing.timePrecue(iTrial) = timePrecue;
         timing.timePrecueOff(iTrial) = statusPrecue.EstimatedStopTime;
         timing.timeT1(iTrial) = timeT1;
-        % timing.timeT1Click(iTrial) = timeT1Click; % This has jitter
-        % timing.timeT1ClickOff(iTrial) = statusT1Click.EstimatedStopTime; % This appears to not have jitter
+        timing.timeT1Click(iTrial) = timeT1Click; % This has jitter
+        timing.timeT1ClickOff(iTrial) = statusT1Click.EstimatedStopTime; % This appears to not have jitter
         timing.timeBlank1(iTrial) = timeBlank1; % fixation draw after T1 dur
         timing.timeT2(iTrial) = timeT2;
-        % timing.timeT2Click(iTrial) = timeT2Click;
-        % timing.timeT2ClickOff(iTrial) = statusT2Click.EstimatedStopTime;
+        timing.timeT2Click(iTrial) = timeT2Click;
+        timing.timeT2ClickOff(iTrial) = statusT2Click.EstimatedStopTime;
         timing.timeBlank2(iTrial) = timeBlank2; %fixation draw after T2 dur
         timing.timePostcue(iTrial) = timePostcue;
         timing.timePostcueOff(iTrial) = statusPostcue.EstimatedStopTime;
         timing.timeTargetResponseWindow(iTrial) = timeTargetResponseWindow;
         timing.timeTargetRT(iTrial) = timeTargetRT;
         timing.timeFeedbackFix(iTrial) = timeFeedbackFix;
-        timing.timeBlank3(iTrial) = timeBlank3; %fixation draw after feedback dur
+        timing.timeBlank4(iTrial) = timeBlank4; %fixation draw after feedback dur
         timing.timeITIstart(iTrial) = timeITIstart;
         timing.timeITIend(iTrial) = timeITIend;
 
@@ -846,7 +865,7 @@ while iTrial <= size(trialOrder, 2)
         timing.postcueSOA(iTrial)=timing.timePostcue(iTrial)-timing.timeT2(iTrial); %come back to this one
         timing.postcueDur(iTrial)=timing.timePostcueOff(iTrial) - timing.timePostcue(iTrial);
         timing.feedbackSOA(iTrial)=timing.timeFeedbackFix(iTrial)-timing.timePostcue(iTrial); % time between postcue and fixation
-        timing.feedbackDur(iTrial)=timing.timeBlank3(iTrial)-timing.timeFeedbackFix(iTrial);
+        timing.feedbackDur(iTrial)=timing.timeBlank4(iTrial)-timing.timeFeedbackFix(iTrial);
         timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial);
         end 
     % If last trial in a block, save data... 
