@@ -156,7 +156,7 @@ p.eyeTrackerCalibrationKey='home';
 %% Timing
 p.precueSOA = 1; % precue to T1
 p.imDur = 0.05; % 50ms, target presentation duration - 0.05
-p.targetSOA = 0.3; % s, T1 to T2 - 0.25
+p.targetSOA = 0.25; % s, T1 to T2 - 0.25
 p.postcueSOA = 0.5; % T2 to postcue
 p.feedbackLength=0.5; %feedback color length 
 p.gocueSOA = 0.6; %postcue to go cue - 0.6 (Denison, Carrasco, & Heeger, 2021)
@@ -193,7 +193,7 @@ switch s.exptStage
         p.nTrialsPerBlock = 32; %p.nTotalTrials;
     case 2
         p.precueValidities = 3; % all neutral threshold
-        p.nTotalTrials = 64; %numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
+        p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
         p.nTrialsPerBlock = p.nTotalTrials;
         p.stairs = [.2 .4 .6 .8 1 1.2 1.4 2 3 5];
     case 3

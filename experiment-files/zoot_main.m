@@ -415,11 +415,11 @@ while iTrial <= size(trialOrder, 2)
  
     %% Set up stimuli for this trial
     % Precue tone
-    % if s.exptStage > 2
-    %     precueTone = cueTones(precue,:);
-    % else
+    if s.exptStage > 2
+        precueTone = cueTones(precue,:);
+    else
         precueTone = cueTones(3,:);
-    % end
+    end
     precueTone = repmat(precueTone,2,1); % two audio channels
 
     %Orientation 
@@ -544,7 +544,7 @@ while iTrial <= size(trialOrder, 2)
         drawFixation(window, cx, cy, fixSize, p.dimTargetColor);
         timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
         PsychPortAudio('FillBuffer', pahandle, p.sound);
-        timeT1Click=PsychPortAudio('Start', pahandle, 1, timePrecue+p.precueSOA - slack, 0); % 1 0 1
+        timeT1Click=PsychPortAudio('Start', pahandle, 1, 0, 1); % 1 0 1
         statusT1Click = PsychPortAudio('GetStatus', pahandle);
         if p.eyeTracking
             Eyelink('Message', 'T1')
@@ -555,7 +555,7 @@ while iTrial <= size(trialOrder, 2)
         end
         % blank
         drawFixation(window, cx, cy, fixSize, p.fixColor);
-        timeBlank1 = Screen('Flip', window, timeT1 + p.imDur - slack);
+        timeT1Off = Screen('Flip', window, timeT1 + p.imDur - slack);
         if p.eyeTracking
             Eyelink('Message', 'SOA')
         end
@@ -620,7 +620,7 @@ while iTrial <= size(trialOrder, 2)
         end
         % blank
         drawFixation(window, cx, cy, fixSize, p.fixColor);
-        timeBlank2 = Screen('Flip', window, timeT2 + p.imDur - slack);
+        timeT2Off = Screen('Flip', window, timeT2 + p.imDur - slack);
         if p.eyeTracking
             Eyelink('Message', 'PostcueSOA')
         end
@@ -680,18 +680,14 @@ while iTrial <= size(trialOrder, 2)
             Screen('FillRect', window, black, [])
         end
         drawFixation(window, cx, cy, fixSize, p.dimFixColor);
-        timeGoDim = Screen('Flip', window, timePostcue + p.gocueSOA - slack);
+        timeGocue = Screen('Flip', window, timePostcue + p.gocueSOA - slack);
 
         if oscilloscope == 1
             Screen('FillRect', window, black, [])
         end
         % blank
         drawFixation(window, cx, cy, fixSize, p.fixColor);
-        timeBlank3 = Screen('Flip', window, timeGoDim + p.imDur - slack);
-
-
-       
-
+        timeGocueOff = Screen('Flip', window, timeGocue + p.imDur*2 - slack);
 
         %% Response window
         if oscilloscope == 1
@@ -782,13 +778,13 @@ while iTrial <= size(trialOrder, 2)
             end
 
             drawFixation(window, cx,cy, fixSize, p.fixColor);
-            timeBlank4 = Screen('Flip', window, timeFeedbackFix+p.feedbackLength-slack); % returns fixation to white
+            timeFeedbackOff = Screen('Flip', window, timeFeedbackFix+p.feedbackLength-slack); % returns fixation to white
             %% ITI
             if oscilloscope == 1
                 Screen('FillRect', window, black, [])
             end
             drawFixation(window, cx,cy, fixSize, p.fixColor);
-            timeITIstart = Screen('Flip', window, timeBlank4-slack);
+            timeITIstart = Screen('Flip', window, timeFeedbackOff-slack);
             if oscilloscope == 1
                 Screen('FillRect', window, black, [])
             end
@@ -840,32 +836,36 @@ while iTrial <= size(trialOrder, 2)
         timing.timeT1(iTrial) = timeT1;
         timing.timeT1Click(iTrial) = timeT1Click; % This has jitter
         timing.timeT1ClickOff(iTrial) = statusT1Click.EstimatedStopTime; % This appears to not have jitter
-        timing.timeBlank1(iTrial) = timeBlank1; % fixation draw after T1 dur
+        timing.timeT1Off(iTrial) = timeT1Off; % fixation draw after T1 dur
         timing.timeT2(iTrial) = timeT2;
         timing.timeT2Click(iTrial) = timeT2Click;
         timing.timeT2ClickOff(iTrial) = statusT2Click.EstimatedStopTime;
-        timing.timeBlank2(iTrial) = timeBlank2; %fixation draw after T2 dur
+        timing.timeT2Off(iTrial) = timeT2Off; %fixation draw after T2 dur
         timing.timePostcue(iTrial) = timePostcue;
+        timing.timeGocue(iTrial) = timeGocue;
+        timing.timeGocueOff(iTrial) = timeGocueOff;
         timing.timePostcueOff(iTrial) = statusPostcue.EstimatedStopTime;
         timing.timeTargetResponseWindow(iTrial) = timeTargetResponseWindow;
         timing.timeTargetRT(iTrial) = timeTargetRT;
         timing.timeFeedbackFix(iTrial) = timeFeedbackFix;
-        timing.timeBlank4(iTrial) = timeBlank4; %fixation draw after feedback dur
+        timing.timeFeedbackOff(iTrial) = timeFeedbackOff; %fixation draw after feedback dur
         timing.timeITIstart(iTrial) = timeITIstart;
         timing.timeITIend(iTrial) = timeITIend;
 
         timing.fixSOA(iTrial) = timing.timePrecue(iTrial) - timing.timeFix(iTrial);
         timing.precueSOA(iTrial)=timing.timeT1(iTrial)-timing.timePrecue(iTrial);
         timing.precueDur(iTrial)=timing.timePrecueOff(iTrial) - timing.timePrecue(iTrial);
-        timing.T1Dur(iTrial)=timing.timeBlank1(iTrial)-timing.timeT1(iTrial);
-        % timing.T1ClickDur(iTrial) = timing.timeT1ClickOff(iTrial) -timing.timeT1Click(iTrial);
+        timing.T1Dur(iTrial)=timing.timeT1Off(iTrial)-timing.timeT1(iTrial);
+        timing.T1ClickDur(iTrial) = timing.timeT1ClickOff(iTrial) -timing.timeT1Click(iTrial);
         timing.SOA(iTrial)=timing.timeT2(iTrial)-timing.timeT1(iTrial);
-        timing.T2Dur(iTrial)=timing.timeBlank2(iTrial)-timing.timeT2(iTrial);
-        % timing.T2ClickDur(iTrial) = timing.timeT2ClickOff(iTrial) -timing.timeT2Click(iTrial);
+        timing.T2Dur(iTrial)=timing.timeT2Off(iTrial)-timing.timeT2(iTrial);
+        timing.T2ClickDur(iTrial) = timing.timeT2ClickOff(iTrial) -timing.timeT2Click(iTrial);
         timing.postcueSOA(iTrial)=timing.timePostcue(iTrial)-timing.timeT2(iTrial); %come back to this one
         timing.postcueDur(iTrial)=timing.timePostcueOff(iTrial) - timing.timePostcue(iTrial);
+        timing.gocueSOA(iTrial)= timing.timeGocue(iTrial) - timing.timePostcue(iTrial);
+        timing.gocueDur(iTrial) = timing.timeGocueOff(iTrial) - timing.timeGocue(iTrial);
         timing.feedbackSOA(iTrial)=timing.timeFeedbackFix(iTrial)-timing.timePostcue(iTrial); % time between postcue and fixation
-        timing.feedbackDur(iTrial)=timing.timeBlank4(iTrial)-timing.timeFeedbackFix(iTrial);
+        timing.feedbackDur(iTrial)=timing.timeFeedbackOff(iTrial)-timing.timeFeedbackFix(iTrial);
         timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial);
         end 
     % If last trial in a block, save data... 
