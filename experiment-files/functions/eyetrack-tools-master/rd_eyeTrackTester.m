@@ -60,7 +60,7 @@ for iTrial = 1:nTrials
     
     % start the trial when the eyetracker is recording and the subject is 
     % holding fixation
-    rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad});
+    rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect });
     
     % present first stimulus
     DrawFormattedText(window, '+', 'center', 'center', 255);
@@ -106,7 +106,7 @@ for iTrial = 1:nTrials
     
     Eyelink('Message', 'TRIAL_END');
 end
-
+  
 %% Final blank
 Screen('FillRect', window, 128)
 Screen('Flip', window);

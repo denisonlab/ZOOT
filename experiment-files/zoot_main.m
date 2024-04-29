@@ -85,7 +85,7 @@ elseif s.exptStage == 2
 end
 
 PsychDefaultSetup(2); %psychtoolbox settings
-oscilloscope = 0; % set to 1 for oscilloscope squares
+oscilloscope = 1; % set to 1 for oscilloscope squares
 
 %% Eye data i/o
 eyeFile = [s.subjectID(1:2) '0' num2str(s.session) datestr(now, 'mmdd')];           
@@ -412,7 +412,6 @@ while iTrial <= size(trialOrder, 2)
         targetAxisName = 'NA';
     end
 
- 
     %% Set up stimuli for this trial
     % Precue tone
     if s.exptStage > 2
