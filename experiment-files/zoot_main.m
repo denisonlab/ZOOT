@@ -85,7 +85,7 @@ elseif s.exptStage == 2
 end
 
 PsychDefaultSetup(2); %psychtoolbox settings
-oscilloscope = 1; % set to 1 for oscilloscope squares
+oscilloscope = 0; % set to 1 for oscilloscope squares
 
 %% Eye data i/o
 eyeFile = [s.subjectID(1:2) '0' num2str(s.session) datestr(now, 'mmdd')];           
@@ -167,17 +167,8 @@ devNum = -1;
 
 %% Making sounds ...
 % 10^0.5 for every 10dB
-%% Make a pure tone for each cue frequency
-cueTones = [];
-for iF = 1:numel(p.toneFreqs)
-    tone0 = MakeBeep(p.toneFreqs(iF), p.toneDur, p.Fs);
-
-    % Apply an envelope so the sound doesn't click at the beginning and end
-    tone = applyEnvelope(tone0, p.Fs);
-
-    cueTones(iF,:) = tone;
-end
-cueTones(iF+1,:) = mean(cueTones,1); % neutral precue, both tones together
+trialTones = squeeze(repmat(p.trialTone(1,1,:),2,1)); 
+PsychPortAudio('FillBuffer', pahandle, trialTones);
 
 %% %%%% Generate trials in different conditions %%%%
 % "precueValidity" = valid/neutral/invalid
@@ -227,6 +218,7 @@ for i=1:numel(p.phases) % we will just make four gratings of different phases, t
     tex = Screen('MakeTexture', window, im); % for psychtoolbox, need matrix to become a texture
     gabors(i) = tex;
 end
+
 
 %% Make the rects for placing the images in the window
 imSize = size(grating); % pixels 
@@ -414,20 +406,20 @@ while iTrial <= size(trialOrder, 2)
 
     %% Set up stimuli for this trial
     % Precue tone
-    if s.exptStage > 2
-        precueTone = cueTones(precue,:);
-    else
-        precueTone = cueTones(3,:);
-    end
-    precueTone = repmat(precueTone,2,1); % two audio channels
+    % if s.exptStage > 2
+    %     precueTone = cueTones(precue,:);
+    % else
+    %     precueTone = cueTones(3,:);
+    % end
+    % precueTone = repmat(precueTone,2,1); % two audio channels
 
     %Orientation 
     T1Orientation = p.axes(T1Axis) + threshold*p.tilts(T1Tilt); % creates the four different orientations
     T2Orientation = p.axes(T2Axis) + threshold*p.tilts(T2Tilt);
 
-    % Postcue tone
-    postcueTone = cueTones(target,:);
-    postcueTone = repmat(postcueTone,2,1); % two audio channels
+    % % Postcue tone
+    % postcueTone = cueTones(target,:);
+    % postcueTone = repmat(postcueTone,2,1); % two audio channels
 
     %% Store stimulus information in trials matrix - change so not overriding trials matrix
     data.precue(iTrial) = precue; % these are indices 
@@ -481,10 +473,11 @@ while iTrial <= size(trialOrder, 2)
     if oscilloscope == 1
         Screen('FillRect', window, black, [])
     end 
-    PsychPortAudio('FillBuffer', pahandle, precueTone);
-    timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); % waitForStart = 1 in order to return a timestamp of playback
-    WaitSecs(p.toneDur + 0.01); % added to let PsychPortAudio close
-    statusPrecue = PsychPortAudio('GetStatus', pahandle); % returns status struct with start time, stop time, etc.
+    % PsychPortAudio('FillBuffer', pahandle, precueTone);
+    % timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); % waitForStart = 1 in order to return a timestamp of playback
+    timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); 
+    % WaitSecs(p.toneDur + 0.01); % added to let PsychPortAudio close
+    % statusPrecue = PsychPortAudio('GetStatus', pahandle); % returns status struct with start time, stop time, etc.
 
    if p.eyeTracking
         Eyelink('Message', 'EVENT_CUE');
@@ -542,9 +535,9 @@ while iTrial <= size(trialOrder, 2)
         end
         drawFixation(window, cx, cy, fixSize, p.dimTargetColor);
         timeT1 = Screen('Flip', window, timePrecue + p.precueSOA - slack);
-        PsychPortAudio('FillBuffer', pahandle, p.sound);
-        timeT1Click=PsychPortAudio('Start', pahandle, 1, 0, 1); % 1 0 1
-        statusT1Click = PsychPortAudio('GetStatus', pahandle);
+
+        % timeT1Click=PsychPortAudio('Start', pahandle, 1, 0, 1); % 1 0 1
+        % statusT1Click = PsychPortAudio('GetStatus', pahandle);
         if p.eyeTracking
             Eyelink('Message', 'T1')
         end
@@ -608,8 +601,8 @@ while iTrial <= size(trialOrder, 2)
         drawFixation(window, cx, cy, fixSize, p.dimTargetColor);
         timeT2 = Screen('Flip', window, timeT1 + p.targetSOA - slack);
         PsychPortAudio('FillBuffer', pahandle, p.sound);
-         timeT2Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
-         statusT2Click = PsychPortAudio('GetStatus', pahandle);
+        % timeT2Click=PsychPortAudio('Start', pahandle, 1, 0, 1);
+        % statusT2Click = PsychPortAudio('GetStatus', pahandle);
         if p.eyeTracking
             Eyelink('Message', 'T2')
         end
@@ -667,8 +660,8 @@ while iTrial <= size(trialOrder, 2)
         if oscilloscope == 1
             Screen('FillRect', window, black, [])
         end
-        PsychPortAudio('FillBuffer', pahandle, postcueTone);
-        timePostcue = PsychPortAudio('Start', pahandle, [], timeT2 + p.postcueSOA, 1); % timeT2 + p.postcueSOA, waitForStart = 1 in order to return a timestamp of playback
+        % PsychPortAudio('FillBuffer', pahandle, postcueTone);
+        % timePostcue = PsychPortAudio('Start', pahandle, [], timeT2 + p.postcueSOA, 1); % timeT2 + p.postcueSOA, waitForStart = 1 in order to return a timestamp of playback
         if p.eyeTracking
             Eyelink('Message', 'Postcue')
         end
@@ -679,7 +672,7 @@ while iTrial <= size(trialOrder, 2)
             Screen('FillRect', window, black, [])
         end
         drawFixation(window, cx, cy, fixSize, p.dimFixColor);
-        timeGocue = Screen('Flip', window, timePostcue + p.gocueSOA - slack);
+        timeGocue = Screen('Flip', window, timeT2 + p.postcueSOA + p.gocueSOA - slack);
 
         if oscilloscope == 1
             Screen('FillRect', window, black, [])
@@ -694,7 +687,7 @@ while iTrial <= size(trialOrder, 2)
         end
         drawFixation(window, cx, cy, fixSize, p.fixColor);
         Screen('DrawingFinished', window);
-        timeTargetResponseWindow=Screen('Flip', window, timePostcue +p.toneDur -slack);
+        % timeTargetResponseWindow=Screen('Flip', window, timePostcue +p.toneDur -slack);
 
         statusPostcue = PsychPortAudio('GetStatus', pahandle); % moved here to let PsychPortAudio close
     end 

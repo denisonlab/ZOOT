@@ -93,6 +93,15 @@ p.aperture = 'gaussian'; % 'cosine'
 p.apertureEdgeWidth = 1;
 p.angularFreq = 8;
 
+%% Timing
+p.precueSOA = 1; % precue to T1
+p.imDur = 0.05; % 50ms, target presentation duration - 0.05
+p.targetSOA = 0.25; % s, T1 to T2 - 0.25
+p.postcueSOA = 0.5; % T2 to postcue
+p.feedbackLength=0.5; %feedback color length 
+p.gocueSOA = 0.6; %postcue to go cue - 0.6 (Denison, Carrasco, & Heeger, 2021)
+p.ITI=.75; %750 ms ITI
+% p.responseWindowDur=2; %2 second window allowed for response
 
 %% Sounds
 p.volume=0.01;
@@ -145,6 +154,29 @@ p.sound = c;
 p.sound = repmat(p.sound,2,1); % two audio channels
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Make a pure tone for each cue frequency
+cueTones = [];
+for iF = 1:numel(p.toneFreqs)
+    tone0 = MakeBeep(p.toneFreqs(iF), p.toneDur, p.Fs);
+
+    % Apply an envelope so the sound doesn't click at the beginning and end
+    tone = applyEnvelope(tone0, p.Fs);
+
+    cueTones(iF,:) = tone;
+end
+cueTones(iF+1,:) = mean(cueTones,1); % neutral precue, both tones together
+
+blank1 = zeros([1,(p.precueSOA-p.toneDur)*p.Fs]); 
+blank2 = zeros([1,p.targetSOA*p.Fs-length(p.sound)]); 
+blank3 = zeros([1,(round(p.postcueSOA+p.gocueSOA))*p.Fs-length(p.sound)]);
+
+for iPrecue = 1:3
+    for iPostcue = 1:2
+        p.trialTone(iPrecue,iPostcue,:) = [cueTones(iPrecue,:) blank1 p.sound(1,:) blank2 p.sound(1,:) blank3 cueTones(iPostcue,:)]; 
+    end
+end
+
+% PsychPortAudio('FillBuffer', pahandle, p.sound); % fill buffer for target clicks
 
 
 %% response 
@@ -153,15 +185,6 @@ p.responseKeys = {'1!','2@','3#'};
 
 p.deviceIndex = 1; % accept response from all inputs 
 p.eyeTrackerCalibrationKey='home';
-%% Timing
-p.precueSOA = 1; % precue to T1
-p.imDur = 0.05; % 50ms, target presentation duration - 0.05
-p.targetSOA = 0.25; % s, T1 to T2 - 0.25
-p.postcueSOA = 0.5; % T2 to postcue
-p.feedbackLength=0.5; %feedback color length 
-p.gocueSOA = 0.6; %postcue to go cue - 0.6 (Denison, Carrasco, & Heeger, 2021)
-p.ITI=.75; %750 ms ITI
-% p.responseWindowDur=2; %2 second window allowed for response
 
 %% Condition information
 p.precueNames = {'valid','neutral','invalid'};
