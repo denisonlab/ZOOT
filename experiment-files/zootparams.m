@@ -168,7 +168,7 @@ cueTones(iF+1,:) = mean(cueTones,1); % neutral precue, both tones together
 
 blank1 = zeros([1,(p.precueSOA-p.toneDur)*p.Fs]); 
 blank2 = zeros([1,p.targetSOA*p.Fs-length(p.sound)]); 
-blank3 = zeros([1,(round(p.postcueSOA+p.gocueSOA))*p.Fs-length(p.sound)]);
+blank3 = zeros([1,(p.postcueSOA)*p.Fs-length(p.sound)]);
 
 for iPrecue = 1:3
     for iPostcue = 1:2

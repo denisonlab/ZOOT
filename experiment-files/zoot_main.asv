@@ -413,10 +413,6 @@ while iTrial <= size(trialOrder, 2)
     % end
     % precueTone = repmat(precueTone,2,1); % two audio channels
 
-    trialTones = squeeze(repmat(p.trialTone(precue,target,:),2,1));
-    PsychPortAudio('FillBuffer', pahandle, trialTones);
-
-
     %Orientation 
     T1Orientation = p.axes(T1Axis) + threshold*p.tilts(T1Tilt); % creates the four different orientations
     T2Orientation = p.axes(T2Axis) + threshold*p.tilts(T2Tilt);
