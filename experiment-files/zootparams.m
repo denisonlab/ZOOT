@@ -96,7 +96,7 @@ p.angularFreq = 8;
 %% Timing
 p.precueSOA = 1; % precue to T1
 p.imDur = 0.05; % 50ms, target presentation duration - 0.05
-p.targetSOA = 0.25; % s, T1 to T2 - 0.25
+p.targetSOA = 0.25; % s, T1 to T2 - 0.25, 0.6 
 p.postcueSOA = 0.5; % T2 to postcue
 p.feedbackLength=0.5; %feedback color length 
 p.gocueSOA = 0.6; %postcue to go cue - 0.6 (Denison, Carrasco, & Heeger, 2021)
@@ -167,7 +167,7 @@ end
 cueTones(iF+1,:) = mean(cueTones,1); % neutral precue, both tones together
 
 blank1 = zeros([1,(p.precueSOA-p.toneDur)*p.Fs]); 
-blank2 = zeros([1,p.targetSOA*p.Fs-length(p.sound)]); 
+blank2 = zeros([1,(p.targetSOA)*p.Fs-length(p.sound)]); 
 blank3 = zeros([1,(p.postcueSOA)*p.Fs-length(p.sound)]);
 
 for iPrecue = 1:3

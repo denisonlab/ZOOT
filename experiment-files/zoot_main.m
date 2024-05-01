@@ -412,6 +412,10 @@ while iTrial <= size(trialOrder, 2)
     %     precueTone = cueTones(3,:);
     % end
     % precueTone = repmat(precueTone,2,1); % two audio channels
+    if s.exptStage < 3
+        precue = 3;
+    end 
+    precue = 3;
 
     trialTones = squeeze(repmat(p.trialTone(precue,target,:),2,1));
     PsychPortAudio('FillBuffer', pahandle, trialTones);
@@ -474,14 +478,21 @@ while iTrial <= size(trialOrder, 2)
 
     %% Present precue tone
     % bufferhandle = PsychPortAudio('CreateBuffer', pahandle, precueTone);
+    timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); 
+
     if oscilloscope == 1
-        Screen('FillRect', window, black, [])
-    end 
+        Screen('FillRect', window, white, [])
+         timePrecue_visual = Screen('Flip', window);
     % PsychPortAudio('FillBuffer', pahandle, precueTone);
     % timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); % waitForStart = 1 in order to return a timestamp of playback
-    timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); 
+   
     % WaitSecs(p.toneDur + 0.01); % added to let PsychPortAudio close
     % statusPrecue = PsychPortAudio('GetStatus', pahandle); % returns status struct with start time, stop time, etc.
+
+        Screen('FillRect', window, black, [])
+        timePrecue_visualOff = Screen('Flip', window, timePrecue_visual+p.toneDur);
+    end
+
 
    if p.eyeTracking
         Eyelink('Message', 'EVENT_CUE');
@@ -528,7 +539,9 @@ while iTrial <= size(trialOrder, 2)
         %     continue
         % end
      end
-      
+
+     
+          
     %% Present T1
     if ~stopThisTrial
         if p.contrasts(T1Contrast)>0
@@ -593,6 +606,7 @@ while iTrial <= size(trialOrder, 2)
             % end
         end
     end
+
     %% Present T2
     if ~stopThisTrial
         if p.contrasts(T2Contrast)>0
@@ -662,14 +676,17 @@ while iTrial <= size(trialOrder, 2)
     %% Present postcue
     if ~stopThisTrial
         if oscilloscope == 1
+            Screen('FillRect', window, white, [])
+
+            timePostcue_visual =  Screen('Flip', window, timeT2+p.postcueSOA);
+            % PsychPortAudio('FillBuffer', pahandle, postcueTone);
+            % timePostcue = PsychPortAudio('Start', pahandle, [], timeT2 + p.postcueSOA, 1); % timeT2 + p.postcueSOA, waitForStart = 1 in order to return a timestamp of playback
             Screen('FillRect', window, black, [])
+            timePostcue_visualOff = Screen('Flip', window, timePostcue_visual+p.toneDur);
         end
-        % PsychPortAudio('FillBuffer', pahandle, postcueTone);
-        % timePostcue = PsychPortAudio('Start', pahandle, [], timeT2 + p.postcueSOA, 1); % timeT2 + p.postcueSOA, waitForStart = 1 in order to return a timestamp of playback
         if p.eyeTracking
             Eyelink('Message', 'Postcue')
         end
-
 
         %% Present go cue 
         if oscilloscope == 1
@@ -872,7 +889,7 @@ while iTrial <= size(trialOrder, 2)
         dateStr = datetime('now', 'TimeZone', 'local', 'Format', 'yyMMdd_hhmm');
         data.whenSaved = datestr(now);
         data.dateTime=dateStr;
-        data.timings=timing;
+        % data.timings=timing;
         eyedata.eye = eye;
         eyeSkip(iTrial) = stopThisTrial;
         data.eyeSkip = eyeSkip;
