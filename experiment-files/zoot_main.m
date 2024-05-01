@@ -262,6 +262,9 @@ if p.eyeTracking
 end
 %% Show instruction screen and wait for a button press
 WaitSecs(1);
+zoot_instructions(s, window, devNum, white);
+KbWait(devNum)
+WaitSecs(1);
 Screen('FillRect', window, white*p.backgroundColor);
 DrawFormattedText(window, 'Press any key to begin', 'center', 'center', [1 1 1]*white);
 Screen('Flip', window);
@@ -415,7 +418,6 @@ while iTrial <= size(trialOrder, 2)
     if s.exptStage < 3
         precue = 3;
     end 
-    precue = 3;
 
     trialTones = squeeze(repmat(p.trialTone(precue,target,:),2,1)); % 2 audio channels
     PsychPortAudio('FillBuffer', pahandle, trialTones);

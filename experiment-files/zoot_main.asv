@@ -85,7 +85,7 @@ elseif s.exptStage == 2
 end
 
 PsychDefaultSetup(2); %psychtoolbox settings
-oscilloscope = 1; % set to 1 for oscilloscope squares
+oscilloscope = 0; % set to 1 for oscilloscope squares
 
 %% Eye data i/o
 eyeFile = [s.subjectID(1:2) '0' num2str(s.session) datestr(now, 'mmdd')];           
@@ -262,6 +262,8 @@ if p.eyeTracking
 end
 %% Show instruction screen and wait for a button press
 WaitSecs(1);
+zoot_instructions(s, window, devNum, white);
+KbWait(devNum)
 Screen('FillRect', window, white*p.backgroundColor);
 DrawFormattedText(window, 'Press any key to begin', 'center', 'center', [1 1 1]*white);
 Screen('Flip', window);
@@ -415,7 +417,6 @@ while iTrial <= size(trialOrder, 2)
     if s.exptStage < 3
         precue = 3;
     end 
-    precue = 3;
 
     trialTones = squeeze(repmat(p.trialTone(precue,target,:),2,1)); % 2 audio channels
     PsychPortAudio('FillBuffer', pahandle, trialTones);
@@ -477,8 +478,10 @@ while iTrial <= size(trialOrder, 2)
 
     %% Present precue tone
     % bufferhandle = PsychPortAudio('CreateBuffer', pahandle, precueTone);
+    drawFixation(window, cx, cy, fixSize, p.fixColor);
     timePrecue = PsychPortAudio('Start', pahandle, [], [], 1);
-    
+    timePrecue_visual = Screen('Flip', window);
+
     if oscilloscope == 1
         Screen('FillRect', window, white, [])
         timePrecue_visual = Screen('Flip', window);
@@ -492,8 +495,6 @@ while iTrial <= size(trialOrder, 2)
         timePrecue_visualOff = Screen('Flip', window, timePrecue_visual+p.toneDur);
     end
 
-    drawFixation(window, cx, cy, fixSize, p.fixColor);
-    timePrecue_Off = Screen('Flip', window, timePrecue+p.toneDur);
 
     if p.eyeTracking
         Eyelink('Message', 'EVENT_CUE');

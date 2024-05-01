@@ -8,6 +8,7 @@ p.stimmapping = 0;
 p.watch_response = 0;
 p.nReps = 2; % number of repetitions of the full counterbalance across all sessions
 
+
 %% debugging
 p.stimDebug = 0; % if 1, each trial ends with the target orientation and response 
 
