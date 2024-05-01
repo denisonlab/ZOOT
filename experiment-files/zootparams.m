@@ -1,11 +1,11 @@
-function p = zootparams(s);
+function p = zootparams(s)
 
 %% main settings
 
 addpath data/ toolboxes/eyetrack-tools-master/ functions/ trial-structs/
 p.staircasing = 0;
 p.stimmapping = 0;
-p.watch_response=0;
+p.watch_response = 0;
 p.nReps = 2; % number of repetitions of the full counterbalance across all sessions
 
 %% debugging
@@ -33,7 +33,7 @@ switch s.comp
         p.dir = '/Users/Jenny Motzer/One Drive/Documents/GitHub/ZOOT/experiment-files';
         p.retina = 1; disp('Testing mode is active!');
         p.useKbQueue = 1;
-        p.eyeTracking=0; disp('shutting off eyetracking since this is a test computer');
+        p.eyeTracking = 0; disp('shutting off eyetracking since this is a test computer');
     case 'denlab-beh'
         p.screenSize = 53.5;
         p.screenRes = [1920 1080];
@@ -49,7 +49,7 @@ switch s.comp
             p.eyeTracking = 0;
         end
         p.eyeSlack = 0.12;
-        p.windowTesting=0;
+        p.windowTesting = 0;
         p.deviceName = 'Scarlett';
     case 'denlab-eeg'
         p.screenSize = 53.5;
@@ -71,14 +71,14 @@ p.fixColor = 1; % white
 p.dimTargetColor = 0.75; 
 p.dimFixColor = 0.25; %dimmed for ITI
 p.fixLineWidth = 3;
-p.fixRadius=3;
+p.fixRadius = 3;
 p.eyeRad = 2.5;
-p.noFixTrials=[]; %variable that will contain missed trials 
+p.noFixTrials = []; %variable that will contain missed trials 
 
 %% Instructions
-p.font='Arial';
-p.fontSize=24;
-p.instructions=fileread('instructions.txt');
+p.font = 'Arial';
+p.fontSize = 24;
+p.instructions = fileread('instructions.txt');
 
 %% Images
 p.backgroundColor = 0.5; % gray
@@ -98,26 +98,23 @@ p.precueSOA = 1; % precue to T1
 p.imDur = 0.05; % 50ms, target presentation duration - 0.05
 p.targetSOA = 0.25; % s, T1 to T2 - 0.25, 0.6 
 p.postcueSOA = 0.5; % T2 to postcue
-p.feedbackLength=0.5; %feedback color length 
-p.gocueSOA = 0.6; %postcue to go cue - 0.6 (Denison, Carrasco, & Heeger, 2021)
-p.ITI=.75; %750 ms ITI
+p.feedbackLength=0.5; % feedback color length 
+p.gocueSOA = 0.6; % postcue to go cue - 0.6 (Denison, Carrasco, & Heeger, 2021)
+p.ITI = 0.75; % 750 ms ITI
 % p.responseWindowDur=2; %2 second window allowed for response
 
 %% Sounds
-p.volume=0.01;
+p.volume=0.01; 
 
 p.Fs = 44100; % samples per second
-% p.Fs = 48000; % samples per second, 48000
-% p.sampleRate=48000;
-p.toneFreqs = [1046.5 440]; %[784 523]; % Hz; [G5, C5],  [1046.5 440]; %
+p.toneFreqs = [1046.5 440]; % [784 523]; % Hz; [G5, C5],  [1046.5 440]; %
 p.toneDur = 0.2; % seconds 
-p.toneVolume=0.5;
-p.toneEnvelope=1;%1 envelope on, 2 envelope off
-p.envRampDuration=10; %ms
+p.toneVolume = 0.5;
+p.toneEnvelope = 1; %1 envelope on, 2 envelope off
+% p.envRampDuration = 10; % ms this doesn't seem to be used 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% JUNEAU'S CLICK SOUND %%%%%%%%%%%%%%%%%%%%%%%%%%
 % target click sounds
-% p.clickFs = 44100; % samples per second
 p.tLev = 80; %70; %80; % Target level, "dB SPL", arbitrary, usually at 80
 
 p.rms1Lev = 100; % Norm. value for RMS of 1, arbitrary
@@ -166,13 +163,15 @@ for iF = 1:numel(p.toneFreqs)
 end
 cueTones(iF+1,:) = mean(cueTones,1); % neutral precue, both tones together
 
-blank1 = zeros([1,(p.precueSOA-p.toneDur)*p.Fs]); 
-blank2 = zeros([1,(p.targetSOA)*p.Fs-length(p.sound)]); 
-blank3 = zeros([1,(p.postcueSOA)*p.Fs-length(p.sound)]);
+AVdelay = (1/120)*2; % approximately 2 visual frame delay (1/120)*2
+blank0 = zeros([1,(AVdelay)*p.Fs]); % add a blank for the visual delay (~16 ms? after audio) 
+blank1 = zeros([1,(p.precueSOA-p.toneDur)*p.Fs]); % precue tone offset to T1
+blank2 = zeros([1,(p.targetSOA)*p.Fs-length(p.sound)]); % T1 onset to T2 onset
+blank3 = zeros([1,(p.postcueSOA)*p.Fs-length(p.sound)]); % T2 onset to postcue
 
 for iPrecue = 1:3
     for iPostcue = 1:2
-        p.trialTone(iPrecue,iPostcue,:) = [cueTones(iPrecue,:) blank1 p.sound(1,:) blank2 p.sound(1,:) blank3 cueTones(iPostcue,:)]; 
+        p.trialTone(iPrecue,iPostcue,:) = [blank0 cueTones(iPrecue,:) blank1 p.sound(1,:) blank2 p.sound(1,:) blank3 cueTones(iPostcue,:)]; 
     end
 end
 

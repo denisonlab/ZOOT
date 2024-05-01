@@ -143,7 +143,7 @@ Screen('TextSize', window, p.fontSize);
 DrawFormattedText(window, 'Setting up...', 'centerblock', 'center', 1);
 Screen('Flip', window);
 
-%% Sound656
+%% Sound
 % Initialize the sound driver
 % InitializePsychSound(1); % 1 for precise timing
 % 
@@ -359,7 +359,7 @@ while iTrial <= size(trialOrder, 2)
     end
     stopThisTrial = 0;
 
-     trialIdx = trialOrder(iTrial);
+    trialIdx = trialOrder(iTrial);
     %% Get condition information for this trial
     precueValidity = p.precueValidities(trials(trialIdx, idx.precueValidity)); % saves each column in trials matrix as corresponding variable e.g. column 1 = precue validity
     target = trials(trialIdx, idx.target);
@@ -417,11 +417,10 @@ while iTrial <= size(trialOrder, 2)
     end 
     precue = 3;
 
-    trialTones = squeeze(repmat(p.trialTone(precue,target,:),2,1));
+    trialTones = squeeze(repmat(p.trialTone(precue,target,:),2,1)); % 2 audio channels
     PsychPortAudio('FillBuffer', pahandle, trialTones);
 
-
-    %Orientation 
+    % Orientation 
     T1Orientation = p.axes(T1Axis) + threshold*p.tilts(T1Tilt); % creates the four different orientations
     T2Orientation = p.axes(T2Axis) + threshold*p.tilts(T2Tilt);
 
@@ -455,8 +454,8 @@ while iTrial <= size(trialOrder, 2)
     if p.eyeTracking
         Eyelink('Message', 'FixOn')
     end
-
-   % Check fixation hold
+    
+    % Check fixation hold
     if p.eyeTracking
         % rd_eyeLink('startrecording', window, {el, fixRect});
         driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect});
@@ -469,37 +468,36 @@ while iTrial <= size(trialOrder, 2)
             timeFix = Screen('Flip', window);
         end
     end
-
-     [keyCode] = KbCheck(devNum);
-     if keyCode == p.eyeTrackerCalibrationKey
-                   rd_eyeLink('calibrate', window, el);
-                       rd_eyeLink('trialstart', window, {el, 1});
-     end 
+    
+    [keyCode] = KbCheck(devNum);
+    if keyCode == p.eyeTrackerCalibrationKey
+        rd_eyeLink('calibrate', window, el);
+        rd_eyeLink('trialstart', window, {el, 1});
+    end
 
     %% Present precue tone
     % bufferhandle = PsychPortAudio('CreateBuffer', pahandle, precueTone);
-    timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); 
-
+    timePrecue = PsychPortAudio('Start', pahandle, [], [], 1);
+    
     if oscilloscope == 1
         Screen('FillRect', window, white, [])
-         timePrecue_visual = Screen('Flip', window);
-    % PsychPortAudio('FillBuffer', pahandle, precueTone);
-    % timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); % waitForStart = 1 in order to return a timestamp of playback
-   
-    % WaitSecs(p.toneDur + 0.01); % added to let PsychPortAudio close
-    % statusPrecue = PsychPortAudio('GetStatus', pahandle); % returns status struct with start time, stop time, etc.
-
+        timePrecue_visual = Screen('Flip', window);
+        % PsychPortAudio('FillBuffer', pahandle, precueTone);
+        % timePrecue = PsychPortAudio('Start', pahandle, [], [], 1); % waitForStart = 1 in order to return a timestamp of playback
+        
+        % WaitSecs(p.toneDur + 0.01); % added to let PsychPortAudio close
+        % statusPrecue = PsychPortAudio('GetStatus', pahandle); % returns status struct with start time, stop time, etc.
+        
         Screen('FillRect', window, black, [])
         timePrecue_visualOff = Screen('Flip', window, timePrecue_visual+p.toneDur);
     end
-
-
-   if p.eyeTracking
+     
+    if p.eyeTracking
         Eyelink('Message', 'EVENT_CUE');
     end
-   
-     % Check for eye movements
-     if p.eyeTracking
+    
+    % Check for eye movements
+    if p.eyeTracking
         while GetSecs < timePrecue + p.precueSOA - p.eyeSlack && ~stopThisTrial
             WaitSecs(.01);
             %             fixation = mod(iTrial,10); %%% for testing
@@ -508,8 +506,8 @@ while iTrial <= size(trialOrder, 2)
             %     fixation, window, white*p.backgroundColor, trialOrder, iTrial, p.nTotalTrials);
             %
             % fixT2(iTrial) = fixation;
-             fixations = [fixations fixation];
-
+            fixations = [fixations fixation];
+            
             if fixation==0
                 stopThisTrial = 1;
                 WaitSecs(1);
@@ -519,7 +517,7 @@ while iTrial <= size(trialOrder, 2)
                 % Screen('Flip', window)
                 % WaitSecs(1)
                 % KbWait(devNum)
-
+                
                 % redo this trial at the end of the experiment
                 % this can be easily done by appending the trial number to the end of
                 % trialOrder
@@ -528,19 +526,19 @@ while iTrial <= size(trialOrder, 2)
                 iTrialskipped(end+1) = iTrial;
                 p.nTotalTrials = p.nTotalTrials + 1;
                 % iTrial = iTrial + 1;
-
+                
                 DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                 Screen('Flip', window);
                 KbWait(devNum);
             end
         end
-
+        
         % if stopThisTrial
         %     continue
         % end
-     end
-
-     
+    end
+    
+    
           
     %% Present T1
     if ~stopThisTrial
@@ -688,20 +686,20 @@ while iTrial <= size(trialOrder, 2)
             Eyelink('Message', 'Postcue')
         end
 
-        %% Present go cue 
+        %% Present go cue
         if oscilloscope == 1
             Screen('FillRect', window, black, [])
         end
         drawFixation(window, cx, cy, fixSize, p.dimFixColor);
         timeGocue = Screen('Flip', window, timeT2 + p.postcueSOA + p.gocueSOA - slack);
-
+        
         if oscilloscope == 1
             Screen('FillRect', window, black, [])
         end
         % blank
         drawFixation(window, cx, cy, fixSize, p.fixColor);
         timeGocueOff = Screen('Flip', window, timeGocue + p.imDur*2 - slack);
-
+        
         %% Response window
         if oscilloscope == 1
             Screen('FillRect', window, black, [])
@@ -709,179 +707,179 @@ while iTrial <= size(trialOrder, 2)
         drawFixation(window, cx, cy, fixSize, p.fixColor);
         Screen('DrawingFinished', window);
         timeTargetResponseWindow=Screen('Flip', window, timeGocue -slack);
-
+        
         statusPostcue = PsychPortAudio('GetStatus', pahandle); % moved here to let PsychPortAudio close
-    end 
-        response = []; % should be 0? NaN?
-        responseKey = NaN;
-        timeTargetRT = NaN;
-        if ~stopThisTrial
-            while isempty(response)
-                [timeTargetResponse, keyCode] = KbWait(devNum);
-                timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
-                responseKey = find(keyCode);
-                responseKeyName=KbName(responseKey);
-                response = find(strcmp(p.responseKeys,responseKeyName));
-            end
-        else 
-            response = 0;
+    end
+    response = []; % should be 0? NaN?
+    responseKey = NaN;
+    timeTargetRT = NaN;
+    if ~stopThisTrial
+        while isempty(response)
+            [timeTargetResponse, keyCode] = KbWait(devNum);
+            timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
+            responseKey = find(keyCode);
+            responseKeyName=KbName(responseKey);
+            response = find(strcmp(p.responseKeys,responseKeyName));
         end
-
-        if p.eyeTracking
-            Eyelink('Message', 'TRIAL_END');
+    else
+        response = 0;
+    end
+    
+    if p.eyeTracking
+        Eyelink('Message', 'TRIAL_END');
+    end
+    
+    % Feedback
+    correct = NaN;
+    seen = NaN;
+    if response==3 % reported absent
+        seen = 0;
+        responseTilt = 0;
+        correct = responseTilt==targetContrast;
+    elseif response==1 || response==2 % reported present
+        seen = 1;
+        if targetContrast == 1
+            responseTilt = p.tilts(response);
+            correct = targetTilt==responseTilt;
+        else
+            correct = 0;
         end
-     
-        % Feedback
-        correct = NaN;
-        seen = NaN;
-        if response==3 % reported absent
-            seen = 0;
-            responseTilt = 0;
-            correct = responseTilt==targetContrast;
-        elseif response==1 || response==2 % reported present
-            seen = 1;
-            if targetContrast == 1
-                responseTilt = p.tilts(response);
-                correct = targetTilt==responseTilt;
-            else
-                correct = 0;
+    end
+    correct = double(correct); % needs to be converted from logical to double to include NaN for skipped trials
+    
+    correctDis = NaN; % if target was reported as seen, how often was the discrimination reported correctly?
+    
+    if seen == 1
+        if targetContrast == 1
+            correctDis = responseTilt == targetTilt;
+        end
+    end
+    correctDis = double(correctDis);
+    
+    if ~stopThisTrial
+        if correct==1
+            fixColor=[0 1 0]*255; % green for correct
+        elseif correct==0
+            fixColor=[1 0 0]*255; % red for incorrect
+            % else
+            %     fixColor=[0 0 1]*255; % blue if timeout (but maybe irrelevant for now)
+        end
+        if oscilloscope == 1
+            Screen('FillRect', window, black, [])
+        end
+        
+        % Screen('Flip', window)
+        drawFixation(window, cx,cy, fixSize, fixColor);
+        timeFeedbackFix = Screen('Flip', window);
+        if oscilloscope == 1
+            Screen('FillRect', window, black, [])
+        end
+        
+        if response == 3
+            responseTiltName = 'absent';
+        elseif response == 1 || response == 2
+            responseTiltName = string(p.tiltNames(response));
+        end
+        if p.stimDebug == 1 % to verify that stimulus orientation is showing what it is supposed to
+            stimDebugMessage = sprintf('You responded %s and the stimulus was %s and %s. Press any key to move on', responseTiltName, targetTiltName, targetAxisName);
+            DrawFormattedText(window, stimDebugMessage, 'center', 'center', [1 1 1]*white)
+            Screen('Flip', window)
+            WaitSecs(1)
+            KbWait(devNum)
+        end
+        
+        drawFixation(window, cx,cy, fixSize, p.fixColor);
+        timeFeedbackOff = Screen('Flip', window, timeFeedbackFix+p.feedbackLength-slack); % returns fixation to white
+        %% ITI
+        if oscilloscope == 1
+            Screen('FillRect', window, black, [])
+        end
+        drawFixation(window, cx,cy, fixSize, p.fixColor);
+        timeITIstart = Screen('Flip', window, timeFeedbackOff-slack);
+        if oscilloscope == 1
+            Screen('FillRect', window, black, [])
+        end
+        drawFixation(window, cx,cy, fixSize, p.fixColor);
+        timeITIend = Screen('Flip', window, timeITIstart+p.ITI-slack);
+    end
+    %% Store data
+    data.responseKey(iTrial) = responseKey;
+    data.response(iTrial) = response;
+    data.correct(iTrial) = correct;
+    data.timeTargetRT(iTrial) = timeTargetRT;
+    data.session(iTrial) = s.session;
+    data.iTrial(iTrial) = iTrial;
+    data.seen(iTrial) = seen;
+    data.correctDis(iTrial) = correctDis;
+    % data.skippedTrials = skippedTrials;
+    % data.iTrialskipped = iTrialskipped;
+    
+    if s.exptStage == 4 || s.exptStage == 5
+        data.block(iTrial) = block;
+    end
+    
+    %% staircase update and calculations
+    if s.exptStage == 2
+        staircase.index_s1(iTrial) = index_s1;
+        staircase.index_s2(iTrial) = index_s2;
+        staircase.staircase1val(iTrial) = p.stairs(index_s1);
+        staircase.staircase2val(iTrial) = p.stairs(index_s2);
+        
+        if targetContrast == 1
+            if currentStaircase == 1
+                [index_s1, lastFewAcc_s1] = updateStaircase(p.stairs, index_s1, lastFewAcc_s1, correct);
+                currentStaircase = 2;
+                threshold = p.stairs(index_s2);
+            elseif currentStaircase == 2
+                [index_s2, lastFewAcc_s2] = updateStaircase(p.stairs, index_s2, lastFewAcc_s2, correct);
+                currentStaircase = 1;
+                threshold = p.stairs(index_s1);
             end
         end
-        correct = double(correct); % needs to be converted from logical to double to include NaN for skipped trials
-
-        correctDis = NaN; % if target was reported as seen, how often was the discrimination reported correctly?
-
-        if seen == 1
-            if targetContrast == 1
-                correctDis = responseTilt == targetTilt;
-            end
-        end 
-        correctDis = double(correctDis);
-
-        if ~stopThisTrial
-            if correct==1
-                fixColor=[0 1 0]*255; % green for correct
-            elseif correct==0
-                fixColor=[1 0 0]*255; % red for incorrect
-                % else
-                %     fixColor=[0 0 1]*255; % blue if timeout (but maybe irrelevant for now)
-            end
-            if oscilloscope == 1
-                Screen('FillRect', window, black, [])
-            end
-
-            % Screen('Flip', window)
-            drawFixation(window, cx,cy, fixSize, fixColor);
-            timeFeedbackFix = Screen('Flip', window);
-            if oscilloscope == 1
-                Screen('FillRect', window, black, [])
-            end
-
-            if response == 3
-                responseTiltName = 'absent';
-            elseif response == 1 || response == 2
-                responseTiltName = string(p.tiltNames(response));
-            end
-            if p.stimDebug == 1 % to verify that stimulus orientation is showing what it is supposed to
-                stimDebugMessage = sprintf('You responded %s and the stimulus was %s and %s. Press any key to move on', responseTiltName, targetTiltName, targetAxisName);
-                DrawFormattedText(window, stimDebugMessage, 'center', 'center', [1 1 1]*white)
-                Screen('Flip', window)
-                WaitSecs(1)
-                KbWait(devNum)
-            end
-
-            drawFixation(window, cx,cy, fixSize, p.fixColor);
-            timeFeedbackOff = Screen('Flip', window, timeFeedbackFix+p.feedbackLength-slack); % returns fixation to white
-            %% ITI
-            if oscilloscope == 1
-                Screen('FillRect', window, black, [])
-            end
-            drawFixation(window, cx,cy, fixSize, p.fixColor);
-            timeITIstart = Screen('Flip', window, timeFeedbackOff-slack);
-            if oscilloscope == 1
-                Screen('FillRect', window, black, [])
-            end
-            drawFixation(window, cx,cy, fixSize, p.fixColor);
-            timeITIend = Screen('Flip', window, timeITIstart+p.ITI-slack);
-        end
-        %% Store data
-        data.responseKey(iTrial) = responseKey;
-        data.response(iTrial) = response;
-        data.correct(iTrial) = correct;
-        data.timeTargetRT(iTrial) = timeTargetRT;
-        data.session(iTrial) = s.session;
-        data.iTrial(iTrial) = iTrial;
-        data.seen(iTrial) = seen;
-        data.correctDis(iTrial) = correctDis;
-        % data.skippedTrials = skippedTrials;
-        % data.iTrialskipped = iTrialskipped;
-
-        if s.exptStage == 4 || s.exptStage == 5
-            data.block(iTrial) = block;
-        end
-
-        %% staircase update and calculations
-        if s.exptStage == 2
-            staircase.index_s1(iTrial) = index_s1;
-            staircase.index_s2(iTrial) = index_s2;
-            staircase.staircase1val(iTrial) = p.stairs(index_s1);
-            staircase.staircase2val(iTrial) = p.stairs(index_s2);
-
-            if targetContrast == 1
-                if currentStaircase == 1
-                    [index_s1, lastFewAcc_s1] = updateStaircase(p.stairs, index_s1, lastFewAcc_s1, correct);
-                    currentStaircase = 2;
-                    threshold = p.stairs(index_s2);
-                elseif currentStaircase == 2
-                    [index_s2, lastFewAcc_s2] = updateStaircase(p.stairs, index_s2, lastFewAcc_s2, correct);
-                    currentStaircase = 1;
-                    threshold = p.stairs(index_s1);
-                end
-            end
-        end
-
-        %% Store timing
-        % if ~stopThisTrial
-        % timing.timeStart = timeStart;
-        % timing.timeFix(iTrial) = timeFix;
-        % timing.timePrecue(iTrial) = timePrecue;
-        % timing.timePrecueOff(iTrial) = statusPrecue.EstimatedStopTime;
-        % timing.timeT1(iTrial) = timeT1;
-        % timing.timeT1Click(iTrial) = timeT1Click; % This has jitter
-        % timing.timeT1ClickOff(iTrial) = statusT1Click.EstimatedStopTime; % This appears to not have jitter
-        % timing.timeT1Off(iTrial) = timeT1Off; % fixation draw after T1 dur
-        % timing.timeT2(iTrial) = timeT2;
-        % timing.timeT2Click(iTrial) = timeT2Click;
-        % timing.timeT2ClickOff(iTrial) = statusT2Click.EstimatedStopTime;
-        % timing.timeT2Off(iTrial) = timeT2Off; %fixation draw after T2 dur
-        % timing.timePostcue(iTrial) = timePostcue;
-        % timing.timeGocue(iTrial) = timeGocue;
-        % timing.timeGocueOff(iTrial) = timeGocueOff;
-        % timing.timePostcueOff(iTrial) = statusPostcue.EstimatedStopTime;
-        % timing.timeTargetResponseWindow(iTrial) = timeTargetResponseWindow;
-        % timing.timeTargetRT(iTrial) = timeTargetRT;
-        % timing.timeFeedbackFix(iTrial) = timeFeedbackFix;
-        % timing.timeFeedbackOff(iTrial) = timeFeedbackOff; %fixation draw after feedback dur
-        % timing.timeITIstart(iTrial) = timeITIstart;
-        % timing.timeITIend(iTrial) = timeITIend;
-        % 
-        % timing.fixSOA(iTrial) = timing.timePrecue(iTrial) - timing.timeFix(iTrial);
-        % timing.precueSOA(iTrial)=timing.timeT1(iTrial)-timing.timePrecue(iTrial);
-        % timing.precueDur(iTrial)=timing.timePrecueOff(iTrial) - timing.timePrecue(iTrial);
-        % timing.T1Dur(iTrial)=timing.timeT1Off(iTrial)-timing.timeT1(iTrial);
-        % timing.T1ClickDur(iTrial) = timing.timeT1ClickOff(iTrial) -timing.timeT1Click(iTrial);
-        % timing.SOA(iTrial)=timing.timeT2(iTrial)-timing.timeT1(iTrial);
-        % timing.T2Dur(iTrial)=timing.timeT2Off(iTrial)-timing.timeT2(iTrial);
-        % timing.T2ClickDur(iTrial) = timing.timeT2ClickOff(iTrial) -timing.timeT2Click(iTrial);
-        % timing.postcueSOA(iTrial)=timing.timePostcue(iTrial)-timing.timeT2(iTrial); %come back to this one
-        % timing.postcueDur(iTrial)=timing.timePostcueOff(iTrial) - timing.timePostcue(iTrial);
-        % timing.gocueSOA(iTrial)= timing.timeGocue(iTrial) - timing.timePostcue(iTrial);
-        % timing.gocueDur(iTrial) = timing.timeGocueOff(iTrial) - timing.timeGocue(iTrial);
-        % timing.feedbackSOA(iTrial)=timing.timeFeedbackFix(iTrial)-timing.timePostcue(iTrial); % time between postcue and fixation
-        % timing.feedbackDur(iTrial)=timing.timeFeedbackOff(iTrial)-timing.timeFeedbackFix(iTrial);
-        % timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial);
-        % end 
-    % If last trial in a block, save data... 
+    end
+    
+    %% Store timing
+    % if ~stopThisTrial
+    % timing.timeStart = timeStart;
+    % timing.timeFix(iTrial) = timeFix;
+    % timing.timePrecue(iTrial) = timePrecue;
+    % timing.timePrecueOff(iTrial) = statusPrecue.EstimatedStopTime;
+    % timing.timeT1(iTrial) = timeT1;
+    % timing.timeT1Click(iTrial) = timeT1Click; % This has jitter
+    % timing.timeT1ClickOff(iTrial) = statusT1Click.EstimatedStopTime; % This appears to not have jitter
+    % timing.timeT1Off(iTrial) = timeT1Off; % fixation draw after T1 dur
+    % timing.timeT2(iTrial) = timeT2;
+    % timing.timeT2Click(iTrial) = timeT2Click;
+    % timing.timeT2ClickOff(iTrial) = statusT2Click.EstimatedStopTime;
+    % timing.timeT2Off(iTrial) = timeT2Off; %fixation draw after T2 dur
+    % timing.timePostcue(iTrial) = timePostcue;
+    % timing.timeGocue(iTrial) = timeGocue;
+    % timing.timeGocueOff(iTrial) = timeGocueOff;
+    % timing.timePostcueOff(iTrial) = statusPostcue.EstimatedStopTime;
+    % timing.timeTargetResponseWindow(iTrial) = timeTargetResponseWindow;
+    % timing.timeTargetRT(iTrial) = timeTargetRT;
+    % timing.timeFeedbackFix(iTrial) = timeFeedbackFix;
+    % timing.timeFeedbackOff(iTrial) = timeFeedbackOff; %fixation draw after feedback dur
+    % timing.timeITIstart(iTrial) = timeITIstart;
+    % timing.timeITIend(iTrial) = timeITIend;
+    %
+    % timing.fixSOA(iTrial) = timing.timePrecue(iTrial) - timing.timeFix(iTrial);
+    % timing.precueSOA(iTrial)=timing.timeT1(iTrial)-timing.timePrecue(iTrial);
+    % timing.precueDur(iTrial)=timing.timePrecueOff(iTrial) - timing.timePrecue(iTrial);
+    % timing.T1Dur(iTrial)=timing.timeT1Off(iTrial)-timing.timeT1(iTrial);
+    % timing.T1ClickDur(iTrial) = timing.timeT1ClickOff(iTrial) -timing.timeT1Click(iTrial);
+    % timing.SOA(iTrial)=timing.timeT2(iTrial)-timing.timeT1(iTrial);
+    % timing.T2Dur(iTrial)=timing.timeT2Off(iTrial)-timing.timeT2(iTrial);
+    % timing.T2ClickDur(iTrial) = timing.timeT2ClickOff(iTrial) -timing.timeT2Click(iTrial);
+    % timing.postcueSOA(iTrial)=timing.timePostcue(iTrial)-timing.timeT2(iTrial); %come back to this one
+    % timing.postcueDur(iTrial)=timing.timePostcueOff(iTrial) - timing.timePostcue(iTrial);
+    % timing.gocueSOA(iTrial)= timing.timeGocue(iTrial) - timing.timePostcue(iTrial);
+    % timing.gocueDur(iTrial) = timing.timeGocueOff(iTrial) - timing.timeGocue(iTrial);
+    % timing.feedbackSOA(iTrial)=timing.timeFeedbackFix(iTrial)-timing.timePostcue(iTrial); % time between postcue and fixation
+    % timing.feedbackDur(iTrial)=timing.timeFeedbackOff(iTrial)-timing.timeFeedbackFix(iTrial);
+    % timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial);
+    % end
+    % If last trial in a block, save data...
     if mod(iTrial, p.nTrialsPerBlock)==0 || iTrial == size(trialOrder,2)
         data.trialsHeaders = trialsHeaders;
         data.trials = trials;
@@ -895,7 +893,7 @@ while iTrial <= size(trialOrder, 2)
         data.eyeSkip = eyeSkip;
         data.skippedTrials = skippedTrials;
         data.iTrialskipped = iTrialskipped;
-
+        
         switch s.exptStage
             case 0
                 filename = sprintf('%s/%s_intro_%s_block%d.mat',data.pracDir,s.subjectID,dateStr,block);
@@ -935,7 +933,7 @@ while iTrial <= size(trialOrder, 2)
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
-                  if iTrial == p.nTrialsPerBlock
+                if iTrial == p.nTrialsPerBlock
                     practiceAcc = mean(data.correct(1:end), 'omitnan')*100;
                     if practiceAcc >=75
                         practiceMessage = sprintf(['Great job! You''ve completed the second practice session! Your accuracy was %0.2f %%. ' ...
@@ -958,7 +956,7 @@ while iTrial <= size(trialOrder, 2)
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
-
+                
                 blockStartTrial = (iTrial/p.nTrialsPerBlock)*p.nTrialsPerBlock - p.nTrialsPerBlock + 1;
                 if blockStartTrial < 0 % we are doing less than one block
                     blockStartTrial = 1;
@@ -970,11 +968,11 @@ while iTrial <= size(trialOrder, 2)
                 else
                     keyMessage = 'Press 1 to go on.';
                 end
-
+                
                 blockAcc = mean(data.correct(blockStartTrial:iTrial),'omitnan'); % discrimination (only target present)
-
+                
                 pointsMessages = sprintf('p(correct) = %0.2f', blockAcc);
-
+                
                 breakMessage = sprintf('%s\n\n%s\n\n\n%s', blockMessage, pointsMessages, keyMessage);
                 DrawFormattedText(window, breakMessage, 'center', 'center', [1 1 1]);
                 Screen('Flip', window);
@@ -999,30 +997,30 @@ while iTrial <= size(trialOrder, 2)
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
-
+                
                 blockStartTrial = (iTrial/p.nTrialsPerBlock)*p.nTrialsPerBlock - p.nTrialsPerBlock + 1;
                 if blockStartTrial < 0 % we are doing less than one block
                     blockStartTrial = 1;
                 end
-           
+                
                 % trialsInBlock = trials(blockStartTrial:iTrial,:);
                 blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, p.nBlocks);
                 if iTrial == p.nTotalTrials
                     if isempty(skippedTrials)
                         keyMessage = ''; % last block
-                    else 
-                         keyMessage = 'Press 1 to go on.';
+                    else
+                        keyMessage = 'Press 1 to go on.';
                     end
                 elseif block == p.nBlocks + 1
                     keyMessage = ''; % last block
                 else
                     keyMessage = 'Press 1 to go on.';
                 end
-
+                
                 blockAcc = mean(data.correct(blockStartTrial:iTrial),'omitnan')*100; % discrimination (only target present)
-
+                
                 pointsMessages = sprintf('Your accuracy was %0.2f %%!', blockAcc);
-
+                
                 breakMessage = sprintf('%s\n\n%s\n\n\n%s', blockMessage, pointsMessages, keyMessage);
                 DrawFormattedText(window, breakMessage, 'center', 'center', [1 1 1]);
                 Screen('Flip', window);
@@ -1043,7 +1041,7 @@ while iTrial <= size(trialOrder, 2)
                 end
                 block = block+1; % keep track of block for block message only
         end
-
+        
     end
     iTrial = iTrial + 1;
 end
@@ -1057,14 +1055,14 @@ if s.exptStage ==2
     staircase.staircaseavgs = [mean(staircase.staircase1val(end-5:end)) mean(staircase.staircase2val(end-5:end))]; % mean or median?
     staircase.threshold = mean(staircase.staircaseavgs);
     data.staircase = staircase;
-
+    
     thresholdFile = sprintf('%s/threshold.mat', data.stairDir);
     staircase.thresholdFile = thresholdFile;
     save(thresholdFile,'staircase')
     disp('threshold saved!')
 end
 
-%% compile session files 
+%% compile session files
 
 if s.exptStage == 5
     cd(data.behDir)
@@ -1084,7 +1082,7 @@ WaitSecs(3);
 %% Save eye data and shut down the eye tracker
 if p.eyeTracking
     rd_eyeLink('eyestop', window, {eyeFile, eyedata.eyeDir});
-
+    
     %convert to the more informative name, and save to correct directory
     eyedata.eyeFile = eyeFile;
     eyefilename =  sprintf('%s/%s_eyeFile_%s_session%d.mat',eyedata.eyeDir,s.subjectID,dateStr,s.session);
@@ -1092,7 +1090,7 @@ if p.eyeTracking
     disp('eye data saved!')
 end
 
-%end of run loop
+% end of run loop
 
 %% Clean up
 PsychPortAudio('Stop', pahandle);
