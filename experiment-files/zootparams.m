@@ -128,29 +128,29 @@ p.sound = repmat(p.sound,2,1); % two audio channels
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Make a pure tone for each cue frequency
 if s.exptStage > 0
-cueTones = [];
-for iF = 1:numel(p.toneFreqs)
-    tone0 = MakeBeep(p.toneFreqs(iF), p.toneDur, p.Fs);
+    cueTones = [];
+    for iF = 1:numel(p.toneFreqs)
+        tone0 = MakeBeep(p.toneFreqs(iF), p.toneDur, p.Fs);
 
-    % Apply an envelope so the sound doesn't click at the beginning and end
-    tone = applyEnvelope(tone0, p.Fs);
+        % Apply an envelope so the sound doesn't click at the beginning and end
+        tone = applyEnvelope(tone0, p.Fs);
 
-    cueTones(iF,:) = tone;
-end
-cueTones(iF+1,:) = mean(cueTones,1); % neutral precue, both tones together
+        cueTones(iF,:) = tone;
+    end
+    cueTones(iF+1,:) = mean(cueTones,1); % neutral precue, both tones together
 
-AVdelay = (1/120)*2; % approximately 2 visual frame delay (1/120)*2
-blank0 = zeros([1,(AVdelay)*p.Fs]); % add a blank for the visual delay (~16 ms? after audio) 
-blank1 = zeros([1,(p.precueSOA-p.toneDur)*p.Fs]); % precue tone offset to T1
-blank2 = zeros([1,(p.targetSOA)*p.Fs-length(p.sound)]); % T1 onset to T2 onset
-blank3 = zeros([1,(p.postcueSOA)*p.Fs-length(p.sound)]); % T2 onset to postcue
+    AVdelay = (1/120)*2; % approximately 2 visual frame delay (1/120)*2
+    blank0 = zeros([1,(AVdelay)*p.Fs]); % add a blank for the visual delay (~16 ms? after audio)
+    blank1 = zeros([1,(p.precueSOA-p.toneDur)*p.Fs]); % precue tone offset to T1
+    blank2 = zeros([1,(p.targetSOA)*p.Fs-length(p.sound)]); % T1 onset to T2 onset
+    blank3 = zeros([1,(p.postcueSOA)*p.Fs-length(p.sound)]); % T2 onset to postcue
 
-for iPrecue = 1:3
-    for iPostcue = 1:2
-        p.trialTone(iPrecue,iPostcue,:) = [blank0 cueTones(iPrecue,:) blank1 p.sound(1,:) blank2 p.sound(1,:) blank3 cueTones(iPostcue,:)]; 
+    for iPrecue = 1:3
+        for iPostcue = 1:2
+            p.trialTone(iPrecue,iPostcue,:) = [blank0 cueTones(iPrecue,:) blank1 p.sound(1,:) blank2 p.sound(1,:) blank3 cueTones(iPostcue,:)];
+        end
     end
 end
-end 
 % PsychPortAudio('FillBuffer', pahandle, p.sound); % fill buffer for target clicks
 
 

@@ -764,6 +764,7 @@ while iTrial <= size(trialOrder, 2)
         timing.feedbackDur(iTrial)=timing.timeFeedbackOff(iTrial)-timing.timeFeedbackFix(iTrial);
         timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial);
     end
+
     % If last trial in a block, save data...
     if mod(iTrial, p.nTrialsPerBlock)==0 || iTrial == size(trialOrder,2)
         data.trialsHeaders = trialsHeaders;
@@ -772,12 +773,12 @@ while iTrial <= size(trialOrder, 2)
         dateStr = datetime('now', 'TimeZone', 'local', 'Format', 'yyMMdd_hhmm');
         data.whenSaved = datestr(now);
         data.dateTime=dateStr;
-        % data.timings=timing;
+        data.timings=timing;
         eyedata.eye = eye;
         eyeSkip(iTrial) = stopThisTrial;
         data.eyeSkip = eyeSkip;
-        data.skippedTrials = skippedTrials;
-        data.iTrialskipped = iTrialskipped;
+        data.skippedTrials = skippedTrials; % trial order within the trial matrix after scramble
+        data.iTrialskipped = iTrialskipped; % index of the trials presented 
         
         switch s.exptStage
             case 0
@@ -872,7 +873,7 @@ while iTrial <= size(trialOrder, 2)
                 end
                 block = block+1; % keep track of block for block message only
 
-            case {5}
+            case {5} % main task
                 filename = sprintf('%s/%s_mainExpt_%s_block%d_session%d.mat',data.behDir,s.subjectID,dateStr,block, s.session);
                 data.filename = filename;
                 save(filename,'data')
