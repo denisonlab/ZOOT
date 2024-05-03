@@ -13,6 +13,7 @@ AssertOpenGL;
 
 % Skip screen tests - ONLY for demo, not for real experiments
 Screen('Preference', 'SkipSyncTests', 0); % set to 0 for real experiment
+
 % 
 % s.subjectID = 'test'; %debugging 
 % s.session = 1; 

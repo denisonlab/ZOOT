@@ -3,11 +3,6 @@ function p = zootparams(s)
 %% main settings
 
 addpath data/ toolboxes/eyetrack-tools-master/ functions/ trial-structs/
-p.staircasing = 0;
-p.stimmapping = 0;
-p.watch_response = 0;
-p.nReps = 2; % number of repetitions of the full counterbalance across all sessions
-
 
 %% debugging
 p.stimDebug = 0; % if 1, each trial ends with the target orientation and response 
@@ -43,7 +38,6 @@ switch s.comp
         p.dir = '/home/denisonlab-beh/Experiments/ZOOT/experiment-files';
         p.retina = 0;
         p.useKbQueue = 1;
-        % p.eyeTracking = 0;
         if s.exptStage > 0
             p.eyeTracking = 1;
         else
@@ -71,15 +65,12 @@ p.fixSize = 0.25; % diameter of the fixation circle, in degrees visual angle
 p.fixColor = 1; % white
 p.dimTargetColor = 0.75; 
 p.dimFixColor = 0.25; %dimmed for ITI
-p.fixLineWidth = 3;
 p.fixRadius = 3;
 p.eyeRad = 2.5;
-p.noFixTrials = []; %variable that will contain missed trials 
 
 %% Instructions
 p.font = 'Arial';
 p.fontSize = 24;
-p.instructions = fileread('instructions.txt');
 
 %% Images
 p.backgroundColor = 0.5; % gray
@@ -88,8 +79,6 @@ p.gratingSF = 4; % spatial frequency, in cycles per degree, 4
 p.gratingSD = 0.7; % standard deviation, about 4 SDs will be visible at full contrast, 0.7
 p.gratingDiameter = 2.8; %8
 p.gratingImSize = 40; 
-p.gratingBaseOrientations =[0 90];
-p.gratingPhases ='rand';
 p.aperture = 'gaussian'; % 'cosine'
 p.apertureEdgeWidth = 1;
 p.angularFreq = 8;
@@ -102,17 +91,11 @@ p.postcueSOA = 0.5; % T2 to postcue
 p.feedbackLength=0.5; % feedback color length 
 p.gocueSOA = 0.6; % postcue to go cue - 0.6 (Denison, Carrasco, & Heeger, 2021)
 p.ITI = 0.75; % 750 ms ITI
-% p.responseWindowDur=2; %2 second window allowed for response
 
 %% Sounds
-p.volume=0.01; 
-
 p.Fs = 44100; % samples per second
 p.toneFreqs = [1046.5 440]; % [784 523]; % Hz; [G5, C5],  [1046.5 440]; %
 p.toneDur = 0.2; % seconds 
-p.toneVolume = 0.5;
-p.toneEnvelope = 1; %1 envelope on, 2 envelope off
-% p.envRampDuration = 10; % ms this doesn't seem to be used 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%% JUNEAU'S CLICK SOUND %%%%%%%%%%%%%%%%%%%%%%%%%%
 % target click sounds
@@ -120,13 +103,6 @@ p.tLev = 80; %70; %80; % Target level, "dB SPL", arbitrary, usually at 80
 
 p.rms1Lev = 100; % Norm. value for RMS of 1, arbitrary
 p.tScale = 10.^((p.tLev-p.rms1Lev)./20); % Scale factor for target level setting
-p.sweepDur = 0.030; % duration of each sweep in seconds
-p.rampDur = 0.005; % duration of each onset/offset ramp in seconds
-p.SOADur = 0.220; % 0.250; % duration of SOA, seconds
-% method = 'linear'; % sweep type, linear so duration of sweep before and after CF is equivalent
-p.method = 'logarithmic';
-p.ISIDur = 0.800; %1.000;
-p.ISIOffsetDur = 0.470; %0.500;
 p.clickDur = 0.0005;           % duration of each click in seconds - 0.0005
 p.clickRampDur = p.clickDur/2;  % duration before the click peak in seconds
 p.clickFreq = 8000;           % highest frequency of click peak in Hertz
@@ -146,13 +122,12 @@ c = c-mean(c); % Next three lines are setting the overall level
 c = c./rms(c);
 c = c.*p.tScale;
 
-clickOffsetDur = round((0.200-p.clickDur)*44100);
-
 p.sound = c;
 p.sound = repmat(p.sound,2,1); % two audio channels
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Make a pure tone for each cue frequency
+if s.exptStage > 0
 cueTones = [];
 for iF = 1:numel(p.toneFreqs)
     tone0 = MakeBeep(p.toneFreqs(iF), p.toneDur, p.Fs);
@@ -175,7 +150,7 @@ for iPrecue = 1:3
         p.trialTone(iPrecue,iPostcue,:) = [blank0 cueTones(iPrecue,:) blank1 p.sound(1,:) blank2 p.sound(1,:) blank3 cueTones(iPostcue,:)]; 
     end
 end
-
+end 
 % PsychPortAudio('FillBuffer', pahandle, p.sound); % fill buffer for target clicks
 
 
@@ -210,6 +185,28 @@ switch s.exptStage
         p.targetSOA = p.targetSOA*4;
         p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
         p.nTrialsPerBlock = p.nTotalTrials;
+        cueTones = [];
+        for iF = 1:numel(p.toneFreqs)
+            tone0 = MakeBeep(p.toneFreqs(iF), p.toneDur, p.Fs);
+
+            % Apply an envelope so the sound doesn't click at the beginning and end
+            tone = applyEnvelope(tone0, p.Fs);
+
+            cueTones(iF,:) = tone;
+        end
+        cueTones(iF+1,:) = mean(cueTones,1); % neutral precue, both tones together
+
+        AVdelay = (1/120)*2; % approximately 2 visual frame delay (1/120)*2
+        blank0 = zeros([1,(AVdelay)*p.Fs]); % add a blank for the visual delay (~16 ms? after audio)
+        blank1 = zeros([1,(p.precueSOA-p.toneDur)*p.Fs]); % precue tone offset to T1
+        blank2 = zeros([1,(p.targetSOA)*p.Fs-length(p.sound)]); % T1 onset to T2 onset
+        blank3 = zeros([1,(p.postcueSOA)*p.Fs-length(p.sound)]); % T2 onset to postcue
+
+        for iPrecue = 1:3
+            for iPostcue = 1:2
+                p.trialTone(iPrecue,iPostcue,:) = [blank0 cueTones(iPrecue,:) blank1 p.sound(1,:) blank2 p.sound(1,:) blank3 cueTones(iPostcue,:)];
+            end
+        end
     case 1
         p.precueValidities = 3; % all neutral practice
         p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
