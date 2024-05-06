@@ -3,9 +3,9 @@ clear all
 
 
 fp = figureparams;
-%% compile 
+%% compile
 
-subs = {'test'};
+subs = {'S0004'};
 fields = {'precue','target', 'T1Contrast', 'T2Contrast', 'seen', 'correct', 'correctDis', 'eyeSkip'}; % fieldnames(data);
 for iF = 1:numel(fields) % initialize
     dataAll.(fields{iF}) = [];
@@ -16,18 +16,19 @@ for iSub=1:length(subs) % for participant
 
     SID = subs{iSub};
     %iMac
-    %behDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/']; 
-    %beh comp
-    behDir = ['/home/denisonlab-beh/Experiments/ZOOT/experiment-files/data' SID '/beh'];
+    behDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/'];
+    % beh comp
+    % behDir = ['/home/denisonlab-beh/Experiments/ZOOT/experiment-files/data' SID '/beh'];
     cd(behDir);
-    % sessions = {''};
-    % for iSession = 1:numel(sessions) % for session
-    %     sesNum = sessions{iSession};
-    %     sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
-    %     cd(sesDir)
-    findFiles = dir('*block6_*.mat'); % for session shouldn't be hardcoded, find way to find highest block # and load it?
-    for iFile = 1:length(findFiles) % for file
-        fileName = findFiles(iFile).name;
+    sessions = {'250 + go cue'};
+    for iSession = 1:numel(sessions) % for session
+        sesNum = sessions{iSession};
+        sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
+        cd(sesDir)
+        numFiles = 6;
+        findFiles = dir(fullfile('*block*',numFiles, '*.mat')); % for session shouldn't be hardcoded, find way to find highest block # and load it?
+        % for iFile = 1:length(findFiles) % for file
+        fileName = findFiles.name;
         load(fileName)
         for iF = 1:numel(fields) % initialize
             if strcmp(fields{iF}, 'eyeSkip') == 1
@@ -35,9 +36,9 @@ for iSub=1:length(subs) % for participant
             end
             dataAll.(fields{iF}) = [dataAll.(fields{iF}) data.(fields{iF})]; % compiles data structures from one participant
         end
+        % end
     end
 end
-% end
 
 %% filter  
 correct = dataAll.correct == 1;
@@ -46,10 +47,6 @@ T2Contrast = dataAll.T2Contrast;
 eyeSkip = dataAll.eyeSkip(1:numel(dataAll.precue)) == 1;
 precue = dataAll.precue;
 target = dataAll.target;
-
-
-
-
 
 %target presence 
 PresentPresent = T1Contrast == 1 & T2Contrast == 1 & correct & ~eyeSkip;
@@ -74,7 +71,7 @@ nValid = precue == target & ~eyeSkip;
 nInvalid = (precue == 1| precue == 2) & precue ~= target & ~eyeSkip;
 nNeutral = precue == 3 & ~eyeSkip;
 
-validityAcc = [sum(Valid)/sum(nValid) sum(Invalid)/sum(nInvalid) sum(Neutral)/sum(nNeutral)]*100;
+validityAcc = [sum(Valid)/sum(nValid) sum(Neutral)/sum(nNeutral) sum(Invalid)/sum(nInvalid)]*100;
 
 
 % validity x target 
@@ -416,99 +413,99 @@ ax.YGrid = 'off';
 
 
 %% piloting
-Neutral = correct; 
-nNeutral = numel(data.precue);
-NeutralT1 = Neutral & target == 1;
-NeutralT2 = Neutral & target == 2;
-
-
-nNeutralT1 = nNeutral & target == 1;
-nNeutralT2 = nNeutral & target == 2;
-
-%target presence 
-PresentPresent = T1Contrast == 1 & T2Contrast == 1 & correct; %& ~eyeSkip;
-PresentAbsent = T1Contrast == 1 & T2Contrast == 2 & correct ;%& ~eyeSkip;
-AbsentPresent = T1Contrast == 2 & T2Contrast == 1 & correct ;%& ~eyeSkip;
-AbsentAbsent = T1Contrast == 2 & T2Contrast == 2 & correct ;%& ~eyeSkip;
-
-nPresentPresent = T1Contrast == 1 & T2Contrast == 1 ;%& ~eyeSkip;
-nPresentAbsent = T1Contrast == 1 & T2Contrast == 2 ;%& ~eyeSkip;
-nAbsentPresent = T1Contrast == 2 & T2Contrast == 1 ;%& ~eyeSkip;
-nAbsentAbsent = T1Contrast == 2 & T2Contrast == 2 ;% ~eyeSkip;
-
-PrePreT1 = NeutralT1 & PresentPresent;
-PrePreT2 = NeutralT2 & PresentPresent;
-PreAbsT1 = NeutralT1 & PresentAbsent;
-PreAbsT2 = NeutralT2 & PresentAbsent;
-AbsPreT1 = NeutralT1 & AbsentPresent;
-AbsPreT2 = NeutralT2 & AbsentPresent;
-AbsAbsT1 = NeutralT1 & AbsentAbsent;
-AbsAbsT2 = NeutralT2 & AbsentAbsent;
-
-nPrePreT1 = nNeutralT1 & nPresentPresent;
-nPrePreT2 = nNeutralT2 & nPresentPresent;
-nPreAbsT1 = nNeutralT1 & nPresentAbsent;
-nPreAbsT2 = nNeutralT2 & nPresentAbsent;
-nAbsPreT1 = nNeutralT1 & nAbsentPresent;
-nAbsPreT2 = nNeutralT2 & nAbsentPresent;
-nAbsAbsT1 = nNeutralT1 & nAbsentAbsent;
-nAbsAbsT2 = nNeutralT2 & nAbsentAbsent;
-
-PrePreT1 =  sum(PrePreT1)/sum(nPrePreT1)*100;
-PreAbsT1 = sum(PreAbsT1)/sum(nPreAbsT1)*100;
-AbsPreT1 =  sum(AbsPreT1)/sum(nAbsPreT1) *100;
-AbsAbsT1 =  sum(AbsAbsT1)/sum(nAbsAbsT1)*100;
-PrePreT2 =  sum(PrePreT2)/sum(nPrePreT2)*100;
-PreAbsT2 =  sum(PreAbsT2)/sum(nPreAbsT2)*100;
-AbsPreT2 =  sum(AbsPreT2)/sum(nAbsPreT2)*100;
-AbsAbsT2 =  sum(AbsAbsT2)/sum(nAbsAbsT2) *100;
-
-
-figure(6)
-sgtitle('300 ms SOA - after increasing tone interval')
-subplot(2,2,1) %two rows, two columns, first position
-PrePreAcc = [PrePreT1; PrePreT2];
-b = bar(PrePreAcc);
-ylim([30 100])
-title('target present/nontarget present')
-ylabel('accuracy %')
-set(gca, 'ytick', 30:10:100)
-set(gca, 'xticklabel', {'T1', 'T2'})
-ytickformat('percentage')
-
-
-subplot(2,2,2)
-PreAbsAcc = [PreAbsT1; AbsPreT2];
-b = bar(PreAbsAcc);
-ylim([30 100])
-title('target present/nontarget absent')
-set(gca, 'ytick',30:10:100)
-set(gca, 'xticklabel', {'T1', 'T2'})
-ytickformat('percentage')
-
-
-subplot(2,2,3)
-AbsPreAcc = [AbsPreT1; PreAbsT2];
-b = bar(AbsPreAcc);
-ylim([30 100])
-title('target absent/nontarget present')
-ylabel('accuracy %')
-set(gca, 'ytick', 30:10:100)
-set(gca, 'xticklabel', {'T1', 'T2'})
-ytickformat('percentage')
-
-subplot(2,2,4)
-AbsAbsAcc = [AbsAbsT1; AbsAbsT2];
-b = bar(AbsAbsAcc);
-ylim([30 100])
-title('target absent/nontarget absent')
-set(gca, 'ytick', 30:10:100)
-set(gca, 'xticklabel', {'T1', 'T2'})
-ytickformat('percentage')
-
-legend('Valid', 'Neutral', 'Invalid')
-lgd.Layout.Tile = 'east';
-ax = gca;
-ax.XGrid = 'off';
-ax.YGrid = 'off';
-
+% Neutral = correct; 
+% nNeutral = numel(data.precue);
+% NeutralT1 = Neutral & target == 1;
+% NeutralT2 = Neutral & target == 2;
+% 
+% 
+% nNeutralT1 = nNeutral & target == 1;
+% nNeutralT2 = nNeutral & target == 2;
+% 
+% %target presence 
+% PresentPresent = T1Contrast == 1 & T2Contrast == 1 & correct; %& ~eyeSkip;
+% PresentAbsent = T1Contrast == 1 & T2Contrast == 2 & correct ;%& ~eyeSkip;
+% AbsentPresent = T1Contrast == 2 & T2Contrast == 1 & correct ;%& ~eyeSkip;
+% AbsentAbsent = T1Contrast == 2 & T2Contrast == 2 & correct ;%& ~eyeSkip;
+% 
+% nPresentPresent = T1Contrast == 1 & T2Contrast == 1 ;%& ~eyeSkip;
+% nPresentAbsent = T1Contrast == 1 & T2Contrast == 2 ;%& ~eyeSkip;
+% nAbsentPresent = T1Contrast == 2 & T2Contrast == 1 ;%& ~eyeSkip;
+% nAbsentAbsent = T1Contrast == 2 & T2Contrast == 2 ;% ~eyeSkip;
+% 
+% PrePreT1 = NeutralT1 & PresentPresent;
+% PrePreT2 = NeutralT2 & PresentPresent;
+% PreAbsT1 = NeutralT1 & PresentAbsent;
+% PreAbsT2 = NeutralT2 & PresentAbsent;
+% AbsPreT1 = NeutralT1 & AbsentPresent;
+% AbsPreT2 = NeutralT2 & AbsentPresent;
+% AbsAbsT1 = NeutralT1 & AbsentAbsent;
+% AbsAbsT2 = NeutralT2 & AbsentAbsent;
+% 
+% nPrePreT1 = nNeutralT1 & nPresentPresent;
+% nPrePreT2 = nNeutralT2 & nPresentPresent;
+% nPreAbsT1 = nNeutralT1 & nPresentAbsent;
+% nPreAbsT2 = nNeutralT2 & nPresentAbsent;
+% nAbsPreT1 = nNeutralT1 & nAbsentPresent;
+% nAbsPreT2 = nNeutralT2 & nAbsentPresent;
+% nAbsAbsT1 = nNeutralT1 & nAbsentAbsent;
+% nAbsAbsT2 = nNeutralT2 & nAbsentAbsent;
+% 
+% PrePreT1 =  sum(PrePreT1)/sum(nPrePreT1)*100;
+% PreAbsT1 = sum(PreAbsT1)/sum(nPreAbsT1)*100;
+% AbsPreT1 =  sum(AbsPreT1)/sum(nAbsPreT1) *100;
+% AbsAbsT1 =  sum(AbsAbsT1)/sum(nAbsAbsT1)*100;
+% PrePreT2 =  sum(PrePreT2)/sum(nPrePreT2)*100;
+% PreAbsT2 =  sum(PreAbsT2)/sum(nPreAbsT2)*100;
+% AbsPreT2 =  sum(AbsPreT2)/sum(nAbsPreT2)*100;
+% AbsAbsT2 =  sum(AbsAbsT2)/sum(nAbsAbsT2) *100;
+% 
+% 
+% figure(6)
+% sgtitle('300 ms SOA - after increasing tone interval')
+% subplot(2,2,1) %two rows, two columns, first position
+% PrePreAcc = [PrePreT1; PrePreT2];
+% b = bar(PrePreAcc);
+% ylim([30 100])
+% title('target present/nontarget present')
+% ylabel('accuracy %')
+% set(gca, 'ytick', 30:10:100)
+% set(gca, 'xticklabel', {'T1', 'T2'})
+% ytickformat('percentage')
+% 
+% 
+% subplot(2,2,2)
+% PreAbsAcc = [PreAbsT1; AbsPreT2];
+% b = bar(PreAbsAcc);
+% ylim([30 100])
+% title('target present/nontarget absent')
+% set(gca, 'ytick',30:10:100)
+% set(gca, 'xticklabel', {'T1', 'T2'})
+% ytickformat('percentage')
+% 
+% 
+% subplot(2,2,3)
+% AbsPreAcc = [AbsPreT1; PreAbsT2];
+% b = bar(AbsPreAcc);
+% ylim([30 100])
+% title('target absent/nontarget present')
+% ylabel('accuracy %')
+% set(gca, 'ytick', 30:10:100)
+% set(gca, 'xticklabel', {'T1', 'T2'})
+% ytickformat('percentage')
+% 
+% subplot(2,2,4)
+% AbsAbsAcc = [AbsAbsT1; AbsAbsT2];
+% b = bar(AbsAbsAcc);
+% ylim([30 100])
+% title('target absent/nontarget absent')
+% set(gca, 'ytick', 30:10:100)
+% set(gca, 'xticklabel', {'T1', 'T2'})
+% ytickformat('percentage')
+% 
+% legend('Valid', 'Neutral', 'Invalid')
+% lgd.Layout.Tile = 'east';
+% ax = gca;
+% ax.XGrid = 'off';
+% ax.YGrid = 'off';
+% 

@@ -3,7 +3,7 @@ clear all
 
 
 fp = figureparams;
-%% compile 
+%% compile
 
 subs = {'S0004'};
 fields = {'precue','target', 'T1Contrast', 'T2Contrast', 'seen', 'correct', 'correctDis', 'eyeSkip'}; % fieldnames(data);
@@ -15,24 +15,28 @@ end
 for iSub=1:length(subs) % for participant
 
     SID = subs{iSub};
+    %iMac
     behDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/'];
+    % beh comp
+    % behDir = ['/home/denisonlab-beh/Experiments/ZOOT/experiment-files/data' SID '/beh'];
     cd(behDir);
-    sessions = {''};
+    sessions = {'250 + go cue'};
     for iSession = 1:numel(sessions) % for session
         sesNum = sessions{iSession};
         sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
         cd(sesDir)
-        findFiles = dir('*block2_*.mat'); % for session shouldn't be hardcoded, find way to find highest block # and load it?
-        for iFile = 1:length(findFiles) % for file
-            fileName = findFiles(iFile).name;
-            load(fileName)
-            for iF = 1:numel(fields) % initialize
-                if strcmp(fields{iF}, 'eyeSkip') == 1
-                    data.(fields{iF}) = data.(fields{iF})';
-                end
-                dataAll.(fields{iF}) = [dataAll.(fields{iF}) data.(fields{iF})]; % compiles data structures from one participant
+        numFiles = 6;
+        findFiles = dir('*block' numFiles '*.mat'); % for session shouldn't be hardcoded, find way to find highest block # and load it?
+        % for iFile = 1:length(findFiles) % for file
+        fileName = findFiles.name;
+        load(fileName)
+        for iF = 1:numel(fields) % initialize
+            if strcmp(fields{iF}, 'eyeSkip') == 1
+                data.(fields{iF}) = data.(fields{iF})';
             end
+            dataAll.(fields{iF}) = [dataAll.(fields{iF}) data.(fields{iF})]; % compiles data structures from one participant
         end
+        % end
     end
 end
 
@@ -40,13 +44,9 @@ end
 correct = dataAll.correct == 1;
 T1Contrast = dataAll.T1Contrast;
 T2Contrast = dataAll.T2Contrast;
-eyeSkip = dataAll.eyeSkip == 1;
+eyeSkip = dataAll.eyeSkip(1:numel(dataAll.precue)) == 1;
 precue = dataAll.precue;
 target = dataAll.target;
-
-
-
-
 
 %target presence 
 PresentPresent = T1Contrast == 1 & T2Contrast == 1 & correct & ~eyeSkip;
@@ -56,22 +56,22 @@ AbsentAbsent = T1Contrast == 2 & T2Contrast == 2 & correct & ~eyeSkip;
 
 nPresentPresent = T1Contrast == 1 & T2Contrast == 1 & ~eyeSkip;
 nPresentAbsent = T1Contrast == 1 & T2Contrast == 2 & ~eyeSkip;
-nAbsentPresent = T1Contrast == 2 & T2Contrast == 1 ;%& ~eyeSkip;
-nAbsentAbsent = T1Contrast == 2 & T2Contrast == 2 ;% ~eyeSkip;
+nAbsentPresent = T1Contrast == 2 & T2Contrast == 1 & ~eyeSkip;
+nAbsentAbsent = T1Contrast == 2 & T2Contrast == 2 & ~eyeSkip;
 
 targPresAcc = [sum(PresentPresent)/sum(nPresentPresent) sum(PresentAbsent)/sum(nPresentAbsent) sum(AbsentPresent)/sum(nAbsentPresent) sum(AbsentAbsent)/sum(nAbsentAbsent)]*100;
 
 % validity 
 
-Neutral = precue == 3 & correct ;%& ~eyeSkip;
-Invalid = (precue == 1| precue == 2) & precue ~= target & correct ;%& ~eyeSkip;
-Valid = precue == target & correct ;%& ~eyeSkip;
+Neutral = precue == 3 & correct & ~eyeSkip;
+Invalid = (precue == 1| precue == 2) & precue ~= target & correct & ~eyeSkip;
+Valid = precue == target & correct & ~eyeSkip;
 
-nValid = precue == target ;%& ~eyeSkip;
-nInvalid = (precue == 1| precue == 2) & precue ~= target;% & ~eyeSkip;
-nNeutral = precue == 3  ;% &~eyeSkip;
+nValid = precue == target & ~eyeSkip;
+nInvalid = (precue == 1| precue == 2) & precue ~= target & ~eyeSkip;
+nNeutral = precue == 3 & ~eyeSkip;
 
-validityAcc = [sum(Valid)/sum(nValid) sum(Invalid)/sum(nInvalid) sum(Neutral)/sum(nNeutral)]*100;
+validityAcc = [sum(Valid)/sum(nValid) sum(Neutral)/sum(nNeutral) sum(Invalid)/sum(nInvalid)]*100;
 
 
 % validity x target 
@@ -412,7 +412,7 @@ ax.XGrid = 'off';
 ax.YGrid = 'off';
 
 
-% %% piloting
+%% piloting
 % Neutral = correct; 
 % nNeutral = numel(data.precue);
 % NeutralT1 = Neutral & target == 1;
