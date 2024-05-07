@@ -572,7 +572,7 @@ while iTrial <= size(trialOrder, 2)
         end
         
         drawFixation(window, cx, cy, fixSize, p.fixColor);
-        timePostcue_visual = ScreenNumber('Flip', window, timeT2 + postcueSOA - slack);
+        timePostcue_visual = ScreenNumber('Flip', window, timeT2 + p.postcueSOA - slack);
 
         if p.eyeTracking
             Eyelink('Message', 'Postcue')
@@ -741,7 +741,7 @@ while iTrial <= size(trialOrder, 2)
         % timing.timeT2Click(iTrial) = timeT2Click;
         % timing.timeT2ClickOff(iTrial) = statusT2Click.EstimatedStopTime;
         timing.timeT2Off(iTrial) = timeT2Off; %fixation draw after T2 dur
-        timing.timePostcue(iTrial) = timePostcue;
+        timing.timePostcue(iTrial) = timePostcue_visual;
         timing.timeGocue(iTrial) = timeGocue;
         timing.timeGocueOff(iTrial) = timeGocueOff;
         % timing.timePostcueOff(iTrial) = statusPostcue.EstimatedStopTime;
@@ -760,11 +760,11 @@ while iTrial <= size(trialOrder, 2)
         timing.SOA(iTrial)=timing.timeT2(iTrial)-timing.timeT1(iTrial);
         timing.T2Dur(iTrial)=timing.timeT2Off(iTrial)-timing.timeT2(iTrial);
         % timing.T2ClickDur(iTrial) = timing.timeT2ClickOff(iTrial) -timing.timeT2Click(iTrial);
-        timing.postcueSOA(iTrial)=timing.timePostcue(iTrial)-timing.timeT2(iTrial); %come back to this one
+        timing.postcueSOA(iTrial)=timing.timePostcue_visual(iTrial)-timing.timeT2(iTrial); %come back to this one
         % timing.postcueDur(iTrial)=timing.timePostcueOff(iTrial) - timing.timePostcue(iTrial);
-        timing.gocueSOA(iTrial)= timing.timeGocue(iTrial) - timing.timePostcue(iTrial);
+        timing.gocueSOA(iTrial)= timing.timeGocue(iTrial) - timing.timePostcue_visual(iTrial);
         timing.gocueDur(iTrial) = timing.timeGocueOff(iTrial) - timing.timeGocue(iTrial);
-        timing.feedbackSOA(iTrial)=timing.timeFeedbackFix(iTrial)-timing.timePostcue(iTrial); % time between postcue and fixation
+        timing.feedbackSOA(iTrial)=timing.timeFeedbackFix(iTrial)-timing.timePostcue_visual(iTrial); % time between postcue and fixation
         timing.feedbackDur(iTrial)=timing.timeFeedbackOff(iTrial)-timing.timeFeedbackFix(iTrial);
         timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial);
     end
