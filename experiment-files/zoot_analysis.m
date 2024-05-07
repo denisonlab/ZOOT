@@ -20,25 +20,24 @@ for iSub=1:length(subs) % for participant
     % beh comp
     % behDir = ['/home/denisonlab-beh/Experiments/ZOOT/experiment-files/data' SID '/beh'];
     cd(behDir);
-    sessions = {'250 + go cue'};
-    for iSession = 1:numel(sessions) % for session
-        sesNum = sessions{iSession};
-        sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
-        cd(sesDir)
-        numFiles = 6;
-        fF = dir('*block6_*.mat');% for session shouldn't be hardcoded, find way to find highest block # and load it?
-       for iFile = 1:length(findFiles) % for file
-        fileName = findFiles.name;
-        load(fileName)
-        for iF = 1:numel(fields) % initialize
-            if strcmp(fields{iF}, 'eyeSkip') == 1
-                data.(fields{iF}) = data.(fields{iF})';
+    % sessions = {'session 1'};
+    % for iSession = 1:numel(sessions) % for session
+    %     sesNum = sessions{iSession};
+    %     sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
+    %     cd(sesDir)
+        findFiles = dir('*block1_*.mat');% for session shouldn't be hardcoded, find way to find highest block # and load it?
+        for iFile = 1:length(findFiles) % for file
+            fileName = findFiles.name;
+            load(fileName)
+            for iF = 1:numel(fields) % initialize
+                if strcmp(fields{iF}, 'eyeSkip') == 1
+                    data.(fields{iF}) = data.(fields{iF})';
+                end
+                dataAll.(fields{iF}) = [dataAll.(fields{iF}) data.(fields{iF})]; % compiles data structures from one participant
             end
-            dataAll.(fields{iF}) = [dataAll.(fields{iF}) data.(fields{iF})]; % compiles data structures from one participant
         end
-         end
     end
-end
+% end
 
 %% filter  
 correct = dataAll.correct == 1;
