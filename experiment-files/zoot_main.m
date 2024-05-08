@@ -257,6 +257,7 @@ stopThisTrial = 0;
 
 % Change the directory to the subject data folder
 cd(data.behDir)
+cd('session 2')
 listing = dir;
 count = 1;
 dataFileNames = []; 
@@ -264,9 +265,6 @@ for iFile = 1:numel(listing)
     if contains(listing(iFile).name,'.mat')
         disp(['valid file ' listing(iFile).name])
         dataFileNames{count} = listing(iFile).name;
-        if contains(listing(iFile).name, 'session2')
-            ses2Files{count} = listing(iFile.name);
-        end 
         count = count + 1;
     else
         disp(['invalid file ' listing(iFile).name])
@@ -893,7 +891,7 @@ while iTrial <= size(trialOrder, 2)
                     if isempty(skippedTrials)
                         keyMessage = ''; % last block
                     else
-                        keyMessage = 'Press 1 to go on.';
+                        keyMessage = 'There will be one more short block to redo the skipped trials. Press 1 to go on.';
                     end
                 elseif block == p.nBlocks + 1
                     keyMessage = ''; % last block
