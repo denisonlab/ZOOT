@@ -20,12 +20,12 @@ for iSub=1:length(subs) % for participant
     % beh comp
     % behDir = ['/home/denisonlab-beh/Experiments/ZOOT/experiment-files/data' SID '/beh'];
     cd(behDir);
-    % sessions = {'session 1'};
-    % for iSession = 1:numel(sessions) % for session
-    %     sesNum = sessions{iSession};
-    %     sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
-    %     cd(sesDir)
-        findFiles = dir('*block1_*.mat');% for session shouldn't be hardcoded, find way to find highest block # and load it?
+    sessions = {'session 2'};
+    for iSession = 1:numel(sessions) % for session
+        sesNum = sessions{iSession};
+        sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
+        cd(sesDir)
+        findFiles = dir('*block17_*.mat');% for session shouldn't be hardcoded, find way to find highest block # and load it?
         for iFile = 1:length(findFiles) % for file
             fileName = findFiles.name;
             load(fileName)
@@ -37,7 +37,7 @@ for iSub=1:length(subs) % for participant
             end
         end
     end
-% end
+end
 
 %% filter  
 correct = dataAll.correct == 1;
@@ -363,7 +363,7 @@ ax.YGrid = 'off';
 
 %% figure 5
 figure(5)
-sgtitle('target presence x attention condition x target accuracy')
+sgtitle('S0004 session 2')
 subplot(2,2,1) %two rows, two columns, first position
 PrePreAcc = [PrePreT1; PrePreT2];
 b = bar(PrePreAcc);
