@@ -25,7 +25,7 @@ directory = pwd;
 addpath(genpath(directory))
 data.directory = directory;
 
-%subject data directory
+%create data directories
 data.dataDir = sprintf('%s/data', directory);
 if ~exist(data.dataDir, 'dir')
     mkdir(data.dataDir)
@@ -55,6 +55,7 @@ data.subjectID = s.subjectID;
 data.p = p;
 data.s = s;
 
+%load threshold for all steps after thresholding
 threshold = [];
 if s.exptStage > 2
     if ~exist(['data/' s.subjectID '/staircasing/threshold.mat'],'file')
@@ -66,7 +67,7 @@ if s.exptStage > 2
     end
 elseif s.exptStage < 2
     threshold = p.practiceThreshold;
-    disp('Using practice threshold which is: 5')
+    disp('Using practice threshold which is: 5') % practice threshold for all steps before thresholding
 elseif s.exptStage == 2
     currentStaircase = 1; % start with first staircase
     % find index
@@ -75,6 +76,7 @@ elseif s.exptStage == 2
     lastFewAcc_s1 = [];
     lastFewAcc_s2 = [];
 
+    % set beginning threshold for both staircases in thresholding step
     if currentStaircase == 1
         threshold = p.stairs(index_s1);
     elseif currentStaircase == 2
@@ -95,7 +97,7 @@ eyeFile = [s.subjectID(1:2) '0' num2str(s.session) datestr(now, 'mmdd')];
 % Pick the screen on which to display the window
 screenNumber = max(Screen('Screens'));
 
-% Get the color code for white
+% Get the color code for white, black, and grey
 white = WhiteIndex(screenNumber);
 black = BlackIndex(screenNumber);
 grey=p.backgroundColor;
@@ -185,7 +187,8 @@ trials = fullfact([numel(p.precueValidities) ...
 edgeWidth=round(p.apertureEdgeWidth*pixelsPerDegree);
 gratingRadius = round(p.gratingDiameter/2*pixelsPerDegree);
 
-% phase (4) x contrast (1) maybe can come back to speed up image generation
+% generate gratings - 4 gratings (differ in phase only, set tilt and
+% contrast later)
 for i=1:numel(p.phases) % we will just make four gratings of different phases, to be used across T1 and T2; nTotalTrials  %  % should this be nTrials or nTotalTrials
     contrast = 1; 
     grating = rd_grating(pixelsPerDegree, p.gratingImSize, p.gratingSF, 0, p.phases(i), contrast); % creates grating 
@@ -241,11 +244,11 @@ if p.eyeTracking
 end
 %% Show instruction screen and wait for a button press
 WaitSecs(1);
-zoot_instructions(s, window, devNum, white);
+zoot_instructions(s, window, devNum, white); % shows experiment instructions
 KbWait(devNum)
 WaitSecs(1);
 Screen('FillRect', window, white*p.backgroundColor);
-DrawFormattedText(window, 'Press any key to begin', 'center', 'center', [1 1 1]*white);
+DrawFormattedText(window, 'Press any key to begin', 'center', 'center', [1 1 1]*white); % allows participants a second before starting experiment
 Screen('Flip', window);
 KbWait(devNum);
 timeStart = GetSecs;
@@ -253,9 +256,10 @@ timeStart = GetSecs;
 %% %%%% Present trials %%%%
 skippedTrials = []; % skipped trial order number
 iTrialskipped = []; % skipped iTrial number
-stopThisTrial = 0;
+stopThisTrial = 0; % variable to track fixation loss, 0 if no fixation loss and 1 if fixation loss 
 
-% Change the directory to the subject data folder
+% Change the directory to the subject data folder and check if there are
+% any experiment files 
 cd(data.behDir)
 listing = dir;
 count = 1;
@@ -279,8 +283,7 @@ if s.exptStage == 4 || s.exptStage == 5
         block = 1;
         eyeSkip = zeros(size(trials,1),1); % trials skipped due to an eye movement, same size as trials matrix
     else
-        dataPrevious = load(dataFileNames{end}); % this isn't checking the time stamp yet
-        % otherwise load the data w latest  time stamp and find the last trial
+        dataPrevious = load(dataFileNames{end}); % otherwise load the data w latest  time stamp and find the last trial
         % that was left off
         data = dataPrevious.data;
         iTrial = max(dataPrevious.data.iTrial)+1;
@@ -291,7 +294,7 @@ if s.exptStage == 4 || s.exptStage == 5
         eyeSkip = dataPrevious.data.eyeSkip; % trials skipped due to an eye movement, same size as trials matrix
     end
 else
-    trialOrder=randperm(p.nTotalTrials);
+    trialOrder=randperm(p.nTotalTrials); % randomly shuffle number of total trials for all steps besides main task/main task practice 
     iTrial = 1;
     block = 1;
 end
@@ -304,18 +307,20 @@ if p.eyeTracking
     rd_eyeLink('startrecording', window, {el, fixRect});
 end
 
+%% start trial loop
 while iTrial <= size(trialOrder, 2)
 
     if iTrial> 1 
-        eyeSkip(iTrial-1) = stopThisTrial; % this saves eyeSkip/stopThisTrial for the previous trial
+        eyeSkip(iTrial-1) = stopThisTrial; % this saves eyeSkip/stopThisTrial for the trial previous to this one
         if stopThisTrial ==1 
             data.correct(iTrial-1) = NaN; % if previous trial was skipped, record NaN for correct 
         end 
     end
-    stopThisTrial = 0;
-    
-    trialIdx = trialOrder(iTrial);
+   % stopThisTrial = 0; % initialize stopThisTrial to 0 for this trial
+    trialIdx = trialOrder(iTrial); % get the trial order (which is shuffled) for the current trial 
+
     %% Get condition information for this trial
+    %index the trial conditions based on the trial order number for this trial
     precueValidity = p.precueValidities(trials(trialIdx, idx.precueValidity)); % saves each column in trials matrix as corresponding variable e.g. column 1 = precue validity
     target = trials(trialIdx, idx.target);
     T1Axis = trials(trialIdx, idx.T1Axis);
@@ -330,7 +335,7 @@ while iTrial <= size(trialOrder, 2)
     axesNames = p.axisNames([T1Axis T2Axis]);
     contrasts = p.contrasts([T1Contrast T2Contrast]);
 
-    % Phase: randomly selected per trial
+    % Phase: randomly selected per trial - pseudorandomization 
     T1Phase = randperm(numel(p.phases),1);
     T2Phase = randperm(numel(p.phases),1);
 
@@ -360,7 +365,7 @@ while iTrial <= size(trialOrder, 2)
     end
 
     %% Set up stimuli for this trial
-    if s.exptStage < 3
+    if s.exptStage < 3 % neutral precue for all steps before main task/main task practice 
         precue = 3;
     end 
 
@@ -368,7 +373,7 @@ while iTrial <= size(trialOrder, 2)
     PsychPortAudio('FillBuffer', pahandle, trialTones);
 
     % Orientation 
-    T1Orientation = p.axes(T1Axis) + threshold*p.tilts(T1Tilt); % creates the four different orientations
+    T1Orientation = p.axes(T1Axis) + threshold*p.tilts(T1Tilt); % creates the four different orientations 
     T2Orientation = p.axes(T2Axis) + threshold*p.tilts(T2Tilt);
 
     %% Store stimulus information in trials matrix - change so not overriding trials matrix
@@ -389,16 +394,19 @@ while iTrial <= size(trialOrder, 2)
 
     %% %%%% Play the trial %%%
     %% Present fixation
+    %if want to use oscilloscope, set oscilloscope variable to 1 
     if oscilloscope == 1
         Screen('FillRect', window, black, [])
     end 
-    drawFixation(window, cx, cy, fixSize, p.fixColor);
+
+    drawFixation(window, cx, cy, fixSize, p.fixColor); 
     timeFix = Screen('Flip', window);
     if p.eyeTracking
         Eyelink('Message', 'FixOn')
     end
     
-    % Check fixation hold
+    % Check fixation hold, need to be fixating for 300 ms for trial to
+    % start, times out after 3 seconds and goes to drift check
     if p.eyeTracking
         driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect});
         if driftCorrected
@@ -411,7 +419,7 @@ while iTrial <= size(trialOrder, 2)
         end
     end
     
-    [keyCode] = KbCheck(devNum);
+    [keyCode] = KbCheck(devNum); % is this needed?
     if keyCode == p.eyeTrackerCalibrationKey
         rd_eyeLink('calibrate', window, el);
         rd_eyeLink('trialstart', window, {el, 1});
@@ -420,7 +428,7 @@ while iTrial <= size(trialOrder, 2)
     %% Present precue tone
     drawFixation(window, cx, cy, fixSize, p.fixColor);
     timePrecue = PsychPortAudio('Start', pahandle, [], [], 1);
-    timePrecue_visual = Screen('Flip', window);
+    timePrecue_visual = Screen('Flip', window); % used for t1 presentation timing, verified simultaneity of precue audio and vis flip with oscilloscope
 
     if oscilloscope == 1
         Screen('FillRect', window, white, [])
@@ -434,7 +442,7 @@ while iTrial <= size(trialOrder, 2)
         Eyelink('Message', 'EVENT_CUE');
     end
     
-    % Check for eye movements
+    % Check for eye movements, stop trial and append if fixation is lost
     if p.eyeTracking
         while GetSecs < timePrecue + p.precueSOA - p.eyeSlack && ~stopThisTrial
             WaitSecs(.01);
@@ -482,7 +490,7 @@ while iTrial <= size(trialOrder, 2)
             Eyelink('Message', 'SOA')
         end
 
-        % Check for eye movements
+        % Check for eye movements, stop trial and append if fixation lost
         if p.eyeTracking
             while GetSecs < timeT1 + p.imDur + p.targetSOA - p.eyeSlack && ~stopThisTrial
                 WaitSecs(.01);
@@ -531,7 +539,7 @@ while iTrial <= size(trialOrder, 2)
             Eyelink('Message', 'PostcueSOA')
         end
 
-        % Check for eye movements
+        % Check for eye movements, stop trial and append if fixation lost 
         if p.eyeTracking
             while GetSecs < timeT2 + p.imDur - p.eyeSlack && ~stopThisTrial
                 WaitSecs(.01);
@@ -569,13 +577,13 @@ while iTrial <= size(trialOrder, 2)
         end
 
         drawFixation(window, cx, cy, fixSize, p.fixColor);
-        timePostcue_visual = Screen('Flip', window, timeT2 + p.postcueSOA - slack);
+        timePostcue_visual = Screen('Flip', window, timeT2 + p.postcueSOA - slack); % used for stim timing since audio is a matrix 
 
         if p.eyeTracking
             Eyelink('Message', 'Postcue')
         end
 
-        %% Present go cue
+        %% Present go cue - 600 ms
         if oscilloscope == 1
             Screen('FillRect', window, black, [])
         end
@@ -598,7 +606,9 @@ while iTrial <= size(trialOrder, 2)
         timeTargetResponseWindow=Screen('Flip', window, timeGocue -slack);
 
     end
-    response = []; % should be 0? NaN?
+
+    % response should be 1, 2, 3, or NaN (fixation loss)
+    response = []; 
     responseKey = NaN;
     timeTargetRT = NaN;
     if ~stopThisTrial
@@ -610,14 +620,14 @@ while iTrial <= size(trialOrder, 2)
             response = find(strcmp(p.responseKeys,responseKeyName));
         end
     else
-        response = 0;
+        response = 0; % why 0?
     end
 
     if p.eyeTracking
         Eyelink('Message', 'TRIAL_END');
     end
 
-    % Feedback
+    % Feedback - NaN if fixation loss
     correct = NaN;
     seen = NaN;
     if response==3 % reported absent
@@ -665,7 +675,7 @@ while iTrial <= size(trialOrder, 2)
         elseif response == 1 || response == 2
             responseTiltName = string(p.tiltNames(response));
         end
-        if p.stimDebug == 1 % to verify that stimulus orientation is showing what it is supposed to
+        if p.stimDebug == 1 % for debugging, to verify that stimulus orientation is showing what it is supposed to
             stimDebugMessage = sprintf('You responded %s and the stimulus was %s and %s. Press any key to move on', responseTiltName, targetTiltName, targetAxisName);
             DrawFormattedText(window, stimDebugMessage, 'center', 'center', [1 1 1]*white)
             Screen('Flip', window)
@@ -676,7 +686,7 @@ while iTrial <= size(trialOrder, 2)
         drawFixation(window, cx,cy, fixSize, p.fixColor);
         timeFeedbackOff = Screen('Flip', window, timeFeedbackFix+p.feedbackLength-slack); % returns fixation to white
 
-        %% ITI
+        %% ITI - 750 ms
         if oscilloscope == 1
             Screen('FillRect', window, black, [])
         end
@@ -765,15 +775,6 @@ while iTrial <= size(trialOrder, 2)
         timing.feedbackDur(iTrial)=timing.timeFeedbackOff(iTrial)-timing.timeFeedbackFix(iTrial);
         timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial);
     end
-  % 
-  % if block == p.nBlocks % if the end of block 15, change trials per block and total trials before block 16
-  %    if mod(iTrial, p.nTotalTrials / p.nBlocks) == 0
-  %         p.nTrialsPerBlock = p.nTrialsPerBlock + numel(skippedTrials);
-  %    %       p.nTotalTrials = p.nTotalTrials + numel(skippedTrials);
-  %     %      trialOrder = [trialOrder skippedTrials];
-  %      % end 
-  %    end 
-  % end 
 
     % If last trial in a block, save data...
     if mod(iTrial, p.nTrialsPerBlock)==0 || iTrial == size(trialOrder,2)
@@ -896,11 +897,11 @@ while iTrial <= size(trialOrder, 2)
                 
                 blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, p.nBlocks);
                 if iTrial == p.nTotalTrials
-                    % if isempty(skippedTrials)
+                    if isempty(skippedTrials)
                     keyMessage = ''; % last block
-                    % else
-                    %     keyMessage = 'There will be one more short block to redo the skipped trials. Press 1 to go on.';
-                    % end
+                    else
+                        keyMessage = 'There will be one more short block to redo the skipped trials. Press 1 to go on.';
+                    end
                 elseif block == p.nBlocks + 1
                     keyMessage = ''; % last block
                 else
@@ -908,30 +909,14 @@ while iTrial <= size(trialOrder, 2)
                 end
                 
                 blockAcc = mean(data.correct(blockStartTrial:iTrial),'omitnan')*100; % discrimination (only target present)
-                
+
                 pointsMessages = sprintf('Your accuracy was %0.2f %%!', blockAcc);
-                
+
                 breakMessage = sprintf('%s\n\n%s\n\n\n%s', blockMessage, pointsMessages, keyMessage);
                 DrawFormattedText(window, breakMessage, 'center', 'center', [1 1 1]);
                 Screen('Flip', window);
                 WaitSecs(1);
-                if iTrial < p.nTotalTrials
-                    keyPressed = 0;
-                    while ~keyPressed
-                        [secs, keyCode] = KbWait(devNum);
-                        if strcmp(KbName(keyCode),'1!')
-                            keyPressed = 1;
-                        end
-                    end
-                end
-
-               % if block == p.nBlocks - 1 % if the end of block 15, change trials per block and total trials before block 16
-                %    if ~isempty(skippedTrials)
-                %        p.nTrialsPerBlock = p.nTrialsPerBlock + numel(skippedTrials);
-                 %       p.nTotalTrials = p.nTotalTrials + numel(skippedTrials);
-                  %      trialOrder = [trialOrder skippedTrials];
-                   % end
-               % end
+                KbWait(devNum)
                 block = block+1; % keep track of block for block message only
         end
 
@@ -942,7 +927,7 @@ end
 timeEnd = GetSecs;
 timing.timeEnd = timeEnd;
 
-if s.exptStage ==2
+if s.exptStage ==2 % calculate and store staircasing/threshold file
     staircase.staircaseavgs = [mean(staircase.staircase1val(end-5:end)) mean(staircase.staircase2val(end-5:end))]; % mean or median?
     staircase.threshold = mean(staircase.staircaseavgs);
     data.staircase = staircase;
