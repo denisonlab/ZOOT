@@ -444,10 +444,10 @@ while iTrial <= size(trialOrder, 2)
                 PsychPortAudio('Stop', pahandle, [])
                 stopThisTrial = 1;
                 WaitSecs(1);
-                trialOrder(end+1) = trialOrder(iTrial);
+                 trialOrder(end+1) = trialOrder(iTrial);
                 skippedTrials(end+1) = trialOrder(iTrial);
                 iTrialskipped(end+1) = iTrial;
-                p.nTotalTrials = p.nTotalTrials + 1;
+              p.nTotalTrials = p.nTotalTrials + 1;
                 DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                 Screen('Flip', window);
                 KbWait(devNum);
@@ -492,10 +492,10 @@ while iTrial <= size(trialOrder, 2)
                     PsychPortAudio('Stop', pahandle, [])
                     stopThisTrial = 1;
                     WaitSecs(1);
-                    trialOrder(end+1) = trialOrder(iTrial);
+                     trialOrder(end+1) = trialOrder(iTrial);
                     skippedTrials(end+1) = trialOrder(iTrial);
                     iTrialskipped(end+1) = iTrial;
-                    p.nTotalTrials = p.nTotalTrials + 1;
+                     p.nTotalTrials = p.nTotalTrials + 1;
                     DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                     Screen('Flip', window);
                     KbWait(devNum);
@@ -765,14 +765,15 @@ while iTrial <= size(trialOrder, 2)
         timing.feedbackDur(iTrial)=timing.timeFeedbackOff(iTrial)-timing.timeFeedbackFix(iTrial);
         timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial);
     end
-
-    if block == p.nBlocks - 1 % if the end of block 15, change trials per block and total trials before block 16
-        if ~isempty(skippedTrials)
-            p.nTrialsPerBlock = p.nTrialsPerBlock + numel(skippedTrials);
-            p.nTotalTrials = p.nTotalTrials + numel(skippedTrials);
-            trialOrder = [trialOrder skippedTrials];
-        end 
-    end 
+  % 
+  % if block == p.nBlocks % if the end of block 15, change trials per block and total trials before block 16
+  %    if mod(iTrial, p.nTotalTrials / p.nBlocks) == 0
+  %         p.nTrialsPerBlock = p.nTrialsPerBlock + numel(skippedTrials);
+  %    %       p.nTotalTrials = p.nTotalTrials + numel(skippedTrials);
+  %     %      trialOrder = [trialOrder skippedTrials];
+  %      % end 
+  %    end 
+  % end 
 
 
     % If last trial in a block, save data...
@@ -896,11 +897,11 @@ while iTrial <= size(trialOrder, 2)
                 
                 blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, p.nBlocks);
                 if iTrial == p.nTotalTrials
-                    if isempty(skippedTrials)
-                        keyMessage = ''; % last block
-                    else
-                        keyMessage = 'There will be one more short block to redo the skipped trials. Press 1 to go on.';
-                    end
+                    % if isempty(skippedTrials)
+                    keyMessage = ''; % last block
+                    % else
+                    %     keyMessage = 'There will be one more short block to redo the skipped trials. Press 1 to go on.';
+                    % end
                 elseif block == p.nBlocks + 1
                     keyMessage = ''; % last block
                 else
@@ -925,13 +926,13 @@ while iTrial <= size(trialOrder, 2)
                     end
                 end
 
-                if block == p.nBlocks - 1 % if the end of block 15, change trials per block and total trials before block 16
-                    if ~isempty(skippedTrials)
-                        p.nTrialsPerBlock = p.nTrialsPerBlock + numel(skippedTrials);
-                        p.nTotalTrials = p.nTotalTrials + numel(skippedTrials);
-                        trialOrder = [trialOrder skippedTrials];
-                    end
-                end
+               % if block == p.nBlocks - 1 % if the end of block 15, change trials per block and total trials before block 16
+                %    if ~isempty(skippedTrials)
+                %        p.nTrialsPerBlock = p.nTrialsPerBlock + numel(skippedTrials);
+                 %       p.nTotalTrials = p.nTotalTrials + numel(skippedTrials);
+                  %      trialOrder = [trialOrder skippedTrials];
+                   % end
+               % end
                 block = block+1; % keep track of block for block message only
         end
 

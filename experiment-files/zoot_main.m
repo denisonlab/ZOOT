@@ -439,15 +439,15 @@ while iTrial <= size(trialOrder, 2)
         while GetSecs < timePrecue + p.precueSOA - p.eyeSlack && ~stopThisTrial
             WaitSecs(.01);
             fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
-            
+
             if fixation==0
                 PsychPortAudio('Stop', pahandle, [])
                 stopThisTrial = 1;
                 WaitSecs(1);
-                % trialOrder(end+1) = trialOrder(iTrial);
+                trialOrder(end+1) = trialOrder(iTrial);
                 skippedTrials(end+1) = trialOrder(iTrial);
                 iTrialskipped(end+1) = iTrial;
-                % p.nTotalTrials = p.nTotalTrials + 1;
+                p.nTotalTrials = p.nTotalTrials + 1;
                 DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                 Screen('Flip', window);
                 KbWait(devNum);
@@ -492,10 +492,10 @@ while iTrial <= size(trialOrder, 2)
                     PsychPortAudio('Stop', pahandle, [])
                     stopThisTrial = 1;
                     WaitSecs(1);
-                    % trialOrder(end+1) = trialOrder(iTrial);
+                    trialOrder(end+1) = trialOrder(iTrial);
                     skippedTrials(end+1) = trialOrder(iTrial);
                     iTrialskipped(end+1) = iTrial;
-                    % p.nTotalTrials = p.nTotalTrials + 1;
+                    p.nTotalTrials = p.nTotalTrials + 1;
                     DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                     Screen('Flip', window);
                     KbWait(devNum);
@@ -542,10 +542,10 @@ while iTrial <= size(trialOrder, 2)
                     PsychPortAudio('Stop', pahandle, [])
                     stopThisTrial= 1;
                     WaitSecs(1);
-                    % trialOrder(end+1) = trialOrder(iTrial);
+                    trialOrder(end+1) = trialOrder(iTrial);
                     skippedTrials(end+1) = trialOrder(iTrial);
                     iTrialskipped(end+1) = iTrial;
-                    % p.nTotalTrials = p.nTotalTrials + 1;
+                    p.nTotalTrials = p.nTotalTrials + 1;
                     DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                     Screen('Flip', window);
                     KbWait(devNum);
@@ -567,7 +567,7 @@ while iTrial <= size(trialOrder, 2)
             Screen('FillRect', window, black, [])
             timePostcue_visualOff = Screen('Flip', window, timePostcue_visual+p.toneDur);
         end
-        
+
         drawFixation(window, cx, cy, fixSize, p.fixColor);
         timePostcue_visual = Screen('Flip', window, timeT2 + p.postcueSOA - slack);
 
@@ -581,14 +581,14 @@ while iTrial <= size(trialOrder, 2)
         end
         drawFixation(window, cx, cy, fixSize, p.dimFixColor);
         timeGocue = Screen('Flip', window, timeT2 + p.postcueSOA + p.gocueSOA - slack);
-        
+
         if oscilloscope == 1
             Screen('FillRect', window, black, [])
         end
         % blank
         drawFixation(window, cx, cy, fixSize, p.fixColor);
         timeGocueOff = Screen('Flip', window, timeGocue + p.imDur*2 - slack);
-        
+
         %% Response window
         if oscilloscope == 1
             Screen('FillRect', window, black, [])
@@ -596,7 +596,7 @@ while iTrial <= size(trialOrder, 2)
         drawFixation(window, cx, cy, fixSize, p.fixColor);
         Screen('DrawingFinished', window);
         timeTargetResponseWindow=Screen('Flip', window, timeGocue -slack);
-        
+
     end
     response = []; % should be 0? NaN?
     responseKey = NaN;
@@ -612,11 +612,11 @@ while iTrial <= size(trialOrder, 2)
     else
         response = 0;
     end
-    
+
     if p.eyeTracking
         Eyelink('Message', 'TRIAL_END');
     end
-    
+
     % Feedback
     correct = NaN;
     seen = NaN;
@@ -765,15 +765,15 @@ while iTrial <= size(trialOrder, 2)
         timing.feedbackDur(iTrial)=timing.timeFeedbackOff(iTrial)-timing.timeFeedbackFix(iTrial);
         timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial);
     end
-
-    if block == p.nBlocks - 1 % if the end of block 15, change trials per block and total trials before block 16
-        if ~isempty(skippedTrials)
-            p.nTrialsPerBlock = p.nTrialsPerBlock + numel(skippedTrials);
-            p.nTotalTrials = p.nTotalTrials + numel(skippedTrials);
-            trialOrder = [trialOrder skippedTrials];
-        end 
-    end 
-
+  % 
+  % if block == p.nBlocks % if the end of block 15, change trials per block and total trials before block 16
+  %    if mod(iTrial, p.nTotalTrials / p.nBlocks) == 0
+  %         p.nTrialsPerBlock = p.nTrialsPerBlock + numel(skippedTrials);
+  %    %       p.nTotalTrials = p.nTotalTrials + numel(skippedTrials);
+  %     %      trialOrder = [trialOrder skippedTrials];
+  %      % end 
+  %    end 
+  % end 
 
     % If last trial in a block, save data...
     if mod(iTrial, p.nTrialsPerBlock)==0 || iTrial == size(trialOrder,2)
@@ -925,13 +925,13 @@ while iTrial <= size(trialOrder, 2)
                     end
                 end
 
-                if block == p.nBlocks - 1 % if the end of block 15, change trials per block and total trials before block 16
-                    if ~isempty(skippedTrials)
-                        p.nTrialsPerBlock = p.nTrialsPerBlock + numel(skippedTrials);
-                        p.nTotalTrials = p.nTotalTrials + numel(skippedTrials);
-                        trialOrder = [trialOrder skippedTrials];
-                    end
-                end
+               % if block == p.nBlocks - 1 % if the end of block 15, change trials per block and total trials before block 16
+                %    if ~isempty(skippedTrials)
+                %        p.nTrialsPerBlock = p.nTrialsPerBlock + numel(skippedTrials);
+                 %       p.nTotalTrials = p.nTotalTrials + numel(skippedTrials);
+                  %      trialOrder = [trialOrder skippedTrials];
+                   % end
+               % end
                 block = block+1; % keep track of block for block message only
         end
 
