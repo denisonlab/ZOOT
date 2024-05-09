@@ -419,7 +419,7 @@ while iTrial <= size(trialOrder, 2)
         end
     end
     
-    [keyCode] = KbCheck(devNum); % is this needed?
+    [keyCode] = KbCheck(devNum);
     if keyCode == p.eyeTrackerCalibrationKey
         rd_eyeLink('calibrate', window, el);
         rd_eyeLink('trialstart', window, {el, 1});
