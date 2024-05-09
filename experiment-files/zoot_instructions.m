@@ -92,10 +92,7 @@ elseif s.exptStage == 5
         'Press "1" to report counterclockwise\n' ...
         'Press "2" to report clockwise\n' ...
         'Press "3" to report absent\n\n']);
-
      DrawFormattedText(window, mainMessage,'centerblock','center',[1 1 1]);
-
-
 
 end
 

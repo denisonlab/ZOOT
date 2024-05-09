@@ -257,7 +257,6 @@ stopThisTrial = 0;
 
 % Change the directory to the subject data folder
 cd(data.behDir)
-cd('session 2')
 listing = dir;
 count = 1;
 dataFileNames = []; 
@@ -308,7 +307,7 @@ end
 while iTrial <= size(trialOrder, 2)
 
     if iTrial> 1 
-        eyeSkip(iTrial-1) = stopThisTrial; % this is for the previous trial
+        eyeSkip(iTrial-1) = stopThisTrial; % this saves eyeSkip/stopThisTrial for the previous trial
         if stopThisTrial ==1 
             data.correct(iTrial-1) = NaN; % if previous trial was skipped, record NaN for correct 
         end 
@@ -445,10 +444,10 @@ while iTrial <= size(trialOrder, 2)
                 PsychPortAudio('Stop', pahandle, [])
                 stopThisTrial = 1;
                 WaitSecs(1);
-                trialOrder(end+1) = trialOrder(iTrial);
+                % trialOrder(end+1) = trialOrder(iTrial);
                 skippedTrials(end+1) = trialOrder(iTrial);
                 iTrialskipped(end+1) = iTrial;
-                p.nTotalTrials = p.nTotalTrials + 1;
+                % p.nTotalTrials = p.nTotalTrials + 1;
                 DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                 Screen('Flip', window);
                 KbWait(devNum);
@@ -493,10 +492,10 @@ while iTrial <= size(trialOrder, 2)
                     PsychPortAudio('Stop', pahandle, [])
                     stopThisTrial = 1;
                     WaitSecs(1);
-                    trialOrder(end+1) = trialOrder(iTrial);
+                    % trialOrder(end+1) = trialOrder(iTrial);
                     skippedTrials(end+1) = trialOrder(iTrial);
                     iTrialskipped(end+1) = iTrial;
-                    p.nTotalTrials = p.nTotalTrials + 1;
+                    % p.nTotalTrials = p.nTotalTrials + 1;
                     DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                     Screen('Flip', window);
                     KbWait(devNum);
@@ -543,10 +542,10 @@ while iTrial <= size(trialOrder, 2)
                     PsychPortAudio('Stop', pahandle, [])
                     stopThisTrial= 1;
                     WaitSecs(1);
-                    trialOrder(end+1) = trialOrder(iTrial);
+                    % trialOrder(end+1) = trialOrder(iTrial);
                     skippedTrials(end+1) = trialOrder(iTrial);
                     iTrialskipped(end+1) = iTrial;
-                    p.nTotalTrials = p.nTotalTrials + 1;
+                    % p.nTotalTrials = p.nTotalTrials + 1;
                     DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                     Screen('Flip', window);
                     KbWait(devNum);
@@ -767,6 +766,15 @@ while iTrial <= size(trialOrder, 2)
         timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial);
     end
 
+    if block == p.nBlocks - 1 % if the end of block 15, change trials per block and total trials before block 16
+        if ~isempty(skippedTrials)
+            p.nTrialsPerBlock = p.nTrialsPerBlock + numel(skippedTrials);
+            p.nTotalTrials = p.nTotalTrials + numel(skippedTrials);
+            trialOrder = [trialOrder skippedTrials];
+        end 
+    end 
+
+
     % If last trial in a block, save data...
     if mod(iTrial, p.nTrialsPerBlock)==0 || iTrial == size(trialOrder,2)
         data.trialsHeaders = trialsHeaders;
@@ -888,11 +896,11 @@ while iTrial <= size(trialOrder, 2)
                 
                 blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, p.nBlocks);
                 if iTrial == p.nTotalTrials
-                    if isempty(skippedTrials)
-                        keyMessage = ''; % last block
-                    else
-                        keyMessage = 'There will be one more short block to redo the skipped trials. Press 1 to go on.';
-                    end
+                    % if isempty(skippedTrials)
+                    keyMessage = ''; % last block
+                    % else
+                    %     keyMessage = 'There will be one more short block to redo the skipped trials. Press 1 to go on.';
+                    % end
                 elseif block == p.nBlocks + 1
                     keyMessage = ''; % last block
                 else
@@ -916,9 +924,17 @@ while iTrial <= size(trialOrder, 2)
                         end
                     end
                 end
+
+                if block == p.nBlocks - 1 % if the end of block 15, change trials per block and total trials before block 16
+                    if ~isempty(skippedTrials)
+                        p.nTrialsPerBlock = p.nTrialsPerBlock + numel(skippedTrials);
+                        p.nTotalTrials = p.nTotalTrials + numel(skippedTrials);
+                        trialOrder = [trialOrder skippedTrials];
+                    end
+                end
                 block = block+1; % keep track of block for block message only
         end
-        
+
     end
     iTrial = iTrial + 1;
 end
