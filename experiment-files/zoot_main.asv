@@ -316,6 +316,7 @@ while iTrial <= size(trialOrder, 2)
         end 
     end
     
+    stopThisTrial = 0; 
     trialIdx = trialOrder(iTrial); % get the trial order (which is shuffled) for the current trial 
 
     %% Get condition information for this trial
@@ -458,8 +459,8 @@ while iTrial <= size(trialOrder, 2)
                 DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
                 Screen('Flip', window);
                 KbWait(devNum);
-            end
-        end
+             end
+         end
     end
 
     %% Present T1
@@ -496,7 +497,7 @@ while iTrial <= size(trialOrder, 2)
                 fixation = rd_eyeLink('fixcheck', window, {cx, cy, rad});
 
                 if fixation==0
-                    PsychPortAudio('Stop', pahandle, [])
+                          cc       12  2133 3131  11121221213121133 1332331 11123231 3233321 3222233221 33221333331131331 1333333232133223333233331122 22331 3332332322332311 1323111233231312323332123313121331323122313323332123 3132332123332223132323 31111311                     c1   323122123333323333 3323         3313133321333213PsychPortAudio('Stop', pahandle, [])
                     stopThisTrial = 1;
                     WaitSecs(1);
                     trialOrder(end+1) = trialOrder(iTrial);
