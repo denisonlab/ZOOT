@@ -202,7 +202,6 @@ for i=1:numel(p.phases) % we will just make four gratings of different phases, t
     gabors(i) = tex;
 end
 
-
 %% Make the rects for placing the images in the window
 imSize = size(grating); % pixels 
 imRect = CenterRectOnPoint([0 0 imSize(1) imSize(2)], cx+p.imPos(1), cy+p.imPos(2));
@@ -316,7 +315,7 @@ while iTrial <= size(trialOrder, 2)
             data.correct(iTrial-1) = NaN; % if previous trial was skipped, record NaN for correct 
         end 
     end
-   % stopThisTrial = 0; % initialize stopThisTrial to 0 for this trial
+    
     trialIdx = trialOrder(iTrial); % get the trial order (which is shuffled) for the current trial 
 
     %% Get condition information for this trial
@@ -419,7 +418,7 @@ while iTrial <= size(trialOrder, 2)
         end
     end
     
-    [keyCode] = KbCheck(devNum); % is this needed?
+    [keyCode] = KbCheck(devNum);
     if keyCode == p.eyeTrackerCalibrationKey
         rd_eyeLink('calibrate', window, el);
         rd_eyeLink('trialstart', window, {el, 1});
@@ -607,7 +606,7 @@ while iTrial <= size(trialOrder, 2)
 
     end
 
-    % response should be 1, 2, 3, or NaN (fixation loss)
+    % response should be 1, 2, 3, or 0 (fixation loss)
     response = []; 
     responseKey = NaN;
     timeTargetRT = NaN;
@@ -620,7 +619,7 @@ while iTrial <= size(trialOrder, 2)
             response = find(strcmp(p.responseKeys,responseKeyName));
         end
     else
-        response = 0; % why 0?
+        response = 0; 
     end
 
     if p.eyeTracking
@@ -775,15 +774,6 @@ while iTrial <= size(trialOrder, 2)
         timing.feedbackDur(iTrial)=timing.timeFeedbackOff(iTrial)-timing.timeFeedbackFix(iTrial);
         timing.itiDur(iTrial) = timing.timeITIend(iTrial) - timing.timeITIstart(iTrial);
     end
-  % 
-  % if block == p.nBlocks % if the end of block 15, change trials per block and total trials before block 16
-  %    if mod(iTrial, p.nTotalTrials / p.nBlocks) == 0
-  %         p.nTrialsPerBlock = p.nTrialsPerBlock + numel(skippedTrials);
-  %    %       p.nTotalTrials = p.nTotalTrials + numel(skippedTrials);
-  %     %      trialOrder = [trialOrder skippedTrials];
-  %      % end 
-  %    end 
-  % end 
 
     % If last trial in a block, save data...
     if mod(iTrial, p.nTrialsPerBlock)==0 || iTrial == size(trialOrder,2)
@@ -906,11 +896,11 @@ while iTrial <= size(trialOrder, 2)
                 
                 blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, p.nBlocks);
                 if iTrial == p.nTotalTrials
-                    % if isempty(skippedTrials)
+                    if isempty(skippedTrials)
                     keyMessage = ''; % last block
-                    % else
-                    %     keyMessage = 'There will be one more short block to redo the skipped trials. Press 1 to go on.';
-                    % end
+                    else
+                        keyMessage = 'There will be one more short block to redo the skipped trials. Press 1 to go on.';
+                    end
                 elseif block == p.nBlocks + 1
                     keyMessage = ''; % last block
                 else
@@ -918,30 +908,14 @@ while iTrial <= size(trialOrder, 2)
                 end
                 
                 blockAcc = mean(data.correct(blockStartTrial:iTrial),'omitnan')*100; % discrimination (only target present)
-                
+
                 pointsMessages = sprintf('Your accuracy was %0.2f %%!', blockAcc);
-                
+
                 breakMessage = sprintf('%s\n\n%s\n\n\n%s', blockMessage, pointsMessages, keyMessage);
                 DrawFormattedText(window, breakMessage, 'center', 'center', [1 1 1]);
                 Screen('Flip', window);
                 WaitSecs(1);
-                if iTrial < p.nTotalTrials
-                    keyPressed = 0;
-                    while ~keyPressed
-                        [secs, keyCode] = KbWait(devNum);
-                        if strcmp(KbName(keyCode),'1!')
-                            keyPressed = 1;
-                        end
-                    end
-                end
-
-               % if block == p.nBlocks - 1 % if the end of block 15, change trials per block and total trials before block 16
-                %    if ~isempty(skippedTrials)
-                %        p.nTrialsPerBlock = p.nTrialsPerBlock + numel(skippedTrials);
-                 %       p.nTotalTrials = p.nTotalTrials + numel(skippedTrials);
-                  %      trialOrder = [trialOrder skippedTrials];
-                   % end
-               % end
+                KbWait(devNum)
                 block = block+1; % keep track of block for block message only
         end
 
@@ -952,7 +926,7 @@ end
 timeEnd = GetSecs;
 timing.timeEnd = timeEnd;
 
-if s.exptStage ==2
+if s.exptStage ==2 % calculate and store staircasing/threshold file
     staircase.staircaseavgs = [mean(staircase.staircase1val(end-5:end)) mean(staircase.staircase2val(end-5:end))]; % mean or median?
     staircase.threshold = mean(staircase.staircaseavgs);
     data.staircase = staircase;

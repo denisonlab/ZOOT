@@ -202,7 +202,6 @@ for i=1:numel(p.phases) % we will just make four gratings of different phases, t
     gabors(i) = tex;
 end
 
-
 %% Make the rects for placing the images in the window
 imSize = size(grating); % pixels 
 imRect = CenterRectOnPoint([0 0 imSize(1) imSize(2)], cx+p.imPos(1), cy+p.imPos(2));
@@ -316,7 +315,7 @@ while iTrial <= size(trialOrder, 2)
             data.correct(iTrial-1) = NaN; % if previous trial was skipped, record NaN for correct 
         end 
     end
-   % stopThisTrial = 0; % initialize stopThisTrial to 0 for this trial
+    
     trialIdx = trialOrder(iTrial); % get the trial order (which is shuffled) for the current trial 
 
     %% Get condition information for this trial
@@ -607,7 +606,7 @@ while iTrial <= size(trialOrder, 2)
 
     end
 
-    % response should be 1, 2, 3, or NaN (fixation loss)
+    % response should be 1, 2, 3, or 0 (fixation loss)
     response = []; 
     responseKey = NaN;
     timeTargetRT = NaN;
@@ -620,7 +619,7 @@ while iTrial <= size(trialOrder, 2)
             response = find(strcmp(p.responseKeys,responseKeyName));
         end
     else
-        response = 0; % why 0?
+        response = 0; 
     end
 
     if p.eyeTracking

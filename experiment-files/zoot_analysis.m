@@ -4,7 +4,7 @@ clear all
 
 fp = figureparams;
 %% compile
-
+currHighestBlock = 0;
 subs = {'S0004'};
 fields = {'precue','target', 'T1Contrast', 'T2Contrast', 'seen', 'correct', 'correctDis', 'eyeSkip'}; % fieldnames(data);
 for iF = 1:numel(fields) % initialize
@@ -20,26 +20,37 @@ for iSub=1:length(subs) % for participant
     % beh comp
     % behDir = ['/home/denisonlab-beh/Experiments/ZOOT/experiment-files/data' SID '/beh'];
     cd(behDir);
-    sessions = {'session 2'};
+    sessions = {'session 1', 'session 2'};
     for iSession = 1:numel(sessions) % for session
         sesNum = sessions{iSession};
         sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
         cd(sesDir)
-        findFiles = dir('*block17_*.mat');% for session shouldn't be hardcoded, find way to find highest block # and load it?
-        for iFile = 1:length(findFiles) % for file
-            fileName = findFiles.name;
-            load(fileName)
-            for iF = 1:numel(fields) % initialize
-                if strcmp(fields{iF}, 'eyeSkip') == 1
-                    data.(fields{iF}) = data.(fields{iF})';
-                end
-                dataAll.(fields{iF}) = [dataAll.(fields{iF}) data.(fields{iF})]; % compiles data structures from one participant
+        listing = dir;
+        for iFile = 3:size(dir) % for file
+            fileName = listing(iFile).name;
+            splitName  = strsplit(fileName, '_');
+            splitID = splitName{1};
+            splitExpt = splitName{2};
+            splitTime = splitName{3};
+            splitDate = splitName{4};
+            splitBlock = splitName{5};
+            splitSesMat = splitName{6};
+            blockNum = str2num(splitBlock(6:end));
+            if blockNum > currHighestBlock
+                highestBlockNum = blockNum;
             end
+        end
+        load(sprintf('%s_%s_%s_%s_block%d_%s', splitID, splitExpt, splitTime, splitDate, highestBlockNum, splitSesMat))
+        for iF = 1:numel(fields) % initialize
+            if strcmp(fields{iF}, 'eyeSkip') == 1
+                data.(fields{iF}) = data.(fields{iF})';
+            end
+            dataAll.(fields{iF}) = [dataAll.(fields{iF}) data.(fields{iF})]; % compiles data structures from one participant
         end
     end
 end
 
-%% filter  
+%% filter
 correct = dataAll.correct == 1;
 T1Contrast = dataAll.T1Contrast;
 T2Contrast = dataAll.T2Contrast;

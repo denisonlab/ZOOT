@@ -4,7 +4,7 @@ clear all
 
 fp = figureparams;
 %% compile
-
+currHighestBlock = 0;
 subs = {'S0004'};
 fields = {'precue','target', 'T1Contrast', 'T2Contrast', 'seen', 'correct', 'correctDis', 'eyeSkip'}; % fieldnames(data);
 for iF = 1:numel(fields) % initialize
@@ -20,23 +20,35 @@ for iSub=1:length(subs) % for participant
     % beh comp
     % behDir = ['/home/denisonlab-beh/Experiments/ZOOT/experiment-files/data' SID '/beh'];
     cd(behDir);
-    sessions = {'250 + go cue'};
+    sessions = {'session 2'};
     for iSession = 1:numel(sessions) % for session
         sesNum = sessions{iSession};
         sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
         cd(sesDir)
-        numFiles = 6;
-        fF = dir('*block6_*.mat');% for session shouldn't be hardcoded, find way to find highest block # and load it?
-       for iFile = 1:length(findFiles) % for file
-        fileName = findFiles.name;
-        load(fileName)
-        for iF = 1:numel(fields) % initialize
-            if strcmp(fields{iF}, 'eyeSkip') == 1
-                data.(fields{iF}) = data.(fields{iF})';
+        listing = dir;
+        for iFile = 1:size(dir) % for file
+            fileName = listing(iFile).name;
+            splitName  = strsplit(fileName, '_');
+            splitID = splitName{1};
+            splitExpt = splitName{2};
+            splitTime = splitName{3};
+            splitDate = splitName{4};
+            splitBlock = splitName{5};
+            splitSesMat = splitName{6};
+            blockNum = str2num(splitBlock(6:end));
+            if blockNum > currHighestBlock
+                highestBlockNum = blockNum;
             end
-            dataAll.(fields{iF}) = [dataAll.(fields{iF}) data.(fields{iF})]; % compiles data structures from one participant
+        end 
+            highestBlock = num2str(currHighestBlock);
+            load(sprintf('%s%s%s%s%s'), splitID, splitExpt, splitTime, splitDate, )
+            for iF = 1:numel(fields) % initialize
+                if strcmp(fields{iF}, 'eyeSkip') == 1
+                    data.(fields{iF}) = data.(fields{iF})';
+                end
+                dataAll.(fields{iF}) = [dataAll.(fields{iF}) data.(fields{iF})]; % compiles data structures from one participant
+            end
         end
-         end
     end
 end
 
@@ -364,7 +376,7 @@ ax.YGrid = 'off';
 
 %% figure 5
 figure(5)
-sgtitle('target presence x attention condition x target accuracy')
+sgtitle('S0004 session 2')
 subplot(2,2,1) %two rows, two columns, first position
 PrePreAcc = [PrePreT1; PrePreT2];
 b = bar(PrePreAcc);
