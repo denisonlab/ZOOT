@@ -20,7 +20,7 @@ for iSub=1:length(subs) % for participant
     % beh comp
     % behDir = ['/home/denisonlab-beh/Experiments/ZOOT/experiment-files/data' SID '/beh'];
     cd(behDir);
-    sessions = {'session 1', 'session 2'};
+    sessions = {'session 1'};
     for iSession = 1:numel(sessions) % for session
         sesNum = sessions{iSession};
         sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
@@ -48,7 +48,7 @@ for iSub=1:length(subs) % for participant
             dataAll.(fields{iF}) = [dataAll.(fields{iF}) data.(fields{iF})]; % compiles data structures from one participant
         end
     end
-end
+ end
 
 %% filter
 correct = dataAll.correct == 1;
@@ -374,7 +374,7 @@ ax.YGrid = 'off';
 
 %% figure 5
 figure(5)
-sgtitle('S0004 session 2')
+sgtitle('S0004 s1')
 subplot(2,2,1) %two rows, two columns, first position
 PrePreAcc = [PrePreT1; PrePreT2];
 b = bar(PrePreAcc);

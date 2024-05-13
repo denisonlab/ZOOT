@@ -5,7 +5,7 @@ clear all
 fp = figureparams;
 %% compile
 currHighestBlock = 0;
-subs = {'S0004'};
+subs = {'S0003'};
 fields = {'precue','target', 'T1Contrast', 'T2Contrast', 'seen', 'correct', 'correctDis', 'eyeSkip'}; % fieldnames(data);
 for iF = 1:numel(fields) % initialize
     dataAll.(fields{iF}) = [];
@@ -20,13 +20,13 @@ for iSub=1:length(subs) % for participant
     % beh comp
     % behDir = ['/home/denisonlab-beh/Experiments/ZOOT/experiment-files/data' SID '/beh'];
     cd(behDir);
-    sessions = {'session 2'};
+    sessions = {'session 1', 'session 2'};
     for iSession = 1:numel(sessions) % for session
         sesNum = sessions{iSession};
         sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
         cd(sesDir)
         listing = dir;
-        for iFile = 1:size(dir) % for file
+        for iFile = 3:size(dir) % for file
             fileName = listing(iFile).name;
             splitName  = strsplit(fileName, '_');
             splitID = splitName{1};
@@ -39,20 +39,18 @@ for iSub=1:length(subs) % for participant
             if blockNum > currHighestBlock
                 highestBlockNum = blockNum;
             end
-        end 
-            highestBlock = num2str(currHighestBlock);
-            load(sprintf('%s%s%s%s%s'), splitID, splitExpt, splitTime, splitDate, )
-            for iF = 1:numel(fields) % initialize
-                if strcmp(fields{iF}, 'eyeSkip') == 1
-                    data.(fields{iF}) = data.(fields{iF})';
-                end
-                dataAll.(fields{iF}) = [dataAll.(fields{iF}) data.(fields{iF})]; % compiles data structures from one participant
+        end
+        load(sprintf('%s_%s_%s_%s_block%d_%s', splitID, splitExpt, splitTime, splitDate, highestBlockNum, splitSesMat))
+        for iF = 1:numel(fields) % initialize
+            if strcmp(fields{iF}, 'eyeSkip') == 1
+                data.(fields{iF}) = data.(fields{iF})';
             end
+            dataAll.(fields{iF}) = [dataAll.(fields{iF}) data.(fields{iF})]; % compiles data structures from one participant
         end
     end
-end
+ end
 
-%% filter  
+%% filter
 correct = dataAll.correct == 1;
 T1Contrast = dataAll.T1Contrast;
 T2Contrast = dataAll.T2Contrast;
@@ -376,7 +374,7 @@ ax.YGrid = 'off';
 
 %% figure 5
 figure(5)
-sgtitle('S0004 session 2')
+sgtitle('S0003 s2')
 subplot(2,2,1) %two rows, two columns, first position
 PrePreAcc = [PrePreT1; PrePreT2];
 b = bar(PrePreAcc);
