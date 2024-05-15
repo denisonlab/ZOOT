@@ -42,6 +42,10 @@ data.behDir =  sprintf('%s/%s', data.subDir, 'beh');
 if ~exist(data.behDir, 'dir')
     mkdir(data.behDir)
 end
+data.sesDir =  sprintf('%s/session%d', data.behDir, s.session);
+if ~exist(data.sesDir, 'dir')
+    mkdir(data.sesDir)
+end
 data.stairDir =  sprintf('%s/%s', data.subDir, 'staircasing');
 if ~exist(data.stairDir, 'dir')
     mkdir(data.stairDir)
@@ -259,7 +263,7 @@ stopThisTrial = 0; % variable to track fixation loss, 0 if no fixation loss and 
 
 % Change the directory to the subject data folder and check if there are
 % any experiment files 
-cd(data.behDir)
+cd(data.sesDir)
 listing = dir;
 count = 1;
 dataFileNames = []; 
@@ -417,7 +421,7 @@ while iTrial <= size(trialOrder, 2)
             KbWait(devNum);
             drawFixation(window, cx, cy, fixSize, p.fixColor);
             timeFix = Screen('Flip', window);
-            PsychPortAudio('FillBuffer', pahandle, trialTones);
+            PsychPortAudio('FillBuffer', pahandle, trialTones); %needed or trial after recalibration audio will not work
         end
     end
     
@@ -794,12 +798,12 @@ while iTrial <= size(trialOrder, 2)
         data.iTrialskipped = iTrialskipped; % index of the trials presented 
         
         switch s.exptStage
-            case 0
+            case {0}
                 filename = sprintf('%s/%s_intro_%s_block%d.mat',data.pracDir,s.subjectID,dateStr,block);
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
-            case 1 % need to reach 75% accuracy to move to thresholding
+            case {1} % need to reach 75% accuracy to move to thresholding
                 filename = sprintf('%s/%s_neutral_practice_%s_block%d.mat',data.pracDir,s.subjectID,dateStr,block);
                 data.filename = filename;
                 save(filename,'data')
@@ -822,12 +826,12 @@ while iTrial <= size(trialOrder, 2)
                         sca
                     end
                 end
-            case 2
+            case {2}
                 filename = sprintf('%s/%s_staircasing_%s.mat',data.stairDir,s.subjectID,dateStr);
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
-            case 3
+            case {3}
                 filename = sprintf('%s/%s_valid_practice_%s_block%d.mat',data.pracDir,s.subjectID,dateStr,block);
                 data.filename = filename;
                 save(filename,'data')
@@ -887,7 +891,7 @@ while iTrial <= size(trialOrder, 2)
                 block = block+1; % keep track of block for block message only
 
             case {5} % main task
-                filename = sprintf('%s/%s_mainExpt_%s_block%d_session%d.mat',data.behDir,s.subjectID,dateStr,block, s.session);
+                filename = sprintf('%s/%s_mainExpt_%s_block%d_session%d.mat',data.sesDir,s.subjectID,dateStr,block, s.session);
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
@@ -950,15 +954,15 @@ if s.exptStage ==2 % calculate and store staircasing/threshold file
 end
 
 %% compile session files
-
-if s.exptStage == 5
-    cd(data.behDir)
-    data.sesDir =  sprintf('%s/session %d', data.behDir, s.session);
-    if ~exist(data.sesDir, 'dir')
-        mkdir(data.sesDir)
-    end
-    movefile('*.mat', data.sesDir)
-end
+% 
+% if s.exptStage == 5
+%     cd(data.behDir)
+%     data.sesDir =  sprintf('%s/session %d', data.behDir, s.session);
+%     if ~exist(data.sesDir, 'dir')
+%         mkdir(data.sesDir)
+%     end
+%     movefile('*.mat', data.sesDir)
+% end
 
 %% Completion message
 WaitSecs(1);

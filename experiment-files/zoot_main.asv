@@ -42,6 +42,10 @@ data.behDir =  sprintf('%s/%s', data.subDir, 'beh');
 if ~exist(data.behDir, 'dir')
     mkdir(data.behDir)
 end
+data.sesDir =  sprintf('%s/session%s', data.behDir, s.session);
+if ~exist(data.behDir, 'dir')
+    mkdir(data.behDir)
+end
 data.stairDir =  sprintf('%s/%s', data.subDir, 'staircasing');
 if ~exist(data.stairDir, 'dir')
     mkdir(data.stairDir)
@@ -417,6 +421,7 @@ while iTrial <= size(trialOrder, 2)
             KbWait(devNum);
             drawFixation(window, cx, cy, fixSize, p.fixColor);
             timeFix = Screen('Flip', window);
+            PsychPortAudio('FillBuffer', pahandle, trialTones); %needed or trial after recalibration audio will not work
         end
     end
     
@@ -793,12 +798,12 @@ while iTrial <= size(trialOrder, 2)
         data.iTrialskipped = iTrialskipped; % index of the trials presented 
         
         switch s.exptStage
-            case 0
+            case {0}
                 filename = sprintf('%s/%s_intro_%s_block%d.mat',data.pracDir,s.subjectID,dateStr,block);
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
-            case 1 % need to reach 75% accuracy to move to thresholding
+            case {1} % need to reach 75% accuracy to move to thresholding
                 filename = sprintf('%s/%s_neutral_practice_%s_block%d.mat',data.pracDir,s.subjectID,dateStr,block);
                 data.filename = filename;
                 save(filename,'data')
@@ -821,12 +826,12 @@ while iTrial <= size(trialOrder, 2)
                         sca
                     end
                 end
-            case 2
+            case {2}
                 filename = sprintf('%s/%s_staircasing_%s.mat',data.stairDir,s.subjectID,dateStr);
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
-            case 3
+            case {3}
                 filename = sprintf('%s/%s_valid_practice_%s_block%d.mat',data.pracDir,s.subjectID,dateStr,block);
                 data.filename = filename;
                 save(filename,'data')
