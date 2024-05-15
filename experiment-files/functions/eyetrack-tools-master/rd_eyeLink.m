@@ -107,7 +107,7 @@ switch command
 %         end
 %         Screen('Flip', window, 0, 1);
         
-        cal = EyelinkDoTrackerSetup(el);
+       cal = EyelinkDoTrackerSetup(el);
         if cal==el.TERMINATE_KEY
             exitFlag = 1;
             return
@@ -158,7 +158,7 @@ switch command
         fixRect = in{6};
         % %
         driftCorrected = 0;
-        calibrateCheck = 0;
+        % calibrateCheck = 0;
 
         
         % Start the trial only when 1) eyetracker is recording, 2) subject
@@ -178,13 +178,13 @@ switch command
 
             % Drift check if fixation timed out, if drift check occurs
             % three consecutive times, recalibrate
-            if ~fixation && calibrateCheck < 2
-                rd_eyeLink('driftcorrect', window, {el, cx, cy});
-                driftCorrected = 1;
-                ready = 0;
-                calibrateCheck = calibrateCheck + 1;
-            elseif ~fixation && calibrateCheck >= 2
+            if ~fixation
+                devNum = -1;
+                DrawFormattedText(window, 'Fixation lost. Please get the experimenter to recalibrate', 'center', 'center', [1 1 1]);
+                Screen('Flip', window)
+                KbWait(devNum)
                 rd_eyeLink('calibrate', window, el)
+                driftCorrected = 1;
                 ready = 0;
             else
                 ready = 1;

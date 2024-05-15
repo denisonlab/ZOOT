@@ -383,7 +383,7 @@ while iTrial <= size(trialOrder, 2)
     data.targetContrast(iTrial) = targetContrast; 
     data.T1Axis(iTrial) = T1Axis; 
     data.T2Axis(iTrial) = T2Axis;
-    data.T1Tilt(iTrial) = T1Tilt;
+    data.T1Tilt(iTrial) = T1Tilt;1
     data.T2Tilt(iTrial) = T2Tilt;
     data.T1Contrast(iTrial) = T1Contrast; 
     data.T2Contrast(iTrial) = T2Contrast;
@@ -411,6 +411,7 @@ while iTrial <= size(trialOrder, 2)
         driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect});
         if driftCorrected
             % restart trial
+            % PsychPortAudio('Stop', pahandle, [])
             DrawFormattedText(window, 'Please press space when ready.', 'center', 'center', [1 1 1]*white);
             Screen('Flip', window);
             KbWait(devNum);
@@ -613,7 +614,7 @@ while iTrial <= size(trialOrder, 2)
     timeTargetRT = NaN;
     if ~stopThisTrial
         while isempty(response)
-            [timeTargetResponse, keyCode] = KbWait(devNum);
+           [timeTargetResponse, keyCode] = KbWait(devNum);
             timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
             responseKey = find(keyCode);
             responseKeyName=KbName(responseKey);
@@ -625,7 +626,7 @@ while iTrial <= size(trialOrder, 2)
 
     if p.eyeTracking
         Eyelink('Message', 'TRIAL_END');
-    end
+    end 
 
     % Feedback - NaN if fixation loss
     correct = NaN;
@@ -896,15 +897,14 @@ while iTrial <= size(trialOrder, 2)
                 end
                 
                 blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, p.nBlocks);
-                if block == p.nBlocks + 1
+                if block == p.nBlocks + 1 % if block 17, key message should say nothing
                     keyMessage = '';
-                elseif iTrial == p.nTotalTrials
+                elseif block == p.nBlocks % if last block, check if there are skipped trials 
                     if isempty(skippedTrials)
-                    keyMessage = ''; % last block
+                        keyMessage = ''; % last block
                     else
                         keyMessage = 'There will be one more short block to redo the skipped trials. Press 1 to go on.';
                     end
-         
                 else
                     keyMessage = 'Press 1 to go on.';
                 end
@@ -937,6 +937,15 @@ if s.exptStage ==2 % calculate and store staircasing/threshold file
     staircase.thresholdFile = thresholdFile;
     save(thresholdFile,'staircase')
     disp('threshold saved!')
+
+
+    plot(abs(staircase.staircase1val),'LineWidth',2); % staircase 1
+    hold on
+    plot(abs(staircase.staircase2val),'LineWidth',2);
+    title('Staircase accuracies','FontSize',18);
+    xlabel('Trial','FontSize',14);
+    xlim([0 130])
+    ylabel('Orientation','FontSize',14)
 end
 
 %% compile session files

@@ -383,7 +383,7 @@ while iTrial <= size(trialOrder, 2)
     data.targetContrast(iTrial) = targetContrast; 
     data.T1Axis(iTrial) = T1Axis; 
     data.T2Axis(iTrial) = T2Axis;
-    data.T1Tilt(iTrial) = T1Tilt;
+    data.T1Tilt(iTrial) = T1Tilt;1
     data.T2Tilt(iTrial) = T2Tilt;
     data.T1Contrast(iTrial) = T1Contrast; 
     data.T2Contrast(iTrial) = T2Contrast;
@@ -411,11 +411,13 @@ while iTrial <= size(trialOrder, 2)
         driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect});
         if driftCorrected
             % restart trial
+            % PsychPortAudio('Stop', pahandle, [])
             DrawFormattedText(window, 'Please press space when ready.', 'center', 'center', [1 1 1]*white);
             Screen('Flip', window);
             KbWait(devNum);
             drawFixation(window, cx, cy, fixSize, p.fixColor);
             timeFix = Screen('Flip', window);
+            PsychPortAudio('FillBuffer', pahandle, trialTones);
         end
     end
     
@@ -613,7 +615,7 @@ while iTrial <= size(trialOrder, 2)
     timeTargetRT = NaN;
     if ~stopThisTrial
         while isempty(response)
-            [timeTargetResponse, keyCode] = KbWait(devNum);
+           [timeTargetResponse, keyCode] = KbWait(devNum);
             timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
             responseKey = find(keyCode);
             responseKeyName=KbName(responseKey);
@@ -625,7 +627,7 @@ while iTrial <= size(trialOrder, 2)
 
     if p.eyeTracking
         Eyelink('Message', 'TRIAL_END');
-    end
+    end 
 
     % Feedback - NaN if fixation loss
     correct = NaN;
