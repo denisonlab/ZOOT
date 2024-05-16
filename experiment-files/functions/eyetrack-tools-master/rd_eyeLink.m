@@ -183,7 +183,7 @@ switch command
                 DrawFormattedText(window, 'Fixation lost. Please get the experimenter to recalibrate', 'center', 'center', [1 1 1]);
                 Screen('Flip', window)
                 KbWait(devNum)
-                rd_eyeLink('calibrate', window, el)
+                rd_eyeLink('driftcorrect', window, {el, cx, cy});
                 driftCorrected = 1;
                 ready = 0;
             else

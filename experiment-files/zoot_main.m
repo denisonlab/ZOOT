@@ -891,7 +891,7 @@ while iTrial <= size(trialOrder, 2)
                 block = block+1; % keep track of block for block message only
 
             case {5} % main task
-                filename = sprintf('%s/%s_mainExpt_%s_block%d_session%d.mat',data.sesDir,s.subjectID,dateStr,block, s.session);
+                filename = sprintf('%s/%s_mainExpt_%s_block%d_session%d.mat',data.behDir,s.subjectID,dateStr,block, s.session);
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
