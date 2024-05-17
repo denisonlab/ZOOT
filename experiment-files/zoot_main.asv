@@ -42,9 +42,9 @@ data.behDir =  sprintf('%s/%s', data.subDir, 'beh');
 if ~exist(data.behDir, 'dir')
     mkdir(data.behDir)
 end
-data.sesDir =  sprintf('%s/session%s', data.behDir, s.session);
-if ~exist(data.behDir, 'dir')
-    mkdir(data.behDir)
+data.sesDir =  sprintf('%s/session%d', data.behDir, s.session);
+if ~exist(data.sesDir, 'dir')
+    mkdir(data.sesDir)
 end
 data.stairDir =  sprintf('%s/%s', data.subDir, 'staircasing');
 if ~exist(data.stairDir, 'dir')
@@ -263,7 +263,7 @@ stopThisTrial = 0; % variable to track fixation loss, 0 if no fixation loss and 
 
 % Change the directory to the subject data folder and check if there are
 % any experiment files 
-cd(data.behDir)
+cd(data.sesDir)
 listing = dir;
 count = 1;
 dataFileNames = []; 
@@ -412,24 +412,14 @@ while iTrial <= size(trialOrder, 2)
     % Check fixation hold, need to be fixating for 300 ms for trial to
     % start, times out after 3 seconds and goes to drift check
     if p.eyeTracking
-        driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect});
-        if driftCorrected
-            % restart trial
-            % PsychPortAudio('Stop', pahandle, [])
-            DrawFormattedText(window, 'Please press space when ready.', 'center', 'center', [1 1 1]*white);
-            Screen('Flip', window);
-            KbWait(devNum);
+        corrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect, p});
+        if corrected
             drawFixation(window, cx, cy, fixSize, p.fixColor);
             timeFix = Screen('Flip', window);
             PsychPortAudio('FillBuffer', pahandle, trialTones); %needed or trial after recalibration audio will not work
         end
     end
-    
-    [keyCode] = KbCheck(devNum);
-    if keyCode == p.eyeTrackerCalibrationKey
-        rd_eyeLink('calibrate', window, el);
-        rd_eyeLink('trialstart', window, {el, 1});
-    end
+ 
 
     %% Present precue tone
     drawFixation(window, cx, cy, fixSize, p.fixColor);
@@ -618,7 +608,7 @@ while iTrial <= size(trialOrder, 2)
     responseKey = NaN;
     timeTargetRT = NaN;
     if ~stopThisTrial
-        while isempty(response)
+        1while isempty(response)
            [timeTargetResponse, keyCode] = KbWait(devNum);
             timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
             responseKey = find(keyCode);
@@ -954,15 +944,15 @@ if s.exptStage ==2 % calculate and store staircasing/threshold file
 end
 
 %% compile session files
-
-if s.exptStage == 5
-    cd(data.behDir)
-    data.sesDir =  sprintf('%s/session %d', data.behDir, s.session);
-    if ~exist(data.sesDir, 'dir')
-        mkdir(data.sesDir)
-    end
-    movefile('*.mat', data.sesDir)
-end
+% 
+% if s.exptStage == 5
+%     cd(data.behDir)
+%     data.sesDir =  sprintf('%s/session %d', data.behDir, s.session);
+%     if ~exist(data.sesDir, 'dir')
+%         mkdir(data.sesDir)
+%     end
+%     movefile('*.mat', data.sesDir)
+% end
 
 %% Completion message
 WaitSecs(1);

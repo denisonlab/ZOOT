@@ -176,23 +176,21 @@ switch command
             % time before allowing the trial to start. A
             % timeout period is built into this function.
 
-            % check if fixation is being held. if they are not fixating,
-            % put up wait screen and allow opportunity to recalibrate
+            % Drift check if fixation timed out, if drift check occurs
+            % three consecutive times, recalibrate
             if ~rd_eyeLink('fixholdcheck', window, {cx, cy, rad}) % 0 or 1
                 devNum = -1;
                 DrawFormattedText(window, 'Fixation lost. Press any key when ready to continue.', 'center', 'center', [1 1 1]);
-                 Screen('Flip', window)
+                Screen('Flip', window)
                 [secs, keyCode] =KbWait(devNum);
                 responseKeyC = find(keyCode);
                 responseKeyNameC = KbName(responseKeyC);
-                responseC = find(strcmp('Home', responseKeyNameC));
+                responseC = find(strcmp(p.responseKeys, responseKeyNameC));
                 if responseC
                     [~, exitFlag] = rd_eyeLink('calibrate', window, el);
                     if exitFlag
                         return
                     end
-                    DrawFormattedText(window, 'Press any key to continue.', 'center', 'center', [1 1 1]);
-                 Screen('Flip', window)
                 end
                 ready = 0;
             elseif rd_eyeLink('fixholdcheck', window, {cx, cy, rad}); % 0 or 1

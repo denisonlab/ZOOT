@@ -412,24 +412,14 @@ while iTrial <= size(trialOrder, 2)
     % Check fixation hold, need to be fixating for 300 ms for trial to
     % start, times out after 3 seconds and goes to drift check
     if p.eyeTracking
-        driftCorrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect});
-        if driftCorrected
-            % restart trial
-            % PsychPortAudio('Stop', pahandle, [])
-            DrawFormattedText(window, 'Please press space when ready.', 'center', 'center', [1 1 1]*white);
-            Screen('Flip', window);
-            KbWait(devNum);
+        corrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect, p});
+        if corrected
             drawFixation(window, cx, cy, fixSize, p.fixColor);
             timeFix = Screen('Flip', window);
             PsychPortAudio('FillBuffer', pahandle, trialTones); %needed or trial after recalibration audio will not work
         end
     end
-    
-    [keyCode] = KbCheck(devNum);
-    if keyCode == p.eyeTrackerCalibrationKey
-        rd_eyeLink('calibrate', window, el);
-        rd_eyeLink('trialstart', window, {el, 1});
-    end
+ 
 
     %% Present precue tone
     drawFixation(window, cx, cy, fixSize, p.fixColor);
