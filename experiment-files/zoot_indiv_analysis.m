@@ -4,7 +4,7 @@ clear all
 
 fp = figureparams;
 %% compile
-subs = {'S0108', 'S0004'};
+subs = {'S0122'};
 dataAll = [];
 
 
@@ -16,12 +16,11 @@ for iSub=1:length(subs) % for participant
     % beh comp
     % behDir = ['/home/denisonlab-beh/Experiments/ZOOT/experiment-files/data' SID '/beh'];
     cd(behDir);
-    dataAll(iSub).subjectID = SID;
     fields = {'precue','target', 'T1Contrast', 'T2Contrast', 'seen', 'correct', 'correctDis', 'session', 'eyeSkip'}; % fieldnames(data);
     for iF = 1:numel(fields) % initialize
-        dataAll(iSub).(fields{iF}) = [];
+        dataAll.(fields{iF}) = [];
     end
-    sessions = {'session1', 'session2'};
+    sessions = {'session2'};
     for iSession = 1:numel(sessions) % for session
         highestTime = '0000';
         highestBlock = 0;
@@ -55,19 +54,19 @@ for iSub=1:length(subs) % for participant
             if strcmp(fields{iF}, 'eyeSkip') == 1
                 data.(fields{iF}) = data.(fields{iF})';
             end
-            dataAll(iSub).(fields{iF}) = [dataAll(iSub).(fields{iF}) data.(fields{iF})]; % compiles data structures from one participant
+            dataAll.(fields{iF}) = [dataAll.fields{iF}) data.(fields{iF})]; % compiles data structures from one participant
         end
 
         %% filter
 
-        correct = dataAll(iSub).correct == 1;
-        T1Contrast =dataAll(iSub).T1Contrast;
-        T2Contrast = dataAll(iSub).T2Contrast;
-        eyeSkip = dataAll(iSub).eyeSkip(1:numel(dataAll.precue)) == 1;
-        precue = dataAll(iSub).precue;
-        target = dataAll(iSub).target;
-        seen = dataAll(iSub).seen == 1 & ~eyeSkip;
-        correctDis = dataAll(iSub).correctDis == 1 & ~eyeSkip;
+        correct = dataAll.correct == 1;
+        T1Contrast =dataAll.T1Contrast;
+        T2Contrast = dataAll.T2Contrast;
+        eyeSkip = dataAll.eyeSkip(1:numel(dataAll.precue)) == 1;
+        precue = dataAll.precue;
+        target = dataAll.target;
+        seen = dataAll.seen == 1 & ~eyeSkip;
+        correctDis = dataAll.correctDis == 1 & ~eyeSkip;
 
         %target presence
         PresentPresent = T1Contrast == 1 & T2Contrast == 1 & correct & ~eyeSkip;
@@ -207,55 +206,9 @@ for iSub=1:length(subs) % for participant
         AbsPreT2 = [sum(valAbsPreT2)/sum(nValAbsPreT2) sum(neutAbsPreT2)/sum(nNeutAbsPreT2) sum(invalAbsPreT2)/sum(nInvalAbsPreT2)]*100;
         AbsAbsT2 = [sum(valAbsAbsT2)/sum(nValAbsAbsT2) sum(neutAbsAbsT2)/sum(nNeutAbsAbsT2) sum(invalAbsAbsT2)/sum(nInvalAbsAbsT2)]*100;
 
-        dataAll(iSub).means = [PrePreT1 PrePreT2 PreAbsT1 AbsPreT2 AbsPreT1 PreAbsT2 AbsAbsT1 AbsAbsT2];
+       
     end
 end
-
-%% get means and standard error
-mean_accumulate = [];
-for iSub = 1:size(dataAll, 2)
-    mean_accumulate = [mean_accumulate; dataAll(iSub).means];
-end
-
-if numel(subs) >1
-    mean_group = mean(mean_accumulate, 1);
-else 
-    mean_group = mean_accumulate;
-end
-
-errPPT1v = std(mean_accumulate(:,1)/sqrt(size(dataAll,2)));
-errPPT1n = std(mean_accumulate(:,2)/sqrt(size(dataAll,2)));
-errPPT1i = std(mean_accumulate(3,3)/sqrt(size(dataAll,2)));
-
-errPPT2v = std(mean_accumulate(4,4)/sqrt(size(dataAll,2)));
-errPPT2n = std(mean_accumulate(5,5)/sqrt(size(dataAll,2)));
-errPPT2i = std(mean_accumulate(6,6)/sqrt(size(dataAll,2)));
-
-errPP = [errPPT1v errPPT1n errPPT1i errPPT2v errPPT2n errPPT2i];
-
-errPAT1v = std(mean_accumulate(3,7)/sqrt(size(dataAll,2)));
-errPAT1n = std(mean_accumulate(3,8)/sqrt(size(dataAll,2)));
-errPAT1i = std(mean_accumulate(3,9)/sqrt(size(dataAll,2)));
-
-errAPT2v = std(mean_accumulate(4,10)/sqrt(size(dataAll,2)));
-errAPT2n = std(mean_accumulate(4,11)/sqrt(size(dataAll,2)));
-errAPT2i = std(mean_accumulate(4,12)/sqrt(size(dataAll,2)));
-
-errAPT1v = std(mean_accumulate(5,13)/sqrt(size(dataAll,2)));
-errAPT1n = std(mean_accumulate(5,14)/sqrt(size(dataAll,2)));
-errAPT1i = std(mean_accumulate(5,15)/sqrt(size(dataAll,2)));
-
-errPAT2v = std(mean_accumulate(6,16)/sqrt(size(dataAll,2)));
-errPAT2n = std(mean_accumulate(6,17)/sqrt(size(dataAll,2)));
-errPAT2i = std(mean_accumulate(6,18)/sqrt(size(dataAll,2)));
-
-errAA1v = std(mean_accumulate(5,19)/sqrt(size(dataAll,2)));
-errAA1n = std(mean_accumulate(5,20)/sqrt(size(dataAll,2)));
-errAAT1i = std(mean_accumulate(5,21)/sqrt(size(dataAll,2)));
-
-erraAT2v = std(mean_accumulate(6,22)/sqrt(size(dataAll,2)));
-errAAT2n = std(mean_accumulate(6,23)/sqrt(size(dataAll,2)));
-errAAT2i = std(mean_accumulate(6,24)/sqrt(size(dataAll,2)));
 
 
 %% figures
@@ -264,15 +217,13 @@ if numel(sessions) > 1
 elseif numel(sessions) == 1
     ses = sessions{1};
 end
-if numel(subs)>1
-    SID = 'group analysis';
-end 
+
 %% figure 1 - target presence x validity x target
 figure(1)
 sgtitle([SID ' ' ses])
 subplot(2,2,1) %two rows, two columns, first position
-PrePreAcc = [mean_group(1:3); mean_group(4:6)];
-b = errorbarbar(PrePreAcc, errPP);
+PrePreAcc = [PrePreT1; PrePreT2];
+b = bar(PrePreAcc);
 ylim([30 100])
 title('target present/nontarget present')
 ylabel('accuracy %')
@@ -282,7 +233,7 @@ ytickformat('percentage')
 
 
 subplot(2,2,2)
-PreAbsAcc = [mean_group(7:9); mean_group(10:12)];
+PreAbsAcc = [PreAbsT1; AbsPreT2];
 b = bar(PreAbsAcc);
 ylim([30 100])
 title('target present/nontarget absent')
@@ -292,7 +243,7 @@ ytickformat('percentage')
 
 
 subplot(2,2,3)
-AbsPreAcc = [mean_group(13:15); mean_group(16:18)];
+AbsPreAcc = [AbsPreT1; PreAbsT2];
 b = bar(AbsPreAcc);
 ylim([30 100])
 title('target absent/nontarget present')
@@ -302,7 +253,7 @@ set(gca, 'xticklabel', {'T1', 'T2'})
 ytickformat('percentage')
 
 subplot(2,2,4)
-AbsAbsAcc = [mean_group(19:21); mean_group(22:24)];
+AbsAbsAcc = [AbsAbsT1; AbsAbsT2];
 b = bar(AbsAbsAcc);
 ylim([30 100])
 title('target absent/nontarget absent')
