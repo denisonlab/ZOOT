@@ -892,15 +892,15 @@ while iTrial <= size(trialOrder, 2)
                 end
                 
                 blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, p.nBlocks);
-                if block == p.nBlocks + 1 % if block 17, key message should say nothing
-                    keyMessage = '';
+                if block > p.nBlocks % if block 17, key message should say nothing
+                    keyMessage = 'Press any key';
                 elseif block == p.nBlocks % if last block, check if there are skipped trials 
                     if isempty(skippedTrials)
                         keyMessage = ''; % last block
                     else
-                        keyMessage = 'There will be one more short block to redo the skipped trials. Press 1 to go on.';
+                        keyMessage = 'Press 1 to redo the skipped blocks.';
                     end
-                else
+                elseif block < p.nBlocks
                     keyMessage = 'Press 1 to go on.';
                 end
                 

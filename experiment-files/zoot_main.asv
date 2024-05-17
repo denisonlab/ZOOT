@@ -608,7 +608,7 @@ while iTrial <= size(trialOrder, 2)
     responseKey = NaN;
     timeTargetRT = NaN;
     if ~stopThisTrial
-        1while isempty(response)
+        while isempty(response)
            [timeTargetResponse, keyCode] = KbWait(devNum);
             timeTargetRT = timeTargetResponse-timeTargetResponseWindow;
             responseKey = find(keyCode);
@@ -898,7 +898,7 @@ while iTrial <= size(trialOrder, 2)
                     if isempty(skippedTrials)
                         keyMessage = ''; % last block
                     else
-                        keyMessage = 'There will be one more short block to redo the skipped trials. Press 1 to go on.';
+                        keyMessage = 'Press 1 to redo the skipped blocks.';
                     end
                 else
                     keyMessage = 'Press 1 to go on.';
