@@ -155,8 +155,8 @@ end
 
 
 %% response 
-p.responseNames = {'CCW','CW','absent'};
-p.responseKeys = {'1!','2@','3#'};
+p.responseNames = {'CCW','CW','absent', 'calibrate'};
+p.responseKeys = {'1!','2@','3#', 'home'};
 
 p.deviceIndex = 1; % accept response from all inputs 
 p.eyeTrackerCalibrationKey='home';

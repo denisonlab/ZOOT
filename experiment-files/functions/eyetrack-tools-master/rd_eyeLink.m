@@ -180,7 +180,7 @@ switch command
             % three consecutive times, recalibrate
             if ~fixation
                 devNum = -1;
-                DrawFormattedText(window, 'Fixation lost. Please get the experimenter to recalibrate', 'center', 'center', [1 1 1]);
+                DrawFormattedText(window, 'Fixation lost. Please get the experimenter to reset eyetracker', 'center', 'center', [1 1 1]);
                 Screen('Flip', window)
                 KbWait(devNum)
                 rd_eyeLink('driftcorrect', window, {el, cx, cy});

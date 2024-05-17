@@ -261,21 +261,19 @@ errTANA = [errAAT1v errAAT1n errAAT1i; erraAT2v errAAT2n errAAT2i];
 
 
 %% figures
-
-
 %% figure 1 - target presence x validity x target
 figure(1)
 sgtitle('group analysis')
 subplot(2,2,1) %two rows, two columns, first position
 PrePreAcc = [mean_group(1:3); mean_group(4:6)];
-hBar = bar(PrePreAcc, 'grouped');
-hBar(1).XData
-for k1 = 1:size(PrePreAccc,2)
-    ctr(k1,:) = bsxfun(@plus, bar(k1).XData, bar(k1).XOffset');   % Note: bXOffset’ Is An Undocumented Feature, This Selects The ‘bar’ Centres
-    ydt(k1,:) = hBar(k1).YData;                                     % Individual Bar Heights
-end
+b = bar(PrePreAcc, 'grouped');
 hold on
-errorbar(ctr, ydt, errTPNP.', '.r')
+for k = 1:numel(b)                                                      % Recent MATLAB Versions
+    xtips = b(k).XEndPoints;
+    ytips = b(k).YEndPoints;
+    errorbar(xtips,ytips,errTPNP(:,k), '.k', 'MarkerSize',0.1)
+end
+hold off
 ylim([30 100])
 title('target present/nontarget present')
 ylabel('accuracy %')
@@ -287,15 +285,12 @@ ytickformat('percentage')
 subplot(2,2,2)
 PreAbsAcc = [mean_group(7:9); mean_group(10:12)];
 b = bar(PreAbsAcc, 'grouped');
-hold on 
-[ngroups,nbars] = size(PreAbsAcc);
-% Get the x coordinate of the bars
-x = nan(nbars, ngroups);
-for i = 1:nbars
-    x(i,:) = b(i).XEndPoints;
+hold on
+for k = 1:numel(b)                                                      % Recent MATLAB Versions
+    xtips = b(k).XEndPoints;
+    ytips = b(k).YEndPoints;
+    errorbar(xtips,ytips,errTPNA(:,k), '.k', 'MarkerSize',0.1)
 end
-% Plot the errorbars
-errorbar(x',PrePreAcc,errTPNA,'k','linestyle','none');
 hold off
 ylim([30 100])
 title('target present/nontarget absent')
@@ -307,15 +302,12 @@ ytickformat('percentage')
 subplot(2,2,3)
 AbsPreAcc = [mean_group(13:15); mean_group(16:18)];
 b = bar(AbsPreAcc, 'grouped');
-hold on 
-[ngroups,nbars] = size(AbsPreAcc);
-% Get the x coordinate of the bars
-x = nan(nbars, ngroups);
-for i = 1:nbars
-    x(i,:) = b(i).XEndPoints;
+hold on
+for k = 1:numel(b)                                                      % Recent MATLAB Versions
+    xtips = b(k).XEndPoints;
+    ytips = b(k).YEndPoints;
+    errorbar(xtips,ytips,errTPNA(:,k), '.k', 'MarkerSize',0.1)
 end
-% Plot the errorbars
-errorbar(x',PrePreAcc,errTANP,'k','linestyle','none');
 hold off
 ylim([30 100])
 title('target absent/nontarget present')
@@ -328,14 +320,11 @@ subplot(2,2,4)
 AbsAbsAcc = [mean_group(19:21); mean_group(22:24)];
 b = bar(AbsAbsAcc ,'grouped');
 hold on
-[ngroups,nbars] = size(AbsAbsAcc);
-% Get the x coordinate of the bars
-x = nan(nbars, ngroups);
-for i = 1:nbars
-    x(i,:) = b(i).XEndPoints;
+for k = 1:numel(b)                                                      % Recent MATLAB Versions
+    xtips = b(k).XEndPoints;
+    ytips = b(k).YEndPoints;
+    errorbar(xtips,ytips,errTPNA(:,k), '.k', 'MarkerSize',0.1)
 end
-% Plot the errorbars
-errorbar(x',PrePreAcc,errTANA,'k','linestyle','none');
 hold off
 ylim([30 100])
 title('target absent/nontarget absent')
