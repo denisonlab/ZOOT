@@ -20,9 +20,8 @@ for iSub=1:length(subs) % for participant
     for iF = 1:numel(fields) % initialize
         dataAll.(fields{iF}) = [];
     end
-    sessions = {'session2'};
+    sessions = {'session1', 'session2'};
     for iSession = 1:numel(sessions) % for session
-        highestTime = '0000';
         highestBlock = 0;
         sesNum = sessions{iSession};
         sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
@@ -31,30 +30,25 @@ for iSub=1:length(subs) % for participant
         for iFile = 3:size(dir) % for file
             fileName = listing(iFile).name;
             splitName  = strsplit(fileName, '_');
-            splitID = splitName{1};
-            splitExpt = splitName{2};
-            splitDate = splitName{3};
-            splitTime = splitName{4};
-            if strcmp(highestTime(1:2), '12') == 1 &&  strcmp(splitTime(1:2), '01') == 1
-                highestTime = splitTime;
-            elseif strcmp(highestTime(1:2), '01') == 1 && strcmp(splitTime(1:2), '12') == 1
-                highestTime = highestTime;
-            elseif str2num(splitTime) > str2num(highestTime)
-                highestTime = splitTime;
-            end
+            % splitID = splitName{1};
+            % splitExpt = splitName{2};
+            % splitDate = splitName{3};
+            % splitTime = splitName{4};
             splitBlock = splitName{5};
-            splitSesMat = splitName{6};
+            % splitSesMat = splitName{6};
             blockNum = str2num(splitBlock(6:end));
             if blockNum > highestBlock
                 highestBlock = blockNum;
             end
         end
-        load(sprintf('%s_%s_%s_%s_block%d_%s', splitID, splitExpt, splitDate, highestTime, highestBlock, splitSesMat))
+        findFile = dir(sprintf('*block%d*.mat', highestBlock));
+        highestFileName = findFile.name;
+        load(highestFileName)
         for iF = 1:numel(fields) % initialize
             if strcmp(fields{iF}, 'eyeSkip') == 1
                 data.(fields{iF}) = data.(fields{iF})';
             end
-            dataAll.(fields{iF}) = [dataAll.fields{iF}) data.(fields{iF})]; % compiles data structures from one participant
+            dataAll.(fields{iF}) = [dataAll.(fields{iF}) data.(fields{iF})]; % compiles data structures from one participant
         end
 
         %% filter
