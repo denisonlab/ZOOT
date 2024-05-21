@@ -892,15 +892,15 @@ while iTrial <= size(trialOrder, 2)
                 end
                 
                 blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, p.nBlocks);
-                if block == p.nBlocks + 1 % if block 17, key message should say nothing
-                    keyMessage = '';
+                if block > p.nBlocks % if block 17, key message should say nothing
+                    keyMessage = 'Press any key to continue';
                 elseif block == p.nBlocks % if last block, check if there are skipped trials 
                     if isempty(skippedTrials)
                         keyMessage = ''; % last block
                     else
                         keyMessage = 'Press 1 to redo the skipped blocks.';
                     end
-                else
+                elseif block < p.nBlocks
                     keyMessage = 'Press 1 to go on.';
                 end
                 
@@ -944,15 +944,15 @@ if s.exptStage ==2 % calculate and store staircasing/threshold file
 end
 
 %% compile session files
-% 
-% if s.exptStage == 5
-%     cd(data.behDir)
-%     data.sesDir =  sprintf('%s/session %d', data.behDir, s.session);
-%     if ~exist(data.sesDir, 'dir')
-%         mkdir(data.sesDir)
-%     end
-%     movefile('*.mat', data.sesDir)
-% end
+
+if s.exptStage == 5
+    cd(data.behDir)
+    data.sesDir =  sprintf('%s/session %d', data.behDir, s.session);
+    if ~exist(data.sesDir, 'dir')
+        mkdir(data.sesDir)
+    end
+    movefile('*.mat', data.sesDir)
+end
 
 %% Completion message
 WaitSecs(1);

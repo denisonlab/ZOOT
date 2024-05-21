@@ -248,7 +248,7 @@ end
 %% Show instruction screen and wait for a button press
 WaitSecs(1);
 zoot_instructions(s, window, devNum, white); % shows experiment instructions
-KbWait(devNum)
+KbWait(devNum);
 WaitSecs(1);
 Screen('FillRect', window, white*p.backgroundColor);
 DrawFormattedText(window, 'Press any key to begin', 'center', 'center', [1 1 1]*white); % allows participants a second before starting experiment
@@ -676,7 +676,7 @@ while iTrial <= size(trialOrder, 2)
             DrawFormattedText(window, stimDebugMessage, 'center', 'center', [1 1 1]*white)
             Screen('Flip', window)
             WaitSecs(1)
-            KbWait(devNum)
+            KbWait(devNum);
         end
         
         drawFixation(window, cx,cy, fixSize, p.fixColor);
@@ -805,14 +805,14 @@ while iTrial <= size(trialOrder, 2)
                             'You are ready to move on to thresholding!'],practiceAcc);
                         DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
                         Screen('Flip', window)
-                        KbWait(devNum)
+                        KbWait(devNum);
                         sca
                     else
                         practiceMessage = sprintf(['Great job! You''ve completed a block of the first practice session! Your accuracy was %0.2f %%. ' ...
                             'Let''s keep practicing!'],practiceAcc);
                         DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
                         Screen('Flip', window)
-                        KbWait(devNum)
+                        KbWait(devNum);
                         sca
                     end
                 end
@@ -833,14 +833,14 @@ while iTrial <= size(trialOrder, 2)
                             'You are ready to move on to the main task!'],practiceAcc);
                         DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
                         Screen('Flip', window)
-                        KbWait(devNum)
+                        KbWait(devNum);
                         sca
                     else
                         practiceMessage = sprintf(['Great job! You''ve completed a block of the second practice session! Your accuracy was %0.2f %%. ' ...
                             'Let''s keep practicing!'], practiceAcc);
                         DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
                         Screen('Flip', window)
-                        KbWait(devNum)
+                        KbWait(devNum);
                         sca
                     end
                 end
@@ -881,7 +881,7 @@ while iTrial <= size(trialOrder, 2)
                 block = block+1; % keep track of block for block message only
 
             case {5} % main task
-                filename = sprintf('%s/%s_mainExpt_%s_block%d_session%d.mat',data.behDir,s.subjectID,dateStr,block, s.session);
+                filename = sprintf('%s/%s_mainExpt_%s_block%d_session%d.mat',data.sesDir,s.subjectID,dateStr,block, s.session);
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
@@ -893,7 +893,7 @@ while iTrial <= size(trialOrder, 2)
                 
                 blockMessage = sprintf('Great job! You''ve completed %d of %d blocks.', block, p.nBlocks);
                 if block > p.nBlocks % if block 17, key message should say nothing
-                    keyMessage = 'Press any key';
+                    keyMessage = 'Press any key to continue';
                 elseif block == p.nBlocks % if last block, check if there are skipped trials 
                     if isempty(skippedTrials)
                         keyMessage = ''; % last block
@@ -912,7 +912,7 @@ while iTrial <= size(trialOrder, 2)
                 DrawFormattedText(window, breakMessage, 'center', 'center', [1 1 1]);
                 Screen('Flip', window);
                 WaitSecs(1);
-                KbWait(devNum)
+                KbWait(devNum);
                 block = block+1; % keep track of block for block message only
         end
 
