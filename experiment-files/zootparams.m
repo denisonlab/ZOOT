@@ -184,7 +184,7 @@ switch s.exptStage
         p.imDur = p.imDur*4;
         p.targetSOA = p.targetSOA*4;
         p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
-        p.nTrialsPerBlock = p.nTotalTrials;
+        p.nTrialsPerBlock = 32;
         cueTones = [];
         for iF = 1:numel(p.toneFreqs)
             tone0 = MakeBeep(p.toneFreqs(iF), p.toneDur, p.Fs);
