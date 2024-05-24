@@ -32,25 +32,20 @@ for iSub=1:length(subs) % for participant
         for iFile = 3:size(dir) % for file
             fileName = listing(iFile).name;
             splitName  = strsplit(fileName, '_');
-            splitID = splitName{1};
-            splitExpt = splitName{2};
-            splitDate = splitName{3};
-            splitTime = splitName{4};
-            if strcmp(highestTime(1:2), '12') == 1 &&  strcmp(splitTime(1:2), '01') == 1
-                highestTime = splitTime;
-            elseif strcmp(highestTime(1:2), '01') == 1 && strcmp(splitTime(1:2), '12') == 1
-                highestTime = highestTime;
-            elseif str2num(splitTime) > str2num(highestTime)
-                highestTime = splitTime;
-            end
+            % splitID = splitName{1};
+            % splitExpt = splitName{2};
+            % splitDate = splitName{3};
+            % splitTime = splitName{4};
             splitBlock = splitName{5};
-            splitSesMat = splitName{6};
+            % splitSesMat = splitName{6};
             blockNum = str2num(splitBlock(6:end));
             if blockNum > highestBlock
                 highestBlock = blockNum;
             end
         end
-        load(sprintf('%s_%s_%s_%s_block%d_%s', splitID, splitExpt, splitDate, highestTime, highestBlock, splitSesMat))
+        findFile = dir(sprintf('*block%d*.mat', highestBlock));
+        highestFileName = findFile.name;
+        load(highestFileName)
         for iF = 1:numel(fields) % initialize
             if strcmp(fields{iF}, 'eyeSkip') == 1
                 data.(fields{iF}) = data.(fields{iF})';
@@ -208,6 +203,68 @@ for iSub=1:length(subs) % for participant
         AbsAbsT2 = [sum(valAbsAbsT2)/sum(nValAbsAbsT2) sum(neutAbsAbsT2)/sum(nNeutAbsAbsT2) sum(invalAbsAbsT2)/sum(nInvalAbsAbsT2)]*100;
 
         dataAll(iSub).means = [PrePreT1 PrePreT2 PreAbsT1 AbsPreT2 AbsPreT1 PreAbsT2 AbsAbsT1 AbsAbsT2];
+
+        %% seen 
+
+% p(seen) by target presence
+seenPresentPresent = T1Contrast == 1 & T2Contrast == 1 & seen & ~eyeSkip;
+seenPresentAbsent = T1Contrast == 1 & T2Contrast == 2 & seen & ~eyeSkip;
+seenAbsentPresent = T1Contrast == 2 & T2Contrast == 1 & seen & ~eyeSkip;
+seenAbsentAbsent = T1Contrast == 2 & T2Contrast == 2 & seen  & ~eyeSkip;
+
+seenTarget = [sum(seenPresentPresent, 'omitnan')/sum(nPresentPresent) sum(seenPresentAbsent, 'omitnan')/sum(nPresentAbsent) sum(seenAbsentPresent, 'omitnan')/sum(nAbsentPresent) sum(seenAbsentAbsent, 'omitnan')/sum(nAbsentAbsent)];
+
+% seen x validity 
+seenNeutral = precue == 3 & seen & ~eyeSkip;
+seenInvalid = (precue == 1| precue == 2) & precue ~= target & seen & ~eyeSkip;
+seenValid = precue == target & seen & ~eyeSkip;
+
+% seen x validity x target 
+seenValidT1 = seenValid & target == 1;
+seenInvalidT1 = seenInvalid & target == 1;
+seenNeutralT1 = seenNeutral & target == 1;
+seenValidT2 = seenValid & target == 2;
+seenInvalidT2 = seenInvalid & target == 2;
+seenNeutralT2 = seenNeutral & target == 2;
+
+% seen x validity x target x presence 
+valPrePreT1seen = seenPresentPresent & seenValidT1;
+invalPrePreT1seen = seenPresentPresent & seenInvalidT1;
+neutPrePreT1seen = seenPresentPresent & seenNeutralT1;
+valPreAbsT1seen = seenPresentAbsent & seenValidT1;
+invalPreAbsT1seen = seenPresentAbsent & seenInvalidT1;
+neutPreAbsT1seen = seenPresentAbsent & seenNeutralT1;
+valAbsPreT1seen = seenAbsentPresent & seenValidT1;
+invalAbsPreT1seen = seenAbsentPresent & seenInvalidT1;
+neutAbsPreT1seen = seenAbsentPresent & seenNeutralT1;
+valAbsAbsT1seen = seenAbsentAbsent & seenValidT1;
+invalAbsAbsT1seen = seenAbsentAbsent & seenInvalidT1;
+neutAbsAbsT1seen = seenAbsentAbsent & seenNeutralT1;
+
+valPrePreT2seen = seenPresentPresent & seenValidT2;
+invalPrePreT2seen = seenPresentPresent & seenInvalidT2;
+neutPrePreT2seen = seenPresentPresent & seenNeutralT2;
+valPreAbsT2seen = seenPresentAbsent & seenValidT2;
+invalPreAbsT2seen = seenPresentAbsent & seenInvalidT2;
+neutPreAbsT2seen = seenPresentAbsent & seenNeutralT2;
+valAbsPreT2seen = seenAbsentPresent & seenValidT2;
+invalAbsPreT2seen = seenAbsentPresent & seenInvalidT2;
+neutAbsPreT2seen = seenAbsentPresent & seenNeutralT2;
+valAbsAbsT2seen = seenAbsentAbsent & seenValidT2;
+invalAbsAbsT2seen = seenAbsentAbsent & seenInvalidT2;
+neutAbsAbsT2seen = seenAbsentAbsent & seenNeutralT2;
+
+
+seenPrePreT1 = [sum(valPrePreT1seen)/sum(nValPrePreT1) sum(neutPrePreT1seen)/sum(nNeutPrePreT1) sum(invalPrePreT1seen)/sum(nInvalPrePreT1)]*100;
+seenPreAbsT1 = [sum(valPreAbsT1seen)/sum(nValPreAbsT1) sum(neutPreAbsT1seen)/sum(nNeutPreAbsT1) sum(invalPreAbsT1seen)/sum(nInvalPreAbsT1)]*100;
+seenAbsPreT1 = [sum(valAbsPreT1seen)/sum(nValAbsPreT1) sum(neutAbsPreT1seen)/sum(nNeutAbsPreT1) sum(invalAbsPreT1seen)/sum(nInvalAbsPreT1)]*100;
+seenAbsAbsT1 = [sum(valAbsAbsT1seen)/sum(nValAbsAbsT1) sum(neutAbsAbsT1seen)/sum(nNeutAbsAbsT1) sum(invalAbsAbsT1seen)/sum(nInvalAbsAbsT1)]*100;
+seenPrePreT2 = [sum(valPrePreT2seen)/sum(nValPrePreT2) sum(neutPrePreT2seen)/sum(nNeutPrePreT2) sum(invalPrePreT2seen)/sum(nInvalPrePreT2)]*100;
+seenPreAbsT2 = [sum(valPreAbsT2seen)/sum(nValPreAbsT2) sum(neutPreAbsT2seen)/sum(nNeutPreAbsT2) sum(invalPreAbsT2seen)/sum(nInvalPreAbsT2)]*100;
+seenAbsPreT2 = [sum(valAbsPreT2seen)/sum(nValAbsPreT2) sum(neutAbsPreT2seen)/sum(nNeutAbsPreT2) sum(invalAbsPreT2seen)/sum(nInvalAbsPreT2)]*100;
+seenAbsAbsT2 = [sum(valAbsAbsT2seen)/sum(nValAbsAbsT2) sum(neutAbsAbsT2seen)/sum(nNeutAbsAbsT2) sum(invalAbsAbsT2seen)/sum(nInvalAbsAbsT2)]*100;
+
+
     end
 end
 
@@ -261,8 +318,6 @@ errTANA = [errAAT1v errAAT1n errAAT1i; erraAT2v errAAT2n errAAT2i];
 
 
 %% figures
-
-
 %% figure 1 - target presence x validity x target
 figure(1)
 sgtitle('group analysis')
@@ -273,7 +328,7 @@ hold on
 for k = 1:numel(b)                                                      % Recent MATLAB Versions
     xtips = b(k).XEndPoints;
     ytips = b(k).YEndPoints;
-    errorbar(xtips,ytips,errTPNP(:,k), '.k', 'MarkerSize',0.1)
+    errorbar(xtips,ytips,errTPNP(:,k), '.k', 'MarkerSize',0.1) 
 end
 hold off
 ylim([30 100])
@@ -308,7 +363,7 @@ hold on
 for k = 1:numel(b)                                                      % Recent MATLAB Versions
     xtips = b(k).XEndPoints;
     ytips = b(k).YEndPoints;
-    errorbar(xtips,ytips,errTPNA(:,k), '.k', 'MarkerSize',0.1)
+    errorbar(xtips,ytips,errTANP(:,k), '.k', 'MarkerSize',0.1)
 end
 hold off
 ylim([30 100])
@@ -325,7 +380,7 @@ hold on
 for k = 1:numel(b)                                                      % Recent MATLAB Versions
     xtips = b(k).XEndPoints;
     ytips = b(k).YEndPoints;
-    errorbar(xtips,ytips,errTPNA(:,k), '.k', 'MarkerSize',0.1)
+    errorbar(xtips,ytips,errTANA(:,k), '.k', 'MarkerSize',0.1)
 end
 hold off
 ylim([30 100])
@@ -342,6 +397,62 @@ ax.YGrid = 'off';
 
 
 %% p(seen) v p(corrDis)
+%% p(seen) 
+
+figure (2);
+sgtitle('p(seen) x target presence')
+subplot(2,2,1)
+b = bar([seenPrePreT1; seenPrePreT2]);
+% ylim([30 100])
+title('target present/nontarget present')
+ylabel('p(seen)')
+% set(gca, 'ytick', 30:10:100)
+set(gca, 'xticklabel', {'T1', 'T2'})
+ytickformat('percentage')
+
+subplot(2,2,2)
+b = bar([seenPreAbsT1; seenAbsPreT2]);
+% ylim([30 100])
+title('target present/nontarget absent')
+ylabel('p(seen)')
+% set(gca, 'ytick', 30:10:100)
+set(gca, 'xticklabel', {'T1', 'T2'})
+ytickformat('percentage')
+
+
+subplot(2,2,3)
+b = bar([seenAbsPreT1; seenPreAbsT2]);
+title('target absent/nontarget present')
+% ylim([30 100])
+ylabel('p(seen)')
+% set(gca, 'ytick', 30:10:100)
+set(gca, 'xticklabel', {'T1', 'T2'})
+ytickformat('percentage')
+
+
+subplot(2,2,4)
+b = bar([seenAbsAbsT1; seenAbsAbsT2]);
+title('target absent/nontarget absent')
+% ylim([30 100])
+ylabel('p(seen)')
+% set(gca, 'ytick', 30:10:100)
+set(gca, 'xticklabel', {'T1', 'T2'})
+ytickformat('percentage')
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'off';
+
+%% p(correct discrimination)
+
+
+
+
+
+
+
+
+
+
 
 
 % %% target presence
