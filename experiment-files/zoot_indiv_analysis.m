@@ -4,7 +4,7 @@ clear all
 
 fp = figureparams;
 %% compile
-subs = {'S0132'};
+subs = {'S0005'};
 dataAll = [];
 
 
@@ -20,7 +20,7 @@ for iSub=1:length(subs) % for participant
     for iF = 1:numel(fields) % initialize
         dataAll.(fields{iF}) = [];
     end
-    sessions = {'session2'};
+    sessions = {'session1'};
     for iSession = 1:numel(sessions) % for session
         highestBlock = 0;
         sesNum = sessions{iSession};
