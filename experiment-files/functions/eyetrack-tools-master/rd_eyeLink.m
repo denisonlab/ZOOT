@@ -181,9 +181,17 @@ switch command
                 devNum = -1;
                 DrawFormattedText(window, 'Fixation lost. Press any key when ready to continue.', 'center', 'center', [1 1 1]);
                 Screen('Flip', window)
-                [secs] = KbWait(devNum);
+                [secs,kc] = KbWait(devNum);
+                if strcmp(KbName(kc),'Home')
+                   [~, exitFlag] = rd_eyeLink('calibrate', window, el);
+                end
+
+
                 ready = 0;
                 corrected = 0;
+
+
+
             elseif rd_eyeLink('fixholdcheck', window, {cx, cy, rad}) % 0 or 1
                 ready = 1;
                 corrected = 1;
