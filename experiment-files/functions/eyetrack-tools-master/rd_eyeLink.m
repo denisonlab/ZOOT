@@ -244,7 +244,7 @@ trialNum= in{2};
         tFix = 0; % how long has the current fixation lasted so far?
         
         t = tstart;
-        while (((t-tstart) < timeout) && (tFix<=tFixMin)) %11(((t-tstart) < timeout) &&
+        while (((t-tstart) < timeout) && (tFix<=tFixMin)) 
             % get eye position
             evt = Eyelink('newestfloatsample');
             domEye = find(evt.gx ~= -32768);

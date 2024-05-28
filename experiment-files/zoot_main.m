@@ -187,7 +187,7 @@ trials = fullfact([numel(p.precueValidities) ...
     numel(p.tilts) ...
     numel(p.tilts)]);
 
-if s.exptStage == 6
+if s.exptStage == 6 % extract the one target trials for one target practice
     oneTarget = [];
     for i=1:size(trials,1)
         if trials(i,3) ~= trials(i,4)
@@ -424,33 +424,6 @@ while iTrial <= size(trialOrder, 2)
     % start, times out after 3 seconds and goes to drift check
     if p.eyeTracking
       corrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect});
-        % keylist = zeros(1,256);
-        % PsychHID('KbQueueCreate', devNum, keylist); %change this to new code that tells kb number
-        % PsychHID('KbQueueStart', devNum);
-        % 
-        % [pressed,firstPress]=PsychHID('KbQueueCheck',devNum);
-        % keyCode = find(firstPress,1);
-        % 
-        % if pressed
-        %     if keyCode == calibrateCode
-        %         [~, exitFlag] = rd_eyeLink('calibrate', window, el);
-        %         if exitFlag
-        %             return
-        %         end
-        %     end
-        % end 
-        % % [secs, keyCode] =KbCheck(devNum);
-        % % responseKeyC = find(keyCode);
-        % % responseKeyNameC = KbName(responseKeyC);
-        % % responseC = find(strcmp('Home', responseKeyNameC));
-        % % if responseC
-        % %     [~, exitFlag] = rd_eyeLink('calibrate', window, el);
-        % %     if exitFlag
-        % %         return
-        % %     end
-        % %     DrawFormattedText(window, 'Press any key to continue.', 'center', 'center', [1 1 1]);
-        % %     Screen('Flip', window)
-        % % end
         if corrected
             drawFixation(window, cx, cy, fixSize, p.fixColor);
             timeFix = Screen('Flip', window);
