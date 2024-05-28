@@ -113,6 +113,7 @@ elseif p.windowTesting==1
     [window, rect] = PsychImaging('OpenWindow', screenNumber, grey, [0 0 600 400]);
 end 
 
+calibrateCode = KbName(p.eyeTrackerCalibrationKey);
 %% Getting many useful properties of the window ...
 % Get x and y coordinates for the center of the window
 [cx, cy] = RectCenter(rect);
@@ -186,6 +187,13 @@ trials = fullfact([numel(p.precueValidities) ...
     numel(p.tilts) ...
     numel(p.tilts)]);
 
+if s.exptStage == 6
+    oneTarget = [];
+    for i=1:size(trials,1)
+        if trial(i,3) ~= trials(i,4)
+    end
+end 
+
 %% Make a gabor image
 % First make a grating image
 edgeWidth=round(p.apertureEdgeWidth*pixelsPerDegree);
@@ -248,7 +256,7 @@ end
 %% Show instruction screen and wait for a button press
 WaitSecs(1);
 zoot_instructions(s, window, devNum, white); % shows experiment instructions
-KbWait(devNum)
+KbWait(devNum);
 WaitSecs(1);
 Screen('FillRect', window, white*p.backgroundColor);
 DrawFormattedText(window, 'Press any key to begin', 'center', 'center', [1 1 1]*white); % allows participants a second before starting experiment
@@ -387,7 +395,7 @@ while iTrial <= size(trialOrder, 2)
     data.targetContrast(iTrial) = targetContrast; 
     data.T1Axis(iTrial) = T1Axis; 
     data.T2Axis(iTrial) = T2Axis;
-    data.T1Tilt(iTrial) = T1Tilt;1
+    data.T1Tilt(iTrial) = T1Tilt;
     data.T2Tilt(iTrial) = T2Tilt;
     data.T1Contrast(iTrial) = T1Contrast; 
     data.T2Contrast(iTrial) = T2Contrast;
@@ -412,7 +420,34 @@ while iTrial <= size(trialOrder, 2)
     % Check fixation hold, need to be fixating for 300 ms for trial to
     % start, times out after 3 seconds and goes to drift check
     if p.eyeTracking
-        corrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect, p});
+      corrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect});
+        % keylist = zeros(1,256);
+        % PsychHID('KbQueueCreate', devNum, keylist); %change this to new code that tells kb number
+        % PsychHID('KbQueueStart', devNum);
+        % 
+        % [pressed,firstPress]=PsychHID('KbQueueCheck',devNum);
+        % keyCode = find(firstPress,1);
+        % 
+        % if pressed
+        %     if keyCode == calibrateCode
+        %         [~, exitFlag] = rd_eyeLink('calibrate', window, el);
+        %         if exitFlag
+        %             return
+        %         end
+        %     end
+        % end 
+        % % [secs, keyCode] =KbCheck(devNum);
+        % % responseKeyC = find(keyCode);
+        % % responseKeyNameC = KbName(responseKeyC);
+        % % responseC = find(strcmp('Home', responseKeyNameC));
+        % % if responseC
+        % %     [~, exitFlag] = rd_eyeLink('calibrate', window, el);
+        % %     if exitFlag
+        % %         return
+        % %     end
+        % %     DrawFormattedText(window, 'Press any key to continue.', 'center', 'center', [1 1 1]);
+        % %     Screen('Flip', window)
+        % % end
         if corrected
             drawFixation(window, cx, cy, fixSize, p.fixColor);
             timeFix = Screen('Flip', window);
@@ -676,7 +711,7 @@ while iTrial <= size(trialOrder, 2)
             DrawFormattedText(window, stimDebugMessage, 'center', 'center', [1 1 1]*white)
             Screen('Flip', window)
             WaitSecs(1)
-            KbWait(devNum)
+            KbWait(devNum);
         end
         
         drawFixation(window, cx,cy, fixSize, p.fixColor);
@@ -805,14 +840,14 @@ while iTrial <= size(trialOrder, 2)
                             'You are ready to move on to thresholding!'],practiceAcc);
                         DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
                         Screen('Flip', window)
-                        KbWait(devNum)
+                        KbWait(devNum);
                         sca
                     else
                         practiceMessage = sprintf(['Great job! You''ve completed a block of the first practice session! Your accuracy was %0.2f %%. ' ...
                             'Let''s keep practicing!'],practiceAcc);
                         DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
                         Screen('Flip', window)
-                        KbWait(devNum)
+                        KbWait(devNum);
                         sca
                     end
                 end
@@ -833,14 +868,14 @@ while iTrial <= size(trialOrder, 2)
                             'You are ready to move on to the main task!'],practiceAcc);
                         DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
                         Screen('Flip', window)
-                        KbWait(devNum)
+                        KbWait(devNum);
                         sca
                     else
                         practiceMessage = sprintf(['Great job! You''ve completed a block of the second practice session! Your accuracy was %0.2f %%. ' ...
                             'Let''s keep practicing!'], practiceAcc);
                         DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
                         Screen('Flip', window)
-                        KbWait(devNum)
+                        KbWait(devNum);
                         sca
                     end
                 end
@@ -881,7 +916,7 @@ while iTrial <= size(trialOrder, 2)
                 block = block+1; % keep track of block for block message only
 
             case {5} % main task
-                filename = sprintf('%s/%s_mainExpt_%s_block%d_session%d.mat',data.behDir,s.subjectID,dateStr,block, s.session);
+                filename = sprintf('%s/%s_mainExpt_%s_block%d_session%d.mat',data.sesDir,s.subjectID,dateStr,block, s.session);
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
@@ -898,7 +933,7 @@ while iTrial <= size(trialOrder, 2)
                     if isempty(skippedTrials)
                         keyMessage = ''; % last block
                     else
-                        keyMessage = 'Press 1 to redo the skipped blocks.';
+                        keyMessage = 'Press 1 to go on.';
                     end
                 elseif block < p.nBlocks
                     keyMessage = 'Press 1 to go on.';
@@ -912,7 +947,7 @@ while iTrial <= size(trialOrder, 2)
                 DrawFormattedText(window, breakMessage, 'center', 'center', [1 1 1]);
                 Screen('Flip', window);
                 WaitSecs(1);
-                KbWait(devNum)
+                KbWait(devNum);
                 block = block+1; % keep track of block for block message only
         end
 
@@ -944,15 +979,15 @@ if s.exptStage ==2 % calculate and store staircasing/threshold file
 end
 
 %% compile session files
-
-if s.exptStage == 5
-    cd(data.behDir)
-    data.sesDir =  sprintf('%s/session %d', data.behDir, s.session);
-    if ~exist(data.sesDir, 'dir')
-        mkdir(data.sesDir)
-    end
-    movefile('*.mat', data.sesDir)
-end
+% 
+% if s.exptStage == 5
+%     cd(data.behDir)
+%     data.sesDir =  sprintf('%s/session %d', data.behDir, s.session);
+%     if ~exist(data.sesDir, 'dir')
+%         mkdir(data.sesDir)
+%     end
+%     movefile('*.mat', data.sesDir)
+% end
 
 %% Completion message
 WaitSecs(1);

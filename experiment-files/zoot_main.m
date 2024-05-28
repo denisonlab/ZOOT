@@ -113,6 +113,7 @@ elseif p.windowTesting==1
     [window, rect] = PsychImaging('OpenWindow', screenNumber, grey, [0 0 600 400]);
 end 
 
+calibrateCode = KbName(p.eyeTrackerCalibrationKey);
 %% Getting many useful properties of the window ...
 % Get x and y coordinates for the center of the window
 [cx, cy] = RectCenter(rect);
@@ -185,6 +186,16 @@ trials = fullfact([numel(p.precueValidities) ...
     numel(p.axes) ...
     numel(p.tilts) ...
     numel(p.tilts)]);
+
+if s.exptStage == 6
+    oneTarget = [];
+    for i=1:size(trials,1)
+        if trials(i,3) ~= trials(i,4)
+            oneTarget = [oneTarget; trials(i,:)];
+        end 
+    end
+    trials = oneTarget;
+end 
 
 %% Make a gabor image
 % First make a grating image
@@ -387,7 +398,7 @@ while iTrial <= size(trialOrder, 2)
     data.targetContrast(iTrial) = targetContrast; 
     data.T1Axis(iTrial) = T1Axis; 
     data.T2Axis(iTrial) = T2Axis;
-    data.T1Tilt(iTrial) = T1Tilt;1
+    data.T1Tilt(iTrial) = T1Tilt;
     data.T2Tilt(iTrial) = T2Tilt;
     data.T1Contrast(iTrial) = T1Contrast; 
     data.T2Contrast(iTrial) = T2Contrast;
@@ -412,7 +423,34 @@ while iTrial <= size(trialOrder, 2)
     % Check fixation hold, need to be fixating for 300 ms for trial to
     % start, times out after 3 seconds and goes to drift check
     if p.eyeTracking
-        corrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect, p});
+      corrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect});
+        % keylist = zeros(1,256);
+        % PsychHID('KbQueueCreate', devNum, keylist); %change this to new code that tells kb number
+        % PsychHID('KbQueueStart', devNum);
+        % 
+        % [pressed,firstPress]=PsychHID('KbQueueCheck',devNum);
+        % keyCode = find(firstPress,1);
+        % 
+        % if pressed
+        %     if keyCode == calibrateCode
+        %         [~, exitFlag] = rd_eyeLink('calibrate', window, el);
+        %         if exitFlag
+        %             return
+        %         end
+        %     end
+        % end 
+        % % [secs, keyCode] =KbCheck(devNum);
+        % % responseKeyC = find(keyCode);
+        % % responseKeyNameC = KbName(responseKeyC);
+        % % responseC = find(strcmp('Home', responseKeyNameC));
+        % % if responseC
+        % %     [~, exitFlag] = rd_eyeLink('calibrate', window, el);
+        % %     if exitFlag
+        % %         return
+        % %     end
+        % %     DrawFormattedText(window, 'Press any key to continue.', 'center', 'center', [1 1 1]);
+        % %     Screen('Flip', window)
+        % % end
         if corrected
             drawFixation(window, cx, cy, fixSize, p.fixColor);
             timeFix = Screen('Flip', window);
@@ -898,7 +936,7 @@ while iTrial <= size(trialOrder, 2)
                     if isempty(skippedTrials)
                         keyMessage = ''; % last block
                     else
-                        keyMessage = 'Press 1 to redo the skipped blocks.';
+                        keyMessage = 'Press 1 to go on.';
                     end
                 elseif block < p.nBlocks
                     keyMessage = 'Press 1 to go on.';

@@ -156,10 +156,10 @@ end
 
 %% response 
 p.responseNames = {'CCW','CW','absent', 'calibrate'};
-p.responseKeys = {'1!','2@','3#', 'Home'};
+p.responseKeys = {'1!','2@','3#', 'c'};
 
 p.deviceIndex = 1; % accept response from all inputs 
-p.eyeTrackerCalibrationKey='Home';
+p.eyeTrackerCalibrationKey='c';
 
 %% Condition information
 p.precueNames = {'valid','neutral','invalid'};
@@ -228,6 +228,11 @@ switch s.exptStage
     case 5 % main task
         p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
         p.nTrialsPerBlock = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
+        p.nBlocks = p.nTotalTrials / p.nTrialsPerBlock;
+        p.nBlockPerSession = p.nBlocks/2;
+    case 6 % one target practice
+        p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
+        p.nTrialsPerBlock = 32; %numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
         p.nBlocks = p.nTotalTrials / p.nTrialsPerBlock;
         p.nBlockPerSession = p.nBlocks/2;
 end

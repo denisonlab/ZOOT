@@ -1,4 +1,4 @@
-function [out, exitFlag] = rd_eyeLink(command, window, in)
+ function [out, exitFlag] = rd_eyeLink(command, window, in)
 
 %slight edits by me 2021
 
@@ -156,7 +156,6 @@ switch command
         cy = in{4};
         rad = in{5};
         fixRect = in{6};
-        p = in{7};
         % %
         corrected = 0;
         % calibrateCheck = 0;
@@ -181,34 +180,25 @@ switch command
             if ~rd_eyeLink('fixholdcheck', window, {cx, cy, rad}) % 0 or 1
                 devNum = -1;
                 DrawFormattedText(window, 'Fixation lost. Press any key when ready to continue.', 'center', 'center', [1 1 1]);
-                 Screen('Flip', window)
-                [secs, keyCode] =KbWait(devNum);
-                responseKeyC = find(keyCode);
-                responseKeyNameC = KbName(responseKeyC);
-                responseC = find(strcmp('Home', responseKeyNameC));
-                if responseC
-                    [~, exitFlag] = rd_eyeLink('calibrate', window, el);
-                    if exitFlag
-                        return
-                    end
-                    DrawFormattedText(window, 'Press any key to continue.', 'center', 'center', [1 1 1]);
-                 Screen('Flip', window)
-                end
+                Screen('Flip', window)
+                [secs] = KbWait(devNum);
                 ready = 0;
-            elseif rd_eyeLink('fixholdcheck', window, {cx, cy, rad}); % 0 or 1
-                 ready = 1;
-                 corrected = 1;
+                corrected = 0;
+            elseif rd_eyeLink('fixholdcheck', window, {cx, cy, rad}) % 0 or 1
+                ready = 1;
+                corrected = 1;
             end
         end
 
         out = corrected;
         % out=0;
-        
+
         Eyelink('Message', 'TRIALID %d', trialNum);
-         % This supplies the title at the bottom of the eyetracker display
+        % This supplies the title at the bottom of the eyetracker display
         Eyelink('command', 'record_status_message "TRIAL %d"',trialNum);
-       % Eyelink('Message', 'SYNCTIME');		% zero-plot time for EDFVIEW
- 
+        % Eyelink('Message', 'SYNCTIME');		% zero-plot time for EDFVIEW
+            
+        
         
     case 'trialend'
 %fixrect, trialnum
