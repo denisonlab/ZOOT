@@ -925,6 +925,30 @@ while iTrial <= size(trialOrder, 2)
                 WaitSecs(1);
                 KbWait(devNum);
                 block = block+1; % keep track of block for block message only
+      case {6} % need to reach 75% accuracy to move to thresholding
+                filename = sprintf('%s/%s_onetarget_practice_%s_block%d.mat',data.pracDir,s.subjectID,dateStr,block);
+                data.filename = filename;
+                save(filename,'data')
+                disp('data saved!')
+                if iTrial == p.nTrialsPerBlock
+                    practiceAcc = mean(data.correct(1:end), 'omitnan')*100;
+                    if practiceAcc >=75
+                        practiceMessage = sprintf(['Great job! You''ve completed the practice session! Your accuracy was %0.2f %%. ' ...
+                            'You are ready to move on!'],practiceAcc);
+                        DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
+                        Screen('Flip', window)
+                        KbWait(devNum);
+                        sca
+                    else
+                        practiceMessage = sprintf(['Great job! You''ve completed a block of the practice session! Your accuracy was %0.2f %%. ' ...
+                            'Let''s keep practicing!'],practiceAcc);
+                        DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
+                        Screen('Flip', window)
+                        KbWait(devNum);
+                        sca
+                    end
+                end
+
         end
 
     end

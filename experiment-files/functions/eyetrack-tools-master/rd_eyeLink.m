@@ -185,13 +185,8 @@ switch command
                 if strcmp(KbName(kc),'Home')
                    [~, exitFlag] = rd_eyeLink('calibrate', window, el);
                 end
-
-
                 ready = 0;
                 corrected = 0;
-
-
-
             elseif rd_eyeLink('fixholdcheck', window, {cx, cy, rad}) % 0 or 1
                 ready = 1;
                 corrected = 1;

@@ -187,11 +187,14 @@ trials = fullfact([numel(p.precueValidities) ...
     numel(p.tilts) ...
     numel(p.tilts)]);
 
-if s.exptStage == 6
+if s.exptStage == 6 % extract the one target trials for one target practice
     oneTarget = [];
     for i=1:size(trials,1)
-        if trial(i,3) ~= trials(i,4)
+        if trials(i,3) ~= trials(i,4)
+            oneTarget = [oneTarget; trials(i,:)];
+        end 
     end
+    trials = oneTarget;
 end 
 
 %% Make a gabor image
@@ -421,33 +424,6 @@ while iTrial <= size(trialOrder, 2)
     % start, times out after 3 seconds and goes to drift check
     if p.eyeTracking
       corrected = rd_eyeLink('trialstart', window, {el, iTrial, cx, cy, rad, fixRect});
-        % keylist = zeros(1,256);
-        % PsychHID('KbQueueCreate', devNum, keylist); %change this to new code that tells kb number
-        % PsychHID('KbQueueStart', devNum);
-        % 
-        % [pressed,firstPress]=PsychHID('KbQueueCheck',devNum);
-        % keyCode = find(firstPress,1);
-        % 
-        % if pressed
-        %     if keyCode == calibrateCode
-        %         [~, exitFlag] = rd_eyeLink('calibrate', window, el);
-        %         if exitFlag
-        %             return
-        %         end
-        %     end
-        % end 
-        % % [secs, keyCode] =KbCheck(devNum);
-        % % responseKeyC = find(keyCode);
-        % % responseKeyNameC = KbName(responseKeyC);
-        % % responseC = find(strcmp('Home', responseKeyNameC));
-        % % if responseC
-        % %     [~, exitFlag] = rd_eyeLink('calibrate', window, el);
-        % %     if exitFlag
-        % %         return
-        % %     end
-        % %     DrawFormattedText(window, 'Press any key to continue.', 'center', 'center', [1 1 1]);
-        % %     Screen('Flip', window)
-        % % end
         if corrected
             drawFixation(window, cx, cy, fixSize, p.fixColor);
             timeFix = Screen('Flip', window);
@@ -949,6 +925,30 @@ while iTrial <= size(trialOrder, 2)
                 WaitSecs(1);
                 KbWait(devNum);
                 block = block+1; % keep track of block for block message only
+      case {6} % need to reach 75% accuracy to move to thresholding
+                filename = sprintf('%s/%s_onetarget_practice_%s_block%d.mat',data.pracDir,s.subjectID,dateStr,block);
+                data.filename = filename;
+                save(filename,'data')
+                disp('data saved!')
+                if iTrial == p.nTrialsPerBlock
+                    practiceAcc = mean(data.correct(1:end), 'omitnan')*100;
+                    if practiceAcc >=75
+                        practiceMessage = sprintf(['Great job! You''ve completed the practice session! Your accuracy was %0.2f %%. ' ...
+                            'You are ready to move on to thresholding!'],practiceAcc);
+                        DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
+                        Screen('Flip', window)
+                        KbWait(devNum);
+                        sca
+                    else
+                        practiceMessage = sprintf(['Great job! You''ve completed a block of the first practice session! Your accuracy was %0.2f %%. ' ...
+                            'Let''s keep practicing!'],practiceAcc);
+                        DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
+                        Screen('Flip', window)
+                        KbWait(devNum);
+                        sca
+                    end
+                end
+
         end
 
     end
