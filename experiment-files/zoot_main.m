@@ -978,17 +978,6 @@ if s.exptStage ==2 % calculate and store staircasing/threshold file
     ylabel('Orientation','FontSize',14)
 end
 
-%% compile session files
-% 
-% if s.exptStage == 5
-%     cd(data.behDir)
-%     data.sesDir =  sprintf('%s/session %d', data.behDir, s.session);
-%     if ~exist(data.sesDir, 'dir')
-%         mkdir(data.sesDir)
-%     end
-%     movefile('*.mat', data.sesDir)
-% end
-
 %% Completion message
 WaitSecs(1);
 DrawFormattedText(window, 'All done! Thank you for your effort', 'center', 'center', 1);

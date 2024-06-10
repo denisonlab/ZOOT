@@ -1,10 +1,10 @@
 clear all
 
-
+saveplots = 0;
 
 fp = figureparams;
 %% compile
-subs = {'S0004','S0108', 'S0122'};
+subs = {'S0004', 'S0005', 'S0007', 'S0015', 'S0019', 'S0108', 'S0070','S0122'};
 dataAll = [];
 
 
@@ -23,7 +23,7 @@ for iSub=1:length(subs) % for participant
     end
     sessions = {'session1','session2'};
     for iSession = 1:numel(sessions) % for session
-        highestTime = '0000';
+        % highestTime = '0000';
         highestBlock = 0;
         sesNum = sessions{iSession};
         sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
@@ -404,19 +404,19 @@ figure (2);
 sgtitle('p(seen) x target presence')
 subplot(2,2,1)
 b = bar([seenPrePreT1; seenPrePreT2]);
-% ylim([30 100])
+ylim([30 100])
 title('target present/nontarget present')
 ylabel('p(seen)')
-% set(gca, 'ytick', 30:10:100)
+set(gca, 'ytick', 30:10:100)
 set(gca, 'xticklabel', {'T1', 'T2'})
 ytickformat('percentage')
 
 subplot(2,2,2)
 b = bar([seenPreAbsT1; seenAbsPreT2]);
-% ylim([30 100])
+ylim([30 100])
 title('target present/nontarget absent')
 ylabel('p(seen)')
-% set(gca, 'ytick', 30:10:100)
+set(gca, 'ytick', 30:10:100)
 set(gca, 'xticklabel', {'T1', 'T2'})
 ytickformat('percentage')
 
@@ -424,9 +424,9 @@ ytickformat('percentage')
 subplot(2,2,3)
 b = bar([seenAbsPreT1; seenPreAbsT2]);
 title('target absent/nontarget present')
-% ylim([30 100])
+ylim([30 100])
 ylabel('p(seen)')
-% set(gca, 'ytick', 30:10:100)
+set(gca, 'ytick', 30:10:100)
 set(gca, 'xticklabel', {'T1', 'T2'})
 ytickformat('percentage')
 
@@ -434,9 +434,9 @@ ytickformat('percentage')
 subplot(2,2,4)
 b = bar([seenAbsAbsT1; seenAbsAbsT2]);
 title('target absent/nontarget absent')
-% ylim([30 100])
+ylim([30 100])
 ylabel('p(seen)')
-% set(gca, 'ytick', 30:10:100)
+set(gca, 'ytick', 30:10:100)
 set(gca, 'xticklabel', {'T1', 'T2'})
 ytickformat('percentage')
 ax = gca;
