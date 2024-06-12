@@ -1,0 +1,186 @@
+clear all
+
+saveplots = 0; % set to 1 to save figures to participant behav data 
+
+fp = figureparams;
+
+%% compile
+subs = {'S0004'};
+dataAll = [];
+
+
+for iSub=1:length(subs) % for participant
+
+    SID = subs{iSub};
+    %iMac
+    behDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/'];
+    exptDir = '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/';
+    % beh comp
+    % behDir = ['/home/denisonlab-beh/Experiments/ZOOT/experiment-files/data' SID '/beh'];
+    cd(behDir);
+    fields = {'precue','target', 'T1Contrast', 'T2Contrast', 'targetContrast', 'T1Tilt', 'T2Tilt', 'targetTilt', 'seen', 'correct', 'response', 'correctDis', 'eyeSkip'}; % fieldnames(data);
+    for iF = 1:numel(fields) % initialize
+        dataAll.(fields{iF}) = [];
+    end
+    sessions = {'session1', 'session2'};
+    for iSession = 1:numel(sessions) % for session
+        highestBlock = 0;
+        sesNum = sessions{iSession};
+        sesDir = ['/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/data/' SID '/beh/' sesNum];
+        cd(sesDir)
+        listing = dir;
+        for iFile = 3:size(dir) % for file
+            fileName = listing(iFile).name;
+            splitName  = strsplit(fileName, '_');
+            splitBlock = splitName{5};
+            blockNum = str2num(splitBlock(6:end)); % get highest block number per participant
+            if blockNum > highestBlock
+                highestBlock = blockNum;
+            end
+        end
+        findFile = dir(sprintf('*block%d*.mat', highestBlock)); %find and load highest block number file per participant
+        highestFileName = findFile.name;
+        load(highestFileName)
+        for iF = 1:numel(fields) % initialize
+            if strcmp(fields{iF}, 'eyeSkip') == 1
+                data.(fields{iF}) = data.(fields{iF})'; % transpose eyeSkip since it was made as one column instead of one row
+            end
+            dataAll.(fields{iF}) = [dataAll.(fields{iF}) data.(fields{iF})]; % compiles data structures from one participant
+        end
+
+    end
+
+    % used for figure titles, if both session then full. if one session then
+    % ses number
+    if numel(sessions) > 1
+        ses = 'full';
+    elseif numel(sessions) == 1
+        ses = sessions{1};
+    end
+
+    %% variables
+
+    %Validity
+    Valid = dataAll.precue == dataAll.target;
+    Neutral = dataAll.precue == 3;
+    Invalid = (dataAll.precue == 1| dataAll.precue == 2) & dataAll.precue ~= dataAll.target;
+
+    % get nontarget info
+    contrasts = [1 0];
+    tilts = [-1 1];
+    dataAll.nonTargetContrast = [];
+    dataAll.nontarget = [];
+    dataAll.nonTargetTilt = [];
+    for iNonTarget = 1:size(dataAll.targetContrast,2)
+        if dataAll.target(iNonTarget) == 1
+            dataAll.nontarget(iNonTarget) = 2;
+            dataAll.nonTargetContrast(iNonTarget) = contrasts(dataAll.T2Contrast(iNonTarget));
+            dataAll.nonTargetTilt(iNonTarget) = tilts(dataAll.T2Tilt(iNonTarget));
+        elseif dataAll.target(iNonTarget) == 2
+            dataAll.nontarget(iNonTarget) = 1;
+            dataAll.nonTargetContrast(iNonTarget) = contrasts(dataAll.T1Contrast(iNonTarget));
+            dataAll.nonTargetTilt(iNonTarget) = tilts(dataAll.T1Tilt(iNonTarget));
+        end
+    end
+
+    for iTilt = 1:size(dataAll.target,2)
+        if dataAll.targetContrast(iTilt) == 0
+            dataAll.targetTilt(iTilt) = 0;
+        end
+        if dataAll.nonTargetContrast(iTilt) == 0
+            dataAll.nonTargetTilt(iTilt) = 0;
+        end
+    end
+
+    % target/nontarget present/absent
+    PresentPresent = dataAll.targetContrast == 1 & dataAll.nonTargetContrast == 1;
+    PresentAbsent = dataAll.targetContrast == 1 & dataAll.nonTargetContrast == 0;
+    AbsentPresent =dataAll.targetContrast == 0 & dataAll.nonTargetContrast == 1;
+    AbsentAbsent = dataAll.targetContrast == 0 & dataAll.nonTargetContrast == 0;
+
+    Validities = {Valid Neutral Invalid};
+    contrastConds = {PresentPresent PresentAbsent AbsentPresent AbsentAbsent};
+
+%% CMV
+
+% confusability by attention for all contrasts and one target conditions
+validityNames = {'valid', 'neutral', 'invalid'};
+conditionNames = {'all contrasts', 'one target'};
+tilts = [-1 1 0];
+for iValid = 1:numel(Validities)
+    for iTarget = 1:2
+        for iStimID = 1:3 % CCW absent CW
+            for iResponse = 1:3
+                if tilts(iStimID)==0 % Target absent
+                    idx = dataAll.target==iTarget & ~dataAll.targetContrast & Validities{iValid} &  ~dataAll.eyeSkip;
+                    idxNon = dataAll.nontarget==iTarget & ~dataAll.nonTargetContrast & Validities{iValid} & ~dataAll.eyeSkip;
+                    idxOneTarg = dataAll.target==iTarget & ~dataAll.targetContrast & Validities{iValid} & ~dataAll.eyeSkip & dataAll.T1Contrast~=dataAll.T2Contrast;
+                    idxNonOneTarg = dataAll.nontarget==iTarget & ~dataAll.nonTargetContrast & Validities{iValid} & ~dataAll.eyeSkip & dataAll.T1Contrast~=dataAll.T2Contrast;
+                else % Target present
+                    idx = dataAll.target==iTarget & dataAll.targetTilt==tilts(iStimID) & dataAll.targetContrast & Validities{iValid} &  ~dataAll.eyeSkip;% & dataAll.T1Contrast~=dataAll.T2Contrast; % denominator; number of trials that meet this stimulus condition (CCW, CW, absent) and target (T1 or T2)
+                    idxNon = dataAll.nontarget==iTarget & dataAll.nonTargetTilt==tilts(iStimID) & dataAll.nonTargetContrast & Validities{iValid} & ~dataAll.eyeSkip;
+                    idxOneTarg = dataAll.target==iTarget & dataAll.targetTilt==tilts(iStimID) & dataAll.targetContrast & ~dataAll.eyeSkip & dataAll.T1Contrast~=dataAll.T2Contrast & Validities{iValid};
+                    idxNonOneTarg = dataAll.nontarget==iTarget & dataAll.nonTargetTilt==tilts(iStimID) & dataAll.nonTargetContrast & ~dataAll.eyeSkip & dataAll.T1Contrast~=dataAll.T2Contrast & Validities{iValid};
+                end
+                CM.n(iStimID,iResponse,iTarget) = size(dataAll.response(idx),2); % contains number of trials for each condition for target; each matrix corresponds to a target (T1 or T2), row 1: CCW, row 2: CW, row 3: abs
+                CM.response(iStimID,iResponse,iTarget) = size(dataAll.response(idx & dataAll.response==iResponse),2); % find in dataAll.response where the stimulus and the response match, contains number of trials for each response; each matrix corresponds to a target
+                CMprop.all.targ(iStimID,iResponse,iTarget) = CM.response(iStimID,iResponse,iTarget)/CM.n(iStimID,iResponse,iTarget);
+                CM.nNon(iStimID,iResponse,iTarget) = size(dataAll.response(idxNon),2); % contains number of trials for each condition for nontarget; each matrix corresponds to a target (T1 or T2), row 1: CCW, row 2: CW, row 3: abs
+                CM.responseNon(iStimID,iResponse,iTarget) = size(dataAll.response(idxNon & dataAll.response==iResponse),2); % find in dataAll.response where the stimulus and the response match, contains number of trials for each response; each matrix corresponds to a target
+                CMprop.all.nontarg(iStimID,iResponse,iTarget) = CM.responseNon(iStimID,iResponse,iTarget)/CM.nNon(iStimID,iResponse,iTarget);
+
+
+                CM.nOneTarg(iStimID,iResponse,iTarget) = size(dataAll.response(idxOneTarg),2); % contains number of trials for each one target condition for target ; each matrix corresponds to a target (T1 or T2), row 1: CCW, row 2: CW, row 3: abs
+                CM.responseOneTarg(iStimID,iResponse,iTarget) = size(dataAll.response(idxOneTarg & dataAll.response==iResponse),2); % find in dataAll.response where the stimulus and the response match, contains number of trials for each response; each matrix corresponds to a target
+                CMprop.one.targ(iStimID,iResponse,iTarget) = CM.responseOneTarg(iStimID,iResponse,iTarget)/CM.nOneTarg(iStimID,iResponse,iTarget);
+                CM.nNonOneTarg(iStimID,iResponse,iTarget) = size(dataAll.response(idxNonOneTarg),2); % contains number of trials for each one target condition for nontarget; each matrix corresponds to a target (T1 or T2), row 1: CCW, row 2: CW, row 3: abs
+                CM.responseNonOneTarg(iStimID,iResponse,iTarget) = size(dataAll.response(idxNonOneTarg & dataAll.response==iResponse),2); % find in dataAll.response where the stimulus and the response match, contains number of trials for each response; each matrix corresponds to a target
+                CMprop.one.nontarg(iStimID,iResponse,iTarget) = CM.responseNonOneTarg(iStimID,iResponse,iTarget)/CM.nNonOneTarg(iStimID,iResponse,iTarget);
+            end
+        end
+    end
+    CMV.(validityNames{iValid}) = CMprop;
+end
+
+
+ CMVfieldnames = fieldnames(CMV);
+ validfieldnames = fieldnames(CMV.valid);
+ for iCond = 1:2 % for each condition - all contrast conditions first, then one target conditions, plot the 2 x 3 confusability matrix for T1, T2, and all targets for target and nontarget
+    for iValidity = 1:numel(CMVfieldnames) % for validity - valid, neutral, invalid
+        CMVAll.TargetT1 = CMV.(CMVfieldnames{iValidity}).(validfieldnames{iCond}).targ(:,:,1); % find correct CMV - etc. CMV.valid.One.targ(:,:,1) for valid one target trials for T1 
+        CMVAll.TargetT2 = CMV.(CMVfieldnames{iValidity}).(validfieldnames{iCond}).targ(:,:,2);
+        CMVAll.TargetAll = (CMVAll.TargetT1 + CMVAll.TargetT2) / 2;
+        CMVAll.NontargetT1 = CMV.(CMVfieldnames{iValidity}).(validfieldnames{iCond}).nontarg(:,:,1);
+        CMVAll.NontargetT2 = CMV.(CMVfieldnames{iValidity}).(validfieldnames{iCond}).nontarg(:,:,2);
+        CMVAll.NontargetAll = (CMVAll.NontargetT1 + CMVAll.NontargetT2) / 2;
+        CMVAllfieldnames = fieldnames(CMVAll);
+        figure();
+        set(gcf,'Position',[100 100 1200 400])
+        for iCM = 1:numel(CMVAllfieldnames)
+            sgtitle([SID ' ' conditionNames{iCond} ' ' validityNames{iValidity}]) % make so says valid, neutral, invalid, appropriately
+            subplot(2,3,iCM)
+            imagesc(CMVAll.(CMVAllfieldnames{iCM}))
+            x = [1 2 3];
+            y = [1 2 3];
+            title([CMVAllfieldnames{iCM}])
+            ylabel('stimulus')
+            xlabel('response')
+            set(gca, 'ytick', 1:1:3)
+            set(gca, 'yticklabel', {'CCW', 'CW', 'absent'})
+            set(gca, 'xtick', 1:1:3)
+            set(gca, 'xticklabel', {'CCW', 'CW', 'absent'})
+            colormap(gray)
+            colorbar
+            clim([0 1])
+            hold on
+
+        end
+    end
+ end 
+    if saveplots
+         figTitle = sprintf('%s_CM_All_%s',...
+             SID, datestr(now,'yymmdd'));
+             saveas(gcf,sprintf('%s/%s', behDir, figTitle))
+     end
+
+end 

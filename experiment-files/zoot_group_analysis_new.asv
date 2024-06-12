@@ -140,9 +140,8 @@ for iSub=1:length(subs) % for participant
             end
         end
 
-      % CM by validity
+        % CM by validity
         validityNames = {'valid', 'neutral', 'invalid'};
-        conditionNames = {'all contrasts', 'one target'};
         tilts = [-1 1 0];
         for iValid = 1:numel(Validities)
             for iTarget = 1:2
@@ -151,35 +150,22 @@ for iSub=1:length(subs) % for participant
                         if tilts(iStimID)==0 % Target absent
                             idx = dataAll(iSub).target==iTarget & ~dataAll(iSub).targetContrast & Validities{iValid} & ~dataAll(iSub).eyeSkip;
                             idxNon = dataAll(iSub).nontarget==iTarget & ~dataAll(iSub).nonTargetContrast & Validities{iValid} & ~dataAll(iSub).eyeSkip;
-                            idxOneTarg = dataAll(iSub).target==iTarget & ~dataAll(iSub).targetContrast & ~dataAll(iSub).eyeSkip & dataAll(iSub).T1Contrast~=dataAll(iSub).T2Contrast & Validities{iValid};
-                            idxNonOneTarg = dataAll(iSub).nontarget==iTarget & ~dataAll(iSub).nonTargetContrast & ~dataAll(iSub).eyeSkip & dataAll(iSub).T1Contrast~=dataAll(iSub).T2Contrast & Validities{iValid};
                         else % Target present
                             idx = dataAll(iSub).target==iTarget & dataAll(iSub).targetTilt==tilts(iStimID) & dataAll(iSub).targetContrast & Validities{iValid} &  ~dataAll(iSub).eyeSkip;% & dataAll.T1Contrast~=dataAll.T2Contrast; % denominator; number of trials that meet this stimulus condition (CCW, CW, absent) and target (T1 or T2)
                             idxNon = dataAll(iSub).nontarget==iTarget & dataAll(iSub).nonTargetTilt==tilts(iStimID) & dataAll(iSub).nonTargetContrast & Validities{iValid} & ~dataAll(iSub).eyeSkip;
-                            idxOneTarg = dataAll(iSub).target==iTarget & dataAll(iSub).targetTilt==tilts(iStimID) & dataAll(iSub).targetContrast & ~dataAll(iSub).eyeSkip & dataAll(iSub).T1Contrast~=dataAll(iSub).T2Contrast  & Validities{iValid};
-                            idxNonOneTarg = dataAll(iSub).nontarget==iTarget & dataAll(iSub).nonTargetTilt==tilts(iStimID) & dataAll(iSub).nonTargetContrast & ~dataAll(iSub).eyeSkip & dataAll(iSub).T1Contrast~=dataAll(iSub).T2Contrast & Validities{iValid};
                         end
                         CM.n(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idx),2); % contains number of trials for each condition for target; each matrix corresponds to a target (T1 or T2), row 1: CCW, row 2: CW, row 3: abs
                         CM.response(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idx & dataAll(iSub).response==iResponse),2); % find in dataAll.response where the stimulus and the response match, contains number of trials for each response; each matrix corresponds to a target
-                        CMprop.all.targ(iStimID,iResponse,iTarget) = CM.response(iStimID,iResponse,iTarget)/CM.n(iStimID,iResponse,iTarget);
+                        CM.prop(iStimID,iResponse,iTarget) = CM.response(iStimID,iResponse,iTarget)/CM.n(iStimID,iResponse,iTarget);
                         CM.nNon(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idxNon),2); % contains number of trials for each condition for nontarget; each matrix corresponds to a target (T1 or T2), row 1: CCW, row 2: CW, row 3: abs
                         CM.responseNon(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idxNon & dataAll(iSub).response==iResponse),2); % find in dataAll.response where the stimulus and the response match, contains number of trials for each response; each matrix corresponds to a target
-                        CMprop.all.nontarg(iStimID,iResponse,iTarget) = CM.responseNon(iStimID,iResponse,iTarget)/CM.nNon(iStimID,iResponse,iTarget);
-
-                        CM.nOneTarg(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idxOneTarg),2); % contains number of trials for each one target condition for target ; each matrix corresponds to a target (T1 or T2), row 1: CCW, row 2: CW, row 3: abs
-                        CM.responseOneTarg(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idxOneTarg & dataAll(iSub).response==iResponse),2); % find in dataAll.response where the stimulus and the response match, contains number of trials for each response; each matrix corresponds to a target
-                        CMprop.one.targ(iStimID,iResponse,iTarget) = CM.responseOneTarg(iStimID,iResponse,iTarget)/CM.nOneTarg(iStimID,iResponse,iTarget);
-                        CM.nNonOneTarg(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idxNonOneTarg),2); % contains number of trials for each one target condition for nontarget; each matrix corresponds to a target (T1 or T2), row 1: CCW, row 2: CW, row 3: abs
-                        CM.responseNonOneTarg(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idxNonOneTarg & dataAll(iSub).response==iResponse),2); % find in dataAll.response where the stimulus and the response match, contains number of trials for each response; each matrix corresponds to a target
-                        CMprop.one.nontarg(iStimID,iResponse,iTarget) = CM.responseNonOneTarg(iStimID,iResponse,iTarget)/CM.nNonOneTarg(iStimID,iResponse,iTarget);
+                        CM.propNon(iStimID,iResponse,iTarget) = CM.responseNon(iStimID,iResponse,iTarget)/CM.nNon(iStimID,iResponse,iTarget);
                     end
                 end
             end
-            dataAll(iSub).CMV.(validityNames{iValid}) = CMprop;
+            dataAll(iSub).CMV.(validityNames{iValid}) = CM;
         end
 
-        
-        
       %% SDT 
     % detection 
     cd(exptDir);
@@ -279,19 +265,17 @@ end
 
 TCMVIdx = 0;
 NCMVIdx = 0;
-validfieldnames = fieldnames(dataAll(iSub).CMV.valid); % gives "all" and "one"
-for iCond = 1:2
-    for iValid = 1:numel(Validities)
-        for iSub = 1:length(subs)
-            TCMVIdx = TCMVIdx + dataAll(iSub).CMV.(validityNames{iValid}).(validfieldnames{iCond}).targ;  % add each condition proporition across participants for target per condition (all contrast or one target) and validity
-            NCMVIdx = NCMVIdx + dataAll(iSub).CMV.(validityNames{iValid}).(validfieldnames{iCond}).nontarg;% add each condition proporition across participants for nontarget per condition (all contrast or one target) and validity
-        end
-        TCMV.(validfieldnames{iCond}).(validityNames{iValid}) = TCMVIdx/length(subs);
-        NCMV.(validfieldnames{iCond}).(validityNames{iValid}) = NCMVIdx/length(subs);
-        TCMVIdx = 0;
-        NCMVIdx = 0;
-    end
-end
+for iValid = 1:numel(Validities)
+    for iSub = 1:length(subs)
+        TCMVIdx = TCMVIdx + dataAll(iSub).CMV.(validityNames{iValid}).prop;
+        NCMVIdx = NCMVIdx + dataAll(iSub).CMV.(validityNames{iValid}).propNon;
+    end 
+    TCMV.(validityNames{iValid}) = TCMVIdx/length(subs);
+    NCMV.(validityNames{iValid}) = NCMVIdx/length(subs);
+    TCMVIdx = 0;
+    NCMVIdx = 0;
+end 
+
 %% SDT - detection
 % cd(exptDir)
 % 
@@ -442,21 +426,20 @@ if saveplots
     saveas(gcf,sprintf('%s/%s', behDir, figTitle))
 end
 
-% plot CM by attention
-CMVfieldnames = fieldnames(TCMV.all);
-for iCond = 1:2
+%  CM all conditions
+CMVfieldnames = fieldnames(TCMV);
     for iValidity = 1:numel(CMVfieldnames) % for validity
-        CMVAll.TargetT1 = TCMV.(validfieldnames{iCond}).(validityNames{iValidity})(:,:,1);
-        CMVAll.TargetT2 = TCMV.(validfieldnames{iCond}).(validityNames{iValidity})(:,:,2);
+        CMVAll.TargetT1 = TCMV.(validityNames{iValidity})(:,:,1);
+        CMVAll.TargetT2 = TCMV.(validityNames{iValidity})(:,:,2);
         CMVAll.TargetAll = (CMVAll.TargetT1 + CMVAll.TargetT2) / 2;
-        CMVAll.NontargetT1 = NCMV.(validfieldnames{iCond}).(validityNames{iValidity})(:,:,1);
-        CMVAll.NontargetT2 = NCMV.(validfieldnames{iCond}).(validityNames{iValidity})(:,:,2);
+        CMVAll.NontargetT1 = NCMV.(validityNames{iValidity})(:,:,1);
+        CMVAll.NontargetT2 = NCMV.(validityNames{iValidity})(:,:,2);
         CMVAll.NontargetAll = (CMVAll.NontargetT1 + CMVAll.NontargetT2) / 2;
         CMVAllfieldnames = fieldnames(CMVAll);
         figure();
         set(gcf,'Position',[100 100 1200 400])
         for iCM = 1:numel(CMVAllfieldnames)
-            sgtitle(['ga ' conditionNames{iCond} ' ' validityNames{iValidity}]) % make so says valid, neutral, invalid, appropriately
+            sgtitle(['ga confusability maps - all conditions ' validityNames{iValidity}]) % make so says valid, neutral, invalid, appropriately
             subplot(2,3,iCM)
             imagesc(CMVAll.(CMVAllfieldnames{iCM}))
             x = [1 2 3];
@@ -475,7 +458,6 @@ for iCond = 1:2
 
         end
     end
-end 
     if saveplots
          figTitle = sprintf('%s_CM_All_%s',...
              SID, datestr(now,'yymmdd'));
@@ -483,44 +465,6 @@ end
      end
 
 
-      % plot valid-invalid by contrast condition
-     for iCond = 1:2
-         CMVAll.TargetT1 = T.(validfieldnames{iCond}).diff(:,:,1); % difference for target all/one condition for T1
-         CMVAll.TargetT2 = T.(validfieldnames{iCond}).diff(:,:,2); % difference for target all/one condition for T2
-         CMVAll.TargetAll = (CMVAll.TargetT1 + CMVAll.TargetT2) / 2; % difference for target all/one condition for all targets
-         CMVAll.NontargetT1 = N.(validfieldnames{iCond}).diff(:,:,1);% difference for nontarget all/one condition for T1
-         CMVAll.NontargetT2 = N.(validfieldnames{iCond}).diff(:,:,2);% difference for nontarget all/one condition for T2
-         CMVAll.NontargetAll = (CMVAll.NontargetT1 + CMVAll.NontargetT2) / 2;  % difference for nontarget all/one condition for all targets
-         CMVAllfieldnames = fieldnames(CMVAll);
-         figure();
-         set(gcf,'Position',[100 100 1200 400])
-         for iCM = 1:numel(CMVAllfieldnames)
-             sgtitle(['ga ' conditionNames{iCond} ' valid-invalid']) % make so says valid, neutral, invalid, appropriately
-             subplot(2,3,iCM)
-             imagesc(CMVAll.(CMVAllfieldnames{iCM}))
-             x = [1 2 3];
-             y = [1 2 3];
-             title([CMVAllfieldnames{iCM}])
-             ylabel('stimulus')
-             xlabel('response')
-             set(gca, 'ytick', 1:1:3)
-             set(gca, 'yticklabel', {'CCW', 'CW', 'absent'})
-             set(gca, 'xtick', 1:1:3)
-             set(gca, 'xticklabel', {'CCW', 'CW', 'absent'})
-             cd(exptDir)
-             colormap(b2r(-0.2, 0.2))
-             colorbar
-             clim([-0.2 0.2])
-             hold on
-
-         end
-     end
- 
-    if saveplots
-         figTitle = sprintf('%s_CM_All_%s',...
-             SID, datestr(now,'yymmdd'));
-         saveas(gcf,sprintf('%s/%s', behDir, figTitle))
-     end
  %% SDT
     %% SDT
     % detection

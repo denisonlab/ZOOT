@@ -183,9 +183,7 @@ for iSub=1:length(subs) % for participant
     end
 
 % confusability by attention
-% confusability by attention for all contrasts and one target conditions
 validityNames = {'valid', 'neutral', 'invalid'};
-conditionNames = {'all contrasts', 'one target'};
 tilts = [-1 1 0];
 for iValid = 1:numel(Validities)
     for iTarget = 1:2
@@ -194,33 +192,22 @@ for iValid = 1:numel(Validities)
                 if tilts(iStimID)==0 % Target absent
                     idx = dataAll.target==iTarget & ~dataAll.targetContrast & Validities{iValid} &  ~dataAll.eyeSkip;
                     idxNon = dataAll.nontarget==iTarget & ~dataAll.nonTargetContrast & Validities{iValid} & ~dataAll.eyeSkip;
-                    idxOneTarg = dataAll.target==iTarget & ~dataAll.targetContrast & Validities{iValid} & ~dataAll.eyeSkip & dataAll.T1Contrast~=dataAll.T2Contrast;
-                    idxNonOneTarg = dataAll.nontarget==iTarget & ~dataAll.nonTargetContrast & Validities{iValid} & ~dataAll.eyeSkip & dataAll.T1Contrast~=dataAll.T2Contrast;
                 else % Target present
                     idx = dataAll.target==iTarget & dataAll.targetTilt==tilts(iStimID) & dataAll.targetContrast & Validities{iValid} &  ~dataAll.eyeSkip;% & dataAll.T1Contrast~=dataAll.T2Contrast; % denominator; number of trials that meet this stimulus condition (CCW, CW, absent) and target (T1 or T2)
                     idxNon = dataAll.nontarget==iTarget & dataAll.nonTargetTilt==tilts(iStimID) & dataAll.nonTargetContrast & Validities{iValid} & ~dataAll.eyeSkip;
-                    idxOneTarg = dataAll.target==iTarget & dataAll.targetTilt==tilts(iStimID) & dataAll.targetContrast & ~dataAll.eyeSkip & dataAll.T1Contrast~=dataAll.T2Contrast;
-                    idxNonOneTarg = dataAll.nontarget==iTarget & dataAll.nonTargetTilt==tilts(iStimID) & dataAll.nonTargetContrast & ~dataAll.eyeSkip & dataAll.T1Contrast~=dataAll.T2Contrast;
                 end
                 CM.n(iStimID,iResponse,iTarget) = size(dataAll.response(idx),2); % contains number of trials for each condition for target; each matrix corresponds to a target (T1 or T2), row 1: CCW, row 2: CW, row 3: abs
                 CM.response(iStimID,iResponse,iTarget) = size(dataAll.response(idx & dataAll.response==iResponse),2); % find in dataAll.response where the stimulus and the response match, contains number of trials for each response; each matrix corresponds to a target
-                CMprop.all.targ(iStimID,iResponse,iTarget) = CM.response(iStimID,iResponse,iTarget)/CM.n(iStimID,iResponse,iTarget);
+                CM.prop(iStimID,iResponse,iTarget) = CM.response(iStimID,iResponse,iTarget)/CM.n(iStimID,iResponse,iTarget);
                 CM.nNon(iStimID,iResponse,iTarget) = size(dataAll.response(idxNon),2); % contains number of trials for each condition for nontarget; each matrix corresponds to a target (T1 or T2), row 1: CCW, row 2: CW, row 3: abs
                 CM.responseNon(iStimID,iResponse,iTarget) = size(dataAll.response(idxNon & dataAll.response==iResponse),2); % find in dataAll.response where the stimulus and the response match, contains number of trials for each response; each matrix corresponds to a target
-                CMprop.all.nontarg(iStimID,iResponse,iTarget) = CM.responseNon(iStimID,iResponse,iTarget)/CM.nNon(iStimID,iResponse,iTarget);
-
-
-                CM.nOneTarg(iStimID,iResponse,iTarget) = size(dataAll.response(idxOneTarg),2); % contains number of trials for each one target condition for target ; each matrix corresponds to a target (T1 or T2), row 1: CCW, row 2: CW, row 3: abs
-                CM.responseOneTarg(iStimID,iResponse,iTarget) = size(dataAll.response(idxOneTarg & dataAll.response==iResponse),2); % find in dataAll.response where the stimulus and the response match, contains number of trials for each response; each matrix corresponds to a target
-                CMprop.one.targ(iStimID,iResponse,iTarget) = CM.responseOneTarg(iStimID,iResponse,iTarget)/CM.nOneTarg(iStimID,iResponse,iTarget);
-                CM.nNonOneTarg(iStimID,iResponse,iTarget) = size(dataAll.response(idxNonOneTarg),2); % contains number of trials for each one target condition for nontarget; each matrix corresponds to a target (T1 or T2), row 1: CCW, row 2: CW, row 3: abs
-                CM.responseNonOneTarg(iStimID,iResponse,iTarget) = size(dataAll.response(idxNonOneTarg & dataAll.response==iResponse),2); % find in dataAll.response where the stimulus and the response match, contains number of trials for each response; each matrix corresponds to a target
-                CMprop.one.nontarg(iStimID,iResponse,iTarget) = CM.responseNonOneTarg(iStimID,iResponse,iTarget)/CM.nNonOneTarg(iStimID,iResponse,iTarget);
+                CM.propNon(iStimID,iResponse,iTarget) = CM.responseNon(iStimID,iResponse,iTarget)/CM.nNon(iStimID,iResponse,iTarget);
             end
         end
     end
-    CMV.(validityNames{iValid}) = CMprop;
+    CMV.(validityNames{iValid}) = CM;
 end
+
     % get proportions for all conditions by T1, T2, and both targets collapsed
     CMAll.TargetT1 = CM.prop(:,:,1);
     CMAll.TargetT2 = CM.prop(:,:,2);
@@ -298,21 +285,19 @@ end
 
     % plot confuse maps with all conditions by attention condition,
     % target and nontarget
- CMVfieldnames = fieldnames(CMV);
- validfieldnames = fieldnames(CMV.valid);
- for iCond = 1:2 % for each condition - all contrast conditions first, then one target conditions, plot the 2 x 3 confusability matrix for T1, T2, and all targets for target and nontarget
-    for iValidity = 1:numel(CMVfieldnames) % for validity - valid, neutral, invalid
-        CMVAll.TargetT1 = CMV.(CMVfieldnames{iValidity}).(validfieldnames{iCond}).targ(:,:,1); % find correct CMV - etc. CMV.valid.One.targ(:,:,1) for valid one target trials for T1 
-        CMVAll.TargetT2 = CMV.(CMVfieldnames{iValidity}).(validfieldnames{iCond}).targ(:,:,2);
+    CMVfieldnames = fieldnames(CMV);
+    for iValidity = 1:numel(CMVfieldnames) % for validity
+        CMVAll.TargetT1 = CMV.(CMVfieldnames{iValidity}).prop(:,:,1);
+        CMVAll.TargetT2 = CMV.(CMVfieldnames{iValidity}).prop(:,:,2);
         CMVAll.TargetAll = (CMVAll.TargetT1 + CMVAll.TargetT2) / 2;
-        CMVAll.NontargetT1 = CMV.(CMVfieldnames{iValidity}).(validfieldnames{iCond}).nontarg(:,:,1);
-        CMVAll.NontargetT2 = CMV.(CMVfieldnames{iValidity}).(validfieldnames{iCond}).nontarg(:,:,2);
+        CMVAll.NontargetT1 = CMV.(CMVfieldnames{iValidity}).propNon(:,:,1);
+        CMVAll.NontargetT2 = CMV.(CMVfieldnames{iValidity}).propNon(:,:,2);
         CMVAll.NontargetAll = (CMVAll.NontargetT1 + CMVAll.NontargetT2) / 2;
         CMVAllfieldnames = fieldnames(CMVAll);
         figure();
         set(gcf,'Position',[100 100 1200 400])
         for iCM = 1:numel(CMVAllfieldnames)
-            sgtitle([SID ' ' conditionNames{iCond} ' ' validityNames{iValidity}]) % make so says valid, neutral, invalid, appropriately
+            sgtitle([SID ' confusability maps - all conditions ' validityNames{iValidity}]) % make so says valid, neutral, invalid, appropriately
             subplot(2,3,iCM)
             imagesc(CMVAll.(CMVAllfieldnames{iCM}))
             x = [1 2 3];
@@ -331,7 +316,6 @@ end
 
         end
     end
- end 
     if saveplots
          figTitle = sprintf('%s_CM_All_%s',...
              SID, datestr(now,'yymmdd'));
