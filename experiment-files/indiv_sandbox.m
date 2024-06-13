@@ -181,6 +181,51 @@ end
          figTitle = sprintf('%s_CM_All_%s',...
              SID, datestr(now,'yymmdd'));
              saveas(gcf,sprintf('%s/%s', behDir, figTitle))
+    end
+
+    for iCond = 1:2
+        T.(validfieldnames{iCond}).diff = CMV.valid.(validfieldnames{iCond}).targ - CMV.invalid.(validfieldnames{iCond}).targ;
+        N.(validfieldnames{iCond}).diff = CMV.valid.(validfieldnames{iCond}).nontarg - CMV.invalid.(validfieldnames{iCond}).nontarg;
+    end
+
+
+     % plot valid-invalid by contrast condition
+     for iCond = 1:2
+         CMVAll.TargetT1 = T.(validfieldnames{iCond}).diff(:,:,1); % difference for target all/one condition for T1
+         CMVAll.TargetT2 = T.(validfieldnames{iCond}).diff(:,:,2); % difference for target all/one condition for T2
+         CMVAll.TargetAll = (CMVAll.TargetT1 + CMVAll.TargetT2) / 2; % difference for target all/one condition for all targets
+         CMVAll.NontargetT1 = N.(validfieldnames{iCond}).diff(:,:,1);% difference for nontarget all/one condition for T1
+         CMVAll.NontargetT2 = N.(validfieldnames{iCond}).diff(:,:,2);% difference for nontarget all/one condition for T2
+         CMVAll.NontargetAll = (CMVAll.NontargetT1 + CMVAll.NontargetT2) / 2;  % difference for nontarget all/one condition for all targets
+         CMVAllfieldnames = fieldnames(CMVAll);
+         figure();
+         set(gcf,'Position',[100 100 1200 400])
+         for iCM = 1:numel(CMVAllfieldnames)
+             sgtitle([SID conditionNames{iCond} ' valid-invalid']) % make so says valid, neutral, invalid, appropriately
+             subplot(2,3,iCM)
+             imagesc(CMVAll.(CMVAllfieldnames{iCM}))
+             x = [1 2 3];
+             y = [1 2 3];
+             title([CMVAllfieldnames{iCM}])
+             ylabel('stimulus')
+             xlabel('response')
+             set(gca, 'ytick', 1:1:3)
+             set(gca, 'yticklabel', {'CCW', 'CW', 'absent'})
+             set(gca, 'xtick', 1:1:3)
+             set(gca, 'xticklabel', {'CCW', 'CW', 'absent'})
+             cd(exptDir)
+             colormap(b2r(-0.2, 0.2))
+             colorbar
+             clim([-0.2 0.2])
+             hold on
+
+         end
+     end
+ 
+    if saveplots
+         figTitle = sprintf('%s_CM_valid-invalid_%s',...
+             SID, datestr(now,'yymmdd'));
+         saveas(gcf,sprintf('%s/%s', behDir, figTitle))
      end
 
 end 

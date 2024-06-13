@@ -4,8 +4,10 @@ saveplots = 1;
 
 fp = figureparams;
 
+addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
+
 %% compile
-subs = {'S0004', 'S0005', 'S0007', 'S0015', 'S0019', 'S0070', 'S0108', 'S0122'};
+subs = {'S0005'}; %, 'S0005', 'S0007', 'S0015', 'S0019', 'S0070', 'S0108', 'S0122'};
 dataAll = [];
 
 
@@ -337,11 +339,58 @@ end
              SID, datestr(now,'yymmdd'));
          % saveas(gcf,sprintf('%s/%s', behDir, figTitle))
          saveas(gcf, sprinf('%s_%s.png'), SID, figTitle)
+    end
+
+    % calculate valid-invalid different per contrast condition for target and
+    % nontarget
+    for iCond = 1:2
+        T.(validfieldnames{iCond}).diff = CMV.valid.(validfieldnames{iCond}).targ - CMV.invalid.(validfieldnames{iCond}).targ;
+        N.(validfieldnames{iCond}).diff = CMV.valid.(validfieldnames{iCond}).nontarg - CMV.invalid.(validfieldnames{iCond}).nontarg;
+    end
+
+
+     % plot valid-invalid by contrast condition
+     for iCond = 1:2
+         CMVAll.TargetT1 = T.(validfieldnames{iCond}).diff(:,:,1); % difference for target all/one condition for T1
+         CMVAll.TargetT2 = T.(validfieldnames{iCond}).diff(:,:,2); % difference for target all/one condition for T2
+         CMVAll.TargetAll = (CMVAll.TargetT1 + CMVAll.TargetT2) / 2; % difference for target all/one condition for all targets
+         CMVAll.NontargetT1 = N.(validfieldnames{iCond}).diff(:,:,1);% difference for nontarget all/one condition for T1
+         CMVAll.NontargetT2 = N.(validfieldnames{iCond}).diff(:,:,2);% difference for nontarget all/one condition for T2
+         CMVAll.NontargetAll = (CMVAll.NontargetT1 + CMVAll.NontargetT2) / 2;  % difference for nontarget all/one condition for all targets
+         CMVAllfieldnames = fieldnames(CMVAll);
+         figure();
+         set(gcf,'Position',[100 100 1200 400])
+         for iCM = 1:numel(CMVAllfieldnames)
+             sgtitle([SID conditionNames{iCond} ' valid-invalid']) % make so says valid, neutral, invalid, appropriately
+             subplot(2,3,iCM)
+             imagesc(CMVAll.(CMVAllfieldnames{iCM}))
+             x = [1 2 3];
+             y = [1 2 3];
+             title([CMVAllfieldnames{iCM}])
+             ylabel('stimulus')
+             xlabel('response')
+             set(gca, 'ytick', 1:1:3)
+             set(gca, 'yticklabel', {'CCW', 'CW', 'absent'})
+             set(gca, 'xtick', 1:1:3)
+             set(gca, 'xticklabel', {'CCW', 'CW', 'absent'})
+             cd(exptDir)
+             colormap(b2r(-0.2, 0.2))
+             colorbar
+             clim([-0.2 0.2])
+             hold on
+
+         end
+     end
+ 
+    if saveplots
+         figTitle = sprintf('%s_CM_valid-invalid_%s',...
+             SID, datestr(now,'yymmdd'));
+         saveas(gcf,sprintf('%s/%s', behDir, figTitle))
      end
 
     %% SDT
     %detection
-    cd(exptDir);
+    % cd(exptDir);
     nhDet = dataAll.seen == 1 & dataAll.targetContrast == 1; % hit: seen and present
     nfDet = dataAll.seen == 1 & dataAll.targetContrast == 0; % fa: seen and absent
     nsignalDet = dataAll.targetContrast == 1; % signal: present
@@ -373,7 +422,7 @@ end
                 nfa.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,2);
                 nsignal.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,3);
                 nnoise.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,4);
-                [dprime, criterion] = kt_dprime2(nh.(Detfieldnames{iF})(iTarget,iValid), nfa.(Detfieldnames{iF})(iTarget,iValid), nsignal.(Detfieldnames{iF})(iTarget,iValid), nnoise.(Detfieldnames{iF})(iTarget,iValid));
+                [dprime, criterion] = kt_dprime2(nh.(Detfieldnames{iF})(iTarget,iValid), nfa.(Detfieldnames{iF})(iTarget,iValid), nsignal.(Detfieldnames{iF})(iTarget,iValid), nnoise.(Detfieldnames{iF})(iTarget,iValid),1);
                 detd.(Detfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
                 detc.(Detfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
             end
@@ -409,8 +458,8 @@ end
     ax.YGrid = 'off';
 
 
-    %discrimination - only present present and present absent (only trials
-    %with tilted targets
+    %% discrimination - only present present and present absent (only trials
+    %with tilted targets)
     nhDis = dataAll.correctDis == 1 & dataAll.targetTilt == 1;
     nfDis = dataAll.correctDis == 0 & dataAll.targetTilt == 1;
     nsignalDis = dataAll.targetTilt == 1;
@@ -432,16 +481,15 @@ end
 
      dp = [];
      c = [];
-     clear nh nfa nsignal nnoise
      Disfieldnames = fieldnames(dis);
      for iTarget = 1:2
          for iValid = 1:numel(Validities)
              for iF = 1:numel(Disfieldnames)
-                 nh.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,1);
-                 nfa.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,2);
-                 nsignal.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,3);
-                 nnoise.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,4);
-                 [dprime, criterion] = kt_dprime2(nh.(Disfieldnames{iF})(iTarget,iValid), nfa.(Disfieldnames{iF})(iTarget,iValid), nsignal.(Disfieldnames{iF})(iTarget,iValid), nnoise.(Disfieldnames{iF})(iTarget,iValid));
+                 nhDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,1);
+                 nfaDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,2);
+                 nsignalDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,3);
+                 nnoiseDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,4);
+                 [dprime, criterion] = kt_dprime2(nhDis.(Disfieldnames{iF})(iTarget,iValid), nfaDis.(Disfieldnames{iF})(iTarget,iValid), nsignalDis.(Disfieldnames{iF})(iTarget,iValid), nnoiseDis.(Disfieldnames{iF})(iTarget,iValid),1);
                  disd.(Disfieldnames{iF})(iTarget,iValid) = [dp dprime];
                  disc.(Disfieldnames{iF})(iTarget,iValid) = [c criterion];
              end
@@ -475,8 +523,6 @@ end
     ax = gca;
     ax.XGrid = 'off';
     ax.YGrid = 'off';
-
-
 
  end
 

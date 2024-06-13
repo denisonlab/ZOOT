@@ -182,45 +182,45 @@ for iSub=1:length(subs) % for participant
         
       %% SDT 
     % detection 
-    cd(exptDir);
-    nhDet = dataAll.seen == 1 & dataAll.targetContrast == 1; % hit: seen and present
-    nfDet = dataAll.seen == 1 & dataAll.targetContrast == 0; % fa: seen and absent
-    nsignalDet = dataAll.targetContrast == 1; % signal: present
-    nnoiseDet = dataAll.targetContrast == 0; % noise: absent
-    Det = {nhDet nfDet nsignalDet nnoiseDet};
-    % indices for all conditions based on target, validity, SDT variable
-    for iTarget =1:2
-        for iValid = 1:numel(Validities)
-            for iDet = 1:numel(Det)
-                detAllIdx = Validities{iValid} & Det{iDet} & dataAll.target == iTarget & ~dataAll.eyeSkip; % find all T1 and T2
-                det.all(iTarget, iValid, iDet) = sum(detAllIdx);
-                detNTPIdx = Validities{iValid} & Det{iDet} & dataAll.target == iTarget & dataAll.nonTargetContrast == 1 & ~dataAll.eyeSkip; % find all T1 when T2 present and all T2 when T1 present
-                det.nontargetPresent(iTarget, iValid, iDet) = sum(detNTPIdx);
-                detNTAIdx = Validities{iValid} & Det{iDet} & dataAll.target == iTarget & dataAll.nonTargetContrast == 0 & ~dataAll.eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
-                det.nontargetAbsent(iTarget, iValid, iDet) = sum(detNTAIdx);
-            end
-        end
-    end
-
-    %discrimination - only present present and present absent (only trials
-    %with tilted targets
-    nhDis = dataAll.correctDis == 1 & dataAll.targetTilt == 1;
-    nfDis = dataAll.correctDis == 0 & dataAll.targetTilt == 1;
-    nsignalDis = dataAll.targetTilt == 1;
-    nnoiseDis = dataAll.targetTilt == -1;
-    Dis = {nhDis nfDis nsignalDis nnoiseDis};
-    for iTarget = 1:2
-        for iValid = 1:numel(Validities)
-            for iDis = 1:numel(Dis)
-                disAllIdx = Validities{iValid} & Dis{iDis} & dataAll.target == iTarget & ~dataAll.eyeSkip;
-                dis.All(iTarget, iValid, iDis) = sum(disAllIdx);
-                disPPIdx = Validities{iValid} & Dis{iDis} & PresentPresent & dataAll.target == iTarget & ~dataAll.eyeSkip;
-                dis.nontargetPresent(iTarget, iValid, iDis) = sum(disPPIdx);
-                disPAIdx = Validities{iValid} & Dis{iDis} & PresentAbsent & dataAll.target == iTarget & ~dataAll.eyeSkip;
-                dis.nontargetAbsent(iTarget, iValid, iDis) = sum(disPAIdx);
-            end
-        end
-    end
+    % cd(exptDir);
+    % nhDet = dataAll.seen == 1 & dataAll.targetContrast == 1; % hit: seen and present
+    % nfDet = dataAll.seen == 1 & dataAll.targetContrast == 0; % fa: seen and absent
+    % nsignalDet = dataAll.targetContrast == 1; % signal: present
+    % nnoiseDet = dataAll.targetContrast == 0; % noise: absent
+    % Det = {nhDet nfDet nsignalDet nnoiseDet};
+    % % indices for all conditions based on target, validity, SDT variable
+    % for iTarget =1:2
+    %     for iValid = 1:numel(Validities)
+    %         for iDet = 1:numel(Det)
+    %             detAllIdx = Validities{iValid} & Det{iDet} & dataAll.target == iTarget & ~dataAll.eyeSkip; % find all T1 and T2
+    %             det.all(iTarget, iValid, iDet) = sum(detAllIdx);
+    %             detNTPIdx = Validities{iValid} & Det{iDet} & dataAll.target == iTarget & dataAll.nonTargetContrast == 1 & ~dataAll.eyeSkip; % find all T1 when T2 present and all T2 when T1 present
+    %             det.nontargetPresent(iTarget, iValid, iDet) = sum(detNTPIdx);
+    %             detNTAIdx = Validities{iValid} & Det{iDet} & dataAll.target == iTarget & dataAll.nonTargetContrast == 0 & ~dataAll.eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
+    %             det.nontargetAbsent(iTarget, iValid, iDet) = sum(detNTAIdx);
+    %         end
+    %     end
+    % end
+    % 
+    % %discrimination - only present present and present absent (only trials
+    % %with tilted targets
+    % nhDis = dataAll.correctDis == 1 & dataAll.targetTilt == 1;
+    % nfDis = dataAll.correctDis == 0 & dataAll.targetTilt == 1;
+    % nsignalDis = dataAll.targetTilt == 1;
+    % nnoiseDis = dataAll.targetTilt == -1;
+    % Dis = {nhDis nfDis nsignalDis nnoiseDis};
+    % for iTarget = 1:2
+    %     for iValid = 1:numel(Validities)
+    %         for iDis = 1:numel(Dis)
+    %             disAllIdx = Validities{iValid} & Dis{iDis} & dataAll.target == iTarget & ~dataAll.eyeSkip;
+    %             dis.All(iTarget, iValid, iDis) = sum(disAllIdx);
+    %             disPPIdx = Validities{iValid} & Dis{iDis} & PresentPresent & dataAll.target == iTarget & ~dataAll.eyeSkip;
+    %             dis.nontargetPresent(iTarget, iValid, iDis) = sum(disPPIdx);
+    %             disPAIdx = Validities{iValid} & Dis{iDis} & PresentAbsent & dataAll.target == iTarget & ~dataAll.eyeSkip;
+    %             dis.nontargetAbsent(iTarget, iValid, iDis) = sum(disPAIdx);
+    %         end
+    %     end
+    % end
 
     end
     dataAll(iSub).means = Acc.prop*100; % save each participant's mean data in dataAll
@@ -248,22 +248,24 @@ for iContrast = 1:numel(contrastConds)
             for iSub = 1:length(subs)
                 accIdx = [accIdx dataAll(iSub).means(iContrast,iValid,iTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis 
             end
-            Acc.std(iContrast,iValid,iTarget) = std(accIdx);
-            Acc.mean(iContrast, iValid, iTarget) = mean(accIdx);
-            Acc.err(iContrast,iValid,iTarget) = Acc.std(iContrast,iValid,iTarget)/sqrt(size(dataAll,2));
+            Acc.std(iContrast,iValid,iTarget) = std(accIdx); % finds std of the accuracy of each condition for each participant
+            Acc.mean(iContrast, iValid, iTarget) = mean(accIdx); % finds means of accuracy for each condition for each participant
+            Acc.err(iContrast,iValid,iTarget) = Acc.std(iContrast,iValid,iTarget)/sqrt(size(dataAll,2)); % calculate error for each condition 
             accIdx = [];
         end
     end
 end
 
+% find mean for CM by target for all contrast conditions and one target
+% conditions
 for iStimID = 1:3
     for iResponse = 1:3
         for iTarget = 1:2
             for iSub = 1:length(subs)
-                cmTIdx = [cmTIdx dataAll(iSub).CM_tAllProp(iStimID, iResponse, iTarget)];
-                cmNIdx = [cmNIdx dataAll(iSub).CM_nAllProp(iStimID, iResponse, iTarget)];
-                cm1TIdx = [cm1TIdx dataAll(iSub).CM_tOneProp(iStimID, iResponse, iTarget)];
-                cm1NIdx = [cm1NIdx dataAll(iSub).CM_nOneProp(iStimID, iResponse, iTarget)];
+                cmTIdx = [cmTIdx dataAll(iSub).CM_tAllProp(iStimID, iResponse, iTarget)]; % all contrasts, target
+                cmNIdx = [cmNIdx dataAll(iSub).CM_nAllProp(iStimID, iResponse, iTarget)]; % all contrast, nontarget
+                cm1TIdx = [cm1TIdx dataAll(iSub).CM_tOneProp(iStimID, iResponse, iTarget)]; % one target, target
+                cm1NIdx = [cm1NIdx dataAll(iSub).CM_nOneProp(iStimID, iResponse, iTarget)]; % one target, nontarget
             end
             CM.allTprop(iStimID, iResponse, iTarget) = mean(cmTIdx);
             CM.allNprop(iStimID, iResponse, iTarget) = mean(cmNIdx);
@@ -328,46 +330,45 @@ end
 % dprimeDet = dprime;
 % criterionDet = criterion;
 % 
-% 
-% %% figures
-% %% figure 1 - target presence x validity x target
-% 
-% figure();
-% sgtitle('ga accuracy')
-% for iF = 1:numel(contrastConds)
-%     subplot(2,2,iF)
-%     b = bar([Acc.mean(iF,:,1); Acc.mean(iF,:,2)]);
-%     hold on
-%     for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
-%         xtips = b(k).XEndPoints;
-%         ytips = b(k).YEndPoints;
-%         errorbar(xtips,ytips,Acc.err(iF,k), '.k', 'MarkerSize',0.1)
-%     end
-%     hold off
-%     condTitle = [{'target present/nontarget present'} {'target present/nontarget absent'} {'target absent/nontarget present'} {'target absent/nontarget absent'}];
-%     title([condTitle{iF}])
-%     ylabel('accuracy %')
-%     ylim([30 100])
-%     set(gca, 'ytick', 30:10:100)
-%     set(gca, 'xticklabel', {'T1', 'T2'})
-%     ytickformat('percentage')
-%     hold on
-% end
-% legend('Valid', 'Neutral', 'Invalid')
-% legend('Location', 'best')
-% % lgd.Layout.Tile = 'eastoutside';
-% ax = gca;
-% ax.XGrid = 'off';
-% ax.YGrid = 'off';
-% 
-% if saveplots
-%     figTitle = sprintf('%s_%s',...
-%         'beh_acc',datestr(now,'yymmdd'));
-%     saveas(gcf,sprintf('%s/%s', behDir, figTitle))
-% end
-% 
-% 
-% 
+ %% accuracy
+%% figure 1 - target presence x validity x target
+
+figure();
+sgtitle('ga accuracy')
+for iF = 1:numel(contrastConds)
+    subplot(2,2,iF)
+    b = bar([Acc.mean(iF,:,1); Acc.mean(iF,:,2)]);
+    hold on
+    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
+        xtips = b(k).XEndPoints;
+        ytips = b(k).YEndPoints;
+        errorbar(xtips,ytips,Acc.err(iF,k), '.k', 'MarkerSize',0.1)
+    end
+    hold off
+    condTitle = [{'target present/nontarget present'} {'target present/nontarget absent'} {'target absent/nontarget present'} {'target absent/nontarget absent'}];
+    title([condTitle{iF}])
+    ylabel('accuracy %')
+    ylim([30 100])
+    set(gca, 'ytick', 30:10:100)
+    set(gca, 'xticklabel', {'T1', 'T2'})
+    ytickformat('percentage')
+    hold on
+end
+legend('Valid', 'Neutral', 'Invalid')
+legend('Location', 'best')
+% lgd.Layout.Tile = 'eastoutside';
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'off';
+
+if saveplots
+    figTitle = sprintf('%s_%s',...
+        'beh_acc',datestr(now,'yymmdd'));
+    saveas(gcf,sprintf('%s/%s', behDir, figTitle))
+end
+
+
+
 %% fig 2 + 3 - confusability maps for all conditions and one target conditions
 % % get proportions for all conditions by T1, T2, and both targets collapsed
 CMAll.TargetT1 = CM.allTprop(:,:,1); 
@@ -482,20 +483,25 @@ end
          saveas(gcf,sprintf('%s/%s', behDir, figTitle))
      end
 
+     for iCond = 1:2
+         TCMV.(validfieldnames{iCond}).diff = TCMV.(validfieldnames{iCond}).valid - TCMV.(validfieldnames{iCond}).invalid;
+         NCMV.(validfieldnames{iCond}).diff = NCMV.(validfieldnames{iCond}).valid - NCMV.(validfieldnames{iCond}).invalid;
+     end
+
 
       % plot valid-invalid by contrast condition
      for iCond = 1:2
-         CMVAll.TargetT1 = T.(validfieldnames{iCond}).diff(:,:,1); % difference for target all/one condition for T1
-         CMVAll.TargetT2 = T.(validfieldnames{iCond}).diff(:,:,2); % difference for target all/one condition for T2
+         CMVAll.TargetT1 = TCMV.(validfieldnames{iCond}).diff(:,:,1); % difference for target all/one condition for T1
+         CMVAll.TargetT2 = TCMV.(validfieldnames{iCond}).diff(:,:,2); % difference for target all/one condition for T2
          CMVAll.TargetAll = (CMVAll.TargetT1 + CMVAll.TargetT2) / 2; % difference for target all/one condition for all targets
-         CMVAll.NontargetT1 = N.(validfieldnames{iCond}).diff(:,:,1);% difference for nontarget all/one condition for T1
-         CMVAll.NontargetT2 = N.(validfieldnames{iCond}).diff(:,:,2);% difference for nontarget all/one condition for T2
+         CMVAll.NontargetT1 = NCMV.(validfieldnames{iCond}).diff(:,:,1);% difference for nontarget all/one condition for T1
+         CMVAll.NontargetT2 = NCMV.(validfieldnames{iCond}).diff(:,:,2);% difference for nontarget all/one condition for T2
          CMVAll.NontargetAll = (CMVAll.NontargetT1 + CMVAll.NontargetT2) / 2;  % difference for nontarget all/one condition for all targets
          CMVAllfieldnames = fieldnames(CMVAll);
          figure();
          set(gcf,'Position',[100 100 1200 400])
          for iCM = 1:numel(CMVAllfieldnames)
-             sgtitle(['ga ' conditionNames{iCond} ' valid-invalid']) % make so says valid, neutral, invalid, appropriately
+             sgtitle([SID conditionNames{iCond} ' valid-invalid']) % make so says valid, neutral, invalid, appropriately
              subplot(2,3,iCM)
              imagesc(CMVAll.(CMVAllfieldnames{iCM}))
              x = [1 2 3];
@@ -535,7 +541,7 @@ end
                 nfa.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,2);
                 nsignal.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,3);
                 nnoise.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,4);
-                [dprime, criterion] = kt_dprime2(nh.(Detfieldnames{iF})(iTarget,iValid), nfa.(Detfieldnames{iF})(iTarget,iValid), nsignal.(Detfieldnames{iF})(iTarget,iValid), nnoise.(Detfieldnames{iF})(iTarget,iValid));
+                [dprime, criterion] = kt_dprime2(nh.(Detfieldnames{iF})(iTarget,iValid), nfa.(Detfieldnames{iF})(iTarget,iValid), nsignal.(Detfieldnames{iF})(iTarget,iValid), nnoise.(Detfieldnames{iF})(iTarget,iValid),1);
                 detd.(Detfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
                 detc.(Detfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
             end
