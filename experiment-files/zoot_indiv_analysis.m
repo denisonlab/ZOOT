@@ -7,7 +7,7 @@ fp = figureparams;
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
 
 %% compile
-subs = {'S0005'}; %, 'S0005', 'S0007', 'S0015', 'S0019', 'S0070', 'S0108', 'S0122'};
+subs = {'S0004'}; %, 'S0005', 'S0007', 'S0015', 'S0019', 'S0070', 'S0108', 'S0122'};
 dataAll = [];
 
 
@@ -121,32 +121,32 @@ for iSub=1:length(subs) % for participant
     end
 
 
-    % figure();
-    % sgtitle([SID ' ' ses])
-    % for iF = 1:numel(contrastConds)
-    %     subplot(2,2,iF)
-    %     b = bar([Acc.prop(iF,:,1); Acc.prop(iF,:,2)]*100);
-    %     condTitle = [{'target present/nontarget present'} {'target present/nontarget absent'} {'target absent/nontarget present'} {'target absent nontarget absent'}];
-    %     title([condTitle{iF}])
-    %     ylabel('accuracy %')
-    %     ylim([30 100])
-    %     set(gca, 'ytick', 30:10:100)
-    %     set(gca, 'xticklabel', {'T1', 'T2'})
-    %     ytickformat('percentage')
-    %     hold on
-    % end
-    % legend('Valid', 'Neutral', 'Invalid')
-    % legend('Location', 'best')
-    % % lgd.Layout.Tile = 'eastoutside';
-    % ax = gca;
-    % ax.XGrid = 'off';
-    % ax.YGrid = 'off';
-    % %
-    % if saveplots
-    %     figTitle = sprintf('%s_%s',...
-    %         'beh_acc',datestr(now,'yymmdd'));
-    %     saveas(gcf,sprintf('%s/%s', behDir, figTitle))
-    % end
+    figure();
+    sgtitle([SID ' ' ses])
+    for iF = 1:numel(contrastConds)
+        subplot(2,2,iF)
+        b = bar([Acc.prop(iF,:,1); Acc.prop(iF,:,2)]*100);
+        condTitle = [{'target present/nontarget present'} {'target present/nontarget absent'} {'target absent/nontarget present'} {'target absent nontarget absent'}];
+        title([condTitle{iF}])
+        ylabel('accuracy %')
+        ylim([30 100])
+        set(gca, 'ytick', 30:10:100)
+        set(gca, 'xticklabel', {'T1', 'T2'})
+        ytickformat('percentage')
+        hold on
+    end
+    legend('Valid', 'Neutral', 'Invalid')
+    legend('Location', 'best')
+    % lgd.Layout.Tile = 'eastoutside';
+    ax = gca;
+    ax.XGrid = 'off';
+    ax.YGrid = 'off';
+    %
+    if saveplots
+        figTitle = sprintf('%s_%s',...
+            'beh_acc',datestr(now,'yymmdd'));
+        saveas(gcf,sprintf('%s/%s', behDir, figTitle))
+    end
 
 
     %% confusability map (all trials) for target
@@ -270,7 +270,7 @@ end
     end
 
    % plot for confuse map with one target conditions only, target and
-    nontarget
+%    nontarget
     figure();
     set(gcf,'Position',[100 100 1200 400])
     sgtitle([SID ' confusability maps - one target conditions'])
@@ -338,7 +338,7 @@ end
          figTitle = sprintf('%s_CM_All_%s',...
              SID, datestr(now,'yymmdd'));
          % saveas(gcf,sprintf('%s/%s', behDir, figTitle))
-         saveas(gcf, sprinf('%s_%s.png'), SID, figTitle)
+         saveas(gcf, sprintf('%s_%s', SID, figTitle))
     end
 
     % calculate valid-invalid different per contrast condition for target and
@@ -397,7 +397,7 @@ end
     nnoiseDet = dataAll.targetContrast == 0; % noise: absent
     Det = {nhDet nfDet nsignalDet nnoiseDet};
 
-    % indices for all conditions based on target, validity, SDT variable
+    % indices and sum for all conditions based on target, validity, SDT variable
     for iTarget =1:2
         for iValid = 1:numel(Validities)
             for iDet = 1:numel(Det)
@@ -469,7 +469,7 @@ end
         for iValid = 1:numel(Validities)
             for iDis = 1:numel(Dis)
                 disAllIdx = Validities{iValid} & Dis{iDis} & dataAll.target == iTarget & ~dataAll.eyeSkip;
-                dis.All(iTarget, iValid, iDis) = sum(disAllIdx);
+                dis.all(iTarget, iValid, iDis) = sum(disAllIdx);
                 disPPIdx = Validities{iValid} & Dis{iDis} & PresentPresent & dataAll.target == iTarget & ~dataAll.eyeSkip;
                 dis.nontargetPresent(iTarget, iValid, iDis) = sum(disPPIdx);
                 disPAIdx = Validities{iValid} & Dis{iDis} & PresentAbsent & dataAll.target == iTarget & ~dataAll.eyeSkip;
@@ -485,11 +485,11 @@ end
      for iTarget = 1:2
          for iValid = 1:numel(Validities)
              for iF = 1:numel(Disfieldnames)
-                 nhDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,1);
-                 nfaDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,2);
-                 nsignalDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,3);
-                 nnoiseDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,4);
-                 [dprime, criterion] = kt_dprime2(nhDis.(Disfieldnames{iF})(iTarget,iValid), nfaDis.(Disfieldnames{iF})(iTarget,iValid), nsignalDis.(Disfieldnames{iF})(iTarget,iValid), nnoiseDis.(Disfieldnames{iF})(iTarget,iValid),1);
+                 nh.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,1);
+                 nfa.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,2);
+                 nsignal.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,3);
+                 nnoise.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,4);
+                 [dprime, criterion] = kt_dprime2(nh.(Disfieldnames{iF})(iTarget,iValid), nfa.(Disfieldnames{iF})(iTarget,iValid), nsignal.(Disfieldnames{iF})(iTarget,iValid), nnoise.(Disfieldnames{iF})(iTarget,iValid),1);
                  disd.(Disfieldnames{iF})(iTarget,iValid) = [dp dprime];
                  disc.(Disfieldnames{iF})(iTarget,iValid) = [c criterion];
              end
@@ -515,7 +515,7 @@ end
         b = bar(disc.(critfieldnames{iF}));
         title([critfieldnames{iF}])
         ylabel('c')
-        ylim([0 0.5])
+        ylim([-0.75 0.75])
         set(gca, 'xticklabel', {'T1', 'T2'})
     end
      legend('Valid', 'Neutral', 'Invalid')

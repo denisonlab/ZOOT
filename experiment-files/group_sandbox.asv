@@ -92,13 +92,15 @@ for iSub=1:length(subs) % for participant
         contrastConds = {PresentPresent PresentAbsent AbsentPresent AbsentAbsent};
 
 
-    end % session
+     
+    end % session - needs to be here to compile both sessions for each participant
+
       %% SDT detection
     nhDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 1; % hit: seen and present
-    nfDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 0; % fa: seen and absent
+    nfaDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 0; % fa: seen and absent
     nsignalDet = dataAll(iSub).targetContrast == 1; % signal: present
     nnoiseDet = dataAll(iSub).targetContrast == 0; % noise: absent
-    Det = {nhDet nfDet nsignalDet nnoiseDet};
+    Det = {nhDet nfaDet nsignalDet nnoiseDet};
 
     % indices for all conditions based on target, validity, SDT variable
     for iTarget =1:2
@@ -121,11 +123,11 @@ for iSub=1:length(subs) % for participant
     for iTarget = 1:2
         for iValid = 1:numel(Validities)
             for iF = 1:numel(Detfieldnames)
-                dataAll(iSub).nh.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,1);
-                dataAll(iSub).nfa.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,2);
-                dataAll(iSub).nsignal.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,3);
-                dataAll(iSub).nnoise.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,4);
-                [dprime, criterion] = kt_dprime2(dataAll(iSub).nh.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).nfa.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).nsignal.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).nnoise.(Detfieldnames{iF})(iTarget,iValid),1);
+                dataAll(iSub).nhDet.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,1);
+                dataAll(iSub).nfaDet.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,2);
+                dataAll(iSub).nsignalDet.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,3);
+                dataAll(iSub).nnoiseDet.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,4);
+                [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDet.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).nfaDet.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).nsignalDet.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).nnoiseDet.(Detfieldnames{iF})(iTarget,iValid),1);
                 dataAll(iSub).detd.(Detfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
                 dataAll(iSub).detc.(Detfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
             end
@@ -134,10 +136,10 @@ for iSub=1:length(subs) % for participant
 
     %% discrimination
     nhDis = dataAll(iSub).correctDis == 1 & dataAll(iSub).targetTilt == 1;
-    nfDis = dataAll(iSub).correctDis == 0 & dataAll(iSub).targetTilt == 1;
+    nfaDis = dataAll(iSub).correctDis == 0 & dataAll(iSub).targetTilt == 1;
     nsignalDis = dataAll(iSub).targetTilt == 1;
     nnoiseDis = dataAll(iSub).targetTilt == -1;
-    Dis = {nhDis nfDis nsignalDis nnoiseDis};
+    Dis = {nhDis nfaDis nsignalDis nnoiseDis};
     %indices for all conditions based on target, validity, SDT variable
     for iTarget =1:2
         for iValid = 1:numel(Validities)
@@ -159,11 +161,11 @@ for iSub=1:length(subs) % for participant
     for iTarget = 1:2
         for iValid = 1:numel(Validities)
             for iF = 1:numel(Disfieldnames)
-                dataAll(iSub).nh.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,1);
-                dataAll(iSub).nfa.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,2);
-                dataAll(iSub).nsignal.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,3);
-                dataAll(iSub).nnoise.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,4);
-                [dprime, criterion] = kt_dprime2(dataAll(iSub).nh.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nfa.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nsignal.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nnoise.(Disfieldnames{iF})(iTarget,iValid),1);
+                dataAll(iSub).nhDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,1);
+                dataAll(iSub).nfaDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,2);
+                dataAll(iSub).nsignalDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,3);
+                dataAll(iSub).nnoiseDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,4);
+                [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nfaDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nsignalDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nnoiseDis.(Disfieldnames{iF})(iTarget,iValid),1);
                 dataAll(iSub).disd.(Disfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
                 dataAll(iSub).disc.(Disfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
             end
@@ -194,15 +196,15 @@ for iTarget = 1:2
 
             disdStd.(Disfieldnames{iF})(iTarget, iValid) = std(dprimeDisIdx);
             disd.(Disfieldnames{iF})(iTarget, iValid) = mean(dprimeDisIdx);
-            disdErr.(Disfieldnames{iF})(iTarget, iValid) = detdStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-            discStd.(Disfieldnames{iF})(iTarget, iValid) = std(cDetIdx);
-            disc.(Disfieldnames{iF})(iTarget, iValid) = mean(cDetIdx);
-            discErr.(Disfieldnames{iF})(iTarget, iValid) = detcStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+            disdErr.(Disfieldnames{iF})(iTarget, iValid) = disdStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+            discStd.(Disfieldnames{iF})(iTarget, iValid) = std(cDisIdx);
+            disc.(Disfieldnames{iF})(iTarget, iValid) = mean(cDisIdx);
+            discErr.(Disfieldnames{iF})(iTarget, iValid) = discStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
         end
     end
 end
 
-% plot detection
+%% plot detection
 dprimefieldnames = fieldnames(dataAll(iSub).detd);
 critfieldnames = fieldnames(dataAll(iSub).detc);
 figure();
@@ -245,7 +247,7 @@ ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'off';
 
-% plot discrimination
+%% plot discrimination
 dprimefieldnames = fieldnames(dataAll(iSub).disd);
 critfieldnames = fieldnames(dataAll(iSub).detc);
 figure();

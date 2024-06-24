@@ -89,6 +89,8 @@ for iSub=1:length(subs) % for participant
         contrastConds = {PresentPresent PresentAbsent AbsentPresent AbsentAbsent};
 
 
+    end % session end
+
         %% accuracy
 
         % sort data by contrast condition, validity, and target and get averages
@@ -222,7 +224,6 @@ for iSub=1:length(subs) % for participant
     %     end
     % end
 
-    end
     dataAll(iSub).means = Acc.prop*100; % save each participant's mean data in dataAll
     dataAll(iSub).CM_tAllProp= CM.prop;
     dataAll(iSub).CM_nAllProp= CM.propNon;
@@ -233,7 +234,7 @@ for iSub=1:length(subs) % for participant
     dataAll(iSub).nnoiseDet = dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % target absent
     dataAll(iSub).nhDet = dataAll(iSub).seen==1 & dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % hits (seen and present)
     dataAll(iSub).nfaDet = dataAll(iSub).seen==1 & dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % false alarms (seen and absent)
-end
+end % subject end 
 
 %% get means and standard error
 
@@ -256,7 +257,7 @@ for iContrast = 1:numel(contrastConds)
     end
 end
 
-% find mean for CM by target for all contrast conditions and one target
+%% find mean for CM by target for all contrast conditions and one target
 % conditions
 for iStimID = 1:3
     for iResponse = 1:3
