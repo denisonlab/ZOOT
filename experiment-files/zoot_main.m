@@ -463,7 +463,7 @@ while iTrial <= size(trialOrder, 2)
                 skippedTrials(end+1) = trialOrder(iTrial);
                 iTrialskipped(end+1) = iTrial;
                 p.nTotalTrials = p.nTotalTrials + 1;
-                DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
+                DrawFormattedText(window, 'Fixation lost. Please press any key when ready to fixate.', 'center', 'center', [1 1 1]*white);
                 Screen('Flip', window);
                 KbWait(devNum);
              end
@@ -511,7 +511,7 @@ while iTrial <= size(trialOrder, 2)
                     skippedTrials(end+1) = trialOrder(iTrial);
                     iTrialskipped(end+1) = iTrial;
                     p.nTotalTrials = p.nTotalTrials + 1;
-                    DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
+                    DrawFormattedText(window, 'Fixation lost. Please press any key when ready to fixate.', 'center', 'center', [1 1 1]*white);
                     Screen('Flip', window);
                     KbWait(devNum);
                 end
@@ -561,7 +561,7 @@ while iTrial <= size(trialOrder, 2)
                     skippedTrials(end+1) = trialOrder(iTrial);
                     iTrialskipped(end+1) = iTrial;
                     p.nTotalTrials = p.nTotalTrials + 1;
-                    DrawFormattedText(window, 'Fixation lost. Please press space when ready to fixate.', 'center', 'center', [1 1 1]*white);
+                    DrawFormattedText(window, 'Fixation lost. Please press any key to continue.', 'center', 'center', [1 1 1]*white);
                     Screen('Flip', window);
                     KbWait(devNum);
                 end
