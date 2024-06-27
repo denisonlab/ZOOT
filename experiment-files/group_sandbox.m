@@ -7,7 +7,7 @@ fp = figureparams;
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
 
 %% compile
-subs = {'S0004', 'S0005', 'S0007', 'S0015', 'S0019', 'S0108', 'S0070','S0122'};
+subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0108', 'S0070','S0122', 'S0133'};
 dataAll = [];
 
 for iSub=1:length(subs) % for participant
@@ -102,7 +102,9 @@ for iSub=1:length(subs) % for participant
     nnoiseDet = dataAll(iSub).targetContrast == 0; % noise: absent
     Det = {nhDet nfaDet nsignalDet nnoiseDet};
 
-    % indices for all conditions based on target, validity, SDT variable
+    % indices for all conditions based on target, validity, SDT variable -
+    % returns which contains data for all, nontarget present, non target absent. each of these contains condition data for nh nfa
+    % nsignal and  nnoise 
     for iTarget =1:2
         for iValid = 1:numel(Validities)
             for iDet = 1:numel(Det)
@@ -116,7 +118,8 @@ for iSub=1:length(subs) % for participant
         end
     end
 
-    % calculate dprime and c per condition
+    % calculate dprime and c per condition, detd/c.all, nontargetPresent,
+    % nontargetAbsent for valid, neutral, and invalid for T1 and T2 
     dp = [];
     c = [];
     Detfieldnames = fieldnames(det);
@@ -136,9 +139,9 @@ for iSub=1:length(subs) % for participant
 
     %% discrimination
     nhDis = dataAll(iSub).correctDis == 1 & dataAll(iSub).targetTilt == 1;
-    nfaDis = dataAll(iSub).correctDis == 0 & dataAll(iSub).targetTilt == 1;
-    nsignalDis = dataAll(iSub).targetTilt == 1;
-    nnoiseDis = dataAll(iSub).targetTilt == -1;
+    nfaDis = dataAll(iSub).correctDis == 0 & dataAll(iSub).targetTilt == -1;
+    nsignalDis = dataAll(iSub).targetContrast == 1 & dataAll(iSub).seen == 1 & dataAll(iSub).targetTilt == 1;
+    nnoiseDis = dataAll(iSub).targetContrast == 1 & dataAll(iSub).seen == 1 & dataAll(iSub).targetTilt == -1;
     Dis = {nhDis nfaDis nsignalDis nnoiseDis};
     %indices for all conditions based on target, validity, SDT variable
     for iTarget =1:2
@@ -200,6 +203,11 @@ for iTarget = 1:2
             discStd.(Disfieldnames{iF})(iTarget, iValid) = std(cDisIdx);
             disc.(Disfieldnames{iF})(iTarget, iValid) = mean(cDisIdx);
             discErr.(Disfieldnames{iF})(iTarget, iValid) = discStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+
+            dprimeDetIdx = [];
+            cDetIdx = [];
+            dprimeDisIdx = [];
+            cDisIdx = [];
         end
     end
 end
@@ -221,7 +229,7 @@ for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present,
     hold off
     title([dprimefieldnames{iF}])
     ylabel("d'")
-    ylim([0 4])
+    ylim([0 5])
     set(gca, 'xticklabel', {'T1', 'T2'})
 end
 hold on
@@ -264,7 +272,7 @@ for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present,
     hold off
     title([dprimefieldnames{iF}])
     ylabel("d'")
-    ylim([0 4])
+    ylim([0 5])
     set(gca, 'xticklabel', {'T1', 'T2'})
 end
 hold on

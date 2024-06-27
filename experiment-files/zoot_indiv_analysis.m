@@ -1,13 +1,13 @@
 clear all
 
-saveplots = 1;
+saveplots = 0;
 
 fp = figureparams;
 
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
 
 %% compile
-subs = {'S0004'}; %, 'S0005', 'S0007', 'S0015', 'S0019', 'S0070', 'S0108', 'S0122'};
+subs = {'S0085'}; %, 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0070', 'S0108', 'S0122', 'S0133'};
 dataAll = [];
 
 
@@ -20,11 +20,11 @@ for iSub=1:length(subs) % for participant
     % beh comp
     % behDir = ['/home/denisonlab-beh/Experiments/ZOOT/experiment-files/data' SID '/beh'];
     cd(behDir);
-    fields = {'precue','target', 'T1Contrast', 'T2Contrast', 'targetContrast', 'T1Tilt', 'T2Tilt', 'targetTilt', 'seen', 'correct', 'response', 'correctDis', 'eyeSkip'}; % fieldnames(data);
+    fields = {'precue','target', 'T1Contrast', 'T2Contrast', 'targetContrast', 'T1Tilt', 'T2Tilt', 'targetTilt', 'seen', 'correct', 'response', 'correctDis', 'eyeSkip', 'iTrialskipped'}; % fieldnames(data);
     for iF = 1:numel(fields) % initialize
         dataAll.(fields{iF}) = [];
     end
-    sessions = {'session1', 'session2'};
+    sessions = {'session1'};
     for iSession = 1:numel(sessions) % for session
         highestBlock = 0;
         sesNum = sessions{iSession};
@@ -403,7 +403,7 @@ end
             for iDet = 1:numel(Det)
                 detAllIdx = Validities{iValid} & Det{iDet} & dataAll.target == iTarget & ~dataAll.eyeSkip; % find all T1 and T2 
                 det.all(iTarget, iValid, iDet) = sum(detAllIdx);
-                detNTPIdx = Validities{iValid} & Det{iDet} & dataAll.target == iTarget & dataAll.nonTargetContrast == 1 & ~dataAll.eyeSkip; % find all T1 when T2 present and all T2 when T1 present
+                detNTPIdx = Validities{iValid} & Det{iDet} & dataAll.target == iTarget & dataAll.nonTargetContrast == 1 & ~dataAll.eyeSkip; % find all nontarget present trials (T1 when nontarget present, T2 when nontarget present)
                 det.nontargetPresent(iTarget, iValid, iDet) = sum(detNTPIdx);
                 detNTAIdx = Validities{iValid} & Det{iDet} & dataAll.target == iTarget & dataAll.nonTargetContrast == 0 & ~dataAll.eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
                 det.nontargetAbsent(iTarget, iValid, iDet) = sum(detNTAIdx);
@@ -418,11 +418,11 @@ end
     for iTarget = 1:2
         for iValid = 1:numel(Validities)
             for iF = 1:numel(Detfieldnames)
-                nh.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,1);
-                nfa.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,2);
-                nsignal.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,3);
-                nnoise.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,4);
-                [dprime, criterion] = kt_dprime2(nh.(Detfieldnames{iF})(iTarget,iValid), nfa.(Detfieldnames{iF})(iTarget,iValid), nsignal.(Detfieldnames{iF})(iTarget,iValid), nnoise.(Detfieldnames{iF})(iTarget,iValid),1);
+                detNH.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,1);
+                detNFA.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,2);
+                detNSignal.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,3);
+                detNNoise.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,4);
+                [dprime, criterion] = kt_dprime2(detNH.(Detfieldnames{iF})(iTarget,iValid), detNFA.(Detfieldnames{iF})(iTarget,iValid), detNSignal.(Detfieldnames{iF})(iTarget,iValid), detNNoise.(Detfieldnames{iF})(iTarget,iValid),1);
                 detd.(Detfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
                 detc.(Detfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
             end
@@ -460,11 +460,11 @@ end
 
     %% discrimination - only present present and present absent (only trials
     %with tilted targets)
-    nhDis = dataAll.correctDis == 1 & dataAll.targetTilt == 1;
-    nfDis = dataAll.correctDis == 0 & dataAll.targetTilt == 1;
-    nsignalDis = dataAll.targetTilt == 1;
-    nnoiseDis = dataAll.targetTilt == -1;
-    Dis = {nhDis nfDis nsignalDis nnoiseDis};
+    nhDis = dataAll.correctDis == 1 & dataAll.targetTilt == 1; % present, marked as seen, correct, CW (said CW when it was CW)
+    nfaDis = dataAll.correctDis == 0 & dataAll.targetTilt == -1; % present, marked as seen, CCW, but incorrect (said CW when it was CCW)
+    nsignalDis = dataAll.targetContrast == 1 & dataAll.targetTilt == 1 & dataAll.seen == 1; % signal: target was present, CW, and seen
+    nnoiseDis = dataAll.targetContrast == 1 & dataAll.targetTilt == -1 & dataAll.seen == 1; % noise: target was present, CCW, and seen 
+    Dis = {nhDis nfaDis nsignalDis nnoiseDis};
      for iTarget = 1:2
         for iValid = 1:numel(Validities)
             for iDis = 1:numel(Dis)
@@ -485,11 +485,11 @@ end
      for iTarget = 1:2
          for iValid = 1:numel(Validities)
              for iF = 1:numel(Disfieldnames)
-                 nh.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,1);
-                 nfa.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,2);
-                 nsignal.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,3);
-                 nnoise.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,4);
-                 [dprime, criterion] = kt_dprime2(nh.(Disfieldnames{iF})(iTarget,iValid), nfa.(Disfieldnames{iF})(iTarget,iValid), nsignal.(Disfieldnames{iF})(iTarget,iValid), nnoise.(Disfieldnames{iF})(iTarget,iValid),1);
+                 disNH.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,1);
+                 disNFA.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,2);
+                 disNSignal.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,3);
+                 disNNoise.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,4);
+                 [dprime, criterion] = kt_dprime2(disNH.(Disfieldnames{iF})(iTarget,iValid), disNFA.(Disfieldnames{iF})(iTarget,iValid), disNSignal.(Disfieldnames{iF})(iTarget,iValid), disNNoise.(Disfieldnames{iF})(iTarget,iValid),1);
                  disd.(Disfieldnames{iF})(iTarget,iValid) = [dp dprime];
                  disc.(Disfieldnames{iF})(iTarget,iValid) = [c criterion];
              end
@@ -507,7 +507,7 @@ end
         ylabel("d'")
         ylim([0 5])
         set(gca, 'xticklabel', {'T1', 'T2'})
-    end
+    end 
     hold on
 
     for iF = 1:numel(critfieldnames)

@@ -4,7 +4,7 @@ saveplots = 0;
 
 fp = figureparams;
 %% compile
-subs = {'S0004', 'S0005', 'S0007', 'S0015', 'S0019', 'S0108', 'S0070','S0122'};
+subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0108', 'S0070','S0122', 'S0133'};
 dataAll = [];
 
 for iSub=1:length(subs) % for participant
