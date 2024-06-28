@@ -95,7 +95,7 @@ for iSub=1:length(subs) % for participant
      
     end % session - needs to be here to compile both sessions for each participant
 
-      %% SDT detection
+      %% SDT collapsed across cueing conds
     nhDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 1; % hit: seen and present
     nfaDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 0; % fa: seen and absent
     nsignalDet = dataAll(iSub).targetContrast == 1; % signal: present
@@ -104,17 +104,15 @@ for iSub=1:length(subs) % for participant
 
     % indices for all conditions based on target, validity, SDT variable -
     % returns which contains data for all, nontarget present, non target absent. each of these contains condition data for nh nfa
-    % nsignal and  nnoise 
+    % nsignal and  nnoise
     for iTarget =1:2
-        for iValid = 1:numel(Validities)
-            for iDet = 1:numel(Det)
-                detAllIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & ~dataAll(iSub).eyeSkip; % find all T1 and T2 
-                det.all(iTarget, iValid, iDet) = sum(detAllIdx);
-                detNTPIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
-                det.nontargetPresent(iTarget, iValid, iDet) = sum(detNTPIdx);
-                detNTAIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
-                det.nontargetAbsent(iTarget, iValid, iDet) = sum(detNTAIdx);
-            end
+        for iDet = 1:numel(Det)
+            detAllIdx = Det{iDet} & dataAll(iSub).target == iTarget & ~dataAll(iSub).eyeSkip; % find all T1 and T2
+            det.all(iTarget, iDet) = sum(detAllIdx);
+            detNTPIdx = Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
+            det.nontargetPresent(iTarget, iDet) = sum(detNTPIdx);
+            detNTAIdx = Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
+            det.nontargetAbsent(iTarget, iDet) = sum(detNTAIdx);
         end
     end
 
@@ -124,16 +122,14 @@ for iSub=1:length(subs) % for participant
     c = [];
     Detfieldnames = fieldnames(det);
     for iTarget = 1:2
-        for iValid = 1:numel(Validities)
-            for iF = 1:numel(Detfieldnames)
-                dataAll(iSub).nhDet.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,1);
-                dataAll(iSub).nfaDet.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,2);
-                dataAll(iSub).nsignalDet.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,3);
-                dataAll(iSub).nnoiseDet.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,4);
-                [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDet.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).nfaDet.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).nsignalDet.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).nnoiseDet.(Detfieldnames{iF})(iTarget,iValid),1);
-                dataAll(iSub).detd.(Detfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
-                dataAll(iSub).detc.(Detfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
-            end
+        for iF = 1:numel(Detfieldnames)
+            dataAll(iSub).nhDet.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,1);
+            dataAll(iSub).nfaDet.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,2);
+            dataAll(iSub).nsignalDet.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,3);
+            dataAll(iSub).nnoiseDet.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,4);
+            [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDet.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).nfaDet.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).nsignalDet.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).nnoiseDet.(Detfieldnames{iF})(1, iTarget),1);
+            dataAll(iSub).detd.(Detfieldnames{iF})(1, iTarget) = [dp dprime]; % store d prime
+            dataAll(iSub).detc.(Detfieldnames{iF})(1, iTarget) = [c criterion]; % store c
         end
     end
 
@@ -145,16 +141,14 @@ for iSub=1:length(subs) % for participant
     Dis = {nhDis nfaDis nsignalDis nnoiseDis};
     %indices for all conditions based on target, validity, SDT variable
     for iTarget =1:2
-        for iValid = 1:numel(Validities)
             for iDis = 1:numel(Dis)
-                disAllIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).target == iTarget & ~dataAll(iSub).eyeSkip; % find all T1 and T2
-                dis.all(iTarget, iValid, iDis) = sum(disAllIdx);
-                disNTPIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
-                dis.nontargetPresent(iTarget, iValid, iDis) = sum(disNTPIdx);
-                disNTAIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
-                dis.nontargetAbsent(iTarget, iValid, iDis) = sum(disNTAIdx);
+                disAllIdx =Dis{iDis} & dataAll(iSub).target == iTarget & ~dataAll(iSub).eyeSkip; % find all T1 and T2
+                dis.all(iTarget, iDis) = sum(disAllIdx);
+                disNTPIdx = Dis{iDis} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
+                dis.nontargetPresent(iTarget, iDis) = sum(disNTPIdx);
+                disNTAIdx = Dis{iDis} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
+                dis.nontargetAbsent(iTarget, iDis) = sum(disNTAIdx);
             end
-        end
     end
 
     % calculate dprime and c per condition
@@ -162,16 +156,14 @@ for iSub=1:length(subs) % for participant
     c = [];
     Disfieldnames = fieldnames(dis);
     for iTarget = 1:2
-        for iValid = 1:numel(Validities)
-            for iF = 1:numel(Disfieldnames)
-                dataAll(iSub).nhDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,1);
-                dataAll(iSub).nfaDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,2);
-                dataAll(iSub).nsignalDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,3);
-                dataAll(iSub).nnoiseDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,4);
-                [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nfaDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nsignalDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nnoiseDis.(Disfieldnames{iF})(iTarget,iValid),1);
-                dataAll(iSub).disd.(Disfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
-                dataAll(iSub).disc.(Disfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
-            end
+        for iF = 1:numel(Disfieldnames)
+            dataAll(iSub).nhDis.(Disfieldnames{iF})(1,iTarget) = dis.(Disfieldnames{iF})(iTarget,1);
+            dataAll(iSub).nfaDis.(Disfieldnames{iF})(1,iTarget) = dis.(Disfieldnames{iF})(iTarget,2);
+            dataAll(iSub).nsignalDis.(Disfieldnames{iF})(1,iTarget) = dis.(Disfieldnames{iF})(iTarget,3);
+            dataAll(iSub).nnoiseDis.(Disfieldnames{iF})(1,iTarget) = dis.(Disfieldnames{iF})(iTarget,4);
+            [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDis.(Disfieldnames{iF})(1,iTarget), dataAll(iSub).nfaDis.(Disfieldnames{iF})(1,iTarget), dataAll(iSub).nsignalDis.(Disfieldnames{iF})(1,iTarget), dataAll(iSub).nnoiseDis.(Disfieldnames{iF})(1,iTarget),1);
+            dataAll(iSub).disd.(Disfieldnames{iF})(1,iTarget) = [dp dprime]; % store d prime
+            dataAll(iSub).disc.(Disfieldnames{iF})(1,iTarget) = [c criterion]; % store c
         end
     end
 end % subject
@@ -182,33 +174,31 @@ cDetIdx = [];
 dprimeDisIdx = [];
 cDisIdx = [];
 for iTarget = 1:2
-    for iValid = 1:numel(Validities)
-        for iF = 1:numel(Detfieldnames)
-            for iSub = 1:length(subs)
-                dprimeDetIdx = [dprimeDetIdx dataAll(iSub).detd.(Detfieldnames{iF})(iTarget,iValid)];
-                cDetIdx = [cDetIdx dataAll(iSub).detc.(Detfieldnames{iF})(iTarget,iValid)];
-                dprimeDisIdx = [dprimeDisIdx dataAll(iSub).disd.(Detfieldnames{iF})(iTarget,iValid)];
-                cDisIdx = [cDisIdx dataAll(iSub).disc.(Detfieldnames{iF})(iTarget,iValid)];
-            end
-            detdStd.(Detfieldnames{iF})(iTarget, iValid) = std(dprimeDetIdx);
-            detd.(Detfieldnames{iF})(iTarget, iValid) = mean(dprimeDetIdx);
-            detdErr.(Detfieldnames{iF})(iTarget, iValid) = detdStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-            detcStd.(Detfieldnames{iF})(iTarget, iValid) = std(cDetIdx);
-            detc.(Detfieldnames{iF})(iTarget, iValid) = mean(cDetIdx);
-            detcErr.(Detfieldnames{iF})(iTarget, iValid) = detcStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-
-            disdStd.(Disfieldnames{iF})(iTarget, iValid) = std(dprimeDisIdx);
-            disd.(Disfieldnames{iF})(iTarget, iValid) = mean(dprimeDisIdx);
-            disdErr.(Disfieldnames{iF})(iTarget, iValid) = disdStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-            discStd.(Disfieldnames{iF})(iTarget, iValid) = std(cDisIdx);
-            disc.(Disfieldnames{iF})(iTarget, iValid) = mean(cDisIdx);
-            discErr.(Disfieldnames{iF})(iTarget, iValid) = discStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-
-            dprimeDetIdx = [];
-            cDetIdx = [];
-            dprimeDisIdx = [];
-            cDisIdx = [];
+    for iF = 1:numel(Detfieldnames)
+        for iSub = 1:length(subs)
+            dprimeDetIdx = [dprimeDetIdx dataAll(iSub).detd.(Detfieldnames{iF})(1,iTarget)];
+            cDetIdx = [cDetIdx dataAll(iSub).detc.(Detfieldnames{iF})(1,iTarget)];
+            dprimeDisIdx = [dprimeDisIdx dataAll(iSub).disd.(Detfieldnames{iF})(1,iTarget)];
+            cDisIdx = [cDisIdx dataAll(iSub).disc.(Detfieldnames{iF})(1,iTarget)];
         end
+        detdStd.(Detfieldnames{iF})(1,iTarget) = std(dprimeDetIdx);
+        detd.(Detfieldnames{iF})(1,iTarget) = mean(dprimeDetIdx);
+        detdErr.(Detfieldnames{iF})(1,iTarget) = detdStd.(Detfieldnames{iF})(1,iTarget)/sqrt(length(subs));
+        detcStd.(Detfieldnames{iF})(1,iTarget) = std(cDetIdx);
+        detc.(Detfieldnames{iF})(1,iTarget) = mean(cDetIdx);
+        detcErr.(Detfieldnames{iF})(1,iTarget) = detcStd.(Detfieldnames{iF})(1,iTarget)/sqrt(length(subs));
+
+        disdStd.(Disfieldnames{iF})(1,iTarget)= std(dprimeDisIdx);
+        disd.(Disfieldnames{iF})(1,iTarget) = mean(dprimeDisIdx);
+        disdErr.(Disfieldnames{iF})(1,iTarget) = disdStd.(Disfieldnames{iF})(1,iTarget)/sqrt(length(subs));
+        discStd.(Disfieldnames{iF})(1,iTarget) = std(cDisIdx);
+        disc.(Disfieldnames{iF})(1,iTarget)= mean(cDisIdx);
+        discErr.(Disfieldnames{iF})(1,iTarget) = discStd.(Disfieldnames{iF})(1,iTarget)/sqrt(length(subs));
+
+        dprimeDetIdx = [];
+        cDetIdx = [];
+        dprimeDisIdx = [];
+        cDisIdx = [];
     end
 end
 
@@ -216,10 +206,10 @@ end
 dprimefieldnames = fieldnames(dataAll(iSub).detd);
 critfieldnames = fieldnames(dataAll(iSub).detc);
 figure();
-sgtitle('ga detection')
+sgtitle('ga SDT collapsed acrossing cueing conditions')
 for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
-    subplot(2,3,iF)
-    b = bar(detd.(dprimefieldnames{iF}));
+    subplot(2,2,1)
+    b = bar([detd.all; detd.nontargetPresent; detd.nontargetAbsent]);
     hold on
     for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
         xtips = b(k).XEndPoints;
@@ -227,16 +217,16 @@ for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present,
         errorbar(xtips,ytips,detdErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1) 
     end
     hold off
-    title([dprimefieldnames{iF}])
+    title("detection d'")
     ylabel("d'")
     ylim([0 5])
-    set(gca, 'xticklabel', {'T1', 'T2'})
+    set(gca, 'xticklabel', {'all', 'ntp', 'nta'})
 end
 hold on
 
 for iF = 1:numel(critfieldnames)
-    subplot(2,3,iF+numel(dprimefieldnames))
-    b = bar(detc.(critfieldnames{iF}));
+    subplot(2,2,3)
+    b = bar([detc.all; detc.nontargetPresent; detc.nontargetAbsent]);
      hold on
     for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
         xtips = b(k).XEndPoints;
@@ -244,25 +234,24 @@ for iF = 1:numel(critfieldnames)
         errorbar(xtips,ytips,detcErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)
     end
     hold off
-    title([critfieldnames{iF}])
+    title('detection c')
     ylabel('c')
-    ylim([-0.75 0.75])
-    set(gca, 'xticklabel', {'T1', 'T2'})
+    ylim([-1 1])
+    set(gca, 'xticklabel', {'all', 'ntp' 'nta'})
 end
-legend('Valid', 'Neutral', 'Invalid')
-legend('Location', 'best')
-ax = gca;
-ax.XGrid = 'off';
-ax.YGrid = 'off';
+% legend('T1' 'T2')
+% legend('Location', 'best')
+% ax = gca;
+% ax.XGrid = 'off';
+% ax.YGrid = 'off';
+hold on
 
 %% plot discrimination
 dprimefieldnames = fieldnames(dataAll(iSub).disd);
 critfieldnames = fieldnames(dataAll(iSub).detc);
-figure();
-sgtitle('ga discrimination')
 for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
-    subplot(2,3,iF)
-    b = bar(disd.(dprimefieldnames{iF}));
+    subplot(2,2,2)
+    b = bar([disd.all; disd.nontargetPresent; disd.nontargetAbsent]);
     hold on
     for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
         xtips = b(k).XEndPoints;
@@ -270,16 +259,16 @@ for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present,
         errorbar(xtips,ytips,disdErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1) 
     end
     hold off
-    title([dprimefieldnames{iF}])
+    title("discrimination d'")
     ylabel("d'")
     ylim([0 5])
-    set(gca, 'xticklabel', {'T1', 'T2'})
+    set(gca, 'xticklabel', {'all', 'ntp', 'nta'})
 end
 hold on
 
 for iF = 1:numel(critfieldnames)
-    subplot(2,3,iF+numel(dprimefieldnames))
-    b = bar(disc.(critfieldnames{iF}));
+    subplot(2,2,4)
+    b = bar([disc.all; disc.nontargetPresent; disc.nontargetAbsent]);
      hold on
     for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
         xtips = b(k).XEndPoints;
@@ -287,16 +276,15 @@ for iF = 1:numel(critfieldnames)
         errorbar(xtips,ytips,discErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)
     end
     hold off
-    title([critfieldnames{iF}])
+    title('discrimination c')
     ylabel('c')
-    ylim([-0.75 0.75])
-    set(gca, 'xticklabel', {'T1', 'T2'})
+    ylim([-1 1])
+    set(gca, 'xticklabel', {'all', 'ntp', 'nta'})
 end
-legend('Valid', 'Neutral', 'Invalid')
+legend('T1','T2')
 legend('Location', 'best')
 ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'off';
-
 
 %%
