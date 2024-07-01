@@ -2,7 +2,7 @@ function [data] = zoot_main(s)
 % tazoott
 %
 % jenny motzer
-% december 2023
+% december 20231
 
 %% PTB setup
 % Check we are running PTB-3
