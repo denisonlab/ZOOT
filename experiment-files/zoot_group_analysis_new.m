@@ -4,7 +4,7 @@ saveplots = 0;
 
 fp = figureparams;
 %% compile
-subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0108', 'S0070','S0122', 'S0133'};
+subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0070', 'S0085', 'S0108', 'S0122', 'S0133'};
 dataAll = [];
 
 for iSub=1:length(subs) % for participant
@@ -105,7 +105,7 @@ for iSub=1:length(subs) % for participant
                 end
             end
         end
-
+    
 
         %% confusability map (all trials) for target
         % sort data by target/nontarget, stimulus (CCW, CW, absent), and response to create
@@ -180,6 +180,19 @@ for iSub=1:length(subs) % for participant
             dataAll(iSub).CMV.(validityNames{iValid}) = CMprop;
         end
 
+
+
+
+        dataAll(iSub).means = Acc.prop*100; % save each participant's mean data in dataAll
+        dataAll(iSub).CM_tAllProp= CM.prop;
+        dataAll(iSub).CM_nAllProp= CM.propNon;
+        dataAll(iSub).CM_tOneProp= CM.propOneTarg;
+        dataAll(iSub).CM_nOneProp= CM.propNonOneTarg;
+
+        dataAll(iSub).nsignalDet = dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % target present
+        dataAll(iSub).nnoiseDet = dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % target absent
+        dataAll(iSub).nhDet = dataAll(iSub).seen==1 & dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % hits (seen and present)
+        dataAll(iSub).nfaDet = dataAll(iSub).seen==1 & dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % false alarms (seen and absent)
         
         
     %% SDT detection - across cueing conditions
@@ -213,11 +226,11 @@ for iSub=1:length(subs) % for participant
     for iTarget = 1:2
         for iValid = 1:numel(Validities)
             for iF = 1:numel(Detfieldnames)
-                dataAll(iSub).nhDet.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,1);
-                dataAll(iSub).nfaDet.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,2);
-                dataAll(iSub).nsignalDet.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,3);
-                dataAll(iSub).nnoiseDet.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,4);
-                [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDet.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).nfaDet.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).nsignalDet.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).nnoiseDet.(Detfieldnames{iF})(iTarget,iValid),1);
+                dataAll(iSub).detNH.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,1);
+                dataAll(iSub).detNFA.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,2);
+                dataAll(iSub).detNSignal.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,3);
+                dataAll(iSub).detNNoise.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,4);
+                [dprime, criterion] = kt_dprime2(dataAll(iSub).detNH.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNFA.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNSignal.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNNoise.(Detfieldnames{iF})(iTarget,iValid),1);
                 dataAll(iSub).detd.(Detfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
                 dataAll(iSub).detc.(Detfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
             end
@@ -290,11 +303,11 @@ for iSub=1:length(subs) % for participant
     Detfieldnames = fieldnames(det);
     for iTarget = 1:2
         for iF = 1:numel(Detfieldnames)
-            dataAll(iSub).nhDet.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,1);
-            dataAll(iSub).nfaDet.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,2);
-            dataAll(iSub).nsignalDet.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,3);
-            dataAll(iSub).nnoiseDet.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,4);
-            [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDet.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).nfaDet.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).nsignalDet.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).nnoiseDet.(Detfieldnames{iF})(1, iTarget),1);
+            dataAll(iSub).detNHcollasped.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,1);
+            dataAll(iSub).detNFAcollapsed.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,2);
+            dataAll(iSub).detNSignalcollapsed.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,3);
+            dataAll(iSub).detNNoisecollapsed.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,4);
+            [dprime, criterion] = kt_dprime2(dataAll(iSub).detNHcollasped.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).detNFAcollapsed.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).detNSignalcollapsed.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).detNNoisecollapsed.(Detfieldnames{iF})(1, iTarget),1);
             dataAll(iSub).detd.(Detfieldnames{iF})(1, iTarget) = [dp dprime]; % store d prime
             dataAll(iSub).detc.(Detfieldnames{iF})(1, iTarget) = [c criterion]; % store c
         end
@@ -355,6 +368,11 @@ for iContrast = 1:numel(contrastConds)
         end
     end
 end
+
+allAcc = [];
+for iSub = 1:length(subs)
+    allAcc = [allAcc dataAll(iSub).means]; % 4 x 33 x 2 matrix of concatentated accuracy per contrast condition, validity, and target for each participant; used to read data into R for analysis
+end 
 
 %% find mean for CM by target for all contrast conditions and one target
 % conditions

@@ -7,7 +7,7 @@ fp = figureparams;
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
 
 %% compile
-subs = {'S0133'}; %, 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0070', 'S0108', 'S0122', 'S0133'};
+subs = {'S0085'}; %, 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0070', 'S0108', 'S0122', 'S0133'};
 dataAll = [];
 
 
@@ -126,7 +126,7 @@ for iSub=1:length(subs) % for participant
     for iF = 1:numel(contrastConds)
         subplot(2,2,iF)
         b = bar([Acc.prop(iF,:,1); Acc.prop(iF,:,2)]*100);
-        condTitle = [{'target present/nontarget present'} {'target present/nontarget absent'} {'target absent/nontarget present'} {'target absent nontarget absent'}];
+        condTitle = [{'target present/nontarget present'} {'target present/nontarget absent'} {'target absent/nontarget present'} {'target absent/nontarget absent'}];
         title([condTitle{iF}])
         ylabel('accuracy %')
         ylim([30 100])

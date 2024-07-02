@@ -4,7 +4,7 @@ saveplots = 0;
 
 fp = figureparams;
 %% compile
-subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0108', 'S0070','S0122', 'S0133'};
+subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0070', 'S0108', 'S0122', 'S0133'};
 dataAll = [];
 
 for iSub=1:length(subs) % for participant
@@ -105,7 +105,7 @@ for iSub=1:length(subs) % for participant
                 end
             end
         end
-
+    
 
         %% confusability map (all trials) for target
         % sort data by target/nontarget, stimulus (CCW, CW, absent), and response to create
@@ -180,6 +180,19 @@ for iSub=1:length(subs) % for participant
             dataAll(iSub).CMV.(validityNames{iValid}) = CMprop;
         end
 
+
+
+
+        dataAll(iSub).means = Acc.prop*100; % save each participant's mean data in dataAll
+        dataAll(iSub).CM_tAllProp= CM.prop;
+        dataAll(iSub).CM_nAllProp= CM.propNon;
+        dataAll(iSub).CM_tOneProp= CM.propOneTarg;
+        dataAll(iSub).CM_nOneProp= CM.propNonOneTarg;
+
+        dataAll(iSub).nsignalDet = dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % target present
+        dataAll(iSub).nnoiseDet = dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % target absent
+        dataAll(iSub).nhDet = dataAll(iSub).seen==1 & dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % hits (seen and present)
+        dataAll(iSub).nfaDet = dataAll(iSub).seen==1 & dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % false alarms (seen and absent)
         
         
     %% SDT detection - across cueing conditions
@@ -213,11 +226,11 @@ for iSub=1:length(subs) % for participant
     for iTarget = 1:2
         for iValid = 1:numel(Validities)
             for iF = 1:numel(Detfieldnames)
-                dataAll(iSub).nhDet.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,1);
-                dataAll(iSub).nfaDet.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,2);
-                dataAll(iSub).nsignalDet.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,3);
-                dataAll(iSub).nnoiseDet.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,4);
-                [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDet.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).nfaDet.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).nsignalDet.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).nnoiseDet.(Detfieldnames{iF})(iTarget,iValid),1);
+                dataAll(iSub).detNH.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,1);
+                dataAll(iSub).detNFA.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,2);
+                dataAll(iSub).detNSignal.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,3);
+                dataAll(iSub).detNNoise.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,4);
+                [dprime, criterion] = kt_dprime2(dataAll(iSub).detNH.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNFA.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNSignal.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNNoise.(Detfieldnames{iF})(iTarget,iValid),1);
                 dataAll(iSub).detd.(Detfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
                 dataAll(iSub).detc.(Detfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
             end
@@ -290,11 +303,11 @@ for iSub=1:length(subs) % for participant
     Detfieldnames = fieldnames(det);
     for iTarget = 1:2
         for iF = 1:numel(Detfieldnames)
-            dataAll(iSub).nhDet.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,1);
-            dataAll(iSub).nfaDet.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,2);
-            dataAll(iSub).nsignalDet.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,3);
-            dataAll(iSub).nnoiseDet.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,4);
-            [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDet.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).nfaDet.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).nsignalDet.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).nnoiseDet.(Detfieldnames{iF})(1, iTarget),1);
+            dataAll(iSub).detNHcollasped.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,1);
+            dataAll(iSub).detNFAcollapsed.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,2);
+            dataAll(iSub).detNSignalcollapsed.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,3);
+            dataAll(iSub).detNNoisecollapsed.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,4);
+            [dprime, criterion] = kt_dprime2(dataAll(iSub).detNHcollasped.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).detNFAcollapsed.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).detNSignalcollapsed.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).detNNoisecollapsed.(Detfieldnames{iF})(1, iTarget),1);
             dataAll(iSub).detd.(Detfieldnames{iF})(1, iTarget) = [dp dprime]; % store d prime
             dataAll(iSub).detc.(Detfieldnames{iF})(1, iTarget) = [c criterion]; % store c
         end
@@ -358,42 +371,46 @@ end
 
 %% find mean for CM by target for all contrast conditions and one target
 % conditions
-for iStimID = 1:3
-    for iResponse = 1:3
-        for iTarget = 1:2
-            for iSub = 1:length(subs)
-                cmTIdx = [cmTIdx dataAll(iSub).CM_tAllProp(iStimID, iResponse, iTarget)]; % all contrasts, target
-                cmNIdx = [cmNIdx dataAll(iSub).CM_nAllProp(iStimID, iResponse, iTarget)]; % all contrast, nontarget
-                cm1TIdx = [cm1TIdx dataAll(iSub).CM_tOneProp(iStimID, iResponse, iTarget)]; % one target, target
-                cm1NIdx = [cm1NIdx dataAll(iSub).CM_nOneProp(iStimID, iResponse, iTarget)]; % one target, nontarget
-            end
-            CM.allTprop(iStimID, iResponse, iTarget) = mean(cmTIdx);
-            CM.allNprop(iStimID, iResponse, iTarget) = mean(cmNIdx);
-            CM.oneTprop(iStimID, iResponse, iTarget) = mean(cm1TIdx);
-            CM.oneNprop(iStimID, iResponse, iTarget) = mean(cm1NIdx);
-            cmTIdx = [];
-            cmNIdx = [];
-            cm1TIdx = [];
-            cm1NIdx = [];
-        end
-    end
-end
 
-TCMVIdx = 0;
-NCMVIdx = 0;
-validfieldnames = fieldnames(dataAll(iSub).CMV.valid); % gives "all" and "one"
-for iCond = 1:2
-    for iValid = 1:numel(Validities)
-        for iSub = 1:length(subs)
-            TCMVIdx = TCMVIdx + dataAll(iSub).CMV.(validityNames{iValid}).(validfieldnames{iCond}).targ;  % add each condition proporition across participants for target per condition (all contrast or one target) and validity
-            NCMVIdx = NCMVIdx + dataAll(iSub).CMV.(validityNames{iValid}).(validfieldnames{iCond}).nontarg;% add each condition proporition across participants for nontarget per condition (all contrast or one target) and validity
-        end
-        TCMV.(validfieldnames{iCond}).(validityNames{iValid}) = TCMVIdx/length(subs);
-        NCMV.(validfieldnames{iCond}).(validityNames{iValid}) = NCMVIdx/length(subs);
-        TCMVIdx = 0;
-        NCMVIdx = 0;
-    end
-end
+
+
+
+% for iStimID = 1:3
+%     for iResponse = 1:3
+%         for iTarget = 1:2
+%             for iSub = 1:length(subs)
+%                 cmTIdx = [cmTIdx dataAll(iSub).CM_tAllProp(iStimID, iResponse, iTarget)]; % all contrasts, target
+%                 cmNIdx = [cmNIdx dataAll(iSub).CM_nAllProp(iStimID, iResponse, iTarget)]; % all contrast, nontarget
+%                 cm1TIdx = [cm1TIdx dataAll(iSub).CM_tOneProp(iStimID, iResponse, iTarget)]; % one target, target
+%                 cm1NIdx = [cm1NIdx dataAll(iSub).CM_nOneProp(iStimID, iResponse, iTarget)]; % one target, nontarget
+%             end
+%             CM.allTprop(iStimID, iResponse, iTarget) = mean(cmTIdx);
+%             CM.allNprop(iStimID, iResponse, iTarget) = mean(cmNIdx);
+%             CM.oneTprop(iStimID, iResponse, iTarget) = mean(cm1TIdx);
+%             CM.oneNprop(iStimID, iResponse, iTarget) = mean(cm1NIdx);
+%             cmTIdx = [];
+%             cmNIdx = [];
+%             cm1TIdx = [];
+%             cm1NIdx = [];
+%         end
+%     end
+% end
+% 
+% TCMVIdx = 0;
+% NCMVIdx = 0;
+% validfieldnames = fieldnames(dataAll(iSub).CMV.valid); % gives "all" and "one"
+% for iCond = 1:2
+%     for iValid = 1:numel(Validities)
+%         for iSub = 1:length(subs)
+%             TCMVIdx = TCMVIdx + dataAll(iSub).CMV.(validityNames{iValid}).(validfieldnames{iCond}).targ;  % add each condition proporition across participants for target per condition (all contrast or one target) and validity
+%             NCMVIdx = NCMVIdx + dataAll(iSub).CMV.(validityNames{iValid}).(validfieldnames{iCond}).nontarg;% add each condition proporition across participants for nontarget per condition (all contrast or one target) and validity
+%         end
+%         TCMV.(validfieldnames{iCond}).(validityNames{iValid}) = TCMVIdx/length(subs);
+%         NCMV.(validfieldnames{iCond}).(validityNames{iValid}) = NCMVIdx/length(subs);
+%         TCMVIdx = 0;
+%         NCMVIdx = 0;
+%     end
+% end
 
 %% SDT - across cueing conditions
 dprimeDetIdx = [];
@@ -784,3 +801,92 @@ legend('Location', 'best')
 ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'off';
+
+%% SDT collpased cueing cond 
+
+%% plot detection
+dprimefieldnames = fieldnames(dataAll(iSub).detd);
+critfieldnames = fieldnames(dataAll(iSub).detc);
+figure();
+sgtitle('ga detection')
+for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
+    subplot(2,3,iF)
+    b = bar(detd.(dprimefieldnames{iF}));
+    hold on
+    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
+        xtips = b(k).XEndPoints;
+        ytips = b(k).YEndPoints;
+        errorbar(xtips,ytips,detdErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1) 
+    end
+    hold off
+    title([dprimefieldnames{iF}])
+    ylabel("d'")
+    ylim([0 5])
+    set(gca, 'xticklabel', {'T1', 'T2'})
+end
+hold on
+
+for iF = 1:numel(critfieldnames)
+    subplot(2,3,iF+numel(dprimefieldnames))
+    b = bar(detc.(critfieldnames{iF}));
+     hold on
+    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
+        xtips = b(k).XEndPoints;
+        ytips = b(k).YEndPoints;
+        errorbar(xtips,ytips,detcErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)
+    end
+    hold off
+    title([critfieldnames{iF}])
+    ylabel('c')
+    ylim([-0.75 0.75])
+    set(gca, 'xticklabel', {'T1', 'T2'})
+end
+legend('Valid', 'Neutral', 'Invalid')
+legend('Location', 'best')
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'off';
+
+%% plot discrimination
+dprimefieldnames = fieldnames(dataAll(iSub).disd);
+critfieldnames = fieldnames(dataAll(iSub).detc);
+figure();
+sgtitle('ga discrimination')
+for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
+    subplot(2,3,iF)
+    b = bar(disd.(dprimefieldnames{iF}));
+    hold on
+    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
+        xtips = b(k).XEndPoints;
+        ytips = b(k).YEndPoints;
+        errorbar(xtips,ytips,disdErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1) 
+    end
+    hold off
+    title([dprimefieldnames{iF}])
+    ylabel("d'")
+    ylim([0 5])
+    set(gca, 'xticklabel', {'T1', 'T2'})
+end
+hold on
+
+for iF = 1:numel(critfieldnames)
+    subplot(2,3,iF+numel(dprimefieldnames))
+    b = bar(disc.(critfieldnames{iF}));
+     hold on
+    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
+        xtips = b(k).XEndPoints;
+        ytips = b(k).YEndPoints;
+        errorbar(xtips,ytips,discErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)
+    end
+    hold off
+    title([critfieldnames{iF}])
+    ylabel('c')
+    ylim([-0.75 0.75])
+    set(gca, 'xticklabel', {'T1', 'T2'})
+end
+legend('Valid', 'Neutral', 'Invalid')
+legend('Location', 'best')
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'off';
+

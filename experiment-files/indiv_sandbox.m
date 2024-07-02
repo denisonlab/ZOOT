@@ -101,7 +101,48 @@ for iSub=1:length(subs) % for participant
     Validities = {Valid Neutral Invalid};
     contrastConds = {PresentPresent PresentAbsent AbsentPresent AbsentAbsent};
 
-%% SDT collapsed cueing conditions
+%% cost benefit
+%% accuracy 
+   % sort data by contrast condition, validity, and target and get averages
+    % per condition as matrices
+    for iTarget = 1:2 % for each target (1 or 2)
+        for iContrastCond = 1:4 % for each contrast condition (PP, PA, AP, AA)
+            for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
+                idx = dataAll.target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & ~dataAll.eyeSkip;
+                Acc.n(iContrastCond, iValidity, iTarget) = size(dataAll.correct(idx),2); % denominator, number of trials per condition
+                Acc.correct(iContrastCond, iValidity, iTarget) = size(dataAll.correct(idx & dataAll.correct==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                Acc.prop(iContrastCond, iValidity, iTarget) = Acc.correct(iContrastCond, iValidity, iTarget)/Acc.n(iContrastCond, iValidity, iTarget);
+            end
+        end
+    end
+
+    % calculate benefit and cost for each target and contrast condition
+    for iContrastCond = 1:size(Acc.prop,1)
+        for iTarget = 1:2
+            benefit(iContrastCond, iTarget) = (Acc.prop(iContrastCond,1,iTarget) - Acc.prop(iContrastCond,2,iTarget)) / (Acc.prop(iContrastCond,1,iTarget) - Acc.prop(iContrastCond,3,iTarget));
+            cost(iContrastCond, iTarget) = (Acc.prop(iContrastCond,2,iTarget) - Acc.prop(iContrastCond,3,iTarget)) / (Acc.prop(iContrastCond,1,iTarget) - Acc.prop(iContrastCond,3,iTarget));
+        end
+    end
+
+    % organize/pair benefit and cost values per target and contrast condition (T1 benefit with T2 cost, etc)
+    list = [];
+    for iContrastCond = 1:size(Acc.prop,1)
+        list = [list; benefit(iContrastCond, 1) cost(iContrastCond, 2) benefit(iContrastCond, 2) cost(iContrastCond, 1)] ;
+    end
 
 
+    figure;
+    for i = 1:4
+        subplot(2,2,i)
+        index = [list(i,1:2); list(i,3:4)];
+        b = bar(index); 
+        condTitle = [{'target present/nontarget present'} {'target present/nontarget absent'} {'target absent/nontarget present'} {'target absent/nontarget absent'}];
+        title([condTitle{i}])
+        ylabel('cost benefit analysis')
+         ylim([-5 6])
+        % set(gca, 'ytick', 30:10:100)
+        % set(gca, 'xticklabel', {'T1', 'T2'})
+        % ytickformat('percentage')
+        hold on
+    end 
 end 
