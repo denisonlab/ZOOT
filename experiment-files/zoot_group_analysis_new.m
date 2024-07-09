@@ -4,7 +4,7 @@ saveplots = 0;
 
 fp = figureparams;
 %% compile
-subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0070', 'S0085', 'S0108', 'S0122', 'S0133'};
+subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0070', 'S0071','S0085', 'S0108', 'S0122', 'S0133'};
 dataAll = [];
 
 for iSub=1:length(subs) % for participant
@@ -369,10 +369,6 @@ for iContrast = 1:numel(contrastConds)
     end
 end
 
-allAcc = [];
-for iSub = 1:length(subs)
-    allAcc = [allAcc dataAll(iSub).means]; % 4 x 33 x 2 matrix of concatentated accuracy per contrast condition, validity, and target for each participant; used to read data into R for analysis
-end 
 
 %% find mean for CM by target for all contrast conditions and one target
 % conditions

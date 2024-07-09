@@ -5,26 +5,32 @@ load dataAll.mat
 % contrast condition, each row holds a list of each participants data value
 % for each condition (row 1 of matrix 1: all valid PP T1 values for each
 % participant)
-names = {'PP', 'PA', 'AP', 'AA'};
+contrasts = {'PP', 'PA', 'AP', 'AA'};
 for iSub = 1:numel(dataAll)
     for iCond = 1:4
         for iTarget = 1:2
             for iValid = 1:3
-                acc.(names{iCond})(iValid,iSub,iTarget) = dataAll(iSub).means(iCond,iValid,iTarget); % accuracy
+                acc.(contrasts{iCond})(iValid,iSub,iTarget) = dataAll(iSub).means(iCond,iValid,iTarget); % accuracy 
             end
         end
     end
 end
 
-%% t-test
+%% t-test accuracy 
+pairs = [1 2; 1 3; 2 3];
+pairNames = {'vn','vi','ni'};
+nPairs = numel(pairNames);
+
+[h, p, ci, stats] = deal([]);
+
 for iCond = 1:4
     for iTarget = 1:2
-        [h,p,ci,stats] = ttest(acc.(names{iCond})(1,:,iTarget), acc.(names{iCond})(2,:, iTarget)); % t-test for valid and neutral
-        acc.(names{iCond}).valid_neutral_h = h;
+        for iPair = 1:nPairs
+            pair = pairs(iPair,:);
+            pairName = pairNames{iPair};
 
-        [h,p,ci,stats] = ttest(acc.(names{iCond})(1,:,iTarget), acc.(names{iCond})(3,:, iTarget)); % valid and invalid
-        acc.(names{iCond}).valid_invalid = [h,p,ci,stats];
-        [h,p,ci,stats] = ttest(acc.(names{iCond})(2,:,iTarget), acc.(names{iCond})(3,:, iTarget)); % neutral and invalid
-        acc.(names{iCond}).neutral_invalid = [h,p,ci,stats];
-    end 
-end 
+            [h.(pairName)(iCond,iTarget),p.(pairName)(iCond,iTarget),ci.(pairName){iCond,iTarget},stats.(pairName){iCond,iTarget}] = ...
+                ttest(acc.(contrasts{iCond})(pair(1),:,iTarget), acc.(contrasts{iCond})(pair(2),:, iTarget)); % paired t-test
+        end
+    end
+end
