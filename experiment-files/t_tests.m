@@ -1,6 +1,7 @@
 %% load and organize data 
 load dataAll.mat
 
+%accuracy
 % creates a 3 (validity) x number of subjects x 2 (target) matrix for each
 % contrast condition, each row holds a list of each participants data value
 % for each condition (row 1 of matrix 1: all valid PP T1 values for each
@@ -15,6 +16,8 @@ for iSub = 1:numel(dataAll)
         end
     end
 end
+
+
 
 %% t-test accuracy 
 pairs = [1 2; 1 3; 2 3];
@@ -34,3 +37,5 @@ for iCond = 1:4
         end
     end
 end
+
+%% t-test detection 
