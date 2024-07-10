@@ -7,7 +7,7 @@ fp = figureparams;
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
 
 %% compile
-subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0108', 'S0070','S0122', 'S0133'};
+subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0070', 'S0071', 'S0085', 'S0108', 'S0122', 'S0133'};
 dataAll = [];
 
 for iSub=1:length(subs) % for participant
@@ -95,200 +95,130 @@ for iSub=1:length(subs) % for participant
      
     end % session - needs to be here to compile both sessions for each participant
 
-      %% SDT collapsed across 
-    nhDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 1; % hit: seen and present
-    nfaDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 0; % fa: seen and absent
-    nsignalDet = dataAll(iSub).targetContrast == 1; % signal: present
-    nnoiseDet = dataAll(iSub).targetContrast == 0; % noise: absent
-    Det = {nhDet nfaDet nsignalDet nnoiseDet};
 
-    % indices for all conditions based on target, validity, SDT variable -
-    % returns which contains data for all, nontarget present, non target absent. each of these contains condition data for nh nfa
-    % nsignal and  nnoise
-    for iTarget =1:2
-        for iDet = 1:numel(Det)
-            detAllIdx = Det{iDet} & dataAll(iSub).target == iTarget & ~dataAll(iSub).eyeSkip; % find all T1 and T2
-            det.all(iTarget, iDet) = sum(detAllIdx);
-            detNTPIdx = Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
-            det.nontargetPresent(iTarget, iDet) = sum(detNTPIdx);
-            detNTAIdx = Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
-            det.nontargetAbsent(iTarget, iDet) = sum(detNTAIdx);
-        end
-    end
+    %% det accuracy
 
-    % calculate dprime and c per condition, detd/c.all, nontargetPresent,
-    % nontargetAbsent for valid, neutral, and invalid for T1 and T2 
-    dp = [];
-    c = [];
-    Detfieldnames = fieldnames(det);
-    for iTarget = 1:2
-        for iF = 1:numel(Detfieldnames)
-            dataAll(iSub).nhDet.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,1);
-            dataAll(iSub).nfaDet.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,2);
-            dataAll(iSub).nsignalDet.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,3);
-            dataAll(iSub).nnoiseDet.(Detfieldnames{iF})(1, iTarget) = det.(Detfieldnames{iF})(iTarget,4);
-            [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDet.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).nfaDet.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).nsignalDet.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).nnoiseDet.(Detfieldnames{iF})(1, iTarget),1);
-            dataAll(iSub).detd.(Detfieldnames{iF})(1, iTarget) = [dp dprime]; % store d prime
-            dataAll(iSub).detc.(Detfieldnames{iF})(1, iTarget) = [c criterion]; % store c
-        end
-    end
+    % sort data by contrast condition, validity, and target and get averages
+    % per condition as matrices
 
-    %% discrimination
-    nhDis = dataAll(iSub).correctDis == 1 & dataAll(iSub).targetTilt == 1;
-    nfaDis = dataAll(iSub).correctDis == 0 & dataAll(iSub).targetTilt == -1;
-    nsignalDis = dataAll(iSub).targetContrast == 1 & dataAll(iSub).seen == 1 & dataAll(iSub).targetTilt == 1;
-    nnoiseDis = dataAll(iSub).targetContrast == 1 & dataAll(iSub).seen == 1 & dataAll(iSub).targetTilt == -1;
-    Dis = {nhDis nfaDis nsignalDis nnoiseDis};
-    %indices for all conditions based on target, validity, SDT variable
-    for iTarget =1:2
-            for iDis = 1:numel(Dis)
-                disAllIdx =Dis{iDis} & dataAll(iSub).target == iTarget & ~dataAll(iSub).eyeSkip; % find all T1 and T2
-                dis.all(iTarget, iDis) = sum(disAllIdx);
-                disNTPIdx = Dis{iDis} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
-                dis.nontargetPresent(iTarget, iDis) = sum(disNTPIdx);
-                disNTAIdx = Dis{iDis} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
-                dis.nontargetAbsent(iTarget, iDis) = sum(disNTAIdx);
+    for iTarget = 1:2 % for each target (1 or 2)
+        for iContrastCond = 1:4 % for each contrast condition (PP, PA, AP, AA)
+            for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
+                pIdx = dataAll(iSub).target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % index for finding relevant trials for the denominator of each condition
+                Acc.pN(iContrastCond, iValidity, iTarget) = size(find(pIdx),2); % denominator, number of trials per condition
+                Acc.pSeen(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).seen(pIdx & dataAll(iSub).seen==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                Acc.pProp(iContrastCond, iValidity, iTarget) = Acc.pSeen(iContrastCond, iValidity, iTarget)/Acc.pN(iContrastCond, iValidity, iTarget);
+
+                aIdx = dataAll(iSub).target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip;
+                Acc.aN(iContrastCond, iValidity, iTarget) = size(find(aIdx),2); % denominator, number of trials per condition
+                Acc.aSeen(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).seen(aIdx & dataAll(iSub).seen==0),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                Acc.aProp(iContrastCond, iValidity, iTarget) = Acc.aSeen(iContrastCond, iValidity, iTarget)/Acc.aN(iContrastCond, iValidity, iTarget);
             end
-    end
-
-    % calculate dprime and c per condition
-    dp = [];
-    c = [];
-    Disfieldnames = fieldnames(dis);
-    for iTarget = 1:2
-        for iF = 1:numel(Disfieldnames)
-            dataAll(iSub).nhDis.(Disfieldnames{iF})(1,iTarget) = dis.(Disfieldnames{iF})(iTarget,1);
-            dataAll(iSub).nfaDis.(Disfieldnames{iF})(1,iTarget) = dis.(Disfieldnames{iF})(iTarget,2);
-            dataAll(iSub).nsignalDis.(Disfieldnames{iF})(1,iTarget) = dis.(Disfieldnames{iF})(iTarget,3);
-            dataAll(iSub).nnoiseDis.(Disfieldnames{iF})(1,iTarget) = dis.(Disfieldnames{iF})(iTarget,4);
-            [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDis.(Disfieldnames{iF})(1,iTarget), dataAll(iSub).nfaDis.(Disfieldnames{iF})(1,iTarget), dataAll(iSub).nsignalDis.(Disfieldnames{iF})(1,iTarget), dataAll(iSub).nnoiseDis.(Disfieldnames{iF})(1,iTarget),1);
-            dataAll(iSub).disd.(Disfieldnames{iF})(1,iTarget) = [dp dprime]; % store d prime
-            dataAll(iSub).disc.(Disfieldnames{iF})(1,iTarget) = [c criterion]; % store c
         end
     end
+
+    Acc.prop = [Acc.pProp(1:2,:,:);Acc.aProp(3:4,:,:)]; % combines arrays that show accuracy for detecting target when present (tp/np, tp/na) and when absent (ta/np, ta/na) to give a 4 x 3 x 2 array
+    AccNT.prop = [mean(Acc.pProp(1:2,:,:)); mean(Acc.aProp(3:4,:,:))];
+
+    dataAll(iSub).means = Acc.prop*100; % save each participant's mean data in dataAll
+    dataAll(iSub).meansNT = AccNT.prop*100;
+
+
 end % subject
 
-% mean, std, err for dprime and c for dis and det
-dprimeDetIdx = [];
-cDetIdx = [];
-dprimeDisIdx = [];
-cDisIdx = [];
-for iTarget = 1:2
-    for iValid = 1:numel(Validities)
-        for iF = 1:numel(Detfieldnames)
+%% means 
+accIdx = []; % used to collect each position of the matrix (each condition) by participant into a list to perform std and mean, then create new matrices for std, mean, and error
+for iContrast = 1:4
+    for iValid = 1:3
+        for iTarget = 1:2
             for iSub = 1:length(subs)
-                dprimeDetIdx = [dprimeDetIdx dataAll(iSub).detd.(Detfieldnames{iF})(iTarget,iValid)];
-                cDetIdx = [cDetIdx dataAll(iSub).detc.(Detfieldnames{iF})(iTarget,iValid)];
-                dprimeDisIdx = [dprimeDisIdx dataAll(iSub).disd.(Detfieldnames{iF})(iTarget,iValid)];
-                cDisIdx = [cDisIdx dataAll(iSub).disc.(Detfieldnames{iF})(iTarget,iValid)];
+                accIdx = [accIdx dataAll(iSub).means(iContrast,iValid,iTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis
             end
-            detdStd.(Detfieldnames{iF})(iTarget, iValid) = std(dprimeDetIdx);
-            detd.(Detfieldnames{iF})(iTarget, iValid) = mean(dprimeDetIdx);
-            detdErr.(Detfieldnames{iF})(iTarget, iValid) = detdStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-            detcStd.(Detfieldnames{iF})(iTarget, iValid) = std(cDetIdx);
-            detc.(Detfieldnames{iF})(iTarget, iValid) = mean(cDetIdx);
-            detcErr.(Detfieldnames{iF})(iTarget, iValid) = detcStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-
-            disdStd.(Disfieldnames{iF})(iTarget, iValid) = std(dprimeDisIdx);
-            disd.(Disfieldnames{iF})(iTarget, iValid) = mean(dprimeDisIdx);
-            disdErr.(Disfieldnames{iF})(iTarget, iValid) = disdStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-            discStd.(Disfieldnames{iF})(iTarget, iValid) = std(cDisIdx);
-            disc.(Disfieldnames{iF})(iTarget, iValid) = mean(cDisIdx);
-            discErr.(Disfieldnames{iF})(iTarget, iValid) = discStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-
-            dprimeDetIdx = [];
-            cDetIdx = [];
-            dprimeDisIdx = [];
-            cDisIdx = [];
+            Acc.std(iContrast,iValid,iTarget) = std(accIdx); % finds std of the accuracy of each condition for each participant
+            Acc.mean(iContrast, iValid, iTarget) = mean(accIdx); % finds means of accuracy for each condition for each participant
+            Acc.err(iContrast,iValid,iTarget) = Acc.std(iContrast,iValid,iTarget)/sqrt(size(dataAll,2)); % calculate error for each condition
+            accIdx = [];
         end
     end
 end
 
-%% plot detection
-dprimefieldnames = fieldnames(dataAll(iSub).detd);
-critfieldnames = fieldnames(dataAll(iSub).detc);
+accNTIdx = [];
+for iValid = 1:3
+    for iTarget = 1:2
+        for iPresence = 1:2
+            for iSub = 1:length(subs)
+                accNTIdx = [accNTIdx dataAll(iSub).meansNT(iPresence,iValid,iTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis
+            end
+            AccNT.std(iPresence,iValid,iTarget) = std(accNTIdx); % finds std of the accuracy of each condition for each participant
+            AccNT.mean(iPresence,iValid,iTarget)= mean(accNTIdx); % finds means of accuracy for each condition for each participant
+            AccNT.err(iPresence,iValid,iTarget) = AccNT.std(iPresence,iValid,iTarget)/sqrt(size(dataAll,2)); % calculate error for each condition
+            accNTIdx = [];
+        end
+    end
+end
+ 
+
+%% plot
 figure();
-sgtitle('ga detection')
-for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
-    subplot(2,3,iF)
-    b = bar(detd.(dprimefieldnames{iF}));
+sgtitle('ga det accuracy')
+for iF = 1:numel(contrastConds)
+    subplot(2,2,iF)
+    b = bar([Acc.mean(iF,:,1); Acc.mean(iF,:,2)]);
     hold on
     for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
         xtips = b(k).XEndPoints;
         ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,detdErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1) 
+        errorbar(xtips,ytips,Acc.err(iF,k), '.k', 'MarkerSize',0.1)
     end
     hold off
-    title([dprimefieldnames{iF}])
-    ylabel("d'")
-    ylim([0 5])
+    condTitle = [{'target present/nontarget present'} {'target present/nontarget absent'} {'target absent/nontarget present'} {'target absent/nontarget absent'}];
+    title([condTitle{iF}])
+    ylabel('det accuracy %')
+    ylim([30 100])
+    set(gca, 'ytick', 30:10:100)
     set(gca, 'xticklabel', {'T1', 'T2'})
-end
-hold on
-
-for iF = 1:numel(critfieldnames)
-    subplot(2,3,iF+numel(dprimefieldnames))
-    b = bar(detc.(critfieldnames{iF}));
-     hold on
-    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
-        xtips = b(k).XEndPoints;
-        ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,detcErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)
-    end
-    hold off
-    title([critfieldnames{iF}])
-    ylabel('c')
-    ylim([-0.75 0.75])
-    set(gca, 'xticklabel', {'T1', 'T2'})
+    ytickformat('percentage')
+    hold on
 end
 legend('Valid', 'Neutral', 'Invalid')
 legend('Location', 'best')
+% lgd.Layout.Tile = 'eastoutside';
 ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'off';
 
-%% plot discrimination
-dprimefieldnames = fieldnames(dataAll(iSub).disd);
-critfieldnames = fieldnames(dataAll(iSub).detc);
+if saveplots
+    figTitle = sprintf('%s_%s',...
+        'beh_acc',datestr(now,'yymmdd'));
+    saveas(gcf,sprintf('%s/%s', behDir, figTitle))
+end
+
 figure();
-sgtitle('ga discrimination')
-for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
-    subplot(2,3,iF)
-    b = bar(disd.(dprimefieldnames{iF}));
+sgtitle('ga det acc by nontarget')
+for iF = 1:2
+    subplot(1,2,iF)
+    b = bar([AccNT.mean(iF,:,1); AccNT.mean(iF,:,2)]);
     hold on
     for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
         xtips = b(k).XEndPoints;
         ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,disdErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1) 
+        errorbar(xtips,ytips,AccNT.err(iF,k), '.k', 'MarkerSize',0.1)
     end
     hold off
-    title([dprimefieldnames{iF}])
-    ylabel("d'")
-    ylim([0 5])
+    condTitle = [{'nontarget present'} {'nontarget absent'}];
+    title([condTitle{iF}])
+    ylabel('det accuracy %')
+    ylim([30 100])
+    set(gca, 'ytick', 30:10:100)
     set(gca, 'xticklabel', {'T1', 'T2'})
-end
-hold on
-
-for iF = 1:numel(critfieldnames)
-    subplot(2,3,iF+numel(dprimefieldnames))
-    b = bar(disc.(critfieldnames{iF}));
-     hold on
-    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
-        xtips = b(k).XEndPoints;
-        ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,discErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)
-    end
-    hold off
-    title([critfieldnames{iF}])
-    ylabel('c')
-    ylim([-0.75 0.75])
-    set(gca, 'xticklabel', {'T1', 'T2'})
+    ytickformat('percentage')
+    hold on
 end
 legend('Valid', 'Neutral', 'Invalid')
 legend('Location', 'best')
+% lgd.Layout.Tile = 'eastoutside';
 ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'off';
 
 
-%%

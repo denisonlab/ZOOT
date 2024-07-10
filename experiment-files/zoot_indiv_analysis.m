@@ -7,7 +7,7 @@ fp = figureparams;
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
 
 %% compile
-subs = {'S0018'}; %, 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0070', 'S0108', 'S0122', 'S0133'};
+subs = {'S0071'}; %, 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0070', 'S0071','S0085', 'S0108', 'S0122', 'S0133'};
 dataAll = [];
 
 
@@ -24,7 +24,7 @@ for iSub=1:length(subs) % for participant
     for iF = 1:numel(fields) % initialize
         dataAll.(fields{iF}) = [];
     end
-    sessions = {'session1'};
+    sessions = {'session1', 'session2'};
     for iSession = 1:numel(sessions) % for session
         highestBlock = 0;
         sesNum = sessions{iSession};
@@ -112,7 +112,7 @@ for iSub=1:length(subs) % for participant
     for iTarget = 1:2 % for each target (1 or 2)
         for iContrastCond = 1:4 % for each contrast condition (PP, PA, AP, AA)
             for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
-                idx = dataAll.target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & ~dataAll.eyeSkip(1:480);
+                idx = dataAll.target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & ~dataAll.eyeSkip;
                 Acc.n(iContrastCond, iValidity, iTarget) = size(dataAll.correct(idx),2); % denominator, number of trials per condition
                 Acc.correct(iContrastCond, iValidity, iTarget) = size(dataAll.correct(idx & dataAll.correct==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
                 Acc.prop(iContrastCond, iValidity, iTarget) = Acc.correct(iContrastCond, iValidity, iTarget)/Acc.n(iContrastCond, iValidity, iTarget);

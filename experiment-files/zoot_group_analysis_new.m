@@ -3,8 +3,11 @@ clear all
 saveplots = 0;
 
 fp = figureparams;
+
+addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
+
 %% compile
-subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0070', 'S0085', 'S0108', 'S0122', 'S0133'};
+subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0070', 'S0071', 'S0085','S0108', 'S0122', 'S0133'};
 dataAll = [];
 
 for iSub=1:length(subs) % for participant
@@ -369,10 +372,6 @@ for iContrast = 1:numel(contrastConds)
     end
 end
 
-allAcc = [];
-for iSub = 1:length(subs)
-    allAcc = [allAcc dataAll(iSub).means]; % 4 x 33 x 2 matrix of concatentated accuracy per contrast condition, validity, and target for each participant; used to read data into R for analysis
-end 
 
 %% find mean for CM by target for all contrast conditions and one target
 % conditions
@@ -413,42 +412,43 @@ for iCond = 1:2
     end
 end
 
-%% SDT - across cueing conditions
-dprimeDetIdx = [];
-cDetIdx = [];
-dprimeDisIdx = [];
-cDisIdx = [];
-for iTarget = 1:2
-    for iValid = 1:numel(Validities)
-        for iF = 1:numel(Detfieldnames)
-            for iSub = 1:length(subs)
-                dprimeDetIdx = [dprimeDetIdx dataAll(iSub).detd.(Detfieldnames{iF})(iTarget,iValid)];
-                cDetIdx = [cDetIdx dataAll(iSub).detc.(Detfieldnames{iF})(iTarget,iValid)];
-                dprimeDisIdx = [dprimeDisIdx dataAll(iSub).disd.(Detfieldnames{iF})(iTarget,iValid)];
-                cDisIdx = [cDisIdx dataAll(iSub).disc.(Detfieldnames{iF})(iTarget,iValid)];
-            end
-            detdStd.(Detfieldnames{iF})(iTarget, iValid) = std(dprimeDetIdx);
-            detd.(Detfieldnames{iF})(iTarget, iValid) = mean(dprimeDetIdx);
-            detdErr.(Detfieldnames{iF})(iTarget, iValid) = detdStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-            detcStd.(Detfieldnames{iF})(iTarget, iValid) = std(cDetIdx);
-            detc.(Detfieldnames{iF})(iTarget, iValid) = mean(cDetIdx);
-            detcErr.(Detfieldnames{iF})(iTarget, iValid) = detcStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+ %% SDT across cueing conditions
+ % mean, std, err for dprime and c for dis and det
+ dprimeDetIdx = [];
+ cDetIdx = [];
+ dprimeDisIdx = [];
+ cDisIdx = [];
+ for iTarget = 1:2
+     for iF = 1:numel(Detfieldnames)
+         for iValid = 1:numel(Validities)
+             for iSub = 1:length(subs)
+                 dprimeDetIdx = [dprimeDetIdx dataAll(iSub).detd.(Detfieldnames{iF})(iTarget,iValid)];
+                 cDetIdx = [cDetIdx dataAll(iSub).detc.(Detfieldnames{iF})(iTarget,iValid)];
+                 dprimeDisIdx = [dprimeDisIdx dataAll(iSub).disd.(Detfieldnames{iF})(iTarget,iValid)];
+                 cDisIdx = [cDisIdx dataAll(iSub).disc.(Detfieldnames{iF})(iTarget,iValid)];
+             end
+             detdStd.(Detfieldnames{iF})(iTarget, iValid) = std(dprimeDetIdx);
+             detd.(Detfieldnames{iF})(iTarget, iValid) = mean(dprimeDetIdx);
+             detdErr.(Detfieldnames{iF})(iTarget, iValid) = detdStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+             detcStd.(Detfieldnames{iF})(iTarget, iValid) = std(cDetIdx);
+             detc.(Detfieldnames{iF})(iTarget, iValid) = mean(cDetIdx);
+             detcErr.(Detfieldnames{iF})(iTarget, iValid) = detcStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
 
-            disdStd.(Disfieldnames{iF})(iTarget, iValid) = std(dprimeDisIdx);
-            disd.(Disfieldnames{iF})(iTarget, iValid) = mean(dprimeDisIdx);
-            disdErr.(Disfieldnames{iF})(iTarget, iValid) = disdStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-            discStd.(Disfieldnames{iF})(iTarget, iValid) = std(cDisIdx);
-            disc.(Disfieldnames{iF})(iTarget, iValid) = mean(cDisIdx);
-            discErr.(Disfieldnames{iF})(iTarget, iValid) = discStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+             disdStd.(Disfieldnames{iF})(iTarget, iValid) = std(dprimeDisIdx);
+             disd.(Disfieldnames{iF})(iTarget, iValid) = mean(dprimeDisIdx);
+             disdErr.(Disfieldnames{iF})(iTarget, iValid) = disdStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+             discStd.(Disfieldnames{iF})(iTarget, iValid) = std(cDisIdx);
+             disc.(Disfieldnames{iF})(iTarget, iValid) = mean(cDisIdx);
+             discErr.(Disfieldnames{iF})(iTarget, iValid) = discStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
 
-            dprimeDetIdx = [];
-            cDetIdx = [];
-            dprimeDisIdx = [];
-            cDisIdx = [];
-        end
-    end
+             dprimeDetIdx = [];
+             cDetIdx = [];
+             dprimeDisIdx = [];
+             cDisIdx = [];
+         end
+     end
 end
-%% SDT - detection + discrimination collapsed cueing conditions 
+%% SDT - detection + discrimination collapsed cueing conditions
 % mean, std, err for dprime and c for dis and det
 dprimeDetIdx = [];
 cDetIdx = [];
@@ -456,30 +456,32 @@ dprimeDisIdx = [];
 cDisIdx = [];
 for iTarget = 1:2
     for iF = 1:numel(Detfieldnames)
-        for iSub = 1:length(subs)
-            dprimeDetIdx = [dprimeDetIdx dataAll(iSub).detd.(Detfieldnames{iF})(1,iTarget)];
-            cDetIdx = [cDetIdx dataAll(iSub).detc.(Detfieldnames{iF})(1,iTarget)];
-            dprimeDisIdx = [dprimeDisIdx dataAll(iSub).disd.(Detfieldnames{iF})(1,iTarget)];
-            cDisIdx = [cDisIdx dataAll(iSub).disc.(Detfieldnames{iF})(1,iTarget)];
+        for iValid = 1:3
+            for iSub = 1:length(subs)
+                dprimeDetIdx = [dprimeDetIdx dataAll(iSub).detd.(Detfieldnames{iF})(iTarget, iValid)];
+                cDetIdx = [cDetIdx dataAll(iSub).detc.(Detfieldnames{iF})(iTarget, iValid)];
+                dprimeDisIdx = [dprimeDisIdx dataAll(iSub).disd.(Detfieldnames{iF})(iTarget, iValid)];
+                cDisIdx = [cDisIdx dataAll(iSub).disc.(Detfieldnames{iF})(iTarget, iValid)];
+            end
+            detdStdColl.(Detfieldnames{iF})(iTarget, iValid) = std(dprimeDetIdx);
+            detdColl.(Detfieldnames{iF})(iTarget, iValid) = mean(dprimeDetIdx);
+            detdErrColl.(Detfieldnames{iF})(iTarget, iValid) = detdStdColl.(Detfieldnames{iF})(iTarget, iValid)/sqrt(length(subs));
+            detcStdColl.(Detfieldnames{iF})(iTarget, iValid) = std(cDetIdx);
+            detcColl.(Detfieldnames{iF})(iTarget, iValid)= mean(cDetIdx);
+            detcErrColl.(Detfieldnames{iF})(iTarget, iValid) = detcStdColl.(Detfieldnames{iF})(iTarget, iValid)/sqrt(length(subs));
+
+            disdStdColl.(Disfieldnames{iF})(iTarget, iValid)= std(dprimeDisIdx);
+            disdColl.(Disfieldnames{iF})(iTarget, iValid)= mean(dprimeDisIdx);
+            disdErrColl.(Disfieldnames{iF})(iTarget, iValid) = disdStdColl.(Disfieldnames{iF})(iTarget, iValid)/sqrt(length(subs));
+            discStdColl.(Disfieldnames{iF})(iTarget, iValid)= std(cDisIdx);
+            discColl.(Disfieldnames{iF})(iTarget, iValid)= mean(cDisIdx);
+            discErrColl.(Disfieldnames{iF})(iTarget, iValid) = discStdColl.(Disfieldnames{iF})(iTarget, iValid)/sqrt(length(subs));
+
+            dprimeDetIdx = [];
+            cDetIdx = [];
+            dprimeDisIdx = [];
+            cDisIdx = [];
         end
-        detdStd.(Detfieldnames{iF})(1,iTarget) = std(dprimeDetIdx);
-        detd.(Detfieldnames{iF})(1,iTarget) = mean(dprimeDetIdx);
-        detdErr.(Detfieldnames{iF})(1,iTarget) = detdStd.(Detfieldnames{iF})(1,iTarget)/sqrt(length(subs));
-        detcStd.(Detfieldnames{iF})(1,iTarget) = std(cDetIdx);
-        detc.(Detfieldnames{iF})(1,iTarget) = mean(cDetIdx);
-        detcErr.(Detfieldnames{iF})(1,iTarget) = detcStd.(Detfieldnames{iF})(1,iTarget)/sqrt(length(subs));
-
-        disdStd.(Disfieldnames{iF})(1,iTarget)= std(dprimeDisIdx);
-        disd.(Disfieldnames{iF})(1,iTarget) = mean(dprimeDisIdx);
-        disdErr.(Disfieldnames{iF})(1,iTarget) = disdStd.(Disfieldnames{iF})(1,iTarget)/sqrt(length(subs));
-        discStd.(Disfieldnames{iF})(1,iTarget) = std(cDisIdx);
-        disc.(Disfieldnames{iF})(1,iTarget)= mean(cDisIdx);
-        discErr.(Disfieldnames{iF})(1,iTarget) = discStd.(Disfieldnames{iF})(1,iTarget)/sqrt(length(subs));
-
-        dprimeDetIdx = [];
-        cDetIdx = [];
-        dprimeDisIdx = [];
-        cDisIdx = [];
     end
 end
 % 
@@ -680,42 +682,7 @@ end
              SID, datestr(now,'yymmdd'));
          saveas(gcf,sprintf('%s/%s', behDir, figTitle))
      end
- %% SDT
-   % mean, std, err for dprime and c for dis and det
-dprimeDetIdx = [];
-cDetIdx = [];
-dprimeDisIdx = [];
-cDisIdx = [];
-for iTarget = 1:2
-    for iValid = 1:numel(Validities)
-        for iF = 1:numel(Detfieldnames)
-            for iSub = 1:length(subs)
-                dprimeDetIdx = [dprimeDetIdx dataAll(iSub).detd.(Detfieldnames{iF})(iTarget,iValid)];
-                cDetIdx = [cDetIdx dataAll(iSub).detc.(Detfieldnames{iF})(iTarget,iValid)];
-                dprimeDisIdx = [dprimeDisIdx dataAll(iSub).disd.(Detfieldnames{iF})(iTarget,iValid)];
-                cDisIdx = [cDisIdx dataAll(iSub).disc.(Detfieldnames{iF})(iTarget,iValid)];
-            end
-            detdStd.(Detfieldnames{iF})(iTarget, iValid) = std(dprimeDetIdx);
-            detd.(Detfieldnames{iF})(iTarget, iValid) = mean(dprimeDetIdx);
-            detdErr.(Detfieldnames{iF})(iTarget, iValid) = detdStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-            detcStd.(Detfieldnames{iF})(iTarget, iValid) = std(cDetIdx);
-            detc.(Detfieldnames{iF})(iTarget, iValid) = mean(cDetIdx);
-            detcErr.(Detfieldnames{iF})(iTarget, iValid) = detcStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
 
-            disdStd.(Disfieldnames{iF})(iTarget, iValid) = std(dprimeDisIdx);
-            disd.(Disfieldnames{iF})(iTarget, iValid) = mean(dprimeDisIdx);
-            disdErr.(Disfieldnames{iF})(iTarget, iValid) = disdStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-            discStd.(Disfieldnames{iF})(iTarget, iValid) = std(cDisIdx);
-            disc.(Disfieldnames{iF})(iTarget, iValid) = mean(cDisIdx);
-            discErr.(Disfieldnames{iF})(iTarget, iValid) = discStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-
-            dprimeDetIdx = [];
-            cDetIdx = [];
-            dprimeDisIdx = [];
-            cDisIdx = [];
-        end
-    end
-end
 
 %% plot detection
 dprimefieldnames = fieldnames(dataAll(iSub).detd);
@@ -762,7 +729,7 @@ ax.YGrid = 'off';
 
 %% plot discrimination
 dprimefieldnames = fieldnames(dataAll(iSub).disd);
-critfieldnames = fieldnames(dataAll(iSub).detc);
+critfieldnames = fieldnames(dataAll(iSub).disc);
 figure();
 sgtitle('ga discrimination')
 for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
@@ -812,12 +779,12 @@ figure();
 sgtitle('ga detection')
 for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
     subplot(2,3,iF)
-    b = bar(detd.(dprimefieldnames{iF}));
+    b = bar(detdColl.(dprimefieldnames{iF}));
     hold on
     for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
         xtips = b(k).XEndPoints;
         ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,detdErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1) 
+        errorbar(xtips,ytips,detdErrColl.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1) 
     end
     hold off
     title([dprimefieldnames{iF}])
@@ -829,12 +796,12 @@ hold on
 
 for iF = 1:numel(critfieldnames)
     subplot(2,3,iF+numel(dprimefieldnames))
-    b = bar(detc.(critfieldnames{iF}));
+    b = bar(detcColl.(critfieldnames{iF}));
      hold on
     for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
         xtips = b(k).XEndPoints;
         ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,detcErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)
+        errorbar(xtips,ytips,detcErrColl.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)
     end
     hold off
     title([critfieldnames{iF}])
@@ -855,12 +822,12 @@ figure();
 sgtitle('ga discrimination')
 for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
     subplot(2,3,iF)
-    b = bar(disd.(dprimefieldnames{iF}));
+    b = bar(disdColl.(dprimefieldnames{iF}));
     hold on
     for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
         xtips = b(k).XEndPoints;
         ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,disdErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1) 
+        errorbar(xtips,ytips,disdErrColl.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1) 
     end
     hold off
     title([dprimefieldnames{iF}])
@@ -872,12 +839,12 @@ hold on
 
 for iF = 1:numel(critfieldnames)
     subplot(2,3,iF+numel(dprimefieldnames))
-    b = bar(disc.(critfieldnames{iF}));
+    b = bar(discColl.(critfieldnames{iF}));
      hold on
     for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
         xtips = b(k).XEndPoints;
         ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,discErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)
+        errorbar(xtips,ytips,discErrColl.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)
     end
     hold off
     title([critfieldnames{iF}])
