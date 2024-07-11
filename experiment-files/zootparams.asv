@@ -1,4 +1,4 @@
-function p = zootparams(s)
+1233333131321function p = zootparams(s)
 
 %% main settings
 
@@ -156,10 +156,10 @@ end
 
 %% response 
 p.responseNames = {'CCW','CW','absent', 'calibrate'};
-p.responseKeys = {'1!','2@','3#', 'Home'};
+p.responseKeys = {'1!','2@','3#', 'c'};
 
 p.deviceIndex = 1; % accept response from all inputs 
-p.eyeTrackerCalibrationKey='Home';
+p.eyeTrackerCalibrationKey='c';
 
 %% Condition information
 p.precueNames = {'valid','neutral','invalid'};
@@ -184,7 +184,7 @@ switch s.exptStage
         p.imDur = p.imDur*4;
         p.targetSOA = p.targetSOA*4;
         p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
-        p.nTrialsPerBlock = p.nTotalTrials;
+        p.nTrialsPerBlock = 32;
         cueTones = [];
         for iF = 1:numel(p.toneFreqs)
             tone0 = MakeBeep(p.toneFreqs(iF), p.toneDur, p.Fs);
@@ -221,13 +221,19 @@ switch s.exptStage
         p.nTotalTrials = numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
         p.nTrialsPerBlock = 32;
     case 4 % full task practice
-        p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
+        p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts); 
+        
         p.nTrialsPerBlock = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
         p.nBlocks = 1;
         p.nBlockPerSession = 1;
     case 5 % main task
-        p.nTotalTrials = 4;%numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
-        p.nTrialsPerBlock = 5;%numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
+        p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
+        p.nTrialsPerBlock = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
+        p.nBlocks = p.nTotalTrials / p.nTrialsPerBlock;
+        p.nBlockPerSession = p.nBlocks/2;
+    case 6 % one target practice
+        p.nTotalTrials = numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.axes) * numel(p.axes) * numel(p.tilts) * numel(p.tilts);
+        p.nTrialsPerBlock = 32; %numel(p.precueValidities) * numel(p.targets) * numel(p.contrasts) * numel(p.contrasts); % main task
         p.nBlocks = p.nTotalTrials / p.nTrialsPerBlock;
         p.nBlockPerSession = p.nBlocks/2;
 end
