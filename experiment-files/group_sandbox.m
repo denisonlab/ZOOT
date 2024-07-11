@@ -7,7 +7,7 @@ fp = figureparams;
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
 
 %% compile
-subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0070', 'S0071', 'S0085', 'S0108', 'S0122', 'S0133'};
+subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071', 'S0085', 'S0108', 'S0122', 'S0133'};
 dataAll = [];
 
 for iSub=1:length(subs) % for participant
@@ -118,7 +118,9 @@ for iSub=1:length(subs) % for participant
     end
 
     Acc.prop = [Acc.pProp(1:2,:,:);Acc.aProp(3:4,:,:)]; % combines arrays that show accuracy for detecting target when present (tp/np, tp/na) and when absent (ta/np, ta/na) to give a 4 x 3 x 2 array
-    AccNT.prop = [mean(Acc.pProp(1:2,:,:)); mean(Acc.aProp(3:4,:,:))];
+    NP = mean([Acc.pProp(1,:,:);Acc.aProp(3,:,:)]);
+    NA = mean([Acc.pProp(2,:,:);Acc.aProp(4,:,:)]);
+    AccNT.prop = [NP; NA];
 
     dataAll(iSub).means = Acc.prop*100; % save each participant's mean data in dataAll
     dataAll(iSub).meansNT = AccNT.prop*100;
@@ -127,7 +129,7 @@ for iSub=1:length(subs) % for participant
 end % subject
 
 %% means 
-accIdx = []; % used to collect each position of the matrix (each condition) by participant into a list to perform std and mean, then create new matrices for std, mean, and error
+ accIdx = []; % used to collect each position of the matrix (each condition) by participant into a list to perform std and mean, then create new matrices for std, mean, and error
 for iContrast = 1:4
     for iValid = 1:3
         for iTarget = 1:2

@@ -56,8 +56,8 @@ for iCond = 1:numel(nontargetConds)
             pairName = pairNames{iPair};
             [hDetD.(pairName)(iCond,iTarget),pDetD.(pairName)(iCond,iTarget),ciDetD.(pairName){iCond,iTarget},statsDetD.(pairName){iCond,iTarget}] = ...
                 ttest(detd.(nontargetConds{iCond})(pair(1),:,iTarget), detd.(nontargetConds{iCond})(pair(2),:, iTarget)); % det d' paired t-test
-            [hDisD.(pairName)(iCond,iTarget),pDisD.(pairName)(iCond,iTarget),ciDisD.(pairName){iCond,iTarget},statsDisD.(pairName){iCond,iTarget}] = ...
-                ttest(disd.(nontargetConds{iCond})(pair(1),:,iTarget), disd.(nontargetConds{iCond})(pair(2),:, iTarget)); % dis d' paired t-test
+            [hDetD.(pairName)(iCond,iTarget),pDetD.(pairName)(iCond,iTarget),ciDetD.(pairName){iCond,iTarget},statsDetD.(pairName){iCond,iTarget}] = ...
+                ttest(detd.(nontargetConds{iCond})(pair(1),:,iTarget), detd.(nontargetConds{iCond})(pair(2),:, iTarget)); % dis d' paired t-test
         end
     end 
 end 

@@ -7,7 +7,7 @@ fp = figureparams;
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
 
 %% compile
-subs = {'S0071'}; %, 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0070', 'S0071','S0085', 'S0108', 'S0122', 'S0133'};
+subs = {'S0105'}; %, 'S0005', 'S0007', 'S0013', 'S0015', 'S0019', 'S0070', 'S0071','S0085', 'S0108', 'S0122', 'S0133'};
 dataAll = [];
 
 
@@ -110,8 +110,8 @@ for iSub=1:length(subs) % for participant
     % sort data by contrast condition, validity, and target and get averages
     % per condition as matrices
     for iTarget = 1:2 % for each target (1 or 2)
-        for iContrastCond = 1:4 % for each contrast condition (PP, PA, AP, AA)
-            for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
+        for iContrastCond = 1:numel(contrastConds) % for each contrast condition (PP, PA, AP, AA)
+            for iValidity = 1:numel(Validities) % for each precue validity (Valid, Neutral, Invalid)
                 idx = dataAll.target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & ~dataAll.eyeSkip;
                 Acc.n(iContrastCond, iValidity, iTarget) = size(dataAll.correct(idx),2); % denominator, number of trials per condition
                 Acc.correct(iContrastCond, iValidity, iTarget) = size(dataAll.correct(idx & dataAll.correct==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
