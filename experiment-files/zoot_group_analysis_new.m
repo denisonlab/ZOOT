@@ -110,6 +110,8 @@ for iSub=1:length(subs) % for participant
         end
     
 
+
+        dataAll(iSub).means = Acc.prop*100; % save each participant's mean data in dataAll
           %% det accuracy
 
     % sort data by contrast condition, validity, and target and get averages
