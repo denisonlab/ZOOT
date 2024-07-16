@@ -110,6 +110,36 @@ for iSub=1:length(subs) % for participant
         end
     
 
+          %% det accuracy
+
+    % sort data by contrast condition, validity, and target and get averages
+    % per condition as matrices
+
+    for iTarget = 1:2 % for each target (1 or 2)
+        for iContrastCond = 1:4 % for each contrast condition (PP, PA, AP, AA)
+            for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
+                pIdx = dataAll(iSub).target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % index for finding relevant trials for the denominator of each condition
+                Acc.pN(iContrastCond, iValidity, iTarget) = size(find(pIdx),2); % denominator, number of trials per condition
+                Acc.pSeen(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).seen(pIdx & dataAll(iSub).seen==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                Acc.pProp(iContrastCond, iValidity, iTarget) = Acc.pSeen(iContrastCond, iValidity, iTarget)/Acc.pN(iContrastCond, iValidity, iTarget);
+
+                aIdx = dataAll(iSub).target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip;
+                Acc.aN(iContrastCond, iValidity, iTarget) = size(find(aIdx),2); % denominator, number of trials per condition
+                Acc.aSeen(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).seen(aIdx & dataAll(iSub).seen==0),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                Acc.aProp(iContrastCond, iValidity, iTarget) = Acc.aSeen(iContrastCond, iValidity, iTarget)/Acc.aN(iContrastCond, iValidity, iTarget);
+            end
+        end
+    end
+
+    dAcc.prop = [dAcc.pProp(1:2,:,:);dAcc.aProp(3:4,:,:)]; % combines arrays that show accuracy for detecting target when present (tp/np, tp/na) and when absent (ta/np, ta/na) to give a 4 x 3 x 2 array
+    NP = mean([Acc.pProp(1,:,:);Acc.aProp(3,:,:)]);
+    NA = mean([Acc.pProp(2,:,:);Acc.aProp(4,:,:)]);
+    dAccNT.prop = [NP; NA];
+
+    dataAll(iSub).means = dAcc.prop*100; % save each participant's mean data in dataAll
+    dataAll(iSub).meansNT = dAccNT.prop*100;
+
+
         %% confusability map (all trials) for target
         % sort data by target/nontarget, stimulus (CCW, CW, absent), and response to create
         % heat maps for all conditions and one target conditions
@@ -412,6 +442,37 @@ for iCond = 1:2
     end
 end
 
+%% det accuracy 
+ dAccIdx = []; % used to collect each position of the matrix (each condition) by participant into a list to perform std and mean, then create new matrices for std, mean, and error
+for iContrast = 1:4
+    for iValid = 1:3
+        for iTarget = 1:2
+            for iSub = 1:length(subs)
+                dAccIdx = [dAccIdx dataAll(iSub).means(iContrast,iValid,iTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis
+            end
+            Acc.std(iContrast,iValid,iTarget) = std(dAccIdx); % finds std of the accuracy of each condition for each participant
+            Acc.mean(iContrast, iValid, iTarget) = mean(dAccIdx); % finds means of accuracy for each condition for each participant
+            Acc.err(iContrast,iValid,iTarget) = Acc.std(iContrast,iValid,iTarget)/sqrt(size(dataAll,2)); % calculate error for each condition
+            dAccIdx = [];
+        end
+    end
+end
+
+accNTIdx = [];
+for iValid = 1:3
+    for iTarget = 1:2
+        for iPresence = 1:2
+            for iSub = 1:length(subs)
+                accNTIdx = [accNTIdx dataAll(iSub).meansNT(iPresence,iValid,iTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis
+            end
+            AccNT.std(iPresence,iValid,iTarget) = std(accNTIdx); % finds std of the accuracy of each condition for each participant
+            AccNT.mean(iPresence,iValid,iTarget)= mean(accNTIdx); % finds means of accuracy for each condition for each participant
+            AccNT.err(iPresence,iValid,iTarget) = AccNT.std(iPresence,iValid,iTarget)/sqrt(size(dataAll,2)); % calculate error for each condition
+            accNTIdx = [];
+        end
+    end
+end
+ 
  %% SDT across cueing conditions
  % mean, std, err for dprime and c for dis and det
  dprimeDetIdx = [];
@@ -521,7 +582,68 @@ if saveplots
     saveas(gcf,sprintf('%s/%s', behDir, figTitle))
 end
 
+%% det acc
+figure();
+sgtitle('ga det accuracy')
+for iF = 1:numel(contrastConds)
+    subplot(2,2,iF)
+    b = bar([Acc.mean(iF,:,1); Acc.mean(iF,:,2)]);
+    hold on
+    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
+        xtips = b(k).XEndPoints;
+        ytips = b(k).YEndPoints;
+        errorbar(xtips,ytips,Acc.err(iF,k), '.k', 'MarkerSize',0.1)
+    end
+    hold off
+    condTitle = [{'target present/nontarget present'} {'target present/nontarget absent'} {'target absent/nontarget present'} {'target absent/nontarget absent'}];
+    title([condTitle{iF}])
+    ylabel('det accuracy %')
+    ylim([30 100])
+    set(gca, 'ytick', 30:10:100)
+    set(gca, 'xticklabel', {'T1', 'T2'})
+    ytickformat('percentage')
+    hold on
+end
+legend('Valid', 'Neutral', 'Invalid')
+legend('Location', 'best')
+% lgd.Layout.Tile = 'eastoutside';
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'off';
 
+if saveplots
+    figTitle = sprintf('%s_%s',...
+        'beh_acc',datestr(now,'yymmdd'));
+    saveas(gcf,sprintf('%s/%s', behDir, figTitle))
+end
+
+figure();
+sgtitle('ga det acc by nontarget')
+for iF = 1:2
+    subplot(1,2,iF)
+    b = bar([AccNT.mean(iF,:,1); AccNT.mean(iF,:,2)]);
+    hold on
+    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
+        xtips = b(k).XEndPoints;
+        ytips = b(k).YEndPoints;
+        errorbar(xtips,ytips,AccNT.err(iF,k), '.k', 'MarkerSize',0.1)
+    end
+    hold off
+    condTitle = [{'nontarget present'} {'nontarget absent'}];
+    title([condTitle{iF}])
+    ylabel('det accuracy %')
+    ylim([30 100])
+    set(gca, 'ytick', 30:10:100)
+    set(gca, 'xticklabel', {'T1', 'T2'})
+    ytickformat('percentage')
+    hold on
+end
+legend('Valid', 'Neutral', 'Invalid')
+legend('Location', 'best')
+% lgd.Layout.Tile = 'eastoutside';
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'off';
 
 %% fig 2 + 3 - confusability maps for all conditions and one target conditions
 % % get proportions for all conditions by T1, T2, and both targets collapsed
