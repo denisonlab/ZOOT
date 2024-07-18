@@ -13,6 +13,7 @@ for iSub = 1:numel(dataAll)
         for iTarget = 1:2
             for iValid = 1:3 % v n i
                 acc.(contrasts{iCond})(iValid,iSub,iTarget) = dataAll(iSub).means(iCond,iValid,iTarget); % accuracy 
+                RT.(contrasts{iCond})(iValid, iSub,iTarget) = dataAll(iSub).RTmeans(iCond,iValid,iTarget); % RT
             end
         end
     end
@@ -29,7 +30,7 @@ for iSub = 1:numel(dataAll)
     end 
 end 
 
-%% t-test accuracy 
+%% t-test accuracy + RT 
 pairs = [1 2; 1 3; 2 3];
 pairNames = {'vn','vi','ni'};
 nPairs = numel(pairNames);
@@ -43,6 +44,8 @@ for iCond = 1:numel(contrasts)
             pairName = pairNames{iPair};
             [hAcc.(pairName)(iCond,iTarget),pAcc.(pairName)(iCond,iTarget),ciAcc.(pairName){iCond,iTarget},statsAcc.(pairName){iCond,iTarget}] = ...
                 ttest(acc.(contrasts{iCond})(pair(1),:,iTarget), acc.(contrasts{iCond})(pair(2),:, iTarget)); % acc paired t-test
+             [hRT.(pairName)(iCond,iTarget),pRT.(pairName)(iCond,iTarget),ciRT.(pairName){iCond,iTarget},statsRT.(pairName){iCond,iTarget}] = ...
+                ttest(RT.(contrasts{iCond})(pair(1),:,iTarget), RT.(contrasts{iCond})(pair(2),:, iTarget)); % acc paired t-test
         end
     end
 end
