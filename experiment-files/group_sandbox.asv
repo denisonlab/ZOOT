@@ -103,12 +103,12 @@ for iSub=1:length(subs) % for participant
                 for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
                     idx = dataAll(iSub).target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & ~dataAll(iSub).eyeSkip;
                     RT.n(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).timeTargetRT(idx),2); % denominator, number of trials per condition
-                    RT.timeTargetRT(iContrastCond, iValidity, iTarget) = mean(dataAll(iSub).timeTargetRT(idx)); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                    RT.timeTargetRT(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).timeTargetRT(idx,2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
                 end
             end
         end
 
-    dataAll(iSub).RTmeans = RT.timeTargetRT;
+    dataAll(iSub).means = RT.prop*100;
 
 
 end % subject
@@ -119,7 +119,7 @@ for iContrast = 1:numel(contrastConds)
     for iValid = 1:numel(Validities)
         for iTarget = 1:2
             for iSub = 1:length(subs)
-                rtIdx = [rtIdx dataAll(iSub).RTmeans(iContrast,iValid,iTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis 
+                rtIdx = [rtIdx dataAll(iSub).means(iContrast,iValid,iTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis 
             end
             RT.std(iContrast,iValid,iTarget) = std(rtIdx); % finds std of the accuracy of each condition for each participant
             RT.mean(iContrast, iValid, iTarget) = mean(rtIdx); % finds means of accuracy for each condition for each participant
@@ -144,11 +144,11 @@ for iF = 1:numel(contrastConds)
     hold off
     condTitle = [{'target present/nontarget present'} {'target present/nontarget absent'} {'target absent/nontarget present'} {'target absent/nontarget absent'}];
     title([condTitle{iF}])
-    ylabel('RT (s)')
-    ylim([0 .75])
-    set(gca, 'ytick', 0:.10:.75)
+    ylabel('RT (ms)')
+    ylim([30 100])
+    set(gca, 'ytick', 30:10:100)
     set(gca, 'xticklabel', {'T1', 'T2'})
-    % ytickformat('percentage')
+    ytickformat('percentage')
     hold on
 end
 legend('Valid', 'Neutral', 'Invalid')
