@@ -19,7 +19,7 @@ for iSub=1:length(subs) % for participant
     % behDir = ['/home/denisonlab-beh/Experiments/ZOOT/experiment-files/data' SID '/beh'];
     cd(behDir);
     dataAll(iSub).subjectID = SID;
-    fields = {'precue','target', 'T1Contrast', 'T2Contrast', 'T1Tilt', 'T2Tilt', 'targetTilt', 'targetContrast', 'seen', 'correct', 'response', 'correctDis', 'session', 'eyeSkip'}; % fieldnames(data);
+    fields = {'precue','target', 'T1Contrast', 'T2Contrast', 'T1Tilt', 'T2Tilt', 'targetTilt', 'targetContrast', 'seen', 'correct', 'response', 'correctDis', 'session', 'timeTargetRT', 'eyeSkip'}; % fieldnames(data);
     for iF = 1:numel(fields) % initialize
         dataAll(iSub).(fields{iF}) = [];
     end
