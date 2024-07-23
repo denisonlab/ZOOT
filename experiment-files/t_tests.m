@@ -2,7 +2,7 @@
 load dataAll.mat
 
 %accuracy
-% creates a 3 (validity) x number of subjects x 2 (target) matrix for each
+% creates a 3 (validity) x 15 (number of subjects) x 2 (target) matrix for each
 % contrast condition, each row holds a list of each participants data value
 % for each condition (row 1 of matrix 1: all valid PP T1 values for each
 % participant)
@@ -11,8 +11,9 @@ nontargetConds = {'all', 'nontargetPresent', 'nontargetAbsent'};
 for iSub = 1:numel(dataAll)
     for iCond = 1:numel(contrasts) % pp, pa, ap, aa
         for iTarget = 1:2
-            for iValid = 1:3 % v n i
+            for iValid = 1:3 % v n ihAch
                 acc.(contrasts{iCond})(iValid,iSub,iTarget) = dataAll(iSub).means(iCond,iValid,iTarget); % accuracy 
+                RT.(contrasts{iCond})(iValid, iSub,iTarget) = dataAll(iSub).RTmeans(iCond,iValid,iTarget); % RT
             end
         end
     end
@@ -22,14 +23,16 @@ for iSub = 1:numel(dataAll)
     for iCond = 1:numel(nontargetConds) % all, nontargetPresent, nontargetAbsent
         for iTarget = 1:2
             for iValid = 1:3
-                detd.(nontargetConds{iCond})(iValid,iSub,iTarget) = dataAll(iSub).detd.(nontargetConds{iCond})(iTarget, iValid);
-                disd.(nontargetConds{iCond})(iValid,iSub,iTarget) = dataAll(iSub).disd.(nontargetConds{iCond})(iTarget, iValid);
+                detd.(nontargetConds{iCond})(iValid,iSub,iTarget) = dataAll(iSub).detd.(nontargetConds{iCond})(iTarget, iValid); % det d'
+                detc.(nontargetConds{iCond})(iValid,iSub,iTarget) = dataAll(iSub).detc.(nontargetConds{iCond})(iTarget, iValid); % det c 
+                disd.(nontargetConds{iCond})(iValid,iSub,iTarget) = dataAll(iSub).disd.(nontargetConds{iCond})(iTarget, iValid); % dis d'
+                disc.(nontargetConds{iCond})(iValid,iSub,iTarget) = dataAll(iSub).disc.(nontargetConds{iCond})(iTarget, iValid); % dis c 
             end 
         end 
     end 
 end 
 
-%% t-test accuracy 
+%% t-test accuracy + RT 
 pairs = [1 2; 1 3; 2 3];
 pairNames = {'vn','vi','ni'};
 nPairs = numel(pairNames);
@@ -43,6 +46,8 @@ for iCond = 1:numel(contrasts)
             pairName = pairNames{iPair};
             [hAcc.(pairName)(iCond,iTarget),pAcc.(pairName)(iCond,iTarget),ciAcc.(pairName){iCond,iTarget},statsAcc.(pairName){iCond,iTarget}] = ...
                 ttest(acc.(contrasts{iCond})(pair(1),:,iTarget), acc.(contrasts{iCond})(pair(2),:, iTarget)); % acc paired t-test
+             [hRT.(pairName)(iCond,iTarget),pRT.(pairName)(iCond,iTarget),ciRT.(pairName){iCond,iTarget},statsRT.(pairName){iCond,iTarget}] = ...
+                ttest(RT.(contrasts{iCond})(pair(1),:,iTarget), RT.(contrasts{iCond})(pair(2),:, iTarget)); % acc paired t-test
         end
     end
 end
@@ -58,6 +63,11 @@ for iCond = 1:numel(nontargetConds)
                 ttest(detd.(nontargetConds{iCond})(pair(1),:,iTarget), detd.(nontargetConds{iCond})(pair(2),:, iTarget)); % det d' paired t-test
             [hDisD.(pairName)(iCond,iTarget),pDisD.(pairName)(iCond,iTarget),ciDisD.(pairName){iCond,iTarget},statsDisD.(pairName){iCond,iTarget}] = ...
                 ttest(disd.(nontargetConds{iCond})(pair(1),:,iTarget), disd.(nontargetConds{iCond})(pair(2),:, iTarget)); % dis d' paired t-test
+
+              [hDetC.(pairName)(iCond,iTarget),pDetC.(pairName)(iCond,iTarget),ciDetC.(pairName){iCond,iTarget},statsDetc.(pairName){iCond,iTarget}] = ...
+                ttest(detc.(nontargetConds{iCond})(pair(1),:,iTarget), detc.(nontargetConds{iCond})(pair(2),:, iTarget)); % det c paired t-test
+            [hDisC.(pairName)(iCond,iTarget),pDisC.(pairName)(iCond,iTarget),ciDisC.(pairName){iCond,iTarget},statsDisC.(pairName){iCond,iTarget}] = ...
+                ttest(disc.(nontargetConds{iCond})(pair(1),:,iTarget), disc.(nontargetConds{iCond})(pair(2),:, iTarget)); % dis c paired t-test
         end
     end 
 end 

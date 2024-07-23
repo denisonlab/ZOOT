@@ -19,7 +19,7 @@ for iSub=1:length(subs) % for participant
     % behDir = ['/home/denisonlab-beh/Experiments/ZOOT/experiment-files/data' SID '/beh'];
     cd(behDir);
     dataAll(iSub).subjectID = SID;
-    fields = {'precue','target', 'T1Contrast', 'T2Contrast', 'T1Tilt', 'T2Tilt', 'targetTilt', 'targetContrast', 'seen', 'correct', 'response', 'correctDis', 'session', 'eyeSkip'}; % fieldnames(data);
+    fields = {'precue','target', 'T1Contrast', 'T2Contrast', 'T1Tilt', 'T2Tilt', 'targetTilt', 'targetContrast', 'seen', 'correct', 'response', 'correctDis', 'session', 'timeTargetRT', 'eyeSkip'}; % fieldnames(data);
     for iF = 1:numel(fields) % initialize
         dataAll(iSub).(fields{iF}) = [];
     end
@@ -121,25 +121,42 @@ for iSub=1:length(subs) % for participant
         for iContrastCond = 1:4 % for each contrast condition (PP, PA, AP, AA)
             for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
                 pIdx = dataAll(iSub).target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % index for finding relevant trials for the denominator of each condition
-                Acc.pN(iContrastCond, iValidity, iTarget) = size(find(pIdx),2); % denominator, number of trials per condition
-                Acc.pSeen(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).seen(pIdx & dataAll(iSub).seen==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
-                Acc.pProp(iContrastCond, iValidity, iTarget) = Acc.pSeen(iContrastCond, iValidity, iTarget)/Acc.pN(iContrastCond, iValidity, iTarget);
+                dAcc.pN(iContrastCond, iValidity, iTarget) = size(find(pIdx),2); % denominator, number of trials per condition
+                dAcc.pSeen(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).seen(pIdx & dataAll(iSub).seen==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                dAcc.pProp(iContrastCond, iValidity, iTarget) = dAcc.pSeen(iContrastCond, iValidity, iTarget)/dAcc.pN(iContrastCond, iValidity, iTarget);
 
                 aIdx = dataAll(iSub).target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip;
-                Acc.aN(iContrastCond, iValidity, iTarget) = size(find(aIdx),2); % denominator, number of trials per condition
-                Acc.aSeen(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).seen(aIdx & dataAll(iSub).seen==0),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
-                Acc.aProp(iContrastCond, iValidity, iTarget) = Acc.aSeen(iContrastCond, iValidity, iTarget)/Acc.aN(iContrastCond, iValidity, iTarget);
+                dAcc.aN(iContrastCond, iValidity, iTarget) = size(find(aIdx),2); % denominator, number of trials per condition
+                dAcc.aSeen(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).seen(aIdx & dataAll(iSub).seen==0),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                dAcc.aProp(iContrastCond, iValidity, iTarget) = dAcc.aSeen(iContrastCond, iValidity, iTarget)/dAcc.aN(iContrastCond, iValidity, iTarget);
             end
         end
     end
 
     dAcc.prop = [dAcc.pProp(1:2,:,:);dAcc.aProp(3:4,:,:)]; % combines arrays that show accuracy for detecting target when present (tp/np, tp/na) and when absent (ta/np, ta/na) to give a 4 x 3 x 2 array
-    NP = mean([Acc.pProp(1,:,:);Acc.aProp(3,:,:)]);
-    NA = mean([Acc.pProp(2,:,:);Acc.aProp(4,:,:)]);
+    NP = mean([dAcc.pProp(1,:,:);dAcc.aProp(3,:,:)]);
+    NA = mean([dAcc.pProp(2,:,:);dAcc.aProp(4,:,:)]);
     dAccNT.prop = [NP; NA];
 
     dataAll(iSub).means = dAcc.prop*100; % save each participant's mean data in dataAll
     dataAll(iSub).meansNT = dAccNT.prop*100;
+
+      %% RT
+
+        % sort data by contrast condition, validity, and target and get averages
+        % per condition as matrices
+        for iTarget = 1:2 % for each target (1 or 2)
+            for iContrastCond = 1:4 % for each contrast condition (PP, PA, AP, AA)
+                for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
+                    idx = dataAll(iSub).target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & ~dataAll(iSub).eyeSkip;
+                    RT.n(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).timeTargetRT(idx),2); % denominator, number of trials per condition
+                    RT.timeTargetRT(iContrastCond, iValidity, iTarget) = mean(dataAll(iSub).timeTargetRT(idx)); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                end
+            end
+        end
+
+    dataAll(iSub).RTmeans = RT.timeTargetRT;
+
 
 
         %% confusability map (all trials) for target
@@ -404,6 +421,23 @@ for iContrast = 1:numel(contrastConds)
     end
 end
 
+%% RT means
+
+rtIdx = []; % used to collect each position of the matrix (each condition) by participant into a list to perform std and mean, then create new matrices for std, mean, and error
+
+for iContrast = 1:numel(contrastConds)
+    for iValid = 1:numel(Validities)
+        for iTarget = 1:2
+            for iSub = 1:length(subs)
+                rtIdx = [rtIdx dataAll(iSub).RTmeans(iContrast,iValid,iTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis 
+            end
+            RT.std(iContrast,iValid,iTarget) = std(rtIdx); % finds std of the accuracy of each condition for each participant
+            RT.mean(iContrast, iValid, iTarget) = mean(rtIdx); % finds means of accuracy for each condition for each participant
+            RT.err(iContrast,iValid,iTarget) = RT.std(iContrast,iValid,iTarget)/sqrt(size(dataAll,2)); % calculate error for each condition 
+            rtIdx = [];
+        end
+    end
+end
 
 %% find mean for CM by target for all contrast conditions and one target
 % conditions
@@ -647,7 +681,45 @@ ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'off';
 
-%% fig 2 + 3 - confusability maps for all conditions and one target conditions
+
+%% RT plot 
+figure();
+sgtitle('ga RT')
+for iF = 1:numel(contrastConds)
+    subplot(2,2,iF)
+    b = bar([RT.mean(iF,:,1); RT.mean(iF,:,2)]);
+    hold on
+    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
+        xtips = b(k).XEndPoints;
+        ytips = b(k).YEndPoints;
+        errorbar(xtips,ytips,RT.err(iF,k), '.k', 'MarkerSize',0.1)
+    end
+    hold off
+    condTitle = [{'target present/nontarget present'} {'target present/nontarget absent'} {'target absent/nontarget present'} {'target absent/nontarget absent'}];
+    title([condTitle{iF}])
+    ylabel('RT (s)')
+    ylim([0 .75])
+    set(gca, 'ytick', 0:.10:.75)
+    set(gca, 'xticklabel', {'T1', 'T2'})
+    % ytickformat('percentage')
+    hold on
+end
+legend('Valid', 'Neutral', 'Invalid')
+legend('Location', 'best')
+% lgd.Layout.Tile = 'eastoutside';
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'off';
+
+if saveplots
+    figTitle = sprintf('%s_%s',...
+        'beh_acc',datestr(now,'yymmdd'));
+    saveas(gcf,sprintf('%s/%s', behDir, figTitle))
+end
+
+
+
+%% confusability maps for all conditions and one target conditions
 % % get proportions for all conditions by T1, T2, and both targets collapsed
 CMAll.TargetT1 = CM.allTprop(:,:,1); 
 CMAll.TargetT2 = CM.allTprop(:,:,2); 

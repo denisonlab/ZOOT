@@ -94,7 +94,7 @@ for iSub=1:length(subs) % for participant
 
      
     end % session - needs to be here to compile both sessions for each participant
-  %% accuracy
+  %% RT
 
         % sort data by contrast condition, validity, and target and get averages
         % per condition as matrices
@@ -113,6 +113,8 @@ for iSub=1:length(subs) % for participant
 
 end % subject
 
+%% RT means
+
 rtIdx = []; % used to collect each position of the matrix (each condition) by participant into a list to perform std and mean, then create new matrices for std, mean, and error
 
 for iContrast = 1:numel(contrastConds)
@@ -129,7 +131,7 @@ for iContrast = 1:numel(contrastConds)
     end
 end
 
-%% plot 
+%% RT plot 
 figure();
 sgtitle('ga RT')
 for iF = 1:numel(contrastConds)
