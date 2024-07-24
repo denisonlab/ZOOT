@@ -1,0 +1,44 @@
+%% CSV
+
+load dataAll.mat
+
+SIDs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071', 'S0085', 'S0105', 'S0108', 'S0111', 'S0122', 'S0133'};
+Validities = [ 1 2 3];
+Targets = [1 2] ;
+numConds = 3*2; % three validities x two targets
+
+SID = [];
+for iSub = 1:length(SIDs)
+    for i = 1:numConds
+        SID = [SID; SIDs{iSub}];
+    end
+end
+
+Validity = [];
+Target = [];
+for iSub = 1:length(SIDs)
+    for i = 1:2
+        for iValid = 1:numel(Validities)
+            Validity = [Validity; Validities(iValid)];
+        end
+    end
+end
+
+for iSub = 1:length(SIDs)
+    for iTarget = 1:numel(Targets)
+        for i = 1:3
+            Target = [Target; Targets(iTarget)];
+
+        end
+    end
+end
+
+AccPP = [];
+AccPA = [];
+AccAP = [];
+AccAA = [];
+for iSub = length(SIDs)
+    for iTarget = 1:numel(Targets)
+        for iValid = 1:numel(Validities)
+
+c = table(SID, Validity, Target);
