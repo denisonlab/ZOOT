@@ -253,6 +253,8 @@ for iSub=1:length(subs) % for participant
     nsignalDet = dataAll(iSub).targetContrast == 1; % signal: present
     nnoiseDet = dataAll(iSub).targetContrast == 0; % noise: absent
     Det = {nhDet nfaDet nsignalDet nnoiseDet};
+    
+    
 
     % indices for all conditions based on target, validity, SDT variable -
     % returns which contains data for all, nontarget present, non target absent. each of these contains condition data for nh nfa

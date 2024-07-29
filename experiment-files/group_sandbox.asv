@@ -94,7 +94,8 @@ for iSub=1:length(subs) % for participant
 
      
     end % session - needs to be here to compile both sessions for each participant
-  %% accuracy
+
+            %% accuracy - including idx by nontarget
 
         % sort data by contrast condition, validity, and target and get averages
         % per condition as matrices
@@ -102,65 +103,100 @@ for iSub=1:length(subs) % for participant
             for iContrastCond = 1:4 % for each contrast condition (PP, PA, AP, AA)
                 for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
                     idx = dataAll(iSub).target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & ~dataAll(iSub).eyeSkip;
-                    RT.n(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).timeTargetRT(idx),2); % denominator, number of trials per condition
-                    RT.timeTargetRT(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).timeTargetRT(idx,2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                    % idxNTP = dataAll(iSub).target == iTarget & Validities{iValidity} & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % idx for nontarget present trials
+                    % idxNTA = dataAll(iSub).target == iTarget & Validities{iValidity} & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % idx for nontarget absent trials
+                    % 
+                    Acc.n(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).correct(idx),2); % denominator, number of trials per condition
+                    Acc.correct(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).correct(idx & dataAll(iSub).correct==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                    Acc.prop(iContrastCond, iValidity, iTarget) = Acc.correct(iContrastCond, iValidity, iTarget)/Acc.n(iContrastCond, iValidity, iTarget);
+                    % 
+                    % Acc.nNTP(iValidity, iTarget) = size(dataAll(iSub).correct(idxNTP),2); % denominator, number of trials per condition
+                    % Acc.correctNTP(iValidity, iTarget) = size(dataAll(iSub).correct(idxNTP & dataAll(iSub).correct==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                    % Acc.propNTP(iValidity, iTarget) = Acc.correctNTP(iValidity, iTarget)/Acc.nNTP(iContrastCond, iValidity, iTarget);
+                    % 
+                    % Acc.nNTA(iValidity, iTarget) = size(dataAll(iSub).correct(idxNTA),2); % denominator, number of trials per condition
+                    % Acc.correctNTA(iValidity, iTarget) = size(dataAll(iSub).correct(idxNTA & dataAll(iSub).correct==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                    % Acc.propNTA(iValidity, iTarget) = Acc.correctNTA(iValidity, iTarget)/Acc.nNTA(iContrastCond, iValidity, iTarget);
                 end
             end
         end
+    
+        for iTarget = 1:2
+            for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
+                % idx = dataAll(iSub).target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & ~dataAll(iSub).eyeSkip;
+                idxNTP = dataAll(iSub).target == iTarget & Validities{iValidity} & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % idx for nontarget present trials
+                idxNTA = dataAll(iSub).target == iTarget & Validities{iValidity} & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % idx for nontarget absent trials
 
-    dataAll(iSub).means = RT.prop*100;
+                % Acc.n(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).correct(idx),2); % denominator, number of trials per condition
+                % Acc.correct(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).correct(idx & dataAll(iSub).correct==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                % Acc.prop(iContrastCond, iValidity, iTarget) = Acc.correct(iContrastCond, iValidity, iTarget)/Acc.n(iContrastCond, iValidity, iTarget);
+
+                Acc.nNTP(iTarget, iValidity) = size(dataAll(iSub).correct(idxNTP),2); % denominator, number of trials per condition
+                Acc.correctNTP(iTarget, iValidity) = size(dataAll(iSub).correct(idxNTP & dataAll(iSub).correct==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                Acc.propNTP(iTarget, iValidity) = Acc.correctNTP(iTarget, iValidity)/Acc.nNTP(iTarget, iValidity);
+
+                Acc.nNTA(iTarget, iValidity) = size(dataAll(iSub).correct(idxNTA),2); % denominator, number of trials per condition
+                Acc.correctNTA(iTarget, iValidity) = size(dataAll(iSub).correct(idxNTA & dataAll(iSub).correct==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                Acc.propNTA(iTarget, iValidity)= Acc.correctNTA(iTarget, iValidity)/Acc.nNTA(iTarget, iValidity);
+            end
+        end
+
+
+        dataAll(iSub).means = Acc.prop*100; % save each participant's mean data in dataAll
+        dataAll(iSub).meansNTP = Acc.propNTP*100;
+        dataAll(iSub).meansNTA = Acc.propNTA*100;
 
 
 end % subject
 
-rtIdx = []; % used to collect each position of the matrix (each condition) by participant into a list to perform std and mean, then create new matrices for std, mean, and error
-
-for iContrast = 1:numel(contrastConds)
-    for iValid = 1:numel(Validities)
+% accIdx = []; % used to collect each position of the matrix (each condition) by participant into a list to perform std and mean, then create new matrices for std, mean, and error
+accNTPIdx = [];
+accNTAIdx = [];
+% accs = {'acc' 'accNTA' 'accNTA'};
+% % means = {'means', 'meansNTP', 'meansNTA'};
+% % for iAccs = 1:numel(accs)
+% for iContrast = 1:numel(contrastConds)
+    for iValidity = 1:numel(Validities)
         for iTarget = 1:2
             for iSub = 1:length(subs)
-                rtIdx = [rtIdx dataAll(iSub).means(iContrast,iValid,iTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis 
+                % accIdx = [accIdx dataAll(iSub).means(iContrast,iValid,iTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis
+                accNTPIdx = [accNTPIdx dataAll(iSub).meansNTP(iTarget, iValidity)];
+                accNTAIdx = [accNTAIdx dataAll(iSub).meansNTA(iTarget, iValidity)];
             end
-            RT.std(iContrast,iValid,iTarget) = std(rtIdx); % finds std of the accuracy of each condition for each participant
-            RT.mean(iContrast, iValid, iTarget) = mean(rtIdx); % finds means of accuracy for each condition for each participant
-            RT.err(iContrast,iValid,iTarget) = RT.std(iContrast,iValid,iTarget)/sqrt(size(dataAll,2)); % calculate error for each condition 
-            rtIdx = [];
+            % acc.std(iValid,iTarget) = std(accIdx); % finds std of the accuracy of each condition for each participant
+            % acc.mean(iValid, iTarget) = mean(accIdx); % finds means of accuracy for each condition for each participant
+            % acc.err(iValid,iTarget) = acc.std(iContrast,iValid,iTarget)/sqrt(size(dataAll,2)); % calculate error for each condition
+
+            accNT.pStd(iTarget, iValidity)= std(accNTPIdx); % finds std of the accuracy of each condition for each participant
+            accNT.pMean(iTarget, iValidity) = mean(accNTPIdx); % finds means of accuracy for each condition for each participant
+            accNTErr.pres(iTarget, iValidity) = accNT.pStd(iTarget, iValidity)/sqrt(size(dataAll,2)); % calculate error for each condition
+
+            accNT.aStd(iTarget, iValidity) = std(accNTAIdx); % finds std of the accuracy of each condition for each participant
+            accNT.aMean(iTarget, iValidity) = mean(accNTAIdx); % finds means of accuracy for each condition for each participant
+            accNTErr.abs(iTarget, iValidity) = accNT.aStd(iTarget, iValidity)/sqrt(size(dataAll,2)); % calculate error for each condition
         end
     end
-end
+% end
+% end
 
-%% plot 
+%% plot acc by nontarget
 figure();
-sgtitle('ga RT')
-for iF = 1:numel(contrastConds)
-    subplot(2,2,iF)
-    b = bar([RT.mean(iF,:,1); RT.mean(iF,:,2)]);
-    hold on
+sgtitle('accuracy by nontarget')
+ntNames = ['nontarget present', 'nontarget absent'];
+ntAccs = cat(3, accNT.pMean, accNT.aMean);
+for i = 1:2 % for two subplots
+    subplot(1,2,i)
+    b = bar(ntAccs(:,:,i));
+     hold on
     for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
         xtips = b(k).XEndPoints;
         ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,RT.err(iF,k), '.k', 'MarkerSize',0.1)
+        errorbar(xtips,ytips,disdErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)   
     end
-    hold off
-    condTitle = [{'target present/nontarget present'} {'target present/nontarget absent'} {'target absent/nontarget present'} {'target absent/nontarget absent'}];
-    title([condTitle{iF}])
-    ylabel('RT (ms)')
-    ylim([30 100])
-    set(gca, 'ytick', 30:10:100)
-    set(gca, 'xticklabel', {'T1', 'T2'})
-    ytickformat('percentage')
-    hold on
 end
-legend('Valid', 'Neutral', 'Invalid')
-legend('Location', 'best')
-% lgd.Layout.Tile = 'eastoutside';
-ax = gca;
-ax.XGrid = 'off';
-ax.YGrid = 'off';
-
-if saveplots
-    figTitle = sprintf('%s_%s',...
-        'beh_acc',datestr(now,'yymmdd'));
-    saveas(gcf,sprintf('%s/%s', behDir, figTitle))
-end
-
+    % hold off
+    % title("discrimination d'")
+    % ylabel("d'")
+    % ylim([0 5])
+    % set(gca, 'xticklabel', {'all', 'ntp', 'nta'})
+ 
