@@ -7,7 +7,7 @@ fp = figureparams;
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
 
 %% compile
-subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071', 'S0085', 'S0105', 'S0108', 'S0111', 'S0122', 'S0133'};
+subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071', 'S0085', 'S0105', 'S0108', 'S0122', 'S0133'};
 dataAll = [];
 
 for iSub=1:length(subs) % for participant
@@ -102,8 +102,6 @@ for iSub=1:length(subs) % for participant
             for iContrastCond = 1:4 % for each contrast condition (PP, PA, AP, AA)
                 for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
                     idx = dataAll(iSub).target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & ~dataAll(iSub).eyeSkip;
-                    idxNTP = dataAll(iSub).target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % idx for nontarget present trials 
-                    idxNTA = dataAll(iSub).target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % idx for nontarget absent trials
                     Acc.n(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).correct(idx),2); % denominator, number of trials per condition
                     Acc.correct(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).correct(idx & dataAll(iSub).correct==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
                     Acc.prop(iContrastCond, iValidity, iTarget) = Acc.correct(iContrastCond, iValidity, iTarget)/Acc.n(iContrastCond, iValidity, iTarget);
