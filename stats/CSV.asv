@@ -60,8 +60,8 @@ end
 Acc = [];
 RT = [];
 for iSub = 1:length(SIDs)
-    for iTarget = 1:numel(Targets)
-        for iContrast = 1:numel(Contrasts)
+    for iContrast = 1:4
+        for iTarget = 1:numel(Targets)
             for iValid = 1:numel(Validities)
                 Acc = [Acc; dataAll(iSub).means(iContrast,iValid, iTarget)];
                 RT = [RT; dataAll(iSub).RTmeans(iContrast, iValid, iTarget)];
@@ -73,6 +73,8 @@ end
 accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, Acc, RT);
 writetable(accTable,'tazoot_Acc_RT.csv','Delimiter',',','QuoteStrings','all')
 type 'tazoot_Acc_RT.csv'
+
+%% accuracy by target contrast - broken down anova 
 
 %% create csv file for SDT 
 numCondsSDT = 3*3*2; % three validities x three conditions (all, ntp, nta), and two targets

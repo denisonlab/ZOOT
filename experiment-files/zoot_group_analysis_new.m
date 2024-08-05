@@ -2,9 +2,19 @@ clear all
 
 saveplots = 0;
 
+% Make figure style
 fp = figureparams;
 
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
+
+
+%% 
+% Figure directory 
+figType = 'png'; % svg pdf eps
+figDir = sprintf('groupFigs'); 
+if ~exist(figDir, 'dir')
+    mkdir(figDir)
+end
 
 %% compile
 subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071', 'S0085', 'S0105', 'S0108', 'S0122', 'S0133'};
@@ -586,9 +596,14 @@ end
 
 figure();
 sgtitle('ga accuracy')
+
 for iF = 1:numel(contrastConds)
     subplot(2,2,iF)
+    figureStyle
+
     b = bar([Acc.mean(iF,:,1); Acc.mean(iF,:,2)]);
+
+    b(iF).FaceColor = fp.colors(iF,:); 
     hold on
     for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
         xtips = b(k).XEndPoints;
@@ -600,10 +615,21 @@ for iF = 1:numel(contrastConds)
     title([condTitle{iF}])
     ylabel('accuracy %')
     ylim([30 100])
+    ax = gca; 
     set(gca, 'ytick', 30:10:100)
     set(gca, 'xticklabel', {'T1', 'T2'})
-    ytickformat('percentage')
+    % ytickformat('percentage')
     hold on
+
+    for iA = 1:3
+        % can think about doing this
+    end
+
+    if iF==1
+        kt_annotateStats(1,ax.YLim(2)*0.85,'*'); 
+        kt_drawBracket(1,2,ax.YLim(2)*0.5)
+    end
+
 end
 legend('Valid', 'Neutral', 'Invalid')
 legend('Location', 'best')
@@ -615,7 +641,7 @@ ax.YGrid = 'off';
 if saveplots
     figTitle = sprintf('%s_%s',...
         'beh_acc',datestr(now,'yymmdd'));
-    saveas(gcf,sprintf('%s/%s', behDir, figTitle))
+    saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
 end
 
 %% det acc

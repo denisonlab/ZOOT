@@ -74,6 +74,8 @@ accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, Acc, 
 writetable(accTable,'tazoot_Acc_RT.csv','Delimiter',',','QuoteStrings','all')
 type 'tazoot_Acc_RT.csv'
 
+%% accuracy by target contrast - broken down anova 
+
 %% create csv file for SDT 
 numCondsSDT = 3*3*2; % three validities x three conditions (all, ntp, nta), and two targets
 
