@@ -50,7 +50,9 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
+
 ```{r accuracy}
+# accuracy 
 d <- data 
 acc_anova = ezANOVA(
   data = d,
@@ -58,13 +60,92 @@ acc_anova = ezANOVA(
   wid = .(SID),
   within = .(targetContrast, nontargetContrast, Target, Validity)
 )
-knitr::kable(acc_anova)
+
+print(acc_anova)
+```
+
+```{r accuracy}
+## accuracy filtered target present
+d <- data %>% filter(targetContrast==1)
+
+accTP_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(nontargetContrast, Target, Validity)
+)
+knitr::kable(accTP_anova)
 
 # Look up how to make a bar plot with ggplot 
 ggplot(data=d, aes(x=targetContrast,y=Acc)) + geom_bar(position="dodge", stat="summary", fun.y="mean")
 
 # Facet grid 
 ```
+```{r accuracy}
+## accuracy filtered target absent
+d <- data %>% filter(targetContrast==0)
+
+accTA_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(nontargetContrast, Target, Validity)
+)
+knitr::kable(accTA_anova)
+
+```
+
+# RT 
+RT_anova = ezANOVA(
+  data = d,
+  dv = .(RT),
+  wid = .(SID),
+  within = .(targetContrast, nontargetContrast, Target, Validity)
+)
+
+print(RT_anova)
+
+# SDT
+detdPrime_anova = ezANOVA(
+  d <- data,
+  dv = .(det_dPrime),
+  wid = .(sdt_SID),
+  within = .(sdt_nontargetContrast, sdt_Target, sdt_Validity)
+)
+
+print(detdPrime_anova)
+
+detcrit_anova = ezANOVA(
+  d <- data,
+  dv = .(det_crit),
+  wid = .(sdt_SID),
+  within = .(sdt_nontargetContrast, sdt_Target, sdt_Validity)
+)
+
+print(detcrit_anova) 
+
+disdPrime_anova = ezANOVA(
+  d <- data,
+  dv = .(dis_dPrime),
+  wid = .(sdt_SID),
+  within = .(sdt_nontargetContrast, sdt_Target, sdt_Validity)
+)
+
+print(disdPrime_anova)
+
+discrit_anova = ezANOVA(
+  d <- data,
+  dv = .(dis_crit),
+  wid = .(sdt_SID),
+  within = .(sdt_nontargetContrast, sdt_Target, sdt_Validity)
+)
+
+print(discrit_anova) 
+
+
+```
+
+
 
 Null hypothesis: There is no effect of target contrast on accuracy. 
 
