@@ -1,6 +1,7 @@
 ---
 title: "tazoot"
-output: html_document
+author: Jenny
+output: github_document
 date: "2024-07-29"
 ---
 
