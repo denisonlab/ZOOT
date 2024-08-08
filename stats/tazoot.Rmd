@@ -92,7 +92,7 @@ knitr::kable(accTA_anova)
 ```
 
 ```{r NP accuracy}
-## accuracy filtered target present
+## accuracy filtered nontarget present
 d <- data %>% filter(nontargetContrast==1)
 
 accNP_anova = ezANOVA(
@@ -105,7 +105,7 @@ knitr::kable(accNP_anova)
 ```
 
 ```{r NA accuracy}
-## accuracy filtered target present
+## accuracy filtered nontarget absent
 d <- data %>% filter(nontargetContrast==0)
 
 accNA_anova = ezANOVA(
@@ -118,7 +118,7 @@ knitr::kable(accNA_anova)
 
 ```
 ```{r T1 accuracy}
-## accuracy filtered target present
+## accuracy filtered target 1
 d <- data %>% filter(Target==1)
 
 accT1_anova = ezANOVA(
@@ -132,7 +132,7 @@ knitr::kable(accT1_anova)
 ```
 
 ```{r T2 accuracy}
-## accuracy filtered target present
+## accuracy filtered target 2
 d <- data %>% filter(Target==2)
 
 accT2_anova = ezANOVA(
@@ -144,6 +144,102 @@ accT2_anova = ezANOVA(
 knitr::kable(accT2_anova)
 
 ```
+```{r RT}
+# RT 
+RT_anova = ezANOVA(
+  data = d,
+  dv = .(RT),
+  wid = .(SID),
+  within = .(targetContrast, nontargetContrast, Target, Validity)
+)
+
+print(RT_anova)
+```
+
+```{r TP RT}
+## RT filtered target present
+d <- data %>% filter(targetContrast==1)
+
+RTTP_anova = ezANOVA(
+  data = d,
+  dv = .(RT),
+  wid = .(SID),
+  within = .(nontargetContrast, Target, Validity)
+)
+knitr::kable(RTTP_anova)
+
+```
+
+```{r TA RT}
+## RT filtered target absent
+d <- data %>% filter(targetContrast==0)
+
+RTTA_anova = ezANOVA(
+  data = d,
+  dv = .(RT),
+  wid = .(SID),
+  within = .(nontargetContrast, Target, Validity)
+)
+knitr::kable(RTTA_anova)
+
+```
+
+```{r NP RT}
+## RT filtered nontarget present
+d <- data %>% filter(nontargetContrast==1)
+
+RTNP_anova = ezANOVA(
+  data = d,
+  dv = .(RT),
+  wid = .(SID),
+  within = .(targetContrast, Target, Validity)
+)
+knitr::kable(RTNP_anova)
+
+```
+
+```{r NA RT}
+## RT filtered nontarget absent
+d <- data %>% filter(nontargetContrast==0)
+
+RTNA_anova = ezANOVA(
+  data = d,
+  dv = .(RT),
+  wid = .(SID),
+  within = .(targetContrast, Target, Validity)
+)
+knitr::kable(RTNA_anova)
+
+```
+
+```{r T1 RT}
+## RT filtered target 1
+d <- data %>% filter(Target==1)
+
+RTT1_anova = ezANOVA(
+  data = d,
+  dv = .(RT),
+  wid = .(SID),
+  within = .(targetContrast, nontargetContrast, Validity)
+)
+knitr::kable(RTT1_anova)
+
+```
+
+```{r T2 RT}
+## RT filtered target 2
+d <- data %>% filter(Target==2)
+
+RTT2_anova = ezANOVA(
+  data = d,
+  dv = .(RT),
+  wid = .(SID),
+  within = .(targetContrast, nontargetContrast, Validity)
+)
+knitr::kable(RTT2_anova)
+
+```
+
 # Look up how to make a bar plot with ggplot 
 ggplot(data=d, aes(x=targetContrast,y=Acc)) + geom_bar(position="dodge", stat="summary", fun.y="mean")
 
@@ -167,14 +263,3 @@ plot(pressure)
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
-```{r RT}
-# RT 
-RT_anova = ezANOVA(
-  data = d,
-  dv = .(RT),
-  wid = .(SID),
-  within = .(targetContrast, nontargetContrast, Target, Validity)
-)
-
-print(RT_anova)
-```

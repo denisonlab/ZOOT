@@ -17,7 +17,7 @@ if ~exist(figDir, 'dir')
 end
 
 %% compile
-subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071', 'S0085', 'S0105', 'S0108', 'S0122', 'S0133'};
+subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071', 'S0085', 'S0105', 'S0108', 'S0111', 'S0122', 'S0133'};
 dataAll = [];
 
 for iSub=1:length(subs) % for participant
@@ -599,11 +599,11 @@ sgtitle('ga accuracy')
 
 for iF = 1:numel(contrastConds)
     subplot(2,2,iF)
-    figureStyle
+    % figureStyle
 
     b = bar([Acc.mean(iF,:,1); Acc.mean(iF,:,2)]);
 
-    b(iF).FaceColor = fp.colors(iF,:); 
+    % b(iF).FaceColor = fp.colors(iF,:); 
     hold on
     for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
         xtips = b(k).XEndPoints;
@@ -621,14 +621,14 @@ for iF = 1:numel(contrastConds)
     % ytickformat('percentage')
     hold on
 
-    for iA = 1:3
-        % can think about doing this
-    end
-
-    if iF==1
-        kt_annotateStats(1,ax.YLim(2)*0.85,'*'); 
-        kt_drawBracket(1,2,ax.YLim(2)*0.5)
-    end
+    % for iA = 1:3
+    %     % can think about doing this
+    % end
+    % 
+    % if iF==1
+    %     kt_annotateStats(1,ax.YLim(2)*0.85,'*'); 
+    %     kt_drawBracket(1,2,ax.YLim(2)*0.5)
+    % end
 
 end
 legend('Valid', 'Neutral', 'Invalid')
