@@ -65,7 +65,7 @@ acc_anova = ezANOVA(
 print(acc_anova)
 ```
 
-```{r accuracy}
+```{r TP accuracy}
 ## accuracy filtered target present
 d <- data %>% filter(targetContrast==1)
 
@@ -76,13 +76,8 @@ accTP_anova = ezANOVA(
   within = .(nontargetContrast, Target, Validity)
 )
 knitr::kable(accTP_anova)
-
-# Look up how to make a bar plot with ggplot 
-ggplot(data=d, aes(x=targetContrast,y=Acc)) + geom_bar(position="dodge", stat="summary", fun.y="mean")
-
-# Facet grid 
 ```
-```{r accuracy}
+```{r TA accuracy}
 ## accuracy filtered target absent
 d <- data %>% filter(targetContrast==0)
 
@@ -96,55 +91,65 @@ knitr::kable(accTA_anova)
 
 ```
 
-# RT 
-RT_anova = ezANOVA(
+```{r NP accuracy}
+## accuracy filtered target present
+d <- data %>% filter(nontargetContrast==1)
+
+accNP_anova = ezANOVA(
   data = d,
-  dv = .(RT),
+  dv = .(Acc),
   wid = .(SID),
-  within = .(targetContrast, nontargetContrast, Target, Validity)
+  within = .(targetContrast, Target, Validity)
 )
+knitr::kable(accNP_anova)
+```
 
-print(RT_anova)
+```{r NA accuracy}
+## accuracy filtered target present
+d <- data %>% filter(nontargetContrast==0)
 
-# SDT
-detdPrime_anova = ezANOVA(
-  d <- data,
-  dv = .(det_dPrime),
-  wid = .(sdt_SID),
-  within = .(sdt_nontargetContrast, sdt_Target, sdt_Validity)
+accNA_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(targetContrast, Target, Validity)
 )
-
-print(detdPrime_anova)
-
-detcrit_anova = ezANOVA(
-  d <- data,
-  dv = .(det_crit),
-  wid = .(sdt_SID),
-  within = .(sdt_nontargetContrast, sdt_Target, sdt_Validity)
-)
-
-print(detcrit_anova) 
-
-disdPrime_anova = ezANOVA(
-  d <- data,
-  dv = .(dis_dPrime),
-  wid = .(sdt_SID),
-  within = .(sdt_nontargetContrast, sdt_Target, sdt_Validity)
-)
-
-print(disdPrime_anova)
-
-discrit_anova = ezANOVA(
-  d <- data,
-  dv = .(dis_crit),
-  wid = .(sdt_SID),
-  within = .(sdt_nontargetContrast, sdt_Target, sdt_Validity)
-)
-
-print(discrit_anova) 
-
+knitr::kable(accNA_anova)
 
 ```
+```{r T1 accuracy}
+## accuracy filtered target present
+d <- data %>% filter(Target==1)
+
+accT1_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(targetContrast, nontargetContrast, Validity)
+)
+knitr::kable(accT1_anova)
+
+```
+
+```{r T2 accuracy}
+## accuracy filtered target present
+d <- data %>% filter(Target==2)
+
+accT2_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(targetContrast, nontargetContrast, Validity)
+)
+knitr::kable(accT2_anova)
+
+```
+# Look up how to make a bar plot with ggplot 
+ggplot(data=d, aes(x=targetContrast,y=Acc)) + geom_bar(position="dodge", stat="summary", fun.y="mean")
+
+# Facet grid 
+```
+
 
 
 
@@ -161,3 +166,15 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r RT}
+# RT 
+RT_anova = ezANOVA(
+  data = d,
+  dv = .(RT),
+  wid = .(SID),
+  within = .(targetContrast, nontargetContrast, Target, Validity)
+)
+
+print(RT_anova)
+```
