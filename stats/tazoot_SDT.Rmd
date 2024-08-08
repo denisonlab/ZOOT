@@ -1,0 +1,197 @@
+---
+title: "tazoot_SDT"
+author: Jenny
+output: github_document
+date: "2024-08-08"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+suppressPackageStartupMessages(library(tidyverse))
+library(ez)
+library(foreach)
+library(kableExtra)
+library(ggplot2)
+library(dplyr)
+library(ggpubr)
+library(lsr)
+library(report)
+library(rempsyc) # for t-tests in nice tables
+knitr::opts_chunk$set(echo = TRUE)
+
+#### anova setup #### 
+options(contrasts=c("contr.sum","contr.poly"))
+
+#### load data #### 
+wd <- getwd()
+analysisName = 'tazoot_SDT'
+dataName <- sprintf("/Users/jennymotzer/Documents/GitHub/ZOOT/stats/%s.csv", analysisName)
+data <- read.csv(dataName)
+
+#### Change to categorical vars ####
+data$SID = factor(data$sdt_SID)
+data$nontargetContrast = factor(data$sdt_nontargetContrast)
+data$Target = factor(data$sdt_Target)
+data$Validity = factor(data$sdt_Validity)
+
+### Plotting setup #### 
+colors = c("#F8A299","#CCCCCC","#98E6A1")
+attComparison <- list( c("1","3"), c("1","2"), c("2","3") )
+
+significance <- list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, Inf),
+symbols = c("****", "***", "**", "*", "ns"))
+```
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+### SDT 
+# detection
+```{r Det}
+
+## det dprime 
+d = data 
+detdPrime_anova = ezANOVA(
+  data = d,
+  dv = .(det_dPrime),
+  wid = .(SID),
+  within = .(Target, nontargetContrast, Validity)
+)
+knitr::kable(detdPrime_anova)
+
+```
+
+```{r NP Det}
+## det dprime filtered nontarget present
+d = data %>% filter(nontargetContrast==1)
+
+detdPrimeNP_anova = ezANOVA(
+  data = d,
+  dv = .(det_dPrime),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(detdPrimeNP_anova)
+
+```
+
+```{r NA Det}
+## det dprime filtered nontarget absent
+d = data %>% filter(nontargetContrast==0)
+
+detdPrimeNA_anova = ezANOVA(
+  data = d,
+  dv = .(det_dPrime),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(detdPrimeNA_anova)
+
+```
+
+```{r T1 Det}
+## det dprime filtered T1
+d = data %>% filter(Target==1)
+
+detdPrimeT1_anova = ezANOVA(
+  data = d,
+  dv = .(det_dPrime),
+  wid = .(SID),
+  within = .(nontargetContrast, Validity)
+)
+knitr::kable(detdPrimeT1_anova)
+
+```
+
+```{r T2 Det}
+## det dprime filtered T1
+d = data %>% filter(Target==2)
+
+detdPrimeT2_anova = ezANOVA(
+  data = d,
+  dv = .(det_dPrime),
+  wid = .(SID),
+  within = .(nontargetContrast, Validity)
+)
+knitr::kable(detdPrimeT2_anova)
+
+```
+
+
+
+# discrimination
+```{r Dis}
+
+## dis dprime 
+d = data 
+disdPrime_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime),
+  wid = .(SID),
+  within = .(Target, nontargetContrast, Validity)
+)
+knitr::kable(disdPrime_anova)
+
+```
+
+```{r NP Dis}
+## dis dprime filtered nontarget present
+d = data %>% filter(nontargetContrast==1)
+
+disdPrimeNP_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(disdPrimeNP_anova)
+
+```
+
+```{r NA Dis}
+## dis dprime filtered nontarget absent
+d = data %>% filter(nontargetContrast==0)
+
+disdPrimeNA_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(disdPrimeNA_anova)
+
+```
+
+```{r T1 Dis}
+## dis dprime filtered T1
+d = data %>% filter(Target==1)
+
+disdPrimeT1_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime),
+  wid = .(SID),
+  within = .(nontargetContrast, Validity)
+)
+knitr::kable(disdPrimeT1_anova)
+
+```
+
+```{r T2 Dis}
+## dis dprime filtered T1
+d = data %>% filter(Target==2)
+
+disdPrimeT2_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime),
+  wid = .(SID),
+  within = .(nontargetContrast, Validity)
+)
+knitr::kable(disdPrimeT2_anova)
+
+```
