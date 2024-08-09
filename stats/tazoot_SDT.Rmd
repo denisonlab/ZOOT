@@ -123,8 +123,6 @@ knitr::kable(detdPrimeT2_anova)
 
 ```
 
-
-
 # discrimination
 ```{r Dis}
 

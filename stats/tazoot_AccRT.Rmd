@@ -1,5 +1,5 @@
 ---
-title: "tazoot"
+title: "tazoot_AccRT"
 author: Jenny
 output: github_document
 date: "2024-07-29"
@@ -239,6 +239,53 @@ RTT2_anova = ezANOVA(
 knitr::kable(RTT2_anova)
 
 ```
+
+
+### paired t-tests
+```{r tazootstats, echo = FALSE, out.width = "90%"}
+## valid vs. invalid
+d <- data 
+dt <- d %>% filter(Validity == 1 | Validity == 3)
+t.test(dt$Acc ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot: valid vs invalid")
+my_table
+```
+
+```{r tazootstats, echo = FALSE, out.width = "90%"}
+## valid vs. neutral
+d <- data 
+dt <- d %>% filter(Validity == 1 | Validity == 2)
+t.test(dt$Acc ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot: valid vs neutral")
+my_table
+```
+
+
+```{r tazootstats, echo = FALSE, out.width = "90%"}
+## invalid vs. neutral
+d <- data 
+dt <- d %>% filter(Validity == 3 | Validity == 2)
+t.test(dt$Acc ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot: invalid vs neutral")
+my_table
+```
+
+
 
 # Look up how to make a bar plot with ggplot 
 ggplot(data=d, aes(x=targetContrast,y=Acc)) + geom_bar(position="dodge", stat="summary", fun.y="mean")
