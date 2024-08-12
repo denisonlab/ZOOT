@@ -240,7 +240,6 @@ knitr::kable(RTT2_anova)
 
 ```
 
-
 ### paired t-tests
 ## accuracy by target and nontarget 
 # PresentPresent
