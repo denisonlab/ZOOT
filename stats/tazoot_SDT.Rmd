@@ -813,7 +813,7 @@ my_table
 ## invalid vs. neutral NP
 d = data 
 dt = d %>% filter(nontargetContrast == 2, Validity == 3 | Validity == 2)
-t.test(dt$dis_dcrit ~ dt$Validity, paired=TRUE) %>% report %>%
+t.test(dt$dis_crit ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
   "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",

@@ -78,6 +78,8 @@ accTP_anova = ezANOVA(
 )
 knitr::kable(accTP_anova)
 ```
+
+
 ```{r TA accuracy}
 ## accuracy filtered target absent
 d <- data %>% filter(targetContrast==0)
@@ -135,7 +137,7 @@ knitr::kable(accT1_anova)
 ```{r T2 accuracy}
 ## accuracy filtered target 2
 d <- data %>% filter(Target==2)
-
+0
 accT2_anova = ezANOVA(
   data = d,
   dv = .(Acc),
@@ -251,7 +253,7 @@ knitr::kable(RTT2_anova)
 ```{r vi_accPP, echo = FALSE, out.width = "90%"}
 ## valid vs. invalid PP
 d <- data 
-dt <- d %>% filter(targetContrast == 1, nontargetContrast ==1, Validity == 1 | Validity == 3)
+dt <- d %>% filter(targetContrast == 1| nontargetContrast ==1, Validity == 1 | Validity == 3)
 t.test(dt$Acc ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -265,7 +267,7 @@ my_table
 ```{r vn_accPP, echo = FALSE, out.width = "90%"}
 ## valid vs. neutral PP
 d <- data 
-dt <- d %>% filter(targetContrast == 1, nontargetContrast ==1, Validity == 1 | Validity == 2)
+dt <- d %>% filter(targetContrast == 1 | nontargetContrast ==1, Validity == 1 | Validity == 2)
 t.test(dt$Acc ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -279,7 +281,7 @@ my_table
 ```{r ni_accPP, echo = FALSE, out.width = "90%"}
 ## invalid vs. neutral PP
 d <- data 
-dt <- d %>% filter(targetContrast == 1, nontargetContrast ==1, Validity == 3 | Validity == 2)
+dt <- d %>% filter(targetContrast == 1 | nontargetContrast ==1, Validity == 3 | Validity == 2)
 t.test(dt$Acc ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -294,7 +296,7 @@ my_table
 ```{r vi_accPA, echo = FALSE, out.width = "90%"}
 ## valid vs. invalid PA 
 d <- data 
-dt <- d %>% filter(targetContrast == 1, nontargetContrast == 0, Validity == 1 | Validity == 3)
+dt <- d %>% filter(targetContrast == 1 | nontargetContrast == 0, Validity == 1 | Validity == 3)
 t.test(dt$Acc ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -308,7 +310,7 @@ my_table
 ```{r vn_accPA, echo = FALSE, out.width = "90%"}
 ## valid vs. neutral PA 
 d <- data 
-dt <- d %>% filter(targetContrast == 1, nontargetContrast == 0, Validity == 1 | Validity == 2)
+dt <- d %>% filter(targetContrast == 1 | nontargetContrast == 0, Validity == 1 | Validity == 2)
 t.test(dt$Acc ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -322,7 +324,7 @@ my_table
 ```{r in_accPA, echo = FALSE, out.width = "90%"}
 ## invalid vs. neutral PA 
 d <- data 
-dt <- d %>% filter(targetContrast == 1, nontargetContrast == 0, Validity == 3 | Validity == 2)
+dt <- d %>% filter(targetContrast == 1 | nontargetContrast == 0, Validity == 3 | Validity == 2)
 t.test(dt$Acc ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -337,7 +339,7 @@ my_table
 ```{r in_accAP, echo = FALSE, out.width = "90%"}
 ## valid vs. invalid
 d <- data 
-dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Validity == 1 | Validity == 3)
+dt <- d %>% filter(targetContrast == 0 | nontargetContrast == 1, Validity == 1 | Validity == 3)
 t.test(dt$Acc ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -351,7 +353,7 @@ my_table
 ```{r in_accAP, echo = FALSE, out.width = "90%"}
 ## valid vs. neutral
 d <- data 
-dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Validity == 1 | Validity == 2)
+dt <- d %>% filter(targetContrast == 0 | nontargetContrast == 1, Validity == 1 | Validity == 2)
 t.test(dt$Acc ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -365,7 +367,7 @@ my_table
 ```{r in_accAP, echo = FALSE, out.width = "90%"}
 ## invalid vs. neutral
 d <- data 
-dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Validity == 3 | Validity == 2)
+dt <- d %>% filter(targetContrast == 0 | nontargetContrast == 1, Validity == 3 | Validity == 2)
 t.test(dt$Acc ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -380,7 +382,7 @@ my_table
 ```{r in_accAA, echo = FALSE, out.width = "90%"}
 ## valid vs. invalid
 d <- data 
-dt <- d %>% filter(targetContrast == 0, nontargetContrast == 0, Validity == 1 | Validity == 3)
+dt <- d %>% filter(targetContrast == 0 | nontargetContrast == 0, Validity == 1 | Validity == 3)
 t.test(dt$Acc ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -394,7 +396,7 @@ my_table
 ```{r in_accAA, echo = FALSE, out.width = "90%"}
 ## valid vs. neutral
 d <- data 
-dt <- d %>% filter(targetContrast == 0, nontargetContrast == 0, Validity == 1 | Validity == 2)
+dt <- d %>% filter(targetContrast == 0 | nontargetContrast == 0, Validity == 1 | Validity == 2)
 t.test(dt$Acc ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -408,7 +410,7 @@ my_table
 ```{r in_accAA, echo = FALSE, out.width = "90%"}
 ## invalid vs. neutral
 d <- data 
-dt <- d %>% filter(targetContrast == 0, nontargetContrast == 0, Validity == 3 | Validity == 2)
+dt <- d %>% filter(targetContrast == 0 | nontargetContrast == 0, Validity == 3 | Validity == 2)
 t.test(dt$Acc ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -472,7 +474,7 @@ names(stats.table) <- c(
   "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
   "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
 )
-my_table <- nice_table(stats.table, report = "t.test", title = "tazoot acc: TA vs invalid")
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot acc: TA valid vs invalid")
 my_table
 ```
 
@@ -548,7 +550,7 @@ names(stats.table) <- c(
 my_table <- nice_table(stats.table, report = "t.test", title = "tazoot acc: NP invalid vs neutral")
 my_table
 ```
-#target absent 
+#nontarget absent 
 ```{r vi_accNA, echo = FALSE, out.width = "90%"}
 ## valid vs. invalid
 d <- data 
@@ -597,7 +599,7 @@ my_table
 ```{r vi_RTPP, echo = FALSE, out.width = "90%"}
 ## valid vs. invalid PP
 d <- data 
-dt <- d %>% filter(targetContrast == 1, nontargetContrast ==1, Validity == 1 | Validity == 3)
+dt <- d %>% filter(targetContrast == 1 | nontargetContrast ==1, Validity == 1 | Validity == 3)
 t.test(dt$RT ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -611,7 +613,7 @@ my_table
 ```{r vn_RTPP, echo = FALSE, out.width = "90%"}
 ## valid vs. neutral PP
 d <- data 
-dt <- d %>% filter(targetContrast == 1, nontargetContrast ==1, Validity == 1 | Validity == 2)
+dt <- d %>% filter(targetContrast == 1 | nontargetContrast ==1, Validity == 1 | Validity == 2)
 t.test(dt$RT ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -625,7 +627,7 @@ my_table
 ```{r ni_RTPP, echo = FALSE, out.width = "90%"}
 ## invalid vs. neutral PP
 d <- data 
-dt <- d %>% filter(targetContrast == 1, nontargetContrast ==1, Validity == 3 | Validity == 2)
+dt <- d %>% filter(targetContrast == 1 | nontargetContrast ==1, Validity == 3 | Validity == 2)
 t.test(dt$RT ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -640,7 +642,7 @@ my_table
 ```{r vi_RTPA, echo = FALSE, out.width = "90%"}
 ## valid vs. invalid PA 
 d <- data 
-dt <- d %>% filter(targetContrast == 1, nontargetContrast == 0, Validity == 1 | Validity == 3)
+dt <- d %>% filter(targetContrast == 1 | nontargetContrast == 0, Validity == 1 | Validity == 3)
 t.test(dt$RT ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -654,7 +656,7 @@ my_table
 ```{r vn_RTPA, echo = FALSE, out.width = "90%"}
 ## valid vs. neutral PA 
 d <- data 
-dt <- d %>% filter(targetContrast == 1, nontargetContrast == 0, Validity == 1 | Validity == 2)
+dt <- d %>% filter(targetContrast == 1 | nontargetContrast == 0, Validity == 1 | Validity == 2)
 t.test(dt$RT ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -668,7 +670,7 @@ my_table
 ```{r in_RTPA, echo = FALSE, out.width = "90%"}
 ## invalid vs. neutral PA 
 d <- data 
-dt <- d %>% filter(targetContrast == 1, nontargetContrast == 0, Validity == 3 | Validity == 2)
+dt <- d %>% filter(targetContrast == 1 | nontargetContrast == 0, Validity == 3 | Validity == 2)
 t.test(dt$RT ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -683,7 +685,7 @@ my_table
 ```{r in_RTAP, echo = FALSE, out.width = "90%"}
 ## valid vs. invalid
 d <- data 
-dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Validity == 1 | Validity == 3)
+dt <- d %>% filter(targetContrast == 0 | nontargetContrast == 1, Validity == 1 | Validity == 3)
 t.test(dt$RT ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -697,7 +699,7 @@ my_table
 ```{r in_RTAP, echo = FALSE, out.width = "90%"}
 ## valid vs. neutral
 d <- data 
-dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Validity == 1 | Validity == 2)
+dt <- d %>% filter(targetContrast == 0 | nontargetContrast == 1, Validity == 1 | Validity == 2)
 t.test(dt$RT ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -711,7 +713,7 @@ my_table
 ```{r in_RTAP, echo = FALSE, out.width = "90%"}
 ## invalid vs. neutral
 d <- data 
-dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Validity == 3 | Validity == 2)
+dt <- d %>% filter(targetContrast == 0 | nontargetContrast == 1, Validity == 3 | Validity == 2)
 t.test(dt$RT ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -726,7 +728,7 @@ my_table
 ```{r in_aRTAA, echo = FALSE, out.width = "90%"}
 ## valid vs. invalid
 d <- data 
-dt <- d %>% filter(targetContrast == 0, nontargetContrast == 0, Validity == 1 | Validity == 3)
+dt <- d %>% filter(targetContrast == 0 | nontargetContrast == 0, Validity == 1 | Validity == 3)
 t.test(dt$RT ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -740,7 +742,7 @@ my_table
 ```{r in_RTAA, echo = FALSE, out.width = "90%"}
 ## valid vs. neutral
 d <- data 
-dt <- d %>% filter(targetContrast == 0, nontargetContrast == 0, Validity == 1 | Validity == 2)
+dt <- d %>% filter(targetContrast == 0 | nontargetContrast == 0, Validity == 1 | Validity == 2)
 t.test(dt$RT ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
@@ -754,7 +756,7 @@ my_table
 ```{r in_RTAA, echo = FALSE, out.width = "90%"}
 ## invalid vs. neutral
 d <- data 
-dt <- d %>% filter(targetContrast == 0, nontargetContrast == 0, Validity == 3 | Validity == 2)
+dt <- d %>% filter(targetContrast == 0 | nontargetContrast == 0, Validity == 3 | Validity == 2)
 t.test(dt$RT ~ dt$Validity, paired=TRUE) %>% report %>%
   as.data.frame -> stats.table
 names(stats.table) <- c(
