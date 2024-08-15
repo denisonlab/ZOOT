@@ -161,19 +161,14 @@ for iSub=1:length(subs) % for participant
         for iContrastCond = 1:2 % for each contrast condition (PP, PA)
             for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
                 pIdx = dataAll(iSub).target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % index for finding relevant trials for the denominator of each condition
-                dtpAcc.pN(iContrastCond, iValidity, iTarget) = size(find(pIdx),2); % denominator, number of trials per condition
-                dtpAcc.pSeen(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).seen(pIdx & dataAll(iSub).seen==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
-                dtpAcc.pProp(iContrastCond, iValidity, iTarget) = dtpAcc.pSeen(iContrastCond, iValidity, iTarget)/dtpAcc.pN(iContrastCond, iValidity, iTarget);
-
-                aIdx = dataAll(iSub).target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip;
-                dtpAcc.aN(iContrastCond, iValidity, iTarget) = size(find(aIdx),2); % denominator, number of trials per condition
-                dtpAcc.aSeen(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).seen(aIdx & dataAll(iSub).seen==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
-                dtpAcc.aProp(iContrastCond, iValidity, iTarget) = dtpAcc.aSeen(iContrastCond, iValidity, iTarget)/dtpAcc.aN(iContrastCond, iValidity, iTarget);
+                dtpAcc.N(iContrastCond, iValidity, iTarget) = size(find(pIdx),2); % denominator, number of trials per condition
+                dtpAcc.Seen(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).seen(pIdx & dataAll(iSub).seen==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                dtpAcc.Prop(iContrastCond, iValidity, iTarget) = dtpAcc.Seen(iContrastCond, iValidity, iTarget)/dtpAcc.N(iContrastCond, iValidity, iTarget);
             end
         end
     end
 
-    dtpAccNT.prop = dtpAcc.pProp;
+    dtpAccNT.prop = dtpAcc.Prop;
     dataAll(iSub).meansDetTPNT = dtpAccNT.prop*100;
 
       %% RT
