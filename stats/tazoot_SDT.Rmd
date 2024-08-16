@@ -816,7 +816,7 @@ knitr::kable(discritNP_anova)
 
 ```{r NA Dis crit}
 ## dis crit filtered nontarget absent
-d = data %>% filter(nontargetContrast==0)
+d = data %>% filter(nontargetContrast==3)
 
 discritNA_anova = ezANOVA(
   data = d,
