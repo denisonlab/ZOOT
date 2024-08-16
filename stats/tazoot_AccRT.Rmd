@@ -419,7 +419,7 @@ my_table
 ```
 
 #AbsentPresent
-```{r in_accAP T1, echo = FALSE, out.width = "90%"}
+```{r vi_accAP T1, echo = FALSE, out.width = "90%"}
 ## valid vs. invalid T1
 d <- data 
 dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Target == 1,  Validity == 1 | Validity == 3)
@@ -433,7 +433,7 @@ my_table <- nice_table(stats.table, report = "t.test", title = "tazoot acc: AP T
 my_table
 ```
 
-```{r in_accAP T1, echo = FALSE, out.width = "90%"}
+```{r vn_accAP T1, echo = FALSE, out.width = "90%"}
 ## valid vs. neutral T1
 d <- data 
 dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Target == 1, Validity == 1 | Validity == 2)
@@ -461,7 +461,7 @@ my_table <- nice_table(stats.table, report = "t.test", title = "tazoot acc: AP T
 my_table
 ```
 #T2
-```{r in_accAP T2, echo = FALSE, out.width = "90%"}
+```{r vi_accAP T2, echo = FALSE, out.width = "90%"}
 ## valid vs. invalid T2
 d <- data 
 dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Target == 2,  Validity == 1 | Validity == 3)
@@ -475,7 +475,7 @@ my_table <- nice_table(stats.table, report = "t.test", title = "tazoot acc: AP T
 my_table
 ```
 
-```{r in_accAP T2, echo = FALSE, out.width = "90%"}
+```{r vn_accAP T2, echo = FALSE, out.width = "90%"}
 ## valid vs. neutral T2
 d <- data 
 dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Target == 2, Validity == 1 | Validity == 2)
@@ -504,7 +504,7 @@ my_table
 ```
 
 #AbsentAbsent
-```{r in_accAA T1, echo = FALSE, out.width = "90%"}
+```{r vi_accAA T1, echo = FALSE, out.width = "90%"}
 ## valid vs. invalid T1 
 d <- data 
 dt <- d %>% filter(targetContrast == 0, nontargetContrast == 0, Target == 1, Validity == 1 | Validity == 3)
@@ -518,7 +518,7 @@ my_table <- nice_table(stats.table, report = "t.test", title = "tazoot acc: AA T
 my_table
 ```
 
-```{r in_accAA T1 , echo = FALSE, out.width = "90%"}
+```{r vn_accAA T1 , echo = FALSE, out.width = "90%"}
 ## valid vs. neutral T1
 d <- data 
 dt <- d %>% filter(targetContrast == 0, nontargetContrast == 0, Target == 1, Validity == 1 | Validity == 2)
@@ -546,7 +546,7 @@ my_table <- nice_table(stats.table, report = "t.test", title = "tazoot acc: AA T
 my_table
 ```
 #T2
-```{r in_accAA T2, echo = FALSE, out.width = "90%"}
+```{r vi_accAA T2, echo = FALSE, out.width = "90%"}
 ## valid vs. invalid T2
 d <- data 
 dt <- d %>% filter(targetContrast == 0, nontargetContrast == 0, Target == 2, Validity == 1 | Validity == 3)
@@ -560,7 +560,7 @@ my_table <- nice_table(stats.table, report = "t.test", title = "tazoot acc: AA T
 my_table
 ```
 
-```{r in_accAA T2 , echo = FALSE, out.width = "90%"}
+```{r vn_accAA T2 , echo = FALSE, out.width = "90%"}
 ## valid vs. neutral T2
 d <- data 
 dt <- d %>% filter(targetContrast == 0, nontargetContrast == 0, Target == 2, Validity == 1 | Validity == 2)
@@ -929,7 +929,7 @@ my_table
 ```
 
 #AbsentPresent
-```{r in_RTAP T1, echo = FALSE, out.width = "90%"}
+```{r vi_RTAP T1, echo = FALSE, out.width = "90%"}
 ## valid vs. invalid T1
 d <- data 
 dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Target == 1, Validity == 1 | Validity == 3)
@@ -943,7 +943,7 @@ my_table <- nice_table(stats.table, report = "t.test", title = "tazoot RT: AP T1
 my_table
 ```
 
-```{r in_RTAP T1 , echo = FALSE, out.width = "90%"}
+```{r vn_RTAP T1 , echo = FALSE, out.width = "90%"}
 ## valid vs. neutral T1 
 d <- data 
 dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Target == 1, Validity == 1 | Validity == 2)
@@ -971,7 +971,7 @@ my_table <- nice_table(stats.table, report = "t.test", title = "tazoot RT: AP T1
 my_table
 ```
 #T2
-```{r in_RTAP T2, echo = FALSE, out.width = "90%"}
+```{r vi_RTAP T2, echo = FALSE, out.width = "90%"}
 ## valid vs. invalid T2
 d <- data 
 dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Target == 2, Validity == 1 | Validity == 3)
@@ -985,7 +985,7 @@ my_table <- nice_table(stats.table, report = "t.test", title = "tazoot RT: AP T2
 my_table
 ```
 
-```{r in_RTAP T2 , echo = FALSE, out.width = "90%"}
+```{r vn_RTAP T2 , echo = FALSE, out.width = "90%"}
 ## valid vs. neutral T2 
 d <- data 
 dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Target == 2, Validity == 1 | Validity == 2)
@@ -1014,7 +1014,7 @@ my_table
 ```
 
 #AbsentAbsent
-```{r in_aRTAA T1, echo = FALSE, out.width = "90%"}
+```{r vi_aRTAA T1, echo = FALSE, out.width = "90%"}
 ## valid vs. invalid T1 
 d <- data 
 dt <- d %>% filter(targetContrast == 0,  nontargetContrast == 0, Target == 1, Validity == 1 | Validity == 3)
@@ -1028,7 +1028,7 @@ my_table <- nice_table(stats.table, report = "t.test", title = "tazoot RT: AA T1
 my_table
 ```
 
-```{r in_RTAA T1, echo = FALSE, out.width = "90%"}
+```{r vn_RTAA T1, echo = FALSE, out.width = "90%"}
 ## valid vs. neutral T1
 d <- data 
 dt <- d %>% filter(targetContrast == 0,  nontargetContrast == 0, Target == 1,  Validity == 1 | Validity == 2)
@@ -1056,7 +1056,7 @@ my_table <- nice_table(stats.table, report = "t.test", title = "tazoot RT: AA T1
 my_table
 ```
 
-```{r in_aRTAA T2, echo = FALSE, out.width = "90%"}
+```{r vi_aRTAA T2, echo = FALSE, out.width = "90%"}
 ## valid vs. invalid T2 
 d <- data 
 dt <- d %>% filter(targetContrast == 0,  nontargetContrast == 0, Target == 2, Validity == 1 | Validity == 3)
@@ -1070,7 +1070,7 @@ my_table <- nice_table(stats.table, report = "t.test", title = "tazoot RT: AA T2
 my_table
 ```
 
-```{r in_RTAA T2, echo = FALSE, out.width = "90%"}
+```{r vn_RTAA T2, echo = FALSE, out.width = "90%"}
 ## valid vs. neutral T2
 d <- data 
 dt <- d %>% filter(targetContrast == 0,  nontargetContrast == 0, Target == 2,  Validity == 1 | Validity == 2)
