@@ -6,6 +6,7 @@ saveplots = 0;
 fp = figureparams;
 
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
+addpath('/Users/jennymotzer/Documents/GitHub/kt-utils')
 
 
 %% 
@@ -277,7 +278,7 @@ for iSub=1:length(subs) % for participant
         dataAll(iSub).nfaDet = dataAll(iSub).seen==1 & dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % false alarms (seen and absent)
         
         
-    %% SDT detection - across cueing conditions
+    %% SDT detection nontarget - across cueing conditions
     nhDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 1; % hit: seen and present
     nfaDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 0; % fa: seen and absent
     nsignalDet = dataAll(iSub).targetContrast == 1; % signal: present
@@ -319,7 +320,7 @@ for iSub=1:length(subs) % for participant
         end
     end
 
-    %% SDT discrimination - across cueing conditions 
+    %% SDT discrimination nontarget - across cueing conditions 
     nhDis = dataAll(iSub).correctDis == 1 & dataAll(iSub).targetTilt == 1;
     nfaDis = dataAll(iSub).correctDis == 0 & dataAll(iSub).targetTilt == -1;
     nsignalDis = dataAll(iSub).targetContrast == 1 & dataAll(iSub).seen == 1 & dataAll(iSub).targetTilt == 1;
@@ -357,7 +358,88 @@ for iSub=1:length(subs) % for participant
         end
     end
 
-    %% detection - collapsed cueing conditions
+
+
+        %% SDT detection target - across cueing conditions
+    nhDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 1; % hit: seen and present
+    nfaDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 0; % fa: seen and absent
+    nsignalDet = dataAll(iSub).targetContrast == 1; % signal: present
+    nnoiseDet = dataAll(iSub).targetContrast == 0; % noise: absent
+    Det = {nhDet nfaDet nsignalDet nnoiseDet};
+
+    % indices for all conditions based on target, validity, SDT variable -
+    % returns which contains data for all, nontarget present, non target absent. each of these contains condition data for nh nfa
+    % nsignal and  nnoise 
+    for iTarget =1:2
+        for iValid = 1:numel(Validities)
+            for iDet = 1:numel(Det)
+                detAllTIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & ~dataAll(iSub).eyeSkip; % find all T1 and T2 
+                det_target.all(iTarget, iValid, iDet) = sum(detAllTIdx);
+                detTPIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
+                det_target.targetPresent(iTarget, iValid, iDet) = sum(detTPIdx);
+                detTAIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
+                det_target.targetAbsent(iTarget, iValid, iDet) = sum(detTAIdx);
+            end
+        end
+    end
+
+    % calculate dprime and c per condition, detd/c.all, nontargetPresent,
+    % nontargetAbsent for valid, neutral, and invalid for T1 and T2 
+    dp = [];
+    c = [];
+    Detfieldnames = fieldnames(det);
+    for iTarget = 1:2
+        for iValid = 1:numel(Validities)
+            for iF = 1:numel(Detfieldnames)
+                dataAll(iSub).detNH_target.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,1);
+                dataAll(iSub).detNFA_target.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,2);
+                dataAll(iSub).detNSignal_target.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,3);
+                dataAll(iSub).detNNoise_target.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,4);
+                [dprime, criterion] = kt_dprime2(dataAll(iSub).detNH_target.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNFA_target.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNSignal_target.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNNoise_target.(Detfieldnames{iF})(iTarget,iValid),1);
+                dataAll(iSub).detd_target.(Detfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
+                dataAll(iSub).detc_target.(Detfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
+            end
+        end
+    end
+
+    %% SDT discrimination target - across cueing conditions 
+    nhDis = dataAll(iSub).correctDis == 1 & dataAll(iSub).targetTilt == 1;
+    nfaDis = dataAll(iSub).correctDis == 0 & dataAll(iSub).targetTilt == -1;
+    nsignalDis = dataAll(iSub).targetContrast == 1 & dataAll(iSub).seen == 1 & dataAll(iSub).targetTilt == 1;
+    nnoiseDis = dataAll(iSub).targetContrast == 1 & dataAll(iSub).seen == 1 & dataAll(iSub).targetTilt == -1;
+    Dis = {nhDis nfaDis nsignalDis nnoiseDis};
+    %indices for all conditions based on target, validity, SDT variable
+    for iTarget =1:2
+        for iValid = 1:numel(Validities)
+            for iDis = 1:numel(Dis)
+                disAllTIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).target == iTarget & ~dataAll(iSub).eyeSkip; % find all T1 and T2
+                dis_target.all(iTarget, iValid, iDis) = sum(disAllTIdx);
+                disTPIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).target == iTarget & dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
+                dis_target.targetPresent(iTarget, iValid, iDis) = sum(disTPIdx);
+                disTAIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).target == iTarget & dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
+                dis_target.targetAbsent(iTarget, iValid, iDis) = sum(disTAIdx);
+            end
+        end
+    end
+
+    % calculate dprime and c per condition
+    dp = [];
+    c = [];
+    Disfieldnames = fieldnames(dis);
+    for iTarget = 1:2
+        for iValid = 1:numel(Validities)
+            for iF = 1:numel(Disfieldnames)
+                dataAll(iSub).nhDis_target.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,1);
+                dataAll(iSub).nfaDis_target.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,2);
+                dataAll(iSub).nsignalDis_target.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,3);
+                dataAll(iSub).nnoiseDis_target.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,4);
+                [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDis_target.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nfaDis_target.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nsignalDis_target.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nnoiseDis_target.(Disfieldnames{iF})(iTarget,iValid),1);
+                dataAll(iSub).disd_target.(Disfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
+                dataAll(iSub).disc_target.(Disfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
+            end
+        end
+    end
+    %% detection nontarget - collapsed cueing conditions
     nhDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 1; % hit: seen and present
     nfaDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 0; % fa: seen and absent
     nsignalDet = dataAll(iSub).targetContrast == 1; % signal: present
@@ -395,7 +477,7 @@ for iSub=1:length(subs) % for participant
         end
     end
 
-    %% discrimination - collapsed cueing conditions
+    %% discrimination nontarget- collapsed cueing conditions
     nhDis = dataAll(iSub).correctDis == 1 & dataAll(iSub).targetTilt == 1;
     nfaDis = dataAll(iSub).correctDis == 0 & dataAll(iSub).targetTilt == -1;
     nsignalDis = dataAll(iSub).targetContrast == 1 & dataAll(iSub).seen == 1 & dataAll(iSub).targetTilt == 1;
@@ -647,26 +729,45 @@ for iF = 1:numel(contrastConds)
         ytips = b(k).YEndPoints;
         errorbar(xtips,ytips,Acc.err(iF,k), '.k', 'MarkerSize',0.1)
     end
+    if iF==1
+        kt_annotateStats(1,86,'**'); 
+        kt_drawBracket(.7778, 1.2222, .83)
+        kt_annotateStats(2,94,'~'); 
+        kt_drawBracket(1.7778, 2.2222, .885)
+    end
+
+    if iF == 2
+        kt_annotateStats(1,93,'***');
+        kt_drawBracket(.7778, 1.2222, .89)
+        kt_annotateStats(1.1111,86,'*');
+        kt_drawBracket(1, 1.2222, .83)
+        kt_annotateStats(2,92,'*');
+        kt_drawBracket(1.7778, 2.2222, .885)
+    end
+
+    if iF == 3
+        kt_annotateStats(1,95,'*');
+        kt_drawBracket(.7778, 1.2222, .925)
+    end
+
+
+    if iF == 4
+        kt_annotateStats(1.8889,101,'**');
+        kt_drawBracket(1.7778, 2, .81)
+    end
+
+
     hold off
     condTitle = [{'target present/nontarget present'} {'target present/nontarget absent'} {'target absent/nontarget present'} {'target absent/nontarget absent'}];
     title([condTitle{iF}])
     ylabel('accuracy %')
-    ylim([30 100])
+    ylim([30 105])
     ax = gca; 
     set(gca, 'ytick', 30:10:100)
     set(gca, 'xticklabel', {'T1', 'T2'})
     % ytickformat('percentage')
     hold on
-
-    % for iA = 1:3
-    %     % can think about doing this
-    % end
-    % 
-    % if iF==1
-    %     kt_annotateStats(1,ax.YLim(2)*0.85,'*'); 
-    %     kt_drawBracket(1,2,ax.YLim(2)*0.5)
-    % end
-
+ 
 end
 legend('Valid', 'Neutral', 'Invalid')
 legend('Location', 'best')
