@@ -633,16 +633,16 @@ end
 %% SDT variables
 detNHIdx = [];
 detNFAIdx = [];
-detNSignalIdx = [];
-detNNoiseIdx = [];
+detNSignal = [];
+detNNoise = [];
 for iTarget = 1:2
     for iF = 1:numel(Detfieldnames)
         for iValid = 1:numel(Validities)
             for iSub = 1:length(subs)
                 detNHIdx = [detNHIdx dataAll(iSub).detNH.(Detfieldnames{iF})(iTarget,iValid)];
                 detNFAIdx = [detNFAIdx dataAll(iSub).detNFA.(Detfieldnames{iF})(iTarget,iValid)];
-                detNSignalIdx = [detNSignalIdx dataAll(iSub).detNSignal.(Detfieldnames{iF})(iTarget,iValid)];
-                detNNoiseIdx = [detNNoiseIdx dataAll(iSub).detNSignal.(Detfieldnames{iF})(iTarget,iValid)];
+                detNSignal = [detNSignal dataAll(iSub).detNSignal.(Detfieldnames{iF})(iTarget,iValid)];
+                detNNoise = [];
             end
             detNHStd.(Detfieldnames{iF})(iTarget, iValid) = std(detNHIdx);
             detNH.(Detfieldnames{iF})(iTarget, iValid) = mean(detNHIdx);
@@ -652,18 +652,13 @@ for iTarget = 1:2
             detNFA.(Detfieldnames{iF})(iTarget, iValid) = mean(detNFAIdx);
             detNFAErr.(Detfieldnames{iF})(iTarget, iValid) = detNFAStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
 
-            detNSignalStd.(Detfieldnames{iF})(iTarget, iValid) = std(detNSignalIdx);
-            detNSignal.(Detfieldnames{iF})(iTarget, iValid) = mean(detNSignalIdx);
+            detNSignalStd.(Detfieldnames{iF})(iTarget, iValid) = std(detNSignal);
+            ddetNSignal.(Detfieldnames{iF})(iTarget, iValid) = mean(detNSignal);
             detNSignalErr.(Detfieldnames{iF})(iTarget, iValid) = detNSignalStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
 
-            detNNoiseStd.(Detfieldnames{iF})(iTarget, iValid) = std(detNNoiseIdx);
-            detNNoise.(Detfieldnames{iF})(iTarget, iValid) = mean(detNNoiseIdx);
+            detNNoiseStd.(Detfieldnames{iF})(iTarget, iValid) = std(detNNoise);
+            detNNoise.(Detfieldnames{iF})(iTarget, iValid) = mean(detNNoise);
             detNNoiseErr.(Detfieldnames{iF})(iTarget, iValid) =  detNNoiseStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-
-            detNHIdx = [];
-            detNFAIdx = [];
-            detNSignalIdx = [];
-            detNNoiseIdx = [];
         end
     end
 end
