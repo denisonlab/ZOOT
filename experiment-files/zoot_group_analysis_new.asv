@@ -705,7 +705,7 @@ end
 figure();
 set(gcf,'Position',[100 100 1500 800])
 % sgtitle('ga accuracy')
-
+shade = [1, .6, .4];
 for iF = 1:numel(contrastConds)
     subplot(2,2,iF)
     b = bar([Acc.mean(iF,:,1); Acc.mean(iF,:,2)]);
@@ -718,6 +718,8 @@ for iF = 1:numel(contrastConds)
         if iF == 1 || iF == 3
             b(k).FaceColor = 'flat';
             b(k).EdgeColor = 'flat';
+            b(k).FaceAlpha = shade(k);
+            b(k).EdgeAlpha = shade(k);
             b(k).CData(1,:) = fp.blue;
             b(k).CData(2,:) = fp.orange;
 
@@ -725,17 +727,18 @@ for iF = 1:numel(contrastConds)
         if iF == 2 || iF == 4
             b(k).FaceColor = [1 1 1];
             b(k).EdgeColor = 'flat';
+            b(k).EdgeAlpha = shade(k);
             b(k).CData(1,:) = fp.blue;
             b(k).CData(2,:) = fp.orange;
-            b(k).LineWidth = 2;
+            b(k).LineWidth = 2.5;
         end
 
         errorbar(xtips,ytips,Acc.err(iF,k), '.k', 'MarkerSize', 0.01, 'CapSize', 0, 'LineWidth', 1.75) %MarkerSize 0.1
     end
     if iF==1
-        kt_annotateStats(1,87,'**'); 
+        kt_annotateStats(1,86,'**'); 
         kt_drawBracket(.7778, 1.2222, .84)
-        kt_annotateStats(2,95,'~'); 
+        kt_annotateStats(2,94,'~'); 
         kt_drawBracket(1.7778, 2.2222, .9)
     end
 
@@ -768,12 +771,15 @@ for iF = 1:numel(contrastConds)
     ax = gca; 
     set(gca, 'ytick', 30:10:100)
     hold on
-    % set(gca, 'xtick', [1 2 3])
-    % set(gca, 'xticklabel', xticklabels)
-    % ytickformat('percentage')
+    a = [1 2 3; 4 5 6];
+    p = [a(1,:), a(2,:)];
+    xticks(gca,p)
+    set(gca, )
     hold on
  
 end
+% legend('Valid', 'Neutral', 'Invalid')
+% legend('Location', 'best')
 % lgd.Layout.Tile = 'eastoutside';
 ax = gca;
 ax.XGrid = 'off';
@@ -784,11 +790,11 @@ ax.YGrid = 'off';
 [ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 0.88]);
 % [ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .25 0.84]);
 % [ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .55 0.84]);
-if saveplots
-    figTitle = sprintf('%s_%s',...
-        'beh_acc',datestr(now,'yymmdd'));
-    saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
-end
+% if saveplots
+%     figTitle = sprintf('%s_%s',...
+%         'beh_acc',datestr(now,'yymmdd'));
+%     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
+% end
 
 %% det acc
 figure();
@@ -846,6 +852,8 @@ for iF = 1:2
     ytickformat('percentage')
     hold on
 end
+legend('Valid', 'Neutral', 'Invalid')
+legend('Location', 'best')
 % lgd.Layout.Tile = 'eastoutside';
 ax = gca;
 ax.XGrid = 'off';

@@ -703,9 +703,9 @@ end
 %% figure 1 - target presence x validity x target
 
 figure();
-set(gcf,'Position',[100 100 1500 800])
+set(gcf,'Position',[100 100 500 400])
 % sgtitle('ga accuracy')
-
+shade = [1, .6, .4];
 for iF = 1:numel(contrastConds)
     subplot(2,2,iF)
     b = bar([Acc.mean(iF,:,1); Acc.mean(iF,:,2)]);
@@ -718,6 +718,8 @@ for iF = 1:numel(contrastConds)
         if iF == 1 || iF == 3
             b(k).FaceColor = 'flat';
             b(k).EdgeColor = 'flat';
+            b(k).FaceAlpha = shade(k);
+            b(k).EdgeAlpha = shade(k);
             b(k).CData(1,:) = fp.blue;
             b(k).CData(2,:) = fp.orange;
 
@@ -725,9 +727,10 @@ for iF = 1:numel(contrastConds)
         if iF == 2 || iF == 4
             b(k).FaceColor = [1 1 1];
             b(k).EdgeColor = 'flat';
+            b(k).EdgeAlpha = shade(k);
             b(k).CData(1,:) = fp.blue;
             b(k).CData(2,:) = fp.orange;
-            b(k).LineWidth = 2;
+            b(k).LineWidth = 2.5;
         end
 
         errorbar(xtips,ytips,Acc.err(iF,k), '.k', 'MarkerSize', 0.01, 'CapSize', 0, 'LineWidth', 1.75) %MarkerSize 0.1
@@ -740,23 +743,23 @@ for iF = 1:numel(contrastConds)
     end
 
     if iF == 3
-        kt_annotateStats(1,93,'***');
+        kt_annotateStats(1,91,'***');
         kt_drawBracket(.7778, 1.2222, .89)
-        kt_annotateStats(1.1111,86,'*');
+        kt_annotateStats(1.1111,83,'*');
         kt_drawBracket(1, 1.2222, .83)
-        kt_annotateStats(2,95,'*');
+        kt_annotateStats(2,92,'*');
         kt_drawBracket(1.7778, 2.2222, .92)
     end
 
     if iF == 2
-        kt_annotateStats(1,97,'*');
+        kt_annotateStats(1,94,'*');
         kt_drawBracket(.7778, 1.2222, .94)
     end
 
 
     if iF == 4
-        kt_annotateStats(1.8889,103,'**');
-        kt_drawBracket(1.7778, 2, .82)
+        kt_annotateStats(1.8889,99,'**');
+        kt_drawBracket(1.7778, 2, .98)
     end
 
 
@@ -768,9 +771,7 @@ for iF = 1:numel(contrastConds)
     ax = gca; 
     set(gca, 'ytick', 30:10:100)
     hold on
-    % set(gca, 'xtick', [1 2 3])
-    % set(gca, 'xticklabel', xticklabels)
-    % ytickformat('percentage')
+    set(gca, 'xticklabel', {'T1', 'T2'})
     hold on
  
 end
