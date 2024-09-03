@@ -7,6 +7,7 @@ fp = figureparams;
 
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
 addpath('/Users/jennymotzer/Documents/GitHub/kt-utils')
+addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/stats')
 
 
 %% 
@@ -358,6 +359,30 @@ for iSub=1:length(subs) % for participant
         end
     end
 
+      %% SDT detection nontarget VARIABLES
+    nhDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 1; % hit: seen and present
+    nfaDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 0; % fa: seen and absent
+    nsignalDet = dataAll(iSub).targetContrast == 1; % signal: present
+    nnoiseDet = dataAll(iSub).targetContrast == 0; % noise: absent
+    % Det = {nhDet nfaDet nsignalDet nnoiseDet};
+
+    % indices for all conditions based on target, validity, SDT variable -
+    % returns which contains data for all, nontarget present, non target absent. each of these contains condition data for nh nfa
+    % nsignal and  nnoise
+    for iContrast = 1:numel(contrastConds)
+        for iTarget =1:2
+            for iValid = 1:numel(Validities)
+                    detNHIdx = Validities{iValid} & nhDet & dataAll(iSub).target == iTarget & contrastConds{iContrast} & ~dataAll(iSub).eyeSkip; % find all T1 and T2
+                    dataAll(iSub).detnh(iContrast, iValid, iTarget) = sum(detNHIdx);
+                    detNFAIdx = Validities{iValid} & nfaDet & dataAll(iSub).target == iTarget & contrastConds{iContrast} & ~dataAll(iSub).eyeSkip; % find all T1 and T2
+                    dataAll(iSub).detnfa(iContrast, iValid, iTarget) = sum(detNFAIdx);
+                    detNSignalIdx = Validities{iValid} & nsignalDet & dataAll(iSub).target == iTarget & contrastConds{iContrast} & ~dataAll(iSub).eyeSkip; % find all T1 and T2
+                    dataAll(iSub).detnsignal(iContrast, iValid, iTarget) = sum(detNSignalIdx);
+                    detNNoiseIdx = Validities{iValid} & nnoiseDet & dataAll(iSub).target == iTarget & contrastConds{iContrast} & ~dataAll(iSub).eyeSkip; % find all T1 and T2
+                    dataAll(iSub).detnnoise(iContrast, iValid, iTarget) = sum(detNNoiseIdx);
+            end
+        end
+    end
     %% detection nontarget - collapsed cueing conditions
     nhDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 1; % hit: seen and present
     nfaDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 0; % fa: seen and absent
@@ -451,6 +476,11 @@ for iContrast = 1:numel(contrastConds)
         end
     end
 end
+
+    tanp = Acc.mean(3,:,:);
+    tpna = Acc.mean(2,:,:);
+    Acc.mean(3,:,:) = tpna;
+    Acc.mean(2,:,:) = tanp;
 
 %% RT means
 
@@ -633,32 +663,37 @@ end
 %% SDT variables
 detNHIdx = [];
 detNFAIdx = [];
-detNSignal = [];
-detNNoise = [];
+detNSignalIdx = [];
+detNNoiseIdx = [];
 for iTarget = 1:2
-    for iF = 1:numel(Detfieldnames)
+    for iContrast = 1:4
         for iValid = 1:numel(Validities)
             for iSub = 1:length(subs)
-                detNHIdx = [detNHIdx dataAll(iSub).detNH.(Detfieldnames{iF})(iTarget,iValid)];
-                detNFAIdx = [detNFAIdx dataAll(iSub).detNFA.(Detfieldnames{iF})(iTarget,iValid)];
-                detNSignal = [detNSignal dataAll(iSub).detNSignal.(Detfieldnames{iF})(iTarget,iValid)];
-                detNNoise = [];
+                detNHIdx = [detNHIdx  dataAll(iSub).detnh(iContrast, iValid, iTarget)];
+                detNFAIdx = [detNFAIdx dataAll(iSub).detnfa(iContrast, iValid, iTarget)];
+                detNSignalIdx = [detNSignalIdx dataAll(iSub).detnsignal(iContrast, iValid, iTarget)];
+                detNNoiseIdx = [detNNoiseIdx dataAll(iSub).detnnoise(iContrast, iValid, iTarget)];
             end
-            detNHStd.(Detfieldnames{iF})(iTarget, iValid) = std(detNHIdx);
-            detNH.(Detfieldnames{iF})(iTarget, iValid) = mean(detNHIdx);
-            detNHErr.(Detfieldnames{iF})(iTarget, iValid) = detNHStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+            detnhStd(iContrast, iValid, iTarget) = std(detNHIdx);
+            detnh(iContrast, iValid, iTarget) = mean(detNHIdx);
+            detnhErr(iContrast, iValid, iTarget) = detnhStd(iContrast, iValid, iTarget)/sqrt(length(subs));
 
-            detNFAStd.(Detfieldnames{iF})(iTarget, iValid) = std(detNFAIdx);
-            detNFA.(Detfieldnames{iF})(iTarget, iValid) = mean(detNFAIdx);
-            detNFAErr.(Detfieldnames{iF})(iTarget, iValid) = detNFAStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+            detnfaStd(iContrast, iValid, iTarget) = std(detNFAIdx);
+            detnfa(iContrast, iValid, iTarget) = mean(detNFAIdx);
+            detnfaErr(iContrast, iValid, iTarget) = detnfaStd(iContrast, iValid, iTarget)/sqrt(length(subs));
 
-            detNSignalStd.(Detfieldnames{iF})(iTarget, iValid) = std(detNSignal);
-            ddetNSignal.(Detfieldnames{iF})(iTarget, iValid) = mean(detNSignal);
-            detNSignalErr.(Detfieldnames{iF})(iTarget, iValid) = detNSignalStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+            detnsignalStd(iContrast, iValid, iTarget) = std(detNSignalIdx);
+            detnsignal(iContrast, iValid, iTarget) = mean(detNSignalIdx);
+            detnsignalErr(iContrast, iValid, iTarget) =   detnsignalStd(iContrast, iValid, iTarget)/sqrt(length(subs));
 
-            detNNoiseStd.(Detfieldnames{iF})(iTarget, iValid) = std(detNNoise);
-            detNNoise.(Detfieldnames{iF})(iTarget, iValid) = mean(detNNoise);
-            detNNoiseErr.(Detfieldnames{iF})(iTarget, iValid) =  detNNoiseStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+            detnnoiseStd(iContrast, iValid, iTarget) = std(detNNoiseIdx);
+            detnnoise(iContrast, iValid, iTarget) = mean(detNNoiseIdx);
+            detnnoiseErr(iContrast, iValid, iTarget) =   detnnoiseStd(iContrast, iValid, iTarget)/sqrt(length(subs));
+
+            detNHIdx = [];
+            detNFAIdx = [];
+            detNSignalIdx = [];
+            detNNoiseIdx = [];
         end
     end
 end
@@ -668,96 +703,87 @@ end
 %% figure 1 - target presence x validity x target
 
 figure();
-sgtitle('ga accuracy')
+set(gcf,'Position',[100 100 1500 800])
+% sgtitle('ga accuracy')
 
 for iF = 1:numel(contrastConds)
     subplot(2,2,iF)
-    % figureStyle
-
     b = bar([Acc.mean(iF,:,1); Acc.mean(iF,:,2)]);
+    kt_figureStyle();
 
-    % b(iF).FaceColor = fp.colors(iF,:); 
     hold on
-    shade = [1, .75, .5];
-    transparent = [.5 .25 .15];
     for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
         xtips = b(k).XEndPoints;
         ytips = b(k).YEndPoints;
-        if iF == 1 || iF == 2
+        if iF == 1 || iF == 3
             b(k).FaceColor = 'flat';
             b(k).EdgeColor = 'flat';
-            b(k).FaceAlpha = shade(k);
-            b(k).EdgeAlpha = shade(k);
-            if iF == 1 % 1 or 2
-                b(k).FaceAlpha = transparent(k);
-            end
             b(k).CData(1,:) = fp.blue;
             b(k).CData(2,:) = fp.orange;
 
-
         end
-        if iF == 3 || iF == 4
+        if iF == 2 || iF == 4
             b(k).FaceColor = [1 1 1];
             b(k).EdgeColor = 'flat';
-            b(k).EdgeAlpha = shade(k);
-            if iF == 3 % 3 or 4
-                b(k).EdgeAlpha = transparent(k);
-            end 
-
-           b(k).CData(1,:) = fp.blue;
+            b(k).CData(1,:) = fp.blue;
             b(k).CData(2,:) = fp.orange;
             b(k).LineWidth = 2;
         end
-     
-        errorbar(xtips,ytips,Acc.err(iF,k), '.k', 'MarkerSize',0.1)
+
+        errorbar(xtips,ytips,Acc.err(iF,k), '.k', 'MarkerSize', 0.01, 'CapSize', 0, 'LineWidth', 1.75) %MarkerSize 0.1
     end
     if iF==1
-        kt_annotateStats(1,86,'**'); 
-        kt_drawBracket(.7778, 1.2222, .83)
-        kt_annotateStats(2,94,'~'); 
-        kt_drawBracket(1.7778, 2.2222, .885)
+        kt_annotateStats(1,87,'**'); 
+        kt_drawBracket(.7778, 1.2222, .84)
+        kt_annotateStats(2,95,'~'); 
+        kt_drawBracket(1.7778, 2.2222, .9)
     end
 
-    if iF == 2
+    if iF == 3
         kt_annotateStats(1,93,'***');
         kt_drawBracket(.7778, 1.2222, .89)
         kt_annotateStats(1.1111,86,'*');
         kt_drawBracket(1, 1.2222, .83)
-        kt_annotateStats(2,92,'*');
-        kt_drawBracket(1.7778, 2.2222, .885)
+        kt_annotateStats(2,95,'*');
+        kt_drawBracket(1.7778, 2.2222, .92)
     end
 
-    if iF == 3
-        kt_annotateStats(1,95,'*');
-        kt_drawBracket(.7778, 1.2222, .925)
+    if iF == 2
+        kt_annotateStats(1,97,'*');
+        kt_drawBracket(.7778, 1.2222, .94)
     end
 
 
     if iF == 4
-        kt_annotateStats(1.8889,101,'**');
-        kt_drawBracket(1.7778, 2, .81)
+        kt_annotateStats(1.8889,103,'**');
+        kt_drawBracket(1.7778, 2, .82)
     end
 
 
     hold off
-    condTitle = [{'target present/nontarget present'} {'target present/nontarget absent'} {'target absent/nontarget present'} {'target absent/nontarget absent'}];
-    title([condTitle{iF}])
+    % condTitle = [{'target present/nontarget present'} {'target absent/nontarget present'} {'target present/nontarget absent'} {'target absent/nontarget absent'}];
+    % title([condTitle{iF}])
     ylabel('Accuracy (%)')
     ylim([30 105])
     ax = gca; 
     set(gca, 'ytick', 30:10:100)
-    set(gca, 'xticklabel', {'T1', 'T2'})
+    hold on
+    % set(gca, 'xtick', [1 2 3])
+    % set(gca, 'xticklabel', xticklabels)
     % ytickformat('percentage')
     hold on
  
 end
-legend('Valid', 'Neutral', 'Invalid')
-legend('Location', 'best')
 % lgd.Layout.Tile = 'eastoutside';
 ax = gca;
 ax.XGrid = 'off';
 ax.YGrid = 'off';
-
+[ax1, h1] = suplabel('Distractor Present', 'y', [0.08 0.08 .84 1.325]);
+[ax2, h2] = suplabel('Distractor Absent', 'y', [0.08 0.08 .84 0.375]);
+[ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 0.88]);
+[ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 0.88]);
+% [ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .25 0.84]);
+% [ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .55 0.84]);
 if saveplots
     figTitle = sprintf('%s_%s',...
         'beh_acc',datestr(now,'yymmdd'));
@@ -820,8 +846,6 @@ for iF = 1:2
     ytickformat('percentage')
     hold on
 end
-legend('Valid', 'Neutral', 'Invalid')
-legend('Location', 'best')
 % lgd.Layout.Tile = 'eastoutside';
 ax = gca;
 ax.XGrid = 'off';
@@ -892,6 +916,207 @@ if saveplots
         'beh_acc',datestr(now,'yymmdd'));
     saveas(gcf,sprintf('%s/%s', behDir, figTitle))
 end
+
+%% plot detection
+dprimefieldnames = fieldnames(dataAll(iSub).detd);
+critfieldnames = fieldnames(dataAll(iSub).detc);
+figure();
+sgtitle('ga detection')
+for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
+    subplot(2,3,iF)
+    b = bar(detd.(dprimefieldnames{iF}));
+    hold on
+    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
+        xtips = b(k).XEndPoints;
+        ytips = b(k).YEndPoints;
+        errorbar(xtips,ytips,detdErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1) 
+    end
+    hold off
+    title([dprimefieldnames{iF}])
+    ylabel("d'")
+    ylim([0 5])
+    set(gca, 'xticklabel', {'T1', 'T2'})
+end
+hold on
+
+for iF = 1:numel(critfieldnames)
+    subplot(2,3,iF+numel(dprimefieldnames))
+    b = bar(detc.(critfieldnames{iF}));
+     hold on
+    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
+        xtips = b(k).XEndPoints;
+        ytips = b(k).YEndPoints;
+        errorbar(xtips,ytips,detcErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)
+    end
+    hold off
+    title([critfieldnames{iF}])
+    ylabel('c')
+    ylim([-0.75 0.75])
+    set(gca, 'xticklabel', {'T1', 'T2'})
+end
+legend('Valid', 'Neutral', 'Invalid')
+legend('Location', 'best')
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'off';
+
+%% plot discrimination
+dprimefieldnames = fieldnames(dataAll(iSub).disd);
+critfieldnames = fieldnames(dataAll(iSub).disc);
+figure();
+sgtitle('ga discrimination')
+for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
+    subplot(2,3,iF)
+    b = bar(disd.(dprimefieldnames{iF}));
+    hold on
+    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
+        xtips = b(k).XEndPoints;
+        ytips = b(k).YEndPoints;
+        errorbar(xtips,ytips,disdErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1) 
+    end
+    hold off
+    title([dprimefieldnames{iF}])
+    ylabel("d'")
+    ylim([0 5])
+    set(gca, 'xticklabel', {'T1', 'T2'})
+end
+hold on
+
+for iF = 1:numel(critfieldnames)
+    subplot(2,3,iF+numel(dprimefieldnames))
+    b = bar(disc.(critfieldnames{iF}));
+     hold on
+    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
+        xtips = b(k).XEndPoints;
+        ytips = b(k).YEndPoints;
+        errorbar(xtips,ytips,discErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)
+    end
+    hold off
+    title([critfieldnames{iF}])
+    ylabel('c')
+    ylim([-0.75 0.75])
+    set(gca, 'xticklabel', {'T1', 'T2'})
+end
+legend('Valid', 'Neutral', 'Invalid')
+legend('Location', 'best')
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'off';
+
+%% SDT variables - detection
+for iContrast = 1:numel(contrastConds)
+    contrastNames = {'target present/nontarget present', 'target present/nontarget absent', 'target absent/nontarget present', 'target absent/nontarget absent'};
+    figure;
+    sgtitle([contrastNames{iContrast} ' ga' ])
+    subplot(3,2,1)
+    b = bar([detnh(iContrast,:,1); detnh(iContrast,:,2)]);
+    title('hits')
+    ylabel('# hit trials')
+    set(gca, 'xticklabel', {'T1', 'T2'})
+    subplot(3,2,2)
+    b = bar([detnfa(iContrast,:,1); detnfa(iContrast,:,2)]);
+    title('false alarms')
+    ylabel('# false alarm trials')
+    set(gca, 'xticklabel', {'T1', 'T2'})
+    subplot(3,2,5)
+    b = bar([((detnfa(iContrast,:,1)./detnnoise(iContrast,:,1)))*100; ((detnfa(iContrast,:,2)./detnnoise(iContrast,:,2))*100)]);
+    title('false alarms rate')
+    ylabel('% false alarm')
+    set(gca, 'xticklabel', {'T1', 'T2'})
+    ylim([0 15])
+    subplot(3,2,3)
+    b = bar([detnsignal(iContrast,:,1); detnsignal(iContrast,:,2)]);
+    title('signal')
+    ylabel('# signal trials')
+    set(gca, 'xticklabel', {'T1', 'T2'})
+    subplot(3,2,4)
+    b = bar([detnnoise(iContrast,:,1); detnnoise(iContrast,:,2)]);
+    title('noise')
+    ylabel('# noise trials')
+    set(gca, 'xticklabel', {'T1', 'T2'})
+end
+%% SDT collpased cueing cond 
+
+%% plot detection
+dprimefieldnames = fieldnames(dataAll(iSub).detd);
+critfieldnames = fieldnames(dataAll(iSub).detc);
+figure();
+sgtitle('ga SDT collapsed acrossed cueing conds')
+subplot(2,2,1)
+for iF = 1:numel(dprimefieldnames)
+    b = bar([detdColl.all; detdColl.nontargetPresent; detdColl.nontargetAbsent]);
+    hold on
+    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
+        xtips = b(k).XEndPoints;
+        ytips = b(k).YEndPoints;
+        errorbar(xtips,ytips,detdErrColl.(dprimefieldnames{iF})(1,k), '.k', 'MarkerSize',0.1)
+    end
+    hold off
+    title("detection d'")
+    ylabel("d'")
+    ylim([0 5])
+    set(gca, 'xticklabel', {'all', 'ntp', 'nta'})
+end
+hold on
+
+for iF = 1:numel(critfieldnames)
+    subplot(2,2,3)
+    b = bar([detcColl.all; detcColl.nontargetPresent; detcColl.nontargetAbsent]);
+    hold on
+    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
+        xtips = b(k).XEndPoints;
+        ytips = b(k).YEndPoints;
+        errorbar(xtips,ytips,detcErrColl.(dprimefieldnames{iF})(1,k), '.k', 'MarkerSize',0.1)
+    end
+    hold off
+    title('detection c')
+    ylabel('c')
+    ylim([-0.75 0.75])
+    set(gca, 'xticklabel', {'all', 'ntp', 'nta'})
+end
+
+
+hold on
+
+dprimefieldnames = fieldnames(dataAll(iSub).disd);
+critfieldnames = fieldnames(dataAll(iSub).detc);
+for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
+    subplot(2,2,2)
+    b = bar([disdColl.all; disdColl.nontargetPresent; disdColl.nontargetAbsent]);
+    hold on
+    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
+        xtips = b(k).XEndPoints;
+        ytips = b(k).YEndPoints;
+        errorbar(xtips,ytips,disdErrColl.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1) 
+    end
+    hold off
+    title("discrimination d'")
+    ylabel("d'")
+    ylim([0 5])
+    set(gca, 'xticklabel', {'all', 'ntp', 'nta'})
+end
+hold on
+
+for iF = 1:numel(critfieldnames)
+    subplot(2,2,4)
+    b = bar([discColl.all; discColl.nontargetPresent; discColl.nontargetAbsent]);
+     hold on
+    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
+        xtips = b(k).XEndPoints;
+        ytips = b(k).YEndPoints;
+        errorbar(xtips,ytips,discErrColl.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)
+    end
+    hold off
+    title('discrimination c')
+    ylabel('c')
+    ylim([-0.75 0.75])
+    set(gca, 'xticklabel', {'all', 'ntp', 'nta'})
+end
+legend('T1', 'T2')
+legend('Location', 'best')
+ax = gca;
+ax.XGrid = 'off';
+ax.YGrid = 'off';
 
 
 
@@ -1054,173 +1279,4 @@ end
          saveas(gcf,sprintf('%s/%s', behDir, figTitle))
      end
 
-
-%% plot detection
-dprimefieldnames = fieldnames(dataAll(iSub).detd);
-critfieldnames = fieldnames(dataAll(iSub).detc);
-figure();
-sgtitle('ga detection')
-for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
-    subplot(2,3,iF)
-    b = bar(detd.(dprimefieldnames{iF}));
-    hold on
-    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
-        xtips = b(k).XEndPoints;
-        ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,detdErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1) 
-    end
-    hold off
-    title([dprimefieldnames{iF}])
-    ylabel("d'")
-    ylim([0 5])
-    set(gca, 'xticklabel', {'T1', 'T2'})
-end
-hold on
-
-for iF = 1:numel(critfieldnames)
-    subplot(2,3,iF+numel(dprimefieldnames))
-    b = bar(detc.(critfieldnames{iF}));
-     hold on
-    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
-        xtips = b(k).XEndPoints;
-        ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,detcErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)
-    end
-    hold off
-    title([critfieldnames{iF}])
-    ylabel('c')
-    ylim([-0.75 0.75])
-    set(gca, 'xticklabel', {'T1', 'T2'})
-end
-legend('Valid', 'Neutral', 'Invalid')
-legend('Location', 'best')
-ax = gca;
-ax.XGrid = 'off';
-ax.YGrid = 'off';
-
-%% plot discrimination
-dprimefieldnames = fieldnames(dataAll(iSub).disd);
-critfieldnames = fieldnames(dataAll(iSub).disc);
-figure();
-sgtitle('ga discrimination')
-for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
-    subplot(2,3,iF)
-    b = bar(disd.(dprimefieldnames{iF}));
-    hold on
-    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
-        xtips = b(k).XEndPoints;
-        ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,disdErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1) 
-    end
-    hold off
-    title([dprimefieldnames{iF}])
-    ylabel("d'")
-    ylim([0 5])
-    set(gca, 'xticklabel', {'T1', 'T2'})
-end
-hold on
-
-for iF = 1:numel(critfieldnames)
-    subplot(2,3,iF+numel(dprimefieldnames))
-    b = bar(disc.(critfieldnames{iF}));
-     hold on
-    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
-        xtips = b(k).XEndPoints;
-        ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,discErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)
-    end
-    hold off
-    title([critfieldnames{iF}])
-    ylabel('c')
-    ylim([-0.75 0.75])
-    set(gca, 'xticklabel', {'T1', 'T2'})
-end
-legend('Valid', 'Neutral', 'Invalid')
-legend('Location', 'best')
-ax = gca;
-ax.XGrid = 'off';
-ax.YGrid = 'off';
-
-%% SDT collpased cueing cond 
-
-%% plot detection
-dprimefieldnames = fieldnames(dataAll(iSub).detd);
-critfieldnames = fieldnames(dataAll(iSub).detc);
-figure();
-sgtitle('ga SDT collapsed acrossed cueing conds')
-subplot(2,2,1)
-for iF = 1:numel(dprimefieldnames)
-    b = bar([detdColl.all; detdColl.nontargetPresent; detdColl.nontargetAbsent]);
-    hold on
-    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
-        xtips = b(k).XEndPoints;
-        ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,detdErrColl.(dprimefieldnames{iF})(1,k), '.k', 'MarkerSize',0.1)
-    end
-    hold off
-    title("detection d'")
-    ylabel("d'")
-    ylim([0 5])
-    set(gca, 'xticklabel', {'all', 'ntp', 'nta'})
-end
-hold on
-
-for iF = 1:numel(critfieldnames)
-    subplot(2,2,3)
-    b = bar([detcColl.all; detcColl.nontargetPresent; detcColl.nontargetAbsent]);
-    hold on
-    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
-        xtips = b(k).XEndPoints;
-        ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,detcErrColl.(dprimefieldnames{iF})(1,k), '.k', 'MarkerSize',0.1)
-    end
-    hold off
-    title('detection c')
-    ylabel('c')
-    ylim([-0.75 0.75])
-    set(gca, 'xticklabel', {'all', 'ntp', 'nta'})
-end
-
-
-hold on
-
-dprimefieldnames = fieldnames(dataAll(iSub).disd);
-critfieldnames = fieldnames(dataAll(iSub).detc);
-for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
-    subplot(2,2,2)
-    b = bar([disdColl.all; disdColl.nontargetPresent; disdColl.nontargetAbsent]);
-    hold on
-    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
-        xtips = b(k).XEndPoints;
-        ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,disdErrColl.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1) 
-    end
-    hold off
-    title("discrimination d'")
-    ylabel("d'")
-    ylim([0 5])
-    set(gca, 'xticklabel', {'all', 'ntp', 'nta'})
-end
-hold on
-
-for iF = 1:numel(critfieldnames)
-    subplot(2,2,4)
-    b = bar([discColl.all; discColl.nontargetPresent; discColl.nontargetAbsent]);
-     hold on
-    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
-        xtips = b(k).XEndPoints;
-        ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,discErrColl.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)
-    end
-    hold off
-    title('discrimination c')
-    ylabel('c')
-    ylim([-0.75 0.75])
-    set(gca, 'xticklabel', {'all', 'ntp', 'nta'})
-end
-legend('T1', 'T2')
-legend('Location', 'best')
-ax = gca;
-ax.XGrid = 'off';
-ax.YGrid = 'off';
 
