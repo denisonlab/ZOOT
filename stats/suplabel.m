@@ -67,7 +67,7 @@ if strcmp('t',whichLabel)
     title(text, 'FontSize',14);
 elseif strcmp('tt',whichLabel)
     set(get(ax,'Title'),'Visible','on')
-    title(text, 'FontSize',16, 'FontWeight','normal');
+    title(text, 'FontSize',10, 'FontWeight','normal');
 elseif strcmp('x',whichLabel)
     set(get(ax,'XLabel'),'Visible','on')
     xlabel(text);
