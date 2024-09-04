@@ -477,10 +477,20 @@ for iContrast = 1:numel(contrastConds)
     end
 end
 
+% reorganize so target present and target absent in columns
     tanp = Acc.mean(3,:,:);
     tpna = Acc.mean(2,:,:);
     Acc.mean(3,:,:) = tpna;
     Acc.mean(2,:,:) = tanp;
+
+    tanpErr = Acc.err(3,:,:);
+tpnaErr = Acc.err(2,:,:);
+Acc.err(3,:,:) = tpnaErr;
+Acc.err(2,:,:) = tanpErr;
+% matrix
+T1x = repmat([0.7778 1 1.2222],4,1);
+T2x = repmat([1.7778 2 2.2222],4,1);
+xcoords = cat(3, T1x,T2x);
 
 %% RT means
 
@@ -499,6 +509,20 @@ for iContrast = 1:numel(contrastConds)
         end
     end
 end
+% reorganize so target present and target absent in columns
+tanp = RT.mean(3,:,:);
+tpna = Acc.mean(2,:,:);
+RT.mean(3,:,:) = tpna;
+RT.mean(2,:,:) = tanp;
+
+tanpErr = RT.err(3,:,:);
+tpnaErr = RT.err(2,:,:);
+RT.err(3,:,:) = tpnaErr;
+RT.err(2,:,:) = tanpErr;
+% matrix
+T1x = repmat([0.7778 1 1.2222],4,1);
+T2x = repmat([1.7778 2 2.2222],4,1);
+xcoords = cat(3, T1x,T2x);
 
 %% find mean for CM by target for all contrast conditions and one target
 % conditions
@@ -699,102 +723,103 @@ for iTarget = 1:2
 end
 
 
- %% accuracy
+%% accuracy
 %% figure 1 - target presence x validity x target
 
 figure();
 set(gcf,'Position',[100 100 500 400])
-% sgtitle('ga accuracy')
-shade = [1, .6, .4];
-for iF = 1:numel(contrastConds)
-    subplot(2,2,iF)
+shade = [1, .6, .35];
+for iContrast = 1:numel(contrastConds)
+    subplot(2,2,iContrast)
     for iTarget = 1:2
         for iValid = 1:3
-            b = bar(Acc.mean)
-            % b = bar([Acc.mean(iF,:,1); Acc.mean(iF,:,2)]);
+            b = bar(xcoords(iContrast, iValid, iTarget), Acc.mean(iContrast, iValid, iTarget));
             kt_figureStyle();
-
-    hold on
-    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
-        xtips = b(k).XEndPoints;
-        ytips = b(k).YEndPoints;
-        if iF == 1 || iF == 3
-            b(k).FaceColor = 'flat';
-            b(k).EdgeColor = 'flat';
-            b(k).FaceAlpha = shade(k);
-            b(k).EdgeAlpha = shade(k);
-            b(k).CData(1,:) = fp.blue;
-            b(k).CData(2,:) = fp.orange;
-
+            errorbar(xcoords(iContrast, iValid, iTarget),Acc.mean(iContrast, iValid, iTarget),Acc.err(iContrast, iValid, iTarget), '.k', 'MarkerSize', 0.01, 'CapSize', 0, 'LineWidth', 1.75)
+            if iContrast == 1 || iContrast == 3
+                if iTarget == 1
+                    b.FaceColor = fp.blue;
+                    b.EdgeColor = fp.blue;
+                elseif iTarget == 2
+                    b.FaceColor= fp.orange;
+                    b.EdgeColor = fp.orange;
+                end
+                b.FaceAlpha = shade(iValid);
+                b.EdgeAlpha = shade(iValid);
+                b.BarWidth = 0.2;
+            elseif iContrast == 2 || iContrast == 4
+                b.FaceColor = [1 1 1];
+                b.EdgeAlpha = shade(iValid);
+                if iTarget == 1
+                    b.EdgeColor = fp.blue;
+                elseif iTarget == 2
+                    b.EdgeColor = fp.orange;
+                end
+                b.LineWidth = 2;
+                b.BarWidth = 0.18;
+                b.EdgeAlpha = shade(iValid);
+            end
         end
-        if iF == 2 || iF == 4
-            b(k).FaceColor = [1 1 1];
-            b(k).EdgeColor = 'flat';
-            b(k).EdgeAlpha = shade(k);
-            b(k).CData(1,:) = fp.blue;
-            b(k).CData(2,:) = fp.orange;
-            b(k).LineWidth = 2.5;
-        end
-
-        errorbar(xtips,ytips,Acc.err(iF,k), '.k', 'MarkerSize', 0.01, 'CapSize', 0, 'LineWidth', 1.75) %MarkerSize 0.1
     end
-    if iF==1
-        kt_annotateStats(1,86,'**'); 
+    hold on
+    if iContrast==1
+        kt_annotateStats(1,86,'**');
         kt_drawBracket(.7778, 1.2222, .84)
-        kt_annotateStats(2,94,'~'); 
+        kt_annotateStats(2,94,'~');
         kt_drawBracket(1.7778, 2.2222, .9)
     end
 
-    if iF == 3
+    if iContrast == 3
         kt_annotateStats(1,91,'***');
-        kt_drawBracket(.7778, 1.2222, .89)
+        kt_drawBracket(.7778, 1.2222, .91)
         kt_annotateStats(1.1111,83,'*');
         kt_drawBracket(1, 1.2222, .83)
         kt_annotateStats(2,92,'*');
         kt_drawBracket(1.7778, 2.2222, .92)
     end
 
-    if iF == 2
+    if iContrast == 2
         kt_annotateStats(1,94,'*');
         kt_drawBracket(.7778, 1.2222, .94)
     end
 
-
-    if iF == 4
+    if iContrast == 4
         kt_annotateStats(1.8889,99,'**');
         kt_drawBracket(1.7778, 2, .98)
     end
 
 
     hold off
-    % condTitle = [{'target present/nontarget present'} {'target absent/nontarget present'} {'target present/nontarget absent'} {'target absent/nontarget absent'}];
-    % title([condTitle{iF}])
     ylabel('Accuracy (%)')
     ylim([30 105])
-    ax = gca; 
-    set(gca, 'ytick', 3a0:10:100)
+    ax = gca;
+    set(gca, 'ytick', 30:10:100)
     hold on
-    set(gca, 'xticklabel', {'T1', 'T2'})
+    xlim([0.5 2.5])
+    xticks([0.7778 1 1.222 1.7778 2 2.2222])
+    set(gca, 'xticklabel', {'V', 'N', 'I'})
+
     hold on
- 
+    ax = gca;
+    ax.XGrid = 'off';
+    ax.YGrid = 'off';
+
+    
 end
-% legend('Valid', 'Neutral', 'Invalid')
-% legend('Location', 'best')
-% lgd.Layout.Tile = 'eastoutside';
-ax = gca;
-ax.XGrid = 'off';
-ax.YGrid = 'off';
-[ax1, h1] = suplabel('Distractor Present', 'y', [0.08 0.08 .84 1.325]);
-[ax2, h2] = suplabel('Distractor Absent', 'y', [0.08 0.08 .84 0.375]);
-[ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 0.88]);
-[ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 0.88]);
-% [ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .25 0.84]);
-% [ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .55 0.84]);
-% if saveplots
-%     figTitle = sprintf('%s_%s',...
-%         'beh_acc',datestr(now,'yymmdd'));
-%     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
-% end
+[ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.325]);
+[ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.375]);
+[ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 0.9]);
+[ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 0.9]);
+[ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .27 0.86]);
+[ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.86]);
+[ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.15 0.86]);
+[ax8, h8] = suplabel('T2', 'tt', [0.08 0.08 1.47 0.86]);
+
+if saveplots
+    figTitle = sprintf('%s_%s',...
+        'beh_acc',datestr(now,'yymmdd'));
+    saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
+end
 
 %% det acc
 figure();
@@ -891,38 +916,102 @@ ax.YGrid = 'off';
 
 
 %% RT plot 
+
 figure();
-sgtitle('ga RT')
-for iF = 1:numel(contrastConds)
-    subplot(2,2,iF)
-    b = bar([RT.mean(iF,:,1); RT.mean(iF,:,2)]);
-    hold on
-    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
-        xtips = b(k).XEndPoints;
-        ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,RT.err(iF,k), '.k', 'MarkerSize',0.1)
+set(gcf,'Position',[100 100 500 400])
+shade = [1, .6, .35];
+for iContrast = 1:numel(contrastConds)
+    subplot(2,2,iContrast)
+    for iTarget = 1:2
+        for iValid = 1:3
+            b = bar(xcoords(iContrast, iValid, iTarget), RT.mean(iContrast, iValid, iTarget));
+            kt_figureStyle();
+            errorbar(xcoords(iContrast, iValid, iTarget),RT.mean(iContrast, iValid, iTarget),RT.err(iContrast, iValid, iTarget), '.k', 'MarkerSize', 0.01, 'CapSize', 0, 'LineWidth', 1.75)
+            if iContrast == 1 || iContrast == 3
+                if iTarget == 1
+                    b.FaceColor = fp.blue;
+                    b.EdgeColor = fp.blue;
+                elseif iTarget == 2
+                    b.FaceColor= fp.orange;
+                    b.EdgeColor = fp.orange;
+                end
+                b.FaceAlpha = shade(iValid);
+                b.EdgeAlpha = shade(iValid);
+                b.BarWidth = 0.2;
+            elseif iContrast == 2 || iContrast == 4
+                b.FaceColor = [1 1 1];
+                b.EdgeAlpha = shade(iValid);
+                if iTarget == 1
+                    b.EdgeColor = fp.blue;
+                elseif iTarget == 2
+                    b.EdgeColor = fp.orange;
+                end
+                b.LineWidth = 2;
+                b.BarWidth = 0.18;
+                b.EdgeAlpha = shade(iValid);
+            end
+        end
     end
-    hold off
-    condTitle = [{'target present/nontarget present'} {'target present/nontarget absent'} {'target absent/nontarget present'} {'target absent/nontarget absent'}];
-    title([condTitle{iF}])
-    ylabel('RT (s)')
-    ylim([0 .75])
-    set(gca, 'ytick', 0:.10:.75)
-    set(gca, 'xticklabel', {'T1', 'T2'})
-    % ytickformat('percentage')
     hold on
+    if iContrast==1
+        kt_annotateStats(1,.57,'***');
+        kt_drawBracket(.7778, 1.2222, .99)
+        kt_annotateStats(.89,.48,'**');
+        kt_drawBracket(.7778, 1, .8)
+        kt_annotateStats(2.1,.48,'**');
+        kt_drawBracket(2, 2.2222, .8)
+    end
+
+    if iContrast == 3
+        kt_annotateStats(1,.5,'***');
+        kt_drawBracket(.7778, 1.2222, .89)
+        kt_annotateStats(1.1111,.45,'*');
+        kt_drawBracket(1, 1.2222, .83)
+        kt_annotateStats(2,.5,'**');
+        kt_drawBracket(1.7778, 2.2222, .92)
+        kt_annotateStats(2.1111,.45,'*');
+        kt_drawBracket(2, 2.2222, .83)
+    end
+
+    if iContrast == 2
+        kt_annotateStats(1,.55,'*');
+        kt_drawBracket(.7778, 1.2222, .96)
+        kt_annotateStats(2,.52,'**');
+        kt_drawBracket(1.7778, 2.2222, .88)
+        kt_annotateStats(2.1,.43,'*');
+        kt_drawBracket(2, 2.2222, .75)
+    end
+
+    hold off
+    ylabel('RT (s)')
+    ylim([0 .70])
+    ax = gca;
+    set(gca, 'ytick', 0:.10:.70)
+    hold on
+    xlim([0.5 2.5])
+    xticks([0.7778 1 1.222 1.7778 2 2.2222])
+    set(gca, 'xticklabel', {'V', 'N', 'I'})
+
+    hold on
+    ax = gca;
+    ax.XGrid = 'off';
+    ax.YGrid = 'off';
+
+    
 end
-legend('Valid', 'Neutral', 'Invalid')
-legend('Location', 'best')
-% lgd.Layout.Tile = 'eastoutside';
-ax = gca;
-ax.XGrid = 'off';
-ax.YGrid = 'off';
+[ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.325]);
+[ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.375]);
+[ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 0.9]);
+[ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 0.9]);
+[ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .27 0.86]);
+[ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.86]);
+[ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.15 0.86]);
+[ax8, h8] = suplabel('T2', 'tt', [0.08 0.08 1.47 0.86]);
 
 if saveplots
     figTitle = sprintf('%s_%s',...
         'beh_acc',datestr(now,'yymmdd'));
-    saveas(gcf,sprintf('%s/%s', behDir, figTitle))
+    saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
 end
 
 %% plot detection

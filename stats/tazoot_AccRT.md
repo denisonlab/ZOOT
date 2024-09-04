@@ -306,6 +306,186 @@ knitr::kable(accNA_anova)
 </table>
 
 ``` r
+## accuracy filtered target present/nontarget present
+d <- data %>% filter(targetContrast==1, nontargetContrast==1)
+
+accTPNP_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(accTPNP_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect          | DFn | DFd |          F |         p | p\<.05 |       ges |
+|:----|:----------------|----:|----:|-----------:|----------:|:-------|----------:|
+| 2   | Target          |   1 |  14 | 45.0614887 | 0.0000099 | \*     | 0.2215927 |
+| 3   | Validity        |   2 |  28 |  5.9248748 | 0.0071491 | \*     | 0.1267274 |
+| 4   | Target:Validity |   2 |  28 |  0.6361237 | 0.5368185 |        | 0.0097583 |
+
+</td>
+<td>
+
+|     | Effect          |         W |         p | p\<.05 |
+|:----|:----------------|----------:|----------:|:-------|
+| 3   | Validity        | 0.9347826 | 0.6450879 |        |
+| 4   | Target:Validity | 0.7926486 | 0.2208129 |        |
+
+</td>
+<td>
+
+|     | Effect          |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:----------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
+| 3   | Validity        | 0.9387755 | 0.0084690 | \*           | 1.0791245 | 0.0071491 | \*           |
+| 4   | Target:Validity | 0.8282593 | 0.5097861 |              | 0.9254998 | 0.5256827 |              |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## accuracy filtered target present/nontarget absent
+d <- data %>% filter(targetContrast==1, nontargetContrast==0)
+
+accTPNA_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(accTPNA_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect          | DFn | DFd |         F |         p | p\<.05 |       ges |
+|:----|:----------------|----:|----:|----------:|----------:|:-------|----------:|
+| 2   | Target          |   1 |  14 | 23.354093 | 0.0002658 | \*     | 0.2279569 |
+| 3   | Validity        |   2 |  28 | 10.622214 | 0.0003692 | \*     | 0.1056034 |
+| 4   | Target:Validity |   2 |  28 |  2.872154 | 0.0733508 |        | 0.0275998 |
+
+</td>
+<td>
+
+|     | Effect          |         W |         p | p\<.05 |
+|:----|:----------------|----------:|----------:|:-------|
+| 3   | Validity        | 0.9279388 | 0.6150010 |        |
+| 4   | Target:Validity | 0.7419137 | 0.1436472 |        |
+
+</td>
+<td>
+
+|     | Effect          |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:----------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
+| 3   | Validity        | 0.9327826 | 0.0005314 | \*           | 1.0706505 | 0.0003692 | \*           |
+| 4   | Target:Validity | 0.7948580 | 0.0876848 |              | 0.8801467 | 0.0814293 |              |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## accuracy filtered target absent/nontarget present
+d <- data %>% filter(targetContrast==0, nontargetContrast==1)
+
+accTANP_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(accTANP_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect          | DFn | DFd |         F |         p | p\<.05 |       ges |
+|:----|:----------------|----:|----:|----------:|----------:|:-------|----------:|
+| 2   | Target          |   1 |  14 | 1.5766478 | 0.2297969 |        | 0.0121977 |
+| 3   | Validity        |   2 |  28 | 1.8862957 | 0.1704023 |        | 0.0095830 |
+| 4   | Target:Validity |   2 |  28 | 0.8804704 | 0.4257545 |        | 0.0076083 |
+
+</td>
+<td>
+
+|     | Effect          |        W |         p | p\<.05 |
+|:----|:----------------|---------:|----------:|:-------|
+| 3   | Validity        | 0.915025 | 0.5614539 |        |
+| 4   | Target:Validity | 0.763101 | 0.1724977 |        |
+
+</td>
+<td>
+
+|     | Effect          |       GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:----------------|----------:|----------:|:-------------|---------:|----------:|:-------------|
+| 3   | Validity        | 0.9216802 | 0.1742148 |              | 1.054996 | 0.1704023 |              |
+| 4   | Target:Validity | 0.8084735 | 0.4075316 |              | 0.898575 | 0.4166663 |              |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## accuracy filtered target absent/nontarget absent
+d <- data %>% filter(targetContrast==0, nontargetContrast==0)
+
+accTANA_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(accTANA_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect          | DFn | DFd |         F |         p | p\<.05 |       ges |
+|:----|:----------------|----:|----:|----------:|----------:|:-------|----------:|
+| 2   | Target          |   1 |  14 | 1.3061224 | 0.2722661 |        | 0.0041721 |
+| 3   | Validity        |   2 |  28 | 0.3580915 | 0.7021639 |        | 0.0067620 |
+| 4   | Target:Validity |   2 |  28 | 0.9372385 | 0.4036529 |        | 0.0265103 |
+
+</td>
+<td>
+
+|     | Effect          |         W |         p | p\<.05 |
+|:----|:----------------|----------:|----------:|:-------|
+| 3   | Validity        | 0.8098846 | 0.2539512 |        |
+| 4   | Target:Validity | 0.4041421 | 0.0027699 | \*     |
+
+</td>
+<td>
+
+|     | Effect          |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:----------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
+| 3   | Validity        | 0.8402546 | 0.6662543 |              | 0.9419074 | 0.6898510 |              |
+| 4   | Target:Validity | 0.6266222 | 0.3680835 |              | 0.6589389 | 0.3721134 |              |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
 ## accuracy filtered target 1
 d <- data %>% filter(Target==1)
 
@@ -361,12 +541,6 @@ knitr::kable(accT1_anova)
 ``` r
 ## accuracy filtered target 2
 d <- data %>% filter(Target==2)
-0
-```
-
-    ## [1] 0
-
-``` r
 accT2_anova = ezANOVA(
   data = d,
   dv = .(Acc),
