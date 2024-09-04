@@ -791,8 +791,8 @@ for iContrast = 1:numel(contrastConds)
 
     
 end
-[ax1, h1] = suplabel('Distractor Present', 'y', [0.08 0.08 .84 1.325]);
-[ax2, h2] = suplabel('Distractor Absent', 'y', [0.08 0.08 .84 0.375]);
+[ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.325]);
+[ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.375]);
 [ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 0.9]);
 [ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 0.9]);
 [ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .35 0.86]);
