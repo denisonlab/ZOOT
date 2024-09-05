@@ -963,14 +963,14 @@ for iContrast = 1:numel(contrastConds)
     end
 
     if iContrast == 3
-        kt_annotateStats(1,.55,'***');
-        kt_drawBracket(.7778, 1.2222, .89)
-        kt_annotateStats(1.1111,.45,'*');
-        kt_drawBracket(1, 1.2222, .83)
-        kt_annotateStats(2,.5,'**');
-        kt_drawBracket(1.7778, 2.2222, .92)
-        kt_annotateStats(2.1111,.45,'*');
-        kt_drawBracket(2, 2.2222, .83)
+        kt_annotateStats(1,.49,'***');
+        kt_drawBracket(.7778, 1.2222, 1.01)
+        kt_annotateStats(1.1111,.40,'*');
+        kt_drawBracket(1, 1.2222, .7)
+        kt_annotateStats(2,.41,'**');
+        kt_drawBracket(1.7778, 2.2222, .70)
+        kt_annotateStats(2.1111,.33,'*');
+        kt_drawBracket(2, 2.2222, .60)
     end
 
     if iContrast == 2
