@@ -511,7 +511,7 @@ for iContrast = 1:numel(contrastConds)
 end
 % reorganize so target present and target absent in columns
 tanp = RT.mean(3,:,:);
-tpna = Acc.mean(2,:,:);
+tpna = RT.mean(2,:,:);
 RT.mean(3,:,:) = tpna;
 RT.mean(2,:,:) = tanp;
 
@@ -646,7 +646,9 @@ end
              cDisIdx = [];
          end
      end
-end
+ end
+
+  xcoords_SDT = [0.7778 1 1.2222; 1.7778 2 2.22222];
 %% SDT - detection + discrimination collapsed cueing conditions
 % mean, std, err for dprime and c for dis and det
 dprimeDetCollIdx = [];
@@ -954,32 +956,44 @@ for iContrast = 1:numel(contrastConds)
     end
     hold on
     if iContrast==1
-        kt_annotateStats(1,.57,'***');
-        kt_drawBracket(.7778, 1.2222, .99)
-        kt_annotateStats(.89,.48,'**');
-        kt_drawBracket(.7778, 1, .8)
-        kt_annotateStats(2.1,.48,'**');
-        kt_drawBracket(2, 2.2222, .8)
+        kt_annotateStats(1,.58,'***');
+        kt_drawBracket(.7778, 1.2222, 1.01)
+        kt_annotateStats(.89,.47,'**');
+        kt_drawBracket(.7778, 1, .78)
+        kt_annotateStats(1.1111,.57,'~');
+        kt_drawBracket(1, 1.2222, .87)
+
+        kt_annotateStats(2.1,.46,'**');
+        kt_drawBracket(2, 2.2222, .76)
+        kt_annotateStats(2,.57,'~');
+        kt_drawBracket(1.7778, 2.2222, .86)
     end
 
     if iContrast == 3
-        kt_annotateStats(1,.49,'***');
-        kt_drawBracket(.7778, 1.2222, 1.01)
-        kt_annotateStats(1.1111,.40,'*');
-        kt_drawBracket(1, 1.2222, .7)
-        kt_annotateStats(2,.41,'**');
-        kt_drawBracket(1.7778, 2.2222, .70)
-        kt_annotateStats(2.1111,.33,'*');
-        kt_drawBracket(2, 2.2222, .60)
+        kt_annotateStats(1,.6,'***');
+        kt_drawBracket(.7778, 1.2222, 1.05)
+        kt_annotateStats(1.1111,.555,'*');
+        kt_drawBracket(1, 1.2222, .72)
+
+        kt_annotateStats(2,.48,'**');
+        kt_drawBracket(1.7778, 2.2222, .62)
+        kt_annotateStats(2.1111,.42,'*');
+        kt_drawBracket(2, 2.2222, .55)
     end
 
     if iContrast == 2
-        kt_annotateStats(1,.55,'*');
-        kt_drawBracket(.7778, 1.2222, .96)
-        kt_annotateStats(2,.52,'**');
-        kt_drawBracket(1.7778, 2.2222, .88)
-        kt_annotateStats(2.1,.43,'*');
-        kt_drawBracket(2, 2.2222, .75)
+        kt_annotateStats(1,.425,'*');
+        kt_drawBracket(.7778, 1.2222, .92)
+        kt_annotateStats(.89,.41,'~');
+        kt_drawBracket(.7778, 1, .8)
+
+
+        kt_annotateStats(2,.37,'**');
+        kt_drawBracket(1.7778, 2.2222, .78)
+        kt_annotateStats(2.12,.3,'*');
+        kt_drawBracket(2.02, 2.2222, .66)
+        kt_annotateStats(1.89,.29,'~');
+        kt_drawBracket(1.7778, 1.98, .55)
     end
 
     hold off
@@ -1014,91 +1028,301 @@ if saveplots
     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
 end
 
-%% plot detection
-dprimefieldnames = fieldnames(dataAll(iSub).detd);
-critfieldnames = fieldnames(dataAll(iSub).detc);
-figure();
-sgtitle('ga detection')
-for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
-    subplot(2,3,iF)
-    b = bar(detd.(dprimefieldnames{iF}));
-    hold on
-    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
-        xtips = b(k).XEndPoints;
-        ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,detdErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1) 
-    end
-    hold off
-    title([dprimefieldnames{iF}])
-    ylabel("d'")
-    ylim([0 5])
-    set(gca, 'xticklabel', {'T1', 'T2'})
-end
-hold on
+ %% plot detection
+ %dprime
+ dprimefieldnames = fieldnames(dataAll(iSub).detd);
+ critfieldnames = fieldnames(dataAll(iSub).detc);
+ shade = [1, .6, .35];
+ figure();
+ for iDet = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
+     subplot(2,2,iDet-1)
+     for iTarget = 1:2
+         for iValid = 1:3
+             b = bar(xcoords_SDT(iTarget, iValid), detd.(dprimefieldnames{iDet})(iTarget, iValid));
+             kt_figureStyle();
+             errorbar(xcoords_SDT(iTarget, iValid),detd.(dprimefieldnames{iDet})(iTarget, iValid),detdErr.(dprimefieldnames{iDet})(iTarget, iValid), '.k', 'MarkerSize',0.1, 'CapSize', 0, 'LineWidth', 1.75)
+             if iDet == 2
+                 if iTarget == 1
+                     b.FaceColor = fp.blue;
+                     b.EdgeColor = fp.blue;
+                 elseif iTarget == 2
+                     b.FaceColor= fp.orange;
+                     b.EdgeColor = fp.orange;
+                 end
+                 b.FaceAlpha = shade(iValid);
+                 b.EdgeAlpha = shade(iValid);
+                 b.BarWidth = 0.2;
+             elseif iDet == 3
+                 b.FaceColor = [1 1 1];
+                 b.EdgeAlpha = shade(iValid);
+                 if iTarget == 1
+                     b.EdgeColor = fp.blue;
+                 elseif iTarget == 2
+                     b.EdgeColor = fp.orange;
+                 end
+                 b.LineWidth = 2;
+                 b.BarWidth = 0.18;
+                 b.EdgeAlpha = shade(iValid);
+             end
 
-for iF = 1:numel(critfieldnames)
-    subplot(2,3,iF+numel(dprimefieldnames))
-    b = bar(detc.(critfieldnames{iF}));
+         end
+     end
+
      hold on
-    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
-        xtips = b(k).XEndPoints;
-        ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,detcErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)
-    end
-    hold off
-    title([critfieldnames{iF}])
-    ylabel('c')
-    ylim([-0.75 0.75])
-    set(gca, 'xticklabel', {'T1', 'T2'})
-end
-legend('Valid', 'Neutral', 'Invalid')
-legend('Location', 'best')
-ax = gca;
-ax.XGrid = 'off';
-ax.YGrid = 'off';
+     if iDet == 2
+         kt_annotateStats(.89,3.78,'*');
+         kt_drawBracket(.7778, .98, .99)
+         kt_annotateStats(1.1111,3.84,'~');
+         kt_drawBracket(1.02, 1.2222, .75)
+
+         kt_annotateStats(2,4.6,'~');
+         kt_drawBracket(1.7778, 2.2222, .89)
+         kt_annotateStats(1.89,4.1,'~');
+         kt_drawBracket(1.7778, 2, .8)
+
+     elseif iDet == 3
+         kt_annotateStats(.89,4.2,'**');
+         kt_drawBracket(.7778, 1, .88)
+         kt_annotateStats(1,4.7,'***');
+         kt_drawBracket(.7778, 1.2222, .98)
+
+         kt_annotateStats(1.89,4.35,'*');
+         kt_drawBracket(1.7778, 1.98, .75)
+         kt_annotateStats(2.1111,4.05,'*');
+         kt_drawBracket(2.02, 2.2222, .70)
+         kt_annotateStats(2,4.8,'***');
+         kt_drawBracket(1.7778, 2.2222, .82)
+     end
+
+     ylabel("d'")
+     ylim([0 5.5])
+     ax = gca;
+     set(gca, 'ytick', 0:.5:5.5)
+     hold on
+     xlim([0.5 2.5])
+     xticks([0.7778 1 1.222 1.7778 2 2.2222])
+     set(gca, 'xticklabel', {'V', 'N', 'I'})
+
+     hold on
+     ax = gca;
+     ax.XGrid = 'off';
+     ax.YGrid = 'off';
+ end
+
+% criterion
+  for iDet = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
+     subplot(2,2,iDet+1)
+     for iTarget = 1:2
+         for iValid = 1:3
+             b = bar(xcoords_SDT(iTarget, iValid), detc.(dprimefieldnames{iDet})(iTarget, iValid));
+             kt_figureStyle();
+             errorbar(xcoords_SDT(iTarget, iValid),detc.(dprimefieldnames{iDet})(iTarget, iValid),detcErr.(dprimefieldnames{iDet})(iTarget, iValid), '.k', 'MarkerSize',0.1, 'CapSize', 0, 'LineWidth', 1.75)
+             if iDet == 2
+                 if iTarget == 1
+                     b.FaceColor = fp.blue;
+                     b.EdgeColor = fp.blue;
+                 elseif iTarget == 2
+                     b.FaceColor= fp.orange;
+                     b.EdgeColor = fp.orange;
+                 end
+                 b.FaceAlpha = shade(iValid);
+                 b.EdgeAlpha = shade(iValid);
+                 b.BarWidth = 0.2;
+             elseif iDet == 3
+                 b.FaceColor = [1 1 1];
+                 b.EdgeAlpha = shade(iValid);
+                 if iTarget == 1
+                     b.EdgeColor = fp.blue;
+                 elseif iTarget == 2
+                     b.EdgeColor = fp.orange;
+                 end
+                 b.LineWidth = 2;
+                 b.BarWidth = 0.18;
+                 b.EdgeAlpha = shade(iValid);
+             end
+
+         end
+     end
+
+     hold on
+      ylim([-0.75 0.75])
+     if iDet == 2
+         kt_annotateStats(1,.05,'***');
+         kt_drawBracket(.7778, 1.2222, .175)
+
+         kt_annotateStats(1.89,.05,'*');
+         kt_drawBracket(1.7778, 2, .175)
+         kt_annotateStats(2,.25,'~');
+         kt_drawBracket(1.7778, 2.2222, .315)
+     elseif iDet == 3
+         kt_annotateStats(1.1111,.5,'*');
+         kt_drawBracket(1, 1.2222, 0.75)
+     end
+
+     ylabel('c')
+     % ylim([-0.75 0.75])
+     ax = gca;
+     set(gca, 'ytick', -0.75:0.75)
+     hold on
+     xlim([0.5 2.5])
+     xticks([0.7778 1 1.222 1.7778 2 2.2222])
+     set(gca, 'xticklabel', {'V', 'N', 'I'})
+
+     hold on
+     ax = gca;
+     ax.XGrid = 'off';
+     ax.YGrid = 'off';
+  end
+% 
+% [ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.325]);
+% [ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.375]);
+[ax3, h3] = suplabel('Non-target Absent', 't', [0.08 0.08 1.3 0.9]);
+[ax4, h4] = suplabel('Non-target Present', 't', [0.08 0.08 .45 0.9]);
+[ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .27 0.86]);
+[ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.86]);
+[ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.16 0.86]);
+[ax8, h8] = suplabel('T2', 'tt', [0.08 0.08 1.49 0.86]);
 
 %% plot discrimination
-dprimefieldnames = fieldnames(dataAll(iSub).disd);
-critfieldnames = fieldnames(dataAll(iSub).disc);
-figure();
-sgtitle('ga discrimination')
-for iF = 1:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
-    subplot(2,3,iF)
-    b = bar(disd.(dprimefieldnames{iF}));
-    hold on
-    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
-        xtips = b(k).XEndPoints;
-        ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,disdErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1) 
-    end
-    hold off
-    title([dprimefieldnames{iF}])
-    ylabel("d'")
-    ylim([0 5])
-    set(gca, 'xticklabel', {'T1', 'T2'})
-end
-hold on
+% dprime
+ dprimefieldnames = fieldnames(dataAll(iSub).disd);
+ critfieldnames = fieldnames(dataAll(iSub).disc);
+ shade = [1, .6, .35];
+ figure();
+ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
+     subplot(2,2,iDis-1)
+     for iTarget = 1:2
+         for iValid = 1:3
+             b = bar(xcoords_SDT(iTarget, iValid), disd.(dprimefieldnames{iDis})(iTarget, iValid));
+             kt_figureStyle();
+             errorbar(xcoords_SDT(iTarget, iValid),disd.(dprimefieldnames{iDis})(iTarget, iValid),disdErr.(dprimefieldnames{iDis})(iTarget, iValid), '.k', 'MarkerSize',0.1, 'CapSize', 0, 'LineWidth', 1.75)
+             if iDis == 2
+                 if iTarget == 1
+                     b.FaceColor = fp.blue;
+                     b.EdgeColor = fp.blue;
+                 elseif iTarget == 2
+                     b.FaceColor= fp.orange;
+                     b.EdgeColor = fp.orange;
+                 end
+                 b.FaceAlpha = shade(iValid);
+                 b.EdgeAlpha = shade(iValid);
+                 b.BarWidth = 0.2;
+             elseif iDis == 3
+                 b.FaceColor = [1 1 1];
+                 b.EdgeAlpha = shade(iValid);
+                 if iTarget == 1
+                     b.EdgeColor = fp.blue;
+                 elseif iTarget == 2
+                     b.EdgeColor = fp.orange;
+                 end
+                 b.LineWidth = 2;
+                 b.BarWidth = 0.18;
+                 b.EdgeAlpha = shade(iValid);
+             end
 
-for iF = 1:numel(critfieldnames)
-    subplot(2,3,iF+numel(dprimefieldnames))
-    b = bar(disc.(critfieldnames{iF}));
+         end
+     end
+
      hold on
-    for k = 1:numel(b)      % code to align error bars to grouped subplot bar coordinate, revised from stack exchange   % Recent MATLAB Versions
-        xtips = b(k).XEndPoints;
-        ytips = b(k).YEndPoints;
-        errorbar(xtips,ytips,discErr.(dprimefieldnames{iF})(:,k), '.k', 'MarkerSize',0.1)
-    end
-    hold off
-    title([critfieldnames{iF}])
-    ylabel('c')
-    ylim([-0.75 0.75])
-    set(gca, 'xticklabel', {'T1', 'T2'})
-end
-legend('Valid', 'Neutral', 'Invalid')
-legend('Location', 'best')
-ax = gca;
-ax.XGrid = 'off';
-ax.YGrid = 'off';
+     if iDis == 2
+         kt_annotateStats(1,2.1,'**');
+         kt_drawBracket(.7778, 1.2222, .79)
+
+         kt_annotateStats(2,2.78,'*');
+         kt_drawBracket(1.7778, 2.2222, 1.01)
+         kt_annotateStats(2.1111,2.7,'~');
+         kt_drawBracket(2, 2.2222, .85)
+      elseif iDis == 3
+         kt_annotateStats(1,2.68,'*');
+         kt_drawBracket(.7778, 1.2222, .92)
+
+         kt_annotateStats(2,3.45,'*');
+         kt_drawBracket(1.7778, 2.2222, 1.15)
+         kt_annotateStats(1.89,3.05,'*');
+         kt_drawBracket(1.7778, 2, .82)
+
+     end
+
+     ylabel("d'")
+     ylim([0 5.5])
+     ax = gca;
+     set(gca, 'ytick', 0:.5:5.5)
+     hold on
+     xlim([0.5 2.5])
+     xticks([0.7778 1 1.222 1.7778 2 2.2222])
+     set(gca, 'xticklabel', {'V', 'N', 'I'})
+
+     hold on
+     ax = gca;
+     ax.XGrid = 'off';
+     ax.YGrid = 'off';
+ end
+
+% criterion
+  for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
+     subplot(2,2,iDis+1)
+     for iTarget = 1:2
+         for iValid = 1:3
+             b = bar(xcoords_SDT(iTarget, iValid), disc.(dprimefieldnames{iDis})(iTarget, iValid));
+             kt_figureStyle();
+             errorbar(xcoords_SDT(iTarget, iValid),disc.(dprimefieldnames{iDis})(iTarget, iValid),discErr.(dprimefieldnames{iDis})(iTarget, iValid), '.k', 'MarkerSize',0.1, 'CapSize', 0, 'LineWidth', 1.75)
+             if iDis == 2
+                 if iTarget == 1
+                     b.FaceColor = fp.blue;
+                     b.EdgeColor = fp.blue;
+                 elseif iTarget == 2
+                     b.FaceColor= fp.orange;
+                     b.EdgeColor = fp.orange;
+                 end
+                 b.FaceAlpha = shade(iValid);
+                 b.EdgeAlpha = shade(iValid);
+                 b.BarWidth = 0.2;
+             elseif iDis == 3
+                 b.FaceColor = [1 1 1];
+                 b.EdgeAlpha = shade(iValid);
+                 if iTarget == 1
+                     b.EdgeColor = fp.blue;
+                 elseif iTarget == 2
+                     b.EdgeColor = fp.orange;
+                 end
+                 b.LineWidth = 2;
+                 b.BarWidth = 0.18;
+                 b.EdgeAlpha = shade(iValid);
+             end
+
+         end
+     end
+
+     hold on
+      ylim([-0.75 0.75])
+     if iDis == 2
+         kt_annotateStats(1,.07,'**');
+         kt_drawBracket(.7778, 1.2222, .2)
+     end 
+
+     ylabel('c')
+     % ylim([-0.75 0.75])
+     ax = gca;
+     set(gca, 'ytick', -0.75:0.75)
+     hold on
+     xlim([0.5 2.5])
+     xticks([0.7778 1 1.222 1.7778 2 2.2222])
+     set(gca, 'xticklabel', {'V', 'N', 'I'})
+
+     hold on
+     ax = gca;
+     ax.XGrid = 'off';
+     ax.YGrid = 'off';
+  end
+% 
+% [ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.325]);
+% [ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.375]);
+[ax3, h3] = suplabel('Non-target Absent', 't', [0.08 0.08 1.3 0.9]);
+[ax4, h4] = suplabel('Non-target Present', 't', [0.08 0.08 .45 0.9]);
+[ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .27 0.86]);
+[ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.86]);
+[ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.16 0.86]);
+[ax8, h8] = suplabel('T2', 'tt', [0.08 0.08 1.49 0.86]);
 
 %% SDT variables - detection
 for iContrast = 1:numel(contrastConds)

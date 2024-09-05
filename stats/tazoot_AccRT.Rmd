@@ -1051,7 +1051,7 @@ names(stats.table) <- c(
   "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
   "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
 )
-my_table <- nice_table(stats.table, report = "t.test", title = "tazoot RT: AP T1 valid vs neutral")
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot RT: AP T2 valid vs neutral")
 my_table
 ```
 
