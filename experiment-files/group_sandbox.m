@@ -94,165 +94,275 @@ for iSub=1:length(subs) % for participant
 
      
     end % session - needs to be here to compile both sessions for each participant
-   %% accuracy
+ %% SDT detection nontarget - across cueing conditions
+    nhDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 1; % hit: seen and present
+    nfaDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 0; % fa: seen and absent
+    nsignalDet = dataAll(iSub).targetContrast == 1; % signal: present
+    nnoiseDet = dataAll(iSub).targetContrast == 0; % noise: absent
+    Det = {nhDet nfaDet nsignalDet nnoiseDet};
 
-        % sort data by contrast condition, validity, and target and get averages
-        % per condition as matrices
-        for iTarget = 1:2 % for each target (1 or 2)
-            for iContrastCond = 1:4 % for each contrast condition (PP, PA, AP, AA)
-                for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
-                    idx = dataAll(iSub).target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & ~dataAll(iSub).eyeSkip;
-                    Acc.n(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).correct(idx),2); % denominator, number of trials per condition
-                    Acc.correct(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).correct(idx & dataAll(iSub).correct==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
-                    Acc.prop(iContrastCond, iValidity, iTarget) = Acc.correct(iContrastCond, iValidity, iTarget)/Acc.n(iContrastCond, iValidity, iTarget);
-                end
+    % indices for all conditions based on target, validity, SDT variable -
+    % returns which contains data for all, nontarget present, non target absent. each of these contains condition data for nh nfa
+    % nsignal and  nnoise 
+    for iTarget =1:2
+        for iValid = 1:numel(Validities)
+            for iDet = 1:numel(Det)
+                detAllIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & ~dataAll(iSub).eyeSkip; % find all T1 and T2 
+                det.all(iTarget, iValid, iDet) = sum(detAllIdx);
+                detNTPIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
+                det.nontargetPresent(iTarget, iValid, iDet) = sum(detNTPIdx);
+                detNTAIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
+                det.nontargetAbsent(iTarget, iValid, iDet) = sum(detNTAIdx);
             end
         end
-    
+    end
+
+    % calculate dprime and c per condition, detd/c.all, nontargetPresent,
+    % nontargetAbsent for valid, neutral, and invalid for T1 and T2 
+    dp = [];
+    c = [];
+    Detfieldnames = fieldnames(det);
+    for iTarget = 1:2
+        for iValid = 1:numel(Validities)
+            for iF = 1:numel(Detfieldnames)
+                dataAll(iSub).detNH.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,1);
+                dataAll(iSub).detNFA.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,2);
+                dataAll(iSub).detNSignal.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,3);
+                dataAll(iSub).detNNoise.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,4);
+                [dprime, criterion] = kt_dprime2(dataAll(iSub).detNH.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNFA.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNSignal.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNNoise.(Detfieldnames{iF})(iTarget,iValid),1);
+                dataAll(iSub).detd.(Detfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
+                dataAll(iSub).detc.(Detfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
+            end
+        end
+    end
 
 
-        dataAll(iSub).means = Acc.prop*100; % save each participant's mean data in dataAll
+     %% SDT discrimination nontarget - across cueing conditions 
+    nhDis = dataAll(iSub).correctDis == 1 & dataAll(iSub).targetTilt == 1;
+    nfaDis = dataAll(iSub).correctDis == 0 & dataAll(iSub).targetTilt == -1;
+    nsignalDis = dataAll(iSub).targetContrast == 1 & dataAll(iSub).seen == 1 & dataAll(iSub).targetTilt == 1;
+    nnoiseDis = dataAll(iSub).targetContrast == 1 & dataAll(iSub).seen == 1 & dataAll(iSub).targetTilt == -1;
+    Dis = {nhDis nfaDis nsignalDis nnoiseDis};
+    %indices for all conditions based on target, validity, SDT variable
+    for iTarget =1:2
+        for iValid = 1:numel(Validities)
+            for iDis = 1:numel(Dis)
+                disAllIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).target == iTarget & ~dataAll(iSub).eyeSkip; % find all T1 and T2
+                dis.all(iTarget, iValid, iDis) = sum(disAllIdx);
+                disNTPIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
+                dis.nontargetPresent(iTarget, iValid, iDis) = sum(disNTPIdx);
+                disNTAIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
+                dis.nontargetAbsent(iTarget, iValid, iDis) = sum(disNTAIdx);
+            end
+        end
+    end
+
+    % calculate dprime and c per condition
+    dp = [];
+    c = [];
+    Disfieldnames = fieldnames(dis);
+    for iTarget = 1:2
+        for iValid = 1:numel(Validities)
+            for iF = 1:numel(Disfieldnames)
+                dataAll(iSub).nhDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,1);
+                dataAll(iSub).nfaDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,2);
+                dataAll(iSub).nsignalDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,3);
+                dataAll(iSub).nnoiseDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,4);
+                [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nfaDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nsignalDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nnoiseDis.(Disfieldnames{iF})(iTarget,iValid),1);
+                dataAll(iSub).disd.(Disfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
+                dataAll(iSub).disc.(Disfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
+            end
+        end
+    end
      
 end % subject
 
+ 
+ %% SDT across cueing conditions
+ % mean, std, err for dprime and c for dis and det
+ dprimeDetIdx = [];
+ cDetIdx = [];
+ dprimeDisIdx = [];
+ cDisIdx = [];
+ for iTarget = 1:2
+     for iF = 1:numel(Detfieldnames)
+         for iValid = 1:numel(Validities)
+             for iSub = 1:length(subs)
+                 dprimeDetIdx = [dprimeDetIdx dataAll(iSub).detd.(Detfieldnames{iF})(iTarget,iValid)];
+                 cDetIdx = [cDetIdx dataAll(iSub).detc.(Detfieldnames{iF})(iTarget,iValid)];
+                 dprimeDisIdx = [dprimeDisIdx dataAll(iSub).disd.(Detfieldnames{iF})(iTarget,iValid)];
+                 cDisIdx = [cDisIdx dataAll(iSub).disc.(Detfieldnames{iF})(iTarget,iValid)];
+             end
+             detdStd.(Detfieldnames{iF})(iTarget, iValid) = std(dprimeDetIdx);
+             detd.(Detfieldnames{iF})(iTarget, iValid) = mean(dprimeDetIdx);
+             detdErr.(Detfieldnames{iF})(iTarget, iValid) = detdStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+             detcStd.(Detfieldnames{iF})(iTarget, iValid) = std(cDetIdx);
+             detc.(Detfieldnames{iF})(iTarget, iValid) = mean(cDetIdx);
+             detcErr.(Detfieldnames{iF})(iTarget, iValid) = detcStd.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
 
-accIdx = []; % used to collect each position of the matrix (each condition) by participant into a list to perform std and mean, then create new matrices for std, mean, and error
-cmTIdx = []; % used to collect proportion of response to condition for all and one target conditions by T1, T2, and both targets collpased
-cmNIdx = [];
-cm1TIdx = [];
-cm1NIdx = [];
-for iContrast = 1:numel(contrastConds)
-    for iValid = 1:numel(Validities)
-        for iTarget = 1:2
-            for iSub = 1:length(subs)
-                accIdx = [accIdx dataAll(iSub).means(iContrast,iValid,iTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis
-            end
-            Acc.std(iContrast,iValid,iTarget) = std(accIdx); % finds std of the accuracy of each condition for each participant
-            Acc.mean(iContrast, iValid, iTarget) = mean(accIdx); % finds means of accuracy for each condition for each participant
-            Acc.err(iContrast,iValid,iTarget) = Acc.std(iContrast,iValid,iTarget)/sqrt(size(dataAll,2)); % calculate error for each condition
-            accIdx = [];
-        end
-    end
-end
+             disdStd.(Disfieldnames{iF})(iTarget, iValid) = std(dprimeDisIdx);
+             disd.(Disfieldnames{iF})(iTarget, iValid) = mean(dprimeDisIdx);
+             disdErr.(Disfieldnames{iF})(iTarget, iValid) = disdStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+             discStd.(Disfieldnames{iF})(iTarget, iValid) = std(cDisIdx);
+             disc.(Disfieldnames{iF})(iTarget, iValid) = mean(cDisIdx);
+             discErr.(Disfieldnames{iF})(iTarget, iValid) = discStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
 
-tanp = Acc.mean(3,:,:);
-tpna = Acc.mean(2,:,:);
-Acc.mean(3,:,:) = tpna;
-Acc.mean(2,:,:) = tanp;
+             dprimeDetIdx = [];
+             cDetIdx = [];
+             dprimeDisIdx = [];
+             cDisIdx = [];
+         end
+     end
+ end
 
-tanpErr = Acc.err(3,:,:);
-tpnaErr = Acc.err(2,:,:);
-Acc.err(3,:,:) = tpnaErr;
-Acc.err(2,:,:) = tanpErr;
-
-%% matrix
-a = repmat([0.7778 1 1.2222],4,1);
-b = repmat([1.7778 2 2.2222],4,1);
-c = cat(3, a,b);
-
-%% accuracy
-%% figure 1 - target presence x validity x target
-
-y = Acc.mean;
-x = c;
-
-figure();
-set(gcf,'Position',[100 100 500 400])
-shade = [1, .6, .35];
-for iContrast = 1:numel(contrastConds)
-    subplot(2,2,iContrast)
-    for iTarget = 1:2
-        for iValid = 1:3
-            b = bar(x(iContrast, iValid, iTarget), Acc.mean(iContrast, iValid, iTarget));
-            kt_figureStyle();
-            errorbar(x(iContrast, iValid, iTarget),Acc.mean(iContrast, iValid, iTarget),Acc.err(iContrast, iValid, iTarget), '.k', 'MarkerSize', 0.01, 'CapSize', 0, 'LineWidth', 1.75)
-            if iContrast == 1 || iContrast == 3
-                if iTarget == 1
-                    b.FaceColor = fp.blue;
-                    b.EdgeColor = fp.blue;
-                elseif iTarget == 2
-                    b.FaceColor= fp.orange;
-                    b.EdgeColor = fp.orange;
-                end
-                b.FaceAlpha = shade(iValid);
-                b.EdgeAlpha = shade(iValid);
-                b.BarWidth = 0.2;
-            elseif iContrast == 2 || iContrast == 4
-                b.FaceColor = [1 1 1];
-                b.EdgeAlpha = shade(iValid);
-                if iTarget == 1
-                    b.EdgeColor = fp.blue;
-                elseif iTarget == 2
-                    b.EdgeColor = fp.orange;
-                end
-                b.LineWidth = 2;
-                b.BarWidth = 0.18;
-                b.EdgeAlpha = shade(iValid);
-            end
-        end
-    end
-    hold on
-    if iContrast==1
-        kt_annotateStats(1,86,'**');
-        kt_drawBracket(.7778, 1.2222, .84)
-        kt_annotateStats(2,94,'~');
-        kt_drawBracket(1.7778, 2.2222, .9)
-    end
-
-    if iContrast == 3
-        kt_annotateStats(1,91,'***');
-        kt_drawBracket(.7778, 1.2222, .89)
-        kt_annotateStats(1.1111,83,'*');
-        kt_drawBracket(1, 1.2222, .83)
-        kt_annotateStats(2,92,'*');
-        kt_drawBracket(1.7778, 2.2222, .92)
-    end
-
-    if iContrast == 2
-        kt_annotateStats(1,94,'*');
-        kt_drawBracket(.7778, 1.2222, .94)
-    end
+ xcoords_SDT = [0.7778 1 1.2222; 1.7778 2 2.22222];
 
 
-    if iContrast == 4
-        kt_annotateStats(1.8889,99,'**');
-        kt_drawBracket(1.7778, 2, .98)
-    end
+ %% plot detection
+ dprimefieldnames = fieldnames(dataAll(iSub).detd);
+ critfieldnames = fieldnames(dataAll(iSub).detc);
+ shade = [1, .6, .35];
+ figure();
+ for iDet = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
+     subplot(2,2,iDet-1)
+     for iTarget = 1:2
+         for iValid = 1:3
+             b = bar(xcoords_SDT(iTarget, iValid), detd.(dprimefieldnames{iDet})(iTarget, iValid));
+             kt_figureStyle();
+             errorbar(xcoords_SDT(iTarget, iValid),detd.(dprimefieldnames{iDet})(iTarget, iValid),detdErr.(dprimefieldnames{iDet})(iTarget, iValid), '.k', 'MarkerSize',0.1, 'CapSize', 0, 'LineWidth', 1.75)
+             if iDet == 2
+                 % kt_annotateStats(.89,3.85,'*');
+                 % kt_drawBracket(.7778, 1, .99)
+                 if iTarget == 1
+                     b.FaceColor = fp.blue;
+                     b.EdgeColor = fp.blue;
+                 elseif iTarget == 2
+                     b.FaceColor= fp.orange;
+                     b.EdgeColor = fp.orange;
+                 end
+                 b.FaceAlpha = shade(iValid);
+                 b.EdgeAlpha = shade(iValid);
+                 b.BarWidth = 0.2;
+             elseif iDet == 3
+                 % kt_annotateStats(.89,4.2,'**');
+                 % kt_drawBracket(.7778, 1, .85)
+                 % kt_annotateStats(1,4.5,'***');
+                 % kt_drawBracket(.7778, 1.2222, .98)
+                 b.FaceColor = [1 1 1];
+                 b.EdgeAlpha = shade(iValid);
+                 if iTarget == 1
+                     b.EdgeColor = fp.blue;
+                 elseif iTarget == 2
+                     b.EdgeColor = fp.orange;
+                 end
+                 b.LineWidth = 2;
+                 b.BarWidth = 0.18;
+                 b.EdgeAlpha = shade(iValid);
+             end
+
+         end
+     end
+
+     hold on
+     if iDet == 2
+         kt_annotateStats(.89,3.78,'*');
+         kt_drawBracket(.7778, 1, .99)
+     elseif iDet == 3
+         kt_annotateStats(.89,4.2,'**');
+         kt_drawBracket(.7778, 1, .88)
+         kt_annotateStats(1,4.7,'***');
+         kt_drawBracket(.7778, 1.2222, .98)
+
+         kt_annotateStats(1.89,4.35,'*');
+         kt_drawBracket(1.7778, 1.98, .75)
+         kt_annotateStats(2.1111,4.05,'*');
+         kt_drawBracket(2.02, 2.2222, .70)
+         kt_annotateStats(2,4.8,'***');
+         kt_drawBracket(1.7778, 2.2222, .82)
+     end
+
+     ylabel("d'")
+     ylim([0 5.5])
+     ax = gca;
+     set(gca, 'ytick', 0:.5:5.5)
+     hold on
+     xlim([0.5 2.5])
+     xticks([0.7778 1 1.222 1.7778 2 2.2222])
+     set(gca, 'xticklabel', {'V', 'N', 'I'})
+
+     hold on
+     ax = gca;
+     ax.XGrid = 'off';
+     ax.YGrid = 'off';
+ end
 
 
-    hold off
-    ylabel('Accuracy (%)')
-    ylim([30 105])
-    ax = gca;
-    set(gca, 'ytick', 30:10:100)
-    hold on
-    xticks([0.7778 1 1.222 1.7778 2 2.2222])
-    set(gca, 'xticklabel', {'V', 'N', 'I'})
+  for iDet = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
+     subplot(2,2,iDet+1)
+     for iTarget = 1:2
+         for iValid = 1:3
+             b = bar(xcoords_SDT(iTarget, iValid), detc.(dprimefieldnames{iDet})(iTarget, iValid));
+             kt_figureStyle();
+             errorbar(xcoords_SDT(iTarget, iValid),detc.(dprimefieldnames{iDet})(iTarget, iValid),detcErr.(dprimefieldnames{iDet})(iTarget, iValid), '.k', 'MarkerSize',0.1, 'CapSize', 0, 'LineWidth', 1.75)
+             if iDet == 2
+                 if iTarget == 1
+                     b.FaceColor = fp.blue;
+                     b.EdgeColor = fp.blue;
+                 elseif iTarget == 2
+                     b.FaceColor= fp.orange;
+                     b.EdgeColor = fp.orange;
+                 end
+                 b.FaceAlpha = shade(iValid);
+                 b.EdgeAlpha = shade(iValid);
+                 b.BarWidth = 0.2;
+             elseif iDet == 3
+                 b.FaceColor = [1 1 1];
+                 b.EdgeAlpha = shade(iValid);
+                 if iTarget == 1
+                     b.EdgeColor = fp.blue;
+                 elseif iTarget == 2
+                     b.EdgeColor = fp.orange;
+                 end
+                 b.LineWidth = 2;
+                 b.BarWidth = 0.18;
+                 b.EdgeAlpha = shade(iValid);
+             end
 
-    hold on
-    ax = gca;
-    ax.XGrid = 'off';
-    ax.YGrid = 'off';
+         end
+     end
 
-    
-end
-[ax1, h1] = suplabel('Distractor Present', 'y', [0.08 0.08 .84 1.325]);
-[ax2, h2] = suplabel('Distractor Absent', 'y', [0.08 0.08 .84 0.375]);
-[ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 0.9]);
-[ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 0.9]);
-[ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .35 0.86]);
-[ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .55 0.86]);
-[ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.22 0.86]);
-[ax8, h8] = suplabel('T2', 'tt', [0.08 0.08 1.42 0.86]);
+     hold on
+      ylim([-0.75 0.75])
+     if iDet == 2
+         kt_annotateStats(1,.05,'***');
+         kt_drawBracket(.7778, 1.2222, .05)
+         kt_annotateStats(1.89,.05,'*');
+         kt_drawBracket(1.7778, 2, .05)
+     elseif iDet == 3
+         kt_annotateStats(1.1111,.5,'*');
+         kt_drawBracket(1, 1.2222, 0.75)
+     end
 
-% [ax9, h9] = suplabel('T1', 'tt', [0.08 0.08 .35 0.4]);
-% [ax10, h10] = suplabel('T2', 'tt', [0.08 0.08 .55 0.4]);
-% [ax11, h11] = suplabel('T1', 'tt', [0.08 0.08 1.22 0.4]);
-% [ax12, h12] = suplabel('T2', 'tt', [0.08 0.08 1.42 0.4]);
+     ylabel('c')
+     % ylim([-0.75 0.75])
+     ax = gca;
+     set(gca, 'ytick', -0.75:0.75)
+     hold on
+     xlim([0.5 2.5])
+     xticks([0.7778 1 1.222 1.7778 2 2.2222])
+     set(gca, 'xticklabel', {'V', 'N', 'I'})
 
-
-% if saveplots
-%     figTitle = sprintf('%s_%s',...
-%         'beh_acc',datestr(now,'yymmdd'));
-%     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
-% end
+     hold on
+     ax = gca;
+     ax.XGrid = 'off';
+     ax.YGrid = 'off';
+  end
+% 
+% [ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.325]);
+% [ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.375]);
+[ax3, h3] = suplabel('Non-target Absent', 't', [0.08 0.08 1.3 0.9]);
+[ax4, h4] = suplabel('Non-target Present', 't', [0.08 0.08 .45 0.9]);
+[ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .27 0.86]);
+[ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.86]);
+[ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.16 0.86]);
+[ax8, h8] = suplabel('T2', 'tt', [0.08 0.08 1.49 0.86]);
