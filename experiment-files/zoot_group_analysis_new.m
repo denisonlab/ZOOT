@@ -101,7 +101,7 @@ for iSub=1:length(subs) % for participant
         AbsentAbsent = dataAll(iSub).targetContrast == 0 & dataAll(iSub).nonTargetContrast == 0;
 
         Validities = {Valid Neutral Invalid};
-        contrastConds = {PresentPresent PresentAbsent AbsentPresent AbsentAbsent};
+        contrastConds = {PresentPresent AbsentPresent PresentAbsent AbsentAbsent};
 
 
     end % session end
@@ -463,11 +463,13 @@ cmTIdx = []; % used to collect proportion of response to condition for all and o
 cmNIdx = [];
 cm1TIdx = [];
 cm1NIdx = [];
+contrasts = [{'PP'}, {'AP'}, {'PA'}, {'AA'}];
 for iContrast = 1:numel(contrastConds)
     for iValid = 1:numel(Validities)
         for iTarget = 1:2
             for iSub = 1:length(subs)
                 accIdx = [accIdx dataAll(iSub).means(iContrast,iValid,iTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis 
+                scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget) = dataAll(iSub).means(iContrast,iValid,iTarget);
             end
             Acc.std(iContrast,iValid,iTarget) = std(accIdx); % finds std of the accuracy of each condition for each participant
             Acc.mean(iContrast, iValid, iTarget) = mean(accIdx); % finds means of accuracy for each condition for each participant
@@ -477,20 +479,14 @@ for iContrast = 1:numel(contrastConds)
     end
 end
 
-% reorganize so target present and target absent in columns
-    tanp = Acc.mean(3,:,:);
-    tpna = Acc.mean(2,:,:);
-    Acc.mean(3,:,:) = tpna;
-    Acc.mean(2,:,:) = tanp;
 
-    tanpErr = Acc.err(3,:,:);
-tpnaErr = Acc.err(2,:,:);
-Acc.err(3,:,:) = tpnaErr;
-Acc.err(2,:,:) = tanpErr;
 % matrix
 T1x = repmat([0.7778 1 1.2222],4,1);
 T2x = repmat([1.7778 2 2.2222],4,1);
 xcoords = cat(3, T1x,T2x);
+T1x_scatter = repmat([0.7778; 1; 1.2222], 1, 15);
+T2x_scatter = repmat([1.7778; 2; 2.2222], 1, 15);
+xcoords_scatter = cat(3, T1x_scatter, T2x_scatter);
 
 %% RT means
 
@@ -790,7 +786,6 @@ for iContrast = 1:numel(contrastConds)
         kt_drawBracket(1.7778, 2, .98)
     end
 
-
     hold off
     ylabel('Accuracy (%)')
     ylim([30 105])
@@ -808,6 +803,41 @@ for iContrast = 1:numel(contrastConds)
 
     
 end
+shade_scatter = [.6 .5 .25];
+for iContrast = 1:numel(contrastConds)
+    subplot(2,2,iContrast)
+    for iTarget = 1:2
+        for iValid = 1:3
+            for iSub = 1:15
+                s = scatter(xcoords_scatter(iValid, iSub, iTarget), scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget));
+                % if iContrast == 1 || iContrast == 3
+                      s.MarkerEdgeColor = [1 1 1];
+                       % s.MarkerFaceAlpha = shade_scatter(iValid);
+                    if iTarget == 1
+                        s.MarkerFaceColor = fp.blue;
+                    elseif iTarget == 2
+                        s.MarkerFaceColor= fp.orange;
+                    end
+                     s.MarkerFaceAlpha = shade_scatter(iValid);
+                    s.MarkerEdgeAlpha = shade_scatter(iValid);
+                    % s.BarWidth = 0.2;
+                % elseif iContrast == 2 || iContrast == 4
+                %           s.MarkerEdgeColor = [1 1 1];
+                %     s.MarkerFaceColor = [1 1 1];
+                %     s.MarkerEdgeAlpha = shade(iValid);
+                %     if iTarget == 1
+                %         % s.MarkerEdgeColor = fp.blue;
+                %     elseif iTarget == 2
+                %         % s.MarkerEdgeColor = fp.orange;
+                %     end
+                    % s.LineWidth = 2;
+                    % s.BarWidth = 0.18;
+                    % s.MarkerEdgeAlpha = shade_scatter(iValid);
+                % end
+            end
+        end
+    end
+end 
 [ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.325]);
 [ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.375]);
 [ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 0.9]);
