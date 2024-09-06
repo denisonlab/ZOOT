@@ -983,6 +983,10 @@ for iContrast = 1:numel(contrastConds)
         kt_drawBracket(2, 2.2222, .76)
         kt_annotateStats(2,.57,'~');
         kt_drawBracket(1.7778, 2.2222, .86)
+
+        kt_annotateStats(1.5, .95,'___________________');
+        kt_annotateStats(1.5, .965,'* Target');
+        kt_annotateStats(1.5,1.03,'* Validity');
     end
 
     if iContrast == 3
@@ -995,6 +999,10 @@ for iContrast = 1:numel(contrastConds)
         kt_drawBracket(1.7778, 2.2222, .62)
         kt_annotateStats(2.1111,.42,'*');
         kt_drawBracket(2, 2.2222, .55)
+
+        kt_annotateStats(1.5, .95,'___________________');
+        kt_annotateStats(1.5, .965,'* Target');
+        kt_annotateStats(1.5,1.03,'* Validity');
     end
 
     if iContrast == 2
@@ -1010,13 +1018,17 @@ for iContrast = 1:numel(contrastConds)
         kt_drawBracket(2.02, 2.2222, .66)
         kt_annotateStats(1.89,.29,'~');
         kt_drawBracket(1.7778, 1.98, .55)
+
+        kt_annotateStats(1.5, .95,'___________________');
+        kt_annotateStats(1.5, .965,'* Target');
+        kt_annotateStats(1.5,1.03,'* Validity');
     end
 
     hold off
     ylabel('RT (s)')
-    ylim([0 .70])
+    ylim([0 1.2])
     ax = gca;
-    set(gca, 'ytick', 0:.10:.70)
+    set(gca, 'ytick', 0:.10:1.2)
     hold on
     xlim([0.5 2.5])
     xticks([0.7778 1 1.222 1.7778 2 2.2222])
@@ -1068,8 +1080,8 @@ end
  critfieldnames = fieldnames(dataAll(iSub).detc);
  shade = [1, .6, .35];
  figure();
- for iDet = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
-     subplot(2,2,iDet-1)
+ for iDet = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent), 2: numel(dprimefieldnames) to remove all
+     subplot(2,2,iDet-1) % need to subtract one to remove all and start at right subplot
      for iTarget = 1:2
          for iValid = 1:3
              b = bar(xcoords_SDT(iTarget, iValid), detd.(dprimefieldnames{iDet})(iTarget, iValid));
@@ -1114,6 +1126,11 @@ end
          kt_annotateStats(1.89,4.1,'~');
          kt_drawBracket(1.7778, 2, .8)
 
+
+        kt_annotateStats(1.5, 6.1,'___________________');
+        kt_annotateStats(1.5, 6.3,'* Target');
+        % kt_annotateStats(1.5,6.6,'* Validity');
+
      elseif iDet == 3
          kt_annotateStats(.89,4.2,'**');
          kt_drawBracket(.7778, 1, .88)
@@ -1126,12 +1143,16 @@ end
          kt_drawBracket(2.02, 2.2222, .70)
          kt_annotateStats(2,4.8,'***');
          kt_drawBracket(1.7778, 2.2222, .82)
+
+        kt_annotateStats(1.5, 6.1,'___________________');
+        kt_annotateStats(1.5, 6.2,'* Target');
+        kt_annotateStats(1.5,6.6,'* Validity');
      end
 
      ylabel("d'")
-     ylim([0 5.5])
+     ylim([0 7])
      ax = gca;
-     set(gca, 'ytick', 0:.5:5.5)
+     set(gca, 'ytick', 0:.5:7)
      hold on
      xlim([0.5 2.5])
      xticks([0.7778 1 1.222 1.7778 2 2.2222])
@@ -1144,7 +1165,7 @@ end
  end
 
  shade_scatter = [.6 .5 .25];
-for iDet = 2:numel(Detfieldnames)
+for iDet = 2:numel(Detfieldnames) % 2:numel to remove "all"
     subplot(2,2,iDet-1)
     for iTarget = 1:2
         for iValid = 1:3
@@ -1207,15 +1228,24 @@ end
          kt_drawBracket(1.7778, 2, .175)
          kt_annotateStats(2,.25,'~');
          kt_drawBracket(1.7778, 2.2222, .315)
+
+           kt_annotateStats(1.5, 6.1,'___________________');
+        kt_annotateStats(1.5, 6.2,'* Validity');
+
      elseif iDet == 3
          kt_annotateStats(1.1111,.5,'*');
          kt_drawBracket(1, 1.2222, 0.75)
+
+           kt_annotateStats(1.5, 6.1,'___________________');
+        kt_annotateStats(1.5, 6.2,'* Target');
+    
      end
 
      ylabel('c')
      % ylim([-0.75 0.75])
      ax = gca;
-     set(gca, 'ytick', -0.75:0.75)
+     ylim([-1.5 1.5])
+     set(gca, 'ytick', -1.5:1.5)
      hold on
      xlim([0.5 2.5])
      xticks([0.7778 1 1.222 1.7778 2 2.2222])
@@ -1337,7 +1367,7 @@ for iDis = 2:numel(Detfieldnames)
     for iTarget = 1:2
         for iValid = 1:3
             for iSub = 1:15
-                s = scatter(xcoords_scatter(iValid, iSub, iTarget), detd_scatterplot.(Detfieldnames{iDis})(iValid, iSub, iTarget));
+                s = scatter(xcoords_scatter(iValid, iSub, iTarget), disd_scatterplot.(Detfieldnames{iDis})(iValid, iSub, iTarget));
                     s.MarkerEdgeColor = [1 1 1];
                     if iTarget == 1
                         s.MarkerFaceColor = fp.blue;
@@ -1408,12 +1438,12 @@ end
   end
 
      shade_scatter = [.6 .5 .25];
-for iDet = 2:numel(Detfieldnames)
-    subplot(2,2,iDet+1)
+for iDis = 2:numel(Detfieldnames)
+    subplot(2,2,iDis+1)
     for iTarget = 1:2
         for iValid = 1:3
             for iSub = 1:15
-                s = scatter(xcoords_scatter(iValid, iSub, iTarget), disc_scatterplot.(Detfieldnames{iDet})(iValid, iSub, iTarget));
+                s = scatter(xcoords_scatter(iValid, iSub, iTarget), disc_scatterplot.(Detfieldnames{iDis})(iValid, iSub, iTarget));
                     s.MarkerEdgeColor = [1 1 1];
                     if iTarget == 1
                         s.MarkerFaceColor = fp.blue;

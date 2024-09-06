@@ -983,6 +983,10 @@ for iContrast = 1:numel(contrastConds)
         kt_drawBracket(2, 2.2222, .76)
         kt_annotateStats(2,.57,'~');
         kt_drawBracket(1.7778, 2.2222, .86)
+
+        kt_annotateStats(1.5, .95,'___________________');
+        kt_annotateStats(1.5, .965,'* Target');
+        kt_annotateStats(1.5,1.03,'* Validity');
     end
 
     if iContrast == 3
@@ -995,6 +999,10 @@ for iContrast = 1:numel(contrastConds)
         kt_drawBracket(1.7778, 2.2222, .62)
         kt_annotateStats(2.1111,.42,'*');
         kt_drawBracket(2, 2.2222, .55)
+
+        kt_annotateStats(1.5, .95,'___________________');
+        kt_annotateStats(1.5, .965,'* Target');
+        kt_annotateStats(1.5,1.03,'* Validity');
     end
 
     if iContrast == 2
@@ -1010,13 +1018,17 @@ for iContrast = 1:numel(contrastConds)
         kt_drawBracket(2.02, 2.2222, .66)
         kt_annotateStats(1.89,.29,'~');
         kt_drawBracket(1.7778, 1.98, .55)
+
+        kt_annotateStats(1.5, .95,'___________________');
+        kt_annotateStats(1.5, .965,'* Target');
+        kt_annotateStats(1.5,1.03,'* Validity');
     end
 
     hold off
     ylabel('RT (s)')
-    ylim([0 .70])
+    ylim([0 1.2])
     ax = gca;
-    set(gca, 'ytick', 0:.10:.70)
+    set(gca, 'ytick', 0:.10:1.2)
     hold on
     xlim([0.5 2.5])
     xticks([0.7778 1 1.222 1.7778 2 2.2222])
@@ -1114,6 +1126,11 @@ end
          kt_annotateStats(1.89,4.1,'~');
          kt_drawBracket(1.7778, 2, .8)
 
+
+        kt_annotateStats(1.5, 6.1,'___________________');
+        kt_annotateStats(1.5, 6.3,'* Target');
+        % kt_annotateStats(1.5,6.6,'* Validity');
+
      elseif iDet == 3
          kt_annotateStats(.89,4.2,'**');
          kt_drawBracket(.7778, 1, .88)
@@ -1126,12 +1143,16 @@ end
          kt_drawBracket(2.02, 2.2222, .70)
          kt_annotateStats(2,4.8,'***');
          kt_drawBracket(1.7778, 2.2222, .82)
+
+        kt_annotateStats(1.5, 6.1,'___________________');
+        kt_annotateStats(1.5, 6.2,'* Target');
+        kt_annotateStats(1.5,6.6,'* Validity');
      end
 
      ylabel("d'")
-     ylim([0 5.5])
+     ylim([0 7])
      ax = gca;
-     set(gca, 'ytick', 0:.5:5.5)
+     set(gca, 'ytick', 0:.5:7)
      hold on
      xlim([0.5 2.5])
      xticks([0.7778 1 1.222 1.7778 2 2.2222])
@@ -1207,15 +1228,24 @@ end
          kt_drawBracket(1.7778, 2, .175)
          kt_annotateStats(2,.25,'~');
          kt_drawBracket(1.7778, 2.2222, .315)
+
+           kt_annotateStats(1.5, 1.1,'___________________');
+        kt_annotateStats(1.5, 1.2,'* Validity');
+
      elseif iDet == 3
          kt_annotateStats(1.1111,.5,'*');
          kt_drawBracket(1, 1.2222, 0.75)
+
+           kt_annotateStats(1.5, 1.1,'___________________');
+        kt_annotateStats(1.5, 1.2,'* Target');
+    
      end
 
      ylabel('c')
      % ylim([-0.75 0.75])
      ax = gca;
-     set(gca, 'ytick', -0.75:0.75)
+     ylim([-1.5 1.5])
+     set(gca, 'ytick', -1.5:1.5)
      hold on
      xlim([0.5 2.5])
      xticks([0.7778 1 1.222 1.7778 2 2.2222])
@@ -1305,6 +1335,10 @@ end
          kt_drawBracket(1.7778, 2.2222, 1.01)
          kt_annotateStats(2.1111,2.7,'~');
          kt_drawBracket(2, 2.2222, .85)
+
+        kt_annotateStats(1.5, 6.1,'___________________');
+        kt_annotateStats(1.5, 6.2,'* Target');
+        kt_annotateStats(1.5,6.6,'* Validity');
       elseif iDis == 3
          kt_annotateStats(1,2.68,'*');
          kt_drawBracket(.7778, 1.2222, .92)
@@ -1314,12 +1348,16 @@ end
          kt_annotateStats(1.89,3.05,'*');
          kt_drawBracket(1.7778, 2, .82)
 
+        kt_annotateStats(1.5, 6.1,'___________________');
+        kt_annotateStats(1.5, 6.2,'* Target');
+        kt_annotateStats(1.5,6.6,'* Validity');
+
      end
 
      ylabel("d'")
-     ylim([0 5.5])
+     ylim([0 7])
      ax = gca;
-     set(gca, 'ytick', 0:.5:5.5)
+     set(gca, 'ytick', 0:.5:7)
      hold on
      xlim([0.5 2.5])
      xticks([0.7778 1 1.222 1.7778 2 2.2222])
@@ -1386,16 +1424,26 @@ end
      end
 
      hold on
-      ylim([-0.75 0.75])
+     ylim([-1.5 1.5])
      if iDis == 2
          kt_annotateStats(1,.07,'**');
          kt_drawBracket(.7778, 1.2222, .2)
-     end 
+
+         kt_annotateStats(1.5, 1.1,'___________________');
+         kt_annotateStats(1.5, 1.22,'* Target:Validity');
+     elseif iDet == 3
+         kt_annotateStats(1.1111,.5,'*');
+         kt_drawBracket(1, 1.2222, 0.75)
+
+         kt_annotateStats(1.5, 1.1,'___________________');
+         kt_annotateStats(1.5, 1.15,'* Target');
+         kt_annotateStats(1.5, 1.3,'* Validity');
+
+     end
 
      ylabel('c')
-     % ylim([-0.75 0.75])
      ax = gca;
-     set(gca, 'ytick', -0.75:0.75)
+     set(gca, 'ytick', -1.5:1.5)
      hold on
      xlim([0.5 2.5])
      xticks([0.7778 1 1.222 1.7778 2 2.2222])
