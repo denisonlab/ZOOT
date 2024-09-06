@@ -469,7 +469,7 @@ for iContrast = 1:numel(contrastConds)
         for iTarget = 1:2
             for iSub = 1:length(subs)
                 accIdx = [accIdx dataAll(iSub).means(iContrast,iValid,iTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis 
-                scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget) = dataAll(iSub).means(iContrast,iValid,iTarget);
+                Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget) = dataAll(iSub).means(iContrast,iValid,iTarget);
             end
             Acc.std(iContrast,iValid,iTarget) = std(accIdx); % finds std of the accuracy of each condition for each participant
             Acc.mean(iContrast, iValid, iTarget) = mean(accIdx); % finds means of accuracy for each condition for each participant
@@ -497,6 +497,7 @@ for iContrast = 1:numel(contrastConds)
         for iTarget = 1:2
             for iSub = 1:length(subs)
                 rtIdx = [rtIdx dataAll(iSub).RTmeans(iContrast,iValid,iTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis 
+                RT_scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget) = dataAll(iSub).RTmeans(iContrast,iValid,iTarget);
             end
             RT.std(iContrast,iValid,iTarget) = std(rtIdx); % finds std of the accuracy of each condition for each participant
             RT.mean(iContrast, iValid, iTarget) = mean(rtIdx); % finds means of accuracy for each condition for each participant
@@ -505,20 +506,7 @@ for iContrast = 1:numel(contrastConds)
         end
     end
 end
-% reorganize so target present and target absent in columns
-tanp = RT.mean(3,:,:);
-tpna = RT.mean(2,:,:);
-RT.mean(3,:,:) = tpna;
-RT.mean(2,:,:) = tanp;
 
-tanpErr = RT.err(3,:,:);
-tpnaErr = RT.err(2,:,:);
-RT.err(3,:,:) = tpnaErr;
-RT.err(2,:,:) = tanpErr;
-% matrix
-T1x = repmat([0.7778 1 1.2222],4,1);
-T2x = repmat([1.7778 2 2.2222],4,1);
-xcoords = cat(3, T1x,T2x);
 
 %% find mean for CM by target for all contrast conditions and one target
 % conditions
@@ -618,9 +606,14 @@ end
          for iValid = 1:numel(Validities)
              for iSub = 1:length(subs)
                  dprimeDetIdx = [dprimeDetIdx dataAll(iSub).detd.(Detfieldnames{iF})(iTarget,iValid)];
+                 detd_scatterplot.(Detfieldnames{iF})(iValid, iSub, iTarget) = dataAll(iSub).detd.(Detfieldnames{iF})(iTarget,iValid);
                  cDetIdx = [cDetIdx dataAll(iSub).detc.(Detfieldnames{iF})(iTarget,iValid)];
+                 detc_scatterplot.(Detfieldnames{iF})(iValid, iSub, iTarget) = dataAll(iSub).detc.(Detfieldnames{iF})(iTarget,iValid);
                  dprimeDisIdx = [dprimeDisIdx dataAll(iSub).disd.(Detfieldnames{iF})(iTarget,iValid)];
+                 disd_scatterplot.(Detfieldnames{iF})(iValid, iSub, iTarget) = dataAll(iSub).disd.(Detfieldnames{iF})(iTarget,iValid);
                  cDisIdx = [cDisIdx dataAll(iSub).disc.(Detfieldnames{iF})(iTarget,iValid)];
+                 disc_scatterplot.(Detfieldnames{iF})(iValid, iSub, iTarget) = dataAll(iSub).disc.(Detfieldnames{iF})(iTarget,iValid);
+
              end
              detdStd.(Detfieldnames{iF})(iTarget, iValid) = std(dprimeDetIdx);
              detd.(Detfieldnames{iF})(iTarget, iValid) = mean(dprimeDetIdx);
@@ -765,6 +758,12 @@ for iContrast = 1:numel(contrastConds)
         kt_drawBracket(.7778, 1.2222, .84)
         kt_annotateStats(2,94,'~');
         kt_drawBracket(1.7778, 2.2222, .9)
+
+          kt_annotateStats(1.5,101,'___________________');
+          kt_annotateStats(1.5,103,'* Target');
+          kt_annotateStats(1.5,108,'* Validity');
+
+        % kt_drawBracket(.7778, 2.2222, 1.01)
     end
 
     if iContrast == 3
@@ -774,6 +773,10 @@ for iContrast = 1:numel(contrastConds)
         kt_drawBracket(1, 1.2222, .83)
         kt_annotateStats(2,92,'*');
         kt_drawBracket(1.7778, 2.2222, .92)
+
+        kt_annotateStats(1.5,102,'___________________');
+        kt_annotateStats(1.5,104,'* Target');
+        kt_annotateStats(1.5,109,'* Validity');
     end
 
     if iContrast == 2
@@ -809,39 +812,22 @@ for iContrast = 1:numel(contrastConds)
     for iTarget = 1:2
         for iValid = 1:3
             for iSub = 1:15
-                s = scatter(xcoords_scatter(iValid, iSub, iTarget), scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget));
-                % if iContrast == 1 || iContrast == 3
-                      s.MarkerEdgeColor = [1 1 1];
-                       % s.MarkerFaceAlpha = shade_scatter(iValid);
+                s = scatter(xcoords_scatter(iValid, iSub, iTarget), Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget));
+                    s.MarkerEdgeColor = [1 1 1];
                     if iTarget == 1
                         s.MarkerFaceColor = fp.blue;
                     elseif iTarget == 2
                         s.MarkerFaceColor= fp.orange;
                     end
                      s.MarkerFaceAlpha = shade_scatter(iValid);
-                    % s.MarkerEdgeAlpha = shade_scatter(iValid);
-                    % s.BarWidth = 0.2;
-                % elseif iContrast == 2 || iContrast == 4
-                %           s.MarkerEdgeColor = [1 1 1];
-                %     s.MarkerFaceColor = [1 1 1];
-                %     s.MarkerEdgeAlpha = shade(iValid);
-                %     if iTarget == 1
-                %         % s.MarkerEdgeColor = fp.blue;
-                %     elseif iTarget == 2
-                %         % s.MarkerEdgeColor = fp.orange;
-                %     end
-                    % s.LineWidth = 2;
-                    % s.BarWidth = 0.18;
-                    % s.MarkerEdgeAlpha = shade_scatter(iValid);
-                % end
             end
         end
     end
 end 
 [ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.325]);
 [ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.375]);
-[ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 0.9]);
-[ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 0.9]);
+[ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 .905]);
+[ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 .905]);
 [ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .27 0.86]);
 [ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.86]);
 [ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.15 0.86]);
@@ -1043,6 +1029,24 @@ for iContrast = 1:numel(contrastConds)
 
     
 end
+shade_scatter = [.6 .5 .25];
+for iContrast = 1:numel(contrastConds)
+    subplot(2,2,iContrast)
+    for iTarget = 1:2
+        for iValid = 1:3
+            for iSub = 1:15
+                s = scatter(xcoords_scatter(iValid, iSub, iTarget), RT_scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget));
+                    s.MarkerEdgeColor = [1 1 1];
+                    if iTarget == 1
+                        s.MarkerFaceColor = fp.blue;
+                    elseif iTarget == 2
+                        s.MarkerFaceColor= fp.orange;
+                    end
+                     s.MarkerFaceAlpha = shade_scatter(iValid);
+            end
+        end
+    end
+end 
 [ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.325]);
 [ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.375]);
 [ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 0.9]);
@@ -1139,6 +1143,25 @@ end
      ax.YGrid = 'off';
  end
 
+ shade_scatter = [.6 .5 .25];
+for iDet = 2:numel(Detfieldnames)
+    subplot(2,2,iDet-1)
+    for iTarget = 1:2
+        for iValid = 1:3
+            for iSub = 1:15
+                s = scatter(xcoords_scatter(iValid, iSub, iTarget), detd_scatterplot.(Detfieldnames{iDet})(iValid, iSub, iTarget));
+                    s.MarkerEdgeColor = [1 1 1];
+                    if iTarget == 1
+                        s.MarkerFaceColor = fp.blue;
+                    elseif iTarget == 2
+                        s.MarkerFaceColor= fp.orange;
+                    end
+                     s.MarkerFaceAlpha = shade_scatter(iValid);
+            end
+        end
+    end
+end 
+
 % criterion
   for iDet = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
      subplot(2,2,iDet+1)
@@ -1203,6 +1226,26 @@ end
      ax.XGrid = 'off';
      ax.YGrid = 'off';
   end
+
+   shade_scatter = [.6 .5 .25];
+for iDet = 2:numel(Detfieldnames)
+    subplot(2,2,iDet+1)
+    for iTarget = 1:2
+        for iValid = 1:3
+            for iSub = 1:15
+                s = scatter(xcoords_scatter(iValid, iSub, iTarget), detc_scatterplot.(Detfieldnames{iDet})(iValid, iSub, iTarget));
+                    s.MarkerEdgeColor = [1 1 1];
+                    if iTarget == 1
+                        s.MarkerFaceColor = fp.blue;
+                    elseif iTarget == 2
+                        s.MarkerFaceColor= fp.orange;
+                    end
+                     s.MarkerFaceAlpha = shade_scatter(iValid);
+            end
+        end
+    end
+end 
+
 % 
 % [ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.325]);
 % [ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.375]);
@@ -1288,6 +1331,25 @@ end
      ax.YGrid = 'off';
  end
 
+ shade_scatter = [.6 .5 .25];
+for iDis = 2:numel(Detfieldnames)
+    subplot(2,2,iDis-1)
+    for iTarget = 1:2
+        for iValid = 1:3
+            for iSub = 1:15
+                s = scatter(xcoords_scatter(iValid, iSub, iTarget), detd_scatterplot.(Detfieldnames{iDis})(iValid, iSub, iTarget));
+                    s.MarkerEdgeColor = [1 1 1];
+                    if iTarget == 1
+                        s.MarkerFaceColor = fp.blue;
+                    elseif iTarget == 2
+                        s.MarkerFaceColor= fp.orange;
+                    end
+                     s.MarkerFaceAlpha = shade_scatter(iValid);
+            end
+        end
+    end
+end 
+
 % criterion
   for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
      subplot(2,2,iDis+1)
@@ -1344,6 +1406,26 @@ end
      ax.XGrid = 'off';
      ax.YGrid = 'off';
   end
+
+     shade_scatter = [.6 .5 .25];
+for iDet = 2:numel(Detfieldnames)
+    subplot(2,2,iDet+1)
+    for iTarget = 1:2
+        for iValid = 1:3
+            for iSub = 1:15
+                s = scatter(xcoords_scatter(iValid, iSub, iTarget), disc_scatterplot.(Detfieldnames{iDet})(iValid, iSub, iTarget));
+                    s.MarkerEdgeColor = [1 1 1];
+                    if iTarget == 1
+                        s.MarkerFaceColor = fp.blue;
+                    elseif iTarget == 2
+                        s.MarkerFaceColor= fp.orange;
+                    end
+                     s.MarkerFaceAlpha = shade_scatter(iValid);
+            end
+        end
+    end
+end 
+
 % 
 % [ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.325]);
 % [ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.375]);

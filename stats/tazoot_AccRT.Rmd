@@ -275,6 +275,62 @@ knitr::kable(RTNA_anova)
 
 ```
 
+```{r TPNP RT}
+## RT filtered present/present
+d <- data %>% filter(targetContrast == 1, nontargetContrast==1)
+
+RTTPNP_anova = ezANOVA(
+  data = d,
+  dv = .(RT),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(RTTPNP_anova)
+
+```
+
+```{r TPNA RT}
+## RT filtered present/absent
+d <- data %>% filter(targetContrast == 1, nontargetContrast==0)
+
+RTTPNA_anova = ezANOVA(
+  data = d,
+  dv = .(RT),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(RTTPNA_anova)
+
+```
+
+```{r TANP RT}
+## RT filtered absent/present
+d <- data %>% filter(targetContrast == 0, nontargetContrast==1)
+
+RTTANP_anova = ezANOVA(
+  data = d,
+  dv = .(RT),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(RTTANP_anova)
+
+```
+
+```{r TANA RT}
+## RT filtered absent/absent
+d <- data %>% filter(targetContrast == 0, nontargetContrast==0)
+
+RTTANA_anova = ezANOVA(
+  data = d,
+  dv = .(RT),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(RTTANA_anova)
+
+```
+
 ```{r T1 RT}
 ## RT filtered target 1
 d <- data %>% filter(Target==1)

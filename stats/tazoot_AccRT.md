@@ -884,6 +884,186 @@ knitr::kable(RTNA_anova)
 </table>
 
 ``` r
+## RT filtered present/present
+d <- data %>% filter(targetContrast == 1, nontargetContrast==1)
+
+RTTPNP_anova = ezANOVA(
+  data = d,
+  dv = .(RT),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(RTTPNP_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect          | DFn | DFd |         F |         p | p\<.05 |       ges |
+|:----|:----------------|----:|----:|----------:|----------:|:-------|----------:|
+| 2   | Target          |   1 |  14 | 11.903389 | 0.0039036 | \*     | 0.0323150 |
+| 3   | Validity        |   2 |  28 |  9.426538 | 0.0007411 | \*     | 0.0786361 |
+| 4   | Target:Validity |   2 |  28 |  1.879073 | 0.1714906 |        | 0.0052842 |
+
+</td>
+<td>
+
+|     | Effect          |         W |         p | p\<.05 |
+|:----|:----------------|----------:|----------:|:-------|
+| 3   | Validity        | 0.3315156 | 0.0007643 | \*     |
+| 4   | Target:Validity | 0.9115086 | 0.5475769 |        |
+
+</td>
+<td>
+
+|     | Effect          |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:----------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
+| 3   | Validity        | 0.5993463 | 0.0051141 | \*           | 0.6241702 | 0.0045319 | \*           |
+| 4   | Target:Validity | 0.9187027 | 0.1754139 |              | 1.0508071 | 0.1714906 |              |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## RT filtered present/absent
+d <- data %>% filter(targetContrast == 1, nontargetContrast==0)
+
+RTTPNA_anova = ezANOVA(
+  data = d,
+  dv = .(RT),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(RTTPNA_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect          | DFn | DFd |         F |         p | p\<.05 |       ges |
+|:----|:----------------|----:|----:|----------:|----------:|:-------|----------:|
+| 2   | Target          |   1 |  14 | 11.811353 | 0.0040088 | \*     | 0.0662423 |
+| 3   | Validity        |   2 |  28 | 11.333916 | 0.0002477 | \*     | 0.0736199 |
+| 4   | Target:Validity |   2 |  28 |  1.162475 | 0.3273491 |        | 0.0041159 |
+
+</td>
+<td>
+
+|     | Effect          |         W |         p | p\<.05 |
+|:----|:----------------|----------:|----------:|:-------|
+| 3   | Validity        | 0.8303554 | 0.2986869 |        |
+| 4   | Target:Validity | 0.8666133 | 0.3943344 |        |
+
+</td>
+<td>
+
+|     | Effect          |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:----------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
+| 3   | Validity        | 0.8549606 | 0.0005742 | \*           | 0.9621101 | 0.0003084 | \*           |
+| 4   | Target:Validity | 0.8823114 | 0.3235758 |              | 0.9999423 | 0.3273475 |              |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## RT filtered absent/present
+d <- data %>% filter(targetContrast == 0, nontargetContrast==1)
+
+RTTANP_anova = ezANOVA(
+  data = d,
+  dv = .(RT),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(RTTANP_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect          | DFn | DFd |         F |         p | p\<.05 |       ges |
+|:----|:----------------|----:|----:|----------:|----------:|:-------|----------:|
+| 2   | Target          |   1 |  14 | 15.270562 | 0.0015775 | \*     | 0.0586171 |
+| 3   | Validity        |   2 |  28 |  8.240643 | 0.0015337 | \*     | 0.0313725 |
+| 4   | Target:Validity |   2 |  28 |  1.167870 | 0.3257228 |        | 0.0029344 |
+
+</td>
+<td>
+
+|     | Effect          |         W |         p | p\<.05 |
+|:----|:----------------|----------:|----------:|:-------|
+| 3   | Validity        | 0.9085721 | 0.5362114 |        |
+| 4   | Target:Validity | 0.5825293 | 0.0298240 | \*     |
+
+</td>
+<td>
+
+|     | Effect          |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:----------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
+| 3   | Validity        | 0.9162309 | 0.0021669 | \*           | 1.0473330 | 0.0015337 | \*           |
+| 4   | Target:Validity | 0.7054820 | 0.3140282 |              | 0.7611567 | 0.3169681 |              |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## RT filtered absent/absent
+d <- data %>% filter(targetContrast == 0, nontargetContrast==0)
+
+RTTANA_anova = ezANOVA(
+  data = d,
+  dv = .(RT),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(RTTANA_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect          | DFn | DFd |         F |         p | p\<.05 |       ges |
+|:----|:----------------|----:|----:|----------:|----------:|:-------|----------:|
+| 2   | Target          |   1 |  14 | 2.1528685 | 0.1644072 |        | 0.0068643 |
+| 3   | Validity        |   2 |  28 | 0.4553190 | 0.6388589 |        | 0.0017704 |
+| 4   | Target:Validity |   2 |  28 | 0.3351905 | 0.7180322 |        | 0.0007843 |
+
+</td>
+<td>
+
+|     | Effect          |         W |         p | p\<.05 |
+|:----|:----------------|----------:|----------:|:-------|
+| 3   | Validity        | 0.9124000 | 0.5510669 |        |
+| 4   | Target:Validity | 0.9757874 | 0.8527246 |        |
+
+</td>
+<td>
+
+|     | Effect          |       GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:----------------|----------:|----------:|:-------------|---------:|----------:|:-------------|
+| 3   | Validity        | 0.9194557 | 0.6231185 |              | 1.051866 | 0.6388589 |              |
+| 4   | Target:Validity | 0.9763598 | 0.7130432 |              | 1.132654 | 0.7180322 |              |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
 ## RT filtered target 1
 d <- data %>% filter(Target==1)
 
