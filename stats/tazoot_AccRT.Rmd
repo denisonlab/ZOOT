@@ -80,6 +80,32 @@ knitr::kable(accTP_anova)
 ```
 
 
+```{r TP T1 accuracy}
+## accuracy filtered target present T1
+d <- data %>% filter(targetContrast==1, Target == 1)
+
+accTP_T1_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(nontargetContrast,Validity)
+)
+knitr::kable(accTP_T1_anova)
+```
+
+```{r TP T2 accuracy}
+## accuracy filtered target present T2
+d <- data %>% filter(targetContrast==1, Target == 2)
+
+accTP_T2_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(nontargetContrast,Validity)
+)
+knitr::kable(accTP_T2_anova)
+```
+
 ```{r TA accuracy}
 ## accuracy filtered target absent
 d <- data %>% filter(targetContrast==0)
@@ -93,6 +119,33 @@ accTA_anova = ezANOVA(
 knitr::kable(accTA_anova)
 
 ```
+
+```{r TA T1 accuracy}
+## accuracy filtered target absent T1
+d <- data %>% filter(targetContrast==0, Target == 1)
+
+accTA_T1_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(nontargetContrast,Validity)
+)
+knitr::kable(accTA_T1_anova)
+```
+
+```{r TA T2 accuracy}
+## accuracy filtered target present T2
+d <- data %>% filter(targetContrast==0, Target == 2)
+
+accTA_T2_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(nontargetContrast,Validity)
+)
+knitr::kable(accTA_T2_anova)
+```
+
 
 ```{r NP accuracy}
 ## accuracy filtered nontarget present
@@ -176,6 +229,119 @@ accTANA_anova = ezANOVA(
 knitr::kable(accTANA_anova)
 
 ```
+
+```{r TPNP T1 accuracy}
+## accuracy filtered target present/nontarget present T1
+d <- data %>% filter(targetContrast==1, nontargetContrast==1, Target == 1)
+
+accTPNP_T1_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(accTPNP_T1_anova)
+
+```
+
+```{r TPNA T1 accuracy}
+## accuracy filtered target present/nontarget absent T1
+d <- data %>% filter(targetContrast==1, nontargetContrast==0, Target == 1)
+
+accTPNA_T1_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(accTPNA_T1_anova)
+
+```
+
+```{r TANP T1 accuracy}
+## accuracy filtered target absent/nontarget present T1
+d <- data %>% filter(targetContrast==0, nontargetContrast==1, Target == 1)
+
+accTANP_T1_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(accTANP_T1_anova)
+
+```
+
+```{r TANA T1 accuracy}
+## accuracy filtered target absent/nontarget absent T1
+d <- data %>% filter(targetContrast==0, nontargetContrast==0, Target == 1)
+
+accTANA_T1_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(accTANA_T1_anova)
+
+```
+
+```{r TPNP T2 accuracy}
+## accuracy filtered target present/nontarget present T2
+d <- data %>% filter(targetContrast==1, nontargetContrast==1, Target == 2)
+
+accTPNP_T2_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(accTPNP_T2_anova)
+
+```
+
+```{r TPNA T2 accuracy}
+## accuracy filtered target present/nontarget absent T2
+d <- data %>% filter(targetContrast==1, nontargetContrast==0, Target == 2)
+
+accTPNA_T2_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(accTPNA_T2_anova)
+
+```
+
+```{r TANP T2 accuracy}
+## accuracy filtered target absent/nontarget present T1
+d <- data %>% filter(targetContrast==0, nontargetContrast==1, Target == 2)
+
+accTANP_T2_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(accTANP_T2_anova)
+
+```
+
+```{r TANA T2 accuracy}
+## accuracy filtered target absent/nontarget absent T2
+d <- data %>% filter(targetContrast==0, nontargetContrast==0, Target == 2)
+
+accTANA_T2_anova = ezANOVA(
+  data = d,
+  dv = .(Acc),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(accTANA_T2_anova)
+
+```
+
 
 ```{r T1 accuracy}
 ## accuracy filtered target 1
