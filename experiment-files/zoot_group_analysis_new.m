@@ -145,9 +145,9 @@ for iSub=1:length(subs) % for participant
         end
     end
 
-    dAcc.prop = [dAcc.pProp(1:2,:,:);dAcc.aProp(3:4,:,:)]; % combines arrays that show accuracy for detecting target when present (tp/np, tp/na) and when absent (ta/np, ta/na) to give a 4 x 3 x 2 array
-    NP = mean([dAcc.pProp(1,:,:);dAcc.aProp(3,:,:)]);
-    NA = mean([dAcc.pProp(2,:,:);dAcc.aProp(4,:,:)]);
+    dAcc.prop = [dAcc.pProp(1,:,:); dAcc.pProp(3,:,:);dAcc.aProp(2,:,:);dAcc.aProp(4,:,:)]; % combines arrays that show accuracy for detecting target when present (tp/np, tp/na) and when absent (ta/np, ta/na) to give a 4 x 3 x 2 array
+    NP = mean([dAcc.pProp(1,:,:);dAcc.aProp(2,:,:)]);
+    NA = mean([dAcc.pProp(3,:,:);dAcc.aProp(4,:,:)]);
     dAccNT.prop = [NP; NA];
 
     dataAll(iSub).meansDet = dAcc.prop*100; % save each participant's mean data in dataAll
@@ -160,7 +160,7 @@ for iSub=1:length(subs) % for participant
     % per condition as matrices
 
     for iTarget = 1:2 % for each target (1 or 2)
-        for iContrastCond = 1:2 % for each contrast condition (PP, PA)
+        for iContrastCond = 1:3 % for each contrast condition (PP, PA)
             for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
                 pIdx = dataAll(iSub).target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % index for finding relevant trials for the denominator of each condition
                 dtpAcc.N(iContrastCond, iValidity, iTarget) = size(find(pIdx),2); % denominator, number of trials per condition
@@ -170,7 +170,7 @@ for iSub=1:length(subs) % for participant
         end
     end
 
-    dtpAccNT.prop = dtpAcc.Prop;
+    dtpAccNT.prop = [dtpAcc.Prop(1,:,:); dtpAcc.Prop(3,:,:)];
     dataAll(iSub).meansDetTPNT = dtpAccNT.prop*100;
 
       %% RT
@@ -759,11 +759,11 @@ for iContrast = 1:numel(contrastConds)
         kt_annotateStats(2,94,'~');
         kt_drawBracket(1.7778, 2.2222, .9)
 
-          kt_annotateStats(1.5,101,'___________________');
-          kt_annotateStats(1.5,103,'* Target');
-          kt_annotateStats(1.5,108,'* Validity');
+        kt_annotateStats(1.5,101,'___________________');
+        kt_annotateStats(1.5,103,'* Target');
+        kt_annotateStats(1.5,108,'* Validity');
 
-        % kt_drawBracket(.7778, 2.2222, 1.01)
+
     end
 
     if iContrast == 3
@@ -806,38 +806,38 @@ for iContrast = 1:numel(contrastConds)
 
     
 end
-shade_scatter = [.6 .5 .25];
-for iContrast = 1:numel(contrastConds)
-    subplot(2,2,iContrast)
-    for iTarget = 1:2
-        for iValid = 1:3
-            for iSub = 1:15
-                s = scatter(xcoords_scatter(iValid, iSub, iTarget), Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget));
-                    s.MarkerEdgeColor = [1 1 1];
-                    if iTarget == 1
-                        s.MarkerFaceColor = fp.blue;
-                    elseif iTarget == 2
-                        s.MarkerFaceColor= fp.orange;
-                    end
-                     s.MarkerFaceAlpha = shade_scatter(iValid);
-            end
-        end
-    end
-end 
+% shade_scatter = [.6 .5 .25];
+% for iContrast = 1:numel(contrastConds)
+%     subplot(2,2,iContrast)
+%     for iTarget = 1:2
+%         for iValid = 1:3
+%             for iSub = 1:15
+%                 s = scatter(xcoords_scatter(iValid, iSub, iTarget), Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget));
+%                     s.MarkerEdgeColor = [1 1 1];
+%                     if iTarget == 1
+%                         s.MarkerFaceColor = fp.blue;
+%                     elseif iTarget == 2
+%                         s.MarkerFaceColor= fp.orange;
+%                     end
+%                      s.MarkerFaceAlpha = shade_scatter(iValid);
+%             end
+%         end
+%     end
+% end 
 [ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.325]);
 [ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.375]);
-[ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 .905]);
-[ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 .905]);
+[ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 .90]);
+[ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 .90]);
 [ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .27 0.86]);
 [ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.86]);
 [ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.15 0.86]);
 [ax8, h8] = suplabel('T2', 'tt', [0.08 0.08 1.47 0.86]);
-
-if saveplots
-    figTitle = sprintf('%s_%s',...
-        'beh_acc',datestr(now,'yymmdd'));
-    saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
-end
+% 
+% if saveplots
+%     figTitle = sprintf('%s_%s',...
+%         'beh_acc',datestr(now,'yymmdd'));
+%     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
+% end
 
 %% det acc
 figure();
@@ -972,56 +972,56 @@ for iContrast = 1:numel(contrastConds)
     end
     hold on
     if iContrast==1
-        kt_annotateStats(1,.58,'***');
-        kt_drawBracket(.7778, 1.2222, 1.01)
-        kt_annotateStats(.89,.47,'**');
+        kt_annotateStats(1,.62,'***');
+        kt_drawBracket(.7778, 1.2222, 1.1)
+        kt_annotateStats(.89,.52,'**');
         kt_drawBracket(.7778, 1, .78)
-        kt_annotateStats(1.1111,.57,'~');
-        kt_drawBracket(1, 1.2222, .87)
+        kt_annotateStats(1.1111,.58,'~');
+        kt_drawBracket(1, 1.2222, .85)
 
-        kt_annotateStats(2.1,.46,'**');
-        kt_drawBracket(2, 2.2222, .76)
-        kt_annotateStats(2,.57,'~');
-        kt_drawBracket(1.7778, 2.2222, .86)
+        kt_annotateStats(2.1,.44,'**');
+        kt_drawBracket(2, 2.2222, .68)
+        kt_annotateStats(2,.55,'~');
+        kt_drawBracket(1.7778, 2.2222, .78)
 
-        kt_annotateStats(1.5, .95,'___________________');
-        kt_annotateStats(1.5, .965,'* Target');
-        kt_annotateStats(1.5,1.03,'* Validity');
+        kt_annotateStats(1.5, 1,'___________________');
+        kt_annotateStats(1.5, 1.02,'* Target');
+        kt_annotateStats(1.5,1.1,'* Validity');
     end
 
     if iContrast == 3
-        kt_annotateStats(1,.6,'***');
-        kt_drawBracket(.7778, 1.2222, 1.05)
-        kt_annotateStats(1.1111,.555,'*');
-        kt_drawBracket(1, 1.2222, .72)
+        kt_annotateStats(1,.62,'***');
+        kt_drawBracket(.7778, 1.2222, 1.1)
+        kt_annotateStats(1.1111,.54,'*');
+        kt_drawBracket(1, 1.2222, .82)
 
-        kt_annotateStats(2,.48,'**');
-        kt_drawBracket(1.7778, 2.2222, .62)
+        kt_annotateStats(2,.49,'**');
+        kt_drawBracket(1.7778, 2.2222, .75)
         kt_annotateStats(2.1111,.42,'*');
-        kt_drawBracket(2, 2.2222, .55)
+        kt_drawBracket(2, 2.2222, .65)
 
-        kt_annotateStats(1.5, .95,'___________________');
-        kt_annotateStats(1.5, .965,'* Target');
-        kt_annotateStats(1.5,1.03,'* Validity');
+        kt_annotateStats(1.5, 1,'___________________');
+        kt_annotateStats(1.5, 1.02,'* Target');
+        kt_annotateStats(1.5,1.1,'* Validity');
     end
 
     if iContrast == 2
         kt_annotateStats(1,.425,'*');
         kt_drawBracket(.7778, 1.2222, .92)
-        kt_annotateStats(.89,.41,'~');
+        kt_annotateStats(.89,.38,'~');
         kt_drawBracket(.7778, 1, .8)
 
 
         kt_annotateStats(2,.37,'**');
         kt_drawBracket(1.7778, 2.2222, .78)
-        kt_annotateStats(2.12,.3,'*');
+        kt_annotateStats(2.12,.28,'*');
         kt_drawBracket(2.02, 2.2222, .66)
-        kt_annotateStats(1.89,.29,'~');
+        kt_annotateStats(1.89,.27,'~');
         kt_drawBracket(1.7778, 1.98, .55)
 
-        kt_annotateStats(1.5, .95,'___________________');
-        kt_annotateStats(1.5, .965,'* Target');
-        kt_annotateStats(1.5,1.03,'* Validity');
+        kt_annotateStats(1.5, 1,'___________________');
+        kt_annotateStats(1.5, 1.02,'* Target');
+        kt_annotateStats(1.5,1.1,'* Validity');
     end
 
     hold off
@@ -1087,7 +1087,7 @@ end
              b = bar(xcoords_SDT(iTarget, iValid), detd.(dprimefieldnames{iDet})(iTarget, iValid));
              kt_figureStyle();
              errorbar(xcoords_SDT(iTarget, iValid),detd.(dprimefieldnames{iDet})(iTarget, iValid),detdErr.(dprimefieldnames{iDet})(iTarget, iValid), '.k', 'MarkerSize',0.1, 'CapSize', 0, 'LineWidth', 1.75)
-             if iDet == 2
+             % if iDet == 2
                  if iTarget == 1
                      b.FaceColor = fp.blue;
                      b.EdgeColor = fp.blue;
@@ -1098,18 +1098,18 @@ end
                  b.FaceAlpha = shade(iValid);
                  b.EdgeAlpha = shade(iValid);
                  b.BarWidth = 0.2;
-             elseif iDet == 3
-                 b.FaceColor = [1 1 1];
-                 b.EdgeAlpha = shade(iValid);
-                 if iTarget == 1
-                     b.EdgeColor = fp.blue;
-                 elseif iTarget == 2
-                     b.EdgeColor = fp.orange;
-                 end
-                 b.LineWidth = 2;
-                 b.BarWidth = 0.18;
-                 b.EdgeAlpha = shade(iValid);
-             end
+             % elseif iDet == 3
+             %     b.FaceColor = [1 1 1];
+             %     b.EdgeAlpha = shade(iValid);
+             %     if iTarget == 1
+             %         b.EdgeColor = fp.blue;
+             %     elseif iTarget == 2
+             %         b.EdgeColor = fp.orange;
+             %     end
+             %     b.LineWidth = 2;
+             %     b.BarWidth = 0.18;
+             %     b.EdgeAlpha = shade(iValid);
+             
 
          end
      end
@@ -1164,24 +1164,24 @@ end
      ax.YGrid = 'off';
  end
 
- shade_scatter = [.6 .5 .25];
-for iDet = 2:numel(Detfieldnames) % 2:numel to remove "all"
-    subplot(2,2,iDet-1)
-    for iTarget = 1:2
-        for iValid = 1:3
-            for iSub = 1:15
-                s = scatter(xcoords_scatter(iValid, iSub, iTarget), detd_scatterplot.(Detfieldnames{iDet})(iValid, iSub, iTarget));
-                    s.MarkerEdgeColor = [1 1 1];
-                    if iTarget == 1
-                        s.MarkerFaceColor = fp.blue;
-                    elseif iTarget == 2
-                        s.MarkerFaceColor= fp.orange;
-                    end
-                     s.MarkerFaceAlpha = shade_scatter(iValid);
-            end
-        end
-    end
-end 
+%  shade_scatter = [.6 .5 .25];
+% for iDet = 2:numel(Detfieldnames) % 2:numel to remove "all"
+%     subplot(2,2,iDet-1)
+%     for iTarget = 1:2
+%         for iValid = 1:3
+%             for iSub = 1:15
+%                 s = scatter(xcoords_scatter(iValid, iSub, iTarget), detd_scatterplot.(Detfieldnames{iDet})(iValid, iSub, iTarget));
+%                     s.MarkerEdgeColor = [1 1 1];
+%                     if iTarget == 1
+%                         s.MarkerFaceColor = fp.blue;
+%                     elseif iTarget == 2
+%                         s.MarkerFaceColor= fp.orange;
+%                     end
+%                      s.MarkerFaceAlpha = shade_scatter(iValid);
+%             end
+%         end
+%     end
+% end 
 
 % criterion
   for iDet = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
@@ -1191,7 +1191,7 @@ end
              b = bar(xcoords_SDT(iTarget, iValid), detc.(dprimefieldnames{iDet})(iTarget, iValid));
              kt_figureStyle();
              errorbar(xcoords_SDT(iTarget, iValid),detc.(dprimefieldnames{iDet})(iTarget, iValid),detcErr.(dprimefieldnames{iDet})(iTarget, iValid), '.k', 'MarkerSize',0.1, 'CapSize', 0, 'LineWidth', 1.75)
-             if iDet == 2
+             % if iDet == 2
                  if iTarget == 1
                      b.FaceColor = fp.blue;
                      b.EdgeColor = fp.blue;
@@ -1202,18 +1202,18 @@ end
                  b.FaceAlpha = shade(iValid);
                  b.EdgeAlpha = shade(iValid);
                  b.BarWidth = 0.2;
-             elseif iDet == 3
-                 b.FaceColor = [1 1 1];
-                 b.EdgeAlpha = shade(iValid);
-                 if iTarget == 1
-                     b.EdgeColor = fp.blue;
-                 elseif iTarget == 2
-                     b.EdgeColor = fp.orange;
-                 end
-                 b.LineWidth = 2;
-                 b.BarWidth = 0.18;
-                 b.EdgeAlpha = shade(iValid);
-             end
+             % elseif iDet == 3
+             %     b.FaceColor = [1 1 1];
+             %     b.EdgeAlpha = shade(iValid);
+             %     if iTarget == 1
+             %         b.EdgeColor = fp.blue;
+             %     elseif iTarget == 2
+             %         b.EdgeColor = fp.orange;
+             %     end
+             %     b.LineWidth = 2;
+             %     b.BarWidth = 0.18;
+             %     b.EdgeAlpha = shade(iValid);
+             % end
 
          end
      end
@@ -1226,8 +1226,8 @@ end
 
          kt_annotateStats(1.89,.05,'*');
          kt_drawBracket(1.7778, 2, .175)
-         kt_annotateStats(2,.25,'~');
-         kt_drawBracket(1.7778, 2.2222, .315)
+         kt_annotateStats(2,.27,'~');
+         kt_drawBracket(1.7778, 2.2222, .38)
 
            kt_annotateStats(1.5, 1.1,'___________________');
         kt_annotateStats(1.5, 1.2,'* Validity');
@@ -1257,24 +1257,24 @@ end
      ax.YGrid = 'off';
   end
 
-   shade_scatter = [.6 .5 .25];
-for iDet = 2:numel(Detfieldnames)
-    subplot(2,2,iDet+1)
-    for iTarget = 1:2
-        for iValid = 1:3
-            for iSub = 1:15
-                s = scatter(xcoords_scatter(iValid, iSub, iTarget), detc_scatterplot.(Detfieldnames{iDet})(iValid, iSub, iTarget));
-                    s.MarkerEdgeColor = [1 1 1];
-                    if iTarget == 1
-                        s.MarkerFaceColor = fp.blue;
-                    elseif iTarget == 2
-                        s.MarkerFaceColor= fp.orange;
-                    end
-                     s.MarkerFaceAlpha = shade_scatter(iValid);
-            end
-        end
-    end
-end 
+%    shade_scatter = [.6 .5 .25];
+% for iDet = 2:numel(Detfieldnames)
+%     subplot(2,2,iDet+1)
+%     for iTarget = 1:2
+%         for iValid = 1:3
+%             for iSub = 1:15
+%                 s = scatter(xcoords_scatter(iValid, iSub, iTarget), detc_scatterplot.(Detfieldnames{iDet})(iValid, iSub, iTarget));
+%                     s.MarkerEdgeColor = [1 1 1];
+%                     if iTarget == 1
+%                         s.MarkerFaceColor = fp.blue;
+%                     elseif iTarget == 2
+%                         s.MarkerFaceColor= fp.orange;
+%                     end
+%                      s.MarkerFaceAlpha = shade_scatter(iValid);
+%             end
+%         end
+%     end
+% end 
 
 % 
 % [ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.325]);
@@ -1299,7 +1299,7 @@ end
              b = bar(xcoords_SDT(iTarget, iValid), disd.(dprimefieldnames{iDis})(iTarget, iValid));
              kt_figureStyle();
              errorbar(xcoords_SDT(iTarget, iValid),disd.(dprimefieldnames{iDis})(iTarget, iValid),disdErr.(dprimefieldnames{iDis})(iTarget, iValid), '.k', 'MarkerSize',0.1, 'CapSize', 0, 'LineWidth', 1.75)
-             if iDis == 2
+             % if iDis == 2
                  if iTarget == 1
                      b.FaceColor = fp.blue;
                      b.EdgeColor = fp.blue;
@@ -1310,18 +1310,18 @@ end
                  b.FaceAlpha = shade(iValid);
                  b.EdgeAlpha = shade(iValid);
                  b.BarWidth = 0.2;
-             elseif iDis == 3
-                 b.FaceColor = [1 1 1];
-                 b.EdgeAlpha = shade(iValid);
-                 if iTarget == 1
-                     b.EdgeColor = fp.blue;
-                 elseif iTarget == 2
-                     b.EdgeColor = fp.orange;
-                 end
-                 b.LineWidth = 2;
-                 b.BarWidth = 0.18;
-                 b.EdgeAlpha = shade(iValid);
-             end
+             % elseif iDis == 3
+             %     b.FaceColor = [1 1 1];
+             %     b.EdgeAlpha = shade(iValid);
+             %     if iTarget == 1
+             %         b.EdgeColor = fp.blue;
+             %     elseif iTarget == 2
+             %         b.EdgeColor = fp.orange;
+             %     end
+             %     b.LineWidth = 2;
+             %     b.BarWidth = 0.18;
+             %     b.EdgeAlpha = shade(iValid);
+             % end
 
          end
      end
@@ -1331,22 +1331,22 @@ end
          kt_annotateStats(1,2.1,'**');
          kt_drawBracket(.7778, 1.2222, .79)
 
-         kt_annotateStats(2,2.78,'*');
-         kt_drawBracket(1.7778, 2.2222, 1.01)
-         kt_annotateStats(2.1111,2.7,'~');
+         kt_annotateStats(2,3.02,'*');
+         kt_drawBracket(1.7778, 2.2222, 1.1)
+         kt_annotateStats(2.1111,2.9,'~');
          kt_drawBracket(2, 2.2222, .85)
 
         kt_annotateStats(1.5, 6.1,'___________________');
         kt_annotateStats(1.5, 6.2,'* Target');
         kt_annotateStats(1.5,6.6,'* Validity');
       elseif iDis == 3
-         kt_annotateStats(1,2.68,'*');
+         kt_annotateStats(1,3.02,'*');
          kt_drawBracket(.7778, 1.2222, .92)
 
-         kt_annotateStats(2,3.45,'*');
-         kt_drawBracket(1.7778, 2.2222, 1.15)
-         kt_annotateStats(1.89,3.05,'*');
-         kt_drawBracket(1.7778, 2, .82)
+         kt_annotateStats(2,3.35,'*');
+         kt_drawBracket(1.7778, 2.2222, 1.02)
+         kt_annotateStats(1.89,3.0,'*');
+         kt_drawBracket(1.7778, 2, .80)
 
         kt_annotateStats(1.5, 6.1,'___________________');
         kt_annotateStats(1.5, 6.2,'* Target');
@@ -1396,7 +1396,7 @@ end
              b = bar(xcoords_SDT(iTarget, iValid), disc.(dprimefieldnames{iDis})(iTarget, iValid));
              kt_figureStyle();
              errorbar(xcoords_SDT(iTarget, iValid),disc.(dprimefieldnames{iDis})(iTarget, iValid),discErr.(dprimefieldnames{iDis})(iTarget, iValid), '.k', 'MarkerSize',0.1, 'CapSize', 0, 'LineWidth', 1.75)
-             if iDis == 2
+             % if iDis == 2
                  if iTarget == 1
                      b.FaceColor = fp.blue;
                      b.EdgeColor = fp.blue;
@@ -1407,18 +1407,18 @@ end
                  b.FaceAlpha = shade(iValid);
                  b.EdgeAlpha = shade(iValid);
                  b.BarWidth = 0.2;
-             elseif iDis == 3
-                 b.FaceColor = [1 1 1];
-                 b.EdgeAlpha = shade(iValid);
-                 if iTarget == 1
-                     b.EdgeColor = fp.blue;
-                 elseif iTarget == 2
-                     b.EdgeColor = fp.orange;
-                 end
-                 b.LineWidth = 2;
-                 b.BarWidth = 0.18;
-                 b.EdgeAlpha = shade(iValid);
-             end
+             % elseif iDis == 3
+             %     b.FaceColor = [1 1 1];
+             %     b.EdgeAlpha = shade(iValid);
+             %     if iTarget == 1
+             %         b.EdgeColor = fp.blue;
+             %     elseif iTarget == 2
+             %         b.EdgeColor = fp.orange;
+             %     end
+             %     b.LineWidth = 2;
+             %     b.BarWidth = 0.18;
+             %     b.EdgeAlpha = shade(iValid);
+             % end
 
          end
      end
@@ -1426,14 +1426,14 @@ end
      hold on
      ylim([-1.5 1.5])
      if iDis == 2
-         kt_annotateStats(1,.07,'**');
+         kt_annotateStats(1,.2,'**');
          kt_drawBracket(.7778, 1.2222, .2)
 
          kt_annotateStats(1.5, 1.1,'___________________');
          kt_annotateStats(1.5, 1.22,'* Target:Validity');
      elseif iDet == 3
-         kt_annotateStats(1.1111,.5,'*');
-         kt_drawBracket(1, 1.2222, 0.75)
+         kt_annotateStats(1.1111,.27,'*');
+         kt_drawBracket(1, 1.2222, 0.25)
 
          kt_annotateStats(1.5, 1.1,'___________________');
          kt_annotateStats(1.5, 1.15,'* Target');
