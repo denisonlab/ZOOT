@@ -1114,7 +1114,7 @@ end
 
 
         kt_annotateStats(1.5, 6.1,'___________________');
-        kt_annotateStats(1.5, 6.3,'* Target');
+        kt_annotateStats(1.5, 6.3,'** Validity');
         % kt_annotateStats(1.5,6.6,'* Validity');
 
      elseif iDet == 3
@@ -1131,8 +1131,8 @@ end
          kt_drawBracket(1.7778, 2.2222, .82)
 
         kt_annotateStats(1.5, 6.1,'___________________');
-        kt_annotateStats(1.5, 6.2,'* Target');
-        kt_annotateStats(1.5,6.6,'* Validity');
+        kt_annotateStats(1.5, 6.2,'** Target');
+        kt_annotateStats(1.5,6.6,'*** Validity');
      end
 
      ylabel("d'")
@@ -1227,14 +1227,14 @@ end
          kt_drawBracket(1.7778, 2.2222, .38)
 
            kt_annotateStats(1.5, 1.1,'___________________');
-        kt_annotateStats(1.5, 1.2,'* Validity');
+        kt_annotateStats(1.5, 1.2,'** Validity');
 
      elseif iDet == 3
          kt_annotateStats(1.1111,.5,'*');
          kt_drawBracket(1, 1.2222, 0.75)
 
            kt_annotateStats(1.5, 1.1,'___________________');
-        kt_annotateStats(1.5, 1.2,'* Target');
+        kt_annotateStats(1.5, 1.2,'*** Target');
     
      end
 
@@ -1345,8 +1345,8 @@ end
          kt_drawBracket(2, 2.2222, .85)
 
         kt_annotateStats(1.5, 6.1,'___________________');
-        kt_annotateStats(1.5, 6.2,'* Target');
-        kt_annotateStats(1.5,6.6,'* Validity');
+        kt_annotateStats(1.5, 6.2,'*** Target');
+        kt_annotateStats(1.5,6.6,'** Validity');
       elseif iDis == 3
          kt_annotateStats(1,3.02,'*');
          kt_drawBracket(.7778, 1.2222, .92)
@@ -1358,7 +1358,7 @@ end
 
         kt_annotateStats(1.5, 6.1,'___________________');
         kt_annotateStats(1.5, 6.2,'* Target');
-        kt_annotateStats(1.5,6.6,'* Validity');
+        kt_annotateStats(1.5,6.6,'*** Validity');
 
      end
 
@@ -1453,7 +1453,7 @@ end
 
          kt_annotateStats(1.5, 1.1,'___________________');
          kt_annotateStats(1.5, 1.15,'* Target');
-         kt_annotateStats(1.5, 1.3,'* Validity');
+         kt_annotateStats(1.5, 1.3,'*** Validity');
 
      end
 
