@@ -121,6 +121,88 @@ knitr::kable(detdPrimeNP_anova)
 </table>
 
 ``` r
+## det dprime filtered nontarget present T1
+d = data %>% filter(nontargetContrast==2, Target == 1)
+
+detdPrimeNP_T1_anova = ezANOVA(
+  data = d,
+  dv = .(det_dPrime),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(detdPrimeNP_T1_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect   | DFn | DFd |        F |         p | p\<.05 |       ges |
+|:----|:---------|----:|----:|---------:|----------:|:-------|----------:|
+| 2   | Validity |   2 |  28 | 4.619489 | 0.0184605 | \*     | 0.0764691 |
+
+</td>
+<td>
+
+|     | Effect   |         W |         p | p\<.05 |
+|:----|:---------|----------:|----------:|:-------|
+| 2   | Validity | 0.8846944 | 0.4509788 |        |
+
+</td>
+<td>
+
+|     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:---------|----------:|----------:|:-------------|---------:|----------:|:-------------|
+| 2   | Validity | 0.8966152 | 0.0226213 | \*           | 1.019863 | 0.0184605 | \*           |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## det dprime filtered nontarget present T1
+d = data %>% filter(nontargetContrast==2, Target == 2)
+
+detdPrimeNP_T2_anova = ezANOVA(
+  data = d,
+  dv = .(det_dPrime),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(detdPrimeNP_T2_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect   | DFn | DFd |        F |         p | p\<.05 |      ges |
+|:----|:---------|----:|----:|---------:|----------:|:-------|---------:|
+| 2   | Validity |   2 |  28 | 2.588903 | 0.0929705 |        | 0.052178 |
+
+</td>
+<td>
+
+|     | Effect   |         W |         p | p\<.05 |
+|:----|:---------|----------:|----------:|:-------|
+| 2   | Validity | 0.9941871 | 0.9628151 |        |
+
+</td>
+<td>
+
+|     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:---------|----------:|----------:|:-------------|---------:|----------:|:-------------|
+| 2   | Validity | 0.9942207 | 0.0933471 |              | 1.158327 | 0.0929705 |              |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
 ## det dprime filtered nontarget absent
 d = data %>% filter(nontargetContrast==3)
 
@@ -159,6 +241,88 @@ knitr::kable(detdPrimeNA_anova)
 |:----|:----------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
 | 3   | Validity        | 0.7421721 | 0.0000023 | \*           | 0.8095925 | 0.0000009 | \*           |
 | 4   | Target:Validity | 0.7197814 | 0.1552947 |              | 0.7799666 | 0.1517139 |              |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## det dprime filtered nontarget absent T1
+d = data %>% filter(nontargetContrast==3, Target == 1)
+
+detdPrimeNA_T1_anova = ezANOVA(
+  data = d,
+  dv = .(det_dPrime),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(detdPrimeNA_T1_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect   | DFn | DFd |        F |       p | p\<.05 |       ges |
+|:----|:---------|----:|----:|---------:|--------:|:-------|----------:|
+| 2   | Validity |   2 |  28 | 19.73892 | 4.5e-06 | \*     | 0.3148569 |
+
+</td>
+<td>
+
+|     | Effect   |         W |         p | p\<.05 |
+|:----|:---------|----------:|----------:|:-------|
+| 2   | Validity | 0.5567048 | 0.0222107 | \*     |
+
+</td>
+<td>
+
+|     | Effect   |       GGe |  p\[GG\] | p\[GG\]\<.05 |      HFe | p\[HF\] | p\[HF\]\<.05 |
+|:----|:---------|----------:|---------:|:-------------|---------:|--------:|:-------------|
+| 2   | Validity | 0.6928589 | 8.57e-05 | \*           | 0.744623 | 5.2e-05 | \*           |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## det dprime filtered nontarget absent T1
+d = data %>% filter(nontargetContrast==3, Target == 2)
+
+detdPrimeNA_T2_anova = ezANOVA(
+  data = d,
+  dv = .(det_dPrime),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(detdPrimeNA_T2_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect   | DFn | DFd |        F |       p | p\<.05 |       ges |
+|:----|:---------|----:|----:|---------:|--------:|:-------|----------:|
+| 2   | Validity |   2 |  28 | 14.90844 | 3.9e-05 | \*     | 0.2233478 |
+
+</td>
+<td>
+
+|     | Effect   |         W |         p | p\<.05 |
+|:----|:---------|----------:|----------:|:-------|
+| 2   | Validity | 0.5164532 | 0.0136364 | \*     |
+
+</td>
+<td>
+
+|     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:---------|----------:|----------:|:-------------|----------:|----------:|:-------------|
+| 2   | Validity | 0.6740603 | 0.0004573 | \*           | 0.7201226 | 0.0003223 | \*           |
 
 </td>
 </tr>
@@ -363,6 +527,88 @@ knitr::kable(disdPrimeNP_anova)
 </table>
 
 ``` r
+## dis dprime filtered nontarget present T1
+d = data %>% filter(nontargetContrast==2, Target == 1)
+
+disdPrimeNP_T1_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(disdPrimeNP_T1_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect   | DFn | DFd |       F |         p | p\<.05 |       ges |
+|:----|:---------|----:|----:|--------:|----------:|:-------|----------:|
+| 2   | Validity |   2 |  28 | 4.82106 | 0.0158773 | \*     | 0.1582681 |
+
+</td>
+<td>
+
+|     | Effect   |         W |         p | p\<.05 |
+|:----|:---------|----------:|----------:|:-------|
+| 2   | Validity | 0.9036955 | 0.5177783 |        |
+
+</td>
+<td>
+
+|     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:---------|----------:|----------:|:-------------|---------:|----------:|:-------------|
+| 2   | Validity | 0.9121554 | 0.0190784 | \*           | 1.041611 | 0.0158773 | \*           |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## dis dprime filtered nontarget present T2
+d = data %>% filter(nontargetContrast==2, Target == 2)
+
+disdPrimeNP_T2_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(disdPrimeNP_T2_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect   | DFn | DFd |        F |         p | p\<.05 |       ges |
+|:----|:---------|----:|----:|---------:|----------:|:-------|----------:|
+| 2   | Validity |   2 |  28 | 3.942941 | 0.0309943 | \*     | 0.1370737 |
+
+</td>
+<td>
+
+|     | Effect   |         W |         p | p\<.05 |
+|:----|:---------|----------:|----------:|:-------|
+| 2   | Validity | 0.9365811 | 0.6531981 |        |
+
+</td>
+<td>
+
+|     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:---------|----------:|----------:|:-------------|---------:|----------:|:-------------|
+| 2   | Validity | 0.9403632 | 0.0339776 | \*           | 1.081372 | 0.0309943 | \*           |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
 ## dis dprime filtered nontarget absent
 d = data %>% filter(nontargetContrast==3)
 
@@ -401,6 +647,88 @@ knitr::kable(disdPrimeNA_anova)
 |:----|:----------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
 | 3   | Validity        | 0.8805191 | 0.0012182 | \*           | 0.9974528 | 0.0006897 | \*           |
 | 4   | Target:Validity | 0.8063624 | 0.6391860 |              | 0.8957123 | 0.6603501 |              |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## dis dprime filtered nontarget absent T1
+d = data %>% filter(nontargetContrast==3, Target == 1)
+
+disdPrimeNA_T1_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(disdPrimeNA_T1_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect   | DFn | DFd |        F |         p | p\<.05 |       ges |
+|:----|:---------|----:|----:|---------:|----------:|:-------|----------:|
+| 2   | Validity |   2 |  28 | 4.402712 | 0.0217494 | \*     | 0.1068983 |
+
+</td>
+<td>
+
+|     | Effect   |         W |         p | p\<.05 |
+|:----|:---------|----------:|----------:|:-------|
+| 2   | Validity | 0.8707948 | 0.4068674 |        |
+
+</td>
+<td>
+
+|     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:---------|----------:|----------:|:-------------|---------:|----------:|:-------------|
+| 2   | Validity | 0.8855786 | 0.0268184 | \*           | 1.004484 | 0.0217494 | \*           |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## dis dprime filtered nontarget absent T2
+d = data %>% filter(nontargetContrast==3, Target == 2)
+
+disdPrimeNA_T2_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(disdPrimeNA_T2_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect   | DFn | DFd |        F |         p | p\<.05 |       ges |
+|:----|:---------|----:|----:|---------:|----------:|:-------|----------:|
+| 2   | Validity |   2 |  28 | 4.413807 | 0.0215666 | \*     | 0.0669852 |
+
+</td>
+<td>
+
+|     | Effect   |         W |         p | p\<.05 |
+|:----|:---------|----------:|----------:|:-------|
+| 2   | Validity | 0.9566734 | 0.7498322 |        |
+
+</td>
+<td>
+
+|     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:---------|----------:|----------:|:-------------|---------:|----------:|:-------------|
+| 2   | Validity | 0.9584727 | 0.0232743 | \*           | 1.107095 | 0.0215666 | \*           |
 
 </td>
 </tr>
@@ -693,6 +1021,88 @@ knitr::kable(detcritNP_anova)
 </table>
 
 ``` r
+## det crit filtered nontarget present T1
+d = data %>% filter(nontargetContrast==2, Target == 1)
+
+detcritNP_T1_anova = ezANOVA(
+  data = d,
+  dv = .(det_crit),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(detcritNP_T1_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect   | DFn | DFd |        F |         p | p\<.05 |       ges |
+|:----|:---------|----:|----:|---------:|----------:|:-------|----------:|
+| 2   | Validity |   2 |  28 | 6.195746 | 0.0059177 | \*     | 0.1283657 |
+
+</td>
+<td>
+
+|     | Effect   |         W |         p | p\<.05 |
+|:----|:---------|----------:|----------:|:-------|
+| 2   | Validity | 0.8575233 | 0.3682126 |        |
+
+</td>
+<td>
+
+|     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:---------|----------:|----------:|:-------------|----------:|----------:|:-------------|
+| 2   | Validity | 0.8752914 | 0.0085336 | \*           | 0.9901998 | 0.0060899 | \*           |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## det crit filtered nontarget present T2
+d = data %>% filter(nontargetContrast==2, Target == 2)
+
+detcritNP_T2_anova = ezANOVA(
+  data = d,
+  dv = .(det_crit),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(detcritNP_T2_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect   | DFn | DFd |        F |         p | p\<.05 |       ges |
+|:----|:---------|----:|----:|---------:|----------:|:-------|----------:|
+| 2   | Validity |   2 |  28 | 3.008165 | 0.0655523 |        | 0.0384208 |
+
+</td>
+<td>
+
+|     | Effect   |         W |         p | p\<.05 |
+|:----|:---------|----------:|----------:|:-------|
+| 2   | Validity | 0.7818834 | 0.2020333 |        |
+
+</td>
+<td>
+
+|     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |  p\[HF\] | p\[HF\]\<.05 |
+|:----|:---------|----------:|----------:|:-------------|----------:|---------:|:-------------|
+| 2   | Validity | 0.8209395 | 0.0777856 |              | 0.9155188 | 0.071069 |              |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
 ## det crit filtered nontarget absent
 d = data %>% filter(nontargetContrast==3)
 
@@ -731,6 +1141,88 @@ knitr::kable(detcritNA_anova)
 |:----|:----------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
 | 3   | Validity        | 0.8698483 | 0.0673436 |              | 0.9826612 | 0.0598981 |              |
 | 4   | Target:Validity | 0.8956502 | 0.7176075 |              | 1.0185157 | 0.7410762 |              |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## det crit filtered nontarget absent T1
+d = data %>% filter(nontargetContrast==3, Target == 1)
+
+detcritNA_T1_anova = ezANOVA(
+  data = d,
+  dv = .(det_crit),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(detcritNA_T1_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect   | DFn | DFd |        F |         p | p\<.05 |       ges |
+|:----|:---------|----:|----:|---------:|----------:|:-------|----------:|
+| 2   | Validity |   2 |  28 | 2.114208 | 0.1395941 |        | 0.0587372 |
+
+</td>
+<td>
+
+|     | Effect   |         W |         p | p\<.05 |
+|:----|:---------|----------:|----------:|:-------|
+| 2   | Validity | 0.7624932 | 0.1716066 |        |
+
+</td>
+<td>
+
+|     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:---------|----------:|----------:|:-------------|----------:|----------:|:-------------|
+| 2   | Validity | 0.8080764 | 0.1509513 |              | 0.8980364 | 0.1455955 |              |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## det crit filtered nontarget present T2
+d = data %>% filter(nontargetContrast==3, Target == 2)
+
+detcritNA_T2_anova = ezANOVA(
+  data = d,
+  dv = .(det_crit),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(detcritNA_T2_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect   | DFn | DFd |         F |         p | p\<.05 |       ges |
+|:----|:---------|----:|----:|----------:|----------:|:-------|----------:|
+| 2   | Validity |   2 |  28 | 0.8052094 | 0.4570763 |        | 0.0334204 |
+
+</td>
+<td>
+
+|     | Effect   |         W |         p | p\<.05 |
+|:----|:---------|----------:|----------:|:-------|
+| 2   | Validity | 0.9332611 | 0.6382938 |        |
+
+</td>
+<td>
+
+|     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |     HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:---------|----------:|----------:|:-------------|--------:|----------:|:-------------|
+| 2   | Validity | 0.9374365 | 0.4504783 |              | 1.07723 | 0.4570763 |              |
 
 </td>
 </tr>
@@ -891,7 +1383,7 @@ knitr::kable(discrit_anova)
 
 ``` r
 ## dis crit filtered nontarget present
-d = data %>% filter(nontargetContrast==1)
+d = data %>% filter(nontargetContrast==2)
 
 discritNP_anova = ezANOVA(
   data = d,
@@ -907,27 +1399,109 @@ knitr::kable(discritNP_anova)
 <tr>
 <td>
 
-|     | Effect          | DFn | DFd |         F |         p | p\<.05 |       ges |
-|:----|:----------------|----:|----:|----------:|----------:|:-------|----------:|
-| 2   | Target          |   1 |  14 | 1.8988982 | 0.1898290 |        | 0.0157003 |
-| 3   | Validity        |   2 |  28 | 0.5329051 | 0.5927320 |        | 0.0066836 |
-| 4   | Target:Validity |   2 |  28 | 4.6717479 | 0.0177502 | \*     | 0.0315798 |
+|     | Effect          | DFn | DFd |        F |         p | p\<.05 |       ges |
+|:----|:----------------|----:|----:|---------:|----------:|:-------|----------:|
+| 2   | Target          |   1 |  14 | 0.052104 | 0.8227420 |        | 0.0006736 |
+| 3   | Validity        |   2 |  28 | 0.389583 | 0.6809537 |        | 0.0062285 |
+| 4   | Target:Validity |   2 |  28 | 9.329549 | 0.0007854 | \*     | 0.0691756 |
 
 </td>
 <td>
 
 |     | Effect          |         W |         p | p\<.05 |
 |:----|:----------------|----------:|----------:|:-------|
-| 3   | Validity        | 0.7699736 | 0.1828491 |        |
-| 4   | Target:Validity | 0.8903600 | 0.4700854 |        |
+| 3   | Validity        | 0.8774575 | 0.4275330 |        |
+| 4   | Target:Validity | 0.8431154 | 0.3298113 |        |
 
 </td>
 <td>
 
-|     | Effect          |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:----------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity        | 0.8129907 | 0.5577658 |              | 0.9047069 | 0.5757689 |              |
-| 4   | Target:Validity | 0.9011932 | 0.0216251 | \*           | 1.0262580 | 0.0177502 | \*           |
+|     | Effect          |       GGe |  p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:----------------|----------:|---------:|:-------------|----------:|----------:|:-------------|
+| 3   | Validity        | 0.8908349 | 0.657754 |              | 1.0118014 | 0.6809537 |              |
+| 4   | Target:Validity | 0.8643904 | 0.001493 | \*           | 0.9751155 | 0.0008834 | \*           |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## dis crit filtered nontarget present T1
+d = data %>% filter(nontargetContrast==2, Target ==1 )
+
+discritNP_T1_anova = ezANOVA(
+  data = d,
+  dv = .(dis_crit),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(discritNP_T1_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect   | DFn | DFd |        F |         p | p\<.05 |       ges |
+|:----|:---------|----:|----:|---------:|----------:|:-------|----------:|
+| 2   | Validity |   2 |  28 | 1.888079 | 0.1701347 |        | 0.0364973 |
+
+</td>
+<td>
+
+|     | Effect   |         W |         p | p\<.05 |
+|:----|:---------|----------:|----------:|:-------|
+| 2   | Validity | 0.7050403 | 0.1031313 |        |
+
+</td>
+<td>
+
+|     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |  p\[HF\] | p\[HF\]\<.05 |
+|:----|:---------|----------:|----------:|:-------------|----------:|---------:|:-------------|
+| 2   | Validity | 0.7722248 | 0.1810163 |              | 0.8496912 | 0.177412 |              |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## dis crit filtered nontarget present T2
+d = data %>% filter(nontargetContrast==2, Target ==2 )
+
+discritNP_T2_anova = ezANOVA(
+  data = d,
+  dv = .(dis_crit),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(discritNP_T2_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect   | DFn | DFd |        F |         p | p\<.05 |       ges |
+|:----|:---------|----:|----:|---------:|----------:|:-------|----------:|
+| 2   | Validity |   2 |  28 | 4.650195 | 0.0180395 | \*     | 0.1196305 |
+
+</td>
+<td>
+
+|     | Effect   |         W |        p | p\<.05 |
+|:----|:---------|----------:|---------:|:-------|
+| 2   | Validity | 0.9991191 | 0.994288 |        |
+
+</td>
+<td>
+
+|     | Effect   |       GGe |  p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:---------|----------:|---------:|:-------------|---------:|----------:|:-------------|
+| 2   | Validity | 0.9991199 | 0.018071 | \*           | 1.165396 | 0.0180395 | \*           |
 
 </td>
 </tr>
@@ -973,6 +1547,88 @@ knitr::kable(discritNA_anova)
 |:----|:----------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
 | 3   | Validity        | 0.8805191 | 0.0012182 | \*           | 0.9974528 | 0.0006897 | \*           |
 | 4   | Target:Validity | 0.8063624 | 0.6391860 |              | 0.8957123 | 0.6603501 |              |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## dis crit filtered nontarget absent T1
+d = data %>% filter(nontargetContrast==3, Target ==1 )
+
+discritNA_T1_anova = ezANOVA(
+  data = d,
+  dv = .(dis_crit),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(discritNA_T1_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect   | DFn | DFd |         F |         p | p\<.05 |       ges |
+|:----|:---------|----:|----:|----------:|----------:|:-------|----------:|
+| 2   | Validity |   2 |  28 | 0.4013452 | 0.6732086 |        | 0.0086573 |
+
+</td>
+<td>
+
+|     | Effect   |         W |         p | p\<.05 |
+|:----|:---------|----------:|----------:|:-------|
+| 2   | Validity | 0.8834161 | 0.4467603 |        |
+
+</td>
+<td>
+
+|     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |     HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:---------|----------:|----------:|:-------------|--------:|----------:|:-------------|
+| 2   | Validity | 0.8955888 | 0.6513196 |              | 1.01843 | 0.6732086 |              |
+
+</td>
+</tr>
+</tbody>
+</table>
+
+``` r
+## dis crit filtered nontarget absent T2
+d = data %>% filter(nontargetContrast==3, Target ==2 )
+
+discritNA_T2_anova = ezANOVA(
+  data = d,
+  dv = .(dis_crit),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(discritNA_T2_anova)
+```
+
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+
+|     | Effect   | DFn | DFd |         F |         p | p\<.05 |       ges |
+|:----|:---------|----:|----:|----------:|----------:|:-------|----------:|
+| 2   | Validity |   2 |  28 | 0.0060051 | 0.9940142 |        | 0.0001556 |
+
+</td>
+<td>
+
+|     | Effect   |         W |         p | p\<.05 |
+|:----|:---------|----------:|----------:|:-------|
+| 2   | Validity | 0.7278862 | 0.1268857 |        |
+
+</td>
+<td>
+
+|     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
+|:----|:---------|----------:|----------:|:-------------|----------:|----------:|:-------------|
+| 2   | Validity | 0.7860932 | 0.9841566 |              | 0.8683263 | 0.9891278 |              |
 
 </td>
 </tr>

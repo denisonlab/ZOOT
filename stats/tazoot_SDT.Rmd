@@ -82,6 +82,35 @@ knitr::kable(detdPrimeNP_anova)
 
 ```
 
+
+```{r NP T1 Det}
+## det dprime filtered nontarget present T1
+d = data %>% filter(nontargetContrast==2, Target == 1)
+
+detdPrimeNP_T1_anova = ezANOVA(
+  data = d,
+  dv = .(det_dPrime),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(detdPrimeNP_T1_anova)
+
+```
+
+```{r NP T2 Det}
+## det dprime filtered nontarget present T1
+d = data %>% filter(nontargetContrast==2, Target == 2)
+
+detdPrimeNP_T2_anova = ezANOVA(
+  data = d,
+  dv = .(det_dPrime),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(detdPrimeNP_T2_anova)
+
+```
+
 ```{r NA Det}
 ## det dprime filtered nontarget absent
 d = data %>% filter(nontargetContrast==3)
@@ -93,6 +122,34 @@ detdPrimeNA_anova = ezANOVA(
   within = .(Target, Validity)
 )
 knitr::kable(detdPrimeNA_anova)
+
+```
+
+```{r NA T1 Det}
+## det dprime filtered nontarget absent T1
+d = data %>% filter(nontargetContrast==3, Target == 1)
+
+detdPrimeNA_T1_anova = ezANOVA(
+  data = d,
+  dv = .(det_dPrime),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(detdPrimeNA_T1_anova)
+
+```
+
+```{r NA T2 Det}
+## det dprime filtered nontarget absent T1
+d = data %>% filter(nontargetContrast==3, Target == 2)
+
+detdPrimeNA_T2_anova = ezANOVA(
+  data = d,
+  dv = .(det_dPrime),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(detdPrimeNA_T2_anova)
 
 ```
 
@@ -153,6 +210,34 @@ knitr::kable(disdPrimeNP_anova)
 
 ```
 
+```{r NP T1 Dis}
+## dis dprime filtered nontarget present T1
+d = data %>% filter(nontargetContrast==2, Target == 1)
+
+disdPrimeNP_T1_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(disdPrimeNP_T1_anova)
+
+```
+
+```{r NP T2 Dis}
+## dis dprime filtered nontarget present T2
+d = data %>% filter(nontargetContrast==2, Target == 2)
+
+disdPrimeNP_T2_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(disdPrimeNP_T2_anova)
+
+```
+
 ```{r NA Dis}
 ## dis dprime filtered nontarget absent
 d = data %>% filter(nontargetContrast==3)
@@ -164,6 +249,34 @@ disdPrimeNA_anova = ezANOVA(
   within = .(Target, Validity)
 )
 knitr::kable(disdPrimeNA_anova)
+
+```
+
+```{r NA T1 Dis}
+## dis dprime filtered nontarget absent T1
+d = data %>% filter(nontargetContrast==3, Target == 1)
+
+disdPrimeNA_T1_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(disdPrimeNA_T1_anova)
+
+```
+
+```{r NA T2 Dis}
+## dis dprime filtered nontarget absent T2
+d = data %>% filter(nontargetContrast==3, Target == 2)
+
+disdPrimeNA_T2_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(disdPrimeNA_T2_anova)
 
 ```
 
@@ -743,6 +856,34 @@ knitr::kable(detcritNP_anova)
 
 ```
 
+```{r NP T1 Det crit}
+## det crit filtered nontarget present T1
+d = data %>% filter(nontargetContrast==2, Target == 1)
+
+detcritNP_T1_anova = ezANOVA(
+  data = d,
+  dv = .(det_crit),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(detcritNP_T1_anova)
+
+```
+
+```{r NP T2 Det crit}
+## det crit filtered nontarget present T2
+d = data %>% filter(nontargetContrast==2, Target == 2)
+
+detcritNP_T2_anova = ezANOVA(
+  data = d,
+  dv = .(det_crit),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(detcritNP_T2_anova)
+
+```
+
 ```{r NA Det crit}
 ## det crit filtered nontarget absent
 d = data %>% filter(nontargetContrast==3)
@@ -754,6 +895,34 @@ detcritNA_anova = ezANOVA(
   within = .(Target, Validity)
 )
 knitr::kable(detcritNA_anova)
+
+```
+
+```{r NA T1 Det crit}
+## det crit filtered nontarget absent T1
+d = data %>% filter(nontargetContrast==3, Target == 1)
+
+detcritNA_T1_anova = ezANOVA(
+  data = d,
+  dv = .(det_crit),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(detcritNA_T1_anova)
+
+```
+
+```{r NA T2 Det crit}
+## det crit filtered nontarget present T2
+d = data %>% filter(nontargetContrast==3, Target == 2)
+
+detcritNA_T2_anova = ezANOVA(
+  data = d,
+  dv = .(det_crit),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(detcritNA_T2_anova)
 
 ```
 
@@ -802,7 +971,7 @@ knitr::kable(discrit_anova)
 
 ```{r NP Dis crit}
 ## dis crit filtered nontarget present
-d = data %>% filter(nontargetContrast==1)
+d = data %>% filter(nontargetContrast==2)
 
 discritNP_anova = ezANOVA(
   data = d,
@@ -811,6 +980,34 @@ discritNP_anova = ezANOVA(
   within = .(Target, Validity)
 )
 knitr::kable(discritNP_anova)
+
+```
+
+```{r NP T1 Dis crit}
+## dis crit filtered nontarget present T1
+d = data %>% filter(nontargetContrast==2, Target ==1 )
+
+discritNP_T1_anova = ezANOVA(
+  data = d,
+  dv = .(dis_crit),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(discritNP_T1_anova)
+
+```
+
+```{r NP T2 Dis crit}
+## dis crit filtered nontarget present T2
+d = data %>% filter(nontargetContrast==2, Target ==2 )
+
+discritNP_T2_anova = ezANOVA(
+  data = d,
+  dv = .(dis_crit),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(discritNP_T2_anova)
 
 ```
 
@@ -825,6 +1022,34 @@ discritNA_anova = ezANOVA(
   within = .(Target, Validity)
 )
 knitr::kable(discritNA_anova)
+
+```
+
+```{r NA T1 Dis crit}
+## dis crit filtered nontarget absent T1
+d = data %>% filter(nontargetContrast==3, Target ==1 )
+
+discritNA_T1_anova = ezANOVA(
+  data = d,
+  dv = .(dis_crit),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(discritNA_T1_anova)
+
+```
+
+```{r NA T2 Dis crit}
+## dis crit filtered nontarget absent T2
+d = data %>% filter(nontargetContrast==3, Target ==2 )
+
+discritNA_T2_anova = ezANOVA(
+  data = d,
+  dv = .(dis_crit),
+  wid = .(SID),
+  within = .(Validity)
+)
+knitr::kable(discritNA_T2_anova)
 
 ```
 

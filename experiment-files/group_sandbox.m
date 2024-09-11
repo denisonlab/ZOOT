@@ -95,10 +95,10 @@ for iSub=1:length(subs) % for participant
      
     end % session - needs to be here to compile both sessions for each participant
  %% SDT detection nontarget - across cueing conditions
-    nhDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 1; % hit: seen and present
-    nfaDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 0; % fa: seen and absent
-    nsignalDet = dataAll(iSub).targetContrast == 1; % signal: present
-    nnoiseDet = dataAll(iSub).targetContrast == 0; % noise: absent
+    nhDet = dataAll(iSub).seen == 1 & dataAll(iSub).nonTargetContrast == 1; % hit: seen and present
+    nfaDet = dataAll(iSub).seen == 1 & dataAll(iSub).nonTargetContrast == 0; % fa: seen and absent
+    nsignalDet = dataAll(iSub).nonTargetContrast == 1; % signal: present
+    nnoiseDet = dataAll(iSub).nonTargetContrast == 0; % noise: absent
     Det = {nhDet nfaDet nsignalDet nnoiseDet};
 
     % indices for all conditions based on target, validity, SDT variable -
@@ -109,9 +109,9 @@ for iSub=1:length(subs) % for participant
             for iDet = 1:numel(Det)
                 detAllIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & ~dataAll(iSub).eyeSkip; % find all T1 and T2 
                 det.all(iTarget, iValid, iDet) = sum(detAllIdx);
-                detNTPIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
+                detNTPIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
                 det.nontargetPresent(iTarget, iValid, iDet) = sum(detNTPIdx);
-                detNTAIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
+                detNTAIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
                 det.nontargetAbsent(iTarget, iValid, iDet) = sum(detNTAIdx);
             end
         end
@@ -138,10 +138,10 @@ for iSub=1:length(subs) % for participant
 
 
      %% SDT discrimination nontarget - across cueing conditions 
-    nhDis = dataAll(iSub).correctDis == 1 & dataAll(iSub).targetTilt == 1;
-    nfaDis = dataAll(iSub).correctDis == 0 & dataAll(iSub).targetTilt == -1;
-    nsignalDis = dataAll(iSub).targetContrast == 1 & dataAll(iSub).seen == 1 & dataAll(iSub).targetTilt == 1;
-    nnoiseDis = dataAll(iSub).targetContrast == 1 & dataAll(iSub).seen == 1 & dataAll(iSub).targetTilt == -1;
+    nhDis = dataAll(iSub).correctDis == 1 & dataAll(iSub).nonTargetTilt == 1;
+    nfaDis = dataAll(iSub).correctDis == 0 & dataAll(iSub).nonTargetTilt == -1;
+    nsignalDis = dataAll(iSub).nonTargetContrast == 1 & dataAll(iSub).seen == 1 & dataAll(iSub).nonTargetTilt == 1;
+    nnoiseDis = dataAll(iSub).nonTargetContrast == 1 & dataAll(iSub).seen == 1 & dataAll(iSub).nonTargetTilt == -1;
     Dis = {nhDis nfaDis nsignalDis nnoiseDis};
     %indices for all conditions based on target, validity, SDT variable
     for iTarget =1:2
@@ -149,9 +149,9 @@ for iSub=1:length(subs) % for participant
             for iDis = 1:numel(Dis)
                 disAllIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).target == iTarget & ~dataAll(iSub).eyeSkip; % find all T1 and T2
                 dis.all(iTarget, iValid, iDis) = sum(disAllIdx);
-                disNTPIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
+                disNTPIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).target == iTarget & dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
                 dis.nontargetPresent(iTarget, iValid, iDis) = sum(disNTPIdx);
-                disNTAIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
+                disNTAIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).target == iTarget & dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
                 dis.nontargetAbsent(iTarget, iValid, iDis) = sum(disNTAIdx);
             end
         end
@@ -265,22 +265,22 @@ end % subject
      end
 
      hold on
-     if iDet == 2
-         kt_annotateStats(.89,3.78,'*');
-         kt_drawBracket(.7778, 1, .99)
-     elseif iDet == 3
-         kt_annotateStats(.89,4.2,'**');
-         kt_drawBracket(.7778, 1, .88)
-         kt_annotateStats(1,4.7,'***');
-         kt_drawBracket(.7778, 1.2222, .98)
-
-         kt_annotateStats(1.89,4.35,'*');
-         kt_drawBracket(1.7778, 1.98, .75)
-         kt_annotateStats(2.1111,4.05,'*');
-         kt_drawBracket(2.02, 2.2222, .70)
-         kt_annotateStats(2,4.8,'***');
-         kt_drawBracket(1.7778, 2.2222, .82)
-     end
+     % if iDet == 2
+     %     kt_annotateStats(.89,3.78,'*');
+     %     kt_drawBracket(.7778, 1, .99)
+     % elseif iDet == 3
+     %     kt_annotateStats(.89,4.2,'**');
+     %     kt_drawBracket(.7778, 1, .88)
+     %     kt_annotateStats(1,4.7,'***');
+     %     kt_drawBracket(.7778, 1.2222, .98)
+     % 
+     %     kt_annotateStats(1.89,4.35,'*');
+     %     kt_drawBracket(1.7778, 1.98, .75)
+     %     kt_annotateStats(2.1111,4.05,'*');
+     %     kt_drawBracket(2.02, 2.2222, .70)
+     %     kt_annotateStats(2,4.8,'***');
+     %     kt_drawBracket(1.7778, 2.2222, .82)
+     % end
 
      ylabel("d'")
      ylim([0 5.5])
@@ -333,21 +333,21 @@ end % subject
      end
 
      hold on
-      ylim([-0.75 0.75])
-     if iDet == 2
-         kt_annotateStats(1,.05,'***');
-         kt_drawBracket(.7778, 1.2222, .05)
-         kt_annotateStats(1.89,.05,'*');
-         kt_drawBracket(1.7778, 2, .05)
-     elseif iDet == 3
-         kt_annotateStats(1.1111,.5,'*');
-         kt_drawBracket(1, 1.2222, 0.75)
-     end
+      ylim([-2.75 2.75])
+     % if iDet == 2
+     %     kt_annotateStats(1,.05,'***');
+     %     kt_drawBracket(.7778, 1.2222, .05)
+     %     kt_annotateStats(1.89,.05,'*');
+     %     kt_drawBracket(1.7778, 2, .05)
+     % elseif iDet == 3
+     %     kt_annotateStats(1.1111,.5,'*');
+     %     kt_drawBracket(1, 1.2222, 0.75)
+     % end
 
      ylabel('c')
      % ylim([-0.75 0.75])
      ax = gca;
-     set(gca, 'ytick', -0.75:0.75)
+     set(gca, 'ytick', -2.75:2.75)
      hold on
      xlim([0.5 2.5])
      xticks([0.7778 1 1.222 1.7778 2 2.2222])
@@ -361,8 +361,8 @@ end % subject
 % 
 % [ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.325]);
 % [ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.375]);
-[ax3, h3] = suplabel('Non-target Absent', 't', [0.08 0.08 1.3 0.9]);
-[ax4, h4] = suplabel('Non-target Present', 't', [0.08 0.08 .45 0.9]);
+[ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 0.9]);
+[ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 0.9]);
 [ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .27 0.86]);
 [ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.86]);
 [ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.16 0.86]);
@@ -505,8 +505,8 @@ end % subject
 % 
 % [ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.325]);
 % [ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.375]);
-[ax3, h3] = suplabel('Non-target Absent', 't', [0.08 0.08 1.3 0.9]);
-[ax4, h4] = suplabel('Non-target Present', 't', [0.08 0.08 .45 0.9]);
+[ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 0.9]);
+[ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 0.9]);
 [ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .27 0.86]);
 [ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.86]);
 [ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.16 0.86]);
