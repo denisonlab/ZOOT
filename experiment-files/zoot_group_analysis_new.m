@@ -1287,6 +1287,7 @@ end
 % dprime
  dprimefieldnames = fieldnames(dataAll(iSub).disd);
  critfieldnames = fieldnames(dataAll(iSub).disc);
+ shade_scatter = [.6 .5 .25];
  shade = [1, .6, .35];
  figure();
  for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
@@ -1445,15 +1446,16 @@ end
      hold on
      ylim([-1.5 1.5])
      if iDis == 2
-         kt_annotateStats(1.5, 1.1,'___________________');
-         kt_annotateStats(1.5, 1.22,'* Target:Validity');
-     elseif iDet == 3
-         kt_annotateStats(1.1111,.27,'*');
-         kt_drawBracket(1, 1.2222, 0.25)
+         kt_annotateStats(2.1111,.27,'**');
+         kt_drawBracket(2, 2.2222, 0.25)
 
          kt_annotateStats(1.5, 1.1,'___________________');
-         kt_annotateStats(1.5, 1.15,'* Target');
-         kt_annotateStats(1.5, 1.3,'*** Validity');
+         kt_annotateStats(1.5, 1.22,'*** Target:Validity');
+     elseif iDet == 3
+         % 
+         % kt_annotateStats(1.5, 1.1,'___________________');
+         % kt_annotateStats(1.5, 1.15,'* Target');
+         % kt_annotateStats(1.5, 1.3,'*** Validity');
 
      end
 

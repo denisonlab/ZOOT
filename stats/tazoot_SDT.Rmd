@@ -98,7 +98,7 @@ knitr::kable(detdPrimeNP_T1_anova)
 ```
 
 ```{r NP T2 Det}
-## det dprime filtered nontarget present T1
+## det dprime filtered nontarget present T2
 d = data %>% filter(nontargetContrast==2, Target == 2)
 
 detdPrimeNP_T2_anova = ezANOVA(
@@ -140,7 +140,7 @@ knitr::kable(detdPrimeNA_T1_anova)
 ```
 
 ```{r NA T2 Det}
-## det dprime filtered nontarget absent T1
+## det dprime filtered nontarget absent T2
 d = data %>% filter(nontargetContrast==3, Target == 2)
 
 detdPrimeNA_T2_anova = ezANOVA(
@@ -168,7 +168,7 @@ knitr::kable(detdPrimeT1_anova)
 ```
 
 ```{r T2 Det}
-## det dprime filtered T1
+## det dprime filtered T2
 d = data %>% filter(Target==2)
 
 detdPrimeT2_anova = ezANOVA(
@@ -295,7 +295,7 @@ knitr::kable(disdPrimeT1_anova)
 ```
 
 ```{r T2 Dis}
-## dis dprime filtered T1
+## dis dprime filtered T2
 d = data %>% filter(Target==2)
 
 disdPrimeT2_anova = ezANOVA(
@@ -1017,7 +1017,7 @@ d = data %>% filter(nontargetContrast==3)
 
 discritNA_anova = ezANOVA(
   data = d,
-  dv = .(dis_dPrime),
+  dv = .(dis_crit),
   wid = .(SID),
   within = .(Target, Validity)
 )
@@ -1068,7 +1068,7 @@ knitr::kable(discritT1_anova)
 ```
 
 ```{r T2 Dis crit}
-## dis crit filtered T1
+## dis crit filtered T2
 d = data %>% filter(Target==2)
 
 discritT2_anova = ezANOVA(
