@@ -7,7 +7,7 @@ fp = figureparams;
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
 
 %% compile
-subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071', 'S0085', 'S0105','S0108', 'S0122', 'S0133'};
+subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071', 'S0085', 'S0105','S0108', 'S0111', 'S0122', 'S0133'};
 dataAll = [];
 
 for iSub=1:length(subs) % for participant
@@ -107,11 +107,11 @@ for iSub=1:length(subs) % for participant
     for iTarget =1:2
         for iValid = 1:numel(Validities)
             for iDet = 1:numel(Det)
-                detAllIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & ~dataAll(iSub).eyeSkip; % find all T1 and T2 
+                detAllIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).nontarget == iTarget & ~dataAll(iSub).eyeSkip; % find all T1 and T2 
                 det.all(iTarget, iValid, iDet) = sum(detAllIdx);
-                detNTPIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
+                detNTPIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).nontarget == iTarget & dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
                 det.nontargetPresent(iTarget, iValid, iDet) = sum(detNTPIdx);
-                detNTAIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
+                detNTAIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).nontarget == iTarget & dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
                 det.nontargetAbsent(iTarget, iValid, iDet) = sum(detNTAIdx);
             end
         end
@@ -138,20 +138,20 @@ for iSub=1:length(subs) % for participant
 
 
      %% SDT discrimination nontarget - across cueing conditions 
-    nhDis = dataAll(iSub).correctDis == 1 & dataAll(iSub).nonTargetTilt == 1;
-    nfaDis = dataAll(iSub).correctDis == 0 & dataAll(iSub).nonTargetTilt == -1;
-    nsignalDis = dataAll(iSub).nonTargetContrast == 1 & dataAll(iSub).seen == 1 & dataAll(iSub).nonTargetTilt == 1;
-    nnoiseDis = dataAll(iSub).nonTargetContrast == 1 & dataAll(iSub).seen == 1 & dataAll(iSub).nonTargetTilt == -1;
+    nhDis = dataAll(iSub).nonTargetContrast == 1 & dataAll(iSub).nonTargetTilt == 1 & dataAll(iSub).response == 2;
+    nfaDis = dataAll(iSub).nonTargetContrast == 1 & dataAll(iSub).nonTargetTilt == -1 & dataAll(iSub).response == 2;
+    nsignalDis = dataAll(iSub).nonTargetContrast == 1 & dataAll(iSub).nonTargetTilt == 1; %  & dataAll(iSub).seen == 1
+    nnoiseDis = dataAll(iSub).nonTargetContrast == 1 & dataAll(iSub).nonTargetTilt == -1; %& dataAll(iSub).seen == 1
     Dis = {nhDis nfaDis nsignalDis nnoiseDis};
     %indices for all conditions based on target, validity, SDT variable
     for iTarget =1:2
         for iValid = 1:numel(Validities)
             for iDis = 1:numel(Dis)
-                disAllIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).target == iTarget & ~dataAll(iSub).eyeSkip; % find all T1 and T2
+                disAllIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).nontarget == iTarget & ~dataAll(iSub).eyeSkip; % find all T1 and T2
                 dis.all(iTarget, iValid, iDis) = sum(disAllIdx);
-                disNTPIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).target == iTarget & dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
+                disNTPIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).nontarget == iTarget & dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
                 dis.nontargetPresent(iTarget, iValid, iDis) = sum(disNTPIdx);
-                disNTAIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).target == iTarget & dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
+                disNTAIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).nontarget == iTarget & dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
                 dis.nontargetAbsent(iTarget, iValid, iDis) = sum(disNTAIdx);
             end
         end
@@ -415,26 +415,26 @@ end % subject
      end
 
      hold on
-     if iDis == 2
-         kt_annotateStats(1,2.2,'**');
-         kt_drawBracket(.7778, 1.2222, .79)
-           kt_annotateStats(2,2.78,'*');
-         kt_drawBracket(1.7778, 2.2222, 1.01)
-      elseif iDis == 3
-         kt_annotateStats(1,2.75,'*');
-         kt_drawBracket(.7778, 1.2222, .75)
-
-         kt_annotateStats(2,3.6,'*');
-         kt_drawBracket(1.7778, 2.2222, .95)
-         kt_annotateStats(1.89,3.05,'*');
-         kt_drawBracket(1.7778, 2, .82)
-
-     end
+     % if iDis == 2
+     %     kt_annotateStats(1,2.2,'**');
+     %     kt_drawBracket(.7778, 1.2222, .79)
+     %       kt_annotateStats(2,2.78,'*');
+     %     kt_drawBracket(1.7778, 2.2222, 1.01)
+     %  elseif iDis == 3
+     %     kt_annotateStats(1,2.75,'*');
+     %     kt_drawBracket(.7778, 1.2222, .75)
+     % 
+     %     kt_annotateStats(2,3.6,'*');
+     %     kt_drawBracket(1.7778, 2.2222, .95)
+     %     kt_annotateStats(1.89,3.05,'*');
+     %     kt_drawBracket(1.7778, 2, .82)
+     % 
+     % end
 
      ylabel("d'")
-     ylim([0 5.5])
+     ylim([-1 1])
      ax = gca;
-     set(gca, 'ytick', 0:.5:5.5)
+     set(gca, 'ytick', -1:.5:1)
      hold on
      xlim([0.5 2.5])
      xticks([0.7778 1 1.222 1.7778 2 2.2222])
@@ -482,16 +482,16 @@ end % subject
      end
 
      hold on
-      ylim([-0.75 0.75])
-     if iDis == 2
-         kt_annotateStats(1,.07,'**');
-         kt_drawBracket(.7778, 1.2222, .2)
-     end 
+      ylim([-0.75 2.75])
+     % if iDis == 2
+     %     kt_annotateStats(1,.07,'**');
+     %     kt_drawBracket(.7778, 1.2222, .2)
+     % end 
 
      ylabel('c')
      % ylim([-0.75 0.75])
      ax = gca;
-     set(gca, 'ytick', -0.75:0.75)
+     set(gca, 'ytick', -0.75:2.75)
      hold on
      xlim([0.5 2.5])
      xticks([0.7778 1 1.222 1.7778 2 2.2222])
