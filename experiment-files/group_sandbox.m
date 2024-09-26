@@ -527,30 +527,31 @@ xcoords_SDT = [0.7778 1 1.2222; 1.7778 2 2.22222];
   xcoords_SDT = [0.7778 1 1.2222; 1.7778 2 2.22222];
 
 
-%% plot discrimination
+%% plot nontarget discrimination
 % dprime
  dprimefieldnames = fieldnames(dataAll(iSub).disd);
  critfieldnames = fieldnames(dataAll(iSub).disc);
  shade = [1, .6, .35];
   shade_scatter = [.6 .5 .25];
  figure();
+  kt_figureStyle();
  for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
      subplot(2,2,iDis-1)
      for iTarget = 1:2
          for iValid = 1:3
              b = bar(xcoords_SDT(iTarget, iValid), disd.(dprimefieldnames{iDis})(iTarget, iValid));
-             for iSub = 1:15
-                 s = scatter(xcoords_scatter(iValid, iSub, iTarget), disdNT_scatterplot.(Detfieldnames{iDis})(iValid, iSub, iTarget));
-                 s.MarkerEdgeColor = [1 1 1];
-                 if iTarget == 1
-                     s.MarkerFaceColor = fp.blue;
-                 elseif iTarget == 2
-                     s.MarkerFaceColor= fp.orange;
-                 end
-                 s.MarkerFaceAlpha = shade_scatter(iValid);
-             end
-             kt_figureStyle();
+             % for iSub = 1:15
+             %     s = scatter(xcoords_scatter(iValid, iSub, iTarget), disdNT_scatterplot.(Detfieldnames{iDis})(iValid, iSub, iTarget));
+             %     s.MarkerEdgeColor = [1 1 1];
+             %     if iTarget == 1
+             %         s.MarkerFaceColor = fp.blue;
+             %     elseif iTarget == 2
+             %         s.MarkerFaceColor= fp.orange;
+             %     end
+             %     s.MarkerFaceAlpha = shade_scatter(iValid);
+             % end
              errorbar(xcoords_SDT(iTarget, iValid),disd.(dprimefieldnames{iDis})(iTarget, iValid),disdErr.(dprimefieldnames{iDis})(iTarget, iValid), '.k', 'MarkerSize',0.1, 'CapSize', 0, 'LineWidth', 1.75)
+             kt_figureStyle();
              if iDis == 2
                  % kt_annotateStats(.89,3.85,'*');
                  % kt_drawBracket(.7778, 1, .99)
@@ -601,7 +602,7 @@ xcoords_SDT = [0.7778 1 1.2222; 1.7778 2 2.22222];
      % 
      % end
 
-     ylabel("d'")
+     ylabel("nontarget discrimination d'")
      ylim([-1 1])
      ax = gca;
      set(gca, 'ytick', -1:.5:1)
@@ -668,7 +669,7 @@ xcoords_SDT = [0.7778 1 1.2222; 1.7778 2 2.22222];
      %     kt_drawBracket(.7778, 1.2222, .2)
      % end 
 
-     ylabel('c')
+     ylabel('nontarget discrimination c')
      % ylim([-0.75 0.75])
      ax = gca;
      set(gca, 'ytick', -0.75:2.75)
