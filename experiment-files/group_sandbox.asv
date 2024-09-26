@@ -325,20 +325,26 @@ xcoords_SDT = [0.7778 1 1.2222; 1.7778 2 2.22222];
      % for iSub = 1:15
      %      plot(xcoords_scatter(:, iSub, iTarget), Acc_scatterplot.(contrasts{iContrast})(:,iSub,iTarget),'Color',[0.45 0.45 0.45])
      %  end
-     % end
-     hold on
-     % T1
+ % end
+ hold on
+ if iTarget==1
      kt_annotateStats(1,93,'**');
      kt_drawBracket(.7778, 1.2222, .99)
-
+     % kt_annotateStats(2,94,'~');
+     % kt_drawBracket(1.7778, 2.2222, .9)
+     % 
      % kt_annotateStats(1,94,'_______');
-     % kt_annotateStats(1,95,'** Validity');
-
-    % T2
+     % kt_annotateStats(1,95,'* Validity');
+     % 
+     % kt_annotateStats(1.5,102,'___________________');
+     % kt_annotateStats(1.5,104,'*** Target');
+     % kt_annotateStats(1.5,109,'** Validity');
+ elseif iTarget == 2
+      
      kt_annotateStats(2,95,'*');
      kt_drawBracket(1.7778, 2.2222, .90)
 
- 
+ end
 
 
  hold off
@@ -359,7 +365,7 @@ xcoords_SDT = [0.7778 1 1.2222; 1.7778 2 2.22222];
  end
  % end
  [ax1, h1] = suplabel('T1', 't', [0.08 0.08 .5 .90]);
- [ax2, h2] = suplabel('T2', 't', [0.08 0.08 1.255 .90]);
+ [ax2, h2] = suplabel('T2', 't', [0.08 0.08 1. .90]);
  % % [ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 .90]);
  % [ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 .90]);
  % [ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 0.5 0.86]);

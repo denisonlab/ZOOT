@@ -2545,30 +2545,56 @@ knitr::kable(RTT2_anova)
 </tbody>
 </table>
 
-### paired t-tests
+# paired t-tests
 
-## accuracy by target and nontarget
+## full acc
 
-# PresentPresent
+<img src="tazoot_AccRT_files/figure-gfm/vi_acc-1.png" width="90%" />
+
+<img src="tazoot_AccRT_files/figure-gfm/vn_acc-1.png" width="90%" />
+
+<img src="tazoot_AccRT_files/figure-gfm/ni_acc-1.png" width="90%" />
+
+## accuracy by target (T1, T2)
+
+### T1
+
+<img src="tazoot_AccRT_files/figure-gfm/vi_acc T1-1.png" width="90%" />
+
+<img src="tazoot_AccRT_files/figure-gfm/vn_acc T1-1.png" width="90%" />
+
+<img src="tazoot_AccRT_files/figure-gfm/ni_acc T1-1.png" width="90%" />
+
+### T2
+
+<img src="tazoot_AccRT_files/figure-gfm/vi_acc T2-1.png" width="90%" />
+
+<img src="tazoot_AccRT_files/figure-gfm/vn_acc T2-1.png" width="90%" />
+
+<img src="tazoot_AccRT_files/figure-gfm/ni_acc T2-1.png" width="90%" />
+
+## accuracy by target and nontarget contrast
+
+### PresentPresent
 
 <img src="tazoot_AccRT_files/figure-gfm/vi_accPP T1-1.png" width="90%" />
 
 <img src="tazoot_AccRT_files/figure-gfm/vn_accPP T1-1.png" width="90%" />
 
 <img src="tazoot_AccRT_files/figure-gfm/ni_accPP T1-1.png" width="90%" />
-\#T2
+\#### T2
 <img src="tazoot_AccRT_files/figure-gfm/vi_accPP T2-1.png" width="90%" />
 
 <img src="tazoot_AccRT_files/figure-gfm/vn_accPP T2-1.png" width="90%" />
 
 <img src="tazoot_AccRT_files/figure-gfm/ni_accPP T2-1.png" width="90%" />
-\# PresentAbsent
+\### PresentAbsent
 <img src="tazoot_AccRT_files/figure-gfm/vi_accPA T1-1.png" width="90%" />
 
 <img src="tazoot_AccRT_files/figure-gfm/vn_accPA T1-1.png" width="90%" />
 
 <img src="tazoot_AccRT_files/figure-gfm/in_accPA T1-1.png" width="90%" />
-\#T2
+\##### T2
 <img src="tazoot_AccRT_files/figure-gfm/vi_accPA T2-1.png" width="90%" />
 
 <img src="tazoot_AccRT_files/figure-gfm/vn_accPA T2-1.png" width="90%" />
