@@ -341,7 +341,7 @@ for iSub=1:length(subs) % for participant
         end
     end
 
-    %% SDT discrimination nontarget - across cueing conditions 
+    %% SDT discrimination target - across cueing conditions 
     nhDis = dataAll(iSub).correctDis == 1 & dataAll(iSub).targetTilt == 1;
     nfaDis = dataAll(iSub).correctDis == 0 & dataAll(iSub).targetTilt == -1;
     nsignalDis = dataAll(iSub).targetContrast == 1 & dataAll(iSub).seen == 1 & dataAll(iSub).targetTilt == 1;
@@ -1019,6 +1019,9 @@ end
 %         'beh_acc',datestr(now,'yymmdd'));
 %     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
 % end
+
+%% acc by target contrast collapsed across att conds
+
 
 %% det acc
 figure();
@@ -1766,16 +1769,16 @@ ax.YGrid = 'off';
 CMAll.TargetT1 = CM.allTprop(:,:,1); 
 CMAll.TargetT2 = CM.allTprop(:,:,2); 
 CMAll.TargetAll = (CMAll.TargetT1 + CMAll.TargetT2) / 2;
-CMAll.NontargetT1 = CM.allNprop(:,:,1); 
 CMAll.NontargetT2 = CM.allNprop(:,:,2); 
+CMAll.NontargetT1 = CM.allNprop(:,:,1); 
 CMAll.NontargetAll = (CMAll.NontargetT1 + CMAll.NontargetT2) / 2;
 
 % get proportions for one target conditions by T1, T2, and both targets collapsed
 CMOneT.TargetT1 = CM.oneTprop(:,:,1); 
 CMOneT.TargetT2 = CM.oneTprop(:,:,2); 
 CMOneT.TargetAll = (CMOneT.TargetT1 + CMOneT.TargetT2) / 2;
-CMOneT.NontargetT1 = CM.oneNprop(:,:,1); 
 CMOneT.NontargetT2 = CM.oneNprop(:,:,2); 
+CMOneT.NontargetT1 = CM.oneNprop(:,:,1); 
 CMOneT.NontargetAll = (CMOneT.NontargetT1 + CMOneT.NontargetT2) / 2;
 
 % CM all conditions
@@ -1842,8 +1845,8 @@ for iCond = 1:2
         CMVAll.TargetT1 = TCMV.(validfieldnames{iCond}).(validityNames{iValidity})(:,:,1);
         CMVAll.TargetT2 = TCMV.(validfieldnames{iCond}).(validityNames{iValidity})(:,:,2);
         CMVAll.TargetAll = (CMVAll.TargetT1 + CMVAll.TargetT2) / 2;
-        CMVAll.NontargetT1 = NCMV.(validfieldnames{iCond}).(validityNames{iValidity})(:,:,1);
         CMVAll.NontargetT2 = NCMV.(validfieldnames{iCond}).(validityNames{iValidity})(:,:,2);
+        CMVAll.NontargetT1 = NCMV.(validfieldnames{iCond}).(validityNames{iValidity})(:,:,1);
         CMVAll.NontargetAll = (CMVAll.NontargetT1 + CMVAll.NontargetT2) / 2;
         CMVAllfieldnames = fieldnames(CMVAll);
         figure();
@@ -1886,8 +1889,8 @@ end
          CMVAll.TargetT1 = TCMV_diff.(validfieldnames{iCond}).diff(:,:,1); % difference for target all/one condition for T1
          CMVAll.TargetT2 = TCMV_diff.(validfieldnames{iCond}).diff(:,:,2); % difference for target all/one condition for T2
          CMVAll.TargetAll = (CMVAll.TargetT1 + CMVAll.TargetT2) / 2; % difference for target all/one condition for all targets
-         CMVAll.NontargetT1 = NCMV_diff.(validfieldnames{iCond}).diff(:,:,1);% difference for nontarget all/one condition for T1
          CMVAll.NontargetT2 = NCMV_diff.(validfieldnames{iCond}).diff(:,:,2);% difference for nontarget all/one condition for T2
+         CMVAll.NontargetT1 = NCMV_diff.(validfieldnames{iCond}).diff(:,:,1);% difference for nontarget all/one condition for T1
          CMVAll.NontargetAll = (CMVAll.NontargetT1 + CMVAll.NontargetT2) / 2;  % difference for nontarget all/one condition for all targets
          CMVAllfieldnames = fieldnames(CMVAll);
          figure();
