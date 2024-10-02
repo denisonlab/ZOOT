@@ -69,6 +69,7 @@ for iSub=1:length(subs) % for participant
         dataAll(iSub).nonTargetContrast = [];
         dataAll(iSub).nontarget = [];
         dataAll(iSub).nonTargetTilt = [];
+        dataAll(iSub).NTcorrect = [];
         for iNonTarget = 1:size(dataAll(iSub).targetContrast,2)
             if dataAll(iSub).target(iNonTarget) == 1
                 dataAll(iSub).nontarget(iNonTarget) = 2;
@@ -90,6 +91,27 @@ for iSub=1:length(subs) % for participant
             end
         end
 
+        % get accuracy of reporting nontarget (swapping)
+        for iResponse = 1:size(dataAll(iSub).response,2)
+            if dataAll(iSub).correct(iResponse) == 0
+                if dataAll(iSub).nonTargetContrast(iResponse) == 1
+                    if dataAll(iSub).nonTargetTilt(iResponse) == -1 && dataAll(iSub).response(iResponse) == 1
+                        dataAll(iSub).NTcorrect(iResponse) = 1;
+                    elseif dataAll(iSub).nonTargetTilt(iResponse) == 1 && dataAll(iSub).response(iResponse) == 2
+                        dataAll(iSub).NTcorrect(iResponse) = 1;
+                    end
+                elseif dataAll(iSub).nonTargetContrast(iResponse) == 0
+                    if dataAll(iSub).response(iResponse) == 3
+                        dataAll(iSub).NTcorrect(iResponse) = 1;
+                    end
+                end
+            elseif dataAll(iSub).correct(iResponse) == 1
+                dataAll(iSub).NTcorrect(iResponse) = 0;
+            elseif isnan(dataAll(iSub).correct(iResponse))
+                dataAll(iSub).NTcorrect(iResponse) = NaN;
+            end
+        end
+
         Valid = dataAll(iSub).precue == dataAll(iSub).target;
         Neutral = dataAll(iSub).precue == 3;
         Invalid = (dataAll(iSub).precue == 1| dataAll(iSub).precue == 2) & dataAll(iSub).precue ~= dataAll(iSub).target;
@@ -106,7 +128,7 @@ for iSub=1:length(subs) % for participant
 
     end % session end
 
-        %% accuracy
+        %% accuracy to target
 
         % sort data by contrast condition, validity, and target and get averages
         % per condition as matrices
@@ -124,6 +146,29 @@ for iSub=1:length(subs) % for participant
 
 
         dataAll(iSub).means = Acc.prop*100; % save each participant's mean data in dataAll
+
+         %% accuracy to nontarget
+
+        % sort data by contrast condition, validity, and target and get averages
+        % per condition as matrices
+        for inonTarget = 1:2 % for each target (1 or 2)
+            for iContrastCond = 1:4 % for each contrast condition (PP, PA, AP, AA)
+                for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
+                    idx = dataAll(iSub).nontarget == inonTarget & Validities{iValidity} & contrastConds{iContrastCond} & ~dataAll(iSub).eyeSkip;
+                    ntAcc.n(iContrastCond, iValidity, inonTarget) = size(dataAll(iSub).NTcorrect(idx),2); % denominator, number of trials per condition
+                    ntAcc.correct(iContrastCond, iValidity, inonTarget) = size(dataAll(iSub).NTcorrect(idx & dataAll(iSub).NTcorrect==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                    ntAcc.prop(iContrastCond, iValidity, inonTarget) = ntAcc.correct(iContrastCond, iValidity, inonTarget)/ntAcc.n(iContrastCond, iValidity, inonTarget);
+                end
+            end
+        end
+        
+        % reverse nontarget 1 and nontarget 2 to align with target 1 and
+        % target 2 (aligns T1 with NT2 and T2 with NT 1)
+        ntAcc.rev_prop(:,:,1) = ntAcc.prop(:,:,2);
+        ntAcc.rev_prop(:,:,2) = ntAcc.prop(:,:,1);
+
+        dataAll(iSub).NTAccmeans = ntAcc.rev_prop*100; % save each participant's mean data in dataAll
+
 
             %% accuracy by target contrast 
 
@@ -509,6 +554,25 @@ T2x_scatter = repmat([1.7778; 2; 2.2222], 1, 15);
 xcoords_scatter = cat(3, T1x_scatter, T2x_scatter);
 
 
+%% accuracy of nontarget (swapping)
+
+accIdx = []; % used to collect each position of the matrix (each condition) by participant into a list to perform std and mean, then create new matrices for std, mean, and error
+contrasts = [{'PP'}, {'AP'}, {'PA'}, {'AA'}];
+for iContrast = 1:numel(contrastConds)
+    for iValid = 1:numel(Validities)
+        for inonTarget = 1:2
+            for iSub = 1:length(subs)
+                accIdx = [accIdx dataAll(iSub).NTAccmeans(iContrast,iValid,inonTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis 
+                Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,inonTarget) = dataAll(iSub).NTAccmeans(iContrast,iValid,inonTarget);
+            end
+            Acc.NTstd(iContrast,iValid,inonTarget) = std(accIdx); % finds std of the accuracy of each condition for each participant
+            Acc.NTmean(iContrast, iValid, inonTarget) = mean(accIdx); % finds means of accuracy for each condition for each participant
+            Acc.NTerr(iContrast,iValid,inonTarget) = Acc.NTstd(iContrast,iValid,inonTarget)/sqrt(size(dataAll,2)); % calculate error for each condition 
+            accIdx = [];
+        end
+    end
+end
+
 %% target contrast accuracy means and error
 accIdx = []; % used to collect each position of the matrix (each condition) by participant into a list to perform std and mean, then create new matrices for std, mean, and error
 for iContrast = 1:2
@@ -859,6 +923,139 @@ for iContrast = 1:numel(contrastConds)
     ylim([50 105])
     ax = gca;
     set(gca, 'ytick', 50:10:100)
+    hold on
+    xlim([0.5 2.5])
+    xticks([0.7778 1 1.222 1.7778 2 2.2222])
+    set(gca, 'xticklabel', {'V', 'N', 'I'})
+
+    hold on
+    ax = gca;
+    ax.XGrid = 'off';
+    ax.YGrid = 'off';
+
+    
+end 
+[ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.325]);
+[ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.375]);
+[ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 .90]);
+[ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 .90]);
+[ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .27 0.86]);
+[ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.86]);
+[ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.15 0.86]);
+[ax8, h8] = suplabel('T2', 'tt', [0.08 0.08 1.47 0.86]);
+% 
+% if saveplots
+%     figTitle = sprintf('%s_%s',...
+%         'beh_acc',datestr(now,'yymmdd'));
+%     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
+% end
+
+
+%% accuracy of nontarget swapping
+
+figure();
+set(gcf,'Position',[100 100 500 400])
+shade_scatter = [.6 .5 .25];
+shade = [1, .6, .35];
+for iContrast = 1:numel(contrastConds)
+    subplot(2,2,iContrast)
+    for iTarget = 1:2
+        for iValid = 1:3
+            b = bar(xcoords(iContrast, iValid, iTarget), Acc.NTmean(iContrast, iValid, iTarget));
+            hold on 
+            % for iSub = 1:15
+            %     s = scatter(xcoords_scatter(iValid, iSub, iTarget), Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget));
+            %         s.MarkerEdgeColor = [1 1 1];
+            %         if iTarget == 1
+            %             s.MarkerFaceColor = fp.blue;
+            %         elseif iTarget == 2
+            %             s.MarkerFaceColor= fp.orange;
+            %         end
+            %          s.MarkerFaceAlpha = shade_scatter(iValid);
+            % end
+            
+            kt_figureStyle();
+            errorbar(xcoords(iContrast, iValid, iTarget),Acc.NTmean(iContrast, iValid, iTarget),Acc.NTerr(iContrast, iValid, iTarget), '.k', 'MarkerSize', 0.01, 'CapSize', 0, 'LineWidth', 1.75)
+            if iContrast == 1 || iContrast == 3
+                if iTarget == 1
+                    b.FaceColor = fp.blue;
+                    b.EdgeColor = fp.blue;
+                elseif iTarget == 2
+                    b.FaceColor= fp.orange;
+                    b.EdgeColor = fp.orange;
+                end
+                b.FaceAlpha = shade(iValid);
+                b.EdgeAlpha = shade(iValid);
+                b.BarWidth = 0.2;
+            elseif iContrast == 2 || iContrast == 4
+                b.FaceColor = [1 1 1];
+                b.EdgeAlpha = shade(iValid);
+                if iTarget == 1
+                    b.EdgeColor = fp.blue;
+                elseif iTarget == 2
+                    b.EdgeColor = fp.orange;
+                end
+                b.LineWidth = 2;
+                b.BarWidth = 0.18;
+                b.EdgeAlpha = shade(iValid);
+            end
+        end
+
+
+       % for iSub = 1:15
+       %      plot(xcoords_scatter(:, iSub, iTarget), Acc_scatterplot.(contrasts{iContrast})(:,iSub,iTarget),'Color',[0.45 0.45 0.45])
+       %  end
+    end
+    hold on
+    % if iContrast==1
+    %     kt_annotateStats(1,86,'**');
+    %     kt_drawBracket(.7778, 1.2222, .84)
+    %     % kt_annotateStats(2,94,'~');
+    %     % kt_drawBracket(1.7778, 2.2222, .9)
+    % 
+    %     kt_annotateStats(1,94,'_______');
+    %     kt_annotateStats(1,95,'* Validity');
+    % 
+    %     kt_annotateStats(1.5,102,'___________________');
+    %     kt_annotateStats(1.5,104,'*** Target');
+    %     kt_annotateStats(1.5,109,'** Validity');
+    % 
+    % end
+    % 
+    % if iContrast == 3
+    %     kt_annotateStats(1,88,'***');
+    %     kt_drawBracket(.7778, 1.2222, .88)
+    %     kt_annotateStats(1.1111,83,'*');
+    %     kt_drawBracket(1, 1.2222, .83)
+    %     kt_annotateStats(2,92,'*');
+    %     kt_drawBracket(1.7778, 2.2222, .92)
+    % 
+    %     kt_annotateStats(1,96,'_______');
+    %     kt_annotateStats(1,97,'*** Validity');
+    % 
+    %     kt_annotateStats(1.5,102,'___________________');
+    %     kt_annotateStats(1.5,104,'*** Target');
+    %     kt_annotateStats(1.5,109,'*** Validity');
+    % end
+    % 
+    % if iContrast == 2
+    %     kt_annotateStats(1,92.8,'*');
+    %     kt_drawBracket(.7778, 1.2222, .925)
+    % 
+    %     kt_annotateStats(1,100,'_______');
+    %     kt_annotateStats(1,101,'* Validity');
+    % end
+    % 
+    % if iContrast == 4
+    %     kt_annotateStats(1.8889,99,'**');
+    %     kt_drawBracket(1.7778, 2, .98)
+    % end
+
+    hold off
+    ylabel('Non-target swapping (%)')
+    ylim([0 20])
+    ax = gca;
+    set(gca, 'ytick', 0:5:20)
     hold on
     xlim([0.5 2.5])
     xticks([0.7778 1 1.222 1.7778 2 2.2222])
