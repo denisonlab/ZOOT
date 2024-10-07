@@ -464,7 +464,7 @@ for iSub=1:length(subs) % for participant
         end
     end
 
-      %% SDT detection nontarget VARIABLES
+      %% SDT detection nontarget VARIABLES by both target and nontarget contrast
     nhDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 1; % hit: seen and present
     nfaDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 0; % fa: seen and absent
     nsignalDet = dataAll(iSub).targetContrast == 1; % signal: present
@@ -485,6 +485,33 @@ for iSub=1:length(subs) % for participant
                     dataAll(iSub).detnsignal(iContrast, iValid, iTarget) = sum(detNSignalIdx);
                     detNNoiseIdx = Validities{iValid} & nnoiseDet & dataAll(iSub).target == iTarget & contrastConds{iContrast} & ~dataAll(iSub).eyeSkip; % find all T1 and T2
                     dataAll(iSub).detnnoise(iContrast, iValid, iTarget) = sum(detNNoiseIdx);
+            end
+        end
+    end
+
+
+         %% SDT detection nontarget VARIABLES by nontarget contrast
+    nhDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 1; % hit: seen and present
+    nfaDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 0; % fa: seen and absent
+    nsignalDet = dataAll(iSub).targetContrast == 1; % signal: present
+    nnoiseDet = dataAll(iSub).targetContrast == 0; % noise: absent
+    % Det = {nhDet nfaDet nsignalDet nnoiseDet};
+
+    % indices for all conditions based on target, validity, SDT variable -
+    % returns which contains data for all, nontarget present, non target absent. each of these contains condition data for nh nfa
+    % nsignal and  nnoise
+    contrasts = {dataAll(iSub).nonTargetContrast == 1 dataAll(iSub).nonTargetContrast == 0};
+    for iContrast = 1:2
+        for iTarget =1:2
+            for iValid = 1:numel(Validities)
+                    detNHIdx = Validities{iValid} & nhDet & dataAll(iSub).target == iTarget & contrasts{iContrast} & ~dataAll(iSub).eyeSkip; % find all T1 and T2
+                    dataAll(iSub).NTdetnh(iContrast, iValid, iTarget) = sum(detNHIdx);
+                    detNFAIdx = Validities{iValid} & nfaDet & dataAll(iSub).target == iTarget & contrasts{iContrast} & ~dataAll(iSub).eyeSkip; % find all T1 and T2
+                    dataAll(iSub).NTdetnfa(iContrast, iValid, iTarget) = sum(detNFAIdx);
+                    detNSignalIdx = Validities{iValid} & nsignalDet & dataAll(iSub).target == iTarget & contrasts{iContrast} & ~dataAll(iSub).eyeSkip; % find all T1 and T2
+                    dataAll(iSub).NTdetnsignal(iContrast, iValid, iTarget) = sum(detNSignalIdx);
+                    detNNoiseIdx = Validities{iValid} & nnoiseDet & dataAll(iSub).target == iTarget & contrasts{iContrast} & ~dataAll(iSub).eyeSkip; % find all T1 and T2
+                    dataAll(iSub).NTdetnnoise(iContrast, iValid, iTarget) = sum(detNNoiseIdx);
             end
         end
     end
@@ -917,6 +944,46 @@ for iTarget = 1:2
         end
     end
 end
+
+
+%% SDT variables by nontarget
+detNHIdx = [];
+detNFAIdx = [];
+detNSignalIdx = [];
+detNNoiseIdx = [];
+for iTarget = 1:2
+    for iContrast = 1:2
+        for iValid = 1:numel(Validities)
+            for iSub = 1:length(subs)
+                detNHIdx = [detNHIdx  dataAll(iSub).NTdetnh(iContrast, iValid, iTarget)];
+                detNFAIdx = [detNFAIdx dataAll(iSub).NTdetnfa(iContrast, iValid, iTarget)];
+                detNSignalIdx = [detNSignalIdx dataAll(iSub).NTdetnsignal(iContrast, iValid, iTarget)];
+                detNNoiseIdx = [detNNoiseIdx dataAll(iSub).NTdetnnoise(iContrast, iValid, iTarget)];
+            end
+            NTdetnhStd(iContrast, iValid, iTarget) = std(detNHIdx);
+            NTdetnh(iContrast, iValid, iTarget) = mean(detNHIdx);
+            NTdetnhErr(iContrast, iValid, iTarget) = NTdetnhStd(iContrast, iValid, iTarget)/sqrt(length(subs));
+
+            NTdetnfaStd(iContrast, iValid, iTarget) = std(detNFAIdx);
+            NTdetnfa(iContrast, iValid, iTarget) = mean(detNFAIdx);
+            NTdetnfaErr(iContrast, iValid, iTarget) = NTdetnfaStd(iContrast, iValid, iTarget)/sqrt(length(subs));
+
+            NTdetnsignalStd(iContrast, iValid, iTarget) = std(detNSignalIdx);
+            NTdetnsignal(iContrast, iValid, iTarget) = mean(detNSignalIdx);
+            NTdetnsignalErr(iContrast, iValid, iTarget) =   NTdetnsignalStd(iContrast, iValid, iTarget)/sqrt(length(subs));
+
+            NTdetnnoiseStd(iContrast, iValid, iTarget) = std(detNNoiseIdx);
+            NTdetnnoise(iContrast, iValid, iTarget) = mean(detNNoiseIdx);
+            NTdetnnoiseErr(iContrast, iValid, iTarget) =   detnnoiseStd(iContrast, iValid, iTarget)/sqrt(length(subs));
+
+            detNHIdx = [];
+            detNFAIdx = [];
+            detNSignalIdx = [];
+            detNNoiseIdx = [];
+        end
+    end
+end
+
 
 
 %% accuracy
@@ -2340,6 +2407,29 @@ for iContrast = 1:numel(contrastConds)
     title('noise')
     ylabel('# noise trials')
     set(gca, 'xticklabel', {'T1', 'T2'})
+end
+
+%% SDT variables - detection by nontarget
+for iContrast = 1:2
+    contrastNames = {'nontarget present', 'nontarget absent'};
+    figure;
+    sgtitle([contrastNames{iContrast} ])
+    % for iValid = 1:3
+        subplot(1,2,1)
+        b = bar([NTdetnh(iContrast,:,1)./NTdetnsignal(iContrast,:,1); NTdetnh(iContrast,:,2)./NTdetnsignal(iContrast,:,2)]);
+        % title('hits')
+        ylabel('hit rate')
+        set(gca, 'xticklabel', {'T1', 'T2'})
+        ylim([0 1])
+    % end
+    subplot(1,2,2)
+    % for iValid = 1:3
+        b = bar([NTdetnfa(iContrast,:,1)./NTdetnnoise(iContrast,:,1); NTdetnfa(iContrast,:,2)./NTdetnnoise(iContrast,:,2)]);
+        % title('false alarms')
+        ylabel('false alarm rate')
+        set(gca, 'xticklabel', {'T1', 'T2'})
+        ylim([0 1])
+    % end
 end
 %% SDT collpased cueing cond 
 %% plot detection
