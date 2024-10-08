@@ -661,7 +661,7 @@ for iContrast = 1:numel(contrastConds)
         for inonTarget = 1:2
             for iSub = 1:length(subs)
                 accIdx = [accIdx dataAll(iSub).NTAccmeans(iContrast,iValid,inonTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis 
-                Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,inonTarget) = dataAll(iSub).NTAccmeans(iContrast,iValid,inonTarget);
+                swap_Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,inonTarget) = dataAll(iSub).NTAccmeans(iContrast,iValid,inonTarget);
             end
             Acc.NTstd(iContrast,iValid,inonTarget) = std(accIdx); % finds std of the accuracy of each condition for each participant
             Acc.NTmean(iContrast, iValid, inonTarget) = mean(accIdx); % finds means of accuracy for each condition for each participant
@@ -701,17 +701,18 @@ for iTarget = 1:2
 end
 
 %% target contrast accuracy means and error
+targ_contrasts = [{'TP'}, {'TA'}];
 accIdx = []; % used to collect each position of the matrix (each condition) by participant into a list to perform std and mean, then create new matrices for std, mean, and error
-for iContrast = 1:2
+for iTargetContrast = 1:2
     for iValid = 1:numel(Validities)
         for iTarget = 1:2
             for iSub = 1:length(subs)
-                accIdx = [accIdx dataAll(iSub).targetContrast_means(iContrast,iValid,iTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis 
-                % tcAcc_scatterplot(iValid,iSub,iTarget) = dataAll(iSub).targetContrast_means(iContrast,iValid,iTarget);
+                accIdx = [accIdx dataAll(iSub).targetContrast_means(iTargetContrast,iValid,iTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis 
+                tcAcc_scatterplot.(targ_contrasts{iTargetContrast})(iValid,iSub,iTarget) = dataAll(iSub).targetContrast_means(iTargetContrast,iValid,iTarget);
             end
-            tcAcc.std(iContrast,iValid,iTarget) = std(accIdx); % finds std of the accuracy of each condition for each participant
-            tcAcc.mean(iContrast, iValid, iTarget) = mean(accIdx); % finds means of accuracy for each condition for each participant
-            tcAcc.err(iContrast,iValid,iTarget) = tcAcc.std(iContrast,iValid,iTarget)/sqrt(size(dataAll,2)); % calculate error for each condition 
+            tcAcc.std(iTargetContrast,iValid,iTarget) = std(accIdx); % finds std of the accuracy of each condition for each participant
+            tcAcc.mean(iTargetContrast, iValid, iTarget) = mean(accIdx); % finds means of accuracy for each condition for each participant
+            tcAcc.err(iTargetContrast,iValid,iTarget) = tcAcc.std(iTargetContrast,iValid,iTarget)/sqrt(size(dataAll,2)); % calculate error for each condition 
             accIdx = [];
         end
     end
@@ -742,7 +743,7 @@ for iTarget = 1:2
         for iNontargetContrast = 1:2
             for iSub = 1:length(subs)
                 accIdx = [accIdx dataAll(iSub).tComp_means(iTargetContrast,iNontargetContrast,iTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis 
-                % Acc_scatterplot(iTargetContrast,iNontargetContrast,iTarget) = dataAll(iSub).means(iContrast,iValid,iTarget);
+                tComp_Acc_scatterplot.(targ_contrasts{iTargetContrast})(iNontargetContrast,iSub,iTarget) = dataAll(iSub).tComp_means(iTargetContrast,iNontargetContrast,iTarget);
             end
             tComp_Acc.std(iTargetContrast,iNontargetContrast,iTarget) = std(accIdx); % finds std of the accuracy of each condition for each participant
             tComp_Acc.mean(iTargetContrast,iNontargetContrast,iTarget) = mean(accIdx); % finds means of accuracy for each condition for each participant
@@ -1033,16 +1034,16 @@ for iContrast = 1:numel(contrastConds)
         for iValid = 1:3
             b = bar(xcoords(iContrast, iValid, iTarget), Acc.mean(iContrast, iValid, iTarget));
             hold on 
-            % for iSub = 1:15
-            %     s = scatter(xcoords_scatter(iValid, iSub, iTarget), Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget));
-            %         s.MarkerEdgeColor = [1 1 1];
-            %         if iTarget == 1
-            %             s.MarkerFaceColor = fp.blue;
-            %         elseif iTarget == 2
-            %             s.MarkerFaceColor= fp.orange;
-            %         end
-            %          s.MarkerFaceAlpha = shade_scatter(iValid);
-            % end
+            for iSub = 1:15
+                s = scatter(xcoords_scatter(iValid, iSub, iTarget), Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget));
+                    s.MarkerEdgeColor = [1 1 1];
+                    if iTarget == 1
+                        s.MarkerFaceColor = fp.blue;
+                    elseif iTarget == 2
+                        s.MarkerFaceColor= fp.orange;
+                    end
+                     s.MarkerFaceAlpha = shade_scatter(iValid);
+            end
             
             kt_figureStyle();
             errorbar(xcoords(iContrast, iValid, iTarget),Acc.mean(iContrast, iValid, iTarget),Acc.err(iContrast, iValid, iTarget), '.k', 'MarkerSize', 0.01, 'CapSize', 0, 'LineWidth', 1.75)
@@ -1088,16 +1089,16 @@ for iContrast = 1:numel(contrastConds)
 
         kt_annotateStats(1.5,102,'___________________');
         kt_annotateStats(1.5,104,'*** Target');
-        kt_annotateStats(1.5,109,'** Validity');
+        kt_annotateStats(1.5,107,'** Validity');
 
     end
 
     if iContrast == 3
-        kt_annotateStats(1,88,'***');
+        kt_annotateStats(1,90,'***');
         kt_drawBracket(.7778, 1.2222, .88)
-        kt_annotateStats(1.1111,83,'*');
+        kt_annotateStats(1.1111,85,'*');
         kt_drawBracket(1, 1.2222, .83)
-        kt_annotateStats(2,92,'*');
+        kt_annotateStats(2,94,'*');
         kt_drawBracket(1.7778, 2.2222, .92)
 
         kt_annotateStats(1,96,'_______');
@@ -1109,15 +1110,15 @@ for iContrast = 1:numel(contrastConds)
     end
 
     if iContrast == 2
-        kt_annotateStats(1,92.8,'*');
+        kt_annotateStats(1,94,'*');
         kt_drawBracket(.7778, 1.2222, .925)
 
-        kt_annotateStats(1,100,'_______');
-        kt_annotateStats(1,101,'* Validity');
+        % kt_annotateStats(1,100,'_______'); % incorrect!
+        % kt_annotateStats(1,101,'* Validity');
     end
 
     if iContrast == 4
-        kt_annotateStats(1.8889,99,'**');
+        kt_annotateStats(1.8889,100,'**');
         kt_drawBracket(1.7778, 2, .98)
     end
 
@@ -1261,7 +1262,7 @@ for iContrast = 1:numel(contrastConds)
             b = bar(xcoords(iContrast, iValid, iTarget), Acc.NTmean(iContrast, iValid, iTarget));
             hold on 
             % for iSub = 1:15
-            %     s = scatter(xcoords_scatter(iValid, iSub, iTarget), Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget));
+            %     s = scatter(xcoords_scatter(iValid, iSub, iTarget), swap_Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget));
             %         s.MarkerEdgeColor = [1 1 1];
             %         if iTarget == 1
             %             s.MarkerFaceColor = fp.blue;
@@ -1651,7 +1652,7 @@ end
 
 figure;
 set(gcf,'Position',[100 100 600 300])
-% shade_scatter = [.6 .5 .25];
+shade_scatter = [.6 .5 .25];
 shade = [1, .6, .35];
 for iContrast = 1:2
     subplot(1,2,iContrast)
@@ -1662,16 +1663,16 @@ for iContrast = 1:2
         for iValid = 1:3
             b = bar(xcoords(iContrast, iValid, iTarget), tcAcc.mean(iContrast, iValid, iTarget));
             hold on
-            % for iSub = 1:15
-            %     s = scatter(xcoords_scatter(iValid, iSub, iTarget), Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget));
-            %         s.MarkerEdgeColor = [1 1 1];
-            %         if iTarget == 1
-            %             s.MarkerFaceColor = fp.blue;
-            %         elseif iTarget == 2
-            %             s.MarkerFaceColor= fp.orange;
-            %         end
-            %          s.MarkerFaceAlpha = shade_scatter(iValid);
-            % end
+            for iSub = 1:15
+                s = scatter(xcoords_scatter(iValid, iSub, iTarget), tcAcc_scatterplot.(targ_contrasts{iContrast})(iValid,iSub,iTarget));
+                    s.MarkerEdgeColor = [1 1 1];
+                    if iTarget == 1
+                        s.MarkerFaceColor = fp.blue;
+                    elseif iTarget == 2
+                        s.MarkerFaceColor= fp.orange;
+                    end
+                     s.MarkerFaceAlpha = shade_scatter(iValid);
+            end
 
             errorbar(xcoords(iContrast, iValid, iTarget),tcAcc.mean(iContrast, iValid, iTarget),tcAcc.err(iContrast, iValid, iTarget), '.k', 'MarkerSize', 0.01, 'CapSize', 0, 'LineWidth', 1.75)
             if iContrast == 1
@@ -1879,6 +1880,7 @@ ax.YGrid = 'off';
 
 %% temporal competition plot
 xcoords_tc = cat(3,[.87 1.1; .87 1.1],[1.87 2.1; 1.87 2.1]);
+xcoords_tc_scatter = cat(3,repmat([.87;1.1],1,15),repmat([1.87 ;2.1],1,15));
 figure();
 set(gcf,'Position',[100 100 500 400])
 shade_scatter = [1 .5];
@@ -1890,17 +1892,17 @@ for iTargetContrast = 1:2
         for iNontargetContrast = 1:2
             b = bar(xcoords_tc(iTargetContrast, iNontargetContrast, iTarget),tComp_Acc.mean(iTargetContrast, iNontargetContrast, iTarget));
             hold on 
-            % for iSub = 1:15
-            %     s = scatter(xcoords_scatter(iValid, iSub, iTarget), Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget));
-            %         s.MarkerEdgeColor = [1 1 1];
-            %         if iTarget == 1
-            %             s.MarkerFaceColor = fp.blue;
-            %         elseif iTarget == 2
-            %             s.MarkerFaceColor= fp.orange;
-            %         end
-            %          s.MarkerFaceAlpha = shade_scatter(iValid);
-            % end
-            
+            for iSub = 1:15
+                s = scatter(xcoords_tc(iTargetContrast, iNontargetContrast, iTarget), tComp_Acc_scatterplot.(targ_contrasts{iTargetContrast})(iNontargetContrast, iSub, iTarget));
+                s.MarkerEdgeColor = [1 1 1];
+                if iTarget == 1
+                    s.MarkerFaceColor = fp.blue;
+                elseif iTarget == 2
+                    s.MarkerFaceColor= fp.orange;
+                end
+                s.MarkerFaceAlpha = shade_scatter(iNontargetContrast);
+            end
+
             kt_figureStyle();
             errorbar(xcoords_tc(iTargetContrast, iNontargetContrast, iTarget),tComp_Acc.mean(iTargetContrast, iNontargetContrast, iTarget),tComp_Acc.err(iTargetContrast, iNontargetContrast, iTarget), '.k', 'MarkerSize', 0.01, 'CapSize', 0, 'LineWidth', 1.75)
             % if iContrast == 1 || iContrast == 3
@@ -1985,7 +1987,7 @@ for iTargetContrast = 1:2
     set(gca, 'ytick', 50:10:100)
     hold on
     xlim([0.5 2.5])
-    % xticks([0.7778 1 1.222 1.7778 2 2.2222])
+    xticks([0.87 1.1 1.87 2.1])
     set(gca, 'xticklabel', {'Nontarget Present', 'Nontarget Absent'})
 
     hold on

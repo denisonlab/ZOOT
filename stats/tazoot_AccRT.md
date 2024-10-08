@@ -2651,6 +2651,33 @@ knitr::kable(RTT2_anova)
 
 <img src="tazoot_AccRT_files/figure-gfm/in_accTA T2-1.png" width="90%" />
 
+## accuracy by nontarget
+
+\#nontarget present
+<img src="tazoot_AccRT_files/figure-gfm/vi_accNP T1-1.png" width="90%" />
+
+<img src="tazoot_AccRT_files/figure-gfm/vn_accNP T1-1.png" width="90%" />
+
+<img src="tazoot_AccRT_files/figure-gfm/in_accNP T1-1.png" width="90%" />
+\# T2
+<img src="tazoot_AccRT_files/figure-gfm/vi_accNP T2-1.png" width="90%" />
+
+<img src="tazoot_AccRT_files/figure-gfm/vn_accNP T2-1.png" width="90%" />
+
+<img src="tazoot_AccRT_files/figure-gfm/in_accNP T2-1.png" width="90%" />
+\#nontarget absent
+<img src="tazoot_AccRT_files/figure-gfm/vi_accNA T1-1.png" width="90%" />
+
+<img src="tazoot_AccRT_files/figure-gfm/vn_accNA T1-1.png" width="90%" />
+
+<img src="tazoot_AccRT_files/figure-gfm/in_accNA T1 -1.png" width="90%" />
+\#T2
+<img src="tazoot_AccRT_files/figure-gfm/vi_accNA T2-1.png" width="90%" />
+
+<img src="tazoot_AccRT_files/figure-gfm/vn_accNA T2-1.png" width="90%" />
+
+<img src="tazoot_AccRT_files/figure-gfm/in_accNA T2-1.png" width="90%" />
+
 ## RT by target and nontarget
 
 # PresentPresent
