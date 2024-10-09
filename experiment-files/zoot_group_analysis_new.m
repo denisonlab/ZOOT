@@ -1735,14 +1735,14 @@ for iContrast = 1:2
         kt_drawBracket(.7778, 1.2222, .945)
 
 
-        kt_annotateStats(1,101,'________');
-        kt_annotateStats(1,102,'*** Nontarget Contrast');
-
-        kt_annotateStats(2,98,'________');
-        kt_annotateStats(2,102,'*** Nontarget Contrast');
-
-        kt_annotateStats(1.5,104,'___________________');
-        kt_annotateStats(1.5,104.5,'*** Nontarget Contrast');
+        % kt_annotateStats(1,101,'________');
+        % kt_annotateStats(1,102,'*** Nontarget Contrast');
+        % 
+        % kt_annotateStats(2,98,'________');
+        % kt_annotateStats(2,102,'*** Nontarget Contrast');
+        % 
+        % kt_annotateStats(1.5,104,'___________________');
+        % kt_annotateStats(1.5,104.5,'*** Nontarget Contrast');
 
 
       

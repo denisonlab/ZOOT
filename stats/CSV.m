@@ -74,7 +74,69 @@ accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, Acc, 
 writetable(accTable,'tazoot_Acc_RT.csv','Delimiter',',','QuoteStrings','all')
 type 'tazoot_Acc_RT.csv'
 
-%% accuracy by target contrast - broken down anova 
+%% accuracy of nontarget swapping 
+% create csv file for accuracy and RT data (needs to be separate from SDT
+% because acc and RT out of 4 contrast conditions (PP, PA, AP, AA) and SDT
+% out of three ( all NTP NTA)
+% SID = [];
+% Validity = [];
+% Target = [];
+% targetContrast = [];
+% nontargetContrast = [];
+% for iSub = 1:length(SIDs)
+%     for i = 1:numCondsAcc_RT
+%         SID = [SID; SIDs{iSub}]; % SID
+%     end
+% 
+%     % contrasts 
+%     for iContrast = 1:numel(Contrasts)
+%         for iTarget = 1:numel(Targets)
+%             for i = 1:6
+%                 targetContrast = [targetContrast; Contrasts(iContrast)];
+%             end 
+%         end 
+%     end 
+% 
+%     for iTarget = 1:numel(Targets)
+%         for iContrast = 1:numel(Contrasts)
+%             for i = 1:6
+%                 %targetContrast = [targetContrast; Contrasts(iContrast)]; % target contrast 
+%                 nontargetContrast = [nontargetContrast; Contrasts(iContrast)]; % nontarget contrast 
+%             end
+%         end
+%     end
+% end
+% 
+% 
+% for iSub = 1:length(SIDs)*4
+%     for i = 1:2
+%         for iValid = 1:numel(Validities)
+%             Validity = [Validity; Validities(iValid)]; % Validity
+%         end
+%     end
+%     for iTarget = 1:numel(Targets)
+%         for i = 1:3 % for each validity - does three sets of each target (1 1 1, 2 2 2) for each validity
+%             Target = [Target; Targets(iTarget)]; % Target
+%         end
+%     end
+% end
+
+%get accuracy and RT 
+swapAcc = [];
+for iSub = 1:length(SIDs)
+    for iContrast = 1:4
+        for iTarget = 1:numel(Targets)
+            for iValid = 1:numel(Validities)
+                swapAcc = [swapAcc; dataAll(iSub).NTAccmeans(iContrast,iValid, iTarget)];
+            end
+        end
+    end
+end
+
+accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, swapAcc);
+writetable(accTable,'tazoot_swapAcc.csv','Delimiter',',','QuoteStrings','all')
+type 'tazoot_swapAcc.csv'
+
 
 %% create csv file for SDT 
 numCondsSDT = 3*3*2; % three validities x three conditions (all, ntp, nta), and two targets
