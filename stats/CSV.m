@@ -27,7 +27,7 @@ for iSub = 1:length(SIDs)
     for iContrast = 1:numel(Contrasts)
         for iTarget = 1:numel(Targets)
             for i = 1:6
-                targetContrast = [targetContrast; Contrasts(iContrast)];
+                nontargetContrast = [nontargetContrast; Contrasts(iContrast)];
             end 
         end 
     end 
@@ -36,7 +36,7 @@ for iSub = 1:length(SIDs)
         for iContrast = 1:numel(Contrasts)
             for i = 1:6
                 %targetContrast = [targetContrast; Contrasts(iContrast)]; % target contrast 
-                nontargetContrast = [nontargetContrast; Contrasts(iContrast)]; % nontarget contrast 
+                targetContrast = [targetContrast; Contrasts(iContrast)]; % nontarget contrast 
             end
         end
     end
