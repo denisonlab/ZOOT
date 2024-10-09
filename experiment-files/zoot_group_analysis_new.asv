@@ -1089,7 +1089,7 @@ for iContrast = 1:numel(contrastConds)
 
         kt_annotateStats(1.5,102,'___________________');
         kt_annotateStats(1.5,104,'*** Target');
-        kt_annotateStats(1.5,109,'** Validity');
+        kt_annotateStats(1.5,107,'** Validity');
 
     end
 
@@ -1113,8 +1113,8 @@ for iContrast = 1:numel(contrastConds)
         kt_annotateStats(1,94,'*');
         kt_drawBracket(.7778, 1.2222, .925)
 
-        kt_annotateStats(1,100,'_______');
-        kt_annotateStats(1,101,'* Validity');
+        % kt_annotateStats(1,100,'_______'); % incorrect!
+        % kt_annotateStats(1,101,'* Validity');
     end
 
     if iContrast == 4
@@ -1299,55 +1299,43 @@ for iContrast = 1:numel(contrastConds)
             end
         end
 
-
-       % for iSub = 1:15
-       %      plot(xcoords_scatter(:, iSub, iTarget), Acc_scatterplot.(contrasts{iContrast})(:,iSub,iTarget),'Color',[0.45 0.45 0.45])
-       %  end
     end
     hold on
-    % if iContrast==1
-    %     kt_annotateStats(1,86,'**');
-    %     kt_drawBracket(.7778, 1.2222, .84)
-    %     % kt_annotateStats(2,94,'~');
-    %     % kt_drawBracket(1.7778, 2.2222, .9)
-    % 
-    %     kt_annotateStats(1,94,'_______');
-    %     kt_annotateStats(1,95,'* Validity');
-    % 
-    %     kt_annotateStats(1.5,102,'___________________');
-    %     kt_annotateStats(1.5,104,'*** Target');
-    %     kt_annotateStats(1.5,109,'** Validity');
-    % 
-    % end
-    % 
-    % if iContrast == 3
-    %     kt_annotateStats(1,88,'***');
-    %     kt_drawBracket(.7778, 1.2222, .88)
-    %     kt_annotateStats(1.1111,83,'*');
-    %     kt_drawBracket(1, 1.2222, .83)
-    %     kt_annotateStats(2,92,'*');
-    %     kt_drawBracket(1.7778, 2.2222, .92)
-    % 
-    %     kt_annotateStats(1,96,'_______');
-    %     kt_annotateStats(1,97,'*** Validity');
-    % 
-    %     kt_annotateStats(1.5,102,'___________________');
-    %     kt_annotateStats(1.5,104,'*** Target');
-    %     kt_annotateStats(1.5,109,'*** Validity');
-    % end
-    % 
-    % if iContrast == 2
-    %     kt_annotateStats(1,92.8,'*');
-    %     kt_drawBracket(.7778, 1.2222, .925)
-    % 
-    %     kt_annotateStats(1,100,'_______');
-    %     kt_annotateStats(1,101,'* Validity');
-    % end
-    % 
-    % if iContrast == 4
-    %     kt_annotateStats(1.8889,99,'**');
-    %     kt_drawBracket(1.7778, 2, .98)
-    % end
+    if iContrast==1
+        kt_annotateStats(1,14.25,'*');
+        kt_drawBracket(.7778, 1.2222, .96)
+        % kt_annotateStats(2,94,'~');
+        % kt_drawBracket(1.7778, 2.2222, .9)
+
+        kt_annotateStats(1,16.5,'_______');
+        kt_annotateStats(1,16.75,'* Validity');
+
+        kt_annotateStats(1.5,18,'___________________');
+        kt_annotateStats(1.5,18.25,'*** Target');
+        kt_annotateStats(1.5,19.25,'* Validity');
+
+
+    elseif iContrast == 3
+        kt_annotateStats(1,15.25,'***');
+        kt_drawBracket(.7778, 1.2222, .98)
+
+        kt_annotateStats(1,17.5,'_______');
+        kt_annotateStats(1,17.75,'** Validity');
+
+        kt_annotateStats(1.5,19,'___________________');
+        kt_annotateStats(1.5,19.25,'** Target');
+        kt_annotateStats(1.5,20.25,'*** Validity');
+        kt_annotateStats(1.5,26,'** Target:Validity');
+
+
+
+    elseif iContrast == 2
+        kt_annotateStats(1,16,'**');
+        kt_drawBracket(.7778, 1.2222, .925)
+
+        kt_annotateStats(1,18,'_______');
+        kt_annotateStats(1,20,'* Validity');
+    end
 
     hold off
     ylabel('Non-target swapping (%)')
@@ -1735,14 +1723,14 @@ for iContrast = 1:2
         kt_drawBracket(.7778, 1.2222, .945)
 
 
-        kt_annotateStats(1,101,'________');
-        kt_annotateStats(1,102,'*** Nontarget Contrast');
-
-        kt_annotateStats(2,98,'________');
-        kt_annotateStats(2,102,'*** Nontarget Contrast');
-
-        kt_annotateStats(1.5,104,'___________________');
-        kt_annotateStats(1.5,104.5,'*** Nontarget Contrast');
+        % kt_annotateStats(1,101,'________');
+        % kt_annotateStats(1,102,'*** Nontarget Contrast');
+        % 
+        % kt_annotateStats(2,98,'________');
+        % kt_annotateStats(2,102,'*** Nontarget Contrast');
+        % 
+        % kt_annotateStats(1.5,104,'___________________');
+        % kt_annotateStats(1.5,104.5,'*** Nontarget Contrast');
 
 
       
