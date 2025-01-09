@@ -1021,9 +1021,12 @@ end
           for iValid = 1:numel(Validities)
               for iSub = 1:length(subs)
                   dprimeDetIdx_sub = [dprimeDetIdx_sub dataAll(iSub).detd_sub.(Detfieldnames{iF})(iTarget,iValid)]; % subsampled valid conditions dprime
-                  critDetIdx_sub = [critDetIdx_sub dataAll(iSub).detc_sub.(Detfieldnames{iF})(iTarget,iValid)]; % subsampled valid conditions c 
-              end 
-                  detdStd_sub.(Detfieldnames{iF})(iTarget, iValid) = std(dprimeDetIdx_sub);
+                  detd_sub_scatterplot.(Detfieldnames{iF})(iValid, iSub, iTarget) = dataAll(iSub).detd_sub.(Detfieldnames{iF})(iTarget,iValid);
+                  critDetIdx_sub = [critDetIdx_sub dataAll(iSub).detc_sub.(Detfieldnames{iF})(iTarget,iValid)]; % subsampled valid conditions c
+                  detc_sub_scatterplot.(Detfieldnames{iF})(iValid, iSub, iTarget) = dataAll(iSub).detc_sub.(Detfieldnames{iF})(iTarget,iValid);
+
+              end
+              detdStd_sub.(Detfieldnames{iF})(iTarget, iValid) = std(dprimeDetIdx_sub);
                   detd_sub.(Detfieldnames{iF})(iTarget, iValid) = mean(dprimeDetIdx_sub);
                   detdErr_sub.(Detfieldnames{iF})(iTarget, iValid) = detdStd_sub.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
 
@@ -2628,7 +2631,7 @@ end
  %% plot detection - SUBSAMPLED valid cond
  %dprime
  dprimefieldnames = fieldnames(dataAll(iSub).detd);
- % shade_scatter = [.6 .5 .25];
+ shade_scatter = [.6 .5 .25];
  shade = [1, .6, .35];
  figure();
  for iDet = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent), 2: numel(dprimefieldnames) to remove all
@@ -2637,16 +2640,16 @@ end
          for iValid = 1:3
              b = bar(xcoords_SDT(iTarget, iValid), detd_sub.(dprimefieldnames{iDet})(iTarget, iValid));
              hold on 
-            %  for iSub = 1:15
-            %     s = scatter(xcoords_scatter(iValid, iSub, iTarget), detd_scatterplot.(Detfieldnames{iDet})(iValid, iSub, iTarget));
-            %         s.MarkerEdgeColor = [1 1 1];
-            %         if iTarget == 1
-            %             s.MarkerFaceColor = fp.blue;
-            %         elseif iTarget == 2
-            %             s.MarkerFaceColor= fp.orange;
-            %         end
-            %          s.MarkerFaceAlpha = shade_scatter(iValid);
-            % end
+             for iSub = 1:15
+                s = scatter(xcoords_scatter(iValid, iSub, iTarget), detd_scatterplot.(Detfieldnames{iDet})(iValid, iSub, iTarget));
+                    s.MarkerEdgeColor = [1 1 1];
+                    if iTarget == 1
+                        s.MarkerFaceColor = fp.blue;
+                    elseif iTarget == 2
+                        s.MarkerFaceColor= fp.orange;
+                    end
+                     s.MarkerFaceAlpha = shade_scatter(iValid);
+            end
             kt_figureStyle();
              errorbar(xcoords_SDT(iTarget, iValid),detd_sub.(dprimefieldnames{iDet})(iTarget, iValid),detdErr_sub.(dprimefieldnames{iDet})(iTarget, iValid), '.k', 'MarkerSize',0.1, 'CapSize', 0, 'LineWidth', 1.75)
              % if iDet == 2
@@ -2666,24 +2669,25 @@ end
      hold on
    
      if iDet == 3
-         kt_annotateStats(1,4,'***');
-         kt_drawBracket(0.7778, 1.2222, .82)
-         kt_annotateStats(2.1111,4.2,'*');
-         kt_drawBracket(2, 2.2222, .85)
+         kt_annotateStats(1,4.5,'***');
+         kt_drawBracket(0.7778, 1.2222, .92)
+         kt_annotateStats(2.1111,4.35,'*');
+         kt_drawBracket(2, 2.2222, .90)
 
-        kt_annotateStats(1,5.5,'_______');
-        kt_annotateStats(1,5.55,'* Validity');
+        kt_annotateStats(1,5.45,'_______');
+        kt_annotateStats(1,5.5,'* Validity');
  
 
         kt_annotateStats(1.5, 6.1,'___________________');
-        kt_annotateStats(1.5, 6.2,'** Target');
-        kt_annotateStats(1.5,6.6,'** Validity');
+        kt_annotateStats(1.5, 6.6,'** Target');
+        kt_annotateStats(1.5,7,'* Validity');
+        kt_annotateStats(1.5,6.2,'* Target:Validity');
      elseif iDet == 2
-           kt_annotateStats(1,3.7,'**');
-         kt_drawBracket(.7778, 1.2222, .96)
+           kt_annotateStats(1,4.8,'*');
+         kt_drawBracket(.7778, 1.2222, .99)
      end
 
-     ylabel("target detection d' subsampled")
+     ylabel("target detection d'")
      ylim([0 7])
      ax = gca;
      set(gca, 'ytick', 0:1:7)
@@ -2707,16 +2711,16 @@ end
          for iValid = 1:3
              b = bar(xcoords_SDT(iTarget, iValid), detc_sub.(dprimefieldnames{iDet})(iTarget, iValid));
              hold on 
-            %  for iSub = 1:15
-            %     s = scatter(xcoords_scatter(iValid, iSub, iTarget), detc_scatterplot.(Detfieldnames{iDet})(iValid, iSub, iTarget));
-            %         s.MarkerEdgeColor = [1 1 1];
-            %         if iTarget == 1
-            %             s.MarkerFaceColor = fp.blue;
-            %         elseif iTarget == 2
-            %             s.MarkerFaceColor= fp.orange;
-            %         end
-            %          s.MarkerFaceAlpha = shade_scatter(iValid);
-            % end
+             for iSub = 1:15
+                s = scatter(xcoords_scatter(iValid, iSub, iTarget), detc_scatterplot.(Detfieldnames{iDet})(iValid, iSub, iTarget));
+                    s.MarkerEdgeColor = [1 1 1];
+                    if iTarget == 1
+                        s.MarkerFaceColor = fp.blue;
+                    elseif iTarget == 2
+                        s.MarkerFaceColor= fp.orange;
+                    end
+                     s.MarkerFaceAlpha = shade_scatter(iValid);
+            end
               kt_figureStyle();
              errorbar(xcoords_SDT(iTarget, iValid),detc_sub.(dprimefieldnames{iDet})(iTarget, iValid),detcErr_sub.(dprimefieldnames{iDet})(iTarget, iValid), '.k', 'MarkerSize',0.1, 'CapSize', 0, 'LineWidth', 1.75)
              % if iDet == 2
@@ -2756,19 +2760,19 @@ end
          kt_drawBracket(1, 1.2222, .29)
 
          kt_annotateStats(1,1.15,'_______');
-         kt_annotateStats(1,1.155,'* Validity');
+         kt_annotateStats(1,1.17,'* Validity');
 
 
          kt_annotateStats(1.5, 1.5,'___________________');
          kt_annotateStats(1.5, 1.6,'** Target');
          kt_annotateStats(1.5,1.8,'*** Validity');
      elseif iDet == 2
-         kt_annotateStats(1,0.25,'*');
-         kt_drawBracket(.7778, 1.2222, .16)
+         kt_annotateStats(1,0.22,'*');
+         kt_drawBracket(.7778, 1.2222, .18)
 
      end
 
-     ylabel('target detection c subsampled')
+     ylabel('target detection c')
      % ylim([-0.75 0.75])
      ax = gca;
      set(gca, 'ytick', -2:1:2)
@@ -2848,16 +2852,19 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
 
      hold on
      if iDis == 2
-         kt_annotateStats(1,2.3,'**');
-         kt_drawBracket(.7778, 1.2222, .60)
+         kt_annotateStats(1,2.4,'**');
+         kt_drawBracket(.7778, 1.2222, .62)
 
-         kt_annotateStats(2,3.1,'*');
+         kt_annotateStats(.89,2.1,'*');
+         kt_drawBracket(.7778, 1, .55)
+
+         kt_annotateStats(2,3.2,'**');
          kt_drawBracket(1.7778, 2.2222, .80)
          % kt_annotateStats(2.1111,2.9,'~');
          % kt_drawBracket(2, 2.2222, .85)
 
          kt_annotateStats(1,4.05,'_______');
-        kt_annotateStats(1,4.15,'* Validity');
+        kt_annotateStats(1,4.15,'** Validity');
 
 
          kt_annotateStats(2,4.05,'_______');
@@ -2865,23 +2872,23 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
 
         kt_annotateStats(1.5, 4.5,'___________________');
         kt_annotateStats(1.5, 4.6,'*** Target');
-        kt_annotateStats(1.5,4.85,'** Validity');
+        kt_annotateStats(1.5,4.85,'*** Validity');
       elseif iDis == 3
-         kt_annotateStats(1,2.98,'*');
-         kt_drawBracket(.7778, 1.2222, .60)
+         kt_annotateStats(1,2.93,'**');
+         kt_drawBracket(.7778, 1.2222, .70)
 
-         kt_annotateStats(2,3.5,'*');
-         kt_drawBracket(1.7778, 2.2222, .70)
-         kt_annotateStats(1.89,3.2,'*');
-         kt_drawBracket(1.7778, 2, .65)
+         kt_annotateStats(2,3.3,'**');
+         kt_drawBracket(1.7778, 2.2222, .84)
+         kt_annotateStats(1.89,3,'*');
+         kt_drawBracket(1.7778, 2, .75)
 
 
          kt_annotateStats(1,4.05,'_______');
-        kt_annotateStats(1,4.15,'* Validity');
+        kt_annotateStats(1,4.15,'** Validity');
 
 
          kt_annotateStats(2,4.05,'_______');
-        kt_annotateStats(2,4.15,'* Validity');
+        kt_annotateStats(2,4.15,'** Validity');
 
         kt_annotateStats(1.5, 4.5,'___________________');
         kt_annotateStats(1.5, 4.6,'* Target');
@@ -2942,14 +2949,14 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
     hold on
     ylim([-2 2])
     if iDis == 2
-        kt_annotateStats(2.1111,.4,'**');
+        kt_annotateStats(2.1111,.4,'*');
         kt_drawBracket(2, 2.2222, 0.25)
 
         kt_annotateStats(2,1.1,'_______');
-        kt_annotateStats(2,1.15,'** Validity');
+        kt_annotateStats(2,1.15,'* Validity');
 
         kt_annotateStats(1.5, 1.6,'___________________');
-        kt_annotateStats(1.5, 1.65,'*** Target:Validity');
+        kt_annotateStats(1.5, 1.65,'** Target:Validity');
     end
 
     ylabel('target discrimination c')
