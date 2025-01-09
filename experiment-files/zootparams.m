@@ -1,4 +1,4 @@
-Cfunction p = zootparams(s)
+function p = zootparams(s)
 
 %% main settings
 
@@ -75,7 +75,7 @@ p.fontSize = 24;
 %% Images
 p.backgroundColor = 0.5; % gray
 p.imPos = [0 0];
-p.gratingSF = 4; % spatial frequency, in cycles per degree, 4
+p.gratingSF = 1; % spatial frequency, in cycles per degree, 4
 p.gratingSD = 0.7; % standard deviation, about 4 SDs will be visible at full contrast, 0.7
 p.gratingDiameter = 2.8; %8
 p.gratingImSize = 40; 

@@ -20,19 +20,18 @@ end
 % nh(nh==0) = 1;
 % nfa(nfa==nnoise) = nnoise(nfa==nnoise)-1;
 % nfa(nfa==0) = 1;
-
-% proportions
-h = nh./nsignal;
-fa = nfa./nnoise;
+% 
+% % proportions
+% h = nh./nsignal;
+% fa = nfa./nnoise;
 
 % % loglinear adjustment (Stanislaw & Todorov 1999) 
 if loglinear
-    if h==0 || h==1 || fa==0 || fa==1
-        nh = nh + 0.5;
+    % if h==0 || h==1 || fa==0 || fa==1 %commented out to make loglinear corrections for all trials per MacMillan (2022) textboook, less bias and more predictable effects
         nfa = nfa + 0.5;
         nnoise = nnoise + 1;
         nsignal = nsignal + 1;
-    end
+    % end
 end
 
 % recalculate proportions
