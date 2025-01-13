@@ -2852,12 +2852,13 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
 
      hold on
      if iDis == 2
-         kt_annotateStats(1,2.3,'**');
-         kt_drawBracket(.7778, 1.2222, .60)
-         kt_annotateStats(1,2.3,'**');
-         kt_drawBracket(.7778, 1.2222, .60)
+         kt_annotateStats(1,2.4,'**');
+         kt_drawBracket(.7778, 1.2222, .62)
 
-         kt_annotateStats(2,3.1,'*');
+         kt_annotateStats(.89,2.1,'*');
+         kt_drawBracket(.7778, 1, .55)
+
+         kt_annotateStats(2,3.2,'**');
          kt_drawBracket(1.7778, 2.2222, .80)
          % kt_annotateStats(2.1111,2.9,'~');
          % kt_drawBracket(2, 2.2222, .85)
@@ -2871,23 +2872,23 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
 
         kt_annotateStats(1.5, 4.5,'___________________');
         kt_annotateStats(1.5, 4.6,'*** Target');
-        kt_annotateStats(1.5,4.85,'*** Validity');
+        kt_annotateStats(1.5,4.85,'** Validity');
       elseif iDis == 3
-         kt_annotateStats(1,2.98,'*');
-         kt_drawBracket(.7778, 1.2222, .60)
+         kt_annotateStats(1,2.93,'**');
+         kt_drawBracket(.7778, 1.2222, .70)
 
-         kt_annotateStats(2,3.5,'*');
-         kt_drawBracket(1.7778, 2.2222, .70)
-         kt_annotateStats(1.89,3.2,'*');
-         kt_drawBracket(1.7778, 2, .65)
+         kt_annotateStats(2,3.3,'**');
+         kt_drawBracket(1.7778, 2.2222, .84)
+         kt_annotateStats(1.89,3,'*');
+         kt_drawBracket(1.7778, 2, .75)
 
 
          kt_annotateStats(1,4.05,'_______');
-        kt_annotateStats(1,4.15,'* Validity');
+        kt_annotateStats(1,4.15,'** Validity');
 
 
          kt_annotateStats(2,4.05,'_______');
-        kt_annotateStats(2,4.15,'* Validity');
+        kt_annotateStats(2,4.15,'** Validity');
 
         kt_annotateStats(1.5, 4.5,'___________________');
         kt_annotateStats(1.5, 4.6,'* Target');
@@ -2948,14 +2949,14 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
     hold on
     ylim([-2 2])
     if iDis == 2
-        kt_annotateStats(2.1111,.4,'**');
+        kt_annotateStats(2.1111,.4,'*');
         kt_drawBracket(2, 2.2222, 0.25)
 
         kt_annotateStats(2,1.1,'_______');
-        kt_annotateStats(2,1.15,'** Validity');
+        kt_annotateStats(2,1.15,'* Validity');
 
         kt_annotateStats(1.5, 1.6,'___________________');
-        kt_annotateStats(1.5, 1.65,'*** Target:Validity');
+        kt_annotateStats(1.5, 1.65,'** Target:Validity');
     end
 
     ylabel('target discrimination c')

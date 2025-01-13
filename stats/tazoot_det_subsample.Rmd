@@ -1,5 +1,5 @@
 ---
-title: "tazoot_det_subsampling"
+title: "tazoot_det_subsample"
 author: Jenny
 output: github_document
 date: "2025-01-07"

@@ -2670,9 +2670,9 @@ end
    
      if iDet == 3
          kt_annotateStats(1,4.5,'***');
-         kt_drawBracket(0.7778, 1.2222, .92)
+         kt_drawBracket(0.7778, 1.2222, .76)
          kt_annotateStats(2.1111,4.35,'*');
-         kt_drawBracket(2, 2.2222, .90)
+         kt_drawBracket(2, 2.2222, .74)
 
         kt_annotateStats(1,5.45,'_______');
         kt_annotateStats(1,5.5,'* Validity');
@@ -2684,7 +2684,7 @@ end
         kt_annotateStats(1.5,6.2,'* Target:Validity');
      elseif iDet == 2
            kt_annotateStats(1,4.8,'*');
-         kt_drawBracket(.7778, 1.2222, .99)
+         kt_drawBracket(.7778, 1.2222, .82)
      end
 
      ylabel("target detection d'")
@@ -2755,9 +2755,9 @@ end
 
      if iDet == 3
          kt_annotateStats(1,0.63,'**');
-         kt_drawBracket(.7778, 1.222, .38)
+         kt_drawBracket(.7778, 1.222, .37)
          kt_annotateStats(1.111,0.43,'*');
-         kt_drawBracket(1, 1.2222, .29)
+         kt_drawBracket(1, 1.2222, .28)
 
          kt_annotateStats(1,1.15,'_______');
          kt_annotateStats(1,1.17,'* Validity');
@@ -2768,7 +2768,7 @@ end
          kt_annotateStats(1.5,1.8,'*** Validity');
      elseif iDet == 2
          kt_annotateStats(1,0.22,'*');
-         kt_drawBracket(.7778, 1.2222, .18)
+         kt_drawBracket(.7778, 1.2222, .17)
 
      end
 
@@ -2855,10 +2855,10 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
          kt_annotateStats(1,2.4,'**');
          kt_drawBracket(.7778, 1.2222, .62)
 
-         kt_annotateStats(.89,2.1,'*');
-         kt_drawBracket(.7778, 1, .55)
+         % kt_annotateStats(.89,2.1,'*');
+         % kt_drawBracket(.7778, 1, .55)
 
-         kt_annotateStats(2,3.2,'**');
+         kt_annotateStats(2,3.2,'*');
          kt_drawBracket(1.7778, 2.2222, .80)
          % kt_annotateStats(2.1111,2.9,'~');
          % kt_drawBracket(2, 2.2222, .85)
@@ -2872,27 +2872,27 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
 
         kt_annotateStats(1.5, 4.5,'___________________');
         kt_annotateStats(1.5, 4.6,'*** Target');
-        kt_annotateStats(1.5,4.85,'*** Validity');
+        kt_annotateStats(1.5,4.85,'** Validity');
       elseif iDis == 3
-         kt_annotateStats(1,2.93,'**');
+         kt_annotateStats(1,2.93,'*');
          kt_drawBracket(.7778, 1.2222, .70)
 
-         kt_annotateStats(2,3.3,'**');
-         kt_drawBracket(1.7778, 2.2222, .84)
-         kt_annotateStats(1.89,3,'*');
-         kt_drawBracket(1.7778, 2, .75)
+         % kt_annotateStats(2,3.3,'**');
+         % kt_drawBracket(1.7778, 2.2222, .84)
+         % kt_annotateStats(1.89,3,'*');
+         % kt_drawBracket(1.7778, 2, .75)
 
 
          kt_annotateStats(1,4.05,'_______');
-        kt_annotateStats(1,4.15,'** Validity');
+        kt_annotateStats(1,4.15,'* Validity');
 
 
-         kt_annotateStats(2,4.05,'_______');
-        kt_annotateStats(2,4.15,'** Validity');
+        %  kt_annotateStats(2,4.05,'_______');
+        % kt_annotateStats(2,4.15,'** Validity');
 
         kt_annotateStats(1.5, 4.5,'___________________');
         kt_annotateStats(1.5, 4.6,'* Target');
-        kt_annotateStats(1.5,4.85,'*** Validity');
+        kt_annotateStats(1.5,4.85,'** Validity');
 
      end
 
@@ -2955,8 +2955,13 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
         kt_annotateStats(2,1.1,'_______');
         kt_annotateStats(2,1.15,'* Validity');
 
+      kt_annotateStats(1.5, 1.6,'___________________');
+        kt_annotateStats(1.5, 1.65,'** Target:Validity'); kt_annotateStats(1.5, 1.6,'___________________');
+
+    elseif iDis ==3
         kt_annotateStats(1.5, 1.6,'___________________');
-        kt_annotateStats(1.5, 1.65,'** Target:Validity');
+        kt_annotateStats(1.5, 1.65,'* Target');
+
     end
 
     ylabel('target discrimination c')
