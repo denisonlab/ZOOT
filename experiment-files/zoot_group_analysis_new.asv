@@ -1390,7 +1390,7 @@ figure();
 set(gcf,'Position',[100 100 500 400])
 shade_scatter = [.6 .5 .25];
 shade = [1, .6, .35];
-for iContrast = 1:numel(contrastConds)
+for iContrast = 1:numel(contrastConds)-1
     subplot(2,2,iContrast)
     for iTarget = 1:2
         for iValid = 1:3
@@ -1437,17 +1437,17 @@ for iContrast = 1:numel(contrastConds)
     end
     hold on
     if iContrast==1
-        kt_annotateStats(1,14.25,'*');
-        kt_drawBracket(.7778, 1.2222, .96)
+        kt_annotateStats(1,14.50,'*');
+        kt_drawBracket(.7778, 1.2222, .97)
         % kt_annotateStats(2,94,'~');
         % kt_drawBracket(1.7778, 2.2222, .9)
 
-        kt_annotateStats(1,16.5,'_______');
-        kt_annotateStats(1,16.75,'* Validity');
+        kt_annotateStats(1,17,'_______');
+        kt_annotateStats(1,17.25,'* Validity');
 
-        kt_annotateStats(1.5,18,'___________________');
-        kt_annotateStats(1.5,18.25,'*** Target');
-        kt_annotateStats(1.5,19.25,'* Validity');
+        kt_annotateStats(1.5,19.25,'___________________');
+        kt_annotateStats(1.5,19.5,'*** Target');
+        kt_annotateStats(1.5,20.75,'* Validity');
 
 
     elseif iContrast == 3
@@ -1473,17 +1473,19 @@ for iContrast = 1:numel(contrastConds)
     end
 
     hold off
-    ylabel('Non-target swapping (%)')
+    ylabel([sprintf('%s% %s%', 'Accuracy conditioned ', ...
+        '\n0 on non-target '), '(%)'], 'FontSize', 6);
     ylim([0 20])
     ax = gca;
     set(gca, 'ytick', 0:5:20)
     hold on
     xlim([0.5 2.5])
     xticks([0.7778 1 1.222 1.7778 2 2.2222])
-    set(gca, 'xticklabel', {'V', 'N', 'I'})
+    set(gca, 'xticklabel', {'V', 'N', 'I'}, 'FontSize', 12)
 
     hold on
     ax = gca;
+    ax.Position = ax.Position.*[1 1 1 0.85];
     ax.XGrid = 'off';
     ax.YGrid = 'off';
 
@@ -1493,10 +1495,10 @@ end
 [ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.375]);
 [ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 .90]);
 [ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 .90]);
-[ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .27 0.86]);
-[ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.86]);
-[ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.15 0.86]);
-[ax8, h8] = suplabel('T2', 'tt', [0.08 0.08 1.47 0.86]);
+[ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .27 0.82]);
+[ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.82]);
+[ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.15 0.82]);
+[ax8, h8] = suplabel('T2', 'tt', [0.08 0.08 1.47 0.82]);
 % 
 % if saveplots
 %     figTitle = sprintf('%s_%s',...
@@ -1830,10 +1832,10 @@ for iContrast = 1:2
     end
     hold on
     if iContrast==1
-        kt_annotateStats(1,87,'***');
-        kt_drawBracket(.7778, 1.2222, .83)
-        kt_annotateStats(1.1111,83,'**');
-        kt_drawBracket(1, 1.2222, .79)
+        kt_annotateStats(1,94,'***');
+        kt_drawBracket(.7778, 1.2222, .90)
+        kt_annotateStats(1.1111,89.5,'**');
+        kt_drawBracket(1, 1.2222, .86)
         %  kt_annotateStats(.89999,86,'~');
         % kt_drawBracket(.7778, 1, .82)
 
@@ -1848,9 +1850,9 @@ for iContrast = 1:2
          kt_annotateStats(2,98,'________');
         kt_annotateStats(2,99,'* Validity');
 
-        kt_annotateStats(1.5,103,'___________________');
-        kt_annotateStats(1.5,103.5,'*** Target');
-        kt_annotateStats(1.5,105,'*** Validity');
+        kt_annotateStats(1.5,102,'___________________');
+        kt_annotateStats(1.5,102.5,'*** Target');
+        kt_annotateStats(1.5,104,'*** Validity');
 
 
     elseif iContrast == 2
@@ -1873,17 +1875,19 @@ for iContrast = 1:2
 
     
     hold off
-    ylabel('Accuracy (%)')
-    ylim([50 105])
+    ylabel('Accuracy (%)', 'FontSize', 12)
+    ylim([50 100])
     ax = gca;
     set(gca, 'ytick', 50:10:100)
     hold on
     xlim([0.5 2.5])
     xticks([0.7778 1 1.222 1.7778 2 2.2222])
-    set(gca, 'xticklabel', {'V', 'N', 'I'})
+    set(gca, 'xticklabel', {'V', 'N', 'I'}, 'FontSize', 12)
+
 
     hold on
     ax = gca;
+    ax.Position=ax.Position.*[1 1 1 0.85];
     ax.XGrid = 'off';
     ax.YGrid = 'off';
 
@@ -1891,12 +1895,12 @@ for iContrast = 1:2
 end 
 % [ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.325]);
 % [ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.375]);
-[ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 .90]);
-[ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 .90]);
-[ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .27 0.86]);
-[ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.86]);
-[ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.15 0.86]);
-[ax8, h8] = suplabel('T2', 'tt', [0.08 0.08 1.47 0.86]);
+[ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 .88]);
+[ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 .88]);
+[ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .27 0.8]);
+[ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.8]);
+[ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.15 0.8]);
+[ax8, h8] = suplabel('T2', 'tt', [0.08 0.08 1.47 0.8]);
 % 
 % if saveplots
 %     figTitle = sprintf('%s_%s',...
@@ -2228,7 +2232,7 @@ for iContrast = 1:2
     % end
 
     hold off
-    ylabel('RT (s)')
+    ylabel('Reaction time (s)')
     ylim([0 1.5])
     ax = gca;
     set(gca, 'ytick', 0:.5:1.5)
@@ -2670,9 +2674,9 @@ end
    
      if iDet == 3
          kt_annotateStats(1,4.5,'***');
-         kt_drawBracket(0.7778, 1.2222, .92)
+         kt_drawBracket(0.7778, 1.2222, .76)
          kt_annotateStats(2.1111,4.35,'*');
-         kt_drawBracket(2, 2.2222, .90)
+         kt_drawBracket(2, 2.2222, .74)
 
         kt_annotateStats(1,5.45,'_______');
         kt_annotateStats(1,5.5,'* Validity');
@@ -2684,7 +2688,7 @@ end
         kt_annotateStats(1.5,6.2,'* Target:Validity');
      elseif iDet == 2
            kt_annotateStats(1,4.8,'*');
-         kt_drawBracket(.7778, 1.2222, .99)
+         kt_drawBracket(.7778, 1.2222, .82)
      end
 
      ylabel("target detection d'")
@@ -2755,9 +2759,9 @@ end
 
      if iDet == 3
          kt_annotateStats(1,0.63,'**');
-         kt_drawBracket(.7778, 1.222, .38)
+         kt_drawBracket(.7778, 1.222, .37)
          kt_annotateStats(1.111,0.43,'*');
-         kt_drawBracket(1, 1.2222, .29)
+         kt_drawBracket(1, 1.2222, .28)
 
          kt_annotateStats(1,1.15,'_______');
          kt_annotateStats(1,1.17,'* Validity');
@@ -2768,7 +2772,7 @@ end
          kt_annotateStats(1.5,1.8,'*** Validity');
      elseif iDet == 2
          kt_annotateStats(1,0.22,'*');
-         kt_drawBracket(.7778, 1.2222, .18)
+         kt_drawBracket(.7778, 1.2222, .17)
 
      end
 
@@ -2855,10 +2859,10 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
          kt_annotateStats(1,2.4,'**');
          kt_drawBracket(.7778, 1.2222, .62)
 
-         kt_annotateStats(.89,2.1,'*');
-         kt_drawBracket(.7778, 1, .55)
+         % kt_annotateStats(.89,2.1,'*');
+         % kt_drawBracket(.7778, 1, .55)
 
-         kt_annotateStats(2,3.2,'**');
+         kt_annotateStats(2,3.2,'*');
          kt_drawBracket(1.7778, 2.2222, .80)
          % kt_annotateStats(2.1111,2.9,'~');
          % kt_drawBracket(2, 2.2222, .85)
@@ -2874,25 +2878,25 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
         kt_annotateStats(1.5, 4.6,'*** Target');
         kt_annotateStats(1.5,4.85,'** Validity');
       elseif iDis == 3
-         kt_annotateStats(1,2.93,'**');
+         kt_annotateStats(1,2.93,'*');
          kt_drawBracket(.7778, 1.2222, .70)
 
-         kt_annotateStats(2,3.3,'**');
-         kt_drawBracket(1.7778, 2.2222, .84)
-         kt_annotateStats(1.89,3,'*');
-         kt_drawBracket(1.7778, 2, .75)
+         % kt_annotateStats(2,3.3,'**');
+         % kt_drawBracket(1.7778, 2.2222, .84)
+         % kt_annotateStats(1.89,3,'*');
+         % kt_drawBracket(1.7778, 2, .75)
 
 
          kt_annotateStats(1,4.05,'_______');
-        kt_annotateStats(1,4.15,'** Validity');
+        kt_annotateStats(1,4.15,'* Validity');
 
 
-         kt_annotateStats(2,4.05,'_______');
-        kt_annotateStats(2,4.15,'** Validity');
+        %  kt_annotateStats(2,4.05,'_______');
+        % kt_annotateStats(2,4.15,'** Validity');
 
         kt_annotateStats(1.5, 4.5,'___________________');
         kt_annotateStats(1.5, 4.6,'* Target');
-        kt_annotateStats(1.5,4.85,'*** Validity');
+        kt_annotateStats(1.5,4.85,'** Validity');
 
      end
 
@@ -2955,8 +2959,13 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
         kt_annotateStats(2,1.1,'_______');
         kt_annotateStats(2,1.15,'* Validity');
 
+      kt_annotateStats(1.5, 1.6,'___________________');
+        kt_annotateStats(1.5, 1.65,'** Target:Validity'); kt_annotateStats(1.5, 1.6,'___________________');
+
+    elseif iDis ==3
         kt_annotateStats(1.5, 1.6,'___________________');
-        kt_annotateStats(1.5, 1.65,'** Target:Validity');
+        kt_annotateStats(1.5, 1.65,'* Target');
+
     end
 
     ylabel('target discrimination c')
