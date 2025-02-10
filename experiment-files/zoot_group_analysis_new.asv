@@ -93,21 +93,21 @@ for iSub=1:length(subs) % for participant
 
         % get accuracy of reporting nontarget (swapping)
         for iResponse = 1:size(dataAll(iSub).response,2)
-            if dataAll(iSub).correct(iResponse) == 0
-                if dataAll(iSub).nonTargetContrast(iResponse) == 1
-                    if dataAll(iSub).nonTargetTilt(iResponse) == -1 && dataAll(iSub).response(iResponse) == 1
+            if dataAll(iSub).correct(iResponse) == 0 % only incorrect trials
+                if dataAll(iSub).nonTargetContrast(iResponse) == 1 % if non-target is present
+                    if dataAll(iSub).nonTargetTilt(iResponse) == -1 && dataAll(iSub).response(iResponse) == 1 % if nontarget tilt is CCW and responded CCW, consider it swapping
                         dataAll(iSub).NTcorrect(iResponse) = 1;
-                    elseif dataAll(iSub).nonTargetTilt(iResponse) == 1 && dataAll(iSub).response(iResponse) == 2
+                    elseif dataAll(iSub).nonTargetTilt(iResponse) == 1 && dataAll(iSub).response(iResponse) == 2 %if nontarget tilt is CW and responded CW, consider it swapping 
                         dataAll(iSub).NTcorrect(iResponse) = 1;
                     end
-                elseif dataAll(iSub).nonTargetContrast(iResponse) == 0
-                    if dataAll(iSub).response(iResponse) == 3
+                elseif dataAll(iSub).nonTargetContrast(iResponse) == 0 % if nontarget is absent
+                    if dataAll(iSub).response(iResponse) == 3 %if respond absent (given that the trial was incorrect), consider it swapping
                         dataAll(iSub).NTcorrect(iResponse) = 1;
                     end
                 end
-            elseif dataAll(iSub).correct(iResponse) == 1
+            elseif dataAll(iSub).correct(iResponse) == 1 % if a correct trial, do not consider swapping
                 dataAll(iSub).NTcorrect(iResponse) = 0;
-            elseif isnan(dataAll(iSub).correct(iResponse))
+            elseif isnan(dataAll(iSub).correct(iResponse)) %if response is NaN (eyeskipped trial), consider NaN
                 dataAll(iSub).NTcorrect(iResponse) = NaN;
             end
         end
@@ -153,8 +153,12 @@ for iSub=1:length(subs) % for participant
         for inonTarget = 1:2 % for each target (1 or 2)
             for iContrastCond = 1:4 % for each contrast condition (PP, PA, AP, AA)
                 for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
-                    idx = dataAll(iSub).nontarget == inonTarget & Validities{iValidity} & contrastConds{iContrastCond} & ~dataAll(iSub).eyeSkip;
+                    idx = dataAll(iSub).nontarget == inonTarget & Validities{iValidity} & contrastConds{iContrastCond} & ~dataAll(iSub).eyeSkip; % finds which trials per conditions for each nontarget 
                     ntAcc.n(iContrastCond, iValidity, inonTarget) = size(dataAll(iSub).NTcorrect(idx),2); % denominator, number of trials per condition
+                        if iContrastCond == 1
+                            tENt = size(find(idx & dataAll(iSub).targetTilt == dataAll(iSub).nonTargetTilt)); % for Present Present trials, find where nontarget tilt is same as target tilt 
+                            ntAcc.n(iContrastCond, iValidity, inonTarget) = size(dataAll(iSub).NTcorrect(idx),2) - tENt(2); % subtract trials where nontarget tilt is same as target tilt (cannot tell if swapping if same)
+                        end 
                     ntAcc.correct(iContrastCond, iValidity, inonTarget) = size(dataAll(iSub).NTcorrect(idx & dataAll(iSub).NTcorrect==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
                     ntAcc.prop(iContrastCond, iValidity, inonTarget) = ntAcc.correct(iContrastCond, iValidity, inonTarget)/ntAcc.n(iContrastCond, iValidity, inonTarget);
                 end
@@ -169,6 +173,19 @@ for iSub=1:length(subs) % for participant
         dataAll(iSub).NTAccmeans = ntAcc.rev_prop*100; % save each participant's mean data in dataAll
 
 
+        %% error overall 
+        for iTarget = 1:2
+            for iContrastCond = 1:4
+                for iValidity = 1:3
+                    idx = dataAll(iSub).target == iTarget & Validities{iValidity} & contrastConds{iContrastCond} & ~dataAll(iSub).eyeSkip;
+                    Acc.n(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).correct(idx),2); % denominator, number of trials per condition
+                    Acc.incorrect(iContrastCond, iValidity, iTarget) = size(dataAll(iSub).correct(idx & dataAll(iSub).correct==0),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                    Acc.prop(iContrastCond, iValidity, iTarget) = Acc.incorrect(iContrastCond, iValidity, iTarget)/Acc.n(iContrastCond, iValidity, iTarget);
+                end
+            end
+        end 
+
+        dataAll(iSub).incorrectAccmeans = Acc.prop*100;
         %% accuracy collapsed across contrast (target by validity)
 
     % sort data by contrast condition, validity, and target and get averages
@@ -360,7 +377,7 @@ for iSub=1:length(subs) % for participant
             end
         end
 
-      % CM by validity
+      %% CM by validity
         validityNames = {'valid', 'neutral', 'invalid'};
         conditionNames = {'all contrasts', 'one target'};
         tilts = [-1 1 0];
@@ -406,14 +423,68 @@ for iSub=1:length(subs) % for participant
         dataAll(iSub).CM_nAllProp= CM.propNon;
         dataAll(iSub).CM_tOneProp= CM.propOneTarg;
         dataAll(iSub).CM_nOneProp= CM.propNonOneTarg;
+        % 
+        % moved two sections down
+        % dataAll(iSub).nsignalDet = dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % target present
+        % dataAll(iSub).nnoiseDet = dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % target absent
+        % dataAll(iSub).nhDet = dataAll(iSub).seen==1 & dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % hits (seen and present)
+        % dataAll(iSub).nfaDet = dataAll(iSub).seen==1 & dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % false alarms (seen and absent)
 
-        dataAll(iSub).nsignalDet = dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % target present
+
+
+        %% CM incorrect trials by attention 
+
+        for iValid = 1:numel(Validities)
+            for iTarget = 1:2
+                for iStimID = 1:3 % CCW absent CW
+                    for iResponse = 1:3
+                        idx = 0;
+                        idxNon =0;
+                        if tilts(iStimID)==0 % Target absent
+                            idx = dataAll(iSub).target==iTarget & ~dataAll(iSub).targetContrast & Validities{iValid} & ~dataAll(iSub).eyeSkip;
+                            idxNon = dataAll(iSub).nontarget==iTarget & ~dataAll(iSub).nonTargetContrast & Validities{iValid} & dataAll(iSub).correct == 0 & ~dataAll(iSub).eyeSkip; % find where report non-target for incorrect trials
+                            % idxOneTarg = dataAll(iSub).target==iTarget & ~dataAll(iSub).targetContrast & ~dataAll(iSub).eyeSkip & dataAll(iSub).T1Contrast~=dataAll(iSub).T2Contrast & Validities{iValid};
+                            % idxNonOneTarg = dataAll(iSub).nontarget==iTarget & ~dataAll(iSub).nonTargetContrast & ~dataAll(iSub).eyeSkip & dataAll(iSub).T1Contrast~=dataAll(iSub).T2Contrast & Validities{iValid};
+                        else % Target present
+                            idx = dataAll(iSub).target==iTarget & dataAll(iSub).targetTilt==tilts(iStimID) & dataAll(iSub).targetContrast & Validities{iValid} & ~dataAll(iSub).eyeSkip;% & dataAll.T1Contrast~=dataAll.T2Contrast; % denominator; number of trials that meet this stimulus condition (CCW, CW, absent) and target (T1 or T2)
+                            idxNon = dataAll(iSub).nontarget==iTarget & dataAll(iSub).nonTargetTilt==tilts(iStimID) & dataAll(iSub).nonTargetContrast & Validities{iValid} & dataAll(iSub).correct== 0 & ~dataAll(iSub).eyeSkip;
+                            % idxOneTarg = dataAll(iSub).target==iTarget & dataAll(iSub).targetTilt==tilts(iStimID) & dataAll(iSub).targetContrast & ~dataAll(iSub).eyeSkip & dataAll(iSub).T1Contrast~=dataAll(iSub).T2Contrast  & Validities{iValid};
+                            % idxNonOneTarg = dataAll(iSub).nontarget==iTarget & dataAll(iSub).nonTargetTilt==tilts(iStimID) & dataAll(iSub).nonTargetContrast & ~dataAll(iSub).eyeSkip & dataAll(iSub).T1Contrast~=dataAll(iSub).T2Contrast & Validities{iValid};
+                        end
+                        CM_Swap.n(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idx),2); % contains number of trials for each condition for target; each matrix corresponds to a target (T1 or T2), row 1: CCW, row 2: CW, row 3: abs
+                        CM_Swap.response(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idx & dataAll(iSub).response==iResponse),2); % find in dataAll.response where the stimulus and the response match, contains number of trials for each response; each matrix corresponds to a target
+                        CM_swapProp.targ(iStimID,iResponse,iTarget) = CM_Swap.response(iStimID,iResponse,iTarget)/CM_Swap.n(iStimID,iResponse,iTarget);
+                        CM_Swap.nNon(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idxNon),2); % contains number of trials for each condition for nontarget; each matrix corresponds to a target (T1 or T2), row 1: CCW, row 2: CW, row 3: abs
+                        CM_Swap.responseNon(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idxNon & dataAll(iSub).response==iResponse),2); % find in dataAll.response where the stimulus and the response match, contains number of trials for each response; each matrix corresponds to a target
+                        CM_swapProp.nontarg(iStimID,iResponse,iTarget) = CM_Swap.responseNon(iStimID,iResponse,iTarget)/CM_Swap.nNon(iStimID,iResponse,iTarget);
+                        % 
+                        % CM.nOneTarg(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idxOneTarg),2); % contains number of trials for each one target condition for target ; each matrix corresponds to a target (T1 or T2), row 1: CCW, row 2: CW, row 3: abs
+                        % CM.responseOneTarg(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idxOneTarg & dataAll(iSub).response==iResponse),2); % find in dataAll.response where the stimulus and the response match, contains number of trials for each response; each matrix corresponds to a target
+                        % CMprop.one.targ(iStimID,iResponse,iTarget) = CM.responseOneTarg(iStimID,iResponse,iTarget)/CM.nOneTarg(iStimID,iResponse,iTarget);
+                        % CM.nNonOneTarg(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idxNonOneTarg),2); % contains number of trials for each one target condition for nontarget; each matrix corresponds to a target (T1 or T2), row 1: CCW, row 2: CW, row 3: abs
+                        % CM.responseNonOneTarg(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idxNonOneTarg & dataAll(iSub).response==iResponse),2); % find in dataAll.response where the stimulus and the response match, contains number of trials for each response; each matrix corresponds to a target
+                        % CMprop.one.nontarg(iStimID,iResponse,iTarget) = CM.responseNonOneTarg(iStimID,iResponse,iTarget)/CM.nNonOneTarg(iStimID,iResponse,iTarget);
+                    end
+                end
+            end
+            dataAll(iSub).CMAtt_Swap.(validityNames{iValid}) = CM_swapProp;
+
+        end
+
+
+
+        % dataAll(iSub).means = Acc.prop*100; % save each participant's mean data in dataAll
+        % dataAll(iSub).CM_tAllProp= CM.prop;
+        % dataAll(iSub).CM_nAllProp= CM.propNon;
+        % dataAll(iSub).CM_tOneProp= CM.propOneTarg;
+        % dataAll(iSub).CM_nOneProp= CM.propNonOneTarg;
+        
+        %% SDT detection nontarget - across cueing conditions
+                dataAll(iSub).nsignalDet = dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % target present
         dataAll(iSub).nnoiseDet = dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % target absent
         dataAll(iSub).nhDet = dataAll(iSub).seen==1 & dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % hits (seen and present)
         dataAll(iSub).nfaDet = dataAll(iSub).seen==1 & dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % false alarms (seen and absent)
-        
-        
-    %% SDT detection nontarget - across cueing conditions
+
     nhDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 1; % hit: seen and present
     nfaDet = dataAll(iSub).seen == 1 & dataAll(iSub).targetContrast == 0; % fa: seen and absent
     nsignalDet = dataAll(iSub).targetContrast == 1; % signal: present
@@ -903,6 +974,7 @@ for iStimID = 1:3
     end
 end
 
+% by attention
 TCMVIdx = 0;
 NCMVIdx = 0;
 validfieldnames = fieldnames(dataAll(iSub).CMV.valid); % gives "all" and "one"
@@ -918,6 +990,22 @@ for iCond = 1:2
         NCMVIdx = 0;
     end
 end
+
+% all trials by attention, NT with incorrect trials
+TCMVIdx = 0;
+NCMVIdx = 0;
+validfieldnames = fieldnames(dataAll(iSub).CMAtt_Swap.valid); % gives "all" and "one"
+for iValid = 1:numel(Validities)
+    for iSub = 1:length(subs)
+        TCMVIdx = TCMVIdx + dataAll(iSub).CMAtt_Swap.(validityNames{iValid}).targ;  % add each condition proporition across participants for target per condition (all contrast or one target) and validity
+        NCMVIdx = NCMVIdx + dataAll(iSub).CMAtt_Swap.(validityNames{iValid}).nontarg;% add each condition proporition across participants for nontarget per condition (all contrast or one target) and validity
+    end
+    TCMAtt_Swap.(validityNames{iValid}) = TCMVIdx/length(subs);
+    NCMAtt_Swap.(validityNames{iValid}) = NCMVIdx/length(subs);
+    TCMVIdx = 0;
+    NCMVIdx = 0;
+end
+
 
 %% det accuracy 
  dAccIdx = []; % used to collect each position of the matrix (each condition) by participant into a list to perform std and mean, then create new matrices for std, mean, and error
@@ -1437,55 +1525,60 @@ for iContrast = 1:numel(contrastConds)-1
     end
     hold on
     if iContrast==1
-        kt_annotateStats(1,14.50,'*');
+        kt_annotateStats(1,27.75,'*');
         kt_drawBracket(.7778, 1.2222, .97)
         % kt_annotateStats(2,94,'~');
         % kt_drawBracket(1.7778, 2.2222, .9)
 
-        kt_annotateStats(1,17,'_______');
-        kt_annotateStats(1,17.25,'* Validity');
+        kt_annotateStats(1,33,'_______');
+        kt_annotateStats(1,33.25,'* Validity');
 
-        kt_annotateStats(1.5,19.25,'___________________');
-        kt_annotateStats(1.5,19.5,'*** Target');
-        kt_annotateStats(1.5,20.75,'* Validity');
+        kt_annotateStats(1.5,37.25,'___________________');
+        kt_annotateStats(1.5,37.5,'*** Target');
+        kt_annotateStats(1.5,40.75,'* Validity');
 
 
     elseif iContrast == 3
         kt_annotateStats(1,15.25,'***');
-        kt_drawBracket(.7778, 1.2222, .98)
+        kt_drawBracket(.7778, 1.2222, 1.05)
 
-        kt_annotateStats(1,17.5,'_______');
-        kt_annotateStats(1,17.75,'** Validity');
+        kt_annotateStats(1,25.5,'_______');
+        kt_annotateStats(1,25.75,'** Validity');
 
-        kt_annotateStats(1.5,19,'___________________');
-        kt_annotateStats(1.5,20.5,'** Target');
-        kt_annotateStats(1.5,21.5,'*** Validity');
-        kt_annotateStats(1.5,19.25,'** Target:Validity');
+        kt_annotateStats(1.5,35.25,'___________________');
+        kt_annotateStats(1.5,38.75,'** Target');
+        kt_annotateStats(1.5,41.5,'*** Validity');
+        kt_annotateStats(1.5,35.5,'** Target:Validity');
 
 
 
     elseif iContrast == 2
-        kt_annotateStats(1,14.25,'**');
-        kt_drawBracket(.7778, 1.2222, .72)
+        kt_annotateStats(1,15.25,'**');
+        kt_drawBracket(.7778, 1.2222, .82)
 
-        kt_annotateStats(1,17,'_______');
-        kt_annotateStats(1,17.25,'* Validity');
+        kt_annotateStats(1,25,'_______');
+        kt_annotateStats(1,25.25,'* Validity');
     end
 
     hold off
-    ylabel([sprintf('%s% %s%', 'Accuracy conditioned ', ...
-        '\n0 on non-target '), '(%)'], 'FontSize', 6);
-    ylim([0 20])
+    % ylabel(sprintf([ ...
+    %     'Accuracy conditioned\n' ...
+    %     ' on non-target (%%)' ...
+    %     ]), 'FontSize', 4);
+    % label_y = ylabel(sprintf('proportion of \nreporting non-target feature (%%) \n'));
+    label_y = ylabel(sprintf('Reports of non-target feature \n(normalized %%) \n'));
+    ylim([0 40]) % original [0 20]
+    label_y.Position(1) = 0.45;
     ax = gca;
-    set(gca, 'ytick', 0:5:20)
+    set(gca, 'ytick', 0:10:40) % original 0:5:20
     hold on
     xlim([0.5 2.5])
     xticks([0.7778 1 1.222 1.7778 2 2.2222])
-    set(gca, 'xticklabel', {'V', 'N', 'I'}, 'FontSize', 12)
+    set(gca, 'xticklabel', {'V', 'N', 'I'}, 'FontSize', 9.5)
 
     hold on
     ax = gca;
-    ax.Position = ax.Position.*[1 1 1 0.85];
+    ax.Position = ax.Position.*[1 1 1 0.85]; % decreases y axis a bit to make more room for stats above graph
     ax.XGrid = 'off';
     ax.YGrid = 'off';
 
@@ -3147,7 +3240,7 @@ CMOneT.NontargetT2 = CM.oneNprop(:,:,2);
 CMOneT.NontargetT1 = CM.oneNprop(:,:,1); 
 CMOneT.NontargetAll = (CMOneT.NontargetT1 + CMOneT.NontargetT2) / 2;
 
-% CM all conditions
+%% CM all conditions
 CMAllfieldnames = fieldnames(CMAll);
 CMOneTfieldnames = fieldnames(CMOneT);
 figure();
@@ -3177,7 +3270,7 @@ if saveplots
     saveas(gcf,sprintf('%s/%s', behDir, figTitle))
 end
 
-% CM one target
+%% CM one target
 figure();
 set(gcf,'Position',[100 100 1200 400])
 sgtitle( 'ga confusability maps - one target conditions')
@@ -3204,7 +3297,7 @@ if saveplots
     saveas(gcf,sprintf('%s/%s', behDir, figTitle))
 end
 
-% plot CM by attention
+%% plot CM by attention
 CMVfieldnames = fieldnames(TCMV.all);
 for iCond = 1:2
     for iValidity = 1:numel(CMVfieldnames) % for validity
@@ -3218,7 +3311,7 @@ for iCond = 1:2
         figure();
         set(gcf,'Position',[100 100 1200 400])
         for iCM = 1:numel(CMVAllfieldnames)
-            sgtitle(['ga ' conditionNames{iCond} ' ' validityNames{iValidity}]) % make so says valid, neutral, invalid, appropriately
+            sgtitle(['ga all conditions ' validityNames{iValidity}]) % make so says valid, neutral, invalid, appropriately
             subplot(2,3,iCM)
             imagesc(CMVAll.(CMVAllfieldnames{iCM}))
             x = [1 2 3];
@@ -3250,7 +3343,53 @@ end
      end
 
 
-      % plot valid-invalid by contrast condition
+%% plot CM by attention with nontarget by incorrect 
+CMVfieldnames = fieldnames(TCMV.all);
+for iCond = 1:2
+    for iValidity = 1:numel(CMVfieldnames) % for validity
+        CMAtt_Swap.TargetT1 = TCMAtt_Swap.(validityNames{iValidity}).targ(:,:,1);
+        CMAtt_Swap.TargetT2 = TCMAtt_Swap.(validfieldnames{iCond}).(validityNames{iValidity})(:,:,2);
+        CMAtt_Swap.TargetAll = (CMAtt_Swap.TargetT1 + CMAtt_Swap.TargetT2) / 2;
+        CMAtt_Swap.NontargetT2 = NCMAtt_Swap.(validfieldnames{iCond}).(validityNames{iValidity})(:,:,2);
+        CMAtt_Swap.NontargetT1 = TCMAtt_Swap.(validfieldnames{iCond}).(validityNames{iValidity})(:,:,1);
+        CMAtt_Swap.NontargetAll = (CMAtt_Swap.NontargetT1 + CMAtt_Swap.NontargetT2) / 2;
+        CMAtt_fieldnames = fieldnames(CMAttTCMAtt_Swap_Swap);
+        figure();
+        set(gcf,'Position',[100 100 1200 400])
+        for iCM = 1:numel(CMAtt_fieldnames)
+            sgtitle(['ga all conditions ' validityNames{iValidity}]) % make so says valid, neutral, invalid, appropriately
+            subplot(2,3,iCM)
+            imagesc(CMAtt_Swap.(CMAtt_fieldnames{iCM}))
+            x = [1 2 3];
+            y = [1 2 3];
+            title(['all conditions, incorrect trials only for NT')
+            ylabel('stimulus')
+            xlabel('response')
+            set(gca, 'ytick', 1:1:3)
+            set(gca, 'yticklabel', {'CCW', 'CW', 'absent'})
+            set(gca, 'xtick', 1:1:3)
+            set(gca, 'xticklabel', {'CCW', 'CW', 'absent'})
+            colormap(gray)
+            colorbar
+            clim([0 1])
+            hold on
+
+        end
+    end
+end 
+    if saveplots
+         figTitle = sprintf('%s_CM_All_%s',...
+             SID, datestr(now,'yymmdd'));
+         saveas(gcf,sprintf('%s/%s', behDir, figTitle))
+     end
+
+     for iCond = 1:2
+         TCMV_diff.(validfieldnames{iCond}).diff = TCMV.(validfieldnames{iCond}).valid - TCMV.(validfieldnames{iCond}).invalid;
+         NCMV_diff.(validfieldnames{iCond}).diff = NCMV.(validfieldnames{iCond}).valid - NCMV.(validfieldnames{iCond}).invalid;
+     end
+
+
+      %% plot valid-invalid by contrast condition
      for iCond = 1:2
          CMVAll.TargetT1 = TCMV_diff.(validfieldnames{iCond}).diff(:,:,1); % difference for target all/one condition for T1
          CMVAll.TargetT2 = TCMV_diff.(validfieldnames{iCond}).diff(:,:,2); % difference for target all/one condition for T2
