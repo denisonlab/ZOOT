@@ -2250,7 +2250,7 @@ end
 %% FIGURE 2B: RT plot TP/TA
 
 figure();
-set(gcf,'Position',[100 100 500 300])
+set(gcf,'Position',[100 100 500 400])
 shade_scatter = [.6 .5 .25];
 shade = [1, .6, .35];
 for iContrast = 1:2
