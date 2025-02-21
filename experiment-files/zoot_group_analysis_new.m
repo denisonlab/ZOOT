@@ -1259,6 +1259,7 @@ end
 
 figure();
 set(gcf,'Position',[100 100 500 400])
+set(gcf, 'Renderer', 'painters')
 shade_scatter = [.6 .5 .25];
 shade = [1, .6, .35];
 for iContrast = 1:numel(contrastConds)
@@ -1879,7 +1880,7 @@ end
 %     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
 % end
 
-%% FIG 3A: acc by target contrast
+%% FIG 2A: acc by target contrast
 
 figure;
 set(gcf,'Position',[100 100 600 300])
@@ -2250,7 +2251,7 @@ end
 %% FIGURE 2B: RT plot TP/TA
 
 figure();
-set(gcf,'Position',[100 100 500 400])
+set(gcf,'Position',[100 100 500 200])
 shade_scatter = [.6 .5 .25];
 shade = [1, .6, .35];
 for iContrast = 1:2
@@ -2370,9 +2371,9 @@ if saveplots
     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
 end
 % 
-figTitle = 'TX_RT';
-figType = 'pdf';
-export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
+% figTitle = 'TX_RT';
+% figType = 'pdf';
+% export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
 
 
 
