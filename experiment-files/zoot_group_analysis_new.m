@@ -1393,7 +1393,7 @@ end
 figTitle = 'TXNX_Acc';
 figType = 'pdf';
 export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
-
+print(gcf, '-dpdf', '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/TXNX_Acc.pdf')
 
  %% acc by validity, collapsed contrast
 
@@ -1492,6 +1492,7 @@ export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-
 
 figure();
 set(gcf,'Position',[100 100 500 400])
+set(gcf, 'Renderer', 'painters')
 shade_scatter = [.6 .5 .25];
 shade = [1, .6, .35];
 for iContrast = 1:numel(contrastConds)-1
@@ -1612,6 +1613,7 @@ end
 figTitle = 'Swap';
 figType = 'pdf';
 export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
+print(gcf, '-dpdf', '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/Swap.pdf')
 
 %% percentage of error due to swapping
 
@@ -1880,10 +1882,11 @@ end
 %     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
 % end
 
-%% FIG 2A: acc by target contrast
+%% FIGURE 2A: acc by target contrast
 
 figure;
-set(gcf,'Position',[100 100 600 300])
+set(gcf,'Position',[100 100 500 200])
+set(gcf, 'Renderer', 'painters')
 shade_scatter = [.6 .5 .25];
 shade = [1, .6, .35];
 for iContrast = 1:2
@@ -1939,16 +1942,16 @@ for iContrast = 1:2
     end
     hold on
     if iContrast==1
-        kt_annotateStats(1,94,'***');
+        kt_annotateStats(1,92,'***');
         kt_drawBracket(.7778, 1.2222, .90)
-        kt_annotateStats(1.1111,89.5,'**');
+        kt_annotateStats(1.1111,88,'**');
         kt_drawBracket(1, 1.2222, .86)
         %  kt_annotateStats(.89999,86,'~');
         % kt_drawBracket(.7778, 1, .82)
 
-        kt_annotateStats(2,94.5,'**');
+        kt_annotateStats(2,93.5,'**');
         kt_drawBracket(1.7778, 2.2222, .91)
-        kt_annotateStats(2.111,91,'*');
+        kt_annotateStats(2.111,89.5,'*');
         kt_drawBracket(2, 2.2222, .875)
 
         kt_annotateStats(1,98,'________');
@@ -1959,11 +1962,11 @@ for iContrast = 1:2
 
         kt_annotateStats(1.5,102,'___________________');
         kt_annotateStats(1.5,102.5,'*** Target');
-        kt_annotateStats(1.5,104.5,'*** Validity');
+        kt_annotateStats(1.5,105,'*** Validity');
 
 
     elseif iContrast == 2
-        kt_annotateStats(1,98,'*');
+        kt_annotateStats(1,96.5,'*');
         kt_drawBracket(.7778, 1.2222, .945)
 
 
@@ -2017,6 +2020,8 @@ end
 figTitle = 'TX_Acc';
 figType = 'pdf';
 export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
+print(gcf, '-dpdf', '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/TX_Acc.pdf')
+
 %% acc by target contrast collapsed across att conds
 
 
@@ -2252,6 +2257,7 @@ end
 
 figure();
 set(gcf,'Position',[100 100 500 200])
+set(gcf, 'Renderer', 'painters')
 shade_scatter = [.6 .5 .25];
 shade = [1, .6, .35];
 for iContrast = 1:2
@@ -2300,16 +2306,16 @@ for iContrast = 1:2
     end
     hold on
     if iContrast==1
-        kt_annotateStats(1,1,'***');
+        kt_annotateStats(1,.99,'***');
         kt_drawBracket(.7778, 1.2222, 1.1)
-        kt_annotateStats(.89,.925,'**');
+        kt_annotateStats(.89,.91,'**');
         kt_drawBracket(.7778, 1, .75)
-         kt_annotateStats(1.111,.87,'**');
+         kt_annotateStats(1.111,.85,'**');
         kt_drawBracket(1, 1.2222, .7)
 
-        kt_annotateStats(2,.87,'***');
+        kt_annotateStats(2,.86,'***');
         kt_drawBracket(1.7778, 2.2222, .7)
-        kt_annotateStats(2.1,.8,'**');
+        kt_annotateStats(2.1,.77,'**');
         kt_drawBracket(2, 2.2222, .64)
 
         kt_annotateStats(1,1.175,'_______');
@@ -2320,13 +2326,13 @@ for iContrast = 1:2
 
         kt_annotateStats(1.5, 1.325,'___________________');
         kt_annotateStats(1.5, 1.35,'** Target');
-        kt_annotateStats(1.5,1.41,'*** Validity');
+        kt_annotateStats(1.5,1.43,'*** Validity');
     end
 
     if iContrast == 2
         kt_annotateStats(2,.59,'*');
         kt_drawBracket(1.7778, 2.2222, .98)
-        kt_annotateStats(2.1111,.5,'*');
+        kt_annotateStats(2.1111,.49,'*');
         kt_drawBracket(2, 2.2222, .73)
 
         kt_annotateStats(2, 1.175,'_______');
@@ -2334,7 +2340,7 @@ for iContrast = 1:2
 
         kt_annotateStats(1.5, 1.325,'___________________');
         kt_annotateStats(1.5, 1.35,'*** Target');
-        kt_annotateStats(1.5,1.41,'* Validity');
+        kt_annotateStats(1.5,1.43,'* Validity');
     end
  
     % end
@@ -2370,17 +2376,18 @@ if saveplots
         'beh_acc',datestr(now,'yymmdd'));
     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
 end
-% 
-% figTitle = 'TX_RT';
-% figType = 'pdf';
-% export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
 
+figTitle = 'TX_RT';
+figType = 'pdf';
+export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
 
+print(gcf, '-dpdf', '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/TX_RT.pdf')
 
 %% SUPPLEMENTARY FIG: RT plot TXNX
 
 figure();
 set(gcf,'Position',[100 100 500 400])
+set(gcf, 'Renderer', 'painters')
 shade_scatter = [.6 .5 .25];
 shade = [1, .6, .35];
 for iContrast = 1:numel(contrastConds)
@@ -2531,7 +2538,7 @@ end
 figTitle = 'TXNX_RT';
 figType = 'pdf';
 export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
-
+print(gcf, '-dpdf', '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/TXNX_RT.pdf')
 
  %% plot detection
  %dprime
@@ -2757,6 +2764,7 @@ export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-
  shade_scatter = [.6 .5 .25];
  shade = [1, .6, .35];
  figure();
+ set(gcf, 'Renderer', 'painters')
  for iDet = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent), 2: numel(dprimefieldnames) to remove all
      subplot(2,2,iDet-1) % need to subtract one to remove all and start at right subplot
      for iTarget = 1:2
@@ -2919,6 +2927,7 @@ export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-
 figTitle = 'det';
 figType = 'pdf';
 export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
+print(gcf, '-dpdf', '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/det.pdf')
 
 %% plot det subsample d' distributions
 nonTargetContrastsNames = {'all','NTP', 'NTA'};
@@ -2942,6 +2951,7 @@ critfieldnames = fieldnames(dataAll(iSub).disc);
 shade_scatter = [.6 .5 .25];
 shade = [1, .6, .35];
 figure();
+set(gcf, 'Renderer', 'painters')
 for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
     subplot(2,2,iDis-1)
     kt_figureStyle();
@@ -3118,6 +3128,7 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
 figTitle = 'dis';
 figType = 'pdf';
 export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
+print(gcf, '-dpdf', '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/dis.pdf')
 
 %% SDT variables - detection
 for iContrast = 1:numel(contrastConds)
