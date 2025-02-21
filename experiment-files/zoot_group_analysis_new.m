@@ -6,17 +6,20 @@ saveplots = 0;
 fp = figureparams;
 
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
+addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/export_fig-master')
 addpath('/Users/jennymotzer/Documents/GitHub/kt-utils')
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/stats')
 
 
 %% 
 % Figure directory 
-figType = 'png'; % svg pdf eps
+figType = 'pdf'; % svg pdf eps
 figDir = sprintf('groupFigs'); 
 if ~exist(figDir, 'dir')
     mkdir(figDir)
 end
+figDir = '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/';
+addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/')
 
 %% compile
 subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071', 'S0085', 'S0105', 'S0108', 'S0111', 'S0122', 'S0133'};
@@ -97,12 +100,16 @@ for iSub=1:length(subs) % for participant
                 if dataAll(iSub).nonTargetContrast(iResponse) == 1 % if non-target is present
                     if dataAll(iSub).nonTargetTilt(iResponse) == -1 && dataAll(iSub).response(iResponse) == 1 % if nontarget tilt is CCW and responded CCW, consider it swapping
                         dataAll(iSub).NTcorrect(iResponse) = 1;
-                    elseif dataAll(iSub).nonTargetTilt(iResponse) == 1 && dataAll(iSub).response(iResponse) == 2 %if nontarget tilt is CW and responded CW, consider it swapping 
+                    elseif dataAll(iSub).nonTargetTilt(iResponse) == 1 && dataAll(iSub).response(iResponse) == 2 %if nontarget tilt is CW and responded CW, consider it swapping
                         dataAll(iSub).NTcorrect(iResponse) = 1;
                     end
                 elseif dataAll(iSub).nonTargetContrast(iResponse) == 0 % if nontarget is absent
-                    if dataAll(iSub).response(iResponse) == 3 %if respond absent (given that the trial was incorrect), consider it swapping
-                        dataAll(iSub).NTcorrect(iResponse) = 1;
+                    if dataAll(iSub).targetContrast(iResponse)==0
+                        dataAll(iSub).NTcorrect(iResponse)=0;
+                    elseif dataAll(iSub).targetContrast(iResponse)==1
+                        if dataAll(iSub).response(iResponse) == 3 %if respond absent (given that the trial was incorrect), consider it swapping
+                            dataAll(iSub).NTcorrect(iResponse) = 1;
+                        end
                     end
                 end
             elseif dataAll(iSub).correct(iResponse) == 1 % if a correct trial, do not consider swapping
@@ -418,12 +425,12 @@ for iSub=1:length(subs) % for participant
 
 
 
-        dataAll(iSub).means = Acc.prop*100; % save each participant's mean data in dataAll
-        dataAll(iSub).CM_tAllProp= CM.prop;
-        dataAll(iSub).CM_nAllProp= CM.propNon;
-        dataAll(iSub).CM_tOneProp= CM.propOneTarg;
-        dataAll(iSub).CM_nOneProp= CM.propNonOneTarg;
-        % 
+        % dataAll(iSub).means = Acc.prop*100; % save each participant's mean data in dataAll
+        % dataAll(iSub).CM_tAllProp= CM.prop;
+        % dataAll(iSub).CM_nAllProp= CM.propNon;
+        % dataAll(iSub).CM_tOneProp= CM.propOneTarg;
+        % dataAll(iSub).CM_nOneProp= CM.propNonOneTarg;
+        % % 
         % moved two sections down
         % dataAll(iSub).nsignalDet = dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % target present
         % dataAll(iSub).nnoiseDet = dataAll(iSub).targetContrast == 0 & ~dataAll(iSub).eyeSkip; % target absent
@@ -440,20 +447,21 @@ for iSub=1:length(subs) % for participant
                     for iResponse = 1:3
                         idx = 0;
                         idxNon =0;
-                        if tilts(iStimID)==0 % Target absent
+                        if tilts(iStimID)==0 % Target/non-target absent
                             idx = dataAll(iSub).target==iTarget & ~dataAll(iSub).targetContrast & Validities{iValid} & ~dataAll(iSub).eyeSkip;
-                            idxNon = dataAll(iSub).nontarget==iTarget & ~dataAll(iSub).nonTargetContrast & Validities{iValid} & dataAll(iSub).correct == 0 & ~dataAll(iSub).eyeSkip; % find where report non-target for incorrect trials
+                            idxNon = dataAll(iSub).nontarget==iTarget & ~dataAll(iSub).nonTargetContrast & Validities{iValid} & dataAll(iSub).correct == 0 & dataAll(iSub).targetContrast ~= dataAll(iSub).nonTargetContrast & ~dataAll(iSub).eyeSkip; % find all trials of each type of non-target given that the trial was incorrect and that the target contrast was different than the nontarget contrast
                             % idxOneTarg = dataAll(iSub).target==iTarget & ~dataAll(iSub).targetContrast & ~dataAll(iSub).eyeSkip & dataAll(iSub).T1Contrast~=dataAll(iSub).T2Contrast & Validities{iValid};
                             % idxNonOneTarg = dataAll(iSub).nontarget==iTarget & ~dataAll(iSub).nonTargetContrast & ~dataAll(iSub).eyeSkip & dataAll(iSub).T1Contrast~=dataAll(iSub).T2Contrast & Validities{iValid};
                         else % Target present
                             idx = dataAll(iSub).target==iTarget & dataAll(iSub).targetTilt==tilts(iStimID) & dataAll(iSub).targetContrast & Validities{iValid} & ~dataAll(iSub).eyeSkip;% & dataAll.T1Contrast~=dataAll.T2Contrast; % denominator; number of trials that meet this stimulus condition (CCW, CW, absent) and target (T1 or T2)
-                            idxNon = dataAll(iSub).nontarget==iTarget & dataAll(iSub).nonTargetTilt==tilts(iStimID) & dataAll(iSub).nonTargetContrast & Validities{iValid} & dataAll(iSub).correct== 0 & ~dataAll(iSub).eyeSkip;
+                            idxNon = dataAll(iSub).nontarget==iTarget & dataAll(iSub).nonTargetTilt==tilts(iStimID) & dataAll(iSub).nonTargetContrast & Validities{iValid} & dataAll(iSub).targetTilt ~= dataAll(iSub).nonTargetTilt & dataAll(iSub).correct== 0 & ~dataAll(iSub).eyeSkip;
                             % idxOneTarg = dataAll(iSub).target==iTarget & dataAll(iSub).targetTilt==tilts(iStimID) & dataAll(iSub).targetContrast & ~dataAll(iSub).eyeSkip & dataAll(iSub).T1Contrast~=dataAll(iSub).T2Contrast  & Validities{iValid};
                             % idxNonOneTarg = dataAll(iSub).nontarget==iTarget & dataAll(iSub).nonTargetTilt==tilts(iStimID) & dataAll(iSub).nonTargetContrast & ~dataAll(iSub).eyeSkip & dataAll(iSub).T1Contrast~=dataAll(iSub).T2Contrast & Validities{iValid};
                         end
                         CM_Swap.n(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idx),2); % contains number of trials for each condition for target; each matrix corresponds to a target (T1 or T2), row 1: CCW, row 2: CW, row 3: abs
                         CM_Swap.response(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idx & dataAll(iSub).response==iResponse),2); % find in dataAll.response where the stimulus and the response match, contains number of trials for each response; each matrix corresponds to a target
                         CM_swapProp.targ(iStimID,iResponse,iTarget) = CM_Swap.response(iStimID,iResponse,iTarget)/CM_Swap.n(iStimID,iResponse,iTarget);
+
                         CM_Swap.nNon(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idxNon),2); % contains number of trials for each condition for nontarget; each matrix corresponds to a target (T1 or T2), row 1: CCW, row 2: CW, row 3: abs
                         CM_Swap.responseNon(iStimID,iResponse,iTarget) = size(dataAll(iSub).response(idxNon & dataAll(iSub).response==iResponse),2); % find in dataAll.response where the stimulus and the response match, contains number of trials for each response; each matrix corresponds to a target
                         CM_swapProp.nontarg(iStimID,iResponse,iTarget) = CM_Swap.responseNon(iStimID,iResponse,iTarget)/CM_Swap.nNon(iStimID,iResponse,iTarget);
@@ -477,10 +485,10 @@ for iSub=1:length(subs) % for participant
 
 
         % dataAll(iSub).means = Acc.prop*100; % save each participant's mean data in dataAll
-        % dataAll(iSub).CM_tAllProp= CM.prop;
-        % dataAll(iSub).CM_nAllProp= CM.propNon;
-        % dataAll(iSub).CM_tOneProp= CM.propOneTarg;
-        % dataAll(iSub).CM_nOneProp= CM.propNonOneTarg;
+        dataAll(iSub).CM_tAllProp= CM.prop;
+        dataAll(iSub).CM_nAllProp= CM.propNon;
+        dataAll(iSub).CM_tOneProp= CM.propOneTarg;
+        dataAll(iSub).CM_nOneProp= CM.propNonOneTarg;
         
         %% SDT detection nontarget - across cueing conditions
                 dataAll(iSub).nsignalDet = dataAll(iSub).targetContrast == 1 & ~dataAll(iSub).eyeSkip; % target present
@@ -1247,7 +1255,7 @@ end
 
 
 %% accuracy
-%% figure 1 - target presence x validity x target
+%% FIGURE 3 - target presence x validity x target
 
 figure();
 set(gcf,'Position',[100 100 500 400])
@@ -1260,16 +1268,16 @@ for iContrast = 1:numel(contrastConds)
         for iValid = 1:3
             b = bar(xcoords(iContrast, iValid, iTarget), Acc.mean(iContrast, iValid, iTarget));
             hold on 
-            % for iSub = 1:15
-            %     s = scatter(xcoords_scatter(iValid, iSub, iTarget), Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget));
-            %         s.MarkerEdgeColor = [1 1 1];
-            %         if iTarget == 1
-            %             s.MarkerFaceColor = fp.blue;
-            %         elseif iTarget == 2
-            %             s.MarkerFaceColor= fp.orange;
-            %         end
-            %          s.MarkerFaceAlpha = shade_scatter(iValid);
-            % end
+            for iSub = 1:15
+                s = scatter(xcoords_scatter(iValid, iSub, iTarget), Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget));
+                    s.MarkerEdgeColor = [1 1 1];
+                    if iTarget == 1
+                        s.MarkerFaceColor = fp.blue;
+                    elseif iTarget == 2
+                        s.MarkerFaceColor= fp.orange;
+                    end
+                     s.MarkerFaceAlpha = shade_scatter(iValid);
+            end
             
             kt_figureStyle();
             errorbar(xcoords(iContrast, iValid, iTarget),Acc.mean(iContrast, iValid, iTarget),Acc.err(iContrast, iValid, iTarget), '.k', 'MarkerSize', 0.01, 'CapSize', 0, 'LineWidth', 1.75)
@@ -1300,21 +1308,23 @@ for iContrast = 1:numel(contrastConds)
 
 
        % for iSub = 1:15
-       %      plot(xcoords_scatter(:, iSub, iTarget), Acc_scatterplot.(contrasts{iContrast})(:,iSub,iTarget),'Color',[0.45 0.45 0.45])
+       %      plot(xcoords_scatter(:, iSub, iTarget),
+       %      Acc_scatterplot.(contrasts{iContrast})(:,iSub,iTarget),'Color',[0.45
+       %      0.45 0.45]) % makes lines connecting individual plot points
        %  end
     end
     hold on
     if iContrast==1
-        kt_annotateStats(1,86,'**');
-        kt_drawBracket(.7778, 1.2222, .84)
+        kt_annotateStats(1,88,'**');
+        kt_drawBracket(.7778, 1.2222, .86)
         % kt_annotateStats(2,94,'~');
         % kt_drawBracket(1.7778, 2.2222, .9)
 
-        kt_annotateStats(1,94,'_______');
-        kt_annotateStats(1,95,'* Validity');
+        kt_annotateStats(1,95,'_______');
+        kt_annotateStats(1,96,'* Validity');
 
         kt_annotateStats(1.5,102,'___________________');
-        kt_annotateStats(1.5,104,'*** Target');
+        kt_annotateStats(1.5,103,'*** Target');
         kt_annotateStats(1.5,107,'** Validity');
 
     end
@@ -1324,20 +1334,20 @@ for iContrast = 1:numel(contrastConds)
         kt_drawBracket(.7778, 1.2222, .88)
         kt_annotateStats(1.1111,85,'*');
         kt_drawBracket(1, 1.2222, .83)
-        kt_annotateStats(2,94,'*');
-        kt_drawBracket(1.7778, 2.2222, .92)
+        kt_annotateStats(2,96,'*');
+        kt_drawBracket(1.7778, 2.2222, .94)
 
         kt_annotateStats(1,96,'_______');
         kt_annotateStats(1,97,'*** Validity');
 
         kt_annotateStats(1.5,102,'___________________');
         kt_annotateStats(1.5,104,'*** Target');
-        kt_annotateStats(1.5,109,'*** Validity');
+        kt_annotateStats(1.5,108,'*** Validity');
     end
 
     if iContrast == 2
-        kt_annotateStats(1,94,'*');
-        kt_drawBracket(.7778, 1.2222, .925)
+        kt_annotateStats(1,97,'*');
+        kt_drawBracket(.7778, 1.2222, .955)
 
         % kt_annotateStats(1,100,'_______'); % incorrect!
         % kt_annotateStats(1,101,'* Validity');
@@ -1379,7 +1389,9 @@ end
 %         'beh_acc',datestr(now,'yymmdd'));
 %     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
 % end
-
+figTitle = 'TXNX_Acc';
+figType = 'pdf';
+export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
 
 
  %% acc by validity, collapsed contrast
@@ -1475,7 +1487,7 @@ end
  %     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
  % end
 
-%% accuracy of nontarget swapping
+%% FIGURE 6: accuracy of nontarget swapping
 
 figure();
 set(gcf,'Position',[100 100 500 400])
@@ -1596,11 +1608,9 @@ end
 [ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.15 0.82]);
 [ax8, h8] = suplabel('T2', 'tt', [0.08 0.08 1.47 0.82]);
 % 
-% if saveplots
-%     figTitle = sprintf('%s_%s',...
-%         'beh_acc',datestr(now,'yymmdd'));
-%     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
-% end
+figTitle = 'Swap';
+figType = 'pdf';
+export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
 
 %% percentage of error due to swapping
 
@@ -1869,7 +1879,7 @@ end
 %     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
 % end
 
-%% acc by target contrast
+%% FIG 3A: acc by target contrast
 
 figure;
 set(gcf,'Position',[100 100 600 300])
@@ -1948,7 +1958,7 @@ for iContrast = 1:2
 
         kt_annotateStats(1.5,102,'___________________');
         kt_annotateStats(1.5,102.5,'*** Target');
-        kt_annotateStats(1.5,104,'*** Validity');
+        kt_annotateStats(1.5,104.5,'*** Validity');
 
 
     elseif iContrast == 2
@@ -2003,8 +2013,9 @@ end
 %         'beh_acc',datestr(now,'yymmdd'));
 %     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
 % end
-
-
+figTitle = 'TX_Acc';
+figType = 'pdf';
+export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
 %% acc by target contrast collapsed across att conds
 
 
@@ -2236,10 +2247,10 @@ end
 % end
 
 
-%% RT plot TP/TA
+%% FIGURE 2B: RT plot TP/TA
 
 figure();
-set(gcf,'Position',[100 100 500 400])
+set(gcf,'Position',[100 100 500 300])
 shade_scatter = [.6 .5 .25];
 shade = [1, .6, .35];
 for iContrast = 1:2
@@ -2308,21 +2319,21 @@ for iContrast = 1:2
 
         kt_annotateStats(1.5, 1.325,'___________________');
         kt_annotateStats(1.5, 1.35,'** Target');
-        kt_annotateStats(1.5,1.4,'*** Validity');
+        kt_annotateStats(1.5,1.41,'*** Validity');
     end
 
     if iContrast == 2
         kt_annotateStats(2,.59,'*');
-        kt_drawBracket(1.7778, 2.2222, .95)
-        kt_annotateStats(2.1111,.52,'*');
-        kt_drawBracket(2, 2.2222, .85)
+        kt_drawBracket(1.7778, 2.2222, .98)
+        kt_annotateStats(2.1111,.5,'*');
+        kt_drawBracket(2, 2.2222, .73)
 
         kt_annotateStats(2, 1.175,'_______');
         kt_annotateStats(2,1.2,'** Validity');
 
         kt_annotateStats(1.5, 1.325,'___________________');
         kt_annotateStats(1.5, 1.35,'*** Target');
-        kt_annotateStats(1.5,1.4,'* Validity');
+        kt_annotateStats(1.5,1.41,'* Validity');
     end
  
     % end
@@ -2358,11 +2369,14 @@ if saveplots
         'beh_acc',datestr(now,'yymmdd'));
     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
 end
+% 
+figTitle = 'TX_RT';
+figType = 'pdf';
+export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
 
 
 
-
-%% RT plot TXNX
+%% SUPPLEMENTARY FIG: RT plot TXNX
 
 figure();
 set(gcf,'Position',[100 100 500 400])
@@ -2513,6 +2527,11 @@ if saveplots
     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
 end
 
+figTitle = 'TXNX_RT';
+figType = 'pdf';
+export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
+
+
  %% plot detection
  %dprime
  dprimefieldnames = fieldnames(dataAll(iSub).detd);
@@ -2596,7 +2615,7 @@ end
         kt_annotateStats(1.5,6.6,'*** Validity');
      end
 
-     ylabel("target detection d'")
+     ylabel("detection d'")
      ylim([0 7])
      ax = gca;
      set(gca, 'ytick', 0:1:7)
@@ -2683,7 +2702,7 @@ end
     
      end
 
-     ylabel('target detection c')
+     ylabel('detection c')
      % ylim([-0.75 0.75])
      ax = gca;
      set(gca, 'ytick', -2:1:2)
@@ -2728,7 +2747,10 @@ end
 [ax8, h8] = suplabel('T2', 'tt', [0.08 0.08 1.49 0.86]);
 
 
- %% plot detection - SUBSAMPLED valid cond
+
+
+
+ %% FIGURE 5: plot detection - SUBSAMPLED valid cond
  %dprime
  dprimefieldnames = fieldnames(dataAll(iSub).detd);
  shade_scatter = [.6 .5 .25];
@@ -2787,7 +2809,7 @@ end
          kt_drawBracket(.7778, 1.2222, .82)
      end
 
-     ylabel("target detection d'")
+     ylabel("detection d'")
      ylim([0 7])
      ax = gca;
      set(gca, 'ytick', 0:1:7)
@@ -2872,7 +2894,7 @@ end
 
      end
 
-     ylabel('target detection c')
+     ylabel('detection c')
      % ylim([-0.75 0.75])
      ax = gca;
      set(gca, 'ytick', -2:1:2)
@@ -2893,6 +2915,10 @@ end
 [ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.86]);
 
 
+figTitle = 'det';
+figType = 'pdf';
+export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
+
 %% plot det subsample d' distributions
 nonTargetContrastsNames = {'all','NTP', 'NTA'};
 targetNames = {'T1', 'T2'};
@@ -2908,7 +2934,7 @@ for iNontargetContrast = 2:3
     end 
 end 
 
-%% plot discrimination
+%% FIGURE 4: plot discrimination
 % dprime
 dprimefieldnames = fieldnames(dataAll(iSub).disd);
 critfieldnames = fieldnames(dataAll(iSub).disc);
@@ -2972,7 +2998,7 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
 
         kt_annotateStats(1.5, 4.5,'___________________');
         kt_annotateStats(1.5, 4.6,'*** Target');
-        kt_annotateStats(1.5,4.85,'** Validity');
+        kt_annotateStats(1.5,4.9,'** Validity');
       elseif iDis == 3
          kt_annotateStats(1,2.93,'*');
          kt_drawBracket(.7778, 1.2222, .70)
@@ -2992,11 +3018,11 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
 
         kt_annotateStats(1.5, 4.5,'___________________');
         kt_annotateStats(1.5, 4.6,'* Target');
-        kt_annotateStats(1.5,4.85,'** Validity');
+        kt_annotateStats(1.5,4.9,'** Validity');
 
      end
 
-     ylabel("target discrimination d'")
+     ylabel("discrimination d'")
      ylim([0 5])
      ax = gca;
      set(gca, 'ytick', 0:1:5)
@@ -3064,7 +3090,7 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
 
     end
 
-    ylabel('target discrimination c')
+    ylabel('discrimination c')
     ax = gca;
     set(gca, 'ytick', -2:1:2)
      hold on
@@ -3086,6 +3112,11 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
 [ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.86]);
 [ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.16 0.86]);
 [ax8, h8] = suplabel('T2', 'tt', [0.08 0.08 1.49 0.86]);
+
+
+figTitle = 'dis';
+figType = 'pdf';
+export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
 
 %% SDT variables - detection
 for iContrast = 1:numel(contrastConds)
@@ -3354,7 +3385,7 @@ for iCond = 1:1
         CMAtt_Swap.TargetT2 = TCMAtt_Swap.(validityNames{iValidity})(:,:,2);
         CMAtt_Swap.TargetAll = (CMAtt_Swap.TargetT1 + CMAtt_Swap.TargetT2) / 2;
         CMAtt_Swap.NontargetT2 = NCMAtt_Swap.(validityNames{iValidity})(:,:,2);
-        CMAtt_Swap.NontargetT1 = TCMAtt_Swap.(validityNames{iValidity})(:,:,1);
+        CMAtt_Swap.NontargetT1 = NCMAtt_Swap.(validityNames{iValidity})(:,:,1);
         CMAtt_Swap.NontargetAll = (CMAtt_Swap.NontargetT1 + CMAtt_Swap.NontargetT2) / 2;
         CMAtt_fieldnames = fieldnames(CMAtt_Swap);
         figure();
