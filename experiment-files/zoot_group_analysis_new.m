@@ -166,7 +166,9 @@ for iSub=1:length(subs) % for participant
                             tENt = size(find(idx & dataAll(iSub).targetTilt == dataAll(iSub).nonTargetTilt)); % for Present Present trials, find where nontarget tilt is same as target tilt 
                             ntAcc.n(iContrastCond, iValidity, inonTarget) = size(dataAll(iSub).NTcorrect(idx),2) - tENt(2); % subtract trials where nontarget tilt is same as target tilt (cannot tell if swapping if same)
                         end 
+                     dataAll(iSub).ntAccDenom(iContrastCond,iValidity, inonTarget) = ntAcc.n(iContrastCond, iValidity, inonTarget);
                     ntAcc.correct(iContrastCond, iValidity, inonTarget) = size(dataAll(iSub).NTcorrect(idx & dataAll(iSub).NTcorrect==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                    dataAll(iSub).ntAccNum(iContrastCond,iValidity, inonTarget) = ntAcc.correct(iContrastCond, iValidity, inonTarget);
                     ntAcc.prop(iContrastCond, iValidity, inonTarget) = ntAcc.correct(iContrastCond, iValidity, inonTarget)/ntAcc.n(iContrastCond, iValidity, inonTarget);
                 end
             end
@@ -1361,9 +1363,9 @@ for iContrast = 1:numel(contrastConds)
 
     hold off
     ylabel('Accuracy (%)')
-    ylim([50 105])
+    ylim([30 100])
     ax = gca;
-    set(gca, 'ytick', 50:10:100)
+    set(gca, 'ytick', 30:10:100)
     hold on
     xlim([0.5 2.5])
     xticks([0.7778 1 1.222 1.7778 2 2.2222])
@@ -1390,10 +1392,10 @@ end
 %         'beh_acc',datestr(now,'yymmdd'));
 %     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
 % end
-figTitle = 'TXNX_Acc';
-figType = 'pdf';
-export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
-print(gcf, '-dpdf', '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/TXNX_Acc.pdf')
+% figTitle = 'TXNX_Acc';
+% figType = 'pdf';
+% export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
+% print(gcf, '-dpdf', '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/TXNX_Acc.pdf')
 
  %% acc by validity, collapsed contrast
 
@@ -1493,49 +1495,49 @@ print(gcf, '-dpdf', '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/g
 figure();
 set(gcf,'Position',[100 100 500 400])
 set(gcf, 'Renderer', 'painters')
-shade_scatter = [.6 .5 .25];
-shade = [1, .6, .35];
+shade_scatter = .75; %[.6 .5 .25];
+shade = .75; %[1, .6, .35];
 for iContrast = 1:numel(contrastConds)-1
     subplot(2,2,iContrast)
     for iTarget = 1:2
         for iValid = 1:3
             b = bar(xcoords(iContrast, iValid, iTarget), Acc.NTmean(iContrast, iValid, iTarget));
             hold on 
-            % for iSub = 1:15
-            %     s = scatter(xcoords_scatter(iValid, iSub, iTarget), swap_Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget));
-            %         s.MarkerEdgeColor = [1 1 1];
-            %         if iTarget == 1
-            %             s.MarkerFaceColor = fp.blue;
-            %         elseif iTarget == 2
-            %             s.MarkerFaceColor= fp.orange;
-            %         end
-            %          s.MarkerFaceAlpha = shade_scatter(iValid);
-            % end
+            for iSub = 1:15
+                s = scatter(xcoords_scatter(iValid, iSub, iTarget), swap_Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,iTarget));
+                    s.MarkerEdgeColor = [1 1 1];
+                    if iTarget == 1
+                        s.MarkerFaceColor = fp.grey;
+                    elseif iTarget == 2
+                        s.MarkerFaceColor= fp.grey;
+                    end
+                     s.MarkerFaceAlpha = shade_scatter(1);
+            end
             
             kt_figureStyle();
             errorbar(xcoords(iContrast, iValid, iTarget),Acc.NTmean(iContrast, iValid, iTarget),Acc.NTerr(iContrast, iValid, iTarget), '.k', 'MarkerSize', 0.01, 'CapSize', 0, 'LineWidth', 1.75)
             if iContrast == 1 || iContrast == 3
                 if iTarget == 1
-                    b.FaceColor = fp.blue;
-                    b.EdgeColor = fp.blue;
+                    b.FaceColor = fp.grey;
+                    b.EdgeColor = fp.grey;
                 elseif iTarget == 2
-                    b.FaceColor= fp.orange;
-                    b.EdgeColor = fp.orange;
+                    b.FaceColor= fp.grey;
+                    b.EdgeColor = fp.grey;
                 end
-                b.FaceAlpha = shade(iValid);
-                b.EdgeAlpha = shade(iValid);
+                b.FaceAlpha = shade(1);
+                b.EdgeAlpha = shade(1);
                 b.BarWidth = 0.2;
             elseif iContrast == 2 || iContrast == 4
                 b.FaceColor = [1 1 1];
-                b.EdgeAlpha = shade(iValid);
+                b.EdgeAlpha = shade(1);
                 if iTarget == 1
-                    b.EdgeColor = fp.blue;
+                    b.EdgeColor = fp.grey;
                 elseif iTarget == 2
-                    b.EdgeColor = fp.orange;
+                    b.EdgeColor = fp.grey;
                 end
                 b.LineWidth = 2;
                 b.BarWidth = 0.18;
-                b.EdgeAlpha = shade(iValid);
+                b.EdgeAlpha = shade(1);
             end
         end
 
@@ -1584,10 +1586,10 @@ for iContrast = 1:numel(contrastConds)-1
     %     ]), 'FontSize', 4);
     % label_y = ylabel(sprintf('proportion of \nreporting non-target feature (%%) \n'));
     label_y = ylabel(sprintf('Reports of non-target feature \n(normalized %%) \n'));
-    ylim([0 40]) % original [0 20]
+    ylim([0 60]) % original [0 20]
     label_y.Position(1) = 0.45;
     ax = gca;
-    set(gca, 'ytick', 0:10:40) % original 0:5:20
+    set(gca, 'ytick', 0:10:60) % original 0:5:20
     hold on
     xlim([0.5 2.5])
     xticks([0.7778 1 1.222 1.7778 2 2.2222])
@@ -1747,6 +1749,38 @@ end
 %     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
 % end
 
+
+
+%% swapping denom and num
+figure;
+set(gcf, 'Position', [100 100 500 400])
+for iContrast = 1:4
+    subplot(2,2,iContrast)
+    sgtitle('swap error denominator')
+    kt_figureStyle();
+    for iTarget = 1:2
+        for iValid = 1:3
+            hold on
+            for iSub = 1:15
+                s = scatter(xcoords(iContrast, iValid, iTarget), dataAll(iSub).ntAccDenom(iContrast, iValidity, iTarget));
+            end
+        end
+    end
+    hold on
+    ylabel('# participants')
+    ylim([0 100])
+    ax = gca;
+    set(gca, 'ytick', 0:10:100)
+    hold on
+    xlim([0.5 2.5])
+    xticks([0.7778 1 1.222 1.7778 2 2.2222])
+    set(gca, 'xticklabel', {'V', 'N', 'I'})
+
+    hold on
+    ax = gca;
+    ax.XGrid = 'off';
+    ax.YGrid = 'off';
+end
 
 
 %% acc by nontarget contrast
@@ -2504,7 +2538,7 @@ for iContrast = 1:numel(contrastConds)
     end
 
     hold off
-    ylabel('RT (s)')
+    ylabel('Reaction time (s)')
     ylim([0 1.5])
     ax = gca;
     set(gca, 'ytick', 0:.5:1.5)
@@ -2758,167 +2792,186 @@ print(gcf, '-dpdf', '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/g
 
 
 
- %% FIGURE 5: plot detection - SUBSAMPLED valid cond
- %dprime
- dprimefieldnames = fieldnames(dataAll(iSub).detd);
- shade_scatter = [.6 .5 .25];
- shade = [1, .6, .35];
- figure();
- set(gcf, 'Renderer', 'painters')
- for iDet = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent), 2: numel(dprimefieldnames) to remove all
-     subplot(2,2,iDet-1) % need to subtract one to remove all and start at right subplot
-     for iTarget = 1:2
-         for iValid = 1:3
-             b = bar(xcoords_SDT(iTarget, iValid), detd_sub.(dprimefieldnames{iDet})(iTarget, iValid));
-             hold on 
-             for iSub = 1:15
+%% FIGURE 5: plot detection - SUBSAMPLED valid cond
+%dprime
+dprimefieldnames = fieldnames(dataAll(iSub).detd);
+shade_scatter = [.6 .5 .25];
+shade = [1, .6, .35];
+figure();
+set(gcf, 'Renderer', 'painters')
+for iDet = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent), 2: numel(dprimefieldnames) to remove all
+    subplot(2,2,iDet-1) % need to subtract one to remove all and start at right subplot
+    for iTarget = 1:2
+        for iValid = 1:3
+            b = bar(xcoords_SDT(iTarget, iValid), detd_sub.(dprimefieldnames{iDet})(iTarget, iValid));
+            hold on
+            for iSub = 1:15
                 s = scatter(xcoords_scatter(iValid, iSub, iTarget), detd_scatterplot.(Detfieldnames{iDet})(iValid, iSub, iTarget));
-                    s.MarkerEdgeColor = [1 1 1];
-                    if iTarget == 1
-                        s.MarkerFaceColor = fp.blue;
-                    elseif iTarget == 2
-                        s.MarkerFaceColor= fp.orange;
-                    end
-                     s.MarkerFaceAlpha = shade_scatter(iValid);
+                s.MarkerEdgeColor = [1 1 1];
+                if iTarget == 1
+                    s.MarkerFaceColor = fp.blue;
+                elseif iTarget == 2
+                    s.MarkerFaceColor= fp.orange;
+                end
+                s.MarkerFaceAlpha = shade_scatter(iValid);
             end
             kt_figureStyle();
-             errorbar(xcoords_SDT(iTarget, iValid),detd_sub.(dprimefieldnames{iDet})(iTarget, iValid),detdErr_sub.(dprimefieldnames{iDet})(iTarget, iValid), '.k', 'MarkerSize',0.1, 'CapSize', 0, 'LineWidth', 1.75)
-             % if iDet == 2
-                 if iTarget == 1
-                     b.FaceColor = fp.blue;
-                     b.EdgeColor = fp.blue;
-                 elseif iTarget == 2
-                     b.FaceColor= fp.orange;
-                     b.EdgeColor = fp.orange;
-                 end
-                 b.FaceAlpha = shade(iValid);
-                 b.EdgeAlpha = shade(iValid);
-                 b.BarWidth = 0.2;
-         end
-     end
+            errorbar(xcoords_SDT(iTarget, iValid),detd_sub.(dprimefieldnames{iDet})(iTarget, iValid),detdErr_sub.(dprimefieldnames{iDet})(iTarget, iValid), '.k', 'MarkerSize',0.1, 'CapSize', 0, 'LineWidth', 1.75)
+            % %if iDet == 2
+            b.FaceColor = [1 1 1];
+            b.EdgeAlpha = shade(iValid);
+            if iTarget == 1
+                b.EdgeColor = fp.blue;
+            elseif iTarget == 2
+                b.EdgeColor = fp.orange;
+            end
+            b.LineWidth = 2;
+            b.BarWidth = 0.18;
+            b.EdgeAlpha = shade(iValid);
+            % if iTarget == 1
+            %     b.FaceColor = fp.blue;
+            %     b.EdgeColor = fp.blue;
+            % elseif iTarget == 2
+            %     b.FaceColor= fp.orange;
+            %     b.EdgeColor = fp.orange;
+            % end
+            % b.FaceAlpha = shade(iValid);
+            % b.EdgeAlpha = shade(iValid);
+            % b.BarWidth = 0.2;
+        end
+    end
 
-     hold on
-   
-     if iDet == 3
-         kt_annotateStats(1,4.5,'***');
-         kt_drawBracket(0.7778, 1.2222, .76)
-         kt_annotateStats(2.1111,4.35,'*');
-         kt_drawBracket(2, 2.2222, .74)
+    hold on
+
+    if iDet == 3
+        kt_annotateStats(1,4.5,'***');
+        kt_drawBracket(0.7778, 1.2222, .76)
+        kt_annotateStats(2.1111,4.35,'*');
+        kt_drawBracket(2, 2.2222, .74)
 
         kt_annotateStats(1,5.45,'_______');
         kt_annotateStats(1,5.5,'* Validity');
- 
+
 
         kt_annotateStats(1.5, 6.1,'___________________');
         kt_annotateStats(1.5, 6.6,'** Target');
         kt_annotateStats(1.5,7,'* Validity');
         kt_annotateStats(1.5,6.2,'* Target:Validity');
-     elseif iDet == 2
-           kt_annotateStats(1,4.8,'*');
-         kt_drawBracket(.7778, 1.2222, .82)
-     end
+    elseif iDet == 2
+        kt_annotateStats(1,4.8,'*');
+        kt_drawBracket(.7778, 1.2222, .82)
+    end
 
-     ylabel("detection d'")
-     ylim([0 7])
-     ax = gca;
-     set(gca, 'ytick', 0:1:7)
-     hold on
-     xlim([0.5 2.5])
-     xticks([0.7778 1 1.222 1.7778 2 2.2222])
-     set(gca, 'xticklabel', {'V', 'N', 'I'})
+    ylabel('Detection {\itd''}')
+    ylim([0 7])
+    ax = gca;
+    set(gca, 'ytick', 0:1:7)
+    hold on
+    xlim([0.5 2.5])
+    xticks([0.7778 1 1.222 1.7778 2 2.2222])
+    set(gca, 'xticklabel', {'V', 'N', 'I'})
 
-     hold on
-     ax = gca;
-     ax.XGrid = 'off';
-     ax.YGrid = 'off';
- end
+    hold on
+    ax = gca;
+    ax.XGrid = 'off';
+    ax.YGrid = 'off';
+end
 
 
 
- % criterion
-  for iDet = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
-     subplot(2,2,iDet+1)
-     for iTarget = 1:2
-         for iValid = 1:3
-             b = bar(xcoords_SDT(iTarget, iValid), detc_sub.(dprimefieldnames{iDet})(iTarget, iValid));
-             hold on 
-             for iSub = 1:15
+% criterion
+for iDet = 2:numel(dprimefieldnames) % for each condition (all, nontarget present, nontarget absent)
+    subplot(2,2,iDet+1)
+    for iTarget = 1:2
+        for iValid = 1:3
+            b = bar(xcoords_SDT(iTarget, iValid), detc_sub.(dprimefieldnames{iDet})(iTarget, iValid));
+            hold on
+            for iSub = 1:15
                 s = scatter(xcoords_scatter(iValid, iSub, iTarget), detc_scatterplot.(Detfieldnames{iDet})(iValid, iSub, iTarget));
-                    s.MarkerEdgeColor = [1 1 1];
-                    if iTarget == 1
-                        s.MarkerFaceColor = fp.blue;
-                    elseif iTarget == 2
-                        s.MarkerFaceColor= fp.orange;
-                    end
-                     s.MarkerFaceAlpha = shade_scatter(iValid);
+                s.MarkerEdgeColor = [1 1 1];
+                if iTarget == 1
+                    s.MarkerFaceColor = fp.blue;
+                elseif iTarget == 2
+                    s.MarkerFaceColor= fp.orange;
+                end
+                s.MarkerFaceAlpha = shade_scatter(iValid);
             end
-              kt_figureStyle();
-             errorbar(xcoords_SDT(iTarget, iValid),detc_sub.(dprimefieldnames{iDet})(iTarget, iValid),detcErr_sub.(dprimefieldnames{iDet})(iTarget, iValid), '.k', 'MarkerSize',0.1, 'CapSize', 0, 'LineWidth', 1.75)
-             % if iDet == 2
-                 if iTarget == 1
-                     b.FaceColor = fp.blue;
-                     b.EdgeColor = fp.blue;
-                 elseif iTarget == 2
-                     b.FaceColor= fp.orange;
-                     b.EdgeColor = fp.orange;
-                 end
-                 b.FaceAlpha = shade(iValid);
-                 b.EdgeAlpha = shade(iValid);
-                 b.BarWidth = 0.2;
-             % elseif iDet == 3
-             %     b.FaceColor = [1 1 1];
-             %     b.EdgeAlpha = shade(iValid);
-             %     if iTarget == 1
-             %         b.EdgeColor = fp.blue;
-             %     elseif iTarget == 2
-             %         b.EdgeColor = fp.orange;
-             %     end
-             %     b.LineWidth = 2;
-             %     b.BarWidth = 0.18;
-             %     b.EdgeAlpha = shade(iValid);
-             % end
+            kt_figureStyle();
+            errorbar(xcoords_SDT(iTarget, iValid),detc_sub.(dprimefieldnames{iDet})(iTarget, iValid),detcErr_sub.(dprimefieldnames{iDet})(iTarget, iValid), '.k', 'MarkerSize',0.1, 'CapSize', 0, 'LineWidth', 1.75)
+            b.FaceColor = [1 1 1];
+            b.EdgeAlpha = shade(iValid);
+            if iTarget == 1
+                b.EdgeColor = fp.blue;
+            elseif iTarget == 2
+                b.EdgeColor = fp.orange;
+            end
+            b.LineWidth = 2;
+            b.BarWidth = 0.18;
+            % %if iDet == 2
+            % if iTarget == 1
+            %     b.FaceColor = fp.blue;
+            %     b.EdgeColor = fp.blue;
+            % elseif iTarget == 2
+            %     b.FaceColor= fp.orange;
+            %     b.EdgeColor = fp.orange;
+            % end
+            % b.FaceAlpha = shade(iValid);
+            % b.EdgeAlpha = shade(iValid);
+            % b.BarWidth = 0.2;
+            % elseif iDet == 3
+            %     b.FaceColor = [1 1 1];
+            %     b.EdgeAlpha = shade(iValid);
+            %     if iTarget == 1
+            %         b.EdgeColor = fp.blue;
+            %     elseif iTarget == 2
+            %         b.EdgeColor = fp.orange;
+            %     end
+            %     b.LineWidth = 2;
+            %     b.BarWidth = 0.18;
+            %     b.EdgeAlpha = shade(iValid);
+            % end
 
-         end
-     end
+        end
+    end
 
-     hold on
-     ylim([-2 2])
+    hold on
+    ylim([-2 2])
 
-     if iDet == 3
-         kt_annotateStats(1,0.63,'**');
-         kt_drawBracket(.7778, 1.222, .37)
-         kt_annotateStats(1.111,0.43,'*');
-         kt_drawBracket(1, 1.2222, .28)
+    if iDet == 3
+        kt_annotateStats(1,0.63,'**');
+        kt_drawBracket(.7778, 1.222, .37)
+        kt_annotateStats(1.111,0.43,'*');
+        kt_drawBracket(1, 1.2222, .28)
 
-         kt_annotateStats(1,1.15,'_______');
-         kt_annotateStats(1,1.17,'* Validity');
+        kt_annotateStats(1,1.15,'_______');
+        kt_annotateStats(1,1.17,'* Validity');
 
 
-         kt_annotateStats(1.5, 1.5,'___________________');
-         kt_annotateStats(1.5, 1.6,'** Target');
-         kt_annotateStats(1.5,1.8,'*** Validity');
-     elseif iDet == 2
-         kt_annotateStats(1,0.22,'*');
-         kt_drawBracket(.7778, 1.2222, .17)
+        kt_annotateStats(1.5, 1.5,'___________________');
+        kt_annotateStats(1.5, 1.6,'** Target');
+        kt_annotateStats(1.5,1.8,'*** Validity');
+    elseif iDet == 2
+        kt_annotateStats(1,0.22,'*');
+        kt_drawBracket(.7778, 1.2222, .17)
 
-     end
+    end
 
-     ylabel('detection c')
-     % ylim([-0.75 0.75])
-     ax = gca;
-     set(gca, 'ytick', -2:1:2)
-     hold on
-     xlim([0.5 2.5])
-     xticks([0.7778 1 1.222 1.7778 2 2.2222])
-     set(gca, 'xticklabel', {'V', 'N', 'I'})
+    ylabel('Detection c')
+    % ylim([-0.75 0.75])
+    ax = gca;
+    set(gca, 'ytick', -2:1:2)
+    hold on
+    xlim([0.5 2.5])
+    xticks([0.7778 1 1.222 1.7778 2 2.2222])
+    set(gca, 'xticklabel', {'V', 'N', 'I'})
 
-     hold on
-     ax = gca;
-     ax.XGrid = 'off';
-     ax.YGrid = 'off';
-  end
+    hold on
+    ax = gca;
+    ax.XGrid = 'off';
+    ax.YGrid = 'off';
+end
 
- [ax3, h3] = suplabel('Non-target Absent', 't', [0.08 0.08 1.3 0.9]);
+[ax3, h3] = suplabel('Non-target Absent', 't', [0.08 0.08 1.3 0.9]);
 [ax4, h4] = suplabel('Non-target Present', 't', [0.08 0.08 .45 0.9]);
 [ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .27 0.86]);
 [ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.86]);
@@ -3033,7 +3086,7 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
 
      end
 
-     ylabel("discrimination d'")
+     ylabel('Discrimination {\itd''}')
      ylim([0 5])
      ax = gca;
      set(gca, 'ytick', 0:1:5)
@@ -3101,7 +3154,7 @@ for iDis = 2:numel(dprimefieldnames) % for each condition (all, nontarget presen
 
     end
 
-    ylabel('discrimination c')
+    ylabel('Discrimination c')
     ax = gca;
     set(gca, 'ytick', -2:1:2)
      hold on
