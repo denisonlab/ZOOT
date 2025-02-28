@@ -27,69 +27,69 @@ print(acc_anova)
 ```
 
     ## $ANOVA
-    ##                                              Effect DFn DFd          F
-    ## 2                                    targetContrast   1  14  4.2155909
-    ## 3                                 nontargetContrast   1  14 23.7347619
-    ## 4                                            Target   1  14  9.8679932
-    ## 5                                          Validity   2  28  3.5012964
-    ## 6                  targetContrast:nontargetContrast   1  14  9.3424780
-    ## 7                             targetContrast:Target   1  14 25.6825404
-    ## 8                          nontargetContrast:Target   1  14  2.7412031
-    ## 9                           targetContrast:Validity   2  28 15.9708089
-    ## 10                       nontargetContrast:Validity   2  28  0.8238744
-    ## 11                                  Target:Validity   2  28  0.1720913
-    ## 12          targetContrast:nontargetContrast:Target   1  14  0.7182936
-    ## 13        targetContrast:nontargetContrast:Validity   2  28  0.2152599
-    ## 14                   targetContrast:Target:Validity   2  28  3.2045296
-    ## 15                nontargetContrast:Target:Validity   2  28  4.4717860
-    ## 16 targetContrast:nontargetContrast:Target:Validity   2  28  0.2819136
+    ##                                              Effect DFn DFd           F
+    ## 2                                    targetContrast   1  14 50.04998417
+    ## 3                                 nontargetContrast   1  14 38.72826481
+    ## 4                                            Target   1  14 21.54519563
+    ## 5                                          Validity   2  28  4.45151045
+    ## 6                  targetContrast:nontargetContrast   1  14  0.03824505
+    ## 7                             targetContrast:Target   1  14 35.19550590
+    ## 8                          nontargetContrast:Target   1  14  0.54470528
+    ## 9                           targetContrast:Validity   2  28 13.33527530
+    ## 10                       nontargetContrast:Validity   2  28  0.06686730
+    ## 11                                  Target:Validity   2  28  0.15657079
+    ## 12          targetContrast:nontargetContrast:Target   1  14  6.90472094
+    ## 13        targetContrast:nontargetContrast:Validity   2  28  1.49106096
+    ## 14                   targetContrast:Target:Validity   2  28  2.28995560
+    ## 15                nontargetContrast:Target:Validity   2  28  2.87773373
+    ## 16 targetContrast:nontargetContrast:Target:Validity   2  28  0.28762745
     ##               p p<.05          ges
-    ## 2  5.923118e-02       0.0152064536
-    ## 3  2.469594e-04     * 0.1888815510
-    ## 4  7.214816e-03     * 0.0272252646
-    ## 5  4.393488e-02     * 0.0090302701
-    ## 6  8.538146e-03     * 0.0947962576
-    ## 7  1.715859e-04     * 0.0751086550
-    ## 8  1.200254e-01       0.0053482766
-    ## 9  2.355125e-05     * 0.0229679449
-    ## 10 4.490848e-01       0.0017844633
-    ## 11 8.427860e-01       0.0004301473
-    ## 12 4.109596e-01       0.0019629051
-    ## 13 8.076538e-01       0.0003993247
-    ## 14 5.582044e-02       0.0111297021
-    ## 15 2.063802e-02     * 0.0078975114
-    ## 16 7.564546e-01       0.0004871641
+    ## 2  5.554247e-06     * 0.1154301967
+    ## 3  2.225141e-05     * 0.3059088206
+    ## 4  3.810525e-04     * 0.0505280260
+    ## 5  2.095779e-02     * 0.0160436377
+    ## 6  8.477619e-01       0.0002909770
+    ## 7  3.655946e-05     * 0.0982506156
+    ## 8  4.726801e-01       0.0007526722
+    ## 9  8.544058e-05     * 0.0302704996
+    ## 10 9.354682e-01       0.0002230609
+    ## 11 8.558144e-01       0.0004754314
+    ## 12 1.987602e-02     * 0.0158339764
+    ## 13 2.424690e-01       0.0038577217
+    ## 14 1.199262e-01       0.0093066039
+    ## 15 7.301207e-02       0.0046711046
+    ## 16 7.522304e-01       0.0005567786
     ## 
     ## $`Mauchly's Test for Sphericity`
     ##                                              Effect         W         p p<.05
-    ## 5                                          Validity 0.9787272 0.8695623      
-    ## 9                           targetContrast:Validity 0.9461123 0.6976339      
-    ## 10                       nontargetContrast:Validity 0.8032463 0.2407225      
-    ## 11                                  Target:Validity 0.7085405 0.1065051      
-    ## 13        targetContrast:nontargetContrast:Validity 0.7902134 0.2164404      
-    ## 14                   targetContrast:Target:Validity 0.7940034 0.2232777      
-    ## 15                nontargetContrast:Target:Validity 0.9664210 0.8009056      
-    ## 16 targetContrast:nontargetContrast:Target:Validity 0.7617244 0.1704850      
+    ## 5                                          Validity 0.9902893 0.9385418      
+    ## 9                           targetContrast:Validity 0.9871554 0.9194030      
+    ## 10                       nontargetContrast:Validity 0.8819571 0.4419861      
+    ## 11                                  Target:Validity 0.7632315 0.1726895      
+    ## 13        targetContrast:nontargetContrast:Validity 0.8234802 0.2829733      
+    ## 14                   targetContrast:Target:Validity 0.7598220 0.1677363      
+    ## 15                nontargetContrast:Target:Validity 0.9903455 0.9388877      
+    ## 16 targetContrast:nontargetContrast:Target:Validity 0.8106965 0.2556106      
     ## 
     ## $`Sphericity Corrections`
     ##                                              Effect       GGe        p[GG]
-    ## 5                                          Validity 0.9791703 4.510651e-02
-    ## 9                           targetContrast:Validity 0.9488677 3.542766e-05
-    ## 10                       nontargetContrast:Validity 0.8355938 4.314483e-01
-    ## 11                                  Target:Validity 0.7743178 7.881006e-01
-    ## 13        targetContrast:nontargetContrast:Validity 0.8265920 7.664032e-01
-    ## 14                   targetContrast:Target:Validity 0.8291897 6.711405e-02
-    ## 15                nontargetContrast:Target:Validity 0.9675119 2.193131e-02
-    ## 16 targetContrast:nontargetContrast:Target:Validity 0.8075747 7.102501e-01
+    ## 5                                          Validity 0.9903827 2.133550e-02
+    ## 9                           targetContrast:Validity 0.9873183 9.309966e-05
+    ## 10                       nontargetContrast:Validity 0.8944201 9.188979e-01
+    ## 11                                  Target:Validity 0.8085587 8.115398e-01
+    ## 13        targetContrast:nontargetContrast:Validity 0.8499644 2.446584e-01
+    ## 14                   targetContrast:Target:Validity 0.8063358 1.324414e-01
+    ## 15                nontargetContrast:Target:Validity 0.9904378 7.362627e-02
+    ## 16 targetContrast:nontargetContrast:Target:Validity 0.8408282 7.149306e-01
     ##    p[GG]<.05       HFe        p[HF] p[HF]<.05
-    ## 5          * 1.1366834 4.393488e-02         *
-    ## 9          * 1.0934331 2.355125e-05         *
-    ## 10           0.9355246 4.425716e-01          
-    ## 11           0.8524982 8.093461e-01          
-    ## 13           0.9232243 7.906442e-01          
-    ## 14           0.9267702 6.040882e-02          
-    ## 15         * 1.1199922 2.063802e-02         *
-    ## 16           0.8973560 7.332238e-01
+    ## 5          * 1.1527973 2.095779e-02         *
+    ## 9          * 1.1483873 8.544058e-05         *
+    ## 10           1.0167995 9.354682e-01          
+    ## 11           0.8986907 8.341467e-01          
+    ## 13           0.9552357 2.432293e-01          
+    ## 14           0.8956764 1.265700e-01          
+    ## 15           1.1528766 7.301207e-02          
+    ## 16           0.9426936 7.396428e-01
 
 ``` r
 # swap accuracy target present 
@@ -106,40 +106,40 @@ print(accTP_anova)
 
     ## $ANOVA
     ##                              Effect DFn DFd          F            p p<.05
-    ## 2                 nontargetContrast   1  14  3.5509430 8.044503e-02      
-    ## 3                            Target   1  14 33.8667457 4.449064e-05     *
-    ## 4                          Validity   2  28 13.4051287 8.244165e-05     *
-    ## 5          nontargetContrast:Target   1  14  0.2439516 6.290253e-01      
-    ## 6        nontargetContrast:Validity   2  28  0.1303013 8.783601e-01      
-    ## 7                   Target:Validity   2  28  1.8081234 1.825862e-01      
-    ## 8 nontargetContrast:Target:Validity   2  28  3.6621525 3.865286e-02     *
-    ##            ges
-    ## 2 0.0405429320
-    ## 3 0.2548963452
-    ## 4 0.0931977197
-    ## 5 0.0014026546
-    ## 6 0.0009767362
-    ## 7 0.0189827129
-    ## 8 0.0084486291
+    ## 2                 nontargetContrast   1  14 32.0261856 5.895362e-05     *
+    ## 3                            Target   1  14 45.6957237 9.171928e-06     *
+    ## 4                          Validity   2  28  9.7567689 6.092132e-04     *
+    ## 5          nontargetContrast:Target   1  14  7.4947535 1.602873e-02     *
+    ## 6        nontargetContrast:Validity   2  28  0.5885457 5.618553e-01      
+    ## 7                   Target:Validity   2  28  1.1026736 3.459703e-01      
+    ## 8 nontargetContrast:Target:Validity   2  28  0.6667842 5.213194e-01      
+    ##           ges
+    ## 2 0.295030776
+    ## 3 0.239290990
+    ## 4 0.084556078
+    ## 5 0.023257914
+    ## 6 0.005459540
+    ## 7 0.011196771
+    ## 8 0.002077221
     ## 
     ## $`Mauchly's Test for Sphericity`
     ##                              Effect         W         p p<.05
-    ## 4                          Validity 0.9306893 0.6269470      
-    ## 6        nontargetContrast:Validity 0.7548918 0.1607869      
-    ## 7                   Target:Validity 0.7692735 0.1817712      
-    ## 8 nontargetContrast:Target:Validity 0.9259280 0.6063898      
+    ## 4                          Validity 0.9809756 0.8826292      
+    ## 6        nontargetContrast:Validity 0.8576841 0.3686615      
+    ## 7                   Target:Validity 0.7630583 0.1724349      
+    ## 8 nontargetContrast:Target:Validity 0.9547441 0.7400573      
     ## 
     ## $`Sphericity Corrections`
     ##                              Effect       GGe        p[GG] p[GG]<.05       HFe
-    ## 4                          Validity 0.9351819 0.0001281839         * 1.0740412
-    ## 6        nontargetContrast:Validity 0.8031430 0.8345065706           0.8913507
-    ## 7                   Target:Validity 0.8125282 0.1906322797           0.9040787
-    ## 8 nontargetContrast:Target:Validity 0.9310363 0.0424685311         * 1.0681844
+    ## 4                          Validity 0.9813308 0.0006682626         * 1.1397836
+    ## 6        nontargetContrast:Validity 0.8754146 0.5411606289           0.9903706
+    ## 7                   Target:Validity 0.8084455 0.3370522633           0.8985371
+    ## 8 nontargetContrast:Target:Validity 0.9567035 0.5152903505           1.1045754
     ##          p[HF] p[HF]<.05
-    ## 4 8.244165e-05         *
-    ## 6 8.560972e-01          
-    ## 7 1.867893e-01          
-    ## 8 3.865286e-02         *
+    ## 4 0.0006092132         *
+    ## 6 0.5603451576          
+    ## 7 0.3416740476          
+    ## 8 0.5213193796
 
 ``` r
 # swap accuracy target absent 

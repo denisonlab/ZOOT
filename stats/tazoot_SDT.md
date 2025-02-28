@@ -1326,7 +1326,7 @@ knitr::kable(detcritT2_anova)
 # discrimination
 
 ``` r
-## dis dprime 
+## dis crit 
 d = data 
 discrit_anova = ezANOVA(
   data = d,

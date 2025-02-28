@@ -94,11 +94,12 @@ for iSub=1:length(subs) % for participant
             end
         end
 
-        % get accuracy of reporting nontarget (swapping)
+        % NTcorrect when 1)incorrect, 2) report non-target, 3) target
+        % feature and non-target feature are different
         for iResponse = 1:size(dataAll(iSub).response,2)
             if dataAll(iSub).correct(iResponse) == 0 % only incorrect trials
                 if dataAll(iSub).nonTargetContrast(iResponse) == 1 % if non-target is present
-                    if dataAll(iSub).nonTargetTilt(iResponse) == -1 && dataAll(iSub).response(iResponse) == 1 % if nontarget tilt is CCW and responded CCW, consider it swapping
+                    if dataAll(iSub).nonTargetTilt(iResponse) == -1 && dataAll(iSub).response(iResponse) == 1 % if nontarget tilt is CCW and responded CCW, consider it swapping (this will never allow incorrect trials with same target and non-target features allowed since it has to be incorrect (didn't chose the target or nontarget feature) and reporting the non-target feature)
                         dataAll(iSub).NTcorrect(iResponse) = 1;
                     elseif dataAll(iSub).nonTargetTilt(iResponse) == 1 && dataAll(iSub).response(iResponse) == 2 %if nontarget tilt is CW and responded CW, consider it swapping
                         dataAll(iSub).NTcorrect(iResponse) = 1;
@@ -153,7 +154,7 @@ for iSub=1:length(subs) % for participant
 
         dataAll(iSub).means = Acc.prop*100; % save each participant's mean data in dataAll
 
-         %% accuracy to nontarget: number times report NT/number trials per condition
+         %% swapping rate over all trials (incorrect trials where non-target reported / all trials where target and non-target features are not the same)
 
         % sort data by contrast condition, validity, and target and get averages
         % per condition as matrices
@@ -161,14 +162,15 @@ for iSub=1:length(subs) % for participant
             for iContrastCond = 1:4 % for each contrast condition (PP, PA, AP, AA)
                 for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
                     idx = dataAll(iSub).nontarget == inonTarget & Validities{iValidity} & contrastConds{iContrastCond} & ~dataAll(iSub).eyeSkip; % finds which trials per conditions for each nontarget 
-                    ntAcc.n(iContrastCond, iValidity, inonTarget) = size(dataAll(iSub).NTcorrect(idx),2); % denominator, number of trials per condition
+                    ntAcc.n(iContrastCond, iValidity, inonTarget) = size(dataAll(iSub).NTcorrect(idx),2); % denominator, used to calculate swaps over all trials
                         if iContrastCond == 1
                             tENt = size(find(idx & dataAll(iSub).targetTilt == dataAll(iSub).nonTargetTilt)); % for Present Present trials, find where nontarget tilt is same as target tilt 
-                            ntAcc.n(iContrastCond, iValidity, inonTarget) = size(dataAll(iSub).NTcorrect(idx),2) - tENt(2); % subtract trials where nontarget tilt is same as target tilt (cannot tell if swapping if same)
+                            % nCorr = size(find(idx & dataAll(iSub).correct==1)); % number of correct trials
+                            ntAcc.n(iContrastCond, iValidity, inonTarget) = size(dataAll(iSub).NTcorrect(idx),2) - tENt(2); % subtract trials where nontarget tilt is same as target tilt (cannot tell if swapping if same) and number of incorrect trials to see swapping in incorrect trials
                         end 
-                     dataAll(iSub).ntAccDenom(iContrastCond,iValidity, inonTarget) = ntAcc.n(iContrastCond, iValidity, inonTarget);
+                     % dataAll(iSub).ntAccDenom(iContrastCond,iValidity, inonTarget) = ntAcc.n(iContrastCond, iValidity, inonTarget);
                     ntAcc.correct(iContrastCond, iValidity, inonTarget) = size(dataAll(iSub).NTcorrect(idx & dataAll(iSub).NTcorrect==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
-                    dataAll(iSub).ntAccNum(iContrastCond,iValidity, inonTarget) = ntAcc.correct(iContrastCond, iValidity, inonTarget);
+                    % dataAll(iSub).ntAccNum(iContrastCond,iValidity, inonTarget) = ntAcc.correct(iContrastCond, iValidity, inonTarget);
                     ntAcc.prop(iContrastCond, iValidity, inonTarget) = ntAcc.correct(iContrastCond, iValidity, inonTarget)/ntAcc.n(iContrastCond, iValidity, inonTarget);
                 end
             end
@@ -180,6 +182,33 @@ for iSub=1:length(subs) % for participant
         ntAcc.rev_prop(:,:,2) = ntAcc.prop(:,:,1);
 
         dataAll(iSub).NTAccmeans = ntAcc.rev_prop*100; % save each participant's mean data in dataAll
+
+
+
+
+%% swapping rate over incorrect trials (incorrect trials where non-target reported / incorrect trials)
+    % sort data by contrast condition, validity, and target and get averages
+        % per condition as matrices
+        for inonTarget = 1:2 % for each target (1 or 2)
+            for iContrastCond = 1:4 % for each contrast condition (PP, PA, AP, AA)
+                for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
+                    idx = dataAll(iSub).nontarget == inonTarget & Validities{iValidity} & contrastConds{iContrastCond} & ~dataAll(iSub).eyeSkip; % finds which trials per conditions for each nontarget 
+                    ntErrAcc.n(iContrastCond, iValidity, inonTarget) = size(find(dataAll(iSub).correct(idx)==0),2); % denominator, used to calculate swaps over all trials
+                    ntErrAcc.correct(iContrastCond, iValidity, inonTarget) = size(dataAll(iSub).NTcorrect(idx & dataAll(iSub).NTcorrect==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                    ntErrAcc.prop(iContrastCond, iValidity, inonTarget) = ntErrAcc.correct(iContrastCond, iValidity, inonTarget)/ntErrAcc.n(iContrastCond, iValidity, inonTarget);
+                    if ntErrAcc.n(iContrastCond, iValidity, inonTarget) == 0
+                        ntErrAcc.prop(iContrastCond, iValidity, inonTarget) = 0;
+                    end 
+                end
+            end
+        end
+        
+        % reverse nontarget 1 and nontarget 2 to align with target 1 and
+        % target 2 (aligns T1 with NT2 and T2 with NT 1)
+        ntErrAcc.rev_prop(:,:,1) = ntErrAcc.prop(:,:,2);
+        ntErrAcc.rev_prop(:,:,2) = ntErrAcc.prop(:,:,1);
+
+        dataAll(iSub).NTErrAccmeans = ntErrAcc.rev_prop*100; % save each participant's mean data in dataAll
 
 
         %% error overall 
@@ -245,7 +274,7 @@ for iSub=1:length(subs) % for participant
                 for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
                     idx = dataAll(iSub).target == iTarget & Validities{iValidity} & dataAll(iSub).nonTargetContrast == nontargContrast(iContrast) & ~dataAll(iSub).eyeSkip;
                     ntcAcc.n(iContrast, iValidity, iTarget) = size(dataAll(iSub).correct(idx),2); % denominator, number of trials per condition
-                    ntcAcc.correct(iContrast, iValidity, iTarget) = size(dataAll(iSub).correct(idx & dataAll(iSub).correct==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
+                    ntcAcc.correct(iContrast, iValidity, iTarget) = size(dataAll(iSub).correct(idx & dataAll(iSub).correct==1),2); % numerator, number of tria0ls that meet a certain rule (correct, seen, correctDis, RT)
                     ntcAcc.prop(iContrast, iValidity, iTarget) = ntcAcc.correct(iContrast, iValidity, iTarget)/ntcAcc.n(iContrast, iValidity, iTarget);
                 end
             end
@@ -826,18 +855,25 @@ end
 %% accuracy of nontarget (swapping)
 
 accIdx = []; % used to collect each position of the matrix (each condition) by participant into a list to perform std and mean, then create new matrices for std, mean, and error
+accErrIdx = [];
 contrasts = [{'PP'}, {'AP'}, {'PA'}, {'AA'}];
 for iContrast = 1:numel(contrastConds)
     for iValid = 1:numel(Validities)
         for inonTarget = 1:2
             for iSub = 1:length(subs)
                 accIdx = [accIdx dataAll(iSub).NTAccmeans(iContrast,iValid,inonTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis 
+                accErrIdx = [accErrIdx dataAll(iSub).NTErrAccmeans(iContrast,iValid,inonTarget)];
                 swap_Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,inonTarget) = dataAll(iSub).NTAccmeans(iContrast,iValid,inonTarget);
+                swap_Err_Acc_scatterplot.(contrasts{iContrast})(iValid,iSub,inonTarget)=dataAll(iSub).NTErrAccmeans(iContrast,iValid,inonTarget);
             end
             Acc.NTstd(iContrast,iValid,inonTarget) = std(accIdx); % finds std of the accuracy of each condition for each participant
             Acc.NTmean(iContrast, iValid, inonTarget) = mean(accIdx); % finds means of accuracy for each condition for each participant
             Acc.NTerr(iContrast,iValid,inonTarget) = Acc.NTstd(iContrast,iValid,inonTarget)/sqrt(size(dataAll,2)); % calculate error for each condition 
             accIdx = [];
+            Acc.NTErrstd(iContrast,iValid,inonTarget) = std(accErrIdx); % finds std of the accuracy of each condition for each participant
+            Acc.NTErrmean(iContrast, iValid, inonTarget) = mean(accErrIdx); % finds means of accuracy for each condition for each participant
+            Acc.NTErrerr(iContrast,iValid,inonTarget) = Acc.NTErrstd(iContrast,iValid,inonTarget)/sqrt(size(dataAll,2)); % calculate error for each condition 
+            accErrIdx = [];
         end
     end
 end
