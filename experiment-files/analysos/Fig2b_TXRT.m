@@ -4,7 +4,7 @@ addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/exp
 % Make figure style
 fp = figureparams;
 
-saveplots = 1; 
+saveplots = 0; 
 plotStats = 1; 
 figType = 'pdf';
 
@@ -27,9 +27,8 @@ for iContrast = 1:2
                         c.MarkerFaceColor= fp.orange(1,:);
                     end
                      c.MarkerFaceAlpha = fp.shade_scatter(iValid);
-                     hold on % this hold on is necessary to plot all individual points for T1 valid, will not do so if erased 
+                     hold on 
             end
-            hold on % this hold on is necessary to plot group averages over individual plot points, will not do so if erased
             s = scatter(xcoords(iContrast, iValid, iTarget), TPTA_RT.mean(iContrast, iValid, iTarget), 80, 'filled');
             errorbar(xcoords(iContrast, iValid, iTarget),TPTA_RT.mean(iContrast, iValid, iTarget),TPTA_RT.err(iContrast, iValid, iTarget), '.k', 'CapSize', fp.CapSize, 'LineWidth', fp.ErrorBarLineWidth)
             if iContrast == 1 || iContrast == 3
