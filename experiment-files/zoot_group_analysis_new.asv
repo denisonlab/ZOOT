@@ -196,6 +196,9 @@ for iSub=1:length(subs) % for participant
                     ntErrAcc.n(iContrastCond, iValidity, inonTarget) = size(find(dataAll(iSub).correct(idx)==0),2); % denominator, used to calculate swaps over all trials
                     ntErrAcc.correct(iContrastCond, iValidity, inonTarget) = size(dataAll(iSub).NTcorrect(idx & dataAll(iSub).NTcorrect==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
                     ntErrAcc.prop(iContrastCond, iValidity, inonTarget) = ntErrAcc.correct(iContrastCond, iValidity, inonTarget)/ntErrAcc.n(iContrastCond, iValidity, inonTarget);
+                    if ntErrAcc.n(iContrastCond, iValidity, inonTarget) == 0
+                        ntErrAcc.prop(iContrastCond, iValidity, inonTarget) = 0;
+                    end 
                 end
             end
         end
@@ -1523,7 +1526,7 @@ end
  %     saveas(gcf,sprintf('%s/%s.png', figDir, figTitle))
  % end
 
-%% FIGURE 6: accuracy of nontarget swapping
+%% FIGURE 6: accuracy of nontarget swapping overall trials (except where target and non-target features are the same)
 
 figure();
 set(gcf,'Position',[100 100 500 400])
@@ -1649,6 +1652,9 @@ figTitle = 'Swap';
 figType = 'pdf';
 export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
 print(gcf, '-dpdf', '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/Swap.pdf')
+
+%% swapping over incorrect trials
+ Acc.NTErrmean(iContrast, iValid, inonTarget)
 
 %% percentage of error due to swapping
 

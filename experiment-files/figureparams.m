@@ -1,15 +1,20 @@
-function fp = figureparams;
+function fp = figureparams
 
-%% colors 
- fp.blue = [0 0.4470 0.7410];
- fp.lightblue = [  0.5843    0.8157    0.9882];
- fp.orange = [0.8500 0.3250 0.0980];
-% fp.gold  = [0.9290 0.6940 0.1250];
-% fp.green = [0.4660 0.6740 0.1880];
-fp.grey = [0.5 0.5 0.5];
+ %% colors 
+fp.blue = [0 0.4470 0.7410;  0.3    0.6    0.85; .6 .8 .95]; % T1
+fp.orange = [0.8000 0.3250 0.0980;  0.9 0.525 0.298; .95 .66 .42]; %T2
+fp.grey = [0.5 0.5 0.5]; %swap
 
 fp.colors =  [0 0.4470 0.7410;...
     0.8500 0.3250 0.0980;...
     0.4660 0.6740 0.1880]; 
 
 fp.saveplots = 0;
+
+%% Errorbars 
+fp.CapSize = 0; 
+fp.ErrorBarLineWidth = 1; 
+
+%% 
+% alphas for scatterplot
+fp.shade_scatter = [.6 .5 .25];

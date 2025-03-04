@@ -1,0 +1,156 @@
+fp = figureparams;
+saveplots = 0;
+plotStats = 1;
+figType = 'pdf';
+
+%% FIGURE 5: plot detection - SUBSAMPLED valid cond
+%dprime
+dprimefieldnames = fieldnames(dataAll(iSub).detd);
+figure();
+set(gcf, 'Renderer', 'painters')
+for iDet = 2:numel(dprimefieldnames) % for each condition (nontarget present, nontarget absent), 2: numel(dprimefieldnames) to remove all
+    subplot(2,2,iDet-1) % need to subtract one to remove all and start at right subplot
+    kt_figureStyle();
+    for iTarget = 1:2
+        for iValid = 1:3
+            b = bar(xcoords_SDT(iTarget, iValid), detd_sub.(dprimefieldnames{iDet})(iTarget, iValid));
+            hold on
+            for iSub = 1:15
+                s = scatter(xcoords_scatter(iValid, iSub, iTarget), detd_scatterplot.(Detfieldnames{iDet})(iValid, iSub, iTarget));
+                s.MarkerEdgeColor = [1 1 1];
+                if iTarget == 1
+                    s.MarkerFaceColor = fp.blue(1,:);
+                elseif iTarget == 2
+                    s.MarkerFaceColor= fp.orange(1,:);
+                end
+                s.MarkerFaceAlpha = fp.shade_scatter(iValid);
+            end
+            errorbar(xcoords_SDT(iTarget, iValid),detd_sub.(dprimefieldnames{iDet})(iTarget, iValid),detdErr_sub.(dprimefieldnames{iDet})(iTarget, iValid), '.k', 'CapSize', fp.CapSize, 'LineWidth', fp.ErrorBarLineWidth)
+            b.FaceColor = [1 1 1];
+            % b.EdgeAlpha = shade(iValid);
+            if iTarget == 1
+                b.EdgeColor = fp.blue(iValid,:);
+            elseif iTarget == 2
+                b.EdgeColor = fp.orange(iValid,:);
+            end
+            b.LineWidth = 2;
+            b.BarWidth = 0.18;
+            % b.EdgeAlpha = shade(iValid);
+        end
+    end
+
+    hold on
+    if plotStats
+        if iDet == 3
+            kt_annotateStats(1,4.5,'***');
+            kt_drawBracket(0.7778, 1.2222, .76)
+            kt_annotateStats(2.1111,4.35,'*');
+            kt_drawBracket(2, 2.2222, .74)
+
+            kt_annotateStats(1,5.45,'_______');
+            kt_annotateStats(1,5.5,'* Validity');
+
+
+            % kt_annotateStats(1.5, 6.1,'___________________'); %adobe
+            % kt_annotateStats(1.5, 6.6,'** Target');
+            % kt_annotateStats(1.5,7,'* Validity');
+            % kt_annotateStats(1.5,6.2,'* Target:Validity');
+        elseif iDet == 2
+            kt_annotateStats(1,4.8,'*');
+            kt_drawBracket(.7778, 1.2222, .82)
+        end
+    end
+    ylabel('Detection {\itd''}')
+    ylim([0 7])
+    ax = gca;
+    set(gca, 'ytick', 0:1:7)
+    hold on
+    xlim([0.5 2.5])
+    xticks([0.7778 1 1.222 1.7778 2 2.2222])
+    set(gca, 'xticklabel', {'V', 'N', 'I'})
+
+    hold on
+    ax = gca;
+    ax.XGrid = 'off';
+    ax.YGrid = 'off';
+end
+
+% criterion
+for iDet = 2:numel(dprimefieldnames) % for each condition (nontarget present, nontarget absent)
+    subplot(2,2,iDet+1)
+    kt_figureStyle();
+    for iTarget = 1:2
+        for iValid = 1:3
+            b = bar(xcoords_SDT(iTarget, iValid), detc_sub.(dprimefieldnames{iDet})(iTarget, iValid));
+            hold on
+            for iSub = 1:15
+                s = scatter(xcoords_scatter(iValid, iSub, iTarget), detc_scatterplot.(Detfieldnames{iDet})(iValid, iSub, iTarget));
+                s.MarkerEdgeColor = [1 1 1];
+                if iTarget == 1
+                    s.MarkerFaceColor = fp.blue(1,:);
+                elseif iTarget == 2
+                    s.MarkerFaceColor= fp.orange(1,:);
+                end
+                s.MarkerFaceAlpha = shade_scatter(iValid);
+            end
+            errorbar(xcoords_SDT(iTarget, iValid),detc_sub.(dprimefieldnames{iDet})(iTarget, iValid),detcErr_sub.(dprimefieldnames{iDet})(iTarget, iValid), '.k', 'CapSize', fp.CapSize, 'LineWidth', fp.ErrorBarLineWidth)
+            b.FaceColor = [1 1 1];
+            % b.EdgeAlpha = shade(iValid);
+            if iTarget == 1
+                b.EdgeColor = fp.blue(iValid,:);
+            elseif iTarget == 2
+                b.EdgeColor = fp.orange(iValid,:);
+            end
+            b.LineWidth = 2;
+            b.BarWidth = 0.18;
+        end
+    end
+
+    hold on
+    ylim([-2 2])
+    if plotStats
+        if iDet == 3
+            kt_annotateStats(1,0.63,'**');
+            kt_drawBracket(.7778, 1.222, .37)
+            kt_annotateStats(1.111,0.43,'*');
+            kt_drawBracket(1, 1.2222, .28)
+
+            kt_annotateStats(1,1.15,'_______');
+            kt_annotateStats(1,1.17,'* Validity');
+
+            %
+            % kt_annotateStats(1.5, 1.5,'___________________'); %adobe
+            % kt_annotateStats(1.5, 1.6,'** Target');
+            % kt_annotateStats(1.5,1.8,'*** Validity');
+        elseif iDet == 2
+            kt_annotateStats(1,0.22,'*');
+            kt_drawBracket(.7778, 1.2222, .17)
+
+        end
+    end
+
+    ylabel('Detection c')
+    ax = gca;
+    set(gca, 'ytick', -2:1:2)
+    hold on
+    xlim([0.5 2.5])
+    xticks([0.7778 1 1.222 1.7778 2 2.2222])
+    set(gca, 'xticklabel', {'V', 'N', 'I'})
+
+    hold on
+    ax = gca;
+    ax.XGrid = 'off';
+    ax.YGrid = 'off';
+end
+
+[ax3, h3] = suplabel('Non-target Absent', 't', [0.08 0.08 1.3 0.9]);
+[ax4, h4] = suplabel('Non-target Present', 't', [0.08 0.08 .45 0.9]);
+[ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .27 0.86]);
+[ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.86]);
+
+
+figTitle = 'det';
+if saveplots
+    export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
+    print(gcf, '-dpdf', '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/det.pdf')
+end
