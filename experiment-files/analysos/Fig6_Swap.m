@@ -1,5 +1,8 @@
+addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/')
+addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/export_fig-master/')
+
 fp = figureparams;
-saveplots = 0;
+saveplots = 1;
 plotStats = 1;
 figType = 'pdf';
 
@@ -33,12 +36,9 @@ for iContrast = 1:numel(contrastConds)-1 % -1 to remove absent absent (impossibl
                     b.FaceColor= fp.grey;
                     b.EdgeColor = fp.grey;
                 end
-                b.FaceAlpha = shade(1);
-                % b.EdgeAlpha = shade(1);
                 b.BarWidth = 0.2;
             elseif iContrast == 2 || iContrast == 4
                 b.FaceColor = [1 1 1];
-                % b.EdgeAlpha = shade(1);
                 if iTarget == 1
                     b.EdgeColor = fp.grey;
                 elseif iTarget == 2
@@ -46,11 +46,9 @@ for iContrast = 1:numel(contrastConds)-1 % -1 to remove absent absent (impossibl
                 end
                 b.LineWidth = 2;
                 b.BarWidth = 0.18;
-                % b.EdgeAlpha = shade(1);
             end
         end
     end
-    hold on
     if plotStats
         if iContrast==1
             kt_annotateStats(1,27.75,'*');
@@ -83,18 +81,13 @@ for iContrast = 1:numel(contrastConds)-1 % -1 to remove absent absent (impossibl
             kt_annotateStats(1,25.25,'* Validity');
         end
     end
-    hold off
     label_y = ylabel(sprintf('Reports of non-target feature \n(normalized %%) \n'));
     ylim([0 60]) % original [0 20]
     label_y.Position(1) = 0.45;
-    ax = gca;
     set(gca, 'ytick', 0:10:60) % original 0:5:20
-    hold on
     xlim([0.5 2.5])
     xticks([0.7778 1 1.222 1.7778 2 2.2222])
     set(gca, 'xticklabel', {'V', 'N', 'I'}, 'FontSize', 9.5)
-
-    hold on
     ax = gca;
     ax.Position = ax.Position.*[1 1 1 0.85]; % decreases y axis a bit to make more room for stats above graph
     ax.XGrid = 'off';

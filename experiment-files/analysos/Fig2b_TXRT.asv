@@ -1,11 +1,10 @@
 
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/')
-addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
-
+addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/export_fig-master/')
 % Make figure style
 fp = figureparams;
 
-saveplots = 0; 
+saveplots = 1; 
 plotStats = 1; 
 figType = 'pdf';
 
@@ -14,8 +13,6 @@ figType = 'pdf';
 figure();
 set(gcf,'Position',[100 100 500 200])
 set(gcf, 'Renderer', 'painters')
-shade_scatter = [.6 .5 .25];
-%shade = [1, .6, .35];
 for iContrast = 1:2
     subplot(1,2,iContrast)
     kt_figureStyle();
@@ -25,11 +22,11 @@ for iContrast = 1:2
                 c = scatter(xcoords_scatter(iValid, iSub, iTarget), TPTA_RT_scatterplot.(targ_contrasts{iContrast})(iValid,iSub,iTarget));
                     c.MarkerEdgeColor = [1 1 1];
                     if iTarget == 1
-                        c.MarkerFaceColor = fp.blue;
+                        c.MarkerFaceColor = fp.blue(1,:);
                     elseif iTarget == 2
-                        c.MarkerFaceColor= fp.orange;
+                        c.MarkerFaceColor= fp.orange(1,:);
                     end
-                     c.MarkerFaceAlpha = shade_scatter(iValid);
+                     c.MarkerFaceAlpha = fp.shade_scatter(iValid);
                      hold on % this hold on is necessary to plot all individual points for T1 valid, will not do so if erased 
             end
             hold on % this hold on is necessary to plot group averages over individual plot points, will not do so if erased
@@ -37,24 +34,20 @@ for iContrast = 1:2
             errorbar(xcoords(iContrast, iValid, iTarget),TPTA_RT.mean(iContrast, iValid, iTarget),TPTA_RT.err(iContrast, iValid, iTarget), '.k', 'CapSize', fp.CapSize, 'LineWidth', fp.ErrorBarLineWidth)
             if iContrast == 1 || iContrast == 3
                 if iTarget == 1
-                    s.MarkerFaceColor = fp.blue;
-                    s.MarkerEdgeColor = fp.blue;
+                    s.MarkerFaceColor = fp.blue(iValid,:);
+                    s.MarkerEdgeColor = fp.blue(iValid,:);
                 elseif iTarget == 2
-                    s.MarkerFaceColor= fp.orange;
-                    s.MarkerEdgeColor = fp.orange;
+                    s.MarkerFaceColor= fp.orange(iValid,:);
+                    s.MarkerEdgeColor = fp.orange(iValid,:);
                 end
-                s.MarkerFaceAlpha = shade(iValid);
-                s.MarkerEdgeAlpha = shade(iValid);
             elseif iContrast == 2 || iContrast == 4
                 s.MarkerFaceColor = [1 1 1];
-                s.MarkerEdgeAlpha = shade(iValid);
                 if iTarget == 1
-                    s.MarkerEdgeColor = fp.blue;
+                    s.MarkerEdgeColor = fp.blue(iValid,:);
                 elseif iTarget == 2
-                    s.MarkerEdgeColor = fp.orange;
+                    s.MarkerEdgeColor = fp.orange(iValid,:);
                 end
                 s.LineWidth = 1.5;
-                s.MarkerEdgeAlpha = shade(iValid);
             end
         end
     end
@@ -99,19 +92,12 @@ for iContrast = 1:2
             % kt_annotateStats(1.5,1.43,'* Validity');
         end
     end
- 
-    hold off
-    ylabel('Reaction time (s)')
+     ylabel('Reaction time (s)')
     ylim([0 1.5])
-    ax = gca;
     set(gca, 'ytick', 0:.5:1.5)
-    hold on
     xlim([0.5 2.5])
     xticks([0.7778 1 1.222 1.7778 2 2.2222])
     set(gca, 'xticklabel', {'V', 'N', 'I'})
-
-    hold on
-    ax = gca;
     ax.XGrid = 'off';
     ax.YGrid = 'off'; 
 end

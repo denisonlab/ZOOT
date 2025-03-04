@@ -1,5 +1,8 @@
+addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/')
+addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/export_fig-master/')
+
 fp = figureparams;
-saveplots = 0;
+saveplots = 1;
 plotStats = 1;
 figType = 'pdf';
 
@@ -27,7 +30,6 @@ for iDet = 2:numel(dprimefieldnames) % for each condition (nontarget present, no
             end
             errorbar(xcoords_SDT(iTarget, iValid),detd_sub.(dprimefieldnames{iDet})(iTarget, iValid),detdErr_sub.(dprimefieldnames{iDet})(iTarget, iValid), '.k', 'CapSize', fp.CapSize, 'LineWidth', fp.ErrorBarLineWidth)
             b.FaceColor = [1 1 1];
-            % b.EdgeAlpha = shade(iValid);
             if iTarget == 1
                 b.EdgeColor = fp.blue(iValid,:);
             elseif iTarget == 2
@@ -35,11 +37,8 @@ for iDet = 2:numel(dprimefieldnames) % for each condition (nontarget present, no
             end
             b.LineWidth = 2;
             b.BarWidth = 0.18;
-            % b.EdgeAlpha = shade(iValid);
         end
     end
-
-    hold on
     if plotStats
         if iDet == 3
             kt_annotateStats(1,4.5,'***');
@@ -62,14 +61,10 @@ for iDet = 2:numel(dprimefieldnames) % for each condition (nontarget present, no
     end
     ylabel('Detection {\itd''}')
     ylim([0 7])
-    ax = gca;
     set(gca, 'ytick', 0:1:7)
-    hold on
     xlim([0.5 2.5])
     xticks([0.7778 1 1.222 1.7778 2 2.2222])
     set(gca, 'xticklabel', {'V', 'N', 'I'})
-
-    hold on
     ax = gca;
     ax.XGrid = 'off';
     ax.YGrid = 'off';
@@ -91,11 +86,10 @@ for iDet = 2:numel(dprimefieldnames) % for each condition (nontarget present, no
                 elseif iTarget == 2
                     s.MarkerFaceColor= fp.orange(1,:);
                 end
-                s.MarkerFaceAlpha = shade_scatter(iValid);
+                s.MarkerFaceAlpha = fp.shade_scatter(iValid);
             end
             errorbar(xcoords_SDT(iTarget, iValid),detc_sub.(dprimefieldnames{iDet})(iTarget, iValid),detcErr_sub.(dprimefieldnames{iDet})(iTarget, iValid), '.k', 'CapSize', fp.CapSize, 'LineWidth', fp.ErrorBarLineWidth)
             b.FaceColor = [1 1 1];
-            % b.EdgeAlpha = shade(iValid);
             if iTarget == 1
                 b.EdgeColor = fp.blue(iValid,:);
             elseif iTarget == 2
@@ -105,8 +99,6 @@ for iDet = 2:numel(dprimefieldnames) % for each condition (nontarget present, no
             b.BarWidth = 0.18;
         end
     end
-
-    hold on
     ylim([-2 2])
     if plotStats
         if iDet == 3
@@ -117,7 +109,6 @@ for iDet = 2:numel(dprimefieldnames) % for each condition (nontarget present, no
 
             kt_annotateStats(1,1.15,'_______');
             kt_annotateStats(1,1.17,'* Validity');
-
             %
             % kt_annotateStats(1.5, 1.5,'___________________'); %adobe
             % kt_annotateStats(1.5, 1.6,'** Target');
@@ -128,16 +119,11 @@ for iDet = 2:numel(dprimefieldnames) % for each condition (nontarget present, no
 
         end
     end
-
     ylabel('Detection c')
-    ax = gca;
     set(gca, 'ytick', -2:1:2)
-    hold on
     xlim([0.5 2.5])
     xticks([0.7778 1 1.222 1.7778 2 2.2222])
     set(gca, 'xticklabel', {'V', 'N', 'I'})
-
-    hold on
     ax = gca;
     ax.XGrid = 'off';
     ax.YGrid = 'off';

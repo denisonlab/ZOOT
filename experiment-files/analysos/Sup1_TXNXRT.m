@@ -1,10 +1,12 @@
+addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/')
+addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/export_fig-master/')
+
 fp = figureparams;
-saveplots = 0;
+saveplots = 1;
 plotStats = 1;
 figType = 'pdf';
 
 %% SUPPLEMENTARY FIG: RT plot TXNX
-
 figure();
 set(gcf,'Position',[100 100 500 400])
 set(gcf, 'Renderer', 'painters')
@@ -23,7 +25,6 @@ for iContrast = 1:numel(contrastConds)
                      c.MarkerFaceAlpha = fp.shade_scatter(iValid);
                      hold on 
             end
-            hold on
             s = scatter(xcoords(iContrast, iValid, iTarget), TXNX_RT.mean(iContrast, iValid, iTarget), 80, 'filled');
             kt_figureStyle();
             errorbar(xcoords(iContrast, iValid, iTarget),TXNX_RT.mean(iContrast, iValid, iTarget),TXNX_RT.err(iContrast, iValid, iTarget), '.k', 'CapSize', fp.CapSize, 'LineWidth', fp.ErrorBarLineWidth)
@@ -35,22 +36,17 @@ for iContrast = 1:numel(contrastConds)
                     s.MarkerFaceColor= fp.orange(iValid,:);
                     s.MarkerEdgeColor = fp.orange(iValid,:);
                 end
-                % s.MarkerFaceAlpha = shade(iValid);
-                % s.MarkerEdgeAlpha = shade(iValid);
             elseif iContrast == 2 || iContrast == 4
                 s.MarkerFaceColor = [1 1 1];
-                % s.MarkerEdgeAlpha = shade(iValid);
                 if iTarget == 1
                     s.MarkerEdgeColor = fp.blue(iValid,:);
                 elseif iTarget == 2
                     s.MarkerEdgeColor = fp.orange(iValid,:);
                 end
                 s.LineWidth = 1.5;
-                % s.MarkerEdgeAlpha = shade(iValid);
             end
         end
     end
-    hold on
     if plotStats
         if iContrast==1
             kt_annotateStats(1,.93,'***');
@@ -120,17 +116,12 @@ for iContrast = 1:numel(contrastConds)
             %   kt_annotateStats(1.5,1.45,'*** Validity');
         end
     end
-    hold off
     ylabel('Reaction time (s)')
     ylim([0 1.5])
-    ax = gca;
     set(gca, 'ytick', 0:.5:1.5)
-    hold on
     xlim([0.5 2.5])
     xticks([0.7778 1 1.222 1.7778 2 2.2222])
     set(gca, 'xticklabel', {'V', 'N', 'I'})
-
-    hold on
     ax = gca;
     ax.XGrid = 'off';
     ax.YGrid = 'off';

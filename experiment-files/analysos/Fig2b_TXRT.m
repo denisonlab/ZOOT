@@ -1,11 +1,10 @@
 
-% addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/')
-% addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
-
+addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/')
+addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/export_fig-master/')
 % Make figure style
 fp = figureparams;
 
-saveplots = 0; 
+saveplots = 1; 
 plotStats = 1; 
 figType = 'pdf';
 
@@ -41,18 +40,14 @@ for iContrast = 1:2
                     s.MarkerFaceColor= fp.orange(iValid,:);
                     s.MarkerEdgeColor = fp.orange(iValid,:);
                 end
-                % s.MarkerFaceAlpha = shade(iValid);
-                % s.MarkerEdgeAlpha = shade(iValid);
             elseif iContrast == 2 || iContrast == 4
                 s.MarkerFaceColor = [1 1 1];
-                % s.MarkerEdgeAlpha = shade(iValid);
                 if iTarget == 1
                     s.MarkerEdgeColor = fp.blue(iValid,:);
                 elseif iTarget == 2
                     s.MarkerEdgeColor = fp.orange(iValid,:);
                 end
                 s.LineWidth = 1.5;
-                % s.MarkerEdgeAlpha = shade(iValid);
             end
         end
     end
@@ -97,19 +92,13 @@ for iContrast = 1:2
             % kt_annotateStats(1.5,1.43,'* Validity');
         end
     end
- 
-    hold off
-    ylabel('Reaction time (s)')
+     ylabel('Reaction time (s)')
     ylim([0 1.5])
-    ax = gca;
     set(gca, 'ytick', 0:.5:1.5)
-    hold on
+    ax = gca;
     xlim([0.5 2.5])
     xticks([0.7778 1 1.222 1.7778 2 2.2222])
     set(gca, 'xticklabel', {'V', 'N', 'I'})
-
-    hold on
-    ax = gca;
     ax.XGrid = 'off';
     ax.YGrid = 'off'; 
 end

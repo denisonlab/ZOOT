@@ -1,8 +1,10 @@
+addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/')
+addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/export_fig-master/')
 
 % Make figure style
 fp = figureparams;
 
-saveplots = 0; 
+saveplots = 1; 
 plotStats = 1; 
 figType = 'pdf';
 
@@ -38,12 +40,9 @@ for iContrast = 1:numel(contrastConds)
                     b.FaceColor= fp.orange(iValid,:);
                     b.EdgeColor = fp.orange(iValid,:);
                 end
-                % b.FaceAlpha = shade(iValid);
-                % b.EdgeAlpha = shade(iValid);
                 b.BarWidth = 0.2;
             elseif iContrast == 2 || iContrast == 4
                 b.FaceColor = [1 1 1];
-                % b.EdgeAlpha = shade(iValid);
                 if iTarget == 1
                     b.EdgeColor = fp.blue(iValid,:);
                 elseif iTarget == 2
@@ -51,7 +50,6 @@ for iContrast = 1:numel(contrastConds)
                 end
                 b.LineWidth = 2;
                 b.BarWidth = 0.18;
-                % b.EdgeAlpha = shade(iValid);
             end
         end
     end
@@ -101,17 +99,12 @@ for iContrast = 1:numel(contrastConds)
             kt_drawBracket(1.7778, 2, .98)
         end
     end
-    hold off
     ylabel('Accuracy (%)')
     ylim([30 100])
-    ax = gca;
     set(gca, 'ytick', 30:10:100)
-    hold on
     xlim([0.5 2.5])
     xticks([0.7778 1 1.222 1.7778 2 2.2222])
     set(gca, 'xticklabel', {'V', 'N', 'I'})
-
-    hold on
     ax = gca;
     ax.XGrid = 'off';
     ax.YGrid = 'off';
