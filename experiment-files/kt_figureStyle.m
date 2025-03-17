@@ -1,4 +1,4 @@
-function figureStyle()
+function figureStyle
 
 % adjusts fig axis and text styling
 box off
