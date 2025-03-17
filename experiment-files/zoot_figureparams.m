@@ -9,10 +9,12 @@ fp.xVals = [0.7778 1 1.222;... % T1 (
 fp.blue = [0 0.4470 0.7410;... % T1 V 
     0.3 0.6 0.85;... % T1 N
     0.6 0.8 0.95]; % T1 I 
+
 fp.orange = [0.8000 0.3250 0.0980;... % T2 V 
     0.9 0.525 0.298;... % T2 N 
     0.95 0.66 0.42]; % TI 
-fp.colorsTargets(1,:,:) = fp.blue; 
+
+fp.colorsTargets(1,:,:) = fp.blue; % 2 (targets) x 3 (att conditions) x 3 (rgb)
 fp.colorsTargets(2,:,:) = fp.orange; 
 
 fp.grey = [0.5 0.5 0.5]; % swap

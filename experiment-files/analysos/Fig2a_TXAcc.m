@@ -48,45 +48,12 @@ for iContrast = 1:2
             b = bar(xVals(iTarget,iValid), tcAcc.mean(iContrast, iValid, iTarget),...
                 'LineWidth',fp.bar.lineWidth(iContrast),'BarWidth',fp.bar.barWidth(iContrast),...
                 'EdgeColor',fp.colorsTargets(iTarget,iValid,:),'FaceColor',fp.bar.FaceColor(iContrast,iTarget,iValid,:)); 
-            % s = scatter(xVals(iTarget,iValid), squeeze(tcAcc_scatterplot.(targ_contrasts{iContrast})(iValid,:,iTarget)));
-
+            
+            % scatter 
             swarmchart( xVals(iTarget,iValid), squeeze(tcAcc_scatterplot.(targ_contrasts{iContrast})(iValid,:,iTarget)),'filled',...
                 'SizeData',fp.scatter.size,'XJitterWidth',100,'MarkerFaceColor',fp.colorsTargets(iTarget,iValid,:),'MarkerEdgeColor',fp.scatter.edgeColor,'MarkerFaceAlpha',fp.scatter.alpha(iValid) ); 
-
-            % /// subs do not need to be looped. 
-            % for iSub = 1:15
-            %     s = scatter(xcoords_scatter(iValid, iSub, iTarget), tcAcc_scatterplot.(targ_contrasts{iContrast})(iValid,iSub,iTarget));
-            %     s.MarkerEdgeColor = [1 1 1];
-            %     if iTarget == 1
-            %         s.MarkerFaceColor = fp.blue(1,:);
-            %     elseif iTarget == 2
-            %         s.MarkerFaceColor= fp.orange(1,:);
-            %     end
-            %     s.MarkerFaceAlpha = fp.shade_scatter(iValid);
-            % end
-
-            errorbar(xcoords(iContrast, iValid, iTarget),tcAcc.mean(iContrast, iValid, iTarget),tcAcc.err(iContrast, iValid, iTarget), '.k', 'CapSize', fp.CapSize, 'LineWidth', fp.ErrorBarLineWidth)
             
-            % if iContrast == 1      
-            %     % if iTarget == 1
-            %     %     b.FaceColor = fp.blue(iValid,:);
-            %     %     b.EdgeColor = fp.blue(iValid,:);
-            %     % elseif iTarget == 2
-            %     %     b.FaceColor= fp.orange(iValid,:);
-            %     %     b.EdgeColor = fp.orange(iValid,:);
-            %     % end
-            %     % b.BarWidth = 0.2; 
-            % elseif iContrast == 2
-            %     % b.FaceColor = [1 1 1];
-            %     % if iTarget == 1
-            %     %     b.EdgeColor = fp.blue(iValid,:);
-            %     % elseif iTarget == 2
-            %     %     b.EdgeColor = fp.orange(iValid,:);
-            %     % end
-            %     % b.LineWidth = 2;
-            %     % b.BarWidth = 0.18;
-            % end
-   
+            errorbar(xcoords(iContrast, iValid, iTarget),tcAcc.mean(iContrast, iValid, iTarget),tcAcc.err(iContrast, iValid, iTarget), '.k', 'CapSize', fp.CapSize, 'LineWidth', fp.ErrorBarLineWidth)
         end
 
     end
