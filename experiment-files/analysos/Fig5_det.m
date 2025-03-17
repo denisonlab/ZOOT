@@ -2,7 +2,7 @@ addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/')
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/export_fig-master/')
 
 fp = figureparams;
-saveplots = 1;
+saveplots = 0;
 plotStats = 1;
 figType = 'pdf';
 
@@ -110,9 +110,9 @@ for iDet = 2:numel(dprimefieldnames) % for each condition (nontarget present, no
             kt_annotateStats(1,1.15,'_______');
             kt_annotateStats(1,1.17,'* Validity');
             %
-            % kt_annotateStats(1.5, 1.5,'___________________'); %adobe
-            % kt_annotateStats(1.5, 1.6,'** Target');
-            % kt_annotateStats(1.5,1.8,'*** Validity');
+            kt_annotateStats(1.5, 1.5,'___________________'); %adobe
+            kt_annotateStats(1.5, 1.6,'** Target');
+            kt_annotateStats(1.5,1.8,'*** Validity');
         elseif iDet == 2
             kt_annotateStats(1,0.22,'*');
             kt_drawBracket(.7778, 1.2222, .17)
