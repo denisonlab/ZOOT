@@ -23,12 +23,13 @@ datafile = sprintf('%s/experiment-files/zoot_dataAll.mat',pathToZoot);
 load(datafile)
 
 % Figure styling
-fp = figureparams;
+fp = zoot_figureparams;
 
 % /// Define your xVals once. Then, they can be used throughout.
 % /// Would be even better to define in figureparams once to be used across all figures. 
-xVals = [0.7778 1 1.222;... % T1 (
-    1.7778 2 2.2222]; % T2
+% xVals = [0.7778 1 1.222;... % T1 (
+%     1.7778 2 2.2222]; % T2
+xVals = fp.xVals; 
 
 % /// Also define colors just once (see changes to figure params). Make use of logical indexing rather
 % than if loops.
@@ -37,7 +38,7 @@ xVals = [0.7778 1 1.222;... % T1 (
 
 %% FIGURE 2A: Acc by target contrast
 figure
-set(gcf,'Position',[100 100 500 200])
+set(gcf,'Position',[100 100 500 160])
 
 for iContrast = 1:2
     subplot(1,2,iContrast)
@@ -90,46 +91,53 @@ for iContrast = 1:2
 
     end
 
+    ylabel('Accuracy (%)    ')
+    ylim([30 115])
+    set(gca, 'ytick', 30:10:100)
+    xlim([0.5 2.5])
+    xticks([xVals(1,:) xVals(2,:)])
+    set(gca, 'xticklabel', {'V', 'N','I','V','N','I'})
+    % ax = gca;
+    % ax.Position=ax.Position.*[1 1 1 0.85]; % makes more space above fig
+
     if plotStats
         if iContrast==1
-            kt_annotateStats(1,92,'***');
-            kt_drawBracket(.7778, 1.2222, .90)
-            kt_annotateStats(1.1111,88,'**');
-            kt_drawBracket(1, 1.2222, .86)
-
-            kt_annotateStats(2,93.5,'**');
-            kt_drawBracket(1.7778, 2.2222, .91)
-            kt_annotateStats(2.111,89.5,'*');
-            kt_drawBracket(2, 2.2222, .875)
-
-            kt_annotateStats(1,98,'________');
-            kt_annotateStats(1,99,'*** Validity');
-
-            kt_annotateStats(2,98,'________');
-            kt_annotateStats(2,99,'* Validity');
+            % T1 V-I
+            kt_annotateStats(1,(115*0.82)+1.5,'***');
+            zoot_drawBracket(fp.xVals(1,1), fp.xVals(1,3), 0.82) 
+            
+            % T1 N-I
+            kt_annotateStats(1.1111,(115*0.86)+1.5,'**');
+            zoot_drawBracket(fp.xVals(1,2), fp.xVals(1,3), 0.86)
+            
+            % T2 V-I
+            kt_annotateStats(2,(115*0.80)+1.5,'**');
+            zoot_drawBracket(fp.xVals(2,1), fp.xVals(2,3), 0.80) 
+           
+            % kt_annotateStats(2.111,89.5,'*');
+            % kt_drawBracket(2, 2.2222, .875)
+            % 
+            % kt_annotateStats(1,98,'________');
+            % kt_annotateStats(1,99,'*** Validity');
+            % 
+            % kt_annotateStats(2,98,'________');
+            % kt_annotateStats(2,99,'* Validity');
             
         elseif iContrast == 2
-            kt_annotateStats(1,96.5,'*');
-            kt_drawBracket(.7778, 1.2222, .945)
+            % T1 V-I
+            kt_annotateStats(1,91,'*');
+            zoot_drawBracket(fp.xVals(1,1), fp.xVals(1,3), 0.9)
         end
     end
 
-    ylabel('Accuracy (%)')
-    ylim([30 100])
-    set(gca, 'ytick', 30:10:100)
-    xlim([0.5 2.5])
-    xticks([xVals(1,:) xVals(2,:)]) 
-    set(gca, 'xticklabel', {'V', 'N','I','V','N','I'})
-    ax = gca;
-    ax.Position=ax.Position.*[1 1 1 0.85]; % makes more space above fig
 end
 
-[ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 .88]);
-[ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 .88]);
-[ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .27 0.8]);
-[ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.8]);
-[ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.15 0.8]);
-[ax8, h8] = suplabel('T2', 'tt', [0.08 0.08 1.47 0.8]);
+% [ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 .88]);
+% [ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 .88]);
+% [ax5, h5] = suplabel('T1', 'tt', [0.08 0.08 .27 0.8]);
+% [ax6, h6] = suplabel('T2', 'tt', [0.08 0.08 .6 0.8]);
+% [ax7, h7] = suplabel('T1', 'tt', [0.08 0.08 1.15 0.8]);
+% [ax8, h8] = suplabel('T2', 'tt', [0.08 0.08 1.47 0.8]);
 
 figTitle = 'TX_Acc';
 if saveplots

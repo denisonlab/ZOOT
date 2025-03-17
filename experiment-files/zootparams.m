@@ -1,4 +1,5 @@
 function p = zootparams(s)
+% Parameters for running experimental code 
 
 %% main settings
 

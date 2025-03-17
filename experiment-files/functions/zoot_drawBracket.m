@@ -1,4 +1,4 @@
-function kt_drawBracket(x1,x2,y)
+function zoot_drawBracket(x1,x2,y)
 % Draws bracket for indicating statistical test 
 
 yl = ylim;
@@ -8,7 +8,7 @@ y = y + 0.05; % correction to better align with significance indicator
 bracketHeight = (yl(2)-yl(1))/45; % 0.007 
 bracketColor = 'black'; 
 
-lineWidth = 1; 
+lineWidth = 0.75; 
 
 x = [x1 x1;... % vertical left 
     x1 x2;... % horizontal 
