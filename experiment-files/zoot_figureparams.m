@@ -28,14 +28,27 @@ fp.saveplots = 0;
 %% Errorbars 
 fp.CapSize = 0; 
 fp.ErrorBarLineWidth = 1; 
-fp.bar.barWidth = [0.2 0.18];  % T1, T2
-fp.bar.lineWidth = [0.5 2]; % T1, T2
+
+%% Barplots
+fp.bar.barWidth = [0.2 0.18 .2 0.18];  % TP, TA (repeated for TXNX plots)
+fp.bar.lineWidth = [0.5 2 0.5 2]; % TP, TA (repeated for TXNX plots)
 
 fp.bar.FaceColor(1,:,:,:) = fp.colorsTargets; 
 fp.bar.FaceColor(2,:,:,:) = ones([1 2 3 3]); % white if target absent
+fp.bar.FaceColor(3,:,:,:) = fp.colorsTargets; 
+fp.bar.FaceColor(4,:,:,:) = ones([1 2 3 3]); % white if target absent
 
 %% Scatterplots
 % Individual subjects 
 fp.scatter.alpha = [0.6 0.5 0.25]; % alpha (V, N, I) 
 fp.scatter.edgeColor = [1 1 1]; % white 
 fp.scatter.size = 16; % dot size 
+
+% group means
+fp.gm_scatter.size = 60; %80
+fp.s.MarkerFaceColor(1,:,:,:) = fp.colorsTargets; 
+fp.s.MarkerFaceColor(2,:,:,:) = ones([1 2 3 3]); % white if target absent
+fp.s.MarkerFaceColor(3,:,:,:) = fp.colorsTargets; 
+fp.s.MarkerFaceColor(4,:,:,:) = ones([1 2 3 3]); % white if target absent
+fp.s.MarkerEdgeColor = fp.colorsTargets(:,:,:);
+fp.s.lineWidth = [0.5 1.5 0.5 1.5]; % TP, TA (repeated for TXNX plots)

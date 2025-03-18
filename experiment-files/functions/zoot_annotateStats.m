@@ -1,5 +1,5 @@
 % edited by jm 2025
-function txt = kt_annotateStats(x,y,stars,alignment)
+function txt = zoot_annotateStats(x,y,stars,alignment)
 % function txt = kt_annotateStats(x,y,stars)
 
 % Draws n.s. and significance stars on figure
@@ -16,11 +16,11 @@ end
 
 if contains(stars,'*')
     txt = text(x,y,stars,'EdgeColor','none',...
-    'FontSize',12,'HorizontalAlignment',alignment,'VerticalAlignment','Bottom','FontName','Helvetica'); % Times, make bigger 
+    'FontSize',8,'HorizontalAlignment',alignment,'VerticalAlignment','Bottom','FontName','Helvetica'); % Times, make bigger 
 elseif strcmp(stars,'ns')
     txt = text(x,y,'n.s.','EdgeColor','none',...
-        'FontSize',12,'HorizontalAlignment',alignment,'VerticalAlignment','Bottom','FontName','Helvetica');
+        'FontSize',8,'HorizontalAlignment',alignment,'VerticalAlignment','Bottom','FontName','Helvetica');
 else % any alternative text 
     txt = text(x,y,stars,'EdgeColor','none',...
-        'FontSize',12,'HorizontalAlignment',alignment,'VerticalAlignment','Bottom','FontName','Helvetica');
+        'FontSize',8,'HorizontalAlignment',alignment,'VerticalAlignment','Bottom','FontName','Helvetica');
 end
