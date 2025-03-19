@@ -1,9 +1,7 @@
 clear all
 
-saveplots = 0;
-
 % Make figure style
-fp = figureparams;
+fp = zoot_figureparams;
 
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/export_fig-master')

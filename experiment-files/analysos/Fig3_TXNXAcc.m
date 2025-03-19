@@ -1,9 +1,10 @@
 function Fig3_TXNXAcc % please name the function 
-% Fig2a_TXAcc plots accuracy by target presence/absence 
+% Fig3_TXNXAcc plots a 2x2 graph of accuracy by target presence/absence and
+% non-target presence/absence
 
-%% Settings (things that can be changed) 
+%% Settings 
 user = 'jenny'; % 'jenny'
-saveplots = 0; 
+saveplots = 1; 
 plotStats = 1; 
 figType = 'pdf';
 
@@ -25,16 +26,8 @@ load(datafile)
 % Figure styling
 fp = zoot_figureparams;
 
-% /// Define your xVals once. Then, they can be used throughout.
-% /// Would be even better to define in figureparams once to be used across all figures. 
-% xVals = [0.7778 1 1.222;... % T1 (
-%     1.7778 2 2.2222]; % T2
+% x values
 xVals = fp.xVals; 
-
-% /// Also define colors just once (see changes to figure params). Make use of logical indexing rather
-% than if loops.
-% /// Same comment for bar widths (see changes to figure params). 
-% /// size of figure should also be just defined once in figureparams. 
 %% FIGURE 3 - target presence x validity x target
 
 figure
@@ -64,12 +57,10 @@ for iContrast = 1:4
     xlim([0.5 2.5])
     xticks([xVals(1,:) xVals(2,:)])
     set(gca, 'xticklabel', {'V', 'N','I','V','N','I'})
-    % ax = gca;
-    % ax.Position=ax.Position.*[1 1 1 0.85]; % makes more space above fig
 
     hold on
     if plotStats
-        if iContrast==1
+        if iContrast==1 %TPNP
             % T1 V-I
             zoot_annotateStats(1,(115*.84)+1.5,'**');
             zoot_drawBracket(fp.xVals(1,1), fp.xVals(1,3), .84)
@@ -86,7 +77,7 @@ for iContrast = 1:4
 
         end
 
-        if iContrast == 3
+        if iContrast == 3 %TPNA
             %T1 V-I
             zoot_annotateStats(1,(115*.88)+1.5,'***');
             zoot_drawBracket(fp.xVals(1,1), fp.xVals(1,3), .87)
@@ -134,5 +125,4 @@ end
 figTitle = 'TXNX_Acc';
 if saveplots
     export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
-    print(gcf, '-dpdf','/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/TXNX_Acc.pdf') %do not erase
 end

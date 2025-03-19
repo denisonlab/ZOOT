@@ -1,9 +1,9 @@
 function Fig5_det % please name the function 
-% Fig2a_TXAcc plots accuracy by target presence/absence 
+% Fig5_det plots a 2x2 graph of detection d' and c by non-target presence/absence 
 
-%% Settings (things that can be changed) 
+%% Settings 
 user = 'jenny'; % 'jenny'
-saveplots = 0; 
+saveplots = 1; 
 plotStats = 1; 
 figType = 'pdf';
 
@@ -25,22 +25,13 @@ load(datafile)
 % Figure styling
 fp = zoot_figureparams;
 
-% /// Define your xVals once. Then, they can be used throughout.
-% /// Would be even better to define in figureparams once to be used across all figures. 
-% xVals = [0.7778 1 1.222;... % T1 (
-%     1.7778 2 2.2222]; % T2
+%x values
 xVals = fp.xVals; 
-
-% /// Also define colors just once (see changes to figure params). Make use of logical indexing rather
-% than if loops.
-% /// Same comment for bar widths (see changes to figure params). 
-% /// size of figure should also be just defined once in figureparams. 
 
 %% FIGURE 5: plot detection - SUBSAMPLED valid cond
 %dprime
 dprimefieldnames = fieldnames(dataAll(iSub).detd);
 figure();
-set(gcf, 'Renderer', 'painters')
 for iContrast = 2:numel(dprimefieldnames) % for each condition (nontarget present, nontarget absent) while skipping the "all" condition in the first position
     subplot(2,2,iContrast-1) % iContrast-1 to skip the all condition
     zoot_figureStyle; hold on
@@ -63,6 +54,7 @@ for iContrast = 2:numel(dprimefieldnames) % for each condition (nontarget presen
     xlim([0.5 2.5])
     xticks([xVals(1,:) xVals(2,:)])
     set(gca, 'xticklabel', {'V', 'N','I','V','N','I'})
+    
     if plotStats
         if iContrast == 2 % NTP
             %T1 v-I
@@ -150,5 +142,4 @@ end
 figTitle = 'det';
 if saveplots
     export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
-    print(gcf, '-dpdf', '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/det.pdf')
 end

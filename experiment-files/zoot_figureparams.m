@@ -23,8 +23,6 @@ fp.colors =  [0 0.4470 0.7410;...
     0.8500 0.3250 0.0980;...
     0.4660 0.6740 0.1880]; 
 
-fp.saveplots = 0;
-
 %% Errorbars 
 fp.CapSize = 0; 
 fp.ErrorBarLineWidth = 1; 
@@ -40,7 +38,7 @@ fp.bar.FaceColor(4,:,:,:) = ones([1 2 3 3]); % white if target absent
 
 %% Scatterplots
 % Individual subjects 
-fp.scatter.alpha = [0.6 0.5 0.25]; % alpha (V, N, I) 
+fp.scatter.alpha = [0.6 0.5 0.3]; % alpha (V, N, I) 
 fp.scatter.edgeColor = [1 1 1]; % white 
 fp.scatter.size = 16; % dot size 
 

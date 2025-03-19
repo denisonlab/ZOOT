@@ -1,5 +1,6 @@
 function Sup1_TXNXRT % please name the function 
-% Fig2a_TXAcc plots accuracy by target presence/absence 
+% Sup1_TXNXRT plots a 2x2 graph of RT by target presence/absence and
+% non-target presence/absence
 
 %% Settings (things that can be changed) 
 user = 'jenny'; % 'jenny'
@@ -25,20 +26,12 @@ load(datafile)
 % Figure styling
 fp = zoot_figureparams;
 
-% /// Define your xVals once. Then, they can be used throughout.
-% /// Would be even better to define in figureparams once to be used across all figures. 
-% xVals = [0.7778 1 1.222;... % T1 (
-%     1.7778 2 2.2222]; % T2
+% x values
 xVals = fp.xVals; 
 
-% /// Also define colors just once (see changes to figure params). Make use of logical indexing rather
-% than if loops.
-% /// Same comment for bar widths (see changes to figure params). 
-% /// size of figure should also be just defined once in figureparams. 
 %% SUPPLEMENTARY FIG: RT plot TXNX
 figure
 set(gcf,'Position',[100 100 500 400])
-
 for iContrast = 1:4
     subplot(2,2,iContrast)
     zoot_figureStyle; hold on
@@ -62,8 +55,6 @@ for iContrast = 1:4
     xlim([0.5 2.5])
     xticks([xVals(1,:) xVals(2,:)])
     set(gca, 'xticklabel', {'V', 'N','I','V','N','I'})
-    % ax = gca;
-    % ax.Position=ax.Position.*[1 1 1 0.85]; % makes more space above fig
 
     if plotStats
         if iContrast==1 %TPNP
@@ -160,5 +151,4 @@ end
 figTitle = 'TXNX_RT';
 if saveplots
     export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
-    % print(gcf, '-dpdf', '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/TXNX_RT.pdf')
 end

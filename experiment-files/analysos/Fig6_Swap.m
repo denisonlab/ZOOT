@@ -1,9 +1,11 @@
 function Fig6_Swap % please name the function 
-% Fig2a_TXAcc plots accuracy by target presence/absence 
+% Fig6_Swap plots a 2x2 graph of swap rates for all target presence/absence and
+% non-target presence/absence combinations except TANA (swapping cannot
+% occur if both target and non-target are absent)
 
-%% Settings (things that can be changed) 
+%% Settings 
 user = 'jenny'; % 'jenny'
-saveplots = 0; 
+saveplots = 1; 
 plotStats = 1; 
 figType = 'pdf';
 
@@ -25,20 +27,12 @@ load(datafile)
 % Figure styling
 fp = zoot_figureparams;
 
-% /// Define your xVals once. Then, they can be used throughout.
-% /// Would be even better to define in figureparams once to be used across all figures. 
-% xVals = [0.7778 1 1.222;... % T1 (
-%     1.7778 2 2.2222]; % T2
+% x values
 xVals = fp.xVals; 
 
-% /// Also define colors just once (see changes to figure params). Make use of logical indexing rather
-% than if loops.
-% /// Same comment for bar widths (see changes to figure params). 
-% /// size of figure should also be just defined once in figureparams. 
 %% FIGURE 6: accuracy of nontarget swapping overall trials (except where target and non-target features are the same)
 figure();
 set(gcf,'Position',[100 100 500 400])
-set(gcf, 'Renderer', 'painters')
 for iContrast = 1:3 % did not include TANA because all zeroes, cannot swap if neither target nor non-target are present
     subplot(2,2,iContrast)
     zoot_figureStyle; hold on
@@ -115,5 +109,4 @@ end
 figTitle = 'Swap';
 if saveplots
     export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
-    print(gcf, '-dpdf', '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/Swap.pdf')
 end
