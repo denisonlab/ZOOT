@@ -1,5 +1,5 @@
 function Fig5_det % please name the function 
-% Fig5_det plots a 2x2 graph of detection d' and c by non-target presence/absence 
+% Fig5_det plots a 2x2 graph of detection d' and c by non-target presence/absence. the valid condition is subsampled to equate it with the neutral and invalid condition. 
 
 %% Settings 
 user = 'jenny'; % 'jenny'
@@ -37,15 +37,15 @@ for iContrast = 2:numel(dprimefieldnames) % for each condition (nontarget presen
     zoot_figureStyle; hold on
     for iTarget = 1:2
         for iValid = 1:3
-            b = bar(xVals(iTarget,iValid), detd.(dprimefieldnames{iContrast})(iTarget, iValid),...
-                'LineWidth',fp.bar.lineWidth(iContrast),'BarWidth',fp.bar.barWidth(iContrast),...
-                'EdgeColor',fp.colorsTargets(iTarget,iValid,:),'FaceColor',fp.bar.FaceColor(1,iTarget,iValid,:)); 
+            b = bar(xVals(iTarget,iValid), detd_sub.(dprimefieldnames{iContrast})(iTarget, iValid),...
+                'LineWidth',fp.bar.lineWidth(2),'BarWidth',fp.bar.barWidth(2),...
+                'EdgeColor',fp.colorsTargets(iTarget,iValid,:),'FaceColor',fp.bar.FaceColor(2,iTarget,iValid,:)); 
             
             % scatter 
-            swarmchart( xVals(iTarget,iValid), squeeze(detd_scatterplot.(Detfieldnames{iContrast})(iValid,:,iTarget)),'filled',...
+            swarmchart( xVals(iTarget,iValid), squeeze(detd_sub_scatterplot.(Detfieldnames{iContrast})(iValid,:,iTarget)),'filled',...
                 'SizeData',fp.scatter.size,'XJitterWidth',100,'MarkerFaceColor',fp.colorsTargets(iTarget,iValid,:),'MarkerEdgeColor',fp.scatter.edgeColor,'MarkerFaceAlpha',fp.scatter.alpha(iValid) );
 
-            errorbar(xcoords(iContrast, iValid, iTarget),detd.(dprimefieldnames{iContrast})(iTarget, iValid),detdErr.(dprimefieldnames{iContrast})(iTarget, iValid), '.k', 'CapSize', fp.CapSize, 'LineWidth', fp.ErrorBarLineWidth)
+            errorbar(xcoords(iContrast, iValid, iTarget),detd_sub.(dprimefieldnames{iContrast})(iTarget, iValid),detdErr_sub.(dprimefieldnames{iContrast})(iTarget, iValid), '.k', 'CapSize', fp.CapSize, 'LineWidth', fp.ErrorBarLineWidth)
         end
     end
     ylabel('Detection {\itd''}')
@@ -54,7 +54,7 @@ for iContrast = 2:numel(dprimefieldnames) % for each condition (nontarget presen
     xlim([0.5 2.5])
     xticks([xVals(1,:) xVals(2,:)])
     set(gca, 'xticklabel', {'V', 'N','I','V','N','I'})
-    
+
     if plotStats
         if iContrast == 2 % NTP
             %T1 v-I
@@ -89,15 +89,15 @@ for iContrast = 2:numel(dprimefieldnames) % for each condition (nontarget presen
     zoot_figureStyle; hold on
     for iTarget = 1:2
         for iValid = 1:3
-            b = bar(xVals(iTarget,iValid), detc.(dprimefieldnames{iContrast})(iTarget, iValid),...
-                'LineWidth',fp.bar.lineWidth(iContrast),'BarWidth',fp.bar.barWidth(iContrast),...
-                'EdgeColor',fp.colorsTargets(iTarget,iValid,:),'FaceColor',fp.bar.FaceColor(1,iTarget,iValid,:)); 
+            b = bar(xVals(iTarget,iValid), detc_sub.(dprimefieldnames{iContrast})(iTarget, iValid),...
+                'LineWidth',fp.bar.lineWidth(2),'BarWidth',fp.bar.barWidth(2),...
+                'EdgeColor',fp.colorsTargets(iTarget,iValid,:),'FaceColor',fp.bar.FaceColor(2,iTarget,iValid,:)); 
 
             % scatter 
-            swarmchart( xVals(iTarget,iValid), squeeze(detc_scatterplot.(Detfieldnames{iContrast})(iValid,:,iTarget)),'filled',...
+            swarmchart( xVals(iTarget,iValid), squeeze(detc_sub_scatterplot.(Detfieldnames{iContrast})(iValid,:,iTarget)),'filled',...
                 'SizeData',fp.scatter.size,'XJitterWidth',100,'MarkerFaceColor',fp.colorsTargets(iTarget,iValid,:),'MarkerEdgeColor',fp.scatter.edgeColor,'MarkerFaceAlpha',fp.scatter.alpha(iValid) ); 
             
-            errorbar(xcoords(iContrast, iValid, iTarget),detc.(dprimefieldnames{iContrast})(iTarget, iValid),detcErr.(dprimefieldnames{iContrast})(iTarget, iValid), '.k', 'CapSize', fp.CapSize, 'LineWidth', fp.ErrorBarLineWidth)
+            errorbar(xcoords(iContrast, iValid, iTarget),detc_sub.(dprimefieldnames{iContrast})(iTarget, iValid),detcErr_sub.(dprimefieldnames{iContrast})(iTarget, iValid), '.k', 'CapSize', fp.CapSize, 'LineWidth', fp.ErrorBarLineWidth)
         end
     end
 

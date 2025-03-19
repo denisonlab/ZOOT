@@ -3,7 +3,7 @@ function Fig2_TXAccRT % please name the function
 
 %% Settings  
 user = 'jenny'; % 'jenny'
-saveplots = 1; 
+saveplots =1; 
 plotStats = 1; 
 figType = 'pdf';
 
@@ -70,8 +70,12 @@ for iContrast = 1:2
             zoot_drawBracket(fp.xVals(1,2), fp.xVals(1,3), 0.82)
             
             % T2 V-I
-            zoot_annotateStats(2,(115*0.82)+1.5,'**');
-            zoot_drawBracket(fp.xVals(2,1), fp.xVals(2,3), 0.80) 
+            zoot_annotateStats(2,(115*0.87)+1.5,'**');
+            zoot_drawBracket(fp.xVals(2,1), fp.xVals(2,3), 0.85) 
+
+             % T2 N-I
+            zoot_annotateStats(2.111,(115*0.82)+1.5,'*');
+            zoot_drawBracket(fp.xVals(2,2), fp.xVals(2,3), 0.80) 
            
             % kt_annotateStats(2.111,89.5,'*');
             % kt_drawBracket(2, 2.2222, .875)
@@ -136,7 +140,7 @@ for iContrast = 1:2
             zoot_drawBracket(fp.xVals(2,1), fp.xVals(2,3), 0.56)
 
             % T2 N-I
-            zoot_annotateStats(2.1111,0.6,'**');
+            zoot_annotateStats(2.1111,0.6,'*');
             zoot_drawBracket(fp.xVals(2,2), fp.xVals(2,3), 0.47)
 
             % T1 main V

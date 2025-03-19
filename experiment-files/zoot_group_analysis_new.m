@@ -728,7 +728,7 @@ for iSub=1:length(subs) % for participant
     end
 
     %% detection d' subsampling
-%subsampling valid condition to see if attention like trend in det d' is
+%subsampling valid condition to see if attention-like trend in det d' is
 %due to attention or trial count. there are more valid trials than neutral
 %or invalid which could be inflating valid det d' values
     %% detection by nontarget (NTP, NTA)
