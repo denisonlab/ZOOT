@@ -3,8 +3,10 @@ function Fig4_dis % please name the function
 
 %% Settings 
 user = 'jenny'; % 'jenny'
-saveplots = 1; 
+saveplots = 0; 
 plotStats = 1; 
+target_ANOVA = 1; % to plot individual target (T1/T2) ANOVAs main ANOVAs
+big_ANOVA = 1; % to plot across target ANOVAs
 figType = 'pdf';
 
 %% Setup
@@ -55,41 +57,46 @@ for iContrast = 2:numel(dprimefieldnames) % for each condition (nontarget presen
     xlim([0.5 2.5])
     xticks([xVals(1,:) xVals(2,:)])
     set(gca, 'xticklabel', {'V', 'N','I','V','N','I'})
-    
+
     if plotStats
         if iContrast == 2 % NTP
             % T1 V-I
             zoot_annotateStats(1,3.2,'**');
             zoot_drawBracket(fp.xVals(1,1), fp.xVals(1,3), .62)
-            
-            %T2 V-I
-            zoot_annotateStats(2,4.2,'*');
-            zoot_drawBracket(fp.xVals(2,1), fp.xVals(2,3), .80)
-            % 
-            % kt_annotateStats(1,4.05,'_______');
-            % kt_annotateStats(1,4.15,'** Validity');
-            % 
-            % kt_annotateStats(2,4.05,'_______');
-            % kt_annotateStats(2,4.15,'* Validity');
 
-            % kt_annotateStats(1.5, 4.5,'___________________'); %adobe
-            % kt_annotateStats(1.5, 4.6,'*** Target');
-            % kt_annotateStats(1.5,4.9,'** Validity');
+            %T2 V-I
+            zoot_annotateStats(2,3.6,'*');
+            zoot_drawBracket(fp.xVals(2,1), fp.xVals(2,3), .71)
+
+            if target_ANOVA
+                % T1 main V
+                zoot_annotateStats(1,4.05,'_______');
+                zoot_annotateStats(1,4.15,'** Validity');
+                % T2 main V
+                zoot_annotateStats(2,4.05,'_______');
+                zoot_annotateStats(2,4.15,'* Validity');
+            end
+            if big_ANOVA
+                % overall ANOVAs
+                zoot_annotateStats(1.5, 4.5,'___________________'); %adobe
+                zoot_annotateStats(1.5, 4.6,'*** Target');
+                zoot_annotateStats(1.5,4.9,'** Validity');
+            end
 
         elseif iContrast == 3 % NTA
             %T1 V-I
             zoot_annotateStats(1,3.7,'*');
             zoot_drawBracket(fp.xVals(1,1), fp.xVals(1,3), .70)
-
-            % zoot_annotateStats(1,4.05,'_______');
-            % zoot_annotateStats(1,4.15,'* Validity');
-
-            %  kt_annotateStats(2,4.05,'_______');
-            % kt_annotateStats(2,4.15,'** Validity');
-            % 
-            % kt_annotateStats(1.5, 4.5,'___________________'); % adobe
-            % kt_annotateStats(1.5, 4.6,'* Target');
-            % kt_annotateStats(1.5,4.9,'** Validity');
+            if target_ANOVA
+                %T1 main V
+                zoot_annotateStats(1,4.05,'_______');
+                zoot_annotateStats(1,4.15,'* Validity');
+            end
+            if big_ANOVA
+                zoot_annotateStats(1.5, 4.5,'___________________'); % adobe
+                zoot_annotateStats(1.5, 4.6,'* Target');
+                zoot_annotateStats(1.5,4.9,'** Validity');
+            end
         end
     end
 end
@@ -102,9 +109,9 @@ for iContrast = 2:numel(dprimefieldnames) % for each condition (nontarget presen
         for iValid = 1:3
             b = bar(xVals(iTarget,iValid), disc.(dprimefieldnames{iContrast})(iTarget, iValid),...
                 'LineWidth',fp.bar.lineWidth(iContrast),'BarWidth',fp.bar.barWidth(iContrast),...
-                'EdgeColor',fp.colorsTargets(iTarget,iValid,:),'FaceColor',fp.bar.FaceColor(1,iTarget,iValid,:)); 
+                'EdgeColor',fp.colorsTargets(iTarget,iValid,:),'FaceColor',fp.bar.FaceColor(1,iTarget,iValid,:));
 
-            % scatter 
+            % scatter
             swarmchart( xVals(iTarget,iValid), squeeze(disc_scatterplot.(Detfieldnames{iContrast})(iValid,:,iTarget)),'filled',...
                 'SizeData',fp.scatter.size,'XJitterWidth',100,'MarkerFaceColor',fp.colorsTargets(iTarget,iValid,:),'MarkerEdgeColor',fp.scatter.edgeColor,'MarkerFaceAlpha',fp.scatter.alpha(iValid) ); 
             
@@ -124,19 +131,24 @@ for iContrast = 2:numel(dprimefieldnames) % for each condition (nontarget presen
             %T2 N-I
             zoot_annotateStats(2.1111,.5,'*');
             zoot_drawBracket(fp.xVals(2,2), fp.xVals(2,3), 0.25)
-            
-            %T2 main V
-            % zoot_annotateStats(2,1.1,'_______');
-            % zoot_annotateStats(2,1.15,'* Validity');
-            % 
-            % kt_annotateStats(1.5, 1.6,'___________________');
-            % kt_annotateStats(1.5, 1.65,'** Target:Validity');
-            % kt_annotateStats(1.5, 1.6,'___________________'); % adobe
+
+            if target_ANOVA
+                %T2 main V
+                zoot_annotateStats(2,1.1,'_______');
+                zoot_annotateStats(2,1.15,'* Validity');
+            end
+            if big_ANOVA
+                % overall ANOVAs
+                zoot_annotateStats(1.5, 1.6,'___________________');
+                zoot_annotateStats(1.5, 1.65,'** Target:Validity'); % adobe
+            end
 
         elseif iContrast ==3 % NTA
-            %
-            % kt_annotateStats(1.5, 1.6,'___________________');
-            % kt_annotateStats(1.5, 1.65,'* Target'); % adobe
+            if big_ANOVA
+                %overall ANOVA
+                zoot_annotateStats(1.5, 1.6,'___________________');
+                zoot_annotateStats(1.5, 1.65,'* Target'); % adobe
+            end
 
         end
     end

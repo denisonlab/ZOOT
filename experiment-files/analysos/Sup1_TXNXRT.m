@@ -4,8 +4,10 @@ function Sup1_TXNXRT % please name the function
 
 %% Settings (things that can be changed) 
 user = 'jenny'; % 'jenny'
-saveplots = 1; 
+saveplots = 0; 
 plotStats = 1; 
+target_ANOVA = 1; % to plot individual target (T1/T2) ANOVAs main ANOVAs
+big_ANOVA = 1; % to plot across target ANOVAs
 figType = 'pdf';
 
 %% Setup
@@ -70,19 +72,23 @@ for iContrast = 1:4
             %T2 N-I
             zoot_annotateStats(2.1,.82,'**');
             zoot_drawBracket(fp.xVals(2,2), fp.xVals(2,3), .62)
-            % kt_annotateStats(2,.55,'~');
+            % zoot_annotateStats(2,.55,'~');
             % kt_drawBracket(1.7778, 2.2222, .78)
+            if target_ANOVA
+                %T1 main V
+                zoot_annotateStats(1,1.05,'_______');
+                zoot_annotateStats(1,1.075,'*** Validity');
 
-            %T1 main V
-            % kt_annotateStats(1,1.15,'_______');
-            % kt_annotateStats(1,1.175,'*** Validity');
-            % T2 main V
-            % kt_annotateStats(2, 1.15,'_______');
-            % kt_annotateStats(2,1.175,'* Validity');
-            % overall main V and T
-            % kt_annotateStats(1.5, 1.3,'___________________');
-            % kt_annotateStats(1.5, 1.35,'** Target');
-            % kt_annotateStats(1.5,1.45,'*** Validity');
+                % T2 main V
+                zoot_annotateStats(2, 1.05,'_______');
+                zoot_annotateStats(2,1.075,'* Validity');
+            end
+            if big_ANOVA
+                % overall ANOVAs
+                zoot_annotateStats(1.5, 1.2,'___________________');
+                zoot_annotateStats(1.5, 1.25,'** Target');
+                zoot_annotateStats(1.5,1.33,'*** Validity');
+            end
         end
 
         if iContrast == 3 %TPNA
@@ -99,17 +105,20 @@ for iContrast = 1:4
             %T2 N-I
             zoot_annotateStats(2.1111,.53,'*');
             zoot_drawBracket(fp.xVals(2,2), fp.xVals(2,3), .4)
-            
-            %T1 main V
-            % kt_annotateStats(1,1.15,'_______');
-            % kt_annotateStats(1,1.175,'** Validity');
-            % T2 main V
-            % kt_annotateStats(2, 1.15,'_______');
-            % kt_annotateStats(2,1.175,'*** Validity');
-            % overall main V and T
-            % kt_annotateStats(1.5, 1.3,'___________________');
-            % kt_annotateStats(1.5, 1.35,'** Target');
-            % kt_annotateStats(1.5,1.45,'*** Validity');
+            if target_ANOVA
+                %T1 main V
+                zoot_annotateStats(1,1.05,'_______');
+                zoot_annotateStats(1,1.075,'** Validity');
+                % T2 main V
+                zoot_annotateStats(2, 1.05,'_______');
+                zoot_annotateStats(2,1.075,'*** Validity');
+            end
+            if big_ANOVA
+                % overall ANOVAs
+                zoot_annotateStats(1.5, 1.2,'___________________');
+                zoot_annotateStats(1.5, 1.25,'** Target');
+                zoot_annotateStats(1.5,1.33,'*** Validity');
+            end
         end
 
         if iContrast == 2 %TANP
@@ -127,14 +136,17 @@ for iContrast = 1:4
             zoot_drawBracket(fp.xVals(2,2), fp.xVals(2,3), .48)
             % kt_annotateStats(1.89,.27,'~');
             % kt_drawBracket(1.7778, 1.98, .55)
-
-            %T2 main V
-            % kt_annotateStats(2, 1.15,'_______');
-            % kt_annotateStats(2,1.175,'*** Validity');
-            %overall main V and T
-            % kt_annotateStats(1.5, 1.3,'___________________');
-            %   kt_annotateStats(1.5, 1.35,'** Target');
-            %   kt_annotateStats(1.5,1.45,'*** Validity');
+            if target_ANOVA
+                %T2 main V
+                zoot_annotateStats(2, 1.05,'_______');
+                zoot_annotateStats(2,1.075,'*** Validity');
+            end
+            if big_ANOVA
+                %overall ANOVAs
+                zoot_annotateStats(1.5, 1.2,'___________________');
+                zoot_annotateStats(1.5, 1.25,'** Target');
+                zoot_annotateStats(1.5,1.33,'*** Validity');
+            end
         end
     end
  

@@ -3,8 +3,10 @@ function Fig2_TXAccRT % please name the function
 
 %% Settings  
 user = 'jenny'; % 'jenny'
-saveplots =1; 
+saveplots =0; 
 plotStats = 1; 
+target_ANOVA = 0; % to plot individual target (T1/T2) ANOVAs main ANOVAs
+big_ANOVA = 0; % to plot across target ANOVAs
 figType = 'pdf';
 
 %% Setup
@@ -63,29 +65,36 @@ for iContrast = 1:2
         if iContrast==1 %TP
             % T1 V-I
             zoot_annotateStats(1,(115*0.87)+1.5,'***');
-            zoot_drawBracket(fp.xVals(1,1), fp.xVals(1,3), 0.86) 
-            
+            zoot_drawBracket(fp.xVals(1,1), fp.xVals(1,3), 0.86)
+
             % T1 N-I
             zoot_annotateStats(1.1111,(115*0.83)+1.5,'**');
             zoot_drawBracket(fp.xVals(1,2), fp.xVals(1,3), 0.82)
-            
+
             % T2 V-I
             zoot_annotateStats(2,(115*0.87)+1.5,'**');
-            zoot_drawBracket(fp.xVals(2,1), fp.xVals(2,3), 0.85) 
+            zoot_drawBracket(fp.xVals(2,1), fp.xVals(2,3), 0.85)
 
-             % T2 N-I
+            % T2 N-I
             zoot_annotateStats(2.111,(115*0.82)+1.5,'*');
-            zoot_drawBracket(fp.xVals(2,2), fp.xVals(2,3), 0.80) 
-           
-            % kt_annotateStats(2.111,89.5,'*');
-            % kt_drawBracket(2, 2.2222, .875)
-            % 
-            % kt_annotateStats(1,98,'________');
-            % kt_annotateStats(1,99,'*** Validity');
-            % 
-            % kt_annotateStats(2,98,'________');
-            % kt_annotateStats(2,99,'* Validity');
-            
+            zoot_drawBracket(fp.xVals(2,2), fp.xVals(2,3), 0.80)
+
+            if target_ANOVA
+                % T1 main V
+                zoot_annotateStats(1,107,'________');
+                zoot_annotateStats(1,109,'*** Validity');
+                % T2 main V
+                zoot_annotateStats(2,107,'________');
+                zoot_annotateStats(2,109,'* Validity');
+            end
+
+            if big_ANOVA
+                % overall main effects of V and T
+                zoot_annotateStats(1.5,115,'____________________');
+                zoot_annotateStats(1.5,121,'* Validity');
+                zoot_annotateStats(1.5,116,'*** Target');
+            end
+
         elseif iContrast == 2 %TA
             % T1 V-I
             zoot_annotateStats(1,(115*.92)+1.5,'*');
@@ -142,19 +151,23 @@ for iContrast = 1:2
             % T2 N-I
             zoot_annotateStats(2.1111,0.6,'*');
             zoot_drawBracket(fp.xVals(2,2), fp.xVals(2,3), 0.47)
-
+            
+            if target_ANOVA
             % T1 main V
-            % kt_annotateStats(1,98,'________');
-            % kt_annotateStats(1,99,'*** Validity');
+            zoot_annotateStats(1,1.01,'________');
+            zoot_annotateStats(1,1.02,'*** Validity');
     
-            %T2 main V
-            % kt_annotateStats(2,98,'________');
-            % kt_annotateStats(2,99,'*** Validity');
+            % T2 main V
+            zoot_annotateStats(2,1.01,'________');
+            zoot_annotateStats(2,1.02,'** Validity');
+            end 
 
+            if big_ANOVA
             % overall main effects of V and T
-            % kt_annotateStats(1.5,98,'________');
-            % kt_annotateStats(1.5,99,'*** Validity');
-            %  kt_annotateStats(1.5,99,'** Target');
+            zoot_annotateStats(1.5,1.15,'____________________');
+            zoot_annotateStats(1.5,1.24,'*** Validity');
+             zoot_annotateStats(1.5,1.17,'** Target');
+            end 
             
         elseif iContrast == 2 %TA
             % T2 V-I
@@ -165,14 +178,18 @@ for iContrast = 1:2
             zoot_annotateStats(2.1111,.47,'*');
             zoot_drawBracket(fp.xVals(2,2), fp.xVals(2,3), 0.35)
 
+            if target_ANOVA
             %T2 main V
-            % kt_annotateStats(2,98,'________');
-            % kt_annotateStats(2,99,'** Validity');
+            zoot_annotateStats(2,1.01,'________');
+            zoot_annotateStats(2,1.02,'** Validity');
+            end 
 
+            if big_ANOVA
             % overall main effects of V and T
-            % kt_annotateStats(1.5,98,'________');
-            % kt_annotateStats(1.5,99,'* Validity');
-            %  kt_annotateStats(1.5,99,'*** Target');
+            zoot_annotateStats(1.5,1.15,'____________________');
+            zoot_annotateStats(1.5,1.24,'* Validity');
+             zoot_annotateStats(1.5,1.17,'*** Target');
+            end 
         end
     end
 

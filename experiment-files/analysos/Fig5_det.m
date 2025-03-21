@@ -3,8 +3,10 @@ function Fig5_det % please name the function
 
 %% Settings 
 user = 'jenny'; % 'jenny'
-saveplots = 1; 
+saveplots = 0; 
 plotStats = 1; 
+target_ANOVA = 1; % to plot individual target (T1/T2) ANOVAs main ANOVAs
+big_ANOVA = 1; % to plot across target ANOVAs
 figType = 'pdf';
 
 %% Setup
@@ -68,15 +70,19 @@ for iContrast = 2:numel(dprimefieldnames) % for each condition (nontarget presen
             %T2 N-I
             zoot_annotateStats(2.1111,4.35,'*');
             zoot_drawBracket(fp.xVals(2,2), fp.xVals(2,3), .84)
-
-            % zoot_annotateStats(1,5.45,'_______');
-            % zoot_annotateStats(1,5.5,'* Validity');
-
-
-            % kt_annotateStats(1.5, 6.1,'___________________'); %adobe
-            % kt_annotateStats(1.5, 6.6,'** Target');
-            % kt_annotateStats(1.5,7,'* Validity');
-            % kt_annotateStats(1.5,6.2,'* Target:Validity');
+            
+            if target_ANOVA
+            % T1 main V
+            zoot_annotateStats(1,4.9,'_______');
+            zoot_annotateStats(1,4.95,'* Validity');
+            end
+            if big_ANOVA
+            %overall ANOVAs
+            zoot_annotateStats(1.5, 5.1,'___________________'); %adobe
+            zoot_annotateStats(1.5, 5.5,'** Target');
+            zoot_annotateStats(1.5,5.8,'* Validity');
+            zoot_annotateStats(1.5,5.2,'* Target:Validity');
+            end 
 
         end
     end
@@ -107,7 +113,7 @@ for iContrast = 2:numel(dprimefieldnames) % for each condition (nontarget presen
     xlim([0.5 2.5])
     xticks([xVals(1,:) xVals(2,:)])
     set(gca, 'xticklabel', {'V', 'N','I','V','N','I'})
-   
+
     if plotStats
         if iContrast == 2 %NTP
             %T2 V-I
@@ -121,12 +127,17 @@ for iContrast = 2:numel(dprimefieldnames) % for each condition (nontarget presen
             zoot_annotateStats(1.111,0.55,'*');
             zoot_drawBracket(fp.xVals(1,2), fp.xVals(1,3), .28)
 
-            % zoot_annotateStats(1,1.15,'_______');
-            % zoot_annotateStats(1,1.17,'* Validity');
-            % %
-            % zoot_annotateStats(1.5, 1.5,'___________________'); %adobe
-            % zoot_annotateStats(1.5, 1.6,'** Target');
-            % zoot_annotateStats(1.5,1.8,'*** Validity');
+            if target_ANOVA
+                %T1 main V
+                zoot_annotateStats(1,1.15,'_______');
+                zoot_annotateStats(1,1.17,'* Validity');
+            end
+            if big_ANOVA
+                % % overall ANOVAS
+                zoot_annotateStats(1.5, 1.5,'___________________'); %adobe
+                zoot_annotateStats(1.5, 1.6,'** Target');
+                zoot_annotateStats(1.5,1.8,'*** Validity');
+            end
 
 
         end

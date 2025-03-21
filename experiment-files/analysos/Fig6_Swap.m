@@ -5,8 +5,10 @@ function Fig6_Swap % please name the function
 
 %% Settings 
 user = 'jenny'; % 'jenny'
-saveplots = 1; 
+saveplots = 0; 
 plotStats = 1; 
+target_ANOVA = 1; % to plot individual target (T1/T2) ANOVAs main ANOVAs
+big_ANOVA = 1; % to plot across target ANOVAs
 figType = 'pdf';
 
 %% Setup
@@ -64,34 +66,44 @@ for iContrast = 1:3 % did not include TANA because all zeroes, cannot swap if ne
             %T1 V-I
             zoot_annotateStats(1,35,'*');
             zoot_drawBracket(fp.xVals(1,1), fp.xVals(1,3), .55)
-            % 
-            % kt_annotateStats(1,33,'_______');
-            % kt_annotateStats(1,33.25,'* Validity');
-
-            % kt_annotateStats(1.5,37.25,'___________________');
-            % kt_annotateStats(1.5,37.5,'*** Target');
-            % kt_annotateStats(1.5,40.75,'* Validity'); %adobe
+            if target_ANOVA
+                % T1 main V
+                zoot_annotateStats(1,48,'_______');
+                zoot_annotateStats(1,48.25,'* Validity');
+            end
+            if big_ANOVA
+                %overall ANOVAs
+                zoot_annotateStats(1.5,55,'___________________');
+                zoot_annotateStats(1.5,55.5,'*** Target');
+                zoot_annotateStats(1.5,59.5,'* Validity'); %adobe
+            end
 
         elseif iContrast == 3 %TPNA
             %T1 V-I
             zoot_annotateStats(1,25,'***');
             zoot_drawBracket(fp.xVals(1,1), fp.xVals(1,3), .40)
-
-            % kt_annotateStats(1,25.5,'_______');
-            % kt_annotateStats(1,25.75,'** Validity');
-            % 
-            % kt_annotateStats(1.5,35.25,'___________________');
-            % kt_annotateStats(1.5,38.75,'** Target');
-            % kt_annotateStats(1.5,41.5,'*** Validity');
-            % kt_annotateStats(1.5,35.5,'** Target:Validity'); % adobe
+            if target_ANOVA
+                %T1 main V
+                zoot_annotateStats(1,48,'_______');
+                zoot_annotateStats(1,48.25,'** Validity');
+            end
+            if big_ANOVA
+                % overall ANOVAs
+                zoot_annotateStats(1.5,55,'___________________');
+                zoot_annotateStats(1.5,59.5,'** Target');
+                zoot_annotateStats(1.5,63.5,'*** Validity');
+                zoot_annotateStats(1.5,55.5,'** Target:Validity'); % adobe
+            end
 
         elseif iContrast == 2 %TANP
             %T1 V-I
             zoot_annotateStats(1,35,'**');
             zoot_drawBracket(fp.xVals(1,1), fp.xVals(1,3), .52)
-            % 
-            % kt_annotateStats(1,25,'_______');
-            % kt_annotateStats(1,25.25,'* Validity');
+            if target_ANOVA
+                % T1 main V
+                zoot_annotateStats(1,48,'_______');
+                zoot_annotateStats(1,48.25,'* Validity');
+            end
         end
     end
    

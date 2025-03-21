@@ -4,8 +4,10 @@ function Fig3_TXNXAcc % please name the function
 
 %% Settings 
 user = 'jenny'; % 'jenny'
-saveplots = 1; 
+saveplots = 0; 
 plotStats = 1; 
+target_ANOVA = 1; % to plot individual target (T1/T2) ANOVAs main ANOVAs
+big_ANOVA = 1; % to plot across target ANOVAs
 figType = 'pdf';
 
 %% Setup
@@ -63,56 +65,64 @@ for iContrast = 1:4
         if iContrast==1 %TPNP
             % T1 V-I
             zoot_annotateStats(1,(115*.84)+1.5,'**');
-            zoot_drawBracket(fp.xVals(1,1), fp.xVals(1,3), .84)
+            zoot_drawBracket(fp.xVals(1,1), fp.xVals(1,3), .82)
             % kt_annotateStats(2,94,'~');
             % kt_drawBracket(1.7778, 2.2222, .9)    
-
+            if target_ANOVA
             % %T1 main V
-            % zoot_annotateStats(1,(115*.95)+1.5,'_______');
-            % zoot_annotateStats(1,(115*.96)+1.5,'* Validity');
+            zoot_annotateStats(1,(115*.9)+1.5,'_______');
+            zoot_annotateStats(1,(115*.91)+1.5,'* Validity');
+            end
 
-            % kt_annotateStats(1.5,102,'___________________');
-            % kt_annotateStats(1.5,103,'*** Target');
-            % kt_annotateStats(1.5,107,'** Validity');
+            if big_ANOVA
+            %across target ANOVA
+            zoot_annotateStats(1.5,(115*.96)+1.5,'___________________');
+            zoot_annotateStats(1.5,(115*.97)+1.5,'*** Target');
+            zoot_annotateStats(1.5,(115*1.01)+1.5,'** Validity');
+            end
 
         end
 
         if iContrast == 3 %TPNA
             %T1 V-I
-            zoot_annotateStats(1,(115*.88)+1.5,'***');
-            zoot_drawBracket(fp.xVals(1,1), fp.xVals(1,3), .87)
+            zoot_annotateStats(1,(115*.86)+1.5,'***');
+            zoot_drawBracket(fp.xVals(1,1), fp.xVals(1,3), .85)
             %T1 N-I
-            zoot_annotateStats(1.1111,(115*.78)+1.5,'*');
+            zoot_annotateStats(1.1111,(115*.83)+1.5,'*');
             zoot_drawBracket(fp.xVals(1,2), fp.xVals(1,3), .81)
-            % T1 main V
-            % zoot_annotateStats(1,(115*1.01)+1.5,'_________');
-            % zoot_annotateStats(1,(115*1.02)+1.5,'*** Validity');
-            %T2 V-N
-            zoot_annotateStats(2,(115*.92)+1.5,'*');
-            zoot_drawBracket(fp.xVals(2,1), fp.xVals(2,3), .92)
-            
 
-            % kt_annotateStats(1.5,102,'___________________');
-            % kt_annotateStats(1.5,104,'*** Target');
-            % kt_annotateStats(1.5,108,'*** Validity');
+            %T2 V-I
+            zoot_annotateStats(2,(115*.88)+1.5,'*');
+            zoot_drawBracket(fp.xVals(2,1), fp.xVals(2,3), .87)
+            
+            if target_ANOVA
+            % T1 main V
+            zoot_annotateStats(1,(115*.93)+1.5,'_________');
+            zoot_annotateStats(1,(115*.93)+1.5,'*** Validity');
+            end
+            
+            if big_ANOVA
+            %across target ANOVAs
+            zoot_annotateStats(1.5,(115*.98)+1.5,'___________________');
+            zoot_annotateStats(1.5,(115*.99)+1.5,'*** Target');
+            zoot_annotateStats(1.5,(115*1.03)+1.5,'*** Validity');
+            end
         end
 
         if iContrast == 2
             %T1 V-I
             zoot_annotateStats(1,(115*.93)+1.5,'*');
             zoot_drawBracket(fp.xVals(1,1), fp.xVals(1,3), .91)
-
-            % kt_annotateStats(1,100,'_______'); % incorrect!
-            % kt_annotateStats(1,101,'* Validity');
         end
 
         if iContrast == 4
             %T2 V-N
-            zoot_annotateStats(1.8889,(115*.93)+1.5,'**');
-            zoot_drawBracket(fp.xVals(2,1), fp.xVals(2,2), .94)
+            zoot_annotateStats(1.8889,(115*.91)+1.5,'**');
+            zoot_drawBracket(fp.xVals(2,1), fp.xVals(2,2), .9)
         end
     end
 end 
+
 % [ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.325]);
 % [ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.375]);
 % [ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 .90]);
