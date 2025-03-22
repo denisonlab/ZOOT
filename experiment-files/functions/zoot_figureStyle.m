@@ -3,7 +3,6 @@ function zoot_figureStyle
 % adjusts fig axis and text styling
 hold on
 box off
-hold on 
 set(gca,'TickDir','in');
 ax = gca;
 ax.LineWidth = 0.75;
