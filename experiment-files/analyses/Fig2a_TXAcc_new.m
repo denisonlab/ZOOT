@@ -27,19 +27,33 @@ fp = zoot_figureparams;
 xVals = fp.xVals; 
 
 %% FIGURE 2A: Acc by target contrast
+clear panel 
 figure
-set(gcf,'Position',[100 100 500 180])
+set(gcf,'Position',[100 100 500 400])
 
-tcl = tiledlayout(1,2,'TileSpacing','compact','OuterPosition',[0 0 1 0.85]);
-tcl.YLabel.String = 'Accuracy (%)';
+count = 1; 
+tcl = tiledlayout(2,2,'TileSpacing','compact','OuterPosition',[0 0 1 0.85]);
+% tcl.YLabel.String = 'Accuracy (%)';
+for iRep = 1:2
+    % 1 is accuracy
+    % 2 is RT
 for iC = 1:2
-    nexttile
+    panel(count).info = nexttile;
     zoot_figureStyle
     ylim([30 115])
     yticks(30:10:100)
     xlim([0.5 2.5])
     xticks([xVals(1,:) xVals(2,:)])
-    xticklabels({'V','N','I','V','N','I'})
+    switch count
+        case {1,2}
+            xticklabels('')
+        case {3,4}
+            xticklabels({'V','N','I','V','N','I'})
+        case {1}
+            ylabel('Accuracy')
+        case {3}
+            ylabel('Reaction time (s)')
+    end
     for iT = 1:2
         for iV = 1:3
             bar(xVals(iT,iV), tcAcc.mean(iC, iV, iT),...
@@ -65,6 +79,7 @@ for iC = 1:2
         % stats.pairwise{1} = {'***','**',''; '**','',''}; 
         stats.pairwise{1} = {'***','**','*'; '**','***','*'}; % target by pair
         stats.main{1} = {'***','*'}; 
+        stats.mainOverall{1} = {}; 
         for iT = 1:2 % two targets
             % pairwise comparisons
             for iP = 1:3 
@@ -72,11 +87,16 @@ for iC = 1:2
                 txt.FontSize = 14;
                 zoot_drawBracket(xVals(iT,xPairs(iP,1)),xVals(iT,xPairs(iP,2)),yBracket(iP),0.5)
             end
-            % main effect
+            % main effect per target
             txt = twcf_annotateStats(xVals(iT,2),yMain,stats.pairwise{1}{iT});
             txt.FontSize = 14;
         end
+        % main effect across targets 
+        txt = twcf_annotateStats((xVals(1,2)+xVals(2,2))/2,yMain+3,stats.pairwise{1}{iT});
+        txt.FontSize = 14;
     end
+    count = count+1; 
+end
 end
 
 figTitle = 'TX_Acc';
