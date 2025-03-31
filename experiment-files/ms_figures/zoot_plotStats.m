@@ -1,8 +1,8 @@
 function zoot_plotStats
 
+%% Load parameters
 fp = zoot_figureparams;
 xVals = fp.xVals; 
-xVals(2,:) = xVals(2,:)-0.2;
 
 xPairs = [1 3; 1 2; 2 3]; % invalid-valid, invalid-neutral, neutral-valid
 yMax = 0.93; yDiff = 0.04;
@@ -11,6 +11,7 @@ yMain = 115; % significace text y position
 yMax = 107; yDiff = 5;
 yPairs = [yMax yMax-yDiff yMax-yDiff*2]; % y position for significant text
 
+%% 
 clear stats % structure with stats information
 % stats.pairwise{1} = {'***','**',''; '**','',''};
 stats.pairwise{1} = {'***','**','*'; '**','***','*'}; % target by pair

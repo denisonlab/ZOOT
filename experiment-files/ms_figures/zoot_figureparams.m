@@ -2,8 +2,8 @@ function fp = zoot_figureParams
 % Figure settings for zoot
 
 %% Sizing
-fp.rect = [100 100 450 330]; 
-fp.OuterPosition = [0 0 1 0.9]; % adds y height above tiled layout 
+fp.rect = [100 100 500 400]; 
+fp.OuterPosition = [0 0 1 0.85]; % adds y height above tiled layout 
 
 %% Axes
 fp.ax.LineWidth = 0.75; 

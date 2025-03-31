@@ -10,7 +10,7 @@ ax = gca;
 ax.LineWidth = fp.ax.LineWidth;
 ax.XColor = 'black';
 ax.YColor = 'black';
-xlim([0.5 2.3])
+xlim([fp.xVals(1,1)-0.25 fp.xVals(2,3)+0.25])
 xticks([fp.xVals(1,:) fp.xVals(2,:)])
 
 %% Text size 

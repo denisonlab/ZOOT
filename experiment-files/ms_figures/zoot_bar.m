@@ -1,4 +1,4 @@
-function zoot_bar(x,y,iC,iV,iT,plotSubjects,err)
+function b = zoot_bar(x,y,iC,iV,iT,plotSubjects,err)
 % x vector of data
 % y vector of data
 % iC: 1->target present; 2->target absent 
@@ -33,8 +33,8 @@ x = repmat(xVals(iT,iV),size(y));
 %% Plot
 
 % group mean 
-bar(mean(x), mean(y,'omitnan'),...
-    'LineWidth',fp.bar.lineWidth(iC),'BarWidth',fp.bar.barWidth(iC),...
+b = bar(mean(x), mean(y,'omitnan'),...
+    'LineWidth',fp.bar.lineWidth(iC),'BarWidth',fp.bar.barWidth(iC),... % 'LineJoin','miter'
     'EdgeColor',fp.colorsTargets(iT,iV,:),'FaceColor',fp.bar.FaceColor(iC,iT,iV,:));
 
 if plotSubjects
