@@ -3,12 +3,13 @@ function Fig2_TXAccRT
 % for zoot
 
 %% Settings 
-user = 'karen'; % 'jenny' 'karenlab' 'karen'
+user = 'jenny'; % 'jenny' 'karenlab' 'karen'
 
 % Fig saving
-savePlots = 1; 
+savePlots = 0; 
 figType = 'pdf';
 figTitle = 'Fig2_TXAccRT';
+figNum=2;
 
 % Fig plotting
 plotStats = 0; 
@@ -41,11 +42,11 @@ for iRep = 1:2 % 1 is accuracy; 2 is RT
         switch count
             case {1,2} % Accuracy
                 xticklabels('')
-                ylim([50 100])
+                ylim([50 100]) % y min could stay 50 or be changed to 30 to match TXNX acc plot
                 yticks(50:10:100)
             case {3,4} % RT
                 xticklabels({'V','N','I','V','N','I'})
-                ylim([0 0.85])
+                ylim([0 .85])
                 yticks(0:0.2:0.8)
         end
         switch count
@@ -62,7 +63,7 @@ for iRep = 1:2 % 1 is accuracy; 2 is RT
                 switch count
                     case {1,2} % Accuracy      
                         b = zoot_bar(xVals(iT,iV),squeeze(tcAcc_scatterplot.(targ_contrasts{iC})(iV,:,iT)),...
-                            iC,iV,iT,plotSubjects,tcAcc.err(iC,iV,iT));
+                            iC,iV,iT,plotSubjects,tcAcc.err(iC,iV,iT), figNum);
                     case {3,4}  % Reaction time
                         zoot_scatter(xVals(iT,iV),squeeze(TPTA_RT_scatterplot.(targ_contrasts{iC})(iV,:,iT)),...
                             iC,iV,iT,plotSubjects,TPTA_RT.err(iC,iV,iT));

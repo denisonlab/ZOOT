@@ -52,6 +52,7 @@ fp.scatter.size = 12; % dot size
 fp.scatter.xJitter = 0.03; 
 
 % group means
+fp.bar.alpha = [.65 .5 .35];
 fp.gm_scatter.size = 60; % 80
 fp.s.MarkerFaceColor(1,:,:,:) = fp.colorsTargets; 
 fp.s.MarkerFaceColor(2,:,:,:) = ones([1 2 3 3]); % white if target absent
