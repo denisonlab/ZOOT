@@ -60,10 +60,10 @@ for iRep = 1:2 % 1 is d'; 2 is c
         for iT = 1:2
             for iV = 1:3
                 switch count
-                    case {1,2} % Dis d'      
+                    case {1,2} %  d'      
                         b = zoot_bar(xVals(iT,iV),squeeze(detd_sub_scatterplot.(Detfieldnames{iC})(iV,:,iT)),...
                             iC,iV,iT,plotSubjects,detdErr_sub.(Detfieldnames{iC})(iT, iV), figNum);
-                    case {3,4}  %Dis c
+                    case {3,4}  % c
                         zoot_bar(xVals(iT,iV),squeeze(detc_sub_scatterplot.(Detfieldnames{iC})(iV,:,iT)),...
                             iC,iV,iT,plotSubjects,detcErr_sub.(Detfieldnames{iC})(iT, iV), figNum);
                 end

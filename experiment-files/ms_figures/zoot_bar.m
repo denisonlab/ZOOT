@@ -38,14 +38,14 @@ if figNum == 2 || figNum == 3 % for the accuracy plots, TP=filled, TA=hollow
     b = bar(mean(x), mean(y,'omitnan'),...
         'LineWidth',fp.bar.lineWidth(iC),'BarWidth',fp.bar.barWidth(iC),... % 'LineJoin','miter'
         'EdgeColor',fp.colorsTargets(iT,iV,:),'FaceColor',fp.bar.FaceColor(iC,iT,iV,:));
-elseif figNum==4 || figNum==5 % for dis plot, all filled; det plot option, will be semi-filled?
+elseif figNum==4  % for dis plot, all filled; det plot option, will be semi-filled?
     b = bar(mean(x), mean(y,'omitnan'),...
-        'LineWidth',fp.bar.lineWidth(iC),'BarWidth',fp.bar.barWidth(iC),... % 'LineJoin','miter'
+        'LineWidth',fp.bar.lineWidth(2),'BarWidth',fp.bar.barWidth(2),... % 'LineJoin','miter'
         'EdgeColor',fp.colorsTargets(iT,iV,:),'FaceColor',fp.bar.FaceColor(1,iT,iV,:));
-% elseif figNum==5 % for det plot, all semi-filled
-%     b = bar(mean(x), mean(y,'omitnan'),...
-%         'LineWidth',fp.bar.lineWidth(2),'BarWidth',fp.bar.barWidth(2),... % 'LineJoin','miter'
-%         'EdgeColor',fp.colorsTargets(iT,iV,:),'FaceColor',fp.bar.FaceColor(1,iT,iV,:), 'FaceAlpha', fp.bar.alpha(iV));
+elseif figNum==5 % for det plot, all semi-filled
+    b = bar(mean(x), mean(y,'omitnan'),...
+        'LineWidth',fp.bar.lineWidth(2),'BarWidth',fp.bar.barWidth(2),... % 'LineJoin','miter'
+        'EdgeColor',fp.colorsTargets(iT,iV,:),'FaceColor',fp.bar.detFaceColor(1,iT,iV, :));
 elseif figNum==6 %for swap, all grey
     b = bar(mean(x), mean(y,'omitnan'),...
         'LineWidth',fp.bar.lineWidth(iC),'BarWidth',fp.bar.barWidth(iC),... % 'LineJoin','miter'
