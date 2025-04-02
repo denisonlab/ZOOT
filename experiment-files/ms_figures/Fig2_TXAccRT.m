@@ -6,7 +6,7 @@ function Fig2_TXAccRT
 user = 'jenny'; % 'jenny' 'karenlab' 'karen'
 
 % Fig saving
-savePlots = 0; 
+savePlots = 1; 
 figType = 'pdf';
 figTitle = 'Fig2_TXAccRT';
 figNum=2;
@@ -42,8 +42,8 @@ for iRep = 1:2 % 1 is accuracy; 2 is RT
         switch count
             case {1,2} % Accuracy
                 xticklabels('')
-                ylim([50 100]) % y min could stay 50 or be changed to 30 to match TXNX acc plot
-                yticks(50:10:100)
+                ylim([30 100]) % y min be 30 to match TXNX acc plot or 50 to better show effect
+                yticks(30:10:100)
             case {3,4} % RT
                 xticklabels({'V','N','I','V','N','I'})
                 ylim([0 .85])

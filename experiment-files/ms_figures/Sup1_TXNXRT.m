@@ -6,7 +6,7 @@ function Sup1_TXNXRT
 user = 'jenny'; % 'jenny' 'karenlab' 'karen'
 
 % Fig saving
-savePlots = 0; 
+savePlots = 1; 
 figType = 'pdf';
 figTitle = 'Sup1_TXNXRT';
 
@@ -38,8 +38,8 @@ tcl = tiledlayout(2,2,'TileSpacing','compact','OuterPosition',fp.OuterPosition);
         panel(count).info = nexttile;
         zoot_figureStyle(fp)
         xticklabels('')
-        ylim([0 1.25])
-        yticks(0:0.5:1)
+        ylim([0 1.2])
+        yticks(0:0.2:1.2)
         switch count
             case {1}
                 ylabel('RT (s)')

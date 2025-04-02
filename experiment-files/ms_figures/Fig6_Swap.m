@@ -6,7 +6,7 @@ function Fig6_Swap
 user = 'jenny'; % 'jenny' 'karenlab' 'karen'
 
 % Fig saving
-savePlots = 0; 
+savePlots = 1; 
 figType = 'pdf';
 figTitle = 'Fig6_Swap';
 figNum=6;

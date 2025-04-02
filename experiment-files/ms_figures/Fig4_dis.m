@@ -6,7 +6,7 @@ function Fig4_dis
 user = 'jenny'; % 'jenny' 'karenlab' 'karen'
 
 % Fig saving
-savePlots = 0; 
+savePlots = 1; 
 figType = 'pdf';
 figTitle = 'Fig4_dis';
 figNum = 4; 
@@ -42,12 +42,12 @@ for iRep = 1:2 % 1 is d'; 2 is c
         switch count
             case {1,2} % d'
                 xticklabels('')
-                ylim([0 5])
-                yticks(0:1:5)
+                ylim([0 4.5])
+                yticks(0:1:4.5)
             case {3,4} % RT
                 xticklabels({'V','N','I','V','N','I'})
-                ylim([-2 2])
-                yticks(-2:1:2)
+                ylim([-1.5 1.5])
+                yticks(-1.5:0.5:1.5)
         end
         switch count
             case {1}
