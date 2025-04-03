@@ -3,12 +3,12 @@ function Fig3_TXNXAcc
 % for zoot
 
 %% Settings 
-user = 'jenny'; % 'jenny' 'karenlab' 'karen'
+user = 'karen'; % 'jenny' 'karenlab' 'karen'
 
 % Fig saving
 savePlots = 1; 
 figType = 'pdf';
-figTitle = 'Fig3_TXNXAcc';
+figTitle = 'Fig3_TXNXAcc_forAI';
 figNum=3;
 
 % Fig plotting
@@ -39,19 +39,22 @@ tcl = tiledlayout(2,2,'TileSpacing','compact','OuterPosition',fp.OuterPosition);
         panel(count).info = nexttile;
         zoot_figureStyle(fp)
         xticklabels('')
-        ylim([30 101]) % min changed to 30 there is an individual data point below 50 for TANP T1 V
+        ylim([30 100]) % min changed to 30 there is an individual data point below 50 for TANP T1 V
         yticks(30:10:100)
+        switch count
+            case {3,4}
+                xticklabels({'V','N','I','V','N','I'})
+        end
         switch count
             case {1}
                 ylabel('Accuracy (%)')
                 title(sprintf('Target present\n'),'FontWeight','normal','FontSize',14)
-                [ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.0]);
-                [ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.3]);
-
+                % [ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .84 1.0]);
+                % [ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .84 0.3]);
             case {2}
                 title(sprintf('Target absent\n'),'FontWeight','normal','FontSize',14)
             case{3}
-                 ylabel('Accuracy (%)')
+                ylabel('Accuracy (%)')
         end
         for iT = 1:2
             for iV = 1:3
