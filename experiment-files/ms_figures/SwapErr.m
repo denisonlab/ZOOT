@@ -1,15 +1,15 @@
-function Fig6_Swap 
-% Fig6_Swap plots swap error rate by target and non-target presence vs. absence 
+function SwapErr 
+% SwapErr plots swap error rate by target and non-target presence vs. absence 
 % for zoot
 
 %% Settings 
 user = 'jenny'; % 'jenny' 'karenlab' 'karen'
 
 % Fig saving
-savePlots = 1; 
+savePlots = 0; 
 figType = 'pdf';
-figTitle = 'Fig6_Swap';
-figNum=6;
+figTitle = 'Fig7_SwapErr';
+figNum=7;
 
 % Fig plotting
 plotStats = 0; 
@@ -39,8 +39,8 @@ tcl = tiledlayout(2,2,'TileSpacing','compact','OuterPosition',fp.OuterPosition);
         panel(count).info = nexttile;
         zoot_figureStyle(fp)
         xticklabels('')
-        ylim([0 60])
-        yticks(0:10:60)
+        ylim([0 100])
+        yticks(0:10:100)
         switch count
             case {1}
                 ylabel('Accuracy (%)')
@@ -53,15 +53,12 @@ tcl = tiledlayout(2,2,'TileSpacing','compact','OuterPosition',fp.OuterPosition);
             case{3}
                  ylabel('Accuracy (%)')
         end
- 
         for iT = 1:2
             for iV = 1:3
-               zoot_bar(xVals(iT,iV),squeeze(swap_Acc_scatterplot.(contrasts{iC})(iV,:,iT)),...
-                    iC,iV,iT,plotSubjects,Acc.NTerr(iC,iV,iT), figNum);
+                zoot_bar(xVals(iT,iV),squeeze(swap_Err_Acc_scatterplot.(contrasts{iC})(iV,:,iT)),...
+                    iC,iV,iT,plotSubjects,Acc.NTErrerr(iC,iV,iT), figNum);
 
-               zoot_scatter(xVals(iT,iV), squeeze(swap_Chance_scatterplot.(contrasts{iC})(iV,:,iT)),...
-                    iC,iV,iT,0,0);
-           
+                zoot_scatter(xVals(iT, iV))
             end
         end
 
