@@ -3,3 +3,4 @@ experiment-files/data/S0133/eyedata/S0010625.edf
 experiment-files/data/S0071/eyedata/S0010708.edf
 experiment-files/data/S0071/eyedata/S0020708.edf
 *.edf
+.DS_Store
