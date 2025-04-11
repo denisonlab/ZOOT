@@ -2,13 +2,16 @@ clear all
 
 saveplots = 0;
 
-% Make figure style
-fp = zoot_figureparams;
+
 
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/export_fig-master')
 addpath('/Users/jennymotzer/Documents/GitHub/kt-utils')
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/stats')
+addpath(' /Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/ms_figures')
+
+% Make figure style
+fp = zoot_figureparams;
 
 
 %% 
@@ -199,7 +202,7 @@ for iSub=1:length(subs) % for participant
 % dataAll(iSub).chanceMeans = chanceAcc.prop*100;
 
 for inonTarget = 1:2
-    for iContrastCond=1:3
+    for iContrastCond=1:4
         for iValidity=1:3
             % if iContrastCond==1
             %     dataAll(iSub).chanceSwap(iValidity, iContrastCond, inonTarget) = (100-dataAll(iSub).chanceMeans(iValidity,iContrastCond,3-inonTarget))/2;
@@ -213,16 +216,16 @@ dataAll(iSub).chanceSwap(:,:,2) = chanceSwap_rev(:,:,1);
 
 %% swapping rate over incorrect trials (incorrect trials where non-target reported / incorrect trials)
     % sort data by contrast condition, validity, and target and get averages
-        % per condition as matrices
+        % % per condition as matrices
         for inonTarget = 1:2 % for each target (1 or 2)
             for iContrastCond = 1:4 % for each contrast condition (PP, PA, AP, AA)
                 for iValidity = 1:3 % for each precue validity (Valid, Neutral, Invalid)
                     idx = dataAll(iSub).nontarget == inonTarget & Validities{iValidity} & contrastConds{iContrastCond} & ~dataAll(iSub).eyeSkip; % finds which trials per conditions for each nontarget 
                     ntErrAcc.n(iContrastCond, iValidity, inonTarget) = size(find(dataAll(iSub).correct(idx)==0),2); % denominator, used to calculate swaps over all trials
-                      if iContrastCond == 1
-                            tENt = size(find(idx & dataAll(iSub).targetTilt == dataAll(iSub).nonTargetTilt & dataAll(iSub).correct==0)); % for Present Present trials, find where nontarget tilt is same as target tilt 
-                            ntErrAcc.n(iContrastCond, iValidity, inonTarget) = size(find(dataAll(iSub).correct(idx)==0),2) - tENt(2); % subtract trials where nontarget tilt is same as target tilt (cannot tell if swapping if same) and number of incorrect trials to see swapping in incorrect trials
-                      end 
+                      % if iContrastCond == 1
+                      %       tENt = size(find(idx & dataAll(iSub).targetTilt == dataAll(iSub).nonTargetTilt & dataAll(iSub).correct==0)); % for Present Present trials, find where nontarget tilt is same as target tilt 
+                      %       ntErrAcc.n(iContrastCond, iValidity, inonTarget) = size(find(dataAll(iSub).correct(idx)==0),2) - tENt(2); % subtract trials where nontarget tilt is same as target tilt (cannot tell if swapping if same) and number of incorrect trials to see swapping in incorrect trials
+                      % end 
                     ntErrAcc.correct(iContrastCond, iValidity, inonTarget) = size(dataAll(iSub).NTcorrect(idx & dataAll(iSub).NTcorrect==1),2); % numerator, number of trials that meet a certain rule (correct, seen, correctDis, RT)
                     ntErrAcc.prop(iContrastCond, iValidity, inonTarget) = ntErrAcc.correct(iContrastCond, iValidity, inonTarget)/ntErrAcc.n(iContrastCond, iValidity, inonTarget);
                     if ntErrAcc.n(iContrastCond, iValidity, inonTarget) == 0
@@ -231,7 +234,7 @@ dataAll(iSub).chanceSwap(:,:,2) = chanceSwap_rev(:,:,1);
                 end
             end
         end
-        
+
         % reverse nontarget 1 and nontarget 2 to align with target 1 and
         % target 2 (aligns T1 with NT2 and T2 with NT 1)
         ntErrAcc.rev_prop(:,:,1) = ntErrAcc.prop(:,:,2);
@@ -912,8 +915,8 @@ end
 %% chance swap as error
 
 accChanceIdx = [];
-contrastsChance = [{'PP'}, {'AP'}, {'PA'}];
-for iContrast = 1:3
+contrastsChance = [{'PP'}, {'AP'}, {'PA'}, {'AA'}];
+for iContrast = 1:4
     for iValid = 1:numel(Validities)
         for inonTarget = 1:2
             for iSub = 1:length(subs)

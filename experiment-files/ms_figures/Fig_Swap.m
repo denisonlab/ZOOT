@@ -1,18 +1,18 @@
-function Fig6_Swap 
-% Fig6_Swap plots swap error rate by target and non-target presence vs. absence 
+function Fig_Swap 
+% Fig_Swap plots swap error rate over all trials by target and non-target presence vs. absence 
 % for zoot
 
 %% Settings 
 user = 'jenny'; % 'jenny' 'karenlab' 'karen'
 
 % Fig saving
-savePlots = 1; 
+savePlots = 0; 
 figType = 'pdf';
 figTitle = 'Fig6_Swap';
 figNum=6;
 
 % Fig plotting
-plotStats = 0; 
+plotStats = 1; 
 plotSubjects = 1;
 
 %% Setup

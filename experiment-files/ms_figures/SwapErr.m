@@ -1,14 +1,14 @@
-function SwapErr 
-% SwapErr plots swap error rate by target and non-target presence vs. absence 
+function Fig6_SwapErr 
+% Fig6_SwapErr plots swap error over incorrect trials by target and non-target presence vs. absence 
 % for zoot
 
 %% Settings 
 user = 'jenny'; % 'jenny' 'karenlab' 'karen'
 
 % Fig saving
-savePlots = 0; 
+savePlots = 1; 
 figType = 'pdf';
-figTitle = 'Fig7_SwapErr';
+figTitle = 'Fig6_SwapErr';
 figNum=7;
 
 % Fig plotting
@@ -58,7 +58,6 @@ tcl = tiledlayout(2,2,'TileSpacing','compact','OuterPosition',fp.OuterPosition);
                 zoot_bar(xVals(iT,iV),squeeze(swap_Err_Acc_scatterplot.(contrasts{iC})(iV,:,iT)),...
                     iC,iV,iT,plotSubjects,Acc.NTErrerr(iC,iV,iT), figNum);
 
-                zoot_scatter(xVals(iT, iV))
             end
         end
 

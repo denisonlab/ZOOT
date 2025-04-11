@@ -19,8 +19,6 @@ Validity = [];
 Target = [];
 targetContrast = [];
 nontargetContrast = [];
-swapNontargetContrast = [];
-swapTargetContrast = [];
 for iSub = 1:length(SIDs)
     for i = 1:numCondsAcc_RT
         SID = [SID; SIDs{iSub}]; % SID
@@ -35,14 +33,26 @@ for iSub = 1:length(SIDs)
         end 
     end 
 
+      % contrasts for swap (no TANA)
+    for iContrast = 1:3
+        for iTarget = 1:numel(Targets)
+            for i = 1:6
+                nontargetContrast = [nontargetContrast; Contrasts(iContrast)];
+            end 
+        end 
+    end 
+
     for iTarget = 1:numel(Targets)
         for iContrast = 1:numel(Contrasts)
             for i = 1:6
-                targetContrast = [targetContrast; Contrasts(iContrast)]; % target contrast 
+                %targetContrast = [targetContrast; Contrasts(iContrast)]; % target contrast 
+                targetContrast = [targetContrast; Contrasts(iContrast)]; % nontarget contrast 
             end
         end
     end
-end 
+end
+
+
 for iSub = 1:length(SIDs)*4
     for i = 1:2
         for iValid = 1:numel(Validities)
@@ -140,10 +150,10 @@ type 'tazoot_swapAcc.csv'
 
 errSwapAcc = []; % swaps over incorrect trials
 for iSub = 1:length(SIDs)
-    for iContrast = 1:4
+    for iContrast = 1:3
         for iTarget = 1:numel(Targets)
             for iValid = 1:numel(Validities)
-                errSwapAcc = [errSwapAcc; dataAll(iSub).NTErrAccmeans(iContrast,iValid, iTarget)];
+                errSwapAcc = [errSwapAcc; dataAll(iSub).chanceSwap(iContrast,iValid, iTarget)];
             end
         end
     end

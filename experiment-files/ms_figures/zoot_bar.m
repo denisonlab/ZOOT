@@ -53,7 +53,7 @@ elseif figNum==6 || figNum==7 % for swap, all grey
 end
 
 if plotSubjects
-    if figNum==6 % for swap, all grey
+    if figNum==6|| figNum==7 % for swap, all grey
         scatter(x,y,'filled',...
             'SizeData',fp.scatter.size,'XJitter','rand','XJitterWidth',fp.scatter.xJitter,...
             'MarkerFaceColor',fp.grey,'MarkerEdgeColor',fp.scatter.edgeColor,'MarkerFaceAlpha',fp.scatter.alpha)
