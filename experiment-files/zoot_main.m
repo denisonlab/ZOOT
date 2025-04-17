@@ -473,7 +473,7 @@ while iTrial <= size(trialOrder, 2)
     %% Present T1
     if ~stopThisTrial
         if p.contrasts(T1Contrast)>0
-            Screen('DrawTexture', window, gabors(T1Phase), [], imRect, T1Orientation);
+            Screen('DrawTexture', window, gabors(T1Phase), [], imRect, T1Orientation, [], [], white*p.backgroundColor);
         end
 
         if oscilloscope == 1

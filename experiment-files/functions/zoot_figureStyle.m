@@ -1,4 +1,4 @@
-function zoot_figureStyle(fp)
+function zoot_figureStyle(fp, figNum)
 % Adjusts fig axis and text styling
 % fp is a structure output from zoot_figureParams
 
@@ -12,6 +12,7 @@ ax.XColor = 'black';
 ax.YColor = 'black';
 xlim([fp.xVals(1,1)-0.25 fp.xVals(2,3)+0.25])
 xticks([fp.xVals(1,:) fp.xVals(2,:)])
+
 
 %% Text size 
 smlFont = 8;
