@@ -121,14 +121,14 @@ sgtitle('participants with <95% accuracy')
         count = count+1;
     end
 
-    %% point 95
+    %% point 93.75
 % plots only data points under 95% target accuracy 
 figure
 set(gcf,'Position',fp.rect)
 
 count = 1;
 tcl = tiledlayout(2,2,'TileSpacing','compact','OuterPosition',fp.OuterPosition); % adds y height
-sgtitle('all data with <90.62% accuracy')
+sgtitle(' data with <93.75% accuracy')
     for iC = 1:3% 1 is TPNP; 2 is TANP; 3 is TPNA
         panel(count).info = nexttile;
         zoot_figureStyle(fp)

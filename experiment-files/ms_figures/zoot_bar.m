@@ -52,10 +52,8 @@ elseif figNum==6 || figNum==7 % for swap, all grey
         'EdgeColor',fp.grey,'FaceColor',fp.grey);
 elseif figNum == 8% for the accuracy plots, TP=filled, TA=hollow
     plotError = 0;
-    % xVals = fp.xVals(1,:);
-    % x = repmat(xVals(iT,iV),size(y));
     b = bar(mean(x), mean(y,'omitnan'),...
-        'LineWidth',fp.bar.lineWidth(iC),'BarWidth',fp.bar.barWidth(iC),... 
+        'LineWidth',fp.bar.lineWidth(1),'BarWidth',fp.bar.barWidth(1),... 
         'EdgeColor',fp.purple(iV,:),'FaceColor', fp.purple(iV,:));
 end
 

@@ -40,9 +40,13 @@ fp.lightorange = [0.89 0.486 0.282;... % T2
     .91 0.584 0.396; ...
     .98 0.733 0.576];
 
-fp.purple = [0.337 0 0.49;...
-    0.424 0.004 0.62;...
-    0.478 0 0.702];
+fp.purple = [0.361 0.184 0.459;...
+    0.459 0.231 0.588;...
+    0.522 0.243 0.678]; % for predicted results
+
+fp.bry = [0 0.4470 0.7410; ...
+    0.6350 0.0780 0.1840; ...
+    0.9290 0.6940 0.1250]; % for swap vs incorrect trial plots
    
 
 
@@ -54,7 +58,9 @@ fp.ErrorBarLineWidth = 0.75;
 
 %% Barplots
 fp.bar.barWidth = [0.2 0.18 .2 0.18];  % TP, TA (repeated for TXNX plots)
+fp.bar.barLessWide = .1;
 fp.bar.lineWidth = [0.5 2 0.5 2]; % TP, TA (repeated for TXNX plots)
+fp.bar.lineLessWide = 0.25;
 
 fp.bar.FaceColor(1,:,:,:) = fp.colorsTargets; 
 fp.bar.FaceColor(2,:,:,:) = ones([1 2 3 3]); % white if target absent
@@ -68,13 +74,16 @@ fp.bar.detFaceColor(1,:,:,:)=fp.detColorsTargets;
 fp.scatter.alpha = 0.5; % [0.6 0.5 0.3]; % alpha (V, N, I) 
 fp.scatter.edgeColor = [1 1 1]; % white 
 fp.scatter.size = 12; % dot size 
+fp.scatter.bigSize = 20;
 fp.scatter.xJitter = 0.03; 
 
 % group means
 fp.gm_scatter.size = 60; % 80
+fp.gm_scatter.bigsize = 150; % 80
 fp.s.MarkerFaceColor(1,:,:,:) = fp.colorsTargets; 
 fp.s.MarkerFaceColor(2,:,:,:) = ones([1 2 3 3]); % white if target absent
 fp.s.MarkerFaceColor(3,:,:,:) = fp.colorsTargets; 
 fp.s.MarkerFaceColor(4,:,:,:) = ones([1 2 3 3]); % white if target absent
 fp.s.MarkerEdgeColor = fp.colorsTargets(:,:,:);
 fp.s.lineWidth = [0.5 1.5 0.5 1.5]; % TP, TA (repeated for TXNX plots)
+fp.s.lineWider = 2.5;

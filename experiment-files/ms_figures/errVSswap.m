@@ -1,4 +1,4 @@
-efunction errVSswap
+function errVSswap
 % errVSswap plots swap rate vs # incorrect trials for instances of 100%
 % or 0% swap rate with target accuracy less than or equal to 93.75% (need
 % to have more than 2 incorrect trials per condition)
@@ -11,7 +11,6 @@ user = 'jenny'; % 'jenny' 'karenlab' 'karen'
 savePlots = 0; 
 figType = 'pdf';
 figTitle = 'errVSswap';
-figNum=7;
 
 % Fig plotting
 plotStats = 0; 
@@ -30,8 +29,63 @@ xVals = fp.xVals;
 
 [zootDir,figDir] = pathToZoot(user); % run again bc dataall overwrites fig dir 
 
-%% fig
+%% swap v err - all data means
 target = [{'T1'}, {'T2'}];
+for iT=1:2
+    figure;
+    set(gcf,'Position',fp.rect)
+    sgtitle([target(iT) ' mean'])
+    for iC=1:3
+        subplot(2,2,iC)
+        for iV = 1:3
+            hold on
+            zoot_scatter(swap_Err_Acc_scatterplot.(contrasts{iC})(iV,:,iT), squeeze(numIncorrect_swap.(contrasts{iC})(iV,:,iT)), iC, iV, iT, 1, 0, 1);
+            ylabel('# incorrect trials')
+            xlabel('% error due to swaps')
+            xlim([-10 110])
+            ylim([0 20])
+            hold on
+        end
+    end
+[ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .5 1.325]);
+[ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .5 0.375]);
+[ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 .85]);
+[ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 .85]);
+
+% legend('valid', 'neutral', 'invalid')
+
+
+end
+
+
+%% swap v err - all data median
+target = [{'T1'}, {'T2'}];
+for iT=1:2
+    figure;
+    set(gcf,'Position',fp.rect)
+    sgtitle([target(iT) ' median'])
+    for iC=1:3
+        subplot(2,2,iC)
+        for iV = 1:3
+            hold on
+            zoot_scatter(swap_Err_Acc_scatterplot.(contrasts{iC})(iV,:,iT), squeeze(numIncorrect_swap.(contrasts{iC})(iV,:,iT)), iC, iV, iT, 1, 0, 3);
+            ylabel('# incorrect trials')
+            xlabel('% error due to swaps')
+            xlim([-10 110])
+            ylim([0 20])
+            hold on
+        end
+    end
+[ax1, h1] = suplabel('Non-target Present', 'y', [0.08 0.08 .5 1.325]);
+[ax2, h2] = suplabel('Non-target Absent', 'y', [0.08 0.08 .5 0.375]);
+[ax3, h3] = suplabel('Target Absent', 't', [0.08 0.08 1.3 .85]);
+[ax4, h4] = suplabel('Target Present', 't', [0.08 0.08 .45 .85]);
+
+% legend('valid', 'neutral', 'invalid')
+end
+
+
+%% swap v err - 93.75
 sgtitle('all data points <93.75%')
 for iT=1:2
     figure;
@@ -40,7 +94,7 @@ for iT=1:2
     for iC=1:3
         subplot(2,2,iC)
         for iV = 1:3
-            swarmchart(swap_Err_Acc_scatterplot.(contrasts{iC})(iV,:,iT), numIncorrect_pointsUnder95_swap.(contrasts{iC})(iV,:,iT), 100)
+            swarmchart(pointsUnder95_swap_scatterplot.(contrasts{iC})(iV,:,iT), numIncorrect_pointsUnder95_swap.(contrasts{iC})(iV,:,iT), 100)
             ylabel('# incorrect trials')
             xlabel('% error due to swaps')
             xlim([-10 110])

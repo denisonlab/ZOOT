@@ -9,6 +9,7 @@ user = 'jenny'; % 'jenny' 'karenlab' 'karen'
 savePlots = 1; 
 figType = 'pdf';
 figTitle = 'Sup1_TXNXRT';
+figNum=2;
 
 % Fig plotting
 plotStats = 0; 
@@ -55,7 +56,7 @@ tcl = tiledlayout(2,2,'TileSpacing','compact','OuterPosition',fp.OuterPosition);
         for iT = 1:2
             for iV = 1:3
           zoot_scatter(xVals(iT,iV),squeeze(TXNX_RT_scatterplot.(contrasts{iC})(iV,:,iT)),...
-                            iC,iV,iT,plotSubjects,TXNX_RT.err(iC,iV,iT));
+                            iC,iV,iT,plotSubjects,TXNX_RT.err(iC,iV,iT),figNum);
             end
         end
 

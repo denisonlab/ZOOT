@@ -66,7 +66,7 @@ for iRep = 1:2 % 1 is accuracy; 2 is RT
                             iC,iV,iT,plotSubjects,tcAcc.err(iC,iV,iT), figNum);
                     case {3,4}  % Reaction time
                         zoot_scatter(xVals(iT,iV),squeeze(TPTA_RT_scatterplot.(targ_contrasts{iC})(iV,:,iT)),...
-                            iC,iV,iT,plotSubjects,TPTA_RT.err(iC,iV,iT));
+                            iC,iV,iT,plotSubjects,TPTA_RT.err(iC,iV,iT), figNum);
                 end
             end
         end
