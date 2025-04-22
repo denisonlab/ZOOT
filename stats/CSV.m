@@ -153,6 +153,38 @@ accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, errSw
 writetable(accTable,'tazoot_errSwapAcc.csv','Delimiter',',','QuoteStrings','all')
 type 'tazoot_errSwapAcc.csv'
 
+part95_SwapAcc = [];
+for iSub = length(includeSub)
+    for iContrast = 1:4
+        for iTarget = 1:2
+            for iValid = 1:3
+                part95_SwapAcc = [part95_SwapAcc dataAll(includeSub(iSub)).NTErrAccmeans(iContrast,iValid,inonTarget)];
+            end 
+        end
+    end
+end
+accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, part95_SwapAcc);
+writetable(accTable,'tazoot_part95_errSwapAcc.csv','Delimiter',',','QuoteStrings','all')
+type 'tazoot_part95_errSwapAcc.csv'
+
+point95_SwapAcc = [];
+for iSub = 1:length(SIDs)
+    for iContrast = 1:4
+        for iTarget = 1:numel(Targets)
+            for iValid = 1:numel(Validities)
+                if dataAll(iSub).means(iContrast,iValid,iTarget)> 95
+                    pointsUnder95_Idx = pointsUnder95_Idx;
+                else
+                    pointsUnder95_Idx = [pointsUnder95_Idx dataAll(iSub).NTErrAccmeans(iContrast,iValid,inonTarget)];
+                end
+            end
+        end
+    end
+end 
+accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, point95_SwapAcc);
+writetable(accTable,'tazoot_point95_errSwapAcc.csv','Delimiter',',','QuoteStrings','all')
+type 'tazoot_point95_errSwapAcc.csv'
+
 
 %% create csv file for SDT 
 numCondsSDT = 3*3*2; % three validities x three conditions (all, ntp, nta), and two targets

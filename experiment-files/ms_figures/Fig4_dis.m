@@ -6,7 +6,7 @@ function Fig4_dis
 user = 'jenny'; % 'jenny' 'karenlab' 'karen'
 
 % Fig saving
-savePlots = 1; 
+savePlots = 0; 
 figType = 'pdf';
 figTitle = 'Fig4_dis';
 figNum = 4; 

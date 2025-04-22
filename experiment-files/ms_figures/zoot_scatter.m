@@ -33,7 +33,7 @@ x = repmat(xVals(iT,iV),size(y));
 %% Plot
 
 % group mean 
-scatter(mean(x), mean(y,'omitnan'),fp.gm_scatter.size,...
+scatter(mean(x, 'omitnan'), mean(y,'omitnan'),fp.gm_scatter.size,...
     'MarkerEdgeColor',fp.colorsTargets(iT,iV,:),'MarkerFaceColor',fp.s.MarkerFaceColor(iC,iT,iV,:),'LineWidth',fp.s.lineWidth(iC))
 
 if plotSubjects
