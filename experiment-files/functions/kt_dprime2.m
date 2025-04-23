@@ -14,7 +14,7 @@ function [dprime, criterion] = kt_dprime2(nh,nfa,nsignal,nnoise,loglinear)
 
 %% Check inputs
 if nargin <5 
-    loglinear = 0; 
+    correctionType = NaN; 
 end
 
 %% 
