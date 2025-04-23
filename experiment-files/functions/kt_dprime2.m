@@ -6,8 +6,11 @@ function [dprime, criterion] = kt_dprime2(nh,nfa,nsignal,nnoise,loglinear)
 % nsignal = number of signal trials
 % nnoise = number of noise trials
 
-% loglinear if 1 applies correction, 0 no correction, defaults to no
-% correction 
+% correctionType is string of type of correction to apply for extreme rates
+% (0 or 1) 
+% options include: 
+% 'loglinear'
+% 'over2N'
 
 %% Check inputs
 if nargin <5 
@@ -20,19 +23,27 @@ end
 % nh(nh==0) = 1;
 % nfa(nfa==nnoise) = nnoise(nfa==nnoise)-1;
 % nfa(nfa==0) = 1;
-% 
-% % proportions
-% h = nh./nsignal;
-% fa = nfa./nnoise;
 
-% % loglinear adjustment (Stanislaw & Todorov 1999) 
-if loglinear
-    % if h==0 || h==1 || fa==0 || fa==1 %commented out to make loglinear corrections for all trials per MacMillan (2022) textboook, less bias and more predictable effects
+switch correctionType
+    case loglinear % (Stanislaw & Todorov 1999; Macmillan 2022
+        % applied to all trials per MacMillan (2022) textboook
+        % less bias and more predictable effects
         nh = nh + 0.5;
         nfa = nfa + 0.5;
         nnoise = nnoise + 1;
         nsignal = nsignal + 1;
-    % end
+    case over2N % Macmillan & kaplan 1985
+        % applied to only extreme rates
+        % calculate rates
+        h = nh./nsignal;
+        fa = nfa./nnoise;
+        if h==0 || h==1 || fa==0 || fa==1 % if any extremes
+            %%%% 
+            % Jenny add correction here
+            %%%%
+        end
+end
+
 end
 
 % recalculate proportions
