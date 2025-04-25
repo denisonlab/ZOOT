@@ -5,7 +5,7 @@ function predictedResults
 user = 'jenny'; % 'jenny' 'karenlab' 'karen'
 
 % Fig saving
-savePlots = 0; 
+savePlots = 1; 
 figType = 'pdf';
 figTitle = 'predictedResults';
 figNum=8;
@@ -51,7 +51,7 @@ for iH = 1:3 % hypotheses: 1 = during comp, 2 = prior to comp, 3 = mixed
         xticklabels('')
         xlim([0.5 1.5])
         ylim([50 90])
-        yticks(50:10:90)
+        yticks('')
         switch count
             case {1}
                 ylabel(sprintf('Accuracy (%%)'));
@@ -59,9 +59,9 @@ for iH = 1:3 % hypotheses: 1 = during comp, 2 = prior to comp, 3 = mixed
             case {2}
                 title(sprintf('Non-target absent\n'),'FontWeight','normal','FontSize',14)
             case{3}
-                 ylabel(sprintf('Accuracy (%%)'));
+                 % ylabel(sprintf('Accuracy (%%)'));
             case{5}
-                ylabel(sprintf('Accuracy (%%)'));
+               % ylabel(sprintf('Accuracy (%%)'));
         end
             for iV = 1:3
                 zoot_bar(xVals(1,iV), vals.(contrasts{iC})(iH, iV), iC, iV, 1, 0, 0, figNum);
@@ -72,3 +72,8 @@ for iH = 1:3 % hypotheses: 1 = during comp, 2 = prior to comp, 3 = mixed
     end
 end 
 
+
+if savePlots
+    export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10')
+    % print(gcf, '-dpdf', '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/TX_Acc.pdf') % needed or else background turns black, do not erase
+end

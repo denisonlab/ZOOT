@@ -1,4 +1,4 @@
-function [dprime, criterion] = kt_dprime2(nh,nfa,nsignal,nnoise,correctionType)
+function [dprime, criterion] = kt_dprime2(nh,nfa,nsignal,nnoise,correctionType, Na, Np)
 % [dprime, criterion] = kt_dprime(nh,nfa,nsignal,nnoise,loglinear)
 %
 % nh = number of hit trials
@@ -12,10 +12,16 @@ function [dprime, criterion] = kt_dprime2(nh,nfa,nsignal,nnoise,correctionType)
 % 'loglinear'
 % 'over2N'
 
+% Na and Np are the N values for over2N corrections; 
+%Na is the number of trials per condition with the stimulus condition being treated as "absent" (defined as false alarm if reported seen);  
+%Np is the number of trials per condition with the condition being treated as "present" (defined as hit if reported seen)
 
 %% Check inputs
 if nargin <5 
     correctionType = NaN; 
+elseif nargin < 7
+    Na = NaN;
+    Np = NaN;
 end
 
 %% 
@@ -33,30 +39,28 @@ switch correctionType
         nfa = nfa + 0.5;
         nnoise = nnoise + 1;
         nsignal = nsignal + 1;
-
-        % recalculate proportions
-        h = nh./nsignal;
-        fa = nfa./nnoise;
     case 'over2N' % Macmillan & kaplan 1985
         % applied to only extreme rates
         % calculate rates
         h = nh./nsignal;
         fa = nfa./nnoise;
         if h==0
-            h = 1/(2*nnoise);
+            nh = 1/(2*Na);
         end
         if fa==0
-           fa =  1/(2*nnoise);
+            nfa = 1/(2*Na);
         end
         if h==1
-           h = 1 - (1/(2*nsignal));
+            nh =  1 - (1/(2*Np));
         end
         if fa==1 % if any extremes
-            fa = 1 - (1/(2*nsignal));
+            nfa = 1 - (1/(2*Np));
         end
 end
 
-
+% recalculate proportions
+h = nh./nsignal;
+fa = nfa./nnoise;
 
 % adjustment = 0.01; 
 % % adjust for ceiling or floor values 

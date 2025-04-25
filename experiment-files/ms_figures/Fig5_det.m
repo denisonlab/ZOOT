@@ -6,7 +6,7 @@ function Fig5_det
 user = 'jenny'; % 'jenny' 'karenlab' 'karen'
 
 % Fig saving
-savePlots = 1; 
+savePlots = 0; 
 figType = 'pdf';
 figTitle = 'Fig5_det';
 figNum=5;
@@ -41,8 +41,8 @@ for iRep = 1:2 % 1 is d'; 2 is c
         switch count
             case {1,2} % d'
                 xticklabels('')
-                ylim([0 4.5])
-                yticks(0:1:4.5)
+                ylim([0 5])
+                yticks(0:1:5)
             case {3,4} % RT
                 xticklabels({'V','N','I','V','N','I'})
                 ylim([-1.5 1.5])

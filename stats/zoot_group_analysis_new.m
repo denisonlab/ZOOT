@@ -601,7 +601,7 @@ for iSub=1:length(subs) % for participant
                 dataAll(iSub).detNFA.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,2);
                 dataAll(iSub).detNSignal.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,3);
                 dataAll(iSub).detNNoise.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,4);
-                [dprime, criterion] = kt_dprime2(dataAll(iSub).detNH.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNFA.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNSignal.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNNoise.(Detfieldnames{iF})(iTarget,iValid),1);
+                [dprime, criterion] = kt_dprime2(dataAll(iSub).detNH.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNFA.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNSignal.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNNoise.(Detfieldnames{iF})(iTarget,iValid),'loglinear');
                 dataAll(iSub).detd.(Detfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
                 dataAll(iSub).detc.(Detfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
             end
@@ -624,6 +624,23 @@ for iSub=1:length(subs) % for participant
                 dis.nontargetPresent(iTarget, iValid, iDis) = sum(disNTPIdx);
                 disNTAIdx = Validities{iValid} & Dis{iDis} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
                 dis.nontargetAbsent(iTarget, iValid, iDis) = sum(disNTAIdx);
+
+                NaAllIdx = Validities{iValid} &  dataAll(iSub).target == iTarget & dataAll(iSub).targetTilt == -1 & ~dataAll(iSub).eyeSkip; % find all T1 and T2
+                Na.all(iTarget, iValid, iDis) = sum(NaAllIdx);
+                NaNTPIdx = Validities{iValid} &  dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1  & dataAll(iSub).targetTilt == -1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
+                Na.nontargetPresent(iTarget, iValid, iDis) = sum(NaNTPIdx);
+                NaNTAIdx = Validities{iValid} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & dataAll(iSub).targetTilt == -1  & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
+                Na.nontargetAbsent(iTarget, iValid, iDis) = sum(NaNTAIdx);
+
+
+                NpAllIdx = Validities{iValid}  & dataAll(iSub).target == iTarget & dataAll(iSub).targetTilt == 1 & ~dataAll(iSub).eyeSkip; % find all T1 and T2
+                Np.all(iTarget, iValid, iDis) = sum(NpAllIdx);
+                NpNTPIdx = Validities{iValid} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1  & dataAll(iSub).targetTilt == 1 & ~dataAll(iSub).eyeSkip; % find all T1 when T2 present and all T2 when T1 present
+                Np.nontargetPresent(iTarget, iValid, iDis) = sum(NpNTPIdx);
+                NpNTAIdx = Validities{iValid} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & dataAll(iSub).targetTilt == 1  & ~dataAll(iSub).eyeSkip; % find all T1 when T2 absent nd all T2 when T1 absent
+                Np.nontargetAbsent(iTarget, iValid, iDis) = sum(NpNTAIdx);
+
+
             end
         end
     end
@@ -639,12 +656,21 @@ for iSub=1:length(subs) % for participant
                 dataAll(iSub).nfaDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,2);
                 dataAll(iSub).nsignalDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,3);
                 dataAll(iSub).nnoiseDis.(Disfieldnames{iF})(iTarget,iValid) = dis.(Disfieldnames{iF})(iTarget,iValid,4);
-                [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nfaDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nsignalDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nnoiseDis.(Disfieldnames{iF})(iTarget,iValid),1);
+                % discrimination d' for 0.5 corrections for all trials
+                [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nfaDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nsignalDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nnoiseDis.(Disfieldnames{iF})(iTarget,iValid),'loglinear');
                 dataAll(iSub).disd.(Disfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
                 dataAll(iSub).disc.(Disfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
-                    [dprime, criterion] = kt_dprime3(dataAll(iSub).nhDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nfaDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nsignalDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nnoiseDis.(Disfieldnames{iF})(iTarget,iValid),1);
+                % discrimination d' for 0.5 corrections with extreme values
+                % only 
+                [dprime, criterion] = kt_dprime3(dataAll(iSub).nhDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nfaDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nsignalDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nnoiseDis.(Disfieldnames{iF})(iTarget,iValid),1);
                 dataAll(iSub).disd_extremeLogLin.(Disfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
                 dataAll(iSub).disc_extremeLogLin.(Disfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
+                % discrimination d' for over2N correction
+                dataAll(iSub).Na.(Disfieldnames{iF})(iTarget,iValid) = Na.(Disfieldnames{iF})(iTarget, iValid);
+                dataAll(iSub).Np.(Disfieldnames{iF})(iTarget,iValid) = Np.(Disfieldnames{iF})(iTarget, iValid);
+                [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nfaDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nsignalDis.(Disfieldnames{iF})(iTarget,iValid), dataAll(iSub).nnoiseDis.(Disfieldnames{iF})(iTarget,iValid),'over2N');
+                dataAll(iSub).disd_over2N.(Disfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
+                dataAll(iSub).disc_over2N.(Disfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
             end
         end
     end
@@ -732,7 +758,7 @@ for iSub=1:length(subs) % for participant
             dataAll(iSub).detNFAColl.(Detfieldnames{iF})(1, iTarget) = detColl.(Detfieldnames{iF})(iTarget,2);
             dataAll(iSub).detNSignalColl.(Detfieldnames{iF})(1, iTarget) = detColl.(Detfieldnames{iF})(iTarget,3);
             dataAll(iSub).detNNoiseColl.(Detfieldnames{iF})(1, iTarget) = detColl.(Detfieldnames{iF})(iTarget,4);
-            [dprime, criterion] = kt_dprime2(dataAll(iSub).detNHColl.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).detNFAColl.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).detNSignalColl.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).detNNoiseColl.(Detfieldnames{iF})(1, iTarget),1);
+            [dprime, criterion] = kt_dprime2(dataAll(iSub).detNHColl.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).detNFAColl.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).detNSignalColl.(Detfieldnames{iF})(1, iTarget), dataAll(iSub).detNNoiseColl.(Detfieldnames{iF})(1, iTarget),'loglinear');
             dataAll(iSub).detdColl.(Detfieldnames{iF})(1, iTarget) = [dp dprime]; % store d prime
             dataAll(iSub).detcColl.(Detfieldnames{iF})(1, iTarget) = [c criterion]; % store c
         end
@@ -766,7 +792,7 @@ for iSub=1:length(subs) % for participant
             dataAll(iSub).nfaDisColl.(Disfieldnames{iF})(1,iTarget) = disColl.(Disfieldnames{iF})(iTarget,2);
             dataAll(iSub).nsignalDisColl.(Disfieldnames{iF})(1,iTarget) = disColl.(Disfieldnames{iF})(iTarget,3);
             dataAll(iSub).nnoiseDisColl.(Disfieldnames{iF})(1,iTarget) = disColl.(Disfieldnames{iF})(iTarget,4);
-            [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDisColl.(Disfieldnames{iF})(1,iTarget), dataAll(iSub).nfaDisColl.(Disfieldnames{iF})(1,iTarget), dataAll(iSub).nsignalDisColl.(Disfieldnames{iF})(1,iTarget), dataAll(iSub).nnoiseDisColl.(Disfieldnames{iF})(1,iTarget),1);
+            [dprime, criterion] = kt_dprime2(dataAll(iSub).nhDisColl.(Disfieldnames{iF})(1,iTarget), dataAll(iSub).nfaDisColl.(Disfieldnames{iF})(1,iTarget), dataAll(iSub).nsignalDisColl.(Disfieldnames{iF})(1,iTarget), dataAll(iSub).nnoiseDisColl.(Disfieldnames{iF})(1,iTarget),'loglinear');
             dataAll(iSub).disdColl.(Disfieldnames{iF})(1,iTarget) = [dp dprime]; % store d prime
             dataAll(iSub).discColl.(Disfieldnames{iF})(1,iTarget) = [c criterion]; % store c
         end
@@ -785,11 +811,17 @@ for iSub=1:length(subs) % for participant
         for iTarget =1:2
             for iValid = 1:numel(Validities)
                 for iDet = 1:numel(Det)
+                    detNTP_subsampleIdx = [];
+                    detNTA_subsampleIdx = [];
+
                     detNTP_subsampleIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % NTP
                     detNTA_subsampleIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % NTA
 
                     disNTP_subsampleIdx = Validities{iValid} & Dis{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % NTP
                     disNTA_subsampleIdx = Validities{iValid} & Dis{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % NTA
+
+
+
                     if iValid == 2 || iValid ==3 % neutral and invalid unchanged
 
                         det_subsample.nontargetPresent(iTarget, iValid, iDet) = sum(detNTP_subsampleIdx);
@@ -809,13 +841,13 @@ for iSub=1:length(subs) % for participant
                         det_sub_NTP = zvecPres(presIdx); % extract values of the first 32 indicies of random permutation
                         det_subsample.nontargetPresent(iTarget, iValid, iDet) = sum(det_sub_NTP); % save the sum of the first 32 variables
 
-                        %dis
+                        % %dis
                         nSum = sum(disNTP_subsampleIdx); % get number hits/fa/signal/noise in actual experiment
-                        zvecPres = zeros(1,nSum); % make an array of 40 zeros to initialize sdt variable array
+                        zvecPres = zeros(1,48); % make an array of 40 zeros to initialize sdt variable array
                         zvecPres(1:nSum)=1; % input correct number of hits/fa/signal/noise to create logical array
-                        randPres = randperm(40); % random permutation of 40
-                        presIdx = randPres(1:8); % extract first 8 indices of random permutation
-                        dis_sub_NTP = zvecPres(presIdx); % extract values of the first 8 indicies of random permutation
+                        randPres = randperm(48); % random permutation of 40
+                        dispresIdx = randPres(1:16); % extract first 8 indices of random permutation
+                        dis_sub_NTP = zvecPres(dispresIdx); % extract values of the first 8 indicies of random permutation
                         dis_subsample.nontargetPresent(iTarget, iValid, iDet) = sum(dis_sub_NTP); % save the sum of the first 8 variables
 
 
@@ -830,14 +862,15 @@ for iSub=1:length(subs) % for participant
                         det_sub_NTA = zvecAbs(absIdx);
                         det_subsample.nontargetAbsent(iTarget, iValid, iDet) = sum(det_sub_NTA);
 
-                        %dis
+                        % %dis          
                         nSum = sum(disNTA_subsampleIdx);
-                        zvecAbs = zeros(1,40);
+                        zvecAbs = zeros(1,48);
                         zvecAbs(1:nSum)=1;
-                        randAbs = randperm(40);
-                        absIdx = randAbs(1:8);
+                        randAbs = randperm(48);
+                        absIdx = randAbs(1:16);
                         dis_sub_NTA = zvecAbs(absIdx);
                         dis_subsample.nontargetAbsent(iTarget, iValid, iDet) = sum(dis_sub_NTA);
+              
                     end
                 end
             end
@@ -855,7 +888,7 @@ for iSub=1:length(subs) % for participant
                     dataAll(iSub).detNFA_sub.(Detfieldnames{iF})(iTarget,iValid) = det_subsample.(Detfieldnames{iF})(iTarget,iValid,2);
                     dataAll(iSub).detNSignal_sub.(Detfieldnames{iF})(iTarget,iValid) = det_subsample.(Detfieldnames{iF})(iTarget,iValid,3);
                     dataAll(iSub).detNNoise_sub.(Detfieldnames{iF})(iTarget,iValid) = det_subsample.(Detfieldnames{iF})(iTarget,iValid,4);
-                    [dprime, criterion] = kt_dprime2(dataAll(iSub).detNH_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNFA_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNSignal_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNNoise_sub.(Detfieldnames{iF})(iTarget,iValid),1);
+                    [dprime, criterion] = kt_dprime2(dataAll(iSub).detNH_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNFA_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNSignal_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNNoise_sub.(Detfieldnames{iF})(iTarget,iValid),'over2N');
                     dataAll(iSub).dprime_sub.(Detfieldnames{iF})(iTarget,iValid,iRep) = dprime; % store d prime
                     dataAll(iSub).crit_sub.(Detfieldnames{iF})(iTarget,iValid, iRep) = criterion; % store c
 
@@ -863,7 +896,10 @@ for iSub=1:length(subs) % for participant
                     dataAll(iSub).disNFA_sub.(Detfieldnames{iF})(iTarget,iValid) = dis_subsample.(Detfieldnames{iF})(iTarget,iValid,2);
                     dataAll(iSub).disNSignal_sub.(Detfieldnames{iF})(iTarget,iValid) = dis_subsample.(Detfieldnames{iF})(iTarget,iValid,3);
                     dataAll(iSub).disNNoise_sub.(Detfieldnames{iF})(iTarget,iValid) = dis_subsample.(Detfieldnames{iF})(iTarget,iValid,4);
-                    [dprime, criterion] = kt_dprime2(dataAll(iSub).disNH_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNFA_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNSignal_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNNoise_sub.(Detfieldnames{iF})(iTarget,iValid),1);
+                    [dprime, criterion] = kt_dprime2(dataAll(iSub).disNH_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNFA_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNSignal_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNNoise_sub.(Detfieldnames{iF})(iTarget,iValid),'over2N');
+                    if isnan(dprime)
+                        break
+                    end 
                     dataAll(iSub).disdprime_sub.(Detfieldnames{iF})(iTarget,iValid,iRep) = dprime; % store d prime
                     dataAll(iSub).discrit_sub.(Detfieldnames{iF})(iTarget,iValid, iRep) = criterion; % store c
                 end
@@ -1300,6 +1336,8 @@ end
  cDisIdx = [];
  extreme_dprimeDisIdx = [];
  extreme_cDisIdx =[];
+ over2N_dprimeDisIdx = [];
+ over2N_cDisIdx = [];
 
  for iTarget = 1:2
      for iF = 1:numel(Detfieldnames)
@@ -1318,6 +1356,11 @@ end
                  disd_extreme_scatterplot.(Detfieldnames{iF})(iValid, iSub, iTarget) = dataAll(iSub).disd_extremeLogLin.(Detfieldnames{iF})(iTarget,iValid);
                  extreme_cDisIdx = [cDisIdx dataAll(iSub).disc_extremeLogLin.(Detfieldnames{iF})(iTarget,iValid)];
                  disc_extreme_scatterplot.(Detfieldnames{iF})(iValid, iSub, iTarget) = dataAll(iSub).disc_extremeLogLin.(Detfieldnames{iF})(iTarget,iValid);
+
+                over2N_dprimeDisIdx = [dprimeDisIdx dataAll(iSub).disd_over2N.(Detfieldnames{iF})(iTarget,iValid)];
+                 disd_over2N_scatterplot.(Detfieldnames{iF})(iValid, iSub, iTarget) = dataAll(iSub).disd_over2N.(Detfieldnames{iF})(iTarget,iValid);
+                 over2N_cDisIdx = [cDisIdx dataAll(iSub).disc_over2N.(Detfieldnames{iF})(iTarget,iValid)];
+                 disc_over2N_scatterplot.(Detfieldnames{iF})(iValid, iSub, iTarget) = dataAll(iSub).disc_over2N.(Detfieldnames{iF})(iTarget,iValid);
 
 
              end
@@ -1342,12 +1385,22 @@ end
              extreme_disc.(Disfieldnames{iF})(iTarget, iValid) = mean(extreme_cDisIdx);
              extreme_discErr.(Disfieldnames{iF})(iTarget, iValid) = extreme_discStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
 
+
+             over2N_disdStd.(Disfieldnames{iF})(iTarget, iValid) = std(over2N_dprimeDisIdx);
+             over2N_disd.(Disfieldnames{iF})(iTarget, iValid) = mean(over2N_dprimeDisIdx);
+             over2N_disdErr.(Disfieldnames{iF})(iTarget, iValid) = over2N_disdStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+             over2N_discStd.(Disfieldnames{iF})(iTarget, iValid) = std(over2N_cDisIdx);
+             over2N_disc.(Disfieldnames{iF})(iTarget, iValid) = mean(over2N_cDisIdx);
+             over2N_discErr.(Disfieldnames{iF})(iTarget, iValid) = over2N_discStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+
              dprimeDetIdx = [];
              cDetIdx = [];
              dprimeDisIdx = [];
              cDisIdx = [];
-              extreme_dprimeDisIdx = [];
-              extreme_cDisIdx =[];
+             extreme_dprimeDisIdx = [];
+             extreme_cDisIdx =[];
+             over2N_dprimeDisIdx = [];
+             over2N_cDisIdx = [];
 
          end
      end

@@ -222,13 +222,17 @@ det_dPrime = [];
 det_crit = [];
 dis_dPrime = [];
 dis_crit = [];
+
+dis_over2N_dPrime = [];
+dis_over2N_crit = [];
 for iSub = 1:length(SIDs)
     dataAll(iSub).detdPrime = cat(3, dataAll(iSub).detd.all, dataAll(iSub).detd.nontargetPresent, dataAll(iSub).detd.nontargetAbsent);
     dataAll(iSub).detCrit = cat(3, dataAll(iSub).detc.all, dataAll(iSub).detc.nontargetPresent, dataAll(iSub).detc.nontargetAbsent);
     dataAll(iSub).disdPrime = cat(3, dataAll(iSub).disd.all, dataAll(iSub).disd.nontargetPresent, dataAll(iSub).disd.nontargetAbsent);
     dataAll(iSub).disCrit = cat(3, dataAll(iSub).disc.all, dataAll(iSub).disc.nontargetPresent, dataAll(iSub).disc.nontargetAbsent);
-    dataAll(iSub).detdPrime_sub = cat(3, dataAll(iSub).detd_sub.nontargetPresent, dataAll(iSub).detd_sub.nontargetAbsent);
-    dataAll(iSub).detCrit_sub = cat(3, dataAll(iSub).detc_sub.nontargetPresent, dataAll(iSub).detc_sub.nontargetAbsent);
+
+    dataAll(iSub).disd_over2N = cat(3, dataAll(iSub).disd_over2N.all, dataAll(iSub).disd_over2N.nontargetPresent, dataAll(iSub).disd_over2N.nontargetAbsent);
+    dataAll(iSub).disc_over2N = cat(3, dataAll(iSub).disc_over2N.all, dataAll(iSub).disc_over2N.nontargetPresent, dataAll(iSub).disc_over2N.nontargetAbsent);
     for iNontargetContrast = 1:numel(nontargetContrasts)
         for iTarget = 1:numel(Targets)
             for iValid = 1:numel(Validities)
@@ -236,6 +240,10 @@ for iSub = 1:length(SIDs)
                 det_crit = [det_crit; dataAll(iSub).detCrit(iTarget, iValid, iNontargetContrast)];
                 dis_dPrime = [dis_dPrime; dataAll(iSub).disdPrime(iTarget,iValid, iNontargetContrast)];
                 dis_crit = [dis_crit; dataAll(iSub).disCrit(iTarget, iValid, iNontargetContrast)];
+
+                dis_over2N_dPrime = [dis_over2N_dPrime; dataAll(iSub).disd_over2N(iTarget,iValid, iNontargetContrast)];
+                dis_over2N_crit = [dis_over2N_crit; dataAll(iSub).disc_over2N(iTarget, iValid, iNontargetContrast)];
+
             end
         end
     end
@@ -245,6 +253,12 @@ end
 sdtTable = table(sdt_SID, sdt_Validity, sdt_Target, sdt_nontargetContrast, det_dPrime, det_crit, dis_dPrime, dis_crit);
 writetable(sdtTable,'tazoot_SDT.csv','Delimiter',',','QuoteStrings','all')
 type 'tazoot_SDT.csv'
+
+
+sdtTable = table(sdt_SID, sdt_Validity, sdt_Target, sdt_nontargetContrast, dis_over2N_dPrime, dis_over2N_crit);
+writetable(sdtTable,'tazoot_dis_over2N.csv','Delimiter',',','QuoteStrings','all')
+type 'tazoot_dis_over2N.csv'
+
 
 
 %% create csv file for det subsampling
