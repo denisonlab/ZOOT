@@ -29,7 +29,10 @@ ax.LabelFontSizeMultiplier = bigFont/smlFont;
 set(0, 'DefaultFigureRenderer', 'painters')
 
 
-
+if figNum == 10
+    xlim([fp.xVals(1,1)-0.25 fp.xVals(1,3)+0.25])
+    xticks(fp.xVals(1,:))
+end 
 
 
 

@@ -38,7 +38,7 @@ tcl = tiledlayout(2,2,'TileSpacing','compact','OuterPosition',fp.OuterPosition);
 for iRep = 1:2 % 1 is d'; 2 is c
     for iC = 2:3 % 2 is non-target present; 3 is non-target absent
         panel(count).info = nexttile;
-        zoot_figureStyle(fp)
+        zoot_figureStyle(fp,figNum)
         switch count
             case {1,2} % d'
                 xticklabels('')
@@ -95,7 +95,7 @@ tcl = tiledlayout(2,2,'TileSpacing','compact','OuterPosition',fp.OuterPosition);
 for iRep = 1:2 % 1 is d'; 2 is c
     for iC = 2:3 % 2 is non-target present; 3 is non-target absent
         panel(count).info = nexttile;
-        zoot_figureStyle(fp)
+        zoot_figureStyle(fp, figNum)
         switch count
             case {1,2} % d'
                 xticklabels('')

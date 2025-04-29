@@ -72,9 +72,26 @@ elseif figNum==1
             'SizeData',fp.scatter.size,'XJitter','rand','XJitterWidth',fp.scatter.xJitter,...
             'MarkerFaceColor',fp.bry(iV,:),'MarkerEdgeColor',fp.bry(iV,:),'MarkerFaceAlpha',fp.scatter.alpha)
     end 
+elseif figNum == 4
 
     % if plotError
     %     errorbar(x,mean(y,'omitnan'),err,'k','CapSize',fp.CapSize,'LineWidth',fp.ErrorBarLineWidth)
+    % end  
+    xVals = fp.xVals;
+    x = xVals(1,iV);
+    % group mean
+    scatter(mean(x, 'omitnan'), mean(y,'omitnan'),fp.gm_scatter.size,...
+        'MarkerEdgeColor',fp.coolColors(iC,:,:),'MarkerFaceColor',fp.coolColors(iC,:,:),'LineWidth',fp.s.lineWidth(1))
+   
+    % if plotSubjects
+    %     scatter(x,y,'filled',...
+    %         'SizeData',fp.scatter.size,'XJitter','rand','XJitterWidth',fp.scatter.xJitter,...
+    %         'MarkerFaceColor',fp.coolColors(iC,iV,:),'MarkerEdgeColor',fp.coolColors(iC,iV,:),'MarkerFaceAlpha',fp.scatter.alpha)
     % end
+
+    if plotError
+        errorbar(x,mean(y,'omitnan'),err,'k','CapSize',fp.CapSize,'LineWidth',fp.ErrorBarLineWidth)
+    end
+    
 end
 

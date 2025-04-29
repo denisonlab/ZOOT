@@ -47,7 +47,7 @@ tcl = tiledlayout(3,2,'TileSpacing','compact','OuterPosition',fp.OuterPosition);
 for iH = 1:3 % hypotheses: 1 = during comp, 2 = prior to comp, 3 = mixed
     for iC = 1:2% 1 is NTP; 2 is NTA
         panel(count).info = nexttile;
-        zoot_figureStyle(fp, 8)
+        zoot_figureStyle(fp)
         xticklabels('')
         xlim([0.5 1.5])
         ylim([50 90])
