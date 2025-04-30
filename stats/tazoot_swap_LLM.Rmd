@@ -12,7 +12,7 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 suppressPackageStartupMessages(library(tidyverse))
 library(ez)
 library(foreach)
-library(kableExtra)
+library(kableExtra) 
 library(ggplot2)
 library(dplyr)
 library(ggpubr)
@@ -23,6 +23,9 @@ library(rempsyc) # for t-tests in nice tables
 library(tidyverse)
 library(lme4)
 library(car)
+
+install.packages("pacman")
+pacman::p_load(Matrix)
 
 knitr::opts_chunk$set(echo = TRUE)
 
@@ -36,10 +39,11 @@ dataName <- sprintf("/Users/jennymotzer/Documents/GitHub/ZOOT/stats/%s.csv", ana
 data <- read.csv(dataName)
 
 #### Change to categorical vars ####
-data$SID = factor(data$sub_SID)
-data$nontargetContrast = factor(data$sub_nontargetContrast)
-data$Target = factor(data$sub_Target)
-data$Validity = factor(data$sub_Validity)
+data$SID <- factor(data$SID)
+data$targetContrast <- factor(data$targetContrast)
+data$nontargetContrast <- factor(data$nontargetContrast)
+data$Target <- factor(data$Target)
+data$Validity <- factor(data$Validity)
 
 ### Plotting setup #### 
 colors = c("#F8A299","#CCCCCC","#98E6A1")
@@ -56,10 +60,11 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
 ```{r swap}
-rxn.lmm.both.lme4 <- lmer(rxntime ~ validity * target * expt + (1|universalID),
-                        data=data_both)
-summary(rxn.lmm.both.lme4)
-aov.rxn.both <- Anova(rxn.lmm.both.lme4)
+d = data
+swap.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity * Target * targetContrast * nontargetContrast + (1|SID),
+                        data=d)
+summary(swap.lmm.lme4)
+aov.swap <- Anova(swap.lmm.lme4)
 ```
 
 ## Including Plots

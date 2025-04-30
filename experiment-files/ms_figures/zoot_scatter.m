@@ -83,11 +83,11 @@ elseif figNum == 4
     scatter(mean(x, 'omitnan'), mean(y,'omitnan'),fp.gm_scatter.size,...
         'MarkerEdgeColor',fp.coolColors(iC,:,:),'MarkerFaceColor',fp.coolColors(iC,:,:),'LineWidth',fp.s.lineWidth(1))
    
-    % if plotSubjects
-    %     scatter(x,y,'filled',...
-    %         'SizeData',fp.scatter.size,'XJitter','rand','XJitterWidth',fp.scatter.xJitter,...
-    %         'MarkerFaceColor',fp.coolColors(iC,iV,:),'MarkerEdgeColor',fp.coolColors(iC,iV,:),'MarkerFaceAlpha',fp.scatter.alpha)
-    % end
+    if plotSubjects
+        scatter(x,y,'filled',...
+            'SizeData',fp.scatter.size,'XJitter','rand','XJitterWidth',fp.scatter.xJitter,...
+            'MarkerFaceColor',fp.coolColors(iC,:,:),'MarkerEdgeColor',fp.coolColors(iC,:,:),'MarkerFaceAlpha',fp.scatter.alpha)
+    end
 
     if plotError
         errorbar(x,mean(y,'omitnan'),err,'k','CapSize',fp.CapSize,'LineWidth',fp.ErrorBarLineWidth)
