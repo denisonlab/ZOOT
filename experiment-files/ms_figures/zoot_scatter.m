@@ -72,7 +72,7 @@ elseif figNum==1
             'SizeData',fp.scatter.size,'XJitter','rand','XJitterWidth',fp.scatter.xJitter,...
             'MarkerFaceColor',fp.bry(iV,:),'MarkerEdgeColor',fp.bry(iV,:),'MarkerFaceAlpha',fp.scatter.alpha)
     end 
-elseif figNum == 4
+elseif figNum == 6
 
     % if plotError
     %     errorbar(x,mean(y,'omitnan'),err,'k','CapSize',fp.CapSize,'LineWidth',fp.ErrorBarLineWidth)
