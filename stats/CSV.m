@@ -153,27 +153,27 @@ accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, errSw
 writetable(accTable,'tazoot_errSwapAcc.csv','Delimiter',',','QuoteStrings','all')
 type 'tazoot_errSwapAcc.csv'
 
-part95_SwapAcc = [];
-for iSub = length(includeSub)
-    for iContrast = 1:4
-        for iTarget = 1:2
-            for iValid = 1:3
-                part95_SwapAcc = [part95_SwapAcc dataAll(includeSub(iSub)).NTErrAccmeans(iContrast,iValid,inonTarget)];
-            end 
-        end
-    end
-end
-accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, part95_SwapAcc);
-writetable(accTable,'tazoot_part95_errSwapAcc.csv','Delimiter',',','QuoteStrings','all')
-type 'tazoot_part95_errSwapAcc.csv'
+% part95_SwapAcc = [];
+% for iSub = length(includeSub)
+%     for iContrast = 1:4
+%         for iTarget = 1:2
+%             for iValid = 1:3
+%                 part95_SwapAcc = [part95_SwapAcc dataAll(includeSub(iSub)).NTErrAccmeans(iContrast,iValid,inonTarget)];
+%             end 
+%         end
+%     end
+% end
+% accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, part95_SwapAcc);
+% writetable(accTable,'tazoot_part95_errSwapAcc.csv','Delimiter',',','QuoteStrings','all')
+% type 'tazoot_part95_errSwapAcc.csv'
 
 point95_SwapAcc = [];
 for iSub = 1:length(SIDs)
     for iContrast = 1:4
         for iTarget = 1:numel(Targets)
             for iValid = 1:numel(Validities)
-                if dataAll(iSub).means(iContrast,iValid,iTarget)> 95
-                    pointsUnder95_Idx = pointsUnder95_Idx;
+                if dataAll(iSub).means(iContrast,iValid,iTarget)> 93.75
+                   pointsUnder95_Idx = [pointsUnder95_Idx NaN];
                 else
                     pointsUnder95_Idx = [pointsUnder95_Idx dataAll(iSub).NTErrAccmeans(iContrast,iValid,inonTarget)];
                 end
@@ -182,8 +182,8 @@ for iSub = 1:length(SIDs)
     end
 end 
 accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, point95_SwapAcc);
-writetable(accTable,'tazoot_point95_errSwapAcc.csv','Delimiter',',','QuoteStrings','all')
-type 'tazoot_point95_errSwapAcc.csv'
+writetable(accTable,'tazoot_point93_errSwapAcc.csv','Delimiter',',','QuoteStrings','all')
+type 'tazoot_point93_errSwapAcc.csv'
 
 
 %% create csv file for SDT 
@@ -261,7 +261,7 @@ type 'tazoot_dis_over2N.csv'
 
 
 
-%% create csv file for det subsampling
+%% create csv file for SDT subsampling
 numCondsSDT = 3*2*2; % three validities x two conditions (ntp, nta), and two targets
 
 sub_SID = [];
@@ -293,26 +293,34 @@ for iSub = 1:length(SIDs)*2 % times by two because two nontarget contrasts (ntp,
 end
 
 % get dPrime and criterion
-det_dPrime = [];
-det_crit = [];
-dis_dPrime = [];
-dis_crit = [];
+% det_dPrime = [];
+% det_crit = [];
+% dis_dPrime = [];
+% dis_crit = [];
 det_dPrime_sub = [];
 det_crit_sub = [];
+dis_dPrime_sub = [];
+dis_crit_sub = [];
 for iSub = 1:length(SIDs)
     dataAll(iSub).detdPrime_sub = cat(3, dataAll(iSub).detd_sub.nontargetPresent, dataAll(iSub).detd_sub.nontargetAbsent);
     dataAll(iSub).detCrit_sub = cat(3, dataAll(iSub).detc_sub.nontargetPresent, dataAll(iSub).detc_sub.nontargetAbsent);
+
+    dataAll(iSub).disdPrime_sub = cat(3, dataAll(iSub).disd_sub.nontargetPresent, dataAll(iSub).disd_sub.nontargetAbsent);
+    dataAll(iSub).disCrit_sub = cat(3, dataAll(iSub).disc_sub.nontargetPresent, dataAll(iSub).disc_sub.nontargetAbsent);
     for iNontargetContrast = 1:numel(ntpntaContrasts)
         for iTarget = 1:numel(Targets)
             for iValid = 1:numel(Validities)
                 det_dPrime_sub = [det_dPrime_sub; dataAll(iSub).detdPrime_sub(iTarget,iValid, iNontargetContrast)];
                 det_crit_sub = [det_crit_sub; dataAll(iSub).detCrit_sub(iTarget, iValid, iNontargetContrast)];
+
+                dis_dPrime_sub = [dis_dPrime_sub; dataAll(iSub).disdPrime_sub(iTarget,iValid, iNontargetContrast)];
+                dis_crit_sub = [dis_crit_sub; dataAll(iSub).disCrit_sub(iTarget, iValid, iNontargetContrast)];
             end
         end
     end
 end
 
 
-sdtTable = table(sub_SID, sub_Validity, sub_Target, sub_nontargetContrast, det_dPrime_sub, det_crit_sub);
-writetable(sdtTable,'tazoot_det_sub.csv','Delimiter',',','QuoteStrings','all')
-type 'tazoot_det_sub.csv'
+sdtTable = table(sub_SID, sub_Validity, sub_Target, sub_nontargetContrast, det_dPrime_sub, det_crit_sub, dis_dPrime_sub, dis_crit_sub);
+writetable(sdtTable,'tazoot_SDT_subsampled.csv','Delimiter',',','QuoteStrings','all')
+type 'tazoot_SDT_subsampled.csv'

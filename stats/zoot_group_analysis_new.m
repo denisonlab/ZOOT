@@ -933,10 +933,12 @@ for iSub=1:length(subs) % for participant
                     dataAll(iSub).disNSignal_sub.(Detfieldnames{iF})(iTarget,iValid) = dis_subsample.(Detfieldnames{iF})(iTarget,iValid,3);
                     dataAll(iSub).disNNoise_sub.(Detfieldnames{iF})(iTarget,iValid) = dis_subsample.(Detfieldnames{iF})(iTarget,iValid,4);
                     [dprime, criterion] = kt_dprime2(dataAll(iSub).disNH_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNFA_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNSignal_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNNoise_sub.(Detfieldnames{iF})(iTarget,iValid),'over2N');
-                    if isnan(dprime)
-                        [dprime, criterion] = kt_dprime2(dataAll(iSub).disNH_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNFA_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNSignal_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNNoise_sub.(Detfieldnames{iF})(iTarget,iValid),'over2N');
-                        error('NaN')
-                    end 
+                    % if isnan(dprime) % to debug NaN values in subsampled
+                    % dis d'
+              
+                    %     [dprime, criterion] = kt_dprime2(dataAll(iSub).disNH_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNFA_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNSignal_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNNoise_sub.(Detfieldnames{iF})(iTarget,iValid),'over2N');
+                    %     error('NaN')
+                    % end 
                     dataAll(iSub).disdprime_sub.(Detfieldnames{iF})(iTarget,iValid,iRep) = dprime; % store d prime
                     dataAll(iSub).discrit_sub.(Detfieldnames{iF})(iTarget,iValid, iRep) = criterion; % store c
                 end

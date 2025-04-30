@@ -26,7 +26,7 @@ options(contrasts=c("contr.sum","contr.poly"))
 
 #### load data #### 
 wd <- getwd()
-analysisName = 'tazoot_det_sub'
+analysisName = 'tazoot_SDT_subsampled'
 dataName <- sprintf("/Users/jennymotzer/Documents/GitHub/ZOOT/stats/%s.csv", analysisName)
 data <- read.csv(dataName)
 
@@ -52,6 +52,7 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
   
 ```
+### detection sub
 ## anovas
 #dprime
 ```{r Det}
@@ -652,6 +653,607 @@ my_table <- nice_table(stats.table, report = "t.test", title = "tazoot det crit:
 my_table
 ```
 
+
+### discrimination sub
+## anovas
+#dprime
+```{r Dis}
+
+## dis dprime sub
+d = data 
+disdPrime_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime_sub),
+  wid = .(SID),
+  within = .(Target, nontargetContrast, Validity)
+)
+knitr::kable(disdPrime_anova)
+
+```
+
+```{r NP dis}
+## dis dprime filtered nontarget present
+d = data %>% filter(nontargetContrast==1)
+
+disdPrimeNP_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime_sub),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(disdPrimeNP_anova)
+
+```
+
+```{r NP T1 dis}
+## det dprime filtered nontarget present T1
+d = data %>% filter(nontargetContrast==1, Target == 1)
+
+disdPrimeNP_T1_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime_sub),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(disdPrimeNP_T1_anova)
+
+```
+
+```{r NP T2 dis}
+## dis dprime filtered nontarget present T2
+d = data %>% filter(nontargetContrast==1, Target == 2)
+
+disdPrimeNP_T2_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime_sub),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(disdPrimeNP_T2_anova)
+```
+
+```{r NA dis}
+## dis dprime filtered nontarget absent
+d = data %>% filter(nontargetContrast==2)
+
+disdPrimeNA_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime_sub),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(disdPrimeNA_anova)
+
+```
+
+```{r NA T1 dis}
+## dis dprime filtered nontarget absent T1
+d = data %>% filter(nontargetContrast==2, Target == 1)
+    
+disdPrimeNA_T1_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime_sub),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(disdPrimeNA_T1_anova)
+
+```
+
+```{r NA T2 dis}
+## dis dprime filtered nontarget absent T2
+d = data %>% filter(nontargetContrast==2, Target == 2)
+
+disdPrimeNA_T2_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime_sub),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(disdPrimeNA_T2_anova)
+```
+
+```{r T1 dis}
+## dis dprime filtered T1
+d = data %>% filter(Target==1)
+
+disdPrimeT1_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime_sub),
+  wid = .(SID),
+  within = .(nontargetContrast, Validity)
+)
+knitr::kable(disdPrimeT1_anova)
+
+```
+
+```{r T2 dis}
+## dis dprime filtered T2
+d = data %>% filter(Target==2)
+
+disdPrimeT2_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime_sub),
+  wid = .(SID),
+  within = .(nontargetContrast, Validity)
+)
+knitr::kable(disdPrimeT2_anova)
+
+```
+
+#criterion
+```{r discrit}
+
+## dis crit sub
+d = data 
+discrit_anova = ezANOVA(
+  data = d,
+  dv = .(dis_crit_sub),
+  wid = .(SID),
+  within = .(Target, nontargetContrast, Validity)
+)
+knitr::kable(discrit_anova)
+
+```
+
+```{r NP discrit}
+## dis crit filtered nontarget present
+d = data %>% filter(nontargetContrast==1)
+
+discritNP_anova = ezANOVA(
+  data = d,
+  dv = .(dis_crit_sub),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(discritNP_anova)
+
+```
+
+```{r NP T1 discrit}
+## dis crit filtered nontarget present T1
+d = data %>% filter(nontargetContrast==1, Target == 1)
+
+discritNP_T1_anova = ezANOVA(
+  data = d,
+  dv = .(dis_crit_sub),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(discritNP_T1_anova)
+
+```
+
+```{r NP T2 discrit}
+## dis crit filtered nontarget present T2
+d = data %>% filter(nontargetContrast==1, Target == 2)
+
+discritNP_T2_anova = ezANOVA(
+  data = d,
+  dv = .(dis_crit_sub),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(discritNP_T2_anova)
+```
+
+```{r NA discrit}
+## dis crit filtered nontarget absent
+d = data %>% filter(nontargetContrast==2)
+
+discritNA_anova = ezANOVA(
+  data = d,
+  dv = .(dis_crit_sub),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(discritNA_anova)
+
+```
+
+```{r NA T1 discrit}
+## dis crit filtered nontarget absent T1
+d = data %>% filter(nontargetContrast==2, Target == 1)
+
+discritNA_T1_anova = ezANOVA(
+  data = d,
+  dv = .(dis_crit_sub),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(discritNA_T1_anova)
+
+```
+
+```{r NA T2 discrit}
+## dis crit filtered nontarget absent T2
+d = data %>% filter(nontargetContrast==2, Target == 2)
+
+discritNA_T2_anova = ezANOVA(
+  data = d,
+  dv = .(dis_crit_sub),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(discritNA_T2_anova)
+```
+
+```{r T1 discrit}
+## dis crit filtered T1
+d = data %>% filter(Target==1)
+
+discritT1_anova = ezANOVA(
+  data = d,
+  dv = .(dis_crit_sub),
+  wid = .(SID),
+  within = .(nontargetContrast, Validity)
+)
+knitr::kable(discritT1_anova)
+
+```
+
+```{r T2 discrit}
+## dis crit filtered T2
+d = data %>% filter(Target==2)
+
+discritT2_anova = ezANOVA(
+  data = d,
+  dv = .(dis_crit_sub),
+  wid = .(SID),
+  within = .(nontargetContrast, Validity)
+)
+knitr::kable(discritT2_anova)
+
+```
+
+#### t-tests
+###dprime
+## nontarget present
+#T1
+```{r vi_disdNTP T1, echo = FALSE, out.width = "90%"}
+## valid vs. invalid NTP T1
+d = data 
+dt = d %>% filter(nontargetContrast == 1, Target == 1, Validity == 1 | Validity == 3)
+t.test(dt$dis_dPrime_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis dprime: ntp T1 valid vs invalid")
+my_table
+```
+
+```{r vn_disdNTP T1, echo = FALSE, out.width = "90%"}
+## valid vs. neutral NTP T1
+d = data 
+dt = d %>% filter(nontargetContrast == 1, Target == 1, Validity == 1 | Validity == 2)
+t.test(dt$dis_dPrime_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis dprime: ntp T1 valid vs neutral")
+my_table
+```
+
+```{r in_disdNTP T1, echo = FALSE, out.width = "90%"}
+## invalid vs. neutral NTP T1
+d = data 
+dt = d %>% filter(nontargetContrast == 1, Target == 1, Validity == 3 | Validity == 2)
+t.test(dt$dis_dPrime_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis dprime: ntp T1 invalid vs neutral")
+my_table
+```
+
+#T2
+```{r vi_disdNTP T2, echo = FALSE, out.width = "90%"}
+## valid vs. invalid NTP T2
+d = data 
+dt = d %>% filter(nontargetContrast == 1, Target == 2, Validity == 1 | Validity == 3)
+t.test(dt$dis_dPrime_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis dprime: ntp T2 valid vs invalid")
+my_table
+```
+
+```{r vn_disdNTP T2, echo = FALSE, out.width = "90%"}
+## valid vs. neutral NTP T2
+d = data 
+dt = d %>% filter(nontargetContrast == 1, Target == 2, Validity == 1 | Validity == 2)
+t.test(dt$dis_dPrime_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis dprime: ntp T2 valid vs neutral")
+my_table
+```
+
+```{r in_disdNTP T2, echo = FALSE, out.width = "90%"}
+## invalid vs. neutral NTP T2
+d = data 
+dt = d %>% filter(nontargetContrast == 1, Target == 2, Validity == 3 | Validity == 2)
+t.test(dt$dis_dPrime_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis dprime: ntp T2 invalid vs neutral")
+my_table
+```
+## nontarget absent
+#T1
+```{r vi_disdNTA T1, echo = FALSE, out.width = "90%"}
+## valid vs. invalid NTA T1
+d = data 
+dt = d %>% filter(nontargetContrast == 2, Target == 1, Validity == 1 | Validity == 3)
+t.test(dt$dis_dPrime_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis dprime: nta T1 valid vs invalid")
+my_table
+```
+
+```{r vn_disdNTA T1, echo = FALSE, out.width = "90%"}
+## valid vs. neutral NTA T1
+d = data 
+dt = d %>% filter(nontargetContrast == 2, Target == 1, Validity == 1 | Validity == 2)
+t.test(dt$dis_dPrime_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis dprime: nta T1 valid vs neutral")
+my_table
+```
+
+```{r in_disdNTA T1, echo = FALSE, out.width = "90%"}
+## invalid vs. neutral NTA T1
+d = data 
+dt = d %>% filter(nontargetContrast == 2, Target == 1, Validity == 3 | Validity == 2)
+t.test(dt$dis_dPrime_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis dprime: nta T1 invalid vs neutral")
+my_table
+```
+
+#T2
+```{r vi_disdNTA T2, echo = FALSE, out.width = "90%"}
+## valid vs. invalid NTA T2
+d = data 
+dt = d %>% filter(nontargetContrast == 2, Target == 2, Validity == 1 | Validity == 3)
+t.test(dt$dis_dPrime_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis dprime: nta T2 valid vs invalid")
+my_table
+```
+
+```{r in_disdNTA T2, echo = FALSE, out.width = "90%"}
+## valid vs. neutral NTA T2
+d = data 
+dt = d %>% filter(nontargetContrast == 2, Target == 2, Validity == 1 | Validity == 2)
+t.test(dt$dis_dPrime_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis dprime: nta T2 valid vs neutral")
+my_table
+```
+
+```{r vn_disdNTA T2, echo = FALSE, out.width = "90%"}
+## invalid vs. neutral NTA T2
+d = data 
+dt = d %>% filter(nontargetContrast == 2, Target == 2, Validity == 3 | Validity == 2)
+t.test(dt$dis_dPrime_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis dprime: nta T2 invalid vs neutral")
+my_table
+```
+
+###criterion 
+## nontarget present
+#T1
+```{r vi_discritNTP T1, echo = FALSE, out.width = "90%"}
+## valid vs. invalid NTP T1
+d = data 
+dt = d %>% filter(nontargetContrast == 1, Target == 1, Validity == 1 | Validity == 3)
+t.test(dt$dis_crit_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis crit: ntp T1 valid vs invalid")
+my_table
+```
+
+```{r vn_detcritNTP T1, echo = FALSE, out.width = "90%"}
+## valid vs. neutral NTP T1
+d = data 
+dt = d %>% filter(nontargetContrast == 1, Target == 1, Validity == 1 | Validity == 2)
+t.test(dt$dis_crit_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis crit: ntp T1 valid vs neutral")
+my_table
+```
+
+```{r in_discritNTP T1, echo = FALSE, out.width = "90%"}
+## invalid vs. neutral NTP T1
+d = data 
+dt = d %>% filter(nontargetContrast == 1, Target == 1, Validity == 3 | Validity == 2)
+t.test(dt$dis_crit_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis crit: ntp T1 invalid vs neutral")
+my_table
+```
+
+#T2
+```{r vi_discritNTP T2, echo = FALSE, out.width = "90%"}
+## valid vs. invalid NTP T2
+d = data 
+dt = d %>% filter(nontargetContrast == 1, Target == 2, Validity == 1 | Validity == 3)
+t.test(dt$dis_crit_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis crit: ntp T2 valid vs invalid")
+my_table
+```
+
+```{r vn_discritNTP T2, echo = FALSE, out.width = "90%"}
+## valid vs. neutral NTP T2
+d = data 
+dt = d %>% filter(nontargetContrast == 1, Target == 2, Validity == 1 | Validity == 2)
+t.test(dt$dis_crit_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis crit: ntp T2 valid vs neutral")
+my_table
+```
+
+```{r in_discritNTP T2, echo = FALSE, out.width = "90%"}
+## invalid vs. neutral NTP T2
+d = data 
+dt = d %>% filter(nontargetContrast == 1, Target == 2, Validity == 3 | Validity == 2)
+t.test(dt$dis_crit_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis crit: ntp T2 invalid vs neutral")
+my_table
+```
+## nontarget absent
+#T1
+```{r vi_discritNTA T1, echo = FALSE, out.width = "90%"}
+## valid vs. invalid NTA T1
+d = data 
+dt = d %>% filter(nontargetContrast == 2, Target == 1, Validity == 1 | Validity == 3)
+t.test(dt$dis_crit_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis crit: nta T1 valid vs invalid")
+my_table
+```
+
+```{r vn_discritNTA T1, echo = FALSE, out.width = "90%"}
+## valid vs. neutral NTA T1
+d = data 
+dt = d %>% filter(nontargetContrast == 2, Target == 1, Validity == 1 | Validity == 2)
+t.test(dt$dis_crit_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis crit: nta T1 valid vs neutral")
+my_table
+```
+
+```{r in_discritNTA T1, echo = FALSE, out.width = "90%"}
+## invalid vs. neutral NTA T1
+d = data 
+dt = d %>% filter(nontargetContrast == 2, Target == 1, Validity == 3 | Validity == 2)
+t.test(dt$dis_crit_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis crit: nta T1 invalid vs neutral")
+my_table
+```
+
+#T2
+```{r vi_discritNTA T2, echo = FALSE, out.width = "90%"}
+## valid vs. invalid NTA T2
+d = data 
+dt = d %>% filter(nontargetContrast == 2, Target == 2, Validity == 1 | Validity == 3)
+t.test(dt$dis_crit_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis crit: nta T2 valid vs invalid")
+my_table
+```
+
+```{r vn_discritNTA T2, echo = FALSE, out.width = "90%"}
+## valid vs. neutral NTA T2
+d = data 
+dt = d %>% filter(nontargetContrast == 2, Target == 2, Validity == 1 | Validity == 2)
+t.test(dt$dis_crit_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis crit: nta T2 valid vs neutral")
+my_table
+```
+
+```{r in_discritNTA T2, echo = FALSE, out.width = "90%"}
+## invalid vs. neutral NTA T2
+d = data 
+dt = d %>% filter(nontargetContrast == 2, Target == 2, Validity == 3 | Validity == 2)
+t.test(dt$dis_crit_sub ~ dt$Validity, paired=TRUE) %>% report %>%
+  as.data.frame -> stats.table
+names(stats.table) <- c(
+  "Parameter", "Group", "Difference", "t", "df", "p", "CI", "CI_lower", "CI_upper",
+  "Method", "Alternative", "Cohens_d", "d_CI_low", "d_CI_high"
+)
+my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis crit: nta T2 invalid vs neutral")
+my_table
+```
 
 ## Including Plots
 
