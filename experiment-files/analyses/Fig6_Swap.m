@@ -4,7 +4,7 @@ function Fig6_Swap % please name the function
 % occur if both target and non-target are absent)
 
 %% Settings 
-user = 'jenny'; % 'jenny'
+user = 'karen'; % 'jenny'
 saveplots = 0; 
 plotStats = 1; 
 target_ANOVA = 1; % to plot individual target (T1/T2) ANOVAs main ANOVAs
@@ -33,11 +33,14 @@ fp = zoot_figureparams;
 xVals = fp.xVals; 
 
 %% FIGURE 6: accuracy of nontarget swapping overall trials (except where target and non-target features are the same)
-figure();
+figure
 set(gcf,'Position',[100 100 500 400])
 for iContrast = 1:3 % did not include TANA because all zeroes, cannot swap if neither target nor non-target are present
     subplot(2,2,iContrast)
-    zoot_figureStyle; hold on
+    zoot_figureStyle(fp)
+    xlim([fp.xVals(1,1)-0.25 fp.xVals(1,3)+0.25])
+    xticks(fp.xVals(1,:))
+
     for iTarget = 1:2
         for iValid = 1:3
             b = bar(xVals(iTarget,iValid), Acc.NTmean(iContrast, iValid, iTarget),...
