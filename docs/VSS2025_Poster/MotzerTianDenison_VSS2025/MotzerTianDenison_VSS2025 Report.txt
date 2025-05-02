@@ -1,0 +1,85 @@
+Package Report
+
+-----------------------------------------------------------------------------
+Document:
+Name: MotzerTianDenison_VSS2025.ai
+Color Mode: CMYK color
+Color Profile: none
+Ruler Units: inches
+Artboard Dimensions: 68 in x 42 in
+Show Images in Outline Mode: OFF
+Highlight Substituted Fonts: OFF
+Highlight Substituted Glyphs: OFF
+Preserve Text Editability
+Simulate Colored Paper: OFF
+
+-----------------------------------------------------------------------------
+Spot Color Objects:
+PANTONE 139 CVC (CMYK)
+PANTONE 2597 C (CMYK)
+PANTONE 540 CVC (CMYK)
+
+-----------------------------------------------------------------------------
+Missing Fonts:
+Myriad Roman (not installed)
+
+-----------------------------------------------------------------------------
+Protected Fonts that were not packaged:NONE
+
+-----------------------------------------------------------------------------
+Fonts:
+Helvetica Light (TrueType)
+Helvetica Light Oblique (TrueType)
+Helvetica (TrueType)
+Helvetica Oblique (TrueType)
+Helvetica Bold (TrueType)
+Helvetica Bold Oblique (TrueType)
+Helvetica Neue (TrueType)
+Helvetica Neue Italic (TrueType)
+Helvetica Neue Medium (TrueType)
+
+-----------------------------------------------------------------------------
+Embedded Fonts:
+NONE
+
+-----------------------------------------------------------------------------
+Missing Links:
+NONE
+
+-----------------------------------------------------------------------------
+Linked Images:
+
+/Users/kantian/Downloads/Screen Shot 2024-11-19 at 2.58.43 PM.png
+Type: Transparent RGB
+Bits per Pixel: 32
+Channels: 4
+Size: 546K, 374 by 374 pixels
+Dimensions: 151.548 by 146.129 points 
+Resolution: 177.687 by 184.275 pixels per inch
+
+
+/Users/kantian/Downloads/Screen Shot 2024-11-19 at 2.58.43 PM.png
+Type: Transparent RGB
+Bits per Pixel: 32
+Channels: 4
+Size: 546K, 374 by 374 pixels
+Dimensions: 146.129 by 151.548 points 
+Resolution: 184.275 by 177.687 pixels per inch
+
+
+/Users/kantian/Downloads/Screen Shot 2024-11-19 at 2.58.43 PM.png
+Type: Transparent RGB
+Bits per Pixel: 32
+Channels: 4
+Size: 546K, 374 by 374 pixels
+Dimensions: 175.142 by 181.636 points 
+Resolution: 153.749 by 148.252 pixels per inch
+
+
+/Users/kantian/Downloads/Screen Shot 2024-11-19 at 2.58.43 PM.png
+Type: Transparent RGB
+Bits per Pixel: 32
+Channels: 4
+Size: 546K, 374 by 374 pixels
+Dimensions: 175.142 by 181.636 points 
+Resolution: 153.749 by 148.252 pixels per inch
