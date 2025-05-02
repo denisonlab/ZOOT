@@ -601,11 +601,11 @@ for iSub=1:length(subs) % for participant
                 dataAll(iSub).detNFA.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,2);
                 dataAll(iSub).detNSignal.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,3);
                 dataAll(iSub).detNNoise.(Detfieldnames{iF})(iTarget,iValid) = det.(Detfieldnames{iF})(iTarget,iValid,4);
-                % det d' for all loglinear corrections
+                % det all loglinear corrections
                 [dprime, criterion] = kt_dprime2(dataAll(iSub).detNH.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNFA.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNSignal.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNNoise.(Detfieldnames{iF})(iTarget,iValid),'loglinear');
                 dataAll(iSub).detd.(Detfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
-                dataAll(iSub).detc.(Detfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
-
+                dataAll(iSub).detc.(Detfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c   
+                %det for over2N corrections
                 [dprime, criterion] = kt_dprime2(dataAll(iSub).detNH.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNFA.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNSignal.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).detNNoise.(Detfieldnames{iF})(iTarget,iValid),'over2N');
                 dataAll(iSub).detd_over2N.(Detfieldnames{iF})(iTarget,iValid) = [dp dprime]; % store d prime
                 dataAll(iSub).detc_over2N.(Detfieldnames{iF})(iTarget,iValid) = [c criterion]; % store c
@@ -794,105 +794,91 @@ for iSub=1:length(subs) % for participant
 
     % indices for all conditions based on target, validity, SDT variable -
     % returns 2 x 3 x 4 matrix that contains data for all, nontarget present, non target absent trials. rows = T1/T2 data, columns = V/N/I data, matrices for nh nfa
-    % nsignal and  nnoise 
+    % nsignal and  nnoise
+    detDenom = {nsignalDet nnoiseDet}; % det trials to subsampled nh/nfa values from
+    detNom = {nhDet nfaDet}; % det trials to be subsampled
+    disDenom = {nsignalDis nnoiseDis}; % det trials to subsampled nh/nfa values from
+    disNom = {nhDis nfaDis}; % det trials to be subsampled
     for iRep = 1:1000
         for iTarget =1:2
             for iValid = 1:numel(Validities)
-                for iDet = 1:numel(Det)
+                for iDetTrials = 1:numel(detDenom)
                     detNTP_subsampleIdx = [];
                     detNTA_subsampleIdx = [];
 
-                    detNTP_subsampleIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % NTP
-                    detNTA_subsampleIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % NTA
+                    detNTP_subsampleIdx = Validities{iValid} & detDenom{iDetTrials} & detNom{iDetTrials} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % number of hits/fa per signal/noise trials for det NTP
+                    detNTA_subsampleIdx = Validities{iValid} & detDenom{iDetTrials} &  detNom{iDetTrials} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % NTA
+                    detNTP_denomIdx = Validities{iValid} & detDenom{iDetTrials} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % number of det NTP denominotor trials (signal/noise)
+                    detNTA_denomIdx = Validities{iValid} & detDenom{iDetTrials} &  dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % NTA
 
-                    disNTP_subsampleIdx = Validities{iValid} & Dis{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % NTP
-                    disNTA_subsampleIdx = Validities{iValid} & Dis{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % NTA
 
+                    disNTP_subsampleIdx = Validities{iValid} & disDenom{iDetTrials} & disNom{iDetTrials} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % number of hits/fa per signal/noise trials for det NTP
+                    disNTA_subsampleIdx = Validities{iValid} & disDenom{iDetTrials} &  disNom{iDetTrials} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % NTA
+                    disNTP_denomIdx = Validities{iValid} & disDenom{iDetTrials} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % number of dis NTP denominotor trials (signal/noise)
+                    disNTA_denomIdx = Validities{iValid} & disDenom{iDetTrials} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % NTA
 
+                    
 
                     if iValid == 2 || iValid ==3 % neutral and invalid unchanged
+                        %det
+                        det_subsample.nontargetPresent(iTarget, iValid, iDetTrials) = sum(detNTP_subsampleIdx); % nh/nfa NTP
+                        det_subsample.nontargetAbsent(iTarget, iValid, iDetTrials) = sum(detNTA_subsampleIdx); % NTA
+                        det_subsample.nontargetPresent(iTarget, iValid, iDetTrials+2) = sum(detNTP_denomIdx); %nsignal/nnoise NTP
+                        det_subsample.nontargetAbsent(iTarget, iValid, iDetTrials+2) = sum(detNTA_denomIdx); %NTA
 
-                        det_subsample.nontargetPresent(iTarget, iValid, iDet) = sum(detNTP_subsampleIdx);
-                        det_subsample.nontargetAbsent(iTarget, iValid, iDet) = sum(detNTA_subsampleIdx);
-
-
-                        dis_subsample.nontargetPresent(iTarget, iValid, iDet) = sum(disNTP_subsampleIdx);
-                        dis_subsample.nontargetAbsent(iTarget, iValid, iDet) = sum(disNTA_subsampleIdx);
+                        %dis
+                        dis_subsample.nontargetPresent(iTarget, iValid, iDetTrials) = sum(disNTP_subsampleIdx);
+                        dis_subsample.nontargetAbsent(iTarget, iValid, iDetTrials) = sum(disNTA_subsampleIdx);
+                        dis_subsample.nontargetPresent(iTarget, iValid, iDetTrials+2) = sum(disNTP_denomIdx);
+                        dis_subsample.nontargetAbsent(iTarget, iValid, iDetTrials+2) = sum(disNTA_denomIdx);
                     elseif iValid == 1 % valid subsampled
                         %NTP
                         %det
                         nSum = sum(detNTP_subsampleIdx); % get number hits/fa/signal/noise in actual experiment
-                        zvecPres = zeros(1,96); % make an array of 96 zeros to initialize sdt variable array
+                        nDenomSum = sum(detNTP_denomIdx); % get number signal/noise in actual experiment
+                        zvecPres = zeros(1,nDenomSum); % make an array of 96 zeros to initialize sdt variable array
                         zvecPres(1:nSum)=1; % input correct number of hits/fa/signal/noise to create logical array
-                        randPres = randperm(96); % random permutation of 96
+                        randPres = randperm(nDenomSum); % random permutation of 96
                         presIdx = randPres(1:32); % extract first 32 indices of random permutation
                         det_sub_NTP = zvecPres(presIdx); % extract values of the first 32 indicies of random permutation
-                        det_subsample.nontargetPresent(iTarget, iValid, iDet) = sum(det_sub_NTP); % save the sum of the first 32 variables
+                        det_subsample.nontargetPresent(iTarget, iValid, iDetTrials) = sum(det_sub_NTP); % save the sum of the first 32 variables
+                        det_subsample.nontargetPresent(iTarget, iValid, iDetTrials+2) = 32; % change number of nsignal and nnoise to equate with neutral and invalid trials
 
-                        % %dis
-                        nSum = sum(disNTP_subsampleIdx); % get number hits/fa/signal/noise in actual experiment
-                        zvecPres = zeros(1,48); % make an array of 48 (max number of nsignal/nnoise for unsubsampled valid) zeros to initialize sdt variable array
-                        zvecPres(1:nSum)=1; % input correct number of hits/fa/signal/noise to create logical array
-                        randPres = randperm(48); % random permutation of 48
+                        % % %dis
+                        nSum = sum(disNTP_subsampleIdx); % get number hits/fa in actual experiment
+                        nDenomSum = sum(disNTP_denomIdx); % get number signal/noise in actual experiment
+                        zvecPres = zeros(1,nDenomSum); % make an array of number of signal/noise trials in actual experiment (max number of nsignal/nnoise for unsubsampled valid) zeros to initialize sdt variable array
+                        zvecPres(1:nSum)=1; % input correct number of hits/fa to create logical array
+                        randPres = randperm(nDenomSum); % random permutation 
                         dispresIdx = randPres(1:16); % extract first 16 (max number of nsignal/nnoise for neutral/invalid) indices of random permutation
-                        dis_sub_NTP = zvecPres(dispresIdx); % extract values of the first 8 indicies of random permutation
-                        dis_subsample.nontargetPresent(iTarget, iValid, iDet) = sum(dis_sub_NTP); % save the sum of the first 8 variables
+                        dis_sub_NTP = zvecPres(dispresIdx); % extract values of the first 16 indicies of random permutation
+                        dis_subsample.nontargetPresent(iTarget, iValid, iDetTrials) = sum(dis_sub_NTP); % save the sum of the first 16 variables
+                        dis_subsample.nontargetPresent(iTarget, iValid, iDetTrials+2) = 16; % change number of nsignal and nnoise to equate with neutral and invalid trials
 
 
                         % NTA - everything else same as NTP
                         %det
                         nSum = sum(detNTA_subsampleIdx);
-                        zvecAbs = zeros(1,96);
+                        nDenomSum = sum(detNTA_denomIdx); 
+                        zvecAbs = zeros(1,nDenomSum);
                         zvecAbs(1:nSum)=1;
-                        randAbs = randperm(96);
+                        randAbs = randperm(nDenomSum);
                         absIdx = randAbs(1:32);
                         det_sub_NTA = zvecAbs(absIdx);
-                        det_subsample.nontargetAbsent(iTarget, iValid, iDet) = sum(det_sub_NTA);
+                        det_subsample.nontargetAbsent(iTarget, iValid, iDetTrials) = sum(det_sub_NTA);
+                        det_subsample.nontargetAbsent(iTarget, iValid, iDetTrials+2) = 32;
 
-                        % %dis          
+                        % % %dis          
                         nSum = sum(disNTA_subsampleIdx);
-                        zvecAbs = zeros(1,48);
+                        nDenomSum = sum(disNTA_denomIdx);
+                        zvecAbs = zeros(1,nDenomSum);
                         zvecAbs(1:nSum)=1;
-                        randAbs = randperm(48);
+                        randAbs = randperm(nDenomSum);
                         absIdx = randAbs(1:16);
                         dis_sub_NTA = zvecAbs(absIdx);
-                        dis_subsample.nontargetAbsent(iTarget, iValid, iDet) = sum(dis_sub_NTA);
+                        dis_subsample.nontargetAbsent(iTarget, iValid, iDetTrials) = sum(dis_sub_NTA);
+                        dis_subsample.nontargetAbsent(iTarget, iValid, iDetTrials+2) = 16;
                     end
-                end
-                if dis_subsample.nontargetPresent(iTarget, iValid, 4) < 16 %if NTP noise is less than 16 
-                    noiseDiff = 16 - dis_subsample.nontargetPresent(iTarget, iValid, 4); % find difference of 16-noise
-                    falsealarmsAdjusted = dis_subsample.nontargetPresent(iTarget, iValid, 2) - noiseDiff; % subtract that difference from FA too
-                      if falsealarmsAdjusted < 0
-                        falsealarmsAdjusted = 0;
-                    end
-                    dis_subsample.nontargetPresent(iTarget, iValid, 2) = falsealarmsAdjusted;
-
-                end
-                if dis_subsample.nontargetPresent(iTarget, iValid, 3) < 16 % if NTP signal is less than 16
-                    signalDiff = 16 - dis_subsample.nontargetPresent(iTarget, iValid, 3);
-                    hitsAdjusted = dis_subsample.nontargetPresent(iTarget, iValid, 1) - signalDiff;
-                    if hitsAdjusted < 0
-                        hitsAdjusted = 0;
-                    end
-                    dis_subsample.nontargetPresent(iTarget, iValid, 1) = hitsAdjusted;
-                end
-                if dis_subsample.nontargetAbsent(iTarget, iValid, 4) < 16
-                    noiseDiff = 16 - dis_subsample.nontargetAbsent(iTarget, iValid, 4);
-                    falsealarmsAdjusted = dis_subsample.nontargetAbsent(iTarget, iValid, 2) - noiseDiff;
-                    if falsealarmsAdjusted < 0
-                        falsealarmsAdjusted = 0;
-                    end 
-                    dis_subsample.nontargetAbsent(iTarget, iValid, 2) = falsealarmsAdjusted;
-
-
-                end
-                if  dis_subsample.nontargetAbsent(iTarget, iValid, 3)< 16
-                    signalDiff = 16 - dis_subsample.nontargetAbsent(iTarget, iValid, 3);
-                    hitsAdjusted = dis_subsample.nontargetAbsent(iTarget, iValid, 1) - signalDiff;
-                    if hitsAdjusted < 0
-                        hitsAdjusted = 0;
-                    end
-                    dis_subsample.nontargetAbsent(iTarget, iValid, 1) = hitsAdjusted;
                 end
             end
         end
@@ -927,7 +913,7 @@ for iSub=1:length(subs) % for participant
                     dataAll(iSub).disNSignal_sub.(Detfieldnames{iF})(iTarget,iValid) = dis_subsample.(Detfieldnames{iF})(iTarget,iValid,3);
                     dataAll(iSub).disNNoise_sub.(Detfieldnames{iF})(iTarget,iValid) = dis_subsample.(Detfieldnames{iF})(iTarget,iValid,4);
                     %dis subsampled all loglinear
-                    [dprime, criterion] = kt_dprime2(dataAll(iSub).disNH_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNFA_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNSignal_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNNoise_sub.(Detfieldnames{iF})(iTarget,iValid),'over2N'); 
+                    [dprime, criterion] = kt_dprime2(dataAll(iSub).disNH_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNFA_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNSignal_sub.(Detfieldnames{iF})(iTarget,iValid), dataAll(iSub).disNNoise_sub.(Detfieldnames{iF})(iTarget,iValid),'loglinear'); 
                     dataAll(iSub).disdprime_sub.(Detfieldnames{iF})(iTarget,iValid,iRep) = dprime; % store d prime
                     dataAll(iSub).discrit_sub.(Detfieldnames{iF})(iTarget,iValid, iRep) = criterion; % store c
                     %dis subsampled over2N
@@ -951,11 +937,11 @@ for iSub=1:length(subs) % for participant
         % det over2N
         dataAll(iSub).avg_detd_sub_over2N.(Detfieldnames{iF}) = mean(dataAll(iSub).detdprime_sub_over2N.(Detfieldnames{iF})(:,1,:),3);
         dataAll(iSub).detd_sub_over2N.(Detfieldnames{iF})(:,1) = dataAll(iSub).avg_detd_sub_over2N.(Detfieldnames{iF});
-        dataAll(iSub).detd_sub_over2N.(Detfieldnames{iF})(:,2:3) = dataAll(iSub).detd.(Detfieldnames{iF})(:,2:3);
+        dataAll(iSub).detd_sub_over2N.(Detfieldnames{iF})(:,2:3) = dataAll(iSub).detd_over2N.(Detfieldnames{iF})(:,2:3);
 
         dataAll(iSub).avg_detc_sub_over2N.(Detfieldnames{iF}) = mean(dataAll(iSub).detcrit_sub_over2N.(Detfieldnames{iF})(:,1,:),3);
         dataAll(iSub).detc_sub_over2N.(Detfieldnames{iF})(:,1) = dataAll(iSub).avg_detc_sub_over2N.(Detfieldnames{iF});
-        dataAll(iSub).detc_sub_over2N.(Detfieldnames{iF})(:,2:3) = dataAll(iSub).detc.(Detfieldnames{iF})(:,2:3);
+        dataAll(iSub).detc_sub_over2N.(Detfieldnames{iF})(:,2:3) = dataAll(iSub).detc_over2N.(Detfieldnames{iF})(:,2:3);
         % dis all loglinear
         dataAll(iSub).avg_disd_sub.(Detfieldnames{iF}) = mean(dataAll(iSub).disdprime_sub.(Detfieldnames{iF})(:,1,:),3);
         dataAll(iSub).disd_sub.(Detfieldnames{iF})(:,1) = dataAll(iSub).avg_disd_sub.(Detfieldnames{iF});
@@ -967,11 +953,11 @@ for iSub=1:length(subs) % for participant
         % dis over2N
         dataAll(iSub).avg_disd_sub_over2N.(Detfieldnames{iF}) = mean(dataAll(iSub).disdprime_sub_over2N.(Detfieldnames{iF})(:,1,:),3);
         dataAll(iSub).disd_sub_over2N.(Detfieldnames{iF})(:,1) = dataAll(iSub).avg_disd_sub_over2N.(Detfieldnames{iF});
-        dataAll(iSub).disd_sub_over2N.(Detfieldnames{iF})(:,2:3) = dataAll(iSub).disd.(Detfieldnames{iF})(:,2:3);
+        dataAll(iSub).disd_sub_over2N.(Detfieldnames{iF})(:,2:3) = dataAll(iSub).disd_over2N.(Detfieldnames{iF})(:,2:3);
 
         dataAll(iSub).avg_disc_sub_over2N.(Detfieldnames{iF}) = mean(dataAll(iSub).discrit_sub_over2N.(Detfieldnames{iF})(:,1,:),3);
         dataAll(iSub).disc_sub_over2N.(Detfieldnames{iF})(:,1) = dataAll(iSub).avg_disc_sub_over2N.(Detfieldnames{iF});
-        dataAll(iSub).disc_sub_over2N.(Detfieldnames{iF})(:,2:3) = dataAll(iSub).disc.(Detfieldnames{iF})(:,2:3);
+        dataAll(iSub).disc_sub_over2N.(Detfieldnames{iF})(:,2:3) = dataAll(iSub).disc_over2N.(Detfieldnames{iF})(:,2:3);
     end
 
 end % subject end 
@@ -1482,10 +1468,10 @@ end
   critDetIdx_sub = [];
   dprimeDetIdx_sub_over2N = [];
   critDetIdx_sub_over2N = [];
-  dis_dprimeDetIdx_sub = [];
-  dis_critDetIdx_sub = [];
-  dis_dprimeDetIdx_sub_over2N = [];
-  dis_critDetIdx_sub_over2N = [];
+  dis_dprimeIdx_sub = [];
+  dis_critIdx_sub = [];
+  dis_dprimeIdx_sub_over2N = [];
+  dis_critIdx_sub_over2N = [];
   for iTarget = 1:2
       for iF = 2:numel(Detfieldnames)
           for iValid = 1:numel(Validities)
@@ -1501,14 +1487,14 @@ end
                   critDetIdx_sub_over2N = [critDetIdx_sub_over2N dataAll(iSub).detc_sub_over2N.(Detfieldnames{iF})(iTarget,iValid)]; % subsampled valid conditions c
                   detc_sub_over2N_scatterplot.(Detfieldnames{iF})(iValid, iSub, iTarget) = dataAll(iSub).detc_sub_over2N.(Detfieldnames{iF})(iTarget,iValid);
                   % dis subsampled all loglin
-                  dis_dprimeDetIdx_sub = [dis_dprimeDetIdx_sub dataAll(iSub).disd_sub.(Detfieldnames{iF})(iTarget,iValid)]; % subsampled valid conditions dprime
+                  dis_dprimeIdx_sub = [dis_dprimeIdx_sub dataAll(iSub).disd_sub.(Detfieldnames{iF})(iTarget,iValid)]; % subsampled valid conditions dprime
                   disd_sub_scatterplot.(Detfieldnames{iF})(iValid, iSub, iTarget) = dataAll(iSub).disd_sub.(Detfieldnames{iF})(iTarget,iValid);
-                  dis_critDetIdx_sub = [dis_critDetIdx_sub dataAll(iSub).disc_sub.(Detfieldnames{iF})(iTarget,iValid)]; % subsampled valid conditions c
+                  dis_critIdx_sub = [dis_critIdx_sub dataAll(iSub).disc_sub.(Detfieldnames{iF})(iTarget,iValid)]; % subsampled valid conditions c
                   disc_sub_scatterplot.(Detfieldnames{iF})(iValid, iSub, iTarget) = dataAll(iSub).disc_sub.(Detfieldnames{iF})(iTarget,iValid);
                   %dis subsampled over2N
-                  dis_dprimeDetIdx_sub_over2N = [dis_dprimeDetIdx_sub_over2N dataAll(iSub).disd_sub_over2N.(Detfieldnames{iF})(iTarget,iValid)]; % subsampled valid conditions dprime
+                  dis_dprimeIdx_sub_over2N = [dis_dprimeIdx_sub_over2N dataAll(iSub).disd_sub_over2N.(Detfieldnames{iF})(iTarget,iValid)]; % subsampled valid conditions dprime
                   disd_sub_over2N_scatterplot.(Detfieldnames{iF})(iValid, iSub, iTarget) = dataAll(iSub).disd_sub_over2N.(Detfieldnames{iF})(iTarget,iValid);
-                  dis_critDetIdx_sub_over2N = [dis_critDetIdx_sub_over2N dataAll(iSub).disc_sub_over2N.(Detfieldnames{iF})(iTarget,iValid)]; % subsampled valid conditions c
+                  dis_critIdx_sub_over2N = [dis_critIdx_sub_over2N dataAll(iSub).disc_sub_over2N.(Detfieldnames{iF})(iTarget,iValid)]; % subsampled valid conditions c
                   disc_sub_over2N_scatterplot.(Detfieldnames{iF})(iValid, iSub, iTarget) = dataAll(iSub).disc_sub_over2N.(Detfieldnames{iF})(iTarget,iValid);
 
               end
@@ -1526,28 +1512,28 @@ end
               detc_sub_over2N.(Detfieldnames{iF})(iTarget, iValid) = mean(critDetIdx_sub_over2N);
               detcErr_sub_over2N.(Detfieldnames{iF})(iTarget, iValid) = detcStd_sub_over2N.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
 
-              disdStd_sub.(Detfieldnames{iF})(iTarget, iValid) = std(dis_dprimeDetIdx_sub);
-              disd_sub.(Detfieldnames{iF})(iTarget, iValid) = mean(dis_dprimeDetIdx_sub);
+              disdStd_sub.(Detfieldnames{iF})(iTarget, iValid) = std(dis_dprimeIdx_sub);
+              disd_sub.(Detfieldnames{iF})(iTarget, iValid) = mean(dis_dprimeIdx_sub);
               disdErr_sub.(Detfieldnames{iF})(iTarget, iValid) = disdStd_sub.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-              discStd_sub.(Detfieldnames{iF})(iTarget, iValid) = std(dis_critDetIdx_sub);
-              disc_sub.(Detfieldnames{iF})(iTarget, iValid) = mean(dis_critDetIdx_sub);
+              discStd_sub.(Detfieldnames{iF})(iTarget, iValid) = std(dis_critIdx_sub);
+              disc_sub.(Detfieldnames{iF})(iTarget, iValid) = mean(dis_critIdx_sub);
               discErr_sub.(Detfieldnames{iF})(iTarget, iValid) = discStd_sub.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
 
-              disdStd_sub_over2N.(Detfieldnames{iF})(iTarget, iValid) = std(dis_dprimeDetIdx_sub_over2N);
-              disd_sub_over2N.(Detfieldnames{iF})(iTarget, iValid) = mean(dis_dprimeDetIdx_sub_over2N);
+              disdStd_sub_over2N.(Detfieldnames{iF})(iTarget, iValid) = std(dis_dprimeIdx_sub_over2N);
+              disd_sub_over2N.(Detfieldnames{iF})(iTarget, iValid) = mean(dis_dprimeIdx_sub_over2N);
               disdErr_sub_over2N.(Detfieldnames{iF})(iTarget, iValid) = disdStd_sub_over2N.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-              discStd_sub_over2N.(Detfieldnames{iF})(iTarget, iValid) = std(dis_critDetIdx_sub_over2N);
-              disc_sub_over2N.(Detfieldnames{iF})(iTarget, iValid) = mean(dis_critDetIdx_sub_over2N);
+              discStd_sub_over2N.(Detfieldnames{iF})(iTarget, iValid) = std(dis_critIdx_sub_over2N);
+              disc_sub_over2N.(Detfieldnames{iF})(iTarget, iValid) = mean(dis_critIdx_sub_over2N);
               discErr_sub_over2N.(Detfieldnames{iF})(iTarget, iValid) = discStd_sub_over2N.(Detfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
 
               dprimeDetIdx_sub = [];
               critDetIdx_sub = [];
               dprimeDetIdx_sub_over2N = [];
               critDetIdx_sub_over2N = [];
-              dis_dprimeDetIdx_sub = [];
-              dis_critDetIdx_sub = [];
-              dis_dprimeDetIdx_sub_over2N = [];
-              dis_critDetIdx_sub_over2N = [];
+              dis_dprimeIdx_sub = [];
+              dis_critIdx_sub = [];
+              dis_dprimeIdx_sub_over2N = [];
+              dis_critIdx_sub_over2N = [];
           end
       end
   end

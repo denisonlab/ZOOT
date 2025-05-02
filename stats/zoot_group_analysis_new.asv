@@ -794,30 +794,41 @@ for iSub=1:length(subs) % for participant
 
     % indices for all conditions based on target, validity, SDT variable -
     % returns 2 x 3 x 4 matrix that contains data for all, nontarget present, non target absent trials. rows = T1/T2 data, columns = V/N/I data, matrices for nh nfa
-    % nsignal and  nnoise 
+    % nsignal and  nnoise
+    detDenom = {nsignalDet nnoiseDet}; % det trials to subsampled nh/nfa values from
+    detNom = {nhDet nfaDet}; % det trials to be subsampled
+    disDenom = {nsignalDis nnoiseDis}; % det trials to subsampled nh/nfa values from
+    disNom = {nhDis nfaDis}; % det trials to be subsampled
     for iRep = 1:1000
         for iTarget =1:2
             for iValid = 1:numel(Validities)
-                for iDet = 1:numel(Det)
+                for iDetTrials = 1:numel(detDenom)
                     detNTP_subsampleIdx = [];
                     detNTA_subsampleIdx = [];
 
-                    detNTP_subsampleIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % NTP
-                    detNTA_subsampleIdx = Validities{iValid} & Det{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % NTA
+                    detNTP_subsampleIdx = Validities{iValid} & detDenom{iDetTrials} & detNom{iDetTrials} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % number of hits/fa per signal/noise trials for det NTP
+                    detNTA_subsampleIdx = Validities{iValid} & detDenom{iDetTrials} &  detNom{iDetTrials} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % NTA
+                    detNTP_DenomIdx = Validities{iValid} & detDenom{iDetTrials} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % number of det NTP denominotor trials (signal/noise)
+                    detNTA_DenomIdx = Validities{iValid} & detDenom{iDetTrials} &  dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % NTA
 
-                    disNTP_subsampleIdx = Validities{iValid} & Dis{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % NTP
-                    disNTA_subsampleIdx = Validities{iValid} & Dis{iDet} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % NTA
 
+                    disNTP_subsampleIdx = Validities{iValid} & disDenom{iDetTrials} & disNom{iDetTrials} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % number of hits/fa per signal/noise trials for det NTP
+                    detNTA_subsampleIdx = Validities{iValid} & disDenom{iDetTrials} &  disNom{iDetTrials} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % NTA
+                    disNTP_denomIdx = Validities{iValid} & disDenom{iDetTrials} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 1 & ~dataAll(iSub).eyeSkip; % number of dis NTP denominotor trials (signal/noise)
+                    disNTA_denomIdx = Validities{iValid} & disDenom{iDetTrials} & dataAll(iSub).target == iTarget & dataAll(iSub).nonTargetContrast == 0 & ~dataAll(iSub).eyeSkip; % NTA
 
+                    
 
                     if iValid == 2 || iValid ==3 % neutral and invalid unchanged
 
-                        det_subsample.nontargetPresent(iTarget, iValid, iDet) = sum(detNTP_subsampleIdx);
-                        det_subsample.nontargetAbsent(iTarget, iValid, iDet) = sum(detNTA_subsampleIdx);
+                        det_subsample.nontargetPresent(iTarget, iValid, iDetTrials) = sum(detNTP_subsampleIdx);
+                        det_subsample.nontargetAbsent(iTarget, iValid, iDetTrials) = sum(detNTA_subsampleIdx);
+                        det_subsample.nontargetPresent(iTarget, iValid, iDetTrials+2) = sum(detNTP_DenomIdx);
+                        det_subsample.nontargetAbsent(iTarget, iValid, iDetTrials+2) = sum(detNTA_DenomIdx);
 
 
-                        dis_subsample.nontargetPresent(iTarget, iValid, iDet) = sum(disNTP_subsampleIdx);
-                        dis_subsample.nontargetAbsent(iTarget, iValid, iDet) = sum(disNTA_subsampleIdx);
+                        % dis_subsample.nontargetPresent(iTarget, iValid, iDiDetTrialset) = sum(disNTP_subsampleIdx);
+                        % dis_subsample.nontargetAbsent(iTarget, iValid, iDetTrials) = sum(disNTA_subsampleIdx);
                     elseif iValid == 1 % valid subsampled
                         %NTP
                         %det
@@ -827,16 +838,19 @@ for iSub=1:length(subs) % for participant
                         randPres = randperm(96); % random permutation of 96
                         presIdx = randPres(1:32); % extract first 32 indices of random permutation
                         det_sub_NTP = zvecPres(presIdx); % extract values of the first 32 indicies of random permutation
-                        det_subsample.nontargetPresent(iTarget, iValid, iDet) = sum(det_sub_NTP); % save the sum of the first 32 variables
+                        det_subsample.nontargetPresent(iTarget, iValid, iDetTrials) = sum(det_sub_NTP); % save the sum of the first 32 variables
+                        det_subsample.nontargetPresent(iTarget, iValid, iDetTrials+2) = 32;
 
-                        % %dis
-                        nSum = sum(disNTP_subsampleIdx); % get number hits/fa/signal/noise in actual experiment
-                        zvecPres = zeros(1,48); % make an array of 48 (max number of nsignal/nnoise for unsubsampled valid) zeros to initialize sdt variable array
+                        % % %dis
+                        nSum = sum(disNTP_subsampleIdx); % get number hits/fa in actual experiment
+                        nDenomSum = sum(disNTP_denomIdx);
+                        zvecPres = zeros(1,nDenomSum); % make an array of 48 (max number of nsignal/nnoise for unsubsampled valid) zeros to initialize sdt variable array
                         zvecPres(1:nSum)=1; % input correct number of hits/fa/signal/noise to create logical array
-                        randPres = randperm(48); % random permutation of 48
+                        randPres = randperm(nDenomSum); % random permutation of 48
                         dispresIdx = randPres(1:16); % extract first 16 (max number of nsignal/nnoise for neutral/invalid) indices of random permutation
                         dis_sub_NTP = zvecPres(dispresIdx); % extract values of the first 8 indicies of random permutation
-                        dis_subsample.nontargetPresent(iTarget, iValid, iDet) = sum(dis_sub_NTP); % save the sum of the first 8 variables
+                        dis_subsample.nontargetPresent(iTarget, iValid, iDetTrials) = sum(dis_sub_NTP); % save the sum of the first 8 variables
+                        dis_subsample.nontargetPresent(iTarget, iValid, iDetTrials+2) = 16;
 
 
                         % NTA - everything else same as NTP
@@ -847,53 +861,56 @@ for iSub=1:length(subs) % for participant
                         randAbs = randperm(96);
                         absIdx = randAbs(1:32);
                         det_sub_NTA = zvecAbs(absIdx);
-                        det_subsample.nontargetAbsent(iTarget, iValid, iDet) = sum(det_sub_NTA);
+                        det_subsample.nontargetAbsent(iTarget, iValid, iDetTrials) = sum(det_sub_NTA);
+                        det_subsample.nontargetAbsent(iTarget, iValid, iDetTrials+2) = 32;
 
-                        % %dis          
+                        % % %dis          
                         nSum = sum(disNTA_subsampleIdx);
+                        nDenomSum = sum(disNTP_denomIdx);
                         zvecAbs = zeros(1,48);
                         zvecAbs(1:nSum)=1;
                         randAbs = randperm(48);
                         absIdx = randAbs(1:16);
                         dis_sub_NTA = zvecAbs(absIdx);
-                        dis_subsample.nontargetAbsent(iTarget, iValid, iDet) = sum(dis_sub_NTA);
+                        dis_subsample.nontargetAbsent(iTarget, iValid, iDetTrials) = sum(dis_sub_NTA);
+                         dis_subsample.nontargetAbsent(iTarget, iValid, iDetTrials+2) = 16;
                     end
                 end
-                if dis_subsample.nontargetPresent(iTarget, iValid, 4) < 16 %if NTP noise is less than 16 
-                    noiseDiff = 16 - dis_subsample.nontargetPresent(iTarget, iValid, 4); % find difference of 16-noise
-                    falsealarmsAdjusted = dis_subsample.nontargetPresent(iTarget, iValid, 2) - noiseDiff; % subtract that difference from FA too
-                      if falsealarmsAdjusted < 0
-                        falsealarmsAdjusted = 0;
-                    end
-                    dis_subsample.nontargetPresent(iTarget, iValid, 2) = falsealarmsAdjusted;
-
-                end
-                if dis_subsample.nontargetPresent(iTarget, iValid, 3) < 16 % if NTP signal is less than 16
-                    signalDiff = 16 - dis_subsample.nontargetPresent(iTarget, iValid, 3);
-                    hitsAdjusted = dis_subsample.nontargetPresent(iTarget, iValid, 1) - signalDiff;
-                    if hitsAdjusted < 0
-                        hitsAdjusted = 0;
-                    end
-                    dis_subsample.nontargetPresent(iTarget, iValid, 1) = hitsAdjusted;
-                end
-                if dis_subsample.nontargetAbsent(iTarget, iValid, 4) < 16
-                    noiseDiff = 16 - dis_subsample.nontargetAbsent(iTarget, iValid, 4);
-                    falsealarmsAdjusted = dis_subsample.nontargetAbsent(iTarget, iValid, 2) - noiseDiff;
-                    if falsealarmsAdjusted < 0
-                        falsealarmsAdjusted = 0;
-                    end 
-                    dis_subsample.nontargetAbsent(iTarget, iValid, 2) = falsealarmsAdjusted;
-
-
-                end
-                if  dis_subsample.nontargetAbsent(iTarget, iValid, 3)< 16
-                    signalDiff = 16 - dis_subsample.nontargetAbsent(iTarget, iValid, 3);
-                    hitsAdjusted = dis_subsample.nontargetAbsent(iTarget, iValid, 1) - signalDiff;
-                    if hitsAdjusted < 0
-                        hitsAdjusted = 0;
-                    end
-                    dis_subsample.nontargetAbsent(iTarget, iValid, 1) = hitsAdjusted;
-                end
+                % if dis_subsample.nontargetPresent(iTarget, iValid, 4) < 16 %if NTP noise is less than 16 
+                %     noiseDiff = 16 - dis_subsample.nontargetPresent(iTarget, iValid, 4); % find difference of 16-noise
+                %     falsealarmsAdjusted = dis_subsample.nontargetPresent(iTarget, iValid, 2) - noiseDiff; % subtract that difference from FA too
+                %       if falsealarmsAdjusted < 0
+                %         falsealarmsAdjusted = 0;
+                %     end
+                %     dis_subsample.nontargetPresent(iTarget, iValid, 2) = falsealarmsAdjusted;
+                % 
+                % end
+                % if dis_subsample.nontargetPresent(iTarget, iValid, 3) < 16 % if NTP signal is less than 16
+                %     signalDiff = 16 - dis_subsample.nontargetPresent(iTarget, iValid, 3);
+                %     hitsAdjusted = dis_subsample.nontargetPresent(iTarget, iValid, 1) - signalDiff;
+                %     if hitsAdjusted < 0
+                %         hitsAdjusted = 0;
+                %     end
+                %     dis_subsample.nontargetPresent(iTarget, iValid, 1) = hitsAdjusted;
+                % end
+                % if dis_subsample.nontargetAbsent(iTarget, iValid, 4) < 16
+                %     noiseDiff = 16 - dis_subsample.nontargetAbsent(iTarget, iValid, 4);
+                %     falsealarmsAdjusted = dis_subsample.nontargetAbsent(iTarget, iValid, 2) - noiseDiff;
+                %     if falsealarmsAdjusted < 0
+                %         falsealarmsAdjusted = 0;
+                %     end 
+                %     dis_subsample.nontargetAbsent(iTarget, iValid, 2) = falsealarmsAdjusted;
+                % 
+                % 
+                % end
+                % if  dis_subsample.nontargetAbsent(iTarget, iValid, 3)< 16
+                %     signalDiff = 16 - dis_subsample.nontargetAbsent(iTarget, iValid, 3);
+                %     hitsAdjusted = dis_subsample.nontargetAbsent(iTarget, iValid, 1) - signalDiff;
+                %     if hitsAdjusted < 0
+                %         hitsAdjusted = 0;
+                %     end
+                %     dis_subsample.nontargetAbsent(iTarget, iValid, 1) = hitsAdjusted;
+                % end
             end
         end
 
@@ -1432,12 +1449,12 @@ end
 
 
 
-             over2N_detdStd.(Disfieldnames{iF})(iTarget, iValid) = std(over2N_dprimeDetIdx);
-             over2N_detd.(Disfieldnames{iF})(iTarget, iValid) = mean(over2N_dprimeDetIdx);
-             over2N_detdErr.(Disfieldnames{iF})(iTarget, iValid) = over2N_detdStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-             over2N_detcStd.(Disfieldnames{iF})(iTarget, iValid) = std(over2N_cDetIdx);
-             over2N_detc.(Disfieldnames{iF})(iTarget, iValid) = mean(over2N_cDetIdx);
-             over2N_detcErr.(Disfieldnames{iF})(iTarget, iValid) = over2N_detcStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+             detdStd_over2N.(Disfieldnames{iF})(iTarget, iValid) = std(over2N_dprimeDetIdx);
+             detd_over2N.(Disfieldnames{iF})(iTarget, iValid) = mean(over2N_dprimeDetIdx);
+             detdErr_over2N.(Disfieldnames{iF})(iTarget, iValid) = detdStd_over2N.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+             detcStd_over2N.(Disfieldnames{iF})(iTarget, iValid) = std(over2N_cDetIdx);
+             detc_over2N.(Disfieldnames{iF})(iTarget, iValid) = mean(over2N_cDetIdx);
+             detcErr_over2N.(Disfieldnames{iF})(iTarget, iValid) = detcStd_over2N.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
 
              disdStd.(Disfieldnames{iF})(iTarget, iValid) = std(dprimeDisIdx);
              disd.(Disfieldnames{iF})(iTarget, iValid) = mean(dprimeDisIdx);
@@ -1454,12 +1471,12 @@ end
              extreme_discErr.(Disfieldnames{iF})(iTarget, iValid) = extreme_discStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
 
 
-             disdStd.(Disfieldnames{iF})(iTarget, iValid) = std(over2N_dprimeDisIdx);
+             disdStd_over2N.(Disfieldnames{iF})(iTarget, iValid) = std(over2N_dprimeDisIdx);
              disd_over2N.(Disfieldnames{iF})(iTarget, iValid) = mean(over2N_dprimeDisIdx);
-             over2N_disdErr.(Disfieldnames{iF})(iTarget, iValid) = over2N_disdStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
-             over2N_discStd.(Disfieldnames{iF})(iTarget, iValid) = std(over2N_cDisIdx);
-             over2N_disc.(Disfieldnames{iF})(iTarget, iValid) = mean(over2N_cDisIdx);
-             over2N_discErr.(Disfieldnames{iF})(iTarget, iValid) = over2N_discStd.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+             disdErr_over2N.(Disfieldnames{iF})(iTarget, iValid) = disdStd_over2N.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
+             discStd_over2N.(Disfieldnames{iF})(iTarget, iValid) = std(over2N_cDisIdx);
+             disc_over2N.(Disfieldnames{iF})(iTarget, iValid) = mean(over2N_cDisIdx);
+             discErr_over2N.(Disfieldnames{iF})(iTarget, iValid) = discStd_over2N.(Disfieldnames{iF})(iTarget,iValid)/sqrt(length(subs));
 
              dprimeDetIdx = [];
              cDetIdx = [];
