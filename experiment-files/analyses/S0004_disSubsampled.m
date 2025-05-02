@@ -40,7 +40,7 @@ sgtitle('S0004 dis: over2N subsampled')
 for iRep = 1:2 % 1 is d'; 2 is c
     for iC = 2:3 % 2 is non-target present; 3 is non-target absent
         panel(count).info = nexttile;
-        zoot_figureStyle(fp, figNum)
+        zoot_figureStyle(fp)
         switch count
             case {1,2} % d'
                 xticklabels('')
@@ -94,7 +94,7 @@ sgtitle('S0004 dis: all loglinear subsampled')
 for iRep = 1:2 % 1 is d'; 2 is c
     for iC = 2:3 % 2 is non-target present; 3 is non-target absent
         panel(count).info = nexttile;
-        zoot_figureStyle(fp, figNum)
+        zoot_figureStyle(fp)
         switch count
             case {1,2} % d'
                 xticklabels('')
@@ -147,7 +147,7 @@ sgtitle('S0004 dis: over2N not subsampled')
 for iRep = 1:2 % 1 is d'; 2 is c
     for iC = 2:3 % 2 is non-target present; 3 is non-target absent
         panel(count).info = nexttile;
-        zoot_figureStyle(fp, figNum)
+        zoot_figureStyle(fp)
         switch count
             case {1,2} % d'
                 xticklabels('')
@@ -201,7 +201,7 @@ sgtitle('S0004 dis: all loglinear not subsampled')
 for iRep = 1:2 % 1 is d'; 2 is c
     for iC = 2:3 % 2 is non-target present; 3 is non-target absent
         panel(count).info = nexttile;
-        zoot_figureStyle(fp, figNum)
+        zoot_figureStyle(fp)
         switch count
             case {1,2} % d'
                 xticklabels('')
