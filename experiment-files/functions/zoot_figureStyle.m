@@ -1,6 +1,8 @@
-function zoot_figureStyle(fp)
+function zoot_figureStyle
 % Adjusts fig axis and text styling
 % fp is a structure output from zoot_figureParams
+
+fp = zoot_figureparams; 
 
 %% General styling
 hold on
