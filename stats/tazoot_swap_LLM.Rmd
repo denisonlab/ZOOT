@@ -7,25 +7,19 @@ date: "2025-04-30"
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-
 knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
 suppressPackageStartupMessages(library(tidyverse))
-library(ez)
-library(foreach)
-library(kableExtra) 
-library(ggplot2)
-library(dplyr)
-library(ggpubr)
-library(lsr)
-library(report)
-library(rempsyc) # for t-tests in nice tables
-
 library(tidyverse)
+#utils::install.packages("lme4", type = "source")
+#oo <- options(repos = "https://cran.r-project.org/")
+#utils::install.packages("Matrix")
+#utils::install.packages("lme4")
+#options(oo)
 library(lme4)
 library(car)
 
-install.packages("pacman")
-pacman::p_load(Matrix)
+
+
 
 knitr::opts_chunk$set(echo = TRUE)
 
