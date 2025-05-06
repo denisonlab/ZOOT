@@ -10,11 +10,6 @@ knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
 suppressPackageStartupMessages(library(tidyverse))
 library(tidyverse)
-#utils::install.packages("lme4", type = "source")
-#oo <- options(repos = "https://cran.r-project.org/")
-#utils::install.packages("Matrix")
-#utils::install.packages("lme4")
-#options(oo)
 library(lme4)
 library(car)
 
@@ -31,13 +26,17 @@ wd <- getwd()
 analysisName = 'tazoot_point93_errSwapAcc'
 dataName <- sprintf("/Users/jennymotzer/Documents/GitHub/ZOOT/stats/%s.csv", analysisName)
 data <- read.csv(dataName)
-
+# removes NaN rows from data 
+data_clean <- data[!is.nan(data$point95_SwapAcc), ]
+data <- data_clean
 #### Change to categorical vars ####
 data$SID <- factor(data$SID)
 data$targetContrast <- factor(data$targetContrast)
 data$nontargetContrast <- factor(data$nontargetContrast)
-data$Target <- factor(data$Target)
-data$Validity <- factor(data$Validity)
+data$Target <- factor(data$Target, levels = c("T1", "T2"), ordered = TRUE)
+data$Validity <- factor(data$Validity,
+                        levels = c("invalid", "neutral", "valid"),
+                        ordered = TRUE)
 
 ### Plotting setup #### 
 colors = c("#F8A299","#CCCCCC","#98E6A1")
@@ -45,28 +44,19 @@ attComparison <- list( c("1","3"), c("1","2"), c("2","3") )
 
 significance <- list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, Inf),
 symbols = c("****", "***", "**", "*", "ns"))
+
 ```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
 ```{r swap}
 d = data
-swap.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity * Target * targetContrast * nontargetContrast + (1|SID),
-                        data=d)
+swap.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity * Target * targetContrast * nontargetContrast + (1|SID), data=d)
 summary(swap.lmm.lme4)
 aov.swap <- Anova(swap.lmm.lme4)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r swap validity only}
+d = data
+swap_validity.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data=d)
+summary(swap_validity.lmm.lme4)
+aov.swap <- Anova(swap_validity.lmm.lme4)
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
