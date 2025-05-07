@@ -263,7 +263,7 @@ type 'tazoot_dis_over2N.csv'
 
 
 
-%% create csv file for SDT subsampling
+%% create csv file for SDT subsampling with over2N corrections
 numCondsSDT = 3*2*2; % three validities x two conditions (ntp, nta), and two targets
 
 sub_SID = [];
@@ -294,21 +294,16 @@ for iSub = 1:length(SIDs)*2 % times by two because two nontarget contrasts (ntp,
     end
 end
 
-% get dPrime and criterion
-% det_dPrime = [];
-% det_crit = [];
-% dis_dPrime = [];
-% dis_crit = [];
 det_dPrime_sub = [];
 det_crit_sub = [];
 dis_dPrime_sub = [];
 dis_crit_sub = [];
 for iSub = 1:length(SIDs)
-    dataAll(iSub).detdPrime_sub = cat(3, dataAll(iSub).detd_sub.nontargetPresent, dataAll(iSub).detd_sub.nontargetAbsent);
-    dataAll(iSub).detCrit_sub = cat(3, dataAll(iSub).detc_sub.nontargetPresent, dataAll(iSub).detc_sub.nontargetAbsent);
+    dataAll(iSub).detdPrime_sub = cat(3, dataAll(iSub).detd_sub_over2N.nontargetPresent, dataAll(iSub).detd_sub_over2N.nontargetAbsent);
+    dataAll(iSub).detCrit_sub = cat(3, dataAll(iSub).detc_sub_over2N.nontargetPresent, dataAll(iSub).detc_sub_over2N.nontargetAbsent);
 
-    dataAll(iSub).disdPrime_sub = cat(3, dataAll(iSub).disd_sub.nontargetPresent, dataAll(iSub).disd_sub.nontargetAbsent);
-    dataAll(iSub).disCrit_sub = cat(3, dataAll(iSub).disc_sub.nontargetPresent, dataAll(iSub).disc_sub.nontargetAbsent);
+    dataAll(iSub).disdPrime_sub = cat(3, dataAll(iSub).disd_sub_over2N.nontargetPresent, dataAll(iSub).disd_sub_over2N.nontargetAbsent);
+    dataAll(iSub).disCrit_sub = cat(3, dataAll(iSub).disc_sub_over2N.nontargetPresent, dataAll(iSub).disc_sub_over2N.nontargetAbsent);
     for iNontargetContrast = 1:numel(ntpntaContrasts)
         for iTarget = 1:numel(Targets)
             for iValid = 1:numel(Validities)

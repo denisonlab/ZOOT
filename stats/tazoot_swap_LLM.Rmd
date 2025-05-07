@@ -13,9 +13,6 @@ library(tidyverse)
 library(lme4)
 library(car)
 
-
-
-
 knitr::opts_chunk$set(echo = TRUE)
 
 #### anova setup #### 
@@ -33,10 +30,8 @@ data <- data_clean
 data$SID <- factor(data$SID)
 data$targetContrast <- factor(data$targetContrast)
 data$nontargetContrast <- factor(data$nontargetContrast)
-data$Target <- factor(data$Target, levels = c("T1", "T2"), ordered = TRUE)
-data$Validity <- factor(data$Validity,
-                        levels = c("invalid", "neutral", "valid"),
-                        ordered = TRUE)
+data$Target <- factor(data$Target, levels = c("1", "2"), ordered = TRUE)
+data$Validity <- factor(data$Validity,levels = c("1", "2", "3"),ordered = TRUE)
 
 ### Plotting setup #### 
 colors = c("#F8A299","#CCCCCC","#98E6A1")
@@ -48,15 +43,50 @@ symbols = c("****", "***", "**", "*", "ns"))
 ```
 
 ```{r swap}
-d = data
-swap.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity * Target * targetContrast * nontargetContrast + (1|SID), data=d)
+d <- data
+swap.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity * Target * targetContrast * nontargetContrast + (1|SID), data<-d)
 summary(swap.lmm.lme4)
 aov.swap <- Anova(swap.lmm.lme4)
 ```
 
 ```{r swap validity only}
-d = data
-swap_validity.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data=d)
+d <- data
+swap_validity.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data<-d)
 summary(swap_validity.lmm.lme4)
-aov.swap <- Anova(swap_validity.lmm.lme4)
+aov.swap_validity <- Anova(swap_validity.lmm.lme4)
+```
+
+```{r swap validity TP}
+d <- data %>% filter(targetContrast==1)
+swap_validityTP.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data<-d)
+summary(swap_validityTP.lmm.lme4)
+aov.swap_validityTP <- Anova(swap_validityTP.lmm.lme4)
+```
+
+```{r swap validity TA}
+d <- data %>% filter(targetContrast==2)
+swap_validityTA.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data<-d)
+summary(swap_validityTA.lmm.lme4)
+aov.swap_validityTA <- Anova(swap_validityTA.lmm.lme4)
+```
+
+```{r swap target only}
+d <- data
+swap_target.lmm.lme4 <- lmer(point95_SwapAcc ~ Target + (1|SID), data<-d)
+summary(swap_target.lmm.lme4)
+aov.swap_target <- Anova(swap_target.lmm.lme4)
+```
+
+```{r swap targetContrast only}
+d <- data
+swap_targetContrast.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data<-d)
+summary(swap_targetContrast.lmm.lme4)
+aov.swap_targetContrast <- Anova(swap_targetContrast.lmm.lme4)
+```
+
+```{r swap nontargetContrast only}
+d <- data
+swap_nontargetContrast.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data<-d)
+summary(swap_targetContrast.lmm.lme4)
+aov.swap_nontargetContrast <- Anova(swap_nontargetContrast.lmm.lme4)
 ```

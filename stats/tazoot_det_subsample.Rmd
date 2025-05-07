@@ -1098,7 +1098,7 @@ my_table <- nice_table(stats.table, report = "t.test", title = "tazoot dis crit:
 my_table
 ```
 
-```{r vn_detcritNTP T1, echo = FALSE, out.width = "90%"}
+```{r vn_discritNTP T1, echo = FALSE, out.width = "90%"}
 ## valid vs. neutral NTP T1
 d = data 
 dt = d %>% filter(nontargetContrast == 1, Target == 1, Validity == 1 | Validity == 2)
