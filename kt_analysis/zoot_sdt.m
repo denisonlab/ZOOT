@@ -43,7 +43,7 @@ for iS=1:15
     dataAll(iS).validity(idx)=0; 
 end
 
-%% Calculate acc, detection sensitivity, discrimination sensitivity
+%% Calculate acc
 clear acc
 for iS=1:15
     for iNT=1:2 % nontarget present, absent
@@ -60,6 +60,9 @@ for iS=1:15
                     idx = idxE & idxT & idxV & idxTC & idxNT;
 
                     % get accuracy on 3 way task
+                    nTrialsCond(iS,iNT,iT,iV,iTC) = numel(dataAll(iS).correct(idx),'omitnan'); 
+                    nTrialsCorrect(iS,iNT,iT,iV,iTC) = sum(dataAll(iS).correct(idx),'omitnan');
+                    nTrialsIncorrect(iS,iNT,iT,iV,iTC) = sum(~dataAll(iS).correct(idx),'omitnan');
                     acc(iS,iNT,iT,iV,iTC) = mean(dataAll(iS).correct(idx),'omitnan');
                 end
             end
@@ -67,7 +70,43 @@ for iS=1:15
     end
 end
 
+A.nTrialsCond = nTrialsCond; 
+A.nTrialsCorrect = nTrialsCorrect; 
+A.nTrialsIncorrect = nTrialsIncorrect; 
 A.acc = acc; 
+
+nTrialsT = squeeze(nTrialsCond(1,:,:,:,:)); 
+
+%% Calculate swaps
+% i.e. sensitivity to non-target when target identification is incorrect
+clear swaps
+for iS=1:15
+    for iNT=1:2 % nontarget present, absent
+        for iT=1:2 % target T1 T2
+            for iTC=1:numel(targetContrasts) % target present, absent
+                for iV=1:3 % valid, neutral, invalid
+                    % get trials of this condition
+                    clear idx
+                    idxE = ~dataAll(iS).eyeSkip; % exclude trials with fixation break
+                    idxNT = dataAll(iS).nonTargetContrast==nontargetContrasts(iNT); 
+                    idxT = dataAll(iS).target==iT;
+                    idxTC = dataAll(iS).targetContrast==targetContrasts(iTC);
+                    idxV = dataAll(iS).validity==validities(iV);
+                    idxI = dataAll(iS).correct==0; % incorrect trials
+                    idx = idxE & idxT & idxV & idxTC & idxNT & idxI;
+
+                    % non target correctly identified? 
+                    % if target accuracy>=93.75? Where did the 93.75 come
+                    % from? 
+                    swaps(iS,iNT,iT,iV,iTC) = mean(dataAll(iS).NTcorrect(idx),'omitnan');
+                end
+            end
+        end
+    end
+end
+
+A.swaps = swaps; 
+
 
 %% Calculate discrimination SDT
 % conditioned on when the target was reported seen
