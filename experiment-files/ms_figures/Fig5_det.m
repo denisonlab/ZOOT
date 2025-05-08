@@ -37,7 +37,7 @@ tcl = tiledlayout(2,2,'TileSpacing','compact','OuterPosition',fp.OuterPosition);
 for iRep = 1:2 % 1 is d'; 2 is c
     for iC = 2:3 % 2 is non-target present; 3 is non-target absent
         panel(count).info = nexttile;
-        zoot_figureStyle(fp, figNum)
+        zoot_figureStyle()
         switch count
             case {1,2} % d'
                 xticklabels('')
@@ -61,11 +61,11 @@ for iRep = 1:2 % 1 is d'; 2 is c
             for iV = 1:3
                 switch count
                     case {1,2} %  d'      
-                        b = zoot_bar(xVals(iT,iV),squeeze(detd_sub_scatterplot.(Detfieldnames{iC})(iV,:,iT)),...
-                            iC,iV,iT,plotSubjects,detdErr_sub.(Detfieldnames{iC})(iT, iV), figNum);
+                        b = zoot_bar(xVals(iT,iV),squeeze(detd_sub_over2N_scatterplot.(Detfieldnames{iC})(iV,:,iT)),...
+                            iC,iV,iT,plotSubjects,detdErr_sub_over2N.(Detfieldnames{iC})(iT, iV), figNum);
                     case {3,4}  % c
-                        zoot_bar(xVals(iT,iV),squeeze(detc_sub_scatterplot.(Detfieldnames{iC})(iV,:,iT)),...
-                            iC,iV,iT,plotSubjects,detcErr_sub.(Detfieldnames{iC})(iT, iV), figNum);
+                        zoot_bar(xVals(iT,iV),squeeze(detc_sub_over2N_scatterplot.(Detfieldnames{iC})(iV,:,iT)),...
+                            iC,iV,iT,plotSubjects,detcErr_sub_over2N.(Detfieldnames{iC})(iT, iV), figNum);
                 end
             end
         end

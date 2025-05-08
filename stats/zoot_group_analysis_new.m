@@ -1397,7 +1397,7 @@ end
                  extreme_cDisIdx = [cDisIdx dataAll(iSub).disc_extremeLogLin.(Detfieldnames{iF})(iTarget,iValid)];
                  disc_extreme_scatterplot.(Detfieldnames{iF})(iValid, iSub, iTarget) = dataAll(iSub).disc_extremeLogLin.(Detfieldnames{iF})(iTarget,iValid);
                  % dis over2N correction
-                 over2N_dprimeDisIdx = [dprimeDisIdx dataAll(iSub).disd_over2N.(Detfieldnames{iF})(iTarget,iValid)];
+                 over2N_dprimeDisIdx = [over2N_dprimeDisIdx dataAll(iSub).disd_over2N.(Detfieldnames{iF})(iTarget,iValid)];
                  disd_over2N_scatterplot.(Detfieldnames{iF})(iValid, iSub, iTarget) = dataAll(iSub).disd_over2N.(Detfieldnames{iF})(iTarget,iValid);
                  over2N_cDisIdx = [over2N_cDisIdx dataAll(iSub).disc_over2N.(Detfieldnames{iF})(iTarget,iValid)];
                  disc_over2N_scatterplot.(Detfieldnames{iF})(iValid, iSub, iTarget) = dataAll(iSub).disc_over2N.(Detfieldnames{iF})(iTarget,iValid);
