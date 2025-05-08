@@ -1,0 +1,99 @@
+---
+title: "tazoot_swap_LLM_kt"
+output: github_document
+date: "2025-04-30"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+suppressPackageStartupMessages(library(tidyverse))
+library(tidyverse)
+library(lme4)
+# library(car)
+
+knitr::opts_chunk$set(echo = TRUE)
+
+#### anova setup #### 
+options(contrasts=c("contr.sum","contr.poly"))
+
+#### load data #### 
+wd <- getwd()
+analysisName = 'tazoot_swapAcc_kt'
+dataName <- sprintf("/Users/kantian/Dropbox/GitHub/ZOOT/stats/%s.csv", analysisName)
+data <- read.csv(dataName)
+
+#### Change to categorical vars ####
+data$SID <- factor(data$SID) 
+data$targetContrast <- factor(data$targetContrast)
+data$nonTargetContrast <- factor(data$nonTargetContrast)
+
+# factorize target
+data <- data %>%
+  mutate(
+    target = case_when(
+      target == 1 ~ "T1",
+      target == 2 ~ "T2",
+      TRUE ~ NA_character_  # in case there are other values
+    ),
+    target = factor(target, levels = c("T1", "T2"), ordered = TRUE)
+  )
+
+# factorize validity
+data <- data %>%
+  mutate(
+    validity = case_when(
+      validity == 1 ~ "valid",
+      validity == 2 ~ "neutral",
+      validity == 3 ~ "invalid",
+      TRUE ~ NA_character_  # in case there are other values
+    ),
+    validity = factor(validity, levels = c("valid","neutral","invalid"), ordered = TRUE)
+  )
+
+# combine target and non target contrast
+data <- data %>%
+  mutate(
+    TNTC = paste0("T", targetContrast, "_N", nonTargetContrast)
+  )
+```
+
+Linear mixed effects model assessing swap rates
+```{r swap}
+d <- data %>% filter(target=="T1")
+# %>% filter(swapAcc<=93.5) %>% %>% filter(if_all(c(swapAcc, target, validity), ~ !is.nan(.)))
+model <- lmer(swapAcc ~ validity + (1|SID), data=d)
+summary(model)
+```
+```{r swapPlot}
+library(ggplot2)
+d <- data %>% filter(!is.nan(swapAcc))
+ggplot(d, aes(x = validity, y = swapAcc, color = TNTC)) + 
+  geom_point() + 
+  facet_grid(~target) +
+  theme_minimal()
+```
+
+```{r swapFullModel}
+d <- data %>% filter(swapAcc<=93.5) %>% filter
+
+model <- lmer(swapAcc ~ (validity) * (target) * targetContrast * nonTargetContrast + (1|SID), data=d)
+summary(model)
+aov.swap <- Anova(model)
+```
+
+```{r swap2}
+# T1 only 
+model_data <- data %>% filter(Target==1)
+# model_data <- data[complete.cases(data[, c("Validity","SID")]), ]
+model_reduced <- lmer(point95_SwapAcc ~ Validity + (1|SID), data=model_data)
+summary(model_reduced)
+
+anova(model_reduced, model)
+```
+
+## Including Plots
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+

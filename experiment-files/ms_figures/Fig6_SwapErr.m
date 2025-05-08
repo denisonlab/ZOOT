@@ -3,6 +3,7 @@ function Fig6_SwapErr
 % for zoot
 
 %% Settings 
+clear pathToZoot
 user = 'karen'; % 'jenny' 'karenlab' 'karen'
 
 % Fig saving
@@ -38,7 +39,7 @@ tcl = tiledlayout(1,2,'TileSpacing','compact','OuterPosition',fp.OuterPosition);
 % sgtitle(' data with <93.75% accuracy')
 for iT = 1:2 % 1 is TPNP; 2 is TANP; 3 is TPNA
     panel(count).info = nexttile;
-    zoot_figureStyle(fp)
+    zoot_figureStyle
     xticklabels({'V', 'N','I'})
     ylim([0 100])
     yticks(0:50:100)
