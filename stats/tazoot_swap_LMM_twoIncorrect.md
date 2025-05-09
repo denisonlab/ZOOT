@@ -9,7 +9,8 @@ swap.lmm.lme4 <- lmer(twoIncorrect ~ Validity * Target * targetContrast * nontar
 summary(swap.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: 
     ## twoIncorrect ~ Validity * Target * targetContrast * nontargetContrast +  
     ##     (1 | SID)
@@ -28,29 +29,54 @@ summary(swap.lmm.lme4)
     ## Number of obs: 241, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##                                                 Estimate Std. Error t value
-    ## (Intercept)                                      37.0041     3.5140  10.530
-    ## Validity.L                                       -3.6918     4.7906  -0.771
-    ## Validity.Q                                        0.7796     6.9009   0.113
-    ## Target.L                                         -1.3623     4.7455  -0.287
-    ## targetContrast.L                                 -2.3538     4.1232  -0.571
-    ## nontargetContrast.L                             -34.9170     4.0375  -8.648
-    ## Validity.L:Target.L                               3.5594     4.0457   0.880
-    ## Validity.Q:Target.L                              -3.8750     4.1604  -0.931
-    ## Validity.L:targetContrast.L                      -8.1594     6.7668  -1.206
-    ## Validity.Q:targetContrast.L                       0.7082     9.7531   0.073
-    ## Target.L:targetContrast.L                        12.8159     6.7045   1.912
-    ## Validity.L:nontargetContrast.L                   -0.5747     6.5968  -0.087
-    ## Validity.Q:nontargetContrast.L                   -2.7520     9.6897  -0.284
-    ## Target.L:nontargetContrast.L                     -0.9567     6.5381  -0.146
-    ## targetContrast.L:nontargetContrast.L            -37.2415     5.7161  -6.515
-    ## Validity.L:Target.L:targetContrast.L              6.6123     5.7442   1.151
-    ## Validity.Q:Target.L:targetContrast.L             -6.0941     5.8868  -1.035
-    ## Validity.L:Target.L:nontargetContrast.L          -6.9993     5.1201  -1.367
-    ## Validity.Q:Target.L:nontargetContrast.L           2.5389     5.1968   0.489
-    ## Validity.L:targetContrast.L:nontargetContrast.L  -8.0250     9.3697  -0.856
-    ## Validity.Q:targetContrast.L:nontargetContrast.L  -4.9350    13.6890  -0.361
-    ## Target.L:targetContrast.L:nontargetContrast.L     0.3285     9.2043   0.036
+    ##                                                 Estimate Std. Error       df
+    ## (Intercept)                                      37.0041     3.5140  60.8463
+    ## Validity.L                                       -3.6918     4.7906 210.9184
+    ## Validity.Q                                        0.7796     6.9009 208.7632
+    ## Target.L                                         -1.3623     4.7455 209.2770
+    ## targetContrast.L                                 -2.3538     4.1232 213.3435
+    ## nontargetContrast.L                             -34.9170     4.0375 212.2546
+    ## Validity.L:Target.L                               3.5594     4.0457 206.4262
+    ## Validity.Q:Target.L                              -3.8750     4.1604 207.0958
+    ## Validity.L:targetContrast.L                      -8.1594     6.7668 211.0110
+    ## Validity.Q:targetContrast.L                       0.7082     9.7531 208.0567
+    ## Target.L:targetContrast.L                        12.8159     6.7045 208.7375
+    ## Validity.L:nontargetContrast.L                   -0.5747     6.5968 209.4433
+    ## Validity.Q:nontargetContrast.L                   -2.7520     9.6897 208.3875
+    ## Target.L:nontargetContrast.L                     -0.9567     6.5381 208.3079
+    ## targetContrast.L:nontargetContrast.L            -37.2415     5.7161 212.3050
+    ## Validity.L:Target.L:targetContrast.L              6.6123     5.7442 206.4107
+    ## Validity.Q:Target.L:targetContrast.L             -6.0941     5.8868 206.6022
+    ## Validity.L:Target.L:nontargetContrast.L          -6.9993     5.1201 205.4585
+    ## Validity.Q:Target.L:nontargetContrast.L           2.5389     5.1968 205.5456
+    ## Validity.L:targetContrast.L:nontargetContrast.L  -8.0250     9.3697 209.4616
+    ## Validity.Q:targetContrast.L:nontargetContrast.L  -4.9350    13.6890 208.4135
+    ## Target.L:targetContrast.L:nontargetContrast.L     0.3285     9.2043 208.2527
+    ##                                                 t value Pr(>|t|)    
+    ## (Intercept)                                      10.530 2.45e-15 ***
+    ## Validity.L                                       -0.771   0.4418    
+    ## Validity.Q                                        0.113   0.9102    
+    ## Target.L                                         -0.287   0.7743    
+    ## targetContrast.L                                 -0.571   0.5687    
+    ## nontargetContrast.L                              -8.648 1.29e-15 ***
+    ## Validity.L:Target.L                               0.880   0.3800    
+    ## Validity.Q:Target.L                              -0.931   0.3527    
+    ## Validity.L:targetContrast.L                      -1.206   0.2292    
+    ## Validity.Q:targetContrast.L                       0.073   0.9422    
+    ## Target.L:targetContrast.L                         1.912   0.0573 .  
+    ## Validity.L:nontargetContrast.L                   -0.087   0.9307    
+    ## Validity.Q:nontargetContrast.L                   -0.284   0.7767    
+    ## Target.L:nontargetContrast.L                     -0.146   0.8838    
+    ## targetContrast.L:nontargetContrast.L             -6.515 5.18e-10 ***
+    ## Validity.L:Target.L:targetContrast.L              1.151   0.2510    
+    ## Validity.Q:Target.L:targetContrast.L             -1.035   0.3018    
+    ## Validity.L:Target.L:nontargetContrast.L          -1.367   0.1731    
+    ## Validity.Q:Target.L:nontargetContrast.L           0.489   0.6257    
+    ## Validity.L:targetContrast.L:nontargetContrast.L  -0.856   0.3927    
+    ## Validity.Q:targetContrast.L:nontargetContrast.L  -0.361   0.7188    
+    ## Target.L:targetContrast.L:nontargetContrast.L     0.036   0.9716    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
     ## fit warnings:
     ## fixed-effect model matrix is rank deficient so dropping 2 columns / coefficients
@@ -67,7 +93,8 @@ swap_validity.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validity.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -84,10 +111,12 @@ summary(swap_validity.lmm.lme4)
     ## Number of obs: 241, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   48.223      2.640  18.264
-    ## Validity.L    -1.249      3.237  -0.386
-    ## Validity.Q     2.649      3.339   0.793
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)   48.223      2.640  14.150  18.264 3.08e-11 ***
+    ## Validity.L    -1.249      3.237 225.862  -0.386    0.700    
+    ## Validity.Q     2.649      3.339 226.500   0.793    0.428    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -106,7 +135,8 @@ swap_validityTP.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityTP.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -123,10 +153,12 @@ summary(swap_validityTP.lmm.lme4)
     ## Number of obs: 173, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)  38.8473     2.7509  14.122
-    ## Validity.L    2.3060     2.9663   0.777
-    ## Validity.Q    0.2362     3.0141   0.078
+    ##             Estimate Std. Error       df t value Pr(>|t|)    
+    ## (Intercept)  38.8473     2.7509  14.3739  14.122 7.99e-10 ***
+    ## Validity.L    2.3060     2.9663 156.6108   0.777    0.438    
+    ## Validity.Q    0.2362     3.0141 157.2546   0.078    0.938    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -145,7 +177,8 @@ swap_validityTPT1.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityTPT1.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -162,10 +195,12 @@ summary(swap_validityTPT1.lmm.lme4)
     ## Number of obs: 89, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   46.098      3.076  14.987
-    ## Validity.L     2.867      3.393   0.845
-    ## Validity.Q    -0.170      3.436  -0.049
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   46.098      3.076 14.097  14.987 4.68e-10 ***
+    ## Validity.L     2.867      3.393 72.108   0.845    0.401    
+    ## Validity.Q    -0.170      3.436 72.365  -0.049    0.961    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -184,7 +219,8 @@ swap_validityTPT2.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityTPT2.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -201,10 +237,12 @@ summary(swap_validityTPT2.lmm.lme4)
     ## Number of obs: 84, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)  30.9688     3.7129   8.341
-    ## Validity.L    0.8318     4.3661   0.191
-    ## Validity.Q    0.5991     4.4657   0.134
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)  30.9688     3.7129 14.3669   8.341 6.99e-07 ***
+    ## Validity.L    0.8318     4.3661 68.0242   0.191    0.849    
+    ## Validity.Q    0.5991     4.4657 69.4515   0.134    0.894    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -223,7 +261,8 @@ swap_validityTA.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityTA.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -240,10 +279,12 @@ summary(swap_validityTA.lmm.lme4)
     ## Number of obs: 68, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   73.798      3.928  18.786
-    ## Validity.L     1.496      6.231   0.240
-    ## Validity.Q     4.912      6.543   0.751
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   73.798      3.928 13.159  18.786 6.88e-11 ***
+    ## Validity.L     1.496      6.231 61.859   0.240    0.811    
+    ## Validity.Q     4.912      6.543 57.078   0.751    0.456    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -262,7 +303,8 @@ swap_validityTAT1.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityTAT1.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -279,10 +321,12 @@ summary(swap_validityTAT1.lmm.lme4)
     ## Number of obs: 32, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   70.014      5.272  13.280
-    ## Validity.L    -8.811      9.487  -0.929
-    ## Validity.Q    16.390      8.761   1.871
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   70.014      5.272 29.000  13.280 7.43e-14 ***
+    ## Validity.L    -8.811      9.487 29.000  -0.929   0.3607    
+    ## Validity.Q    16.390      8.761 29.000   1.871   0.0715 .  
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -303,7 +347,8 @@ swap_validityTAT2.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityTAT2.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -320,10 +365,12 @@ summary(swap_validityTAT2.lmm.lme4)
     ## Number of obs: 36, groups:  SID, 14
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   78.408      5.044  15.544
-    ## Validity.L     9.901      7.900   1.253
-    ## Validity.Q   -11.085      9.501  -1.167
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)   78.408      5.044  33.000  15.544   <2e-16 ***
+    ## Validity.L     9.901      7.900  33.000   1.253    0.219    
+    ## Validity.Q   -11.085      9.501  33.000  -1.167    0.252    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -344,7 +391,8 @@ swap_validityNP.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityNP.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -361,10 +409,12 @@ summary(swap_validityNP.lmm.lme4)
     ## Number of obs: 148, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   59.375      2.531  23.463
-    ## Validity.L    -5.089      3.672  -1.386
-    ## Validity.Q     4.037      3.783   1.067
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)   59.375      2.531  15.511  23.463 1.55e-13 ***
+    ## Validity.L    -5.089      3.672 133.672  -1.386    0.168    
+    ## Validity.Q     4.037      3.783 135.160   1.067    0.288    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -383,7 +433,8 @@ swap_validityNPT1.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityNPT1.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -400,10 +451,12 @@ summary(swap_validityNPT1.lmm.lme4)
     ## Number of obs: 75, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   60.304      2.917  20.671
-    ## Validity.L   -11.868      4.231  -2.805
-    ## Validity.Q     5.955      4.196   1.419
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)   60.304      2.917  14.924  20.671 2.15e-12 ***
+    ## Validity.L   -11.868      4.231  60.479  -2.805  0.00675 ** 
+    ## Validity.Q     5.955      4.196  60.756   1.419  0.16099    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -422,7 +475,8 @@ swap_validityNPT2.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityNPT2.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -439,10 +493,12 @@ summary(swap_validityNPT2.lmm.lme4)
     ## Number of obs: 73, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   58.690      3.588  16.358
-    ## Validity.L     1.525      5.997   0.254
-    ## Validity.Q     1.330      6.424   0.207
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   58.690      3.588 70.000  16.358   <2e-16 ***
+    ## Validity.L     1.525      5.997 70.000   0.254    0.800    
+    ## Validity.Q     1.330      6.424 70.000   0.207    0.837    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -463,7 +519,8 @@ swap_validityNA.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityNA.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -480,10 +537,12 @@ summary(swap_validityNA.lmm.lme4)
     ## Number of obs: 93, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)  30.6955     3.5585   8.626
-    ## Validity.L    7.1634     4.3059   1.664
-    ## Validity.Q    0.3735     4.4483   0.084
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)  30.6955     3.5585 14.2788   8.626 4.87e-07 ***
+    ## Validity.L    7.1634     4.3059 77.4794   1.664    0.100    
+    ## Validity.Q    0.3735     4.4483 77.6720   0.084    0.933    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -502,7 +561,8 @@ swap_validityNAT1.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityNAT1.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -519,10 +579,12 @@ summary(swap_validityNAT1.lmm.lme4)
     ## Number of obs: 46, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)  38.9032     4.5525   8.545
-    ## Validity.L   11.3396     4.9013   2.314
-    ## Validity.Q    0.9268     4.9926   0.186
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)  38.9032     4.5525 13.7900   8.545 7.04e-07 ***
+    ## Validity.L   11.3396     4.9013 29.0707   2.314    0.028 *  
+    ## Validity.Q    0.9268     4.9926 29.7478   0.186    0.854    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -541,7 +603,8 @@ swap_validityNAT2.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityNAT2.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -558,10 +621,12 @@ summary(swap_validityNAT2.lmm.lme4)
     ## Number of obs: 47, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   22.526      4.808   4.685
-    ## Validity.L     2.571      5.681   0.453
-    ## Validity.Q    -0.256      5.989  -0.043
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   22.526      4.808 14.510   4.685  0.00032 ***
+    ## Validity.L     2.571      5.681 31.814   0.453  0.65398    
+    ## Validity.Q    -0.256      5.989 31.818  -0.043  0.96617    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -580,7 +645,8 @@ swap_validityTPNP.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityTPNP.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -597,10 +663,12 @@ summary(swap_validityTPNP.lmm.lme4)
     ## Number of obs: 86, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   45.016      2.407  18.702
-    ## Validity.L    -1.312      3.786  -0.347
-    ## Validity.Q    -0.550      3.831  -0.144
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   45.016      2.407 14.232  18.702 2.03e-11 ***
+    ## Validity.L    -1.312      3.786 70.014  -0.347    0.730    
+    ## Validity.Q    -0.550      3.831 70.556  -0.144    0.886    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -619,7 +687,8 @@ swap_validityTPNP_T1.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = 
 summary(swap_validityTPNP_T1.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -636,10 +705,12 @@ summary(swap_validityTPNP_T1.lmm.lme4)
     ## Number of obs: 45, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)  51.5146     2.5883  19.903
-    ## Validity.L   -4.2388     4.0978  -1.034
-    ## Validity.Q    0.7198     4.0978   0.176
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)  51.5146     2.5883 14.0000  19.903 1.15e-11 ***
+    ## Validity.L   -4.2388     4.0978 28.0000  -1.034    0.310    
+    ## Validity.Q    0.7198     4.0978 28.0000   0.176    0.862    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -658,7 +729,8 @@ swap_validityTPNP_T2.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = 
 summary(swap_validityTPNP_T2.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -675,10 +747,12 @@ summary(swap_validityTPNP_T2.lmm.lme4)
     ## Number of obs: 41, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   38.042      3.601  10.564
-    ## Validity.L     1.153      6.165   0.187
-    ## Validity.Q    -1.455      6.310  -0.231
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   38.042      3.601 38.000  10.564 7.27e-13 ***
+    ## Validity.L     1.153      6.165 38.000   0.187    0.853    
+    ## Validity.Q    -1.455      6.310 38.000  -0.231    0.819    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -699,7 +773,8 @@ swap_validityTANP.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityTANP.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -716,10 +791,12 @@ summary(swap_validityTANP.lmm.lme4)
     ## Number of obs: 62, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   80.061      2.571  31.142
-    ## Validity.L    -2.288      4.020  -0.569
-    ## Validity.Q     8.235      4.192   1.964
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   80.061      2.571 13.596  31.142  4.9e-14 ***
+    ## Validity.L    -2.288      4.020 51.696  -0.569   0.5717    
+    ## Validity.Q     8.235      4.192 51.701   1.964   0.0549 .  
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -738,7 +815,8 @@ swap_validityTANP_T1.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = 
 summary(swap_validityTANP_T1.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -755,10 +833,12 @@ summary(swap_validityTANP_T1.lmm.lme4)
     ## Number of obs: 30, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   72.061      4.770  15.109
-    ## Validity.L   -17.161      5.826  -2.946
-    ## Validity.Q    11.722      5.446   2.153
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)   72.061      4.770  15.128  15.109 1.55e-10 ***
+    ## Validity.L   -17.161      5.826  17.303  -2.946  0.00891 ** 
+    ## Validity.Q    11.722      5.446  17.010   2.153  0.04600 *  
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -777,7 +857,8 @@ swap_validityTANP_T2.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = 
 summary(swap_validityTANP_T2.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -794,10 +875,12 @@ summary(swap_validityTANP_T2.lmm.lme4)
     ## Number of obs: 32, groups:  SID, 14
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   85.882      2.136  40.215
-    ## Validity.L     5.486      3.445   1.593
-    ## Validity.Q    -1.932      3.936  -0.491
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   85.882      2.136 29.000  40.215   <2e-16 ***
+    ## Validity.L     5.486      3.445 29.000   1.593    0.122    
+    ## Validity.Q    -1.932      3.936 29.000  -0.491    0.627    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -818,7 +901,8 @@ swap_validityTPNA.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityTPNA.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -835,10 +919,12 @@ summary(swap_validityTPNA.lmm.lme4)
     ## Number of obs: 87, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   32.772      4.135   7.927
-    ## Validity.L     6.071      4.106   1.478
-    ## Validity.Q     1.047      4.188   0.250
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   32.772      4.135 14.208   7.927 1.38e-06 ***
+    ## Validity.L     6.071      4.106 70.382   1.478    0.144    
+    ## Validity.Q     1.047      4.188 70.708   0.250    0.803    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -857,7 +943,8 @@ swap_validityTPNA_T1.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = 
 summary(swap_validityTPNA_T1.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -874,10 +961,12 @@ summary(swap_validityTPNA_T1.lmm.lme4)
     ## Number of obs: 45, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)  51.5146     2.5883  19.903
-    ## Validity.L   -4.2388     4.0978  -1.034
-    ## Validity.Q    0.7198     4.0978   0.176
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)  51.5146     2.5883 14.0000  19.903 1.15e-11 ***
+    ## Validity.L   -4.2388     4.0978 28.0000  -1.034    0.310    
+    ## Validity.Q    0.7198     4.0978 28.0000   0.176    0.862    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -896,7 +985,8 @@ swap_validityTPNA_T2.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = 
 summary(swap_validityTPNA_T2.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -913,10 +1003,12 @@ summary(swap_validityTPNA_T2.lmm.lme4)
     ## Number of obs: 41, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   38.042      3.601  10.564
-    ## Validity.L     1.153      6.165   0.187
-    ## Validity.Q    -1.455      6.310  -0.231
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   38.042      3.601 38.000  10.564 7.27e-13 ***
+    ## Validity.L     1.153      6.165 38.000   0.187    0.853    
+    ## Validity.Q    -1.455      6.310 38.000  -0.231    0.819    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -937,7 +1029,8 @@ swap_validityT1.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityT1.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -954,10 +1047,12 @@ summary(swap_validityT1.lmm.lme4)
     ## Number of obs: 121, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   52.418      3.043  17.226
-    ## Validity.L    -3.916      3.871  -1.012
-    ## Validity.Q     3.985      3.878   1.028
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)   52.418      3.043  13.822  17.226 9.81e-11 ***
+    ## Validity.L    -3.916      3.871 104.865  -1.012    0.314    
+    ## Validity.Q     3.985      3.878 105.779   1.028    0.306    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -976,7 +1071,8 @@ swap_validityT2.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityT2.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
@@ -993,10 +1089,12 @@ summary(swap_validityT2.lmm.lme4)
     ## Number of obs: 120, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   44.590      3.095  14.405
-    ## Validity.L     1.897      5.191   0.366
-    ## Validity.Q     1.201      5.527   0.217
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)   44.590      3.095 117.000  14.405   <2e-16 ***
+    ## Validity.L     1.897      5.191 117.000   0.366    0.715    
+    ## Validity.Q     1.201      5.527 117.000   0.217    0.828    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -1017,7 +1115,8 @@ swap_target.lmm.lme4 <- lmer(twoIncorrect ~ Target + (1|SID), data = d)
 summary(swap_target.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Target + (1 | SID)
     ##    Data: d
     ## 
@@ -1034,9 +1133,11 @@ summary(swap_target.lmm.lme4)
     ## Number of obs: 241, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   48.332      2.637  18.329
-    ## Target.L      -6.006      2.640  -2.275
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)   48.332      2.637  13.963  18.329 3.65e-11 ***
+    ## Target.L      -6.006      2.640 226.917  -2.275   0.0238 *  
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
@@ -1054,7 +1155,8 @@ swap_targetTP.lmm.lme4 <- lmer(twoIncorrect ~ Target + (1|SID), data = d)
 summary(swap_targetTP.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Target + (1 | SID)
     ##    Data: d
     ## 
@@ -1071,9 +1173,11 @@ summary(swap_targetTP.lmm.lme4)
     ## Number of obs: 173, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   38.587      2.754  14.013
-    ## Target.L     -10.614      2.286  -4.642
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)   38.587      2.754  14.332  14.013 9.21e-10 ***
+    ## Target.L     -10.614      2.286 157.773  -4.642 7.21e-06 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
@@ -1091,7 +1195,8 @@ swap_targetTA.lmm.lme4 <- lmer(twoIncorrect ~ Target + (1|SID), data = d)
 summary(swap_targetTA.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Target + (1 | SID)
     ##    Data: d
     ## 
@@ -1108,9 +1213,11 @@ summary(swap_targetTA.lmm.lme4)
     ## Number of obs: 68, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   73.802      3.811  19.368
-    ## Target.L       2.839      4.986   0.569
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   73.802      3.811 13.067  19.368 5.24e-11 ***
+    ## Target.L       2.839      4.986 58.536   0.569    0.571    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
@@ -1128,7 +1235,8 @@ swap_targetNP.lmm.lme4 <- lmer(twoIncorrect ~ Target + (1|SID), data = d)
 summary(swap_targetNP.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Target + (1 | SID)
     ##    Data: d
     ## 
@@ -1145,9 +1253,11 @@ summary(swap_targetNP.lmm.lme4)
     ## Number of obs: 148, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   59.847      2.482  24.111
-    ## Target.L      -2.054      3.048  -0.674
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)   59.847      2.482  15.292  24.111 1.38e-13 ***
+    ## Target.L      -2.054      3.048 136.364  -0.674    0.502    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
@@ -1165,7 +1275,8 @@ swap_targetNA.lmm.lme4 <- lmer(twoIncorrect ~ Target + (1|SID), data = d)
 summary(swap_targetNA.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Target + (1 | SID)
     ##    Data: d
     ## 
@@ -1182,9 +1293,11 @@ summary(swap_targetNA.lmm.lme4)
     ## Number of obs: 93, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   30.553      3.533   8.648
-    ## Target.L     -11.263      3.367  -3.345
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)   30.553      3.533  14.288   8.648  4.7e-07 ***
+    ## Target.L     -11.263      3.367  77.975  -3.345  0.00127 ** 
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
@@ -1202,7 +1315,8 @@ swap_targetTPNP.lmm.lme4 <- lmer(twoIncorrect ~ Target + (1|SID), data = d)
 summary(swap_targetTPNP.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Target + (1 | SID)
     ##    Data: d
     ## 
@@ -1219,9 +1333,11 @@ summary(swap_targetTPNP.lmm.lme4)
     ## Number of obs: 86, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   44.677      2.440  18.312
-    ## Target.L      -9.669      2.863  -3.378
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   44.677      2.440 14.152  18.312 2.97e-11 ***
+    ## Target.L      -9.669      2.863 70.867  -3.378  0.00119 ** 
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
@@ -1239,7 +1355,8 @@ swap_targetTANP.lmm.lme4 <- lmer(twoIncorrect ~ Target + (1|SID), data = d)
 summary(swap_targetTANP.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Target + (1 | SID)
     ##    Data: d
     ## 
@@ -1256,9 +1373,11 @@ summary(swap_targetTANP.lmm.lme4)
     ## Number of obs: 62, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   80.744      2.390  33.786
-    ## Target.L       6.237      3.287   1.897
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   80.744      2.390 12.679  33.786  8.4e-14 ***
+    ## Target.L       6.237      3.287 52.108   1.897   0.0633 .  
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
@@ -1276,7 +1395,8 @@ swap_targetTPNA.lmm.lme4 <- lmer(twoIncorrect ~ Target + (1|SID), data = d)
 summary(swap_targetTPNA.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ Target + (1 | SID)
     ##    Data: d
     ## 
@@ -1293,9 +1413,11 @@ summary(swap_targetTPNA.lmm.lme4)
     ## Number of obs: 87, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error t value
-    ## (Intercept)   32.633      4.094   7.972
-    ## Target.L     -11.046      3.160  -3.496
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)   32.633      4.094  14.206   7.972 1.29e-06 ***
+    ## Target.L     -11.046      3.160  71.519  -3.496 0.000816 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
@@ -1313,7 +1435,8 @@ swap_targetContrast.lmm.lme4 <- lmer(twoIncorrect ~ targetContrast + (1|SID), da
 summary(swap_targetContrast.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
@@ -1330,9 +1453,11 @@ summary(swap_targetContrast.lmm.lme4)
     ## Number of obs: 241, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##                  Estimate Std. Error t value
-    ## (Intercept)        55.977      2.413   23.20
-    ## targetContrast.L   24.271      2.533    9.58
+    ##                  Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)        55.977      2.413  17.491   23.20  1.4e-14 ***
+    ## targetContrast.L   24.271      2.533 231.451    9.58  < 2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
@@ -1350,7 +1475,8 @@ swap_targetContrastT1.lmm.lme4 <- lmer(twoIncorrect ~ targetContrast + (1|SID), 
 summary(swap_targetContrastT1.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
@@ -1367,9 +1493,11 @@ summary(swap_targetContrastT1.lmm.lme4)
     ## Number of obs: 121, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##                  Estimate Std. Error t value
-    ## (Intercept)        58.665      3.133  18.727
-    ## targetContrast.L   17.750      3.194   5.558
+    ##                  Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)        58.665      3.133  17.092  18.727 7.91e-13 ***
+    ## targetContrast.L   17.750      3.194 108.288   5.558 1.98e-07 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
@@ -1387,7 +1515,8 @@ swap_targetContrastT2.lmm.lme4 <- lmer(twoIncorrect ~ targetContrast + (1|SID), 
 summary(swap_targetContrastT2.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
@@ -1404,9 +1533,11 @@ summary(swap_targetContrastT2.lmm.lme4)
     ## Number of obs: 120, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##                  Estimate Std. Error t value
-    ## (Intercept)        53.392      2.722  19.612
-    ## targetContrast.L   31.444      3.715   8.464
+    ##                  Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)        53.392      2.722  19.355  19.612 3.11e-14 ***
+    ## targetContrast.L   31.444      3.715 111.888   8.464 1.13e-13 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
@@ -1424,7 +1555,8 @@ swap_targetContrastNP.lmm.lme4 <- lmer(twoIncorrect ~ targetContrast + (1|SID), 
 summary(swap_targetContrastNP.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
@@ -1441,9 +1573,11 @@ summary(swap_targetContrastNP.lmm.lme4)
     ## Number of obs: 148, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##                  Estimate Std. Error t value
-    ## (Intercept)        62.803      2.072   30.31
-    ## targetContrast.L   25.119      2.270   11.07
+    ##                  Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)        62.803      2.072  15.984   30.31  1.5e-15 ***
+    ## targetContrast.L   25.119      2.270 138.292   11.07  < 2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
@@ -1461,7 +1595,8 @@ swap_targetContrastNPT1.lmm.lme4 <- lmer(twoIncorrect ~ targetContrast + (1|SID)
 summary(swap_targetContrastNPT1.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
@@ -1478,9 +1613,11 @@ summary(swap_targetContrastNPT1.lmm.lme4)
     ## Number of obs: 75, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##                  Estimate Std. Error t value
-    ## (Intercept)        63.805      2.722  23.439
-    ## targetContrast.L   17.381      3.083   5.637
+    ##                  Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)        63.805      2.722 14.671  23.439 4.91e-13 ***
+    ## targetContrast.L   17.381      3.083 62.375   5.637 4.46e-07 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
@@ -1498,7 +1635,8 @@ swap_targetContrastNPT2.lmm.lme4 <- lmer(twoIncorrect ~ targetContrast + (1|SID)
 summary(swap_targetContrastNPT2.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
@@ -1515,9 +1653,11 @@ summary(swap_targetContrastNPT2.lmm.lme4)
     ## Number of obs: 73, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##                  Estimate Std. Error t value
-    ## (Intercept)        61.398      2.398   25.60
-    ## targetContrast.L   33.267      3.047   10.92
+    ##                  Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)        61.398      2.398 14.261   25.60 2.52e-13 ***
+    ## targetContrast.L   33.267      3.047 62.546   10.92 4.00e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
@@ -1535,7 +1675,8 @@ swap_targetContrastNA.lmm.lme4 <- lmer(twoIncorrect ~ targetContrast + (1|SID), 
 summary(swap_targetContrastNA.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
@@ -1552,9 +1693,11 @@ summary(swap_targetContrastNA.lmm.lme4)
     ## Number of obs: 93, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##                  Estimate Std. Error t value
-    ## (Intercept)        12.942      5.834   2.218
-    ## targetContrast.L  -27.997      6.992  -4.004
+    ##                  Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)        12.942      5.834  49.755   2.218 0.031129 *  
+    ## targetContrast.L  -27.997      6.992  86.107  -4.004 0.000132 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
@@ -1572,7 +1715,8 @@ swap_targetContrastNAT1.lmm.lme4 <- lmer(twoIncorrect ~ targetContrast + (1|SID)
 summary(swap_targetContrastNAT1.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
@@ -1589,9 +1733,11 @@ summary(swap_targetContrastNAT1.lmm.lme4)
     ## Number of obs: 46, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##                  Estimate Std. Error t value
-    ## (Intercept)        15.693      7.792   2.014
-    ## targetContrast.L  -35.116      9.398  -3.736
+    ##                  Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)        15.693      7.792  41.933   2.014 0.050449 .  
+    ## targetContrast.L  -35.116      9.398  33.942  -3.736 0.000686 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
@@ -1609,7 +1755,8 @@ swap_targetContrastNAT2.lmm.lme4 <- lmer(twoIncorrect ~ targetContrast + (1|SID)
 summary(swap_targetContrastNAT2.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
@@ -1626,9 +1773,11 @@ summary(swap_targetContrastNAT2.lmm.lme4)
     ## Number of obs: 47, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##                  Estimate Std. Error t value
-    ## (Intercept)         7.217      6.887   1.048
-    ## targetContrast.L  -25.195      7.533  -3.345
+    ##                  Estimate Std. Error      df t value Pr(>|t|)   
+    ## (Intercept)         7.217      6.887  32.087   1.048  0.30252   
+    ## targetContrast.L  -25.195      7.533  35.248  -3.345  0.00197 **
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
@@ -1646,7 +1795,8 @@ swap_nontargetContrast.lmm.lme4 <- lmer(twoIncorrect ~ nontargetContrast + (1|SI
 summary(swap_targetContrast.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
@@ -1663,9 +1813,11 @@ summary(swap_targetContrast.lmm.lme4)
     ## Number of obs: 241, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##                  Estimate Std. Error t value
-    ## (Intercept)        55.977      2.413   23.20
-    ## targetContrast.L   24.271      2.533    9.58
+    ##                  Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)        55.977      2.413  17.491   23.20  1.4e-14 ***
+    ## targetContrast.L   24.271      2.533 231.451    9.58  < 2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
@@ -1683,7 +1835,8 @@ swap_nontargetContrastT1.lmm.lme4 <- lmer(twoIncorrect ~ nontargetContrast + (1|
 summary(swap_nontargetContrastT1.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
@@ -1700,9 +1853,11 @@ summary(swap_nontargetContrastT1.lmm.lme4)
     ## Number of obs: 121, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##                     Estimate Std. Error t value
-    ## (Intercept)           49.926      3.069  16.268
-    ## nontargetContrast.L  -15.937      2.869  -5.556
+    ##                     Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)           49.926      3.069  14.365  16.268 1.18e-10 ***
+    ## nontargetContrast.L  -15.937      2.869 105.578  -5.556 2.09e-07 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
@@ -1720,7 +1875,8 @@ swap_nontargetContrastT2.lmm.lme4 <- lmer(twoIncorrect ~ nontargetContrast + (1|
 summary(swap_nontargetContrastT2.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
@@ -1737,9 +1893,11 @@ summary(swap_nontargetContrastT2.lmm.lme4)
     ## Number of obs: 120, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##                     Estimate Std. Error t value
-    ## (Intercept)           40.560      2.771  14.637
-    ## nontargetContrast.L  -25.442      3.742  -6.799
+    ##                     Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)           40.560      2.771  15.743  14.637 1.39e-10 ***
+    ## nontargetContrast.L  -25.442      3.742 107.630  -6.799 6.11e-10 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
@@ -1757,7 +1915,8 @@ swap_nontargetContrastTP.lmm.lme4 <- lmer(twoIncorrect ~ nontargetContrast + (1|
 summary(swap_nontargetContrastTP.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
@@ -1774,9 +1933,11 @@ summary(swap_nontargetContrastTP.lmm.lme4)
     ## Number of obs: 173, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##                     Estimate Std. Error t value
-    ## (Intercept)           38.855      2.746   14.15
-    ## nontargetContrast.L   -8.688      2.336   -3.72
+    ##                     Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)           38.855      2.746  14.338   14.15 8.05e-10 ***
+    ## nontargetContrast.L   -8.688      2.336 157.635   -3.72 0.000277 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
@@ -1794,7 +1955,8 @@ swap_nontargetContrastTPT1.lmm.lme4 <- lmer(twoIncorrect ~ nontargetContrast + (
 summary(swap_nontargetContrastTPT1.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
@@ -1811,9 +1973,11 @@ summary(swap_nontargetContrastTPT1.lmm.lme4)
     ## Number of obs: 89, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##                     Estimate Std. Error t value
-    ## (Intercept)           46.024      3.084  14.923
-    ## nontargetContrast.L   -7.765      2.628  -2.954
+    ##                     Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)           46.024      3.084 14.075  14.923 5.06e-10 ***
+    ## nontargetContrast.L   -7.765      2.628 73.200  -2.954  0.00421 ** 
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
@@ -1831,7 +1995,8 @@ swap_nontargetContrastTPT2.lmm.lme4 <- lmer(twoIncorrect ~ nontargetContrast + (
 summary(swap_nontargetContrastTPT2.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
@@ -1848,9 +2013,11 @@ summary(swap_nontargetContrastTPT2.lmm.lme4)
     ## Number of obs: 84, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##                     Estimate Std. Error t value
-    ## (Intercept)           31.105      3.651   8.521
-    ## nontargetContrast.L   -9.031      3.407  -2.650
+    ##                     Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)           31.105      3.651 14.373   8.521 5.38e-07 ***
+    ## nontargetContrast.L   -9.031      3.407 68.970  -2.650  0.00996 ** 
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
@@ -1868,7 +2035,8 @@ swap_nontargetContrastTA.lmm.lme4 <- lmer(twoIncorrect ~ nontargetContrast + (1|
 summary(swap_nontargetContrastTA.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
@@ -1885,9 +2053,11 @@ summary(swap_nontargetContrastTA.lmm.lme4)
     ## Number of obs: 68, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##                     Estimate Std. Error t value
-    ## (Intercept)           40.427      3.922   10.31
-    ## nontargetContrast.L  -57.199      5.461  -10.47
+    ##                     Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)           40.427      3.922  36.441   10.31 2.39e-12 ***
+    ## nontargetContrast.L  -57.199      5.461  65.845  -10.47 1.17e-15 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
@@ -1905,7 +2075,8 @@ swap_nontargetContrastTAT1.lmm.lme4 <- lmer(twoIncorrect ~ nontargetContrast + (
 summary(swap_nontargetContrastTAT1.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
@@ -1922,9 +2093,11 @@ summary(swap_nontargetContrastTAT1.lmm.lme4)
     ## Number of obs: 32, groups:  SID, 15
     ## 
     ## Fixed effects:
-    ##                     Estimate Std. Error t value
-    ## (Intercept)           37.006      8.493   4.357
-    ## nontargetContrast.L  -55.488     11.731  -4.730
+    ##                     Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)           37.006      8.493  27.920   4.357 0.000161 ***
+    ## nontargetContrast.L  -55.488     11.731  26.769  -4.730 6.42e-05 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
@@ -1942,7 +2115,8 @@ swap_nontargetContrastTAT2.lmm.lme4 <- lmer(twoIncorrect ~ nontargetContrast + (
 summary(swap_nontargetContrastTAT2.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML ['lmerMod']
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
     ## Formula: twoIncorrect ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
@@ -1959,9 +2133,11 @@ summary(swap_nontargetContrastTAT2.lmm.lme4)
     ## Number of obs: 36, groups:  SID, 14
     ## 
     ## Fixed effects:
-    ##                     Estimate Std. Error t value
-    ## (Intercept)           42.600      3.024   14.09
-    ## nontargetContrast.L  -60.245      4.276  -14.09
+    ##                     Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)           42.600      3.024  34.000   14.09 9.37e-16 ***
+    ## nontargetContrast.L  -60.245      4.276  34.000  -14.09 9.37e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)

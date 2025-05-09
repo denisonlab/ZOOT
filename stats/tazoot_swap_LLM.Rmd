@@ -13,6 +13,7 @@ library(tidyverse)
 library(lme4)
 library(car)
 library(dplyr)
+library(lmerTest)
 
 knitr::opts_chunk$set(echo = TRUE)
 
