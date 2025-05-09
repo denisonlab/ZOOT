@@ -83,7 +83,30 @@ summary(swap.lmm.lme4)
 
 ``` r
 aov.swap <- Anova(swap.lmm.lme4)
+print(aov.swap)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                                                    Chisq Df Pr(>Chisq)    
+    ## Validity                                          0.9444  2  0.6236255    
+    ## Target                                           11.7423  1  0.0006110 ***
+    ## targetContrast                                   70.2330  1  < 2.2e-16 ***
+    ## nontargetContrast                                48.0669  1  4.119e-12 ***
+    ## Validity:Target                                   1.5067  2  0.4707902    
+    ## Validity:targetContrast                           2.3867  2  0.3032080    
+    ## Target:targetContrast                            12.6070  1  0.0003843 ***
+    ## Validity:nontargetContrast                        1.3612  2  0.5063206    
+    ## Target:nontargetContrast                          0.0580  1  0.8096688    
+    ## targetContrast:nontargetContrast                 54.5046  1  1.551e-13 ***
+    ## Validity:Target:targetContrast                    2.6907  2  0.2604495    
+    ## Validity:Target:nontargetContrast                 2.1299  2  0.3447450    
+    ## Validity:targetContrast:nontargetContrast         0.7356  2  0.6922599    
+    ## Target:targetContrast:nontargetContrast           0.0013  1  0.9715311    
+    ## Validity:Target:targetContrast:nontargetContrast          0               
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 # validity
 
@@ -125,7 +148,14 @@ summary(swap_validity.lmm.lme4)
 
 ``` r
 aov.swap_validity <- Anova(swap_validity.lmm.lme4)
+print(aov.swap_validity)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 0.8173  2     0.6645
 
 ## TP
 
@@ -167,7 +197,14 @@ summary(swap_validityTP.lmm.lme4)
 
 ``` r
 aov.swap_validityTP <- Anova(swap_validityTP.lmm.lme4)
+print(aov.swap_validityTP)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 0.6087  2     0.7376
 
 ### T1
 
@@ -209,7 +246,14 @@ summary(swap_validityTPT1.lmm.lme4)
 
 ``` r
 aov.swap_validityTPT1 <- Anova(swap_validityTPT1.lmm.lme4)
+print(aov.swap_validityTPT1)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 0.7166  2     0.6989
 
 ### T2
 
@@ -251,7 +295,14 @@ summary(swap_validityTPT2.lmm.lme4)
 
 ``` r
 aov.swap_validityTPT2 <- Anova(swap_validityTPT2.lmm.lme4)
+print(aov.swap_validityTPT2)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 0.0526  2      0.974
 
 ## TA
 
@@ -293,7 +344,14 @@ summary(swap_validityTA.lmm.lme4)
 
 ``` r
 aov.swap_validityTA <- Anova(swap_validityTA.lmm.lme4)
+print(aov.swap_validityTA)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 0.5772  2     0.7493
 
 ### T1
 
@@ -337,7 +395,16 @@ summary(swap_validityTAT1.lmm.lme4)
 
 ``` r
 aov.swap_validityTAT1 <- Anova(swap_validityTAT1.lmm.lme4)
+print(aov.swap_validityTAT1)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)  
+    ## Validity 5.7028  2    0.05776 .
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ### T2
 
@@ -381,7 +448,14 @@ summary(swap_validityTAT2.lmm.lme4)
 
 ``` r
 aov.swap_validityTAT2 <- Anova(swap_validityTAT2.lmm.lme4)
+print(aov.swap_validityTAT2)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 3.2677  2     0.1952
 
 ## NP
 
@@ -423,7 +497,14 @@ summary(swap_validityNP.lmm.lme4)
 
 ``` r
 aov.swap_validityNP <- Anova(swap_validityNP.lmm.lme4)
+print(aov.swap_validityNP)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 3.3066  2     0.1914
 
 ### T1
 
@@ -465,7 +546,16 @@ summary(swap_validityNPT1.lmm.lme4)
 
 ``` r
 aov.swap_validityNPT1 <- Anova(swap_validityNPT1.lmm.lme4)
+print(aov.swap_validityNPT1)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)   
+    ## Validity 10.721  2   0.004698 **
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ### T2
 
@@ -509,7 +599,14 @@ summary(swap_validityNPT2.lmm.lme4)
 
 ``` r
 aov.swap_validityNPT2 <- Anova(swap_validityNPT2.lmm.lme4)
+print(aov.swap_validityNPT2)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 0.1014  2     0.9506
 
 ## NA
 
@@ -551,7 +648,14 @@ summary(swap_validityNA.lmm.lme4)
 
 ``` r
 aov.swap_validityNA <- Anova(swap_validityNA.lmm.lme4)
+print(aov.swap_validityNA)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 2.7689  2     0.2505
 
 ### T1
 
@@ -593,7 +697,16 @@ summary(swap_validityNAT1.lmm.lme4)
 
 ``` r
 aov.swap_validityNAT1 <- Anova(swap_validityNAT1.lmm.lme4)
+print(aov.swap_validityNAT1)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##          Chisq Df Pr(>Chisq)  
+    ## Validity 5.375  2    0.06805 .
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ### T2
 
@@ -635,7 +748,14 @@ summary(swap_validityNAT2.lmm.lme4)
 
 ``` r
 aov.swap_validityNAT2 <- Anova(swap_validityNAT2.lmm.lme4)
+print(aov.swap_validityNAT2)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 0.2088  2     0.9009
 
 ## TPNP
 
@@ -677,7 +797,14 @@ summary(swap_validityTPNP.lmm.lme4)
 
 ``` r
 aov.swap_validityTPNP <- Anova(swap_validityTPNP.lmm.lme4)
+print(aov.swap_validityTPNP)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 0.1387  2      0.933
 
 ### T1
 
@@ -719,7 +846,14 @@ summary(swap_validityTPNP_T1.lmm.lme4)
 
 ``` r
 aov.swap_validityTPNP_T1 <- Anova(swap_validityTPNP_T1.lmm.lme4)
+print(aov.swap_validityTPNP_T1)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 1.1008  2     0.5767
 
 ### T2
 
@@ -763,7 +897,14 @@ summary(swap_validityTPNP_T2.lmm.lme4)
 
 ``` r
 aov.swap_validityTPNP_T2 <- Anova(swap_validityTPNP_T2.lmm.lme4)
+print(aov.swap_validityTPNP_T2)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 0.0918  2     0.9551
 
 ## TANP
 
@@ -805,7 +946,16 @@ summary(swap_validityTANP.lmm.lme4)
 
 ``` r
 aov.swap_validityTANP <- Anova(swap_validityTANP.lmm.lme4)
+print(aov.swap_validityTANP)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)  
+    ## Validity 4.6293  2     0.0988 .
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ### T1
 
@@ -847,7 +997,16 @@ summary(swap_validityTANP_T1.lmm.lme4)
 
 ``` r
 aov.swap_validityTANP_T1 <- Anova(swap_validityTANP_T1.lmm.lme4)
+print(aov.swap_validityTANP_T1)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)    
+    ## Validity 17.637  2   0.000148 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ### T2
 
@@ -891,7 +1050,14 @@ summary(swap_validityTANP_T2.lmm.lme4)
 
 ``` r
 aov.swap_validityTANP_T2 <- Anova(swap_validityTANP_T2.lmm.lme4)
+print(aov.swap_validityTANP_T2)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 2.9295  2     0.2311
 
 ## TPNA
 
@@ -933,7 +1099,14 @@ summary(swap_validityTPNA.lmm.lme4)
 
 ``` r
 aov.swap_validityTPNA <- Anova(swap_validityTPNA.lmm.lme4)
+print(aov.swap_validityTPNA)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 2.2401  2     0.3263
 
 ### T1
 
@@ -975,7 +1148,14 @@ summary(swap_validityTPNA_T1.lmm.lme4)
 
 ``` r
 aov.swap_validityTPNA_T1 <- Anova(swap_validityTPNA_T1.lmm.lme4)
+print(aov.swap_validityTPNA_T1)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 1.1008  2     0.5767
 
 ### T2
 
@@ -1019,7 +1199,14 @@ summary(swap_validityTPNA_T2.lmm.lme4)
 
 ``` r
 aov.swap_validityTPNA_T2 <- Anova(swap_validityTPNA_T2.lmm.lme4)
+print(aov.swap_validityTPNA_T2)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 0.0918  2     0.9551
 
 ## T1
 
@@ -1061,7 +1248,14 @@ summary(swap_validityT1.lmm.lme4)
 
 ``` r
 aov.swap_validityT1 <- Anova(swap_validityT1.lmm.lme4)
+print(aov.swap_validityT1)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##          Chisq Df Pr(>Chisq)
+    ## Validity 2.222  2     0.3292
 
 ## T2
 
@@ -1105,7 +1299,14 @@ summary(swap_validityT2.lmm.lme4)
 
 ``` r
 aov.swap_validityT2 <- Anova(swap_validityT2.lmm.lme4)
+print(aov.swap_validityT2)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 0.1723  2     0.9175
 
 # target
 
@@ -1145,7 +1346,16 @@ summary(swap_target.lmm.lme4)
 
 ``` r
 aov.swap_target <- Anova(swap_target.lmm.lme4)
+print(aov.swap_target)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##         Chisq Df Pr(>Chisq)  
+    ## Target 5.1754  1    0.02291 *
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ## TP
 
@@ -1185,7 +1395,16 @@ summary(swap_targetTP.lmm.lme4)
 
 ``` r
 aov.swap_targetTP <- Anova(swap_targetTP.lmm.lme4)
+print(aov.swap_targetTP)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##         Chisq Df Pr(>Chisq)    
+    ## Target 21.551  1  3.445e-06 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ## TA
 
@@ -1225,7 +1444,14 @@ summary(swap_targetTA.lmm.lme4)
 
 ``` r
 aov.swap_targetTA <- Anova(swap_targetTA.lmm.lme4)
+print(aov.swap_targetTA)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##         Chisq Df Pr(>Chisq)
+    ## Target 0.3241  1     0.5692
 
 ## NP
 
@@ -1265,7 +1491,14 @@ summary(swap_targetNP.lmm.lme4)
 
 ``` r
 aov.swap_targetNP <- Anova(swap_targetNP.lmm.lme4)
+print(aov.swap_targetNP)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##        Chisq Df Pr(>Chisq)
+    ## Target 0.454  1     0.5004
 
 ## NA
 
@@ -1305,7 +1538,16 @@ summary(swap_targetNA.lmm.lme4)
 
 ``` r
 aov.swap_targetNA <- Anova(swap_targetNA.lmm.lme4)
+print(aov.swap_targetNA)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##         Chisq Df Pr(>Chisq)    
+    ## Target 11.192  1  0.0008215 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ## TPNP
 
@@ -1345,7 +1587,16 @@ summary(swap_targetTPNP.lmm.lme4)
 
 ``` r
 aov.swap_targetTPNP <- Anova(swap_targetTPNP.lmm.lme4)
+print(aov.swap_targetTPNP)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##         Chisq Df Pr(>Chisq)    
+    ## Target 11.409  1   0.000731 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ## TANP
 
@@ -1385,7 +1636,16 @@ summary(swap_targetTANP.lmm.lme4)
 
 ``` r
 aov.swap_targetTANP <- Anova(swap_targetTANP.lmm.lme4)
+print(aov.swap_targetTANP)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##         Chisq Df Pr(>Chisq)  
+    ## Target 3.5996  1    0.05779 .
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ## TPNA
 
@@ -1425,7 +1685,16 @@ summary(swap_targetTPNA.lmm.lme4)
 
 ``` r
 aov.swap_targetTPNA <- Anova(swap_targetTPNA.lmm.lme4)
+print(aov.swap_targetTPNA)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##         Chisq Df Pr(>Chisq)    
+    ## Target 12.222  1  0.0004723 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 # target contrast
 
@@ -1465,7 +1734,16 @@ summary(swap_targetContrast.lmm.lme4)
 
 ``` r
 aov.swap_targetContrast <- Anova(swap_targetContrast.lmm.lme4)
+print(aov.swap_targetContrast)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                Chisq Df Pr(>Chisq)    
+    ## targetContrast 91.78  1  < 2.2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ## T1
 
@@ -1505,7 +1783,16 @@ summary(swap_targetContrastT1.lmm.lme4)
 
 ``` r
 aov.swap_targetContrastT1 <- Anova(swap_targetContrastT1.lmm.lme4)
+print(aov.swap_targetContrastT1)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                 Chisq Df Pr(>Chisq)    
+    ## targetContrast 30.891  1   2.73e-08 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ## T2
 
@@ -1545,7 +1832,16 @@ summary(swap_targetContrastT2.lmm.lme4)
 
 ``` r
 aov.swap_targetContrastT2 <- Anova(swap_targetContrastT2.lmm.lme4)
+print(aov.swap_targetContrastT2)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                 Chisq Df Pr(>Chisq)    
+    ## targetContrast 71.639  1  < 2.2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ## NP
 
@@ -1585,7 +1881,16 @@ summary(swap_targetContrastNP.lmm.lme4)
 
 ``` r
 aov.swap_targetContrastNP <- Anova(swap_targetContrastNP.lmm.lme4)
+print(aov.swap_targetContrastNP)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                 Chisq Df Pr(>Chisq)    
+    ## targetContrast 122.49  1  < 2.2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ### T1
 
@@ -1625,7 +1930,16 @@ summary(swap_targetContrastNPT1.lmm.lme4)
 
 ``` r
 aov.swap_targetContrastNPT1 <- Anova(swap_targetContrastNPT1.lmm.lme4)
+print(aov.swap_targetContrastNPT1)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                 Chisq Df Pr(>Chisq)    
+    ## targetContrast 31.777  1  1.729e-08 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ### T2
 
@@ -1665,7 +1979,16 @@ summary(swap_targetContrastNPT2.lmm.lme4)
 
 ``` r
 aov.swap_targetContrastNPT2 <- Anova(swap_targetContrastNPT2.lmm.lme4)
+print(aov.swap_targetContrastNPT2)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                 Chisq Df Pr(>Chisq)    
+    ## targetContrast 119.21  1  < 2.2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ## NA
 
@@ -1705,7 +2028,16 @@ summary(swap_targetContrastNA.lmm.lme4)
 
 ``` r
 aov.swap_targetContrastNA <- Anova(swap_targetContrastNA.lmm.lme4)
+print(aov.swap_targetContrastNA)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                 Chisq Df Pr(>Chisq)    
+    ## targetContrast 16.031  1  6.231e-05 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ### T1
 
@@ -1745,7 +2077,16 @@ summary(swap_targetContrastNAT1.lmm.lme4)
 
 ``` r
 aov.swap_targetContrastNAT1 <- Anova(swap_targetContrastNAT1.lmm.lme4)
+print(aov.swap_targetContrastNAT1)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                 Chisq Df Pr(>Chisq)    
+    ## targetContrast 13.961  1  0.0001867 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ### T2
 
@@ -1785,7 +2126,16 @@ summary(swap_targetContrastNAT2.lmm.lme4)
 
 ``` r
 aov.swap_targetContrastNAT2 <- Anova(swap_targetContrastNAT2.lmm.lme4)
+print(aov.swap_targetContrastNAT2)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                 Chisq Df Pr(>Chisq)    
+    ## targetContrast 11.186  1   0.000824 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 # nontarget contrast
 
@@ -1825,7 +2175,16 @@ summary(swap_targetContrast.lmm.lme4)
 
 ``` r
 aov.swap_nontargetContrast <- Anova(swap_nontargetContrast.lmm.lme4)
+print(aov.swap_nontargetContrast)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                    Chisq Df Pr(>Chisq)    
+    ## nontargetContrast 74.854  1  < 2.2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ## T1
 
@@ -1865,7 +2224,16 @@ summary(swap_nontargetContrastT1.lmm.lme4)
 
 ``` r
 aov.swap_nontargetContrastT1 <- Anova(swap_nontargetContrastT1.lmm.lme4)
+print(aov.swap_nontargetContrastT1)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                    Chisq Df Pr(>Chisq)    
+    ## nontargetContrast 30.866  1  2.764e-08 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ## T2
 
@@ -1905,7 +2273,16 @@ summary(swap_nontargetContrastT2.lmm.lme4)
 
 ``` r
 aov.swap_nontargetContrastT2 <- Anova(swap_nontargetContrastT2.lmm.lme4)
+print(aov.swap_nontargetContrastT2)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                    Chisq Df Pr(>Chisq)    
+    ## nontargetContrast 46.228  1  1.053e-11 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ## TP
 
@@ -1945,7 +2322,16 @@ summary(swap_nontargetContrastTP.lmm.lme4)
 
 ``` r
 aov.swap_nontargetContrastTP <- Anova(swap_nontargetContrastTP.lmm.lme4)
+print(aov.swap_nontargetContrastTP)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                    Chisq Df Pr(>Chisq)    
+    ## nontargetContrast 13.836  1  0.0001995 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ### T1
 
@@ -1985,7 +2371,16 @@ summary(swap_nontargetContrastTPT1.lmm.lme4)
 
 ``` r
 aov.swap_nontargetContrastTPT1 <- Anova(swap_nontargetContrastTPT1.lmm.lme4)
+print(aov.swap_nontargetContrastTPT1)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                    Chisq Df Pr(>Chisq)   
+    ## nontargetContrast 8.7282  1   0.003133 **
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ### T2
 
@@ -2025,7 +2420,16 @@ summary(swap_nontargetContrastTPT2.lmm.lme4)
 
 ``` r
 aov.swap_nontargetContrastTPT2 <- Anova(swap_nontargetContrastTPT2.lmm.lme4)
+print(aov.swap_nontargetContrastTPT2)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                    Chisq Df Pr(>Chisq)   
+    ## nontargetContrast 7.0247  1   0.008039 **
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ## TA
 
@@ -2065,47 +2469,50 @@ summary(swap_nontargetContrastTA.lmm.lme4)
 
 ``` r
 aov.swap_nontargetContrastTA <- Anova(swap_nontargetContrastTA.lmm.lme4)
+print(aov.swap_nontargetContrastTA)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                    Chisq Df Pr(>Chisq)    
+    ## nontargetContrast 109.71  1  < 2.2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ### T1
 
 ``` r
 d <- data %>% filter(targetContrast==0, Target==1)
 swap_nontargetContrastTAT1.lmm.lme4 <- lmer(twoIncorrect ~ nontargetContrast + (1|SID), data = d)
-summary(swap_nontargetContrastTAT1.lmm.lme4)
+print(swap_nontargetContrastTAT1.lmm.lme4)
 ```
 
-    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
-    ## lmerModLmerTest]
+    ## Linear mixed model fit by REML ['lmerModLmerTest']
     ## Formula: twoIncorrect ~ nontargetContrast + (1 | SID)
     ##    Data: d
-    ## 
-    ## REML criterion at convergence: 277.9
-    ## 
-    ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -3.1474 -0.3972  0.1613  0.6097  1.1092 
-    ## 
+    ## REML criterion at convergence: 277.9274
     ## Random effects:
-    ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  40.52    6.366  
-    ##  Residual             490.14   22.139  
+    ##  Groups   Name        Std.Dev.
+    ##  SID      (Intercept)  6.366  
+    ##  Residual             22.139  
     ## Number of obs: 32, groups:  SID, 15
-    ## 
-    ## Fixed effects:
-    ##                     Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)           37.006      8.493  27.920   4.357 0.000161 ***
-    ## nontargetContrast.L  -55.488     11.731  26.769  -4.730 6.42e-05 ***
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## Correlation of Fixed Effects:
-    ##             (Intr)
-    ## nntrgtCnt.L 0.862
+    ## Fixed Effects:
+    ##         (Intercept)  nontargetContrast.L  
+    ##               37.01               -55.49
 
 ``` r
 aov.swap_nontargetContrastTAT1 <- Anova(swap_nontargetContrastTAT1.lmm.lme4)
+summary(aov.swap_nontargetContrastTAT1)
 ```
+
+    ##      Chisq             Df      Pr(>Chisq)       
+    ##  Min.   :22.37   Min.   :1   Min.   :2.247e-06  
+    ##  1st Qu.:22.37   1st Qu.:1   1st Qu.:2.247e-06  
+    ##  Median :22.37   Median :1   Median :2.247e-06  
+    ##  Mean   :22.37   Mean   :1   Mean   :2.247e-06  
+    ##  3rd Qu.:22.37   3rd Qu.:1   3rd Qu.:2.247e-06  
+    ##  Max.   :22.37   Max.   :1   Max.   :2.247e-06
 
 ### T2
 
@@ -2147,4 +2554,13 @@ summary(swap_nontargetContrastTAT2.lmm.lme4)
 
 ``` r
 aov.swap_nontargetContrastTAT2 <- Anova(swap_nontargetContrastTAT2.lmm.lme4)
+print(aov.swap_nontargetContrastTAT2)
 ```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                    Chisq Df Pr(>Chisq)    
+    ## nontargetContrast 198.48  1  < 2.2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
