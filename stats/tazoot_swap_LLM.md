@@ -5,50 +5,50 @@ Jenny
 
 ``` r
 d <- data
-swap.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity * Target * targetContrast * nontargetContrast + (1|SID), data = d)
+swap.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity * Target * targetContrast * nontargetContrast + (1|SID), data = d)
 summary(swap.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
     ## Formula: 
-    ## point95_SwapAcc ~ Validity * Target * targetContrast * nontargetContrast +  
+    ## point93_SwapAcc ~ Validity * Target * targetContrast * nontargetContrast +  
     ##     (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1946.8
+    ## REML criterion at convergence: 1866.2
     ## 
     ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -2.91306 -0.68149 -0.00738  0.57733  2.99174 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -3.1124 -0.5787  0.0368  0.5907  3.2419 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  88.01    9.381  
-    ##  Residual             565.07   23.771  
+    ##  SID      (Intercept)  56.14    7.493  
+    ##  Residual             380.90   19.517  
     ## Number of obs: 223, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##                                                 Estimate Std. Error t value
-    ## (Intercept)                                      32.2911     7.1844   4.495
-    ## Validity.L                                       -3.7031    13.2992  -0.278
-    ## Validity.Q                                        0.8391     3.6282   0.231
-    ## Target.L                                          2.8910     2.9610   0.976
-    ## targetContrast.L                                  0.4246     9.5764   0.044
-    ## nontargetContrast.L                             -36.3141     9.5147  -3.817
-    ## Validity.L:Target.L                               4.1625     5.1198   0.813
-    ## Validity.Q:Target.L                              -0.5703     5.1281  -0.111
-    ## Validity.L:targetContrast.L                      -8.6324    18.8095  -0.459
-    ## Validity.Q:targetContrast.L                      -0.3633     5.1581  -0.070
-    ## Target.L:targetContrast.L                         5.5290     4.2385   1.304
-    ## Validity.L:nontargetContrast.L                   -4.1494    18.7620  -0.221
-    ## Validity.Q:nontargetContrast.L                   -0.3920     4.5366  -0.086
-    ## Target.L:nontargetContrast.L                     -2.4490     3.7303  -0.657
-    ## targetContrast.L:nontargetContrast.L            -40.6882    13.4258  -3.031
-    ## Validity.L:Target.L:targetContrast.L              8.4185     7.3531   1.145
-    ## Validity.Q:Target.L:targetContrast.L             -0.5150     7.2934  -0.071
-    ## Validity.L:Target.L:nontargetContrast.L          -0.2480     6.5183  -0.038
-    ## Validity.Q:Target.L:nontargetContrast.L           3.8709     6.4161   0.603
-    ## Validity.L:targetContrast.L:nontargetContrast.L  -8.4354    26.5262  -0.318
+    ## (Intercept)                                      39.0248     5.8790   6.638
+    ## Validity.L                                       -7.7079    10.9187  -0.706
+    ## Validity.Q                                        3.2013     2.9785   1.075
+    ## Target.L                                         -1.5129     2.4308  -0.622
+    ## targetContrast.L                                  0.4276     7.8603   0.054
+    ## nontargetContrast.L                             -32.1900     7.8100  -4.122
+    ## Validity.L:Target.L                               3.6386     4.2033   0.866
+    ## Validity.Q:Target.L                              -4.0960     4.2099  -0.973
+    ## Validity.L:targetContrast.L                     -13.7434    15.4427  -0.890
+    ## Validity.Q:targetContrast.L                       4.0533     4.2345   0.957
+    ## Target.L:targetContrast.L                        12.4946     3.4795   3.591
+    ## Validity.L:nontargetContrast.L                   -6.0548    15.4038  -0.393
+    ## Validity.Q:nontargetContrast.L                    0.6999     3.7245   0.188
+    ## Target.L:nontargetContrast.L                     -1.2411     3.0626  -0.405
+    ## targetContrast.L:nontargetContrast.L            -33.3323    11.0204  -3.025
+    ## Validity.L:Target.L:targetContrast.L              6.8594     6.0367   1.136
+    ## Validity.Q:Target.L:targetContrast.L             -6.5182     5.9874  -1.089
+    ## Validity.L:Target.L:nontargetContrast.L          -6.6716     5.3515  -1.247
+    ## Validity.Q:Target.L:nontargetContrast.L           2.4845     5.2676   0.472
+    ## Validity.L:targetContrast.L:nontargetContrast.L -16.1027    21.7783  -0.739
 
     ## fit warnings:
     ## fixed-effect model matrix is rank deficient so dropping 4 columns / coefficients
@@ -61,31 +61,31 @@ aov.swap <- Anova(swap.lmm.lme4)
 
 ``` r
 d <- data
-swap_validity.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validity.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validity.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 2174.8
+    ## REML criterion at convergence: 2118.8
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.76543 -0.86148  0.01068  0.87809  2.16163 
+    ## -2.06139 -0.64037 -0.00236  0.74440  2.21287 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  104.5   10.22   
-    ##  Residual             1017.7   31.90   
+    ##  SID      (Intercept)  65.7     8.105  
+    ##  Residual             795.2    28.199  
     ## Number of obs: 223, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   43.240      3.406  12.696
-    ## Validity.L    -1.465      3.723  -0.393
-    ## Validity.Q     2.530      3.706   0.683
+    ## (Intercept)   48.748      2.827  17.243
+    ## Validity.L    -2.470      3.290  -0.751
+    ## Validity.Q     3.373      3.275   1.030
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -100,36 +100,36 @@ aov.swap_validity <- Anova(swap_validity.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==1)
-swap_validityTP.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTP.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTP.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1516.9
+    ## REML criterion at convergence: 1495.2
     ## 
     ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -1.7129 -0.7877 -0.1916  0.7045  3.0174 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -2.15469 -0.59214  0.09021  0.70610  2.92130 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 160.8    12.68   
-    ##  Residual             556.2    23.58   
+    ##  SID      (Intercept)  66.02    8.125  
+    ##  Residual             510.12   22.586  
     ## Number of obs: 165, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)  31.7972     3.7571   8.463
-    ## Validity.L    2.5926     3.2062   0.809
-    ## Validity.Q    0.7321     3.1831   0.230
+    ## (Intercept)  39.1828     2.7406  14.297
+    ## Validity.L    1.6308     3.0687   0.531
+    ## Validity.Q    0.6648     3.0448   0.218
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L -0.020       
-    ## Validity.Q  0.008 -0.030
+    ## Validity.L -0.025       
+    ## Validity.Q  0.010 -0.029
 
 ``` r
 aov.swap_validityTP <- Anova(swap_validityTP.lmm.lme4)
@@ -139,36 +139,36 @@ aov.swap_validityTP <- Anova(swap_validityTP.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==1, Target==1)
-swap_validityTPT1.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTPT1.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTPT1.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 826.9
+    ## REML criterion at convergence: 770.4
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.39776 -0.89328 -0.07528  0.65490  2.44933 
+    ## -2.18837 -0.61990 -0.00774  0.58466  2.97544 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  90.22    9.499  
-    ##  Residual             702.17   26.498  
+    ##  SID      (Intercept)  83.64    9.145  
+    ##  Residual             345.31   18.583  
     ## Number of obs: 89, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   32.789      3.730   8.790
-    ## Validity.L     3.667      4.838   0.758
-    ## Validity.Q     1.052      4.897   0.215
+    ## (Intercept)   46.098      3.076  14.987
+    ## Validity.L     2.867      3.393   0.845
+    ## Validity.Q    -0.170      3.436  -0.049
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
     ## Validity.L  0.000       
-    ## Validity.Q -0.013  0.000
+    ## Validity.Q -0.011  0.000
 
 ``` r
 aov.swap_validityTPT1 <- Anova(swap_validityTPT1.lmm.lme4)
@@ -178,12 +178,12 @@ aov.swap_validityTPT1 <- Anova(swap_validityTPT1.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==1, Target==2)
-swap_validityTPT2.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTPT2.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTPT2.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
     ## REML criterion at convergence: 685.4
@@ -217,36 +217,38 @@ aov.swap_validityTPT2 <- Anova(swap_validityTPT2.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==0)
-swap_validityTA.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTA.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTA.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 524.6
+    ## REML criterion at convergence: 510.5
     ## 
     ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -2.82367 -0.08186  0.12113  0.52860  0.93899 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -3.3696 -0.2401  0.1562  0.5988  1.3262 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  76.52    8.748  
-    ##  Residual             617.13   24.842  
+    ##  SID      (Intercept)   0       0.00   
+    ##  Residual             525      22.91   
     ## Number of obs: 58, groups:  SID, 14
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   77.973      4.115  18.947
-    ## Validity.L    -4.008      5.775  -0.694
-    ## Validity.Q     4.508      5.755   0.783
+    ## (Intercept)   77.593      3.026  25.646
+    ## Validity.L    -6.184      5.232  -1.182
+    ## Validity.Q     9.775      5.249   1.862
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.096       
-    ## Validity.Q -0.006  0.072
+    ## Validity.L  0.105       
+    ## Validity.Q -0.004  0.074
+    ## optimizer (nloptwrap) convergence code: 0 (OK)
+    ## boundary (singular) fit: see help('isSingular')
 
 ``` r
 aov.swap_validityTA <- Anova(swap_validityTA.lmm.lme4)
@@ -256,31 +258,31 @@ aov.swap_validityTA <- Anova(swap_validityTA.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==0, Target==1)
-swap_validityTAT1.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTAT1.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTAT1.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 242.7
+    ## REML criterion at convergence: 228.2
     ## 
     ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -2.12305 -0.08023  0.05027  0.64686  1.07489 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -2.3600 -0.2947  0.1022  0.5638  1.8073 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)    0      0.00   
-    ##  Residual             1053     32.45   
+    ##  SID      (Intercept)   0.0     0      
+    ##  Residual             575.8    24      
     ## Number of obs: 27, groups:  SID, 13
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   72.332      6.468  11.184
-    ## Validity.L    -9.967     11.848  -0.841
-    ## Validity.Q     8.830     10.517   0.840
+    ## (Intercept)   72.504      4.783  15.158
+    ## Validity.L   -14.091      8.762  -1.608
+    ## Validity.Q    19.439      7.778   2.499
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -297,12 +299,12 @@ aov.swap_validityTAT1 <- Anova(swap_validityTAT1.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==0, Target==2)
-swap_validityTAT2.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTAT2.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTAT2.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
     ## REML criterion at convergence: 251.7
@@ -336,36 +338,36 @@ aov.swap_validityTAT2 <- Anova(swap_validityTAT2.lmm.lme4)
 
 ``` r
 d <- data %>% filter(nontargetContrast==1)
-swap_validityNP.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityNP.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityNP.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1313.1
+    ## REML criterion at convergence: 1263.9
     ## 
     ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -1.7225 -0.6659  0.1093  0.8254  1.7909 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -2.26761 -0.67085 -0.00821  0.75208  1.86703 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 125.1    11.18   
-    ##  Residual             881.9    29.70   
+    ##  SID      (Intercept)  32.35    5.687  
+    ##  Residual             639.74   25.293  
     ## Number of obs: 137, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   53.796      3.866  13.916
-    ## Validity.L    -2.387      4.442  -0.537
-    ## Validity.Q     3.359      4.407   0.762
+    ## (Intercept)   59.420      2.625  22.633
+    ## Validity.L    -5.446      3.769  -1.445
+    ## Validity.Q     4.197      3.746   1.121
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L 0.015        
-    ## Validity.Q 0.000  0.016
+    ## Validity.L 0.020        
+    ## Validity.Q 0.002  0.017
 
 ``` r
 aov.swap_validityNP <- Anova(swap_validityNP.lmm.lme4)
@@ -375,35 +377,35 @@ aov.swap_validityNP <- Anova(swap_validityNP.lmm.lme4)
 
 ``` r
 d <- data %>% filter(nontargetContrast==1, Target==1)
-swap_validityNPT1.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityNPT1.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityNPT1.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 677.3
+    ## REML criterion at convergence: 620.3
     ## 
     ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -1.51874 -0.97333  0.00175  0.79431  1.71872 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -2.4288 -0.7094 -0.1098  0.6504  2.1629 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 119.5    10.93   
-    ##  Residual             965.7    31.08   
+    ##  SID      (Intercept)  54.41    7.377  
+    ##  Residual             416.16   20.400  
     ## Number of obs: 71, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   49.939      4.680  10.671
-    ## Validity.L    -4.942      6.532  -0.757
-    ## Validity.Q     1.961      6.343   0.309
+    ## (Intercept)   59.319      3.104  19.110
+    ## Validity.L   -10.078      4.289  -2.350
+    ## Validity.Q     4.835      4.164   1.161
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L 0.059        
+    ## Validity.L 0.058        
     ## Validity.Q 0.035  0.051
 
 ``` r
@@ -414,12 +416,12 @@ aov.swap_validityNPT1 <- Anova(swap_validityNPT1.lmm.lme4)
 
 ``` r
 d <- data %>% filter(nontargetContrast==1, Target==2)
-swap_validityNPT2.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityNPT2.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityNPT2.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
     ## REML criterion at convergence: 617.9
@@ -455,36 +457,36 @@ aov.swap_validityNPT2 <- Anova(swap_validityNPT2.lmm.lme4)
 
 ``` r
 d <- data %>% filter(nontargetContrast==0)
-swap_validityNA.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityNA.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityNA.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 774.7
+    ## REML criterion at convergence: 784.6
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.59083 -0.48757 -0.05089  0.33879  2.70257 
+    ## -1.93055 -0.66741  0.05077  0.59758  2.45260 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 402.0    20.05   
-    ##  Residual             423.4    20.58   
+    ##  SID      (Intercept) 104.2    10.21   
+    ##  Residual             579.4    24.07   
     ## Number of obs: 86, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   25.911      5.641   4.593
-    ## Validity.L     2.794      3.873   0.721
-    ## Validity.Q     1.494      3.863   0.387
+    ## (Intercept)   32.110      3.711   8.654
+    ## Validity.L     4.364      4.524   0.965
+    ## Validity.Q     1.972      4.504   0.438
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L -0.017       
-    ## Validity.Q  0.004 -0.035
+    ## Validity.L -0.030       
+    ## Validity.Q  0.007 -0.033
 
 ``` r
 aov.swap_validityNA <- Anova(swap_validityNA.lmm.lme4)
@@ -494,36 +496,36 @@ aov.swap_validityNA <- Anova(swap_validityNA.lmm.lme4)
 
 ``` r
 d <- data %>% filter(nontargetContrast==0, Target==1)
-swap_validityNAT1.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityNAT1.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityNAT1.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 412.1
+    ## REML criterion at convergence: 387.8
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -1.6739 -0.6447 -0.1244  0.3976  2.2248 
+    ## -2.3171 -0.5524  0.1051  0.6224  1.5570 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 267.7    16.36   
-    ##  Residual             657.9    25.65   
+    ##  SID      (Intercept) 200.7    14.17   
+    ##  Residual             343.7    18.54   
     ## Number of obs: 45, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   27.553      5.709   4.827
-    ## Validity.L     5.074      6.623   0.766
-    ## Validity.Q     1.597      6.679   0.239
+    ## (Intercept)   39.534      4.593   8.607
+    ## Validity.L     9.973      4.787   2.083
+    ## Validity.Q     1.750      4.835   0.362
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
     ## Validity.L  0.000       
-    ## Validity.Q -0.008  0.000
+    ## Validity.Q -0.009  0.000
 
 ``` r
 aov.swap_validityNAT1 <- Anova(swap_validityNAT1.lmm.lme4)
@@ -533,12 +535,12 @@ aov.swap_validityNAT1 <- Anova(swap_validityNAT1.lmm.lme4)
 
 ``` r
 d <- data %>% filter(nontargetContrast==0, Target==2)
-swap_validityNAT2.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityNAT2.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityNAT2.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
     ## REML criterion at convergence: 360.7
@@ -572,36 +574,38 @@ aov.swap_validityNAT2 <- Anova(swap_validityNAT2.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==1, nontargetContrast==1)
-swap_validityTPNP.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTPNP.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTPNP.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 721.1
+    ## REML criterion at convergence: 700.6
     ## 
     ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -1.49584 -0.71509 -0.03864  0.73547  2.48610 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -2.2620 -0.5261  0.1361  0.5790  2.7098 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 138.6    11.77   
-    ##  Residual             441.2    21.00   
+    ##  SID      (Intercept)   0.0     0.00   
+    ##  Residual             404.5    20.11   
     ## Number of obs: 81, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   36.901      3.838   9.615
-    ## Validity.L     1.928      4.118   0.468
-    ## Validity.Q     1.464      4.031   0.363
+    ## (Intercept) 45.55797    2.23798  20.357
+    ## Validity.L  -2.36834    3.91339  -0.605
+    ## Validity.Q   0.07523    3.83884   0.020
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L -0.030       
-    ## Validity.Q  0.018 -0.037
+    ## Validity.L -0.047       
+    ## Validity.Q  0.027 -0.033
+    ## optimizer (nloptwrap) convergence code: 0 (OK)
+    ## boundary (singular) fit: see help('isSingular')
 
 ``` r
 aov.swap_validityTPNP <- Anova(swap_validityTPNP.lmm.lme4)
@@ -611,31 +615,31 @@ aov.swap_validityTPNP <- Anova(swap_validityTPNP.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==1, nontargetContrast==1, Target==1)
-swap_validityTPNP_T1.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTPNP_T1.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTPNP_T1.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 400.8
+    ## REML criterion at convergence: 363.1
     ## 
     ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -1.3725 -0.6802  0.1202  0.5917  2.5011 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -1.50539 -0.84701  0.01104  0.53891  2.99259 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  94.39    9.716  
-    ##  Residual             572.76   23.932  
+    ##  SID      (Intercept)  16.53    4.066  
+    ##  Residual             251.88   15.871  
     ## Number of obs: 45, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   36.820      4.361   8.443
-    ## Validity.L     2.259      6.179   0.366
-    ## Validity.Q     3.454      6.179   0.559
+    ## (Intercept)  51.5146     2.5883  19.903
+    ## Validity.L   -4.2388     4.0978  -1.034
+    ## Validity.Q    0.7198     4.0978   0.176
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -650,12 +654,12 @@ aov.swap_validityTPNP_T1 <- Anova(swap_validityTPNP_T1.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==1, nontargetContrast==1, Target==2)
-swap_validityTPNP_T2.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTPNP_T2.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTPNP_T2.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
     ## REML criterion at convergence: 307.1
@@ -691,36 +695,38 @@ aov.swap_validityTPNP_T2 <- Anova(swap_validityTPNP_T2.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==0, nontargetContrast==1)
-swap_validityTANP.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTANP.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTANP.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 487.6
+    ## REML criterion at convergence: 467.4
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.4942 -0.1379  0.1266  0.4776  1.0080 
+    ## -4.0521 -0.3402  0.0839  0.5611  1.4625 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  67.73    8.23   
-    ##  Residual             429.08   20.71   
+    ##  SID      (Intercept)   0.0     0.00   
+    ##  Residual             328.8    18.13   
     ## Number of obs: 56, groups:  SID, 14
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   80.279      3.622  22.166
-    ## Validity.L    -1.135      4.907  -0.231
-    ## Validity.Q     3.371      4.927   0.684
+    ## (Intercept)   80.490      2.444  32.931
+    ## Validity.L    -2.772      4.213  -0.658
+    ## Validity.Q     8.587      4.254   2.019
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.107       
-    ## Validity.Q -0.010  0.090
+    ## Validity.L  0.128       
+    ## Validity.Q -0.014  0.090
+    ## optimizer (nloptwrap) convergence code: 0 (OK)
+    ## boundary (singular) fit: see help('isSingular')
 
 ``` r
 aov.swap_validityTANP <- Anova(swap_validityTANP.lmm.lme4)
@@ -730,36 +736,36 @@ aov.swap_validityTANP <- Anova(swap_validityTANP.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==0, nontargetContrast==1, Target==1)
-swap_validityTANP_T1.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTANP_T1.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTANP_T1.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 229.1
+    ## REML criterion at convergence: 212.3
     ## 
     ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -2.35280 -0.09852  0.11089  0.54553  1.01584 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -2.2599 -0.4209  0.1955  0.4742  1.3798 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  36.64    6.053  
-    ##  Residual             859.27   29.313  
+    ##  SID      (Intercept) 180.8    13.45   
+    ##  Residual             290.8    17.05   
     ## Number of obs: 26, groups:  SID, 13
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   74.375      6.196  12.004
-    ## Validity.L   -10.021     10.784  -0.929
-    ## Validity.Q     3.727      9.836   0.379
+    ## (Intercept)   71.901      5.227  13.756
+    ## Validity.L   -15.918      6.597  -2.413
+    ## Validity.Q    11.516      6.013   1.915
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L 0.212        
-    ## Validity.Q 0.134  0.160
+    ## Validity.L 0.185        
+    ## Validity.Q 0.117  0.161
 
 ``` r
 aov.swap_validityTANP_T1 <- Anova(swap_validityTANP_T1.lmm.lme4)
@@ -769,12 +775,12 @@ aov.swap_validityTANP_T1 <- Anova(swap_validityTANP_T1.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==0, nontargetContrast==1, Target==2)
-swap_validityTANP_T2.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTANP_T2.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTANP_T2.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
     ## REML criterion at convergence: 208.7
@@ -810,36 +816,36 @@ aov.swap_validityTANP_T2 <- Anova(swap_validityTANP_T2.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==1, nontargetContrast==0)
-swap_validityTPNA.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTPNA.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTPNA.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 739.5
+    ## REML criterion at convergence: 758.8
     ## 
     ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -2.9086 -0.6037 -0.1347  0.3788  2.9977 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -1.78798 -0.59866  0.02405  0.52920  2.15533 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 517.7    22.75   
-    ##  Residual             315.7    17.77   
+    ##  SID      (Intercept) 177.0    13.30   
+    ##  Residual             494.4    22.23   
     ## Number of obs: 84, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)  27.0687     6.1907   4.372
-    ## Validity.L    4.2229     3.3699   1.253
-    ## Validity.Q    0.8016     3.3858   0.237
+    ## (Intercept)   33.132      4.212   7.866
+    ## Validity.L     5.499      4.213   1.305
+    ## Validity.Q     1.514      4.227   0.358
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L -0.010       
-    ## Validity.Q  0.002 -0.025
+    ## Validity.L -0.018       
+    ## Validity.Q  0.002 -0.023
 
 ``` r
 aov.swap_validityTPNA <- Anova(swap_validityTPNA.lmm.lme4)
@@ -849,31 +855,31 @@ aov.swap_validityTPNA <- Anova(swap_validityTPNA.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==1, nontargetContrast==1, Target==1)
-swap_validityTPNA_T1.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTPNA_T1.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTPNA_T1.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 400.8
+    ## REML criterion at convergence: 363.1
     ## 
     ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -1.3725 -0.6802  0.1202  0.5917  2.5011 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -1.50539 -0.84701  0.01104  0.53891  2.99259 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  94.39    9.716  
-    ##  Residual             572.76   23.932  
+    ##  SID      (Intercept)  16.53    4.066  
+    ##  Residual             251.88   15.871  
     ## Number of obs: 45, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   36.820      4.361   8.443
-    ## Validity.L     2.259      6.179   0.366
-    ## Validity.Q     3.454      6.179   0.559
+    ## (Intercept)  51.5146     2.5883  19.903
+    ## Validity.L   -4.2388     4.0978  -1.034
+    ## Validity.Q    0.7198     4.0978   0.176
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
@@ -888,12 +894,12 @@ aov.swap_validityTPNA_T1 <- Anova(swap_validityTPNA_T1.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==1, nontargetContrast==1, Target==2)
-swap_validityTPNA_T2.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTPNA_T2.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTPNA_T2.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
     ## REML criterion at convergence: 307.1
@@ -929,36 +935,36 @@ aov.swap_validityTPNA_T2 <- Anova(swap_validityTPNA_T2.lmm.lme4)
 
 ``` r
 d <- data %>% filter(Target==1)
-swap_validityT1.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityT1.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityT1.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1126.3
+    ## REML criterion at convergence: 1054.8
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.48702 -0.99238 -0.01167  0.75881  1.92408 
+    ## -2.47847 -0.60303 -0.07893  0.67383  2.35335 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)   67.5    8.216  
-    ##  Residual             1067.9   32.679  
+    ##  SID      (Intercept)  80.54    8.974  
+    ##  Residual             542.05   23.282  
     ## Number of obs: 116, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   41.547      3.714  11.187
-    ## Validity.L    -1.628      5.316  -0.306
-    ## Validity.Q     1.403      5.230   0.268
+    ## (Intercept)   51.752      3.179  16.279
+    ## Validity.L    -2.641      3.791  -0.697
+    ## Validity.Q     3.261      3.733   0.873
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L 0.036        
-    ## Validity.Q 0.020  0.031
+    ## Validity.L 0.030        
+    ## Validity.Q 0.016  0.030
 
 ``` r
 aov.swap_validityT1 <- Anova(swap_validityT1.lmm.lme4)
@@ -968,12 +974,12 @@ aov.swap_validityT1 <- Anova(swap_validityT1.lmm.lme4)
 
 ``` r
 d <- data %>% filter(Target==2)
-swap_validityT2.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityT2.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityT2.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Validity + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Validity + (1 | SID)
     ##    Data: d
     ## 
     ## REML criterion at convergence: 1037
@@ -1007,34 +1013,34 @@ aov.swap_validityT2 <- Anova(swap_validityT2.lmm.lme4)
 
 ``` r
 d <- data
-swap_target.lmm.lme4 <- lmer(point95_SwapAcc ~ Target + (1|SID), data = d)
+swap_target.lmm.lme4 <- lmer(point93_SwapAcc ~ Target + (1|SID), data = d)
 summary(swap_target.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Target + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 2179.4
+    ## REML criterion at convergence: 2122.3
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.83070 -0.83559 -0.02003  0.87457  2.16326 
+    ## -2.19441 -0.66735 -0.01901  0.79009  2.02244 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  103.3   10.16   
-    ##  Residual             1012.2   31.82   
+    ##  SID      (Intercept)  66.71    8.167  
+    ##  Residual             786.93   28.052  
     ## Number of obs: 223, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   43.322      3.391  12.776
-    ## Target.L       2.820      3.023   0.933
+    ## (Intercept)   48.597      2.834  17.150
+    ## Target.L      -4.412      2.665  -1.656
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
-    ## Target.L 0.028
+    ## Target.L 0.029
 
 ``` r
 aov.swap_target <- Anova(swap_target.lmm.lme4)
@@ -1044,34 +1050,34 @@ aov.swap_target <- Anova(swap_target.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==1)
-swap_targetTP.lmm.lme4 <- lmer(point95_SwapAcc ~ Target + (1|SID), data = d)
+swap_targetTP.lmm.lme4 <- lmer(point93_SwapAcc ~ Target + (1|SID), data = d)
 summary(swap_targetTP.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Target + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1521.8
+    ## REML criterion at convergence: 1480.8
     ## 
     ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -1.7871 -0.8013 -0.1676  0.7271  3.0814 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -2.09613 -0.66510 -0.05155  0.69775  2.78589 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 161.7    12.72   
-    ##  Residual             553.8    23.53   
+    ##  SID      (Intercept)  69.81    8.355  
+    ##  Residual             447.04   21.143  
     ## Number of obs: 165, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   31.764      3.766   8.435
-    ## Target.L      -1.433      2.609  -0.549
+    ## (Intercept)   38.590      2.719   14.19
+    ## Target.L     -10.612      2.343   -4.53
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
-    ## Target.L 0.041
+    ## Target.L 0.051
 
 ``` r
 aov.swap_targetTP <- Anova(swap_targetTP.lmm.lme4)
@@ -1081,34 +1087,36 @@ aov.swap_targetTP <- Anova(swap_targetTP.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==0)
-swap_targetTA.lmm.lme4 <- lmer(point95_SwapAcc ~ Target + (1|SID), data = d)
+swap_targetTA.lmm.lme4 <- lmer(point93_SwapAcc ~ Target + (1|SID), data = d)
 summary(swap_targetTA.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Target + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 529.4
+    ## REML criterion at convergence: 518
     ## 
     ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -3.05939 -0.08888  0.18364  0.55577  1.00881 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -3.5965 -0.2402  0.1205  0.7135  1.2023 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  57.07    7.555  
-    ##  Residual             607.61   24.650  
+    ##  SID      (Intercept)   0       0.00   
+    ##  Residual             534      23.11   
     ## Number of obs: 58, groups:  SID, 14
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   77.949      3.892  20.029
-    ## Target.L       6.840      4.643   1.473
+    ## (Intercept)   77.663      3.042  25.534
+    ## Target.L       7.702      4.301   1.791
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
-    ## Target.L -0.058
+    ## Target.L -0.069
+    ## optimizer (nloptwrap) convergence code: 0 (OK)
+    ## boundary (singular) fit: see help('isSingular')
 
 ``` r
 aov.swap_targetTA <- Anova(swap_targetTA.lmm.lme4)
@@ -1118,34 +1126,34 @@ aov.swap_targetTA <- Anova(swap_targetTA.lmm.lme4)
 
 ``` r
 d <- data %>% filter(nontargetContrast==1)
-swap_targetNP.lmm.lme4 <- lmer(point95_SwapAcc ~ Target + (1|SID), data = d)
+swap_targetNP.lmm.lme4 <- lmer(point93_SwapAcc ~ Target + (1|SID), data = d)
 summary(swap_targetNP.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Target + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1316.7
+    ## REML criterion at convergence: 1272.1
     ## 
     ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -1.9081 -0.8182  0.0737  0.8049  1.8385 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -2.37359 -0.71236 -0.02921  0.87193  1.69015 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 116.2    10.78   
-    ##  Residual             867.6    29.46   
+    ##  SID      (Intercept)  30.75    5.545  
+    ##  Residual             652.49   25.544  
     ## Number of obs: 137, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   54.028      3.775  14.312
-    ## Target.L       5.718      3.579   1.598
+    ## (Intercept)  59.5009     2.6233  22.682
+    ## Target.L     -0.3681     3.0966  -0.119
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
-    ## Target.L 0.027
+    ## Target.L 0.032
 
 ``` r
 aov.swap_targetNP <- Anova(swap_targetNP.lmm.lme4)
@@ -1155,34 +1163,34 @@ aov.swap_targetNP <- Anova(swap_targetNP.lmm.lme4)
 
 ``` r
 d <- data %>% filter(nontargetContrast==0)
-swap_targetNA.lmm.lme4 <- lmer(point95_SwapAcc ~ Target + (1|SID), data = d)
+swap_targetNA.lmm.lme4 <- lmer(point93_SwapAcc ~ Target + (1|SID), data = d)
 summary(swap_targetNA.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Target + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 779.9
+    ## REML criterion at convergence: 782.2
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -2.5555 -0.4295 -0.1200  0.3588  2.5891 
+    ## -2.2351 -0.7958  0.0061  0.5043  2.8309 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 398.2    19.95   
-    ##  Residual             420.1    20.50   
+    ##  SID      (Intercept) 106.8    10.33   
+    ##  Residual             516.0    22.72   
     ## Number of obs: 86, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   25.894      5.616   4.611
-    ## Target.L      -1.914      3.153  -0.607
+    ## (Intercept)   31.803      3.634   8.752
+    ## Target.L     -10.664      3.484  -3.061
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
-    ## Target.L 0.023
+    ## Target.L 0.036
 
 ``` r
 aov.swap_targetNA <- Anova(swap_targetNA.lmm.lme4)
@@ -1192,34 +1200,34 @@ aov.swap_targetNA <- Anova(swap_targetNA.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==1, nontargetContrast==1)
-swap_targetTPNP.lmm.lme4 <- lmer(point95_SwapAcc ~ Target + (1|SID), data = d)
+swap_targetTPNP.lmm.lme4 <- lmer(point93_SwapAcc ~ Target + (1|SID), data = d)
 summary(swap_targetTPNP.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Target + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 726.6
+    ## REML criterion at convergence: 696.1
     ## 
     ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -1.56997 -0.75205 -0.06542  0.78971  2.57055 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -2.0425 -0.6921 -0.0164  0.6293  3.2486 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 138.3    11.76   
-    ##  Residual             437.3    20.91   
+    ##  SID      (Intercept)   5.429   2.33   
+    ##  Residual             349.660  18.70   
     ## Number of obs: 81, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)  36.9447     3.8367   9.629
-    ## Target.L      0.1757     3.3169   0.053
+    ## (Intercept)   44.730      2.176  20.553
+    ## Target.L      -9.595      2.958  -3.244
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
-    ## Target.L 0.071
+    ## Target.L 0.107
 
 ``` r
 aov.swap_targetTPNP <- Anova(swap_targetTPNP.lmm.lme4)
@@ -1229,34 +1237,36 @@ aov.swap_targetTPNP <- Anova(swap_targetTPNP.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==0, nontargetContrast==1)
-swap_targetTANP.lmm.lme4 <- lmer(point95_SwapAcc ~ Target + (1|SID), data = d)
+swap_targetTANP.lmm.lme4 <- lmer(point93_SwapAcc ~ Target + (1|SID), data = d)
 summary(swap_targetTANP.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Target + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 490.6
+    ## REML criterion at convergence: 472.3
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.4324 -0.1385  0.1386  0.5811  1.1468 
+    ## -4.1837 -0.4551  0.0454  0.7877  1.3950 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  39.88    6.315  
-    ##  Residual             418.39   20.455  
+    ##  SID      (Intercept)   0.0     0.00   
+    ##  Residual             321.3    17.93   
     ## Number of obs: 56, groups:  SID, 14
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   80.225      3.266  24.562
-    ## Target.L       6.921      3.924   1.764
+    ## (Intercept)   80.437      2.402  33.494
+    ## Target.L       7.697      3.396   2.266
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
-    ## Target.L -0.060
+    ## Target.L -0.071
+    ## optimizer (nloptwrap) convergence code: 0 (OK)
+    ## boundary (singular) fit: see help('isSingular')
 
 ``` r
 aov.swap_targetTANP <- Anova(swap_targetTANP.lmm.lme4)
@@ -1266,34 +1276,34 @@ aov.swap_targetTANP <- Anova(swap_targetTANP.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==1, nontargetContrast==0)
-swap_targetTPNA.lmm.lme4 <- lmer(point95_SwapAcc ~ Target + (1|SID), data = d)
+swap_targetTPNA.lmm.lme4 <- lmer(point93_SwapAcc ~ Target + (1|SID), data = d)
 summary(swap_targetTPNA.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ Target + (1 | SID)
+    ## Formula: point93_SwapAcc ~ Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 745.3
+    ## REML criterion at convergence: 755.4
     ## 
     ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -3.0812 -0.4491 -0.1595  0.3407  2.8881 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -1.90682 -0.78900  0.06386  0.50229  2.43008 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 511.2    22.61   
-    ##  Residual             317.3    17.81   
+    ##  SID      (Intercept) 178.7    13.37   
+    ##  Residual             433.0    20.81   
     ## Number of obs: 84, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error t value
-    ## (Intercept)   27.068      6.158   4.396
-    ## Target.L      -1.870      2.775  -0.674
+    ## (Intercept)   32.813      4.139   7.928
+    ## Target.L     -10.786      3.235  -3.334
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
-    ## Target.L 0.019
+    ## Target.L 0.031
 
 ``` r
 aov.swap_targetTPNA <- Anova(swap_targetTPNA.lmm.lme4)
@@ -1303,34 +1313,34 @@ aov.swap_targetTPNA <- Anova(swap_targetTPNA.lmm.lme4)
 
 ``` r
 d <- data
-swap_targetContrast.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data = d)
+swap_targetContrast.lmm.lme4 <- lmer(point93_SwapAcc ~ targetContrast + (1|SID), data = d)
 summary(swap_targetContrast.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ targetContrast + (1 | SID)
+    ## Formula: point93_SwapAcc ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 2078.1
+    ## REML criterion at convergence: 2034.7
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.3452 -0.7012  0.0967  0.5763  2.7048 
+    ## -3.5514 -0.4797  0.1554  0.6041  2.7538 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  58.0     7.616  
-    ##  Residual             643.8    25.374  
+    ##  SID      (Intercept)  30.66    5.537  
+    ##  Residual             536.85   23.170  
     ## Number of obs: 223, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##                  Estimate Std. Error t value
-    ## (Intercept)        54.333      2.782   19.53
-    ## targetContrast.L   31.626      2.779   11.38
+    ## (Intercept)        58.116      2.292   25.36
+    ## targetContrast.L   26.714      2.530   10.56
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## trgtCntrs.L 0.349
+    ## trgtCntrs.L 0.384
 
 ``` r
 aov.swap_targetContrast <- Anova(swap_targetContrast.lmm.lme4)
@@ -1340,34 +1350,34 @@ aov.swap_targetContrast <- Anova(swap_targetContrast.lmm.lme4)
 
 ``` r
 d <- data %>% filter(Target==1)
-swap_targetContrastT1.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data = d)
+swap_targetContrastT1.lmm.lme4 <- lmer(point93_SwapAcc ~ targetContrast + (1|SID), data = d)
 summary(swap_targetContrastT1.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ targetContrast + (1 | SID)
+    ## Formula: point93_SwapAcc ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1098.7
+    ## REML criterion at convergence: 1034.4
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -2.6587 -0.7576  0.1139  0.6117  2.3818 
+    ## -3.7540 -0.5335  0.0692  0.6094  2.6749 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  29.72    5.451  
-    ##  Residual             808.65   28.437  
+    ##  SID      (Intercept)  76.44    8.743  
+    ##  Residual             426.34   20.648  
     ## Number of obs: 116, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##                  Estimate Std. Error t value
-    ## (Intercept)        52.286      3.448  15.165
-    ## targetContrast.L   27.581      4.452   6.195
+    ## (Intercept)        58.691      3.233  18.154
+    ## targetContrast.L   17.789      3.274   5.433
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## trgtCntrs.L 0.494
+    ## trgtCntrs.L 0.396
 
 ``` r
 aov.swap_targetContrastT1 <- Anova(swap_targetContrastT1.lmm.lme4)
@@ -1377,12 +1387,12 @@ aov.swap_targetContrastT1 <- Anova(swap_targetContrastT1.lmm.lme4)
 
 ``` r
 d <- data %>% filter(Target==2)
-swap_targetContrastT2.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data = d)
+swap_targetContrastT2.lmm.lme4 <- lmer(point93_SwapAcc ~ targetContrast + (1|SID), data = d)
 summary(swap_targetContrastT2.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ targetContrast + (1 | SID)
+    ## Formula: point93_SwapAcc ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
     ## REML criterion at convergence: 967.8
@@ -1414,34 +1424,34 @@ aov.swap_targetContrastT2 <- Anova(swap_targetContrastT2.lmm.lme4)
 
 ``` r
 d <- data %>% filter(nontargetContrast==1)
-swap_targetContrastNP.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data = d)
+swap_targetContrastNP.lmm.lme4 <- lmer(point93_SwapAcc ~ targetContrast + (1|SID), data = d)
 summary(swap_targetContrastNP.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ targetContrast + (1 | SID)
+    ## Formula: point93_SwapAcc ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1231.3
+    ## REML criterion at convergence: 1191.8
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.5885 -0.5656  0.1098  0.6295  2.6335 
+    ## -4.1330 -0.4915  0.1315  0.6607  2.8789 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  75.45    8.686  
-    ##  Residual             455.22   21.336  
+    ##  SID      (Intercept)  14.77    3.843  
+    ##  Residual             361.38   19.010  
     ## Number of obs: 137, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##                  Estimate Std. Error t value
-    ## (Intercept)        58.152      2.933   19.83
-    ## targetContrast.L   29.738      2.670   11.14
+    ## (Intercept)        62.944      1.939   32.47
+    ## targetContrast.L   24.672      2.354   10.48
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## trgtCntrs.L 0.136
+    ## trgtCntrs.L 0.167
 
 ``` r
 aov.swap_targetContrastNP <- Anova(swap_targetContrastNP.lmm.lme4)
@@ -1451,34 +1461,34 @@ aov.swap_targetContrastNP <- Anova(swap_targetContrastNP.lmm.lme4)
 
 ``` r
 d <- data %>% filter(nontargetContrast==1, Target==1)
-swap_targetContrastNPT1.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data = d)
+swap_targetContrastNPT1.lmm.lme4 <- lmer(point93_SwapAcc ~ targetContrast + (1|SID), data = d)
 summary(swap_targetContrastNPT1.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ targetContrast + (1 | SID)
+    ## Formula: point93_SwapAcc ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 655.5
+    ## REML criterion at convergence: 610.9
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -2.7899 -0.5659  0.1754  0.5924  2.2770 
+    ## -3.7700 -0.5531  0.0501  0.5811  2.5091 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 101.2    10.06   
-    ##  Residual             623.6    24.97   
+    ##  SID      (Intercept)  48.46    6.961  
+    ##  Residual             329.53   18.153  
     ## Number of obs: 71, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##                  Estimate Std. Error t value
-    ## (Intercept)        55.391      4.068   13.62
-    ## targetContrast.L   26.263      4.428    5.93
+    ## (Intercept)        62.909      2.899  21.704
+    ## targetContrast.L   16.114      3.216   5.011
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## trgtCntrs.L 0.226
+    ## trgtCntrs.L 0.229
 
 ``` r
 aov.swap_targetContrastNPT1 <- Anova(swap_targetContrastNPT1.lmm.lme4)
@@ -1488,12 +1498,12 @@ aov.swap_targetContrastNPT1 <- Anova(swap_targetContrastNPT1.lmm.lme4)
 
 ``` r
 d <- data %>% filter(nontargetContrast==1, Target==2)
-swap_targetContrastNPT2.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data = d)
+swap_targetContrastNPT2.lmm.lme4 <- lmer(point93_SwapAcc ~ targetContrast + (1|SID), data = d)
 summary(swap_targetContrastNPT2.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ targetContrast + (1 | SID)
+    ## Formula: point93_SwapAcc ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
     ## REML criterion at convergence: 555.1
@@ -1527,34 +1537,34 @@ aov.swap_targetContrastNPT2 <- Anova(swap_targetContrastNPT2.lmm.lme4)
 
 ``` r
 d <- data %>% filter(nontargetContrast==0)
-swap_targetContrastNA.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data = d)
+swap_targetContrastNA.lmm.lme4 <- lmer(point93_SwapAcc ~ targetContrast + (1|SID), data = d)
 summary(swap_targetContrastNA.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ targetContrast + (1 | SID)
+    ## Formula: point93_SwapAcc ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 758.6
+    ## REML criterion at convergence: 779.5
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.0814 -0.4245 -0.1406  0.3629  2.9793 
+    ## -1.6199 -0.6685  0.0000  0.5064  2.1172 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 515.1    22.70   
-    ##  Residual             310.0    17.61   
+    ##  SID      (Intercept) 178.2    13.35   
+    ##  Residual             486.3    22.05   
     ## Number of obs: 86, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##                  Estimate Std. Error t value
-    ## (Intercept)        -6.910      9.229  -0.749
-    ## targetContrast.L  -48.163     10.057  -4.789
+    ## (Intercept)         5.060      9.345   0.541
+    ## targetContrast.L  -39.840     12.260  -3.250
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## trgtCntrs.L 0.744
+    ## trgtCntrs.L 0.893
 
 ``` r
 aov.swap_targetContrastNA <- Anova(swap_targetContrastNA.lmm.lme4)
@@ -1564,34 +1574,34 @@ aov.swap_targetContrastNA <- Anova(swap_targetContrastNA.lmm.lme4)
 
 ``` r
 d <- data %>% filter(nontargetContrast==0, Target==1)
-swap_targetContrastNAT1.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data = d)
+swap_targetContrastNAT1.lmm.lme4 <- lmer(point93_SwapAcc ~ targetContrast + (1|SID), data = d)
 summary(swap_targetContrastNAT1.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ targetContrast + (1 | SID)
+    ## Formula: point93_SwapAcc ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 411.7
+    ## REML criterion at convergence: 387.6
     ## 
     ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -2.0722 -0.4613 -0.1040  0.3443  2.3125 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -1.84029 -0.58036  0.07305  0.64869  1.53837 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 391.9    19.80   
-    ##  Residual             520.1    22.81   
+    ##  SID      (Intercept) 249.7    15.80   
+    ##  Residual             287.4    16.95   
     ## Number of obs: 45, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##                  Estimate Std. Error t value
-    ## (Intercept)       -0.9006    13.6871  -0.066
-    ## targetContrast.L -41.5878    17.9431  -2.318
+    ## (Intercept)         12.69      10.31   1.230
+    ## targetContrast.L   -39.36      13.39  -2.941
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## trgtCntrs.L 0.893
+    ## trgtCntrs.L 0.885
 
 ``` r
 aov.swap_targetContrastNAT1 <- Anova(swap_targetContrastNAT1.lmm.lme4)
@@ -1601,12 +1611,12 @@ aov.swap_targetContrastNAT1 <- Anova(swap_targetContrastNAT1.lmm.lme4)
 
 ``` r
 d <- data %>% filter(nontargetContrast==0, Target==2)
-swap_targetContrastNAT2.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data = d)
+swap_targetContrastNAT2.lmm.lme4 <- lmer(point93_SwapAcc ~ targetContrast + (1|SID), data = d)
 summary(swap_targetContrastNAT2.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ targetContrast + (1 | SID)
+    ## Formula: point93_SwapAcc ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
     ## REML criterion at convergence: 353.3
@@ -1638,34 +1648,34 @@ aov.swap_targetContrastNAT2 <- Anova(swap_targetContrastNAT2.lmm.lme4)
 
 ``` r
 d <- data
-swap_nontargetContrast.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data = d)
+swap_nontargetContrast.lmm.lme4 <- lmer(point93_SwapAcc ~ nontargetContrast + (1|SID), data = d)
 summary(swap_targetContrast.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ targetContrast + (1 | SID)
+    ## Formula: point93_SwapAcc ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 2078.1
+    ## REML criterion at convergence: 2034.7
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.3452 -0.7012  0.0967  0.5763  2.7048 
+    ## -3.5514 -0.4797  0.1554  0.6041  2.7538 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  58.0     7.616  
-    ##  Residual             643.8    25.374  
+    ##  SID      (Intercept)  30.66    5.537  
+    ##  Residual             536.85   23.170  
     ## Number of obs: 223, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##                  Estimate Std. Error t value
-    ## (Intercept)        54.333      2.782   19.53
-    ## targetContrast.L   31.626      2.779   11.38
+    ## (Intercept)        58.116      2.292   25.36
+    ## targetContrast.L   26.714      2.530   10.56
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## trgtCntrs.L 0.349
+    ## trgtCntrs.L 0.384
 
 ``` r
 aov.swap_nontargetContrast <- Anova(swap_nontargetContrast.lmm.lme4)
@@ -1675,34 +1685,34 @@ aov.swap_nontargetContrast <- Anova(swap_nontargetContrast.lmm.lme4)
 
 ``` r
 d <- data %>% filter(Target==1)
-swap_nontargetContrastT1.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data = d)
+swap_nontargetContrastT1.lmm.lme4 <- lmer(point93_SwapAcc ~ nontargetContrast + (1|SID), data = d)
 summary(swap_nontargetContrastT1.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ nontargetContrast + (1 | SID)
+    ## Formula: point93_SwapAcc ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1118
+    ## REML criterion at convergence: 1038.1
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.74938 -0.82239 -0.08944  0.83566  2.38640 
+    ## -2.48502 -0.73003 -0.04633  0.71083  2.10197 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  70.22    8.38   
-    ##  Residual             930.75   30.51   
+    ##  SID      (Intercept)  91.26    9.553  
+    ##  Residual             434.09   20.835  
     ## Number of obs: 116, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##                     Estimate Std. Error t value
-    ## (Intercept)            39.03       3.63   10.75
-    ## nontargetContrast.L   -15.90       4.12   -3.86
+    ## (Intercept)           49.523      3.172   15.61
+    ## nontargetContrast.L  -14.232      2.818   -5.05
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## nntrgtCnt.L 0.177
+    ## nntrgtCnt.L 0.137
 
 ``` r
 aov.swap_nontargetContrastT1 <- Anova(swap_nontargetContrastT1.lmm.lme4)
@@ -1712,12 +1722,12 @@ aov.swap_nontargetContrastT1 <- Anova(swap_nontargetContrastT1.lmm.lme4)
 
 ``` r
 d <- data %>% filter(Target==2)
-swap_nontargetContrastT2.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data = d)
+swap_nontargetContrastT2.lmm.lme4 <- lmer(point93_SwapAcc ~ nontargetContrast + (1|SID), data = d)
 summary(swap_nontargetContrastT2.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ nontargetContrast + (1 | SID)
+    ## Formula: point93_SwapAcc ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
     ## REML criterion at convergence: 1009.1
@@ -1749,34 +1759,34 @@ aov.swap_nontargetContrastT2 <- Anova(swap_nontargetContrastT2.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==1)
-swap_nontargetContrastTP.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data = d)
+swap_nontargetContrastTP.lmm.lme4 <- lmer(point93_SwapAcc ~ nontargetContrast + (1|SID), data = d)
 summary(swap_nontargetContrastTP.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ nontargetContrast + (1 | SID)
+    ## Formula: point93_SwapAcc ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1513.7
+    ## REML criterion at convergence: 1486.7
     ## 
     ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -2.0493 -0.7076 -0.1340  0.6497  2.9984 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -2.63024 -0.66372  0.00978  0.65780  2.74126 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 164.1    12.81   
-    ##  Residual             524.5    22.90   
+    ##  SID      (Intercept)  71.39    8.449  
+    ##  Residual             463.90   21.538  
     ## Number of obs: 165, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##                     Estimate Std. Error t value
-    ## (Intercept)           31.938      3.760   8.495
-    ## nontargetContrast.L   -7.438      2.525  -2.945
+    ## (Intercept)           39.325      2.754  14.280
+    ## nontargetContrast.L   -8.876      2.374  -3.738
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## nntrgtCnt.L -0.008
+    ## nntrgtCnt.L -0.011
 
 ``` r
 aov.swap_nontargetContrastTP <- Anova(swap_nontargetContrastTP.lmm.lme4)
@@ -1786,34 +1796,34 @@ aov.swap_nontargetContrastTP <- Anova(swap_nontargetContrastTP.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==1, Target==1)
-swap_nontargetContrastTPT1.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data = d)
+swap_nontargetContrastTPT1.lmm.lme4 <- lmer(point93_SwapAcc ~ nontargetContrast + (1|SID), data = d)
 summary(swap_nontargetContrastTPT1.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ nontargetContrast + (1 | SID)
+    ## Formula: point93_SwapAcc ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 830.8
+    ## REML criterion at convergence: 767.6
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.61938 -0.79242 -0.08866  0.61365  2.61076 
+    ## -1.97279 -0.70535 -0.06278  0.59488  2.85891 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  94.3     9.711  
-    ##  Residual             678.3    26.044  
+    ##  SID      (Intercept)  90.88    9.533  
+    ##  Residual             306.96   17.520  
     ## Number of obs: 89, groups:  SID, 15
     ## 
     ## Fixed effects:
     ##                     Estimate Std. Error t value
-    ## (Intercept)           32.749      3.730   8.779
-    ## nontargetContrast.L   -5.758      3.906  -1.474
+    ## (Intercept)           46.024      3.084  14.923
+    ## nontargetContrast.L   -7.765      2.628  -2.954
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## nntrgtCnt.L 0.009
+    ## nntrgtCnt.L 0.008
 
 ``` r
 aov.swap_nontargetContrastTPT1 <- Anova(swap_nontargetContrastTPT1.lmm.lme4)
@@ -1823,12 +1833,12 @@ aov.swap_nontargetContrastTPT1 <- Anova(swap_nontargetContrastTPT1.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==1, Target==2)
-swap_nontargetContrastTPT2.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data = d)
+swap_nontargetContrastTPT2.lmm.lme4 <- lmer(point93_SwapAcc ~ nontargetContrast + (1|SID), data = d)
 summary(swap_nontargetContrastTPT2.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ nontargetContrast + (1 | SID)
+    ## Formula: point93_SwapAcc ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
     ## REML criterion at convergence: 684.1
@@ -1860,34 +1870,36 @@ aov.swap_nontargetContrastTPT2 <- Anova(swap_nontargetContrastTPT2.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==0)
-swap_nontargetContrastTA.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data = d)
+swap_nontargetContrastTA.lmm.lme4 <- lmer(point93_SwapAcc ~ nontargetContrast + (1|SID), data = d)
 summary(swap_nontargetContrastTA.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ nontargetContrast + (1 | SID)
+    ## Formula: point93_SwapAcc ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 507.5
+    ## REML criterion at convergence: 490.6
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.5731 -0.2136  0.1684  0.4855  0.8915 
+    ## -4.3878 -0.3162  0.1361  0.6044  1.0409 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  65.92    8.119  
-    ##  Residual             409.66   20.240  
+    ##  SID      (Intercept)   0.0     0.00   
+    ##  Residual             339.3    18.42   
     ## Number of obs: 58, groups:  SID, 14
     ## 
     ## Fixed effects:
     ##                     Estimate Std. Error t value
-    ## (Intercept)           40.057      8.156   4.911
-    ## nontargetContrast.L  -57.071     10.991  -5.193
+    ## (Intercept)           40.413      6.628   6.097
+    ## nontargetContrast.L  -57.152      9.373  -6.097
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## nntrgtCnt.L 0.903
+    ## nntrgtCnt.L 0.931 
+    ## optimizer (nloptwrap) convergence code: 0 (OK)
+    ## boundary (singular) fit: see help('isSingular')
 
 ``` r
 aov.swap_nontargetContrastTA <- Anova(swap_nontargetContrastTA.lmm.lme4)
@@ -1897,34 +1909,34 @@ aov.swap_nontargetContrastTA <- Anova(swap_nontargetContrastTA.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==0, Target==1)
-swap_nontargetContrastTAT1.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data = d)
+swap_nontargetContrastTAT1.lmm.lme4 <- lmer(point93_SwapAcc ~ nontargetContrast + (1|SID), data = d)
 summary(swap_nontargetContrastTAT1.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ nontargetContrast + (1 | SID)
+    ## Formula: point93_SwapAcc ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 243.9
+    ## REML criterion at convergence: 233.7
     ## 
     ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -2.53284 -0.00876  0.27018  0.45804  0.82945 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -2.7870 -0.2041  0.2244  0.5284  1.1603 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  25.44    5.044  
-    ##  Residual             838.95   28.965  
+    ##  SID      (Intercept)  98.21    9.91   
+    ##  Residual             489.81   22.13   
     ## Number of obs: 27, groups:  SID, 13
     ## 
     ## Fixed effects:
     ##                     Estimate Std. Error t value
-    ## (Intercept)            37.40      15.02   2.490
-    ## nontargetContrast.L   -53.57      21.11  -2.538
+    ## (Intercept)            33.40      12.28   2.721
+    ## nontargetContrast.L   -57.49      16.76  -3.430
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## nntrgtCnt.L 0.923
+    ## nntrgtCnt.L 0.907
 
 ``` r
 aov.swap_nontargetContrastTAT1 <- Anova(swap_nontargetContrastTAT1.lmm.lme4)
@@ -1934,12 +1946,12 @@ aov.swap_nontargetContrastTAT1 <- Anova(swap_nontargetContrastTAT1.lmm.lme4)
 
 ``` r
 d <- data %>% filter(targetContrast==0, Target==2)
-swap_nontargetContrastTAT2.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data = d)
+swap_nontargetContrastTAT2.lmm.lme4 <- lmer(point93_SwapAcc ~ nontargetContrast + (1|SID), data = d)
 summary(swap_nontargetContrastTAT2.lmm.lme4)
 ```
 
     ## Linear mixed model fit by REML ['lmerMod']
-    ## Formula: point95_SwapAcc ~ nontargetContrast + (1 | SID)
+    ## Formula: point93_SwapAcc ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
     ## REML criterion at convergence: 220.4

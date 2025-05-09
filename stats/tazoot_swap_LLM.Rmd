@@ -21,11 +21,11 @@ options(contrasts=c("contr.sum","contr.poly"))
 
 #### load data #### 
 wd <- getwd()
-analysisName = 'tazoot_point95_errSwapAcc'
+analysisName = 'tazoot_point93_errSwapAcc'
 dataName <- sprintf("/Users/jennymotzer/Documents/GitHub/ZOOT/stats/%s.csv", analysisName)
 data <- read.csv(dataName)
 # removes NaN rows from data 
-data_clean <- data[!is.nan(data$point95_SwapAcc), ]
+data_clean <- data[!is.nan(data$point93_SwapAcc), ]
 data <- data_clean
 #### Change to categorical vars ####
 data$SID <- factor(data$SID)
@@ -45,7 +45,7 @@ symbols = c("****", "***", "**", "*", "ns"))
 
 ```{r swap}
 d <- data
-swap.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity * Target * targetContrast * nontargetContrast + (1|SID), data = d)
+swap.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity * Target * targetContrast * nontargetContrast + (1|SID), data = d)
 summary(swap.lmm.lme4)
 aov.swap <- Anova(swap.lmm.lme4)
 ```
@@ -53,168 +53,168 @@ aov.swap <- Anova(swap.lmm.lme4)
 # validity
 ```{r swap validity only}
 d <- data
-swap_validity.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validity.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validity.lmm.lme4)
 aov.swap_validity <- Anova(swap_validity.lmm.lme4)
 ```
 ## TP
 ```{r swap validity TP}
 d <- data %>% filter(targetContrast==1)
-swap_validityTP.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTP.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTP.lmm.lme4)
 aov.swap_validityTP <- Anova(swap_validityTP.lmm.lme4)
 ```
 ### T1
 ```{r swap validity TP T1}
 d <- data %>% filter(targetContrast==1, Target==1)
-swap_validityTPT1.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTPT1.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTPT1.lmm.lme4)
 aov.swap_validityTPT1 <- Anova(swap_validityTPT1.lmm.lme4)
 ```
 ### T2
 ```{r swap validity TP T2}
 d <- data %>% filter(targetContrast==1, Target==2)
-swap_validityTPT2.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTPT2.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTPT2.lmm.lme4)
 aov.swap_validityTPT2 <- Anova(swap_validityTPT2.lmm.lme4)
 ```
 ## TA
 ```{r swap validity TA}
 d <- data %>% filter(targetContrast==0)
-swap_validityTA.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTA.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTA.lmm.lme4)
 aov.swap_validityTA <- Anova(swap_validityTA.lmm.lme4)
 ```
 ### T1
 ```{r swap validity TA T1}
 d <- data %>% filter(targetContrast==0, Target==1)
-swap_validityTAT1.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTAT1.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTAT1.lmm.lme4)
 aov.swap_validityTAT1 <- Anova(swap_validityTAT1.lmm.lme4)
 ```
 ### T2
 ```{r swap validity TA T2}
 d <- data %>% filter(targetContrast==0, Target==2)
-swap_validityTAT2.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTAT2.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTAT2.lmm.lme4)
 aov.swap_validityTAT2 <- Anova(swap_validityTAT2.lmm.lme4)
 ```
 ## NP
 ```{r swap validity NP}
 d <- data %>% filter(nontargetContrast==1)
-swap_validityNP.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityNP.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityNP.lmm.lme4)
 aov.swap_validityNP <- Anova(swap_validityNP.lmm.lme4)
 ```
 ### T1
 ```{r swap validity NP T1}
 d <- data %>% filter(nontargetContrast==1, Target==1)
-swap_validityNPT1.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityNPT1.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityNPT1.lmm.lme4)
 aov.swap_validityNPT1 <- Anova(swap_validityNPT1.lmm.lme4)
 ```
 ### T2
 ```{r swap validity NP T2}
 d <- data %>% filter(nontargetContrast==1, Target==2)
-swap_validityNPT2.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityNPT2.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityNPT2.lmm.lme4)
 aov.swap_validityNPT2 <- Anova(swap_validityNPT2.lmm.lme4)
 ```
 ## TA
 ```{r swap validity NA}
 d <- data %>% filter(nontargetContrast==0)
-swap_validityNA.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityNA.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityNA.lmm.lme4)
 aov.swap_validityNA <- Anova(swap_validityNA.lmm.lme4)
 ```
 ### T1
 ```{r swap validity NA T1}
 d <- data %>% filter(nontargetContrast==0, Target==1)
-swap_validityNAT1.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityNAT1.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityNAT1.lmm.lme4)
 aov.swap_validityNAT1 <- Anova(swap_validityNAT1.lmm.lme4)
 ```
 ### T2
 ```{r swap validity NA T2}
 d <- data %>% filter(nontargetContrast==0, Target==2)
-swap_validityNAT2.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityNAT2.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityNAT2.lmm.lme4)
 aov.swap_validityNAT2 <- Anova(swap_validityNAT2.lmm.lme4)
 ```
 ## TPNP
 ```{r swap validity TPNP}
 d <- data %>% filter(targetContrast==1, nontargetContrast==1)
-swap_validityTPNP.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTPNP.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTPNP.lmm.lme4)
 aov.swap_validityTPNP <- Anova(swap_validityTPNP.lmm.lme4)
 ```
 ### T1
 ```{r swap validity TPNP T1}
 d <- data %>% filter(targetContrast==1, nontargetContrast==1, Target==1)
-swap_validityTPNP_T1.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTPNP_T1.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTPNP_T1.lmm.lme4)
 aov.swap_validityTPNP_T1 <- Anova(swap_validityTPNP_T1.lmm.lme4)
 ```
 ### T2
 ```{r swap validity TPNP T2}
 d <- data %>% filter(targetContrast==1, nontargetContrast==1, Target==2)
-swap_validityTPNP_T2.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTPNP_T2.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTPNP_T2.lmm.lme4)
 aov.swap_validityTPNP_T2 <- Anova(swap_validityTPNP_T2.lmm.lme4)
 ```
 ## TANP
 ```{r swap validity TANP}
 d <- data %>% filter(targetContrast==0, nontargetContrast==1)
-swap_validityTANP.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTANP.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTANP.lmm.lme4)
 aov.swap_validityTANP <- Anova(swap_validityTANP.lmm.lme4)
 ```
 ### T1
 ```{r swap validity TANP T1}
 d <- data %>% filter(targetContrast==0, nontargetContrast==1, Target==1)
-swap_validityTANP_T1.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTANP_T1.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTANP_T1.lmm.lme4)
 aov.swap_validityTANP_T1 <- Anova(swap_validityTANP_T1.lmm.lme4)
 ```
 ### T2
 ```{r swap validity TANP T2}
 d <- data %>% filter(targetContrast==0, nontargetContrast==1, Target==2)
-swap_validityTANP_T2.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTANP_T2.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTANP_T2.lmm.lme4)
 aov.swap_validityTANP_T2 <- Anova(swap_validityTANP_T2.lmm.lme4)
 ```
 ## TPNA
 ```{r swap validity TPNA}
 d <- data %>% filter(targetContrast==1, nontargetContrast==0)
-swap_validityTPNA.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTPNA.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTPNA.lmm.lme4)
 aov.swap_validityTPNA <- Anova(swap_validityTPNA.lmm.lme4)
 ```
 ### T1
 ```{r swap validity TPNA T1}
 d <- data %>% filter(targetContrast==1, nontargetContrast==1, Target==1)
-swap_validityTPNA_T1.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTPNA_T1.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTPNA_T1.lmm.lme4)
 aov.swap_validityTPNA_T1 <- Anova(swap_validityTPNA_T1.lmm.lme4)
 ```
 ### T2
 ```{r swap validity TPNA T2}
 d <- data %>% filter(targetContrast==1, nontargetContrast==1, Target==2)
-swap_validityTPNA_T2.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityTPNA_T2.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityTPNA_T2.lmm.lme4)
 aov.swap_validityTPNA_T2 <- Anova(swap_validityTPNA_T2.lmm.lme4)
 ```
 ## T1
 ```{r swap validity T1}
 d <- data %>% filter(Target==1)
-swap_validityT1.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityT1.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityT1.lmm.lme4)
 aov.swap_validityT1 <- Anova(swap_validityT1.lmm.lme4)
 ```
 ## T2
 ```{r swap validity T2}
 d <- data %>% filter(Target==2)
-swap_validityT2.lmm.lme4 <- lmer(point95_SwapAcc ~ Validity + (1|SID), data = d)
+swap_validityT2.lmm.lme4 <- lmer(point93_SwapAcc ~ Validity + (1|SID), data = d)
 summary(swap_validityT2.lmm.lme4)
 aov.swap_validityT2 <- Anova(swap_validityT2.lmm.lme4)
 ```
@@ -222,56 +222,56 @@ aov.swap_validityT2 <- Anova(swap_validityT2.lmm.lme4)
 # target
 ```{r swap Target only}
 d <- data
-swap_target.lmm.lme4 <- lmer(point95_SwapAcc ~ Target + (1|SID), data = d)
+swap_target.lmm.lme4 <- lmer(point93_SwapAcc ~ Target + (1|SID), data = d)
 summary(swap_target.lmm.lme4)
 aov.swap_target <- Anova(swap_target.lmm.lme4)
 ```
 ## TP
 ```{r swap target TP}
 d <- data %>% filter(targetContrast==1)
-swap_targetTP.lmm.lme4 <- lmer(point95_SwapAcc ~ Target + (1|SID), data = d)
+swap_targetTP.lmm.lme4 <- lmer(point93_SwapAcc ~ Target + (1|SID), data = d)
 summary(swap_targetTP.lmm.lme4)
 aov.swap_targetTP <- Anova(swap_targetTP.lmm.lme4)
 ```
 ## TA
 ```{r swap target TA}
 d <- data %>% filter(targetContrast==0)
-swap_targetTA.lmm.lme4 <- lmer(point95_SwapAcc ~ Target + (1|SID), data = d)
+swap_targetTA.lmm.lme4 <- lmer(point93_SwapAcc ~ Target + (1|SID), data = d)
 summary(swap_targetTA.lmm.lme4)
 aov.swap_targetTA <- Anova(swap_targetTA.lmm.lme4)
 ```
 ## NP
 ```{r swap target NP}
 d <- data %>% filter(nontargetContrast==1)
-swap_targetNP.lmm.lme4 <- lmer(point95_SwapAcc ~ Target + (1|SID), data = d)
+swap_targetNP.lmm.lme4 <- lmer(point93_SwapAcc ~ Target + (1|SID), data = d)
 summary(swap_targetNP.lmm.lme4)
 aov.swap_targetNP <- Anova(swap_targetNP.lmm.lme4)
 ```
 ## NA
 ```{r swap target NA}
 d <- data %>% filter(nontargetContrast==0)
-swap_targetNA.lmm.lme4 <- lmer(point95_SwapAcc ~ Target + (1|SID), data = d)
+swap_targetNA.lmm.lme4 <- lmer(point93_SwapAcc ~ Target + (1|SID), data = d)
 summary(swap_targetNA.lmm.lme4)
 aov.swap_targetNA <- Anova(swap_targetNA.lmm.lme4)
 ```
 ## TPNP
 ```{r swap target TPNP}
 d <- data %>% filter(targetContrast==1, nontargetContrast==1)
-swap_targetTPNP.lmm.lme4 <- lmer(point95_SwapAcc ~ Target + (1|SID), data = d)
+swap_targetTPNP.lmm.lme4 <- lmer(point93_SwapAcc ~ Target + (1|SID), data = d)
 summary(swap_targetTPNP.lmm.lme4)
 aov.swap_targetTPNP <- Anova(swap_targetTPNP.lmm.lme4)
 ```
 ## TANP
 ```{r swap target TANP}
 d <- data %>% filter(targetContrast==0, nontargetContrast==1)
-swap_targetTANP.lmm.lme4 <- lmer(point95_SwapAcc ~ Target + (1|SID), data = d)
+swap_targetTANP.lmm.lme4 <- lmer(point93_SwapAcc ~ Target + (1|SID), data = d)
 summary(swap_targetTANP.lmm.lme4)
 aov.swap_targetTANP <- Anova(swap_targetTANP.lmm.lme4)
 ```
 ## TPNA
 ```{r swap target TPNA}
 d <- data %>% filter(targetContrast==1, nontargetContrast==0)
-swap_targetTPNA.lmm.lme4 <- lmer(point95_SwapAcc ~ Target + (1|SID), data = d)
+swap_targetTPNA.lmm.lme4 <- lmer(point93_SwapAcc ~ Target + (1|SID), data = d)
 summary(swap_targetTPNA.lmm.lme4)
 aov.swap_targetTPNA <- Anova(swap_targetTPNA.lmm.lme4)
 ```
@@ -279,126 +279,126 @@ aov.swap_targetTPNA <- Anova(swap_targetTPNA.lmm.lme4)
 # target contrast
 ```{r swap targetContrast only}
 d <- data
-swap_targetContrast.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data = d)
+swap_targetContrast.lmm.lme4 <- lmer(point93_SwapAcc ~ targetContrast + (1|SID), data = d)
 summary(swap_targetContrast.lmm.lme4)
 aov.swap_targetContrast <- Anova(swap_targetContrast.lmm.lme4)
 ```
 ## T1
 ```{r swap targetContrast T1}
 d <- data %>% filter(Target==1)
-swap_targetContrastT1.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data = d)
+swap_targetContrastT1.lmm.lme4 <- lmer(point93_SwapAcc ~ targetContrast + (1|SID), data = d)
 summary(swap_targetContrastT1.lmm.lme4)
 aov.swap_targetContrastT1 <- Anova(swap_targetContrastT1.lmm.lme4)
 ```
 ## T2
 ```{r swap targetContrast T2}
 d <- data %>% filter(Target==2)
-swap_targetContrastT2.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data = d)
+swap_targetContrastT2.lmm.lme4 <- lmer(point93_SwapAcc ~ targetContrast + (1|SID), data = d)
 summary(swap_targetContrastT2.lmm.lme4)
 aov.swap_targetContrastT2 <- Anova(swap_targetContrastT2.lmm.lme4)
 ```
 ## NP
 ```{r swap targetContrast NP}
 d <- data %>% filter(nontargetContrast==1)
-swap_targetContrastNP.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data = d)
+swap_targetContrastNP.lmm.lme4 <- lmer(point93_SwapAcc ~ targetContrast + (1|SID), data = d)
 summary(swap_targetContrastNP.lmm.lme4)
 aov.swap_targetContrastNP <- Anova(swap_targetContrastNP.lmm.lme4)
 ```
 ### T1
 ```{r swap targetContrast NP T1}
 d <- data %>% filter(nontargetContrast==1, Target==1)
-swap_targetContrastNPT1.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data = d)
+swap_targetContrastNPT1.lmm.lme4 <- lmer(point93_SwapAcc ~ targetContrast + (1|SID), data = d)
 summary(swap_targetContrastNPT1.lmm.lme4)
 aov.swap_targetContrastNPT1 <- Anova(swap_targetContrastNPT1.lmm.lme4)
 ```
 ### T2
 ```{r swap targetContrast NP T2}
 d <- data %>% filter(nontargetContrast==1, Target==2)
-swap_targetContrastNPT2.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data = d)
+swap_targetContrastNPT2.lmm.lme4 <- lmer(point93_SwapAcc ~ targetContrast + (1|SID), data = d)
 summary(swap_targetContrastNPT2.lmm.lme4)
 aov.swap_targetContrastNPT2 <- Anova(swap_targetContrastNPT2.lmm.lme4)
 ```
 ## NA
 ```{r swap targetContrast NA}
 d <- data %>% filter(nontargetContrast==0)
-swap_targetContrastNA.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data = d)
+swap_targetContrastNA.lmm.lme4 <- lmer(point93_SwapAcc ~ targetContrast + (1|SID), data = d)
 summary(swap_targetContrastNA.lmm.lme4)
 aov.swap_targetContrastNA <- Anova(swap_targetContrastNA.lmm.lme4)
 ```
 ### T1
 ```{r swap targetContrast NA T1}
 d <- data %>% filter(nontargetContrast==0, Target==1)
-swap_targetContrastNAT1.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data = d)
+swap_targetContrastNAT1.lmm.lme4 <- lmer(point93_SwapAcc ~ targetContrast + (1|SID), data = d)
 summary(swap_targetContrastNAT1.lmm.lme4)
 aov.swap_targetContrastNAT1 <- Anova(swap_targetContrastNAT1.lmm.lme4)
 ```
 ### T2
 ```{r swap targetContrast NA T2}
 d <- data %>% filter(nontargetContrast==0, Target==2)
-swap_targetContrastNAT2.lmm.lme4 <- lmer(point95_SwapAcc ~ targetContrast + (1|SID), data = d)
+swap_targetContrastNAT2.lmm.lme4 <- lmer(point93_SwapAcc ~ targetContrast + (1|SID), data = d)
 summary(swap_targetContrastNAT2.lmm.lme4)
 aov.swap_targetContrastNAT2 <- Anova(swap_targetContrastNAT2.lmm.lme4)
 ```
 # nontarget contrast
 ```{r swap nontargetContrast only}
 d <- data
-swap_nontargetContrast.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data = d)
+swap_nontargetContrast.lmm.lme4 <- lmer(point93_SwapAcc ~ nontargetContrast + (1|SID), data = d)
 summary(swap_targetContrast.lmm.lme4)
 aov.swap_nontargetContrast <- Anova(swap_nontargetContrast.lmm.lme4)
 ```
 ## T1
 ```{r swap nontargetContrast T1}
 d <- data %>% filter(Target==1)
-swap_nontargetContrastT1.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data = d)
+swap_nontargetContrastT1.lmm.lme4 <- lmer(point93_SwapAcc ~ nontargetContrast + (1|SID), data = d)
 summary(swap_nontargetContrastT1.lmm.lme4)
 aov.swap_nontargetContrastT1 <- Anova(swap_nontargetContrastT1.lmm.lme4)
 ```
 ## T2
 ```{r swap nontargetContrast T2}
 d <- data %>% filter(Target==2)
-swap_nontargetContrastT2.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data = d)
+swap_nontargetContrastT2.lmm.lme4 <- lmer(point93_SwapAcc ~ nontargetContrast + (1|SID), data = d)
 summary(swap_nontargetContrastT2.lmm.lme4)
 aov.swap_nontargetContrastT2 <- Anova(swap_nontargetContrastT2.lmm.lme4)
 ```
 ## TP
 ```{r swap nontargetContrast TP}
 d <- data %>% filter(targetContrast==1)
-swap_nontargetContrastTP.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data = d)
+swap_nontargetContrastTP.lmm.lme4 <- lmer(point93_SwapAcc ~ nontargetContrast + (1|SID), data = d)
 summary(swap_nontargetContrastTP.lmm.lme4)
 aov.swap_nontargetContrastTP <- Anova(swap_nontargetContrastTP.lmm.lme4)
 ```
 ### T1
 ```{r swap nontargetContrast TP T1}
 d <- data %>% filter(targetContrast==1, Target==1)
-swap_nontargetContrastTPT1.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data = d)
+swap_nontargetContrastTPT1.lmm.lme4 <- lmer(point93_SwapAcc ~ nontargetContrast + (1|SID), data = d)
 summary(swap_nontargetContrastTPT1.lmm.lme4)
 aov.swap_nontargetContrastTPT1 <- Anova(swap_nontargetContrastTPT1.lmm.lme4)
 ```
 ### T2
 ```{r swap nontargetContrast TP T2}
 d <- data %>% filter(targetContrast==1, Target==2)
-swap_nontargetContrastTPT2.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data = d)
+swap_nontargetContrastTPT2.lmm.lme4 <- lmer(point93_SwapAcc ~ nontargetContrast + (1|SID), data = d)
 summary(swap_nontargetContrastTPT2.lmm.lme4)
 aov.swap_nontargetContrastTPT2 <- Anova(swap_nontargetContrastTPT2.lmm.lme4)
 ```
 ## TA
 ```{r swap nontargetContrast TA}
 d <- data %>% filter(targetContrast==0)
-swap_nontargetContrastTA.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data = d)
+swap_nontargetContrastTA.lmm.lme4 <- lmer(point93_SwapAcc ~ nontargetContrast + (1|SID), data = d)
 summary(swap_nontargetContrastTA.lmm.lme4)
 aov.swap_nontargetContrastTA <- Anova(swap_nontargetContrastTA.lmm.lme4)
 ```
 ### T1
 ```{r swap nontargetContrast TA T1}
 d <- data %>% filter(targetContrast==0, Target==1)
-swap_nontargetContrastTAT1.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data = d)
+swap_nontargetContrastTAT1.lmm.lme4 <- lmer(point93_SwapAcc ~ nontargetContrast + (1|SID), data = d)
 summary(swap_nontargetContrastTAT1.lmm.lme4)
 aov.swap_nontargetContrastTAT1 <- Anova(swap_nontargetContrastTAT1.lmm.lme4)
 ```
 ### T2
 ```{r swap nontargetContrast TA T2}
 d <- data %>% filter(targetContrast==0, Target==2)
-swap_nontargetContrastTAT2.lmm.lme4 <- lmer(point95_SwapAcc ~ nontargetContrast + (1|SID), data = d)
+swap_nontargetContrastTAT2.lmm.lme4 <- lmer(point93_SwapAcc ~ nontargetContrast + (1|SID), data = d)
 summary(swap_nontargetContrastTAT2.lmm.lme4)
 aov.swap_nontargetContrastTAT2 <- Anova(swap_nontargetContrastTAT2.lmm.lme4)
 ```

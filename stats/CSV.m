@@ -169,23 +169,23 @@ type 'tazoot_errSwapAcc.csv'
 
 % swaps over incorrect trials, excluding instances where target accuracy >
 % 93.75%
-point95_SwapAcc = [];
+point93_SwapAcc = [];
 for iSub = 1:length(SIDs)
     for iContrast = 1:4
         for iTarget = 1:numel(Targets)
             for iValid = 1:numel(Validities)
                 if dataAll(iSub).means(iContrast,iValid,iTarget)> 93.75
-                   point95_SwapAcc = [point95_SwapAcc; NaN];
+                   point93_SwapAcc = [point93_SwapAcc; NaN];
                 else
-                    point95_SwapAcc = [point95_SwapAcc; dataAll(iSub).NTErrAccmeans(iContrast,iValid,iTarget)];
+                    point93_SwapAcc = [point93_SwapAcc; dataAll(iSub).NTErrAccmeans(iContrast,iValid,iTarget)];
                 end
             end
         end
     end
 end 
-accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, point95_SwapAcc);
-writetable(accTable,'tazoot_point95_errSwapAcc.csv','Delimiter',',','QuoteStrings','all')
-type 'tazoot_point95_errSwapAcc.csv'
+accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, point93_SwapAcc);
+writetable(accTable,'tazoot_point93_errSwapAcc.csv','Delimiter',',','QuoteStrings','all')
+type 'tazoot_point93_errSwapAcc.csv'
 
 twoIncorrect=[];
 for iSub = 1:length(SIDs)
