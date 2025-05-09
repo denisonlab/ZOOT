@@ -45,12 +45,56 @@ symbols = c("****", "***", "**", "*", "ns"))
 
 ```
 
+```{r swap group means}
+## Summary statistics
+d <- data %>% group_by(Validity, Target, targetContrast, nontargetContrast) %>% 
+  summarise(mean=mean(twoIncorrect), sd=sd(twoIncorrect), n=n_distinct(SID)) %>% mutate(se = sd / sqrt(n),
+         ci.lower = mean - 1.96 * se,
+         ci.upper = mean + 1.96 * se)
+knitr::kable(d, digits=3, caption=sprintf("twoIncorrect swap"))
+```
+
+```{r swapPlot}
+library(ggplot2)
+d <- data %>%
+  mutate(TNTC = paste0("T", targetContrast, "_N", nontargetContrast))
+ggplot(d, aes(x = Validity, y = twoIncorrect, color = TNTC)) + 
+  geom_point() + stat_summary(
+    fun = "mean",
+    geom = "point",
+    color = "red",
+    size = 4
+  ) +
+  facet_grid(~Target) +
+  theme_minimal()
+```
+
 ```{r swap}
-d <- data
-swap.lmm.lme4 <- lmer(twoIncorrect ~ Validity * Target * targetContrast * nontargetContrast + (1|SID), data = d)
+d <- data %>% mutate(combinedContrast = paste(targetContrast, nontargetContrast, sep = "_"))
+d <- d %>%
+  mutate(combinedContrast = factor(combinedContrast,
+                                   levels =  c("1_1", "1_0", "0_1"),
+                                   ordered = TRUE))
+swap.lmm.lme4 <- lmer(twoIncorrect ~ Validity * Target * combinedContrast + (1|SID), data = d)
 summary(swap.lmm.lme4)
 aov.swap <- Anova(swap.lmm.lme4)
 print(aov.swap)
+```
+
+```{r swap T1}
+d <- data %>% filter(Target==1)
+swapT1.lmm.lme4 <- lmer(twoIncorrect ~ Validity * targetContrast * nontargetContrast + (1|SID), data = d)
+summary(swapT1.lmm.lme4)
+aov.swapT1 <- Anova(swapT1.lmm.lme4)
+print(aov.swapT1)
+```
+
+```{r swap T2}
+d <- data %>% filter(Target==2)
+swapT2.lmm.lme4 <- lmer(twoIncorrect ~ Validity * targetContrast * nontargetContrast + (1|SID), data = d)
+summary(swapT2.lmm.lme4)
+aov.swapT2 <- Anova(swapT2.lmm.lme4)
+print(aov.swapT2)
 ```
 
 # validity
