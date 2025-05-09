@@ -511,7 +511,7 @@ summary(swap_validityNPT2.lmm.lme4)
 aov.swap_validityNPT2 <- Anova(swap_validityNPT2.lmm.lme4)
 ```
 
-## TA
+## NA
 
 ``` r
 d <- data %>% filter(nontargetContrast==0)
