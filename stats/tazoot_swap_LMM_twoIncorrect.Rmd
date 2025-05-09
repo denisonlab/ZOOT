@@ -122,7 +122,7 @@ swap_validityNPT2.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityNPT2.lmm.lme4)
 aov.swap_validityNPT2 <- Anova(swap_validityNPT2.lmm.lme4)
 ```
-## TA
+## NA
 ```{r swap validity NA}
 d <- data %>% filter(nontargetContrast==0)
 swap_validityNA.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
