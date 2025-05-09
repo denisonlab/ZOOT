@@ -177,7 +177,7 @@ for iSub = 1:length(SIDs)
                 if dataAll(iSub).means(iContrast,iValid,iTarget)> 93.75
                    point95_SwapAcc = [point95_SwapAcc; NaN];
                 else
-                    point95_SwapAcc = [point95_SwapAcc; dataAll(iSub).NTErrAccmeans(iContrast,iValid,iTarget)];
+                    point95_SwapAcc = [point95_SwapAcc; dataAll(iSub).NTErrAccmeans(iContrast,iValid,inonTarget)];
                 end
             end
         end
@@ -196,22 +196,22 @@ for iSub = 1:length(SIDs)
                     if dataAll(iSub).means(iContrast,iValid,iTarget)> 97.92
                         twoIncorrect = [twoIncorrect; NaN];
                     else
-                        twoIncorrect = [twoIncorrect; dataAll(iSub).NTErrAccmeans(iContrast,iValid,iTarget)];
+                        twoIncorrect = [twoIncorrect; dataAll(iSub).NTErrAccmeans(iContrast,iValid,inonTarget)];
                     end
                 else 
                     if dataAll(iSub).means(iContrast,iValid,iTarget)> 93.75
                         twoIncorrect = [twoIncorrect; NaN];
                     else
-                        twoIncorrect = [twoIncorrect; dataAll(iSub).NTErrAccmeans(iContrast,iValid,iTarget)];
+                        twoIncorrect = [twoIncorrect; dataAll(iSub).NTErrAccmeans(iContrast,iValid,inonTarget)];
                     end
                 end
             end
         end
     end
 end 
-accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, twoIncorrect);
-writetable(accTable,'tazoot_twoIncorrect_errSwapAcc.csv','Delimiter',',','QuoteStrings','all')
-type 'tazoot_twoIncorrect_errSwapAcc.csv'
+% accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, twoIncorrect);
+% writetable(accTable,'tazoot_twoIncorrect_errSwapAcc.csv','Delimiter',',','QuoteStrings','all')
+% type 'tazoot_twoIncorrect_errSwapAcc.csv'
 
 %% create csv file for SDT 
 numCondsSDT = 3*3*2; % three validities x three conditions (all, ntp, nta), and two targets
