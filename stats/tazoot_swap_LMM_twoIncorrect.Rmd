@@ -69,13 +69,21 @@ ggplot(d, aes(x = Validity, y = twoIncorrect, color = TNTC)) +
   theme_minimal()
 ```
 
-```{r swap}
+```{r swap combined contrast}
 d <- data %>% mutate(combinedContrast = paste(targetContrast, nontargetContrast, sep = "_"))
 d <- d %>%
   mutate(combinedContrast = factor(combinedContrast,
                                    levels =  c("1_1", "1_0", "0_1"),
                                    ordered = TRUE))
 swap.lmm.lme4 <- lmer(twoIncorrect ~ Validity * Target * combinedContrast + (1|SID), data = d)
+summary(swap.lmm.lme4)
+aov.swap <- Anova(swap.lmm.lme4)
+print(aov.swap)
+```
+
+```{r swap uncombined contrast}
+d <- data 
+swap.lmm.lme4 <- lmer(twoIncorrect ~ Validity * Target * targetContrast * nontargetContrast + (1|SID), data = d)
 summary(swap.lmm.lme4)
 aov.swap <- Anova(swap.lmm.lme4)
 print(aov.swap)

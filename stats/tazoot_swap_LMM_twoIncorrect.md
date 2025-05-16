@@ -145,6 +145,111 @@ print(aov.swap)
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ``` r
+d <- data 
+swap.lmm.lme4 <- lmer(twoIncorrect ~ Validity * Target * targetContrast * nontargetContrast + (1|SID), data = d)
+summary(swap.lmm.lme4)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: 
+    ## twoIncorrect ~ Validity * Target * targetContrast * nontargetContrast +  
+    ##     (1 | SID)
+    ##    Data: d
+    ## 
+    ## REML criterion at convergence: 2015.8
+    ## 
+    ## Scaled residuals: 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -2.9570 -0.5702  0.0000  0.5903  3.2299 
+    ## 
+    ## Random effects:
+    ##  Groups   Name        Variance Std.Dev.
+    ##  SID      (Intercept)  57.87    7.607  
+    ##  Residual             381.95   19.544  
+    ## Number of obs: 241, groups:  SID, 15
+    ## 
+    ## Fixed effects:
+    ##                                                 Estimate Std. Error       df
+    ## (Intercept)                                      37.0041     3.5140  60.8463
+    ## Validity.L                                       -3.6918     4.7906 210.9184
+    ## Validity.Q                                        0.7796     6.9009 208.7632
+    ## Target.L                                         -1.3623     4.7455 209.2770
+    ## targetContrast.L                                 -2.3538     4.1232 213.3435
+    ## nontargetContrast.L                             -34.9170     4.0375 212.2546
+    ## Validity.L:Target.L                               3.5594     4.0457 206.4262
+    ## Validity.Q:Target.L                              -3.8750     4.1604 207.0958
+    ## Validity.L:targetContrast.L                      -8.1594     6.7668 211.0110
+    ## Validity.Q:targetContrast.L                       0.7082     9.7531 208.0567
+    ## Target.L:targetContrast.L                        12.8159     6.7045 208.7375
+    ## Validity.L:nontargetContrast.L                   -0.5747     6.5968 209.4433
+    ## Validity.Q:nontargetContrast.L                   -2.7520     9.6897 208.3875
+    ## Target.L:nontargetContrast.L                     -0.9567     6.5381 208.3079
+    ## targetContrast.L:nontargetContrast.L            -37.2415     5.7161 212.3050
+    ## Validity.L:Target.L:targetContrast.L              6.6123     5.7442 206.4107
+    ## Validity.Q:Target.L:targetContrast.L             -6.0941     5.8868 206.6022
+    ## Validity.L:Target.L:nontargetContrast.L          -6.9993     5.1201 205.4585
+    ## Validity.Q:Target.L:nontargetContrast.L           2.5389     5.1968 205.5456
+    ## Validity.L:targetContrast.L:nontargetContrast.L  -8.0250     9.3697 209.4616
+    ## Validity.Q:targetContrast.L:nontargetContrast.L  -4.9350    13.6890 208.4135
+    ## Target.L:targetContrast.L:nontargetContrast.L     0.3285     9.2043 208.2527
+    ##                                                 t value Pr(>|t|)    
+    ## (Intercept)                                      10.530 2.45e-15 ***
+    ## Validity.L                                       -0.771   0.4418    
+    ## Validity.Q                                        0.113   0.9102    
+    ## Target.L                                         -0.287   0.7743    
+    ## targetContrast.L                                 -0.571   0.5687    
+    ## nontargetContrast.L                              -8.648 1.29e-15 ***
+    ## Validity.L:Target.L                               0.880   0.3800    
+    ## Validity.Q:Target.L                              -0.931   0.3527    
+    ## Validity.L:targetContrast.L                      -1.206   0.2292    
+    ## Validity.Q:targetContrast.L                       0.073   0.9422    
+    ## Target.L:targetContrast.L                         1.912   0.0573 .  
+    ## Validity.L:nontargetContrast.L                   -0.087   0.9307    
+    ## Validity.Q:nontargetContrast.L                   -0.284   0.7767    
+    ## Target.L:nontargetContrast.L                     -0.146   0.8838    
+    ## targetContrast.L:nontargetContrast.L             -6.515 5.18e-10 ***
+    ## Validity.L:Target.L:targetContrast.L              1.151   0.2510    
+    ## Validity.Q:Target.L:targetContrast.L             -1.035   0.3018    
+    ## Validity.L:Target.L:nontargetContrast.L          -1.367   0.1731    
+    ## Validity.Q:Target.L:nontargetContrast.L           0.489   0.6257    
+    ## Validity.L:targetContrast.L:nontargetContrast.L  -0.856   0.3927    
+    ## Validity.Q:targetContrast.L:nontargetContrast.L  -0.361   0.7188    
+    ## Target.L:targetContrast.L:nontargetContrast.L     0.036   0.9716    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+    ## fit warnings:
+    ## fixed-effect model matrix is rank deficient so dropping 2 columns / coefficients
+
+``` r
+aov.swap <- Anova(swap.lmm.lme4)
+print(aov.swap)
+```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                                                    Chisq Df Pr(>Chisq)    
+    ## Validity                                          0.9444  2  0.6236255    
+    ## Target                                           11.7423  1  0.0006110 ***
+    ## targetContrast                                   70.2330  1  < 2.2e-16 ***
+    ## nontargetContrast                                48.0669  1  4.119e-12 ***
+    ## Validity:Target                                   1.5067  2  0.4707902    
+    ## Validity:targetContrast                           2.3867  2  0.3032080    
+    ## Target:targetContrast                            12.6070  1  0.0003843 ***
+    ## Validity:nontargetContrast                        1.3612  2  0.5063206    
+    ## Target:nontargetContrast                          0.0580  1  0.8096688    
+    ## targetContrast:nontargetContrast                 54.5046  1  1.551e-13 ***
+    ## Validity:Target:targetContrast                    2.6907  2  0.2604495    
+    ## Validity:Target:nontargetContrast                 2.1299  2  0.3447450    
+    ## Validity:targetContrast:nontargetContrast         0.7356  2  0.6922599    
+    ## Target:targetContrast:nontargetContrast           0.0013  1  0.9715311    
+    ## Validity:Target:targetContrast:nontargetContrast          0               
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+``` r
 d <- data %>% filter(Target==1)
 swapT1.lmm.lme4 <- lmer(twoIncorrect ~ Validity * targetContrast * nontargetContrast + (1|SID), data = d)
 summary(swapT1.lmm.lme4)

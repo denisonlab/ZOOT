@@ -1123,7 +1123,7 @@ for iContrast = 1:numel(contrastConds)
         for inonTarget = 1:2
             for iSub = 1:length(subs)
                 if iValid == 1
-                    if dataAll(iSub).means(iContrast,iValid,inonTarget)> 97.92 %if target accuracy is greater than 93.75 (2 incorrect trials for neutral/invalid, 6 for valid), omit from swap analysis
+                    if dataAll(iSub).means(iContrast,iValid,inonTarget)> 97.92 %if target accuracy is greater than 97.92 (2 incorrect trials for valid), omit from swap analysis
                         atLeastTwoIncorrect = [atLeastTwoIncorrect NaN];
                         atLeastTwoIncorrect_swap_scatterplot.(contrasts{iContrast})(iValid,iSub,inonTarget) = NaN;
                         numIncorrect_atLeastTwoIncorrect_swap.(contrasts{iContrast})(iValid, iSub, inonTarget) = NaN; % need numIncorrect here if want to plot num incorrect trials to all data points X% target accuracy and less
@@ -1134,17 +1134,8 @@ for iContrast = 1:numel(contrastConds)
                         numIncorrect_atLeastTwoIncorrect_swap.(contrasts{iContrast})(iValid, iSub, inonTarget) = dataAll(iSub).numIncorrectTrials(iContrast,iValid,inonTarget);
 
                     end
-                    % if dataAll(iSub).means(iContrast,iValid,inonTarget)< 93.76 && dataAll(iSub).NTErrAccmeans(iContrast,iValid,inonTarget) == 100 || dataAll(iSub).means(iContrast,iValid,inonTarget)< 93.76 && dataAll(iSub).NTErrAccmeans(iContrast,iValid,inonTarget) == 0%|| dataAll(iSub).NTErrAccmeans(iContrast,iValid,inonTarget) == 0 %if target accuracy is less than 93.75 and swap rate is 100%, state accuracy (this is to make sure that 100% swap rate isn't due to low incorrect trial count and chance)
-                    %     allswaps_atLeastTwoIncorrect_swap_scatterplot.(contrasts{iContrast})(iValid,iSub,inonTarget)=dataAll(iSub).NTErrAccmeans(iContrast,iValid,inonTarget);
-                    %     acc_atLeastTwoIncorrect_swap.(contrasts{iContrast})(iValid, iSub, inonTarget) = dataAll(iSub).means(iContrast,iValid,inonTarget);
-                    %     numIncorrect_atLeastTwoIncorrect_100or0_swap.(contrasts{iContrast})(iValid,iSub, inonTarget) = dataAll(iSub).numIncorrectTrials(iContrast,iValid,inonTarget); %need num incorrect here if want to plot incorrect trials for all data points X% target accuracy and less with swap rates of 100% and 0%
-                    % else
-                    %     acc_atLeastTwoIncorrect_swap.(contrasts{iContrast})(iValid, iSub, inonTarget) = NaN;
-                    %     numIncorrect_atLeastTwoIncorrect_100or0_swap.(contrasts{iContrast})(iValid, iSub, inonTarget) = NaN;
-                    %     allswaps_atLeastTwoIncorrect_swap_scatterplot.(contrasts{iContrast})(iValid,iSub,inonTarget)=NaN;
-                    % end
                 else
-                    if dataAll(iSub).means(iContrast,iValid,inonTarget)> 93.75 %if target accuracy is greater than 93.75 (2 incorrect trials for neutral/invalid, 6 for valid), omit from swap analysis
+                    if dataAll(iSub).means(iContrast,iValid,inonTarget)> 93.75 %if target accuracy is greater than 93.75 (2 incorrect trials for neutral/invalid), omit from swap analysis
                         atLeastTwoIncorrect = [atLeastTwoIncorrect NaN];
                         atLeastTwoIncorrect_swap_scatterplot.(contrasts{iContrast})(iValid,iSub,inonTarget) = NaN;
                         numIncorrect_atLeastTwoIncorrect_swap.(contrasts{iContrast})(iValid, iSub, inonTarget) = NaN; % need numIncorrect here if want to plot num incorrect trials to all data points X% target accuracy and less
@@ -1168,7 +1159,9 @@ for iContrast = 1:numel(contrastConds)
             end 
                 atLeastTwoIncorrect_swapStd(iContrast, iValid, inonTarget) = std(atLeastTwoIncorrect, "omitmissing");
                 atLeastTwoIncorrect_swapMeans(iContrast, iValid, inonTarget) = nanmean(atLeastTwoIncorrect);
-                atLeastTwoIncorrect_swapErr(iContrast, iValid, inonTarget) = atLeastTwoIncorrect_swapStd(iContrast, iValid, inonTarget) / sqrt(size(atLeastTwoIncorrect,2));
+                nan = isnan(atLeastTwoIncorrect);
+                nonNaN = atLeastTwoIncorrect(~nan);
+                atLeastTwoIncorrect_swapErr(iContrast, iValid, inonTarget) = atLeastTwoIncorrect_swapStd(iContrast, iValid, inonTarget) / sqrt(size(nonNaN,2));
                 atLeastTwoIncorrect=[];
         end
     end
