@@ -727,8 +727,9 @@ while iTrial <= size(trialOrder, 2)
         staircase.index_s2(iTrial) = index_s2;
         staircase.staircase1val(iTrial) = p.stairs(index_s1);
         staircase.staircase2val(iTrial) = p.stairs(index_s2);
-      
-
+        if targetContrast(iTrial) > 0
+        staircase.correct(iTrial) = correct;
+        
         if targetContrast == 1
             if currentStaircase == 1
                 [index_s1, lastFewAcc_s1] = updateStaircase(p.stairs, index_s1, lastFewAcc_s1, correct);

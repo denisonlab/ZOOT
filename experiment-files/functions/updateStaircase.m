@@ -10,8 +10,8 @@ function [stairIdx, lastFewAcc] = updateStaircase(stairs, stairIdx, lastFewAcc, 
 % 2014 April 15
 
 %edited by MLE to reset tracker at level changes - 2021-10-21
-
-% keep track of last 3 trials
+% edited by JAM to 2 up 1 down
+% keep track of last 2 trials
 
 lastFewAcc = [lastFewAcc correct];
 % if numel(lastFewAcc)>3
