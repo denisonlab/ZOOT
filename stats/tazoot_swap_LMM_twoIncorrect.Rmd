@@ -68,7 +68,8 @@ ggplot(d, aes(x = Validity, y = twoIncorrect, color = TNTC)) +
   facet_grid(~Target) +
   theme_minimal()
 ```
-
+# full model
+## combined contrast
 ```{r swap combined contrast}
 d <- data %>% mutate(combinedContrast = paste(targetContrast, nontargetContrast, sep = "_"))
 d <- d %>%
@@ -80,7 +81,7 @@ summary(swap.lmm.lme4)
 aov.swap <- Anova(swap.lmm.lme4)
 print(aov.swap)
 ```
-
+## targetContrast and nontargetContrast
 ```{r swap uncombined contrast}
 d <- data 
 swap.lmm.lme4 <- lmer(twoIncorrect ~ Validity * Target * targetContrast * nontargetContrast + (1|SID), data = d)
@@ -88,7 +89,7 @@ summary(swap.lmm.lme4)
 aov.swap <- Anova(swap.lmm.lme4)
 print(aov.swap)
 ```
-
+## T1
 ```{r swap T1}
 d <- data %>% filter(Target==1)
 swapT1.lmm.lme4 <- lmer(twoIncorrect ~ Validity * targetContrast * nontargetContrast + (1|SID), data = d)
@@ -96,13 +97,134 @@ summary(swapT1.lmm.lme4)
 aov.swapT1 <- Anova(swapT1.lmm.lme4)
 print(aov.swapT1)
 ```
-
+## T2
 ```{r swap T2}
 d <- data %>% filter(Target==2)
 swapT2.lmm.lme4 <- lmer(twoIncorrect ~ Validity * targetContrast * nontargetContrast + (1|SID), data = d)
 summary(swapT2.lmm.lme4)
 aov.swapT2 <- Anova(swapT2.lmm.lme4)
 print(aov.swapT2)
+```
+## TP
+```{r swap TP}
+d <- data %>% filter(targetContrast==1)
+swapTP.lmm.lme4 <- lmer(twoIncorrect ~ Validity * nontargetContrast + (1|SID), data = d)
+summary(swapTP.lmm.lme4)
+aov.swapTP <- Anova(swapTP.lmm.lme4)
+print(aov.swapTP)
+```
+## TP T1
+```{r swap TP T1}
+d <- data %>% filter(Target==1, targetContrast==1)
+swapTPT1.lmm.lme4 <- lmer(twoIncorrect ~ Validity * nontargetContrast + (1|SID), data = d)
+summary(swapTPT1.lmm.lme4)
+aov.swapTPT1 <- Anova(swapTPT1.lmm.lme4)
+print(aov.swapTPT1)
+```
+## TP T2
+```{r swap TP T2}
+d <- data %>% filter(Target==2, targetContrast==1)
+swapTPT2.lmm.lme4 <- lmer(twoIncorrect ~ Validity * nontargetContrast + (1|SID), data = d)
+summary(swapTPT2.lmm.lme4)
+aov.swapTPT2 <- Anova(swapTPT2.lmm.lme4)
+print(aov.swapTPT2)
+```
+## TA
+```{r swap TA}
+d <- data %>% filter(targetContrast==0)
+swapTA.lmm.lme4 <- lmer(twoIncorrect ~ Validity  * nontargetContrast + (1|SID), data = d)
+summary(swapTA.lmm.lme4)
+aov.swapTA <- Anova(swapTA.lmm.lme4)
+print(aov.swapTA)
+```
+## TA T1
+```{r swap TA T1}
+d <- data %>% filter(Target==1, targetContrast==0)
+swapTAT1.lmm.lme4 <- lmer(twoIncorrect ~ Validity * nontargetContrast + (1|SID), data = d)
+summary(swapTAT1.lmm.lme4)
+aov.swapTAT1 <- Anova(swapTAT1.lmm.lme4)
+print(aov.swapTAT1)
+```
+## TA T2
+```{r swap TA T2}
+d <- data %>% filter(Target==2, targetContrast==0)
+swapTAT2.lmm.lme4 <- lmer(twoIncorrect ~ Validity * nontargetContrast + (1|SID), data = d)
+summary(swapTAT2.lmm.lme4)
+aov.swapTAT2 <- Anova(swapTAT2.lmm.lme4)
+print(aov.swapTAT2)
+```
+## NP
+```{r swap NP}
+d <- data %>% filter(nontargetContrast==1)
+swapNP.lmm.lme4 <- lmer(twoIncorrect ~ Validity * targetContrast + (1|SID), data = d)
+summary(swapNP.lmm.lme4)
+aov.swapNP <- Anova(swapNP.lmm.lme4)
+print(aov.swapNP)
+```
+## NP T1
+```{r swap NP T1}
+d <- data %>% filter(Target==1, nontargetContrast==1)
+swapNPT1.lmm.lme4 <- lmer(twoIncorrect ~ Validity * targetContrast + (1|SID), data = d)
+summary(swapNPT1.lmm.lme4)
+aov.swapNPT1 <- Anova(swapNPT1.lmm.lme4)
+print(aov.swapNPT1)
+```
+## NP T2
+```{r swap NP T2}
+d <- data %>% filter(Target==2,nontargetContrast==1)
+swapNPT2.lmm.lme4 <- lmer(twoIncorrect ~ Validity * targetContrast + (1|SID), data = d)
+summary(swapNPT2.lmm.lme4)
+aov.swapNPT2 <- Anova(swapNPT2.lmm.lme4)
+print(aov.swapNPT2)
+```
+## NA
+```{r swap NA}
+d <- data %>% filter(nontargetContrast==0)
+swapNA.lmm.lme4 <- lmer(twoIncorrect ~ Validity  * targetContrast + (1|SID), data = d)
+summary(swapNA.lmm.lme4)
+aov.swapNA <- Anova(swapNA.lmm.lme4)
+print(aov.swapNA)
+```
+## NA T1
+```{r swap NA T1}
+d <- data %>% filter(Target==1, nontargetContrast==0)
+swapNAT1.lmm.lme4 <- lmer(twoIncorrect ~ Validity * targetContrast + (1|SID), data = d)
+summary(swapNAT1.lmm.lme4)
+aov.swapNAT1 <- Anova(swapNAT1.lmm.lme4)
+print(aov.swapNAT1)
+```
+## NA T2
+```{r swap NA T2}
+d <- data %>% filter(Target==2, nontargetContrast==0)
+swapNAT2.lmm.lme4 <- lmer(twoIncorrect ~ Validity * targetContrast + (1|SID), data = d)
+summary(swapNAT2.lmm.lme4)
+aov.swapNAT2 <- Anova(swapNAT2.lmm.lme4)
+print(aov.swapNAT2)
+```
+## TPNP
+```{r swap TPNP}
+d <- data %>% filter(targetContrast==1, nontargetContrast==1)
+swapTPNP.lmm.lme4 <- lmer(twoIncorrect ~ Validity * Target + (1|SID), data = d)
+summary(swapTPNP.lmm.lme4)
+aov.swapTPNP <- Anova(swapTPNP.lmm.lme4)
+print(aov.swapTPNP)
+```
+## TPNA
+```{r swap TPNA}
+d <- data %>% filter(targetContrast==1, nontargetContrast==0)
+swapTPNA.lmm.lme4 <- lmer(twoIncorrect ~ Validity * Target + (1|SID), data = d)
+summary(swapTPNA.lmm.lme4)
+aov.swapTPNA <- Anova(swapTPNA.lmm.lme4)
+print(aov.swapTPNA)
+```
+
+## TANP
+```{r swap TANP}
+d <- data %>% filter(targetContrast==0, nontargetContrast==1)
+swapTANP.lmm.lme4 <- lmer(twoIncorrect ~ Validity * Target + (1|SID), data = d)
+summary(swapTANP.lmm.lme4)
+aov.swapTANP <- Anova(swapTANP.lmm.lme4)
+print(aov.swapTANP)
 ```
 
 # validity

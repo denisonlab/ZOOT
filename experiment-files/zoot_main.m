@@ -721,7 +721,7 @@ while iTrial <= size(trialOrder, 2)
         data.block(iTrial) = block;
     end
     
-    %% staircase update and calculations
+    %% staircase update 
     if s.exptStage == 2
         staircase.index_s1(iTrial) = index_s1;
         staircase.index_s2(iTrial) = index_s2;
@@ -959,6 +959,7 @@ end
 timeEnd = GetSecs;
 timing.timeEnd = timeEnd;
 
+%% staircase calculation
 if s.exptStage ==2 % calculate and store staircasing/threshold file
     staircase.staircaseavgs = [mean(staircase.staircase1val(end-5:end)) mean(staircase.staircase2val(end-5:end))]; % mean or median?
     staircase.threshold = mean(staircase.staircaseavgs);
