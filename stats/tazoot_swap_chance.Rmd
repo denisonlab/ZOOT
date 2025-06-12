@@ -71,6 +71,62 @@ swap_I <-t.test(dt$twoIncorrect, mu=50)
 report(swap_I)
 ```
 
+# T1
+```{r swap T1}
+d <- data 
+dt <- d %>% filter(Target == 1)
+swap_T1 <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_T1)
+```
+## V
+```{r swap T1 V}
+d <- data 
+dt <- d %>% filter(Target==1, Validity == 1)
+swap_T1V <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_T1V)
+```
+## N
+```{r swap T1 N}
+d <- data 
+dt <- d %>% filter(Target==1, Validity == 3)
+swap_T1N <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_T1N)
+```
+## I
+```{r swap T1 I}
+d <- data 
+dt <- d %>% filter(Target==1, Validity == 2)
+swap_T1I <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_T1I)
+```
+# T2
+```{r swap T2}
+d <- data 
+dt <- d %>% filter(Target == 2)
+swap_T2 <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_T2)
+```
+## V
+```{r swap T2 V}
+d <- data 
+dt <- d %>% filter(Target==2, Validity == 1)
+swap_T2V <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_T2V)
+```
+## N
+```{r swap T2 N}
+d <- data 
+dt <- d %>% filter(Target==2, Validity == 3)
+swap_T2N <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_T2N)
+```
+## I
+```{r swap T2 I}
+d <- data 
+dt <- d %>% filter(Target==2, Validity == 2)
+swap_T2I <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_T2I)
+```
 # TP 
 ```{r swap TP}
 d <- data 
