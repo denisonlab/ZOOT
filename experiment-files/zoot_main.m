@@ -805,14 +805,14 @@ while iTrial <= size(trialOrder, 2)
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
-            case {1} % need to reach 75% accuracy to move to thresholding
+            case {1} % need to reach 85% accuracy to move to thresholding
                 filename = sprintf('%s/%s_neutral_practice_%s_block%d.mat',data.pracDir,s.subjectID,dateStr,block);
                 data.filename = filename;
                 save(filename,'data')
                 disp('data saved!')
                 if iTrial == p.nTrialsPerBlock
                     practiceAcc = mean(data.correct(1:end), 'omitnan')*100;
-                    if practiceAcc >=75
+                    if practiceAcc >=85
                         practiceMessage = sprintf(['Great job! You''ve completed the first practice session! Your accuracy was %0.2f %%. ' ...
                             'You are ready to move on to thresholding!'],practiceAcc);
                         DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);
@@ -840,7 +840,7 @@ while iTrial <= size(trialOrder, 2)
                 disp('data saved!')
                 if iTrial == p.nTrialsPerBlock
                     practiceAcc = mean(data.correct(1:end), 'omitnan')*100;
-                    if practiceAcc >=75
+                    if practiceAcc >=85
                         practiceMessage = sprintf(['Great job! You''ve completed the second practice session! Your accuracy was %0.2f %%. ' ...
                             'You are ready to move on to the main task!'],practiceAcc);
                         DrawFormattedText(window, practiceMessage, 'center', 'center', [1 1 1]);

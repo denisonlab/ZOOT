@@ -49,31 +49,451 @@ attComparison <- list( c("1","3"), c("1","2"), c("2","3") )
 significance <- list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, Inf),
 symbols = c("****", "***", "**", "*", "ns"))
 ```
-
-```{r swap TP}
+# V
+```{r swap V}
 d <- data 
-dt <- d %>% filter(targetContrast == 1, nontargetContrast == 1)
-t_test_result <-t.test(dt$twoIncorrect, mu=0.5) 
-tidy_res <- tidy(t_test_result)
-print(tidy_res)
+dt <- d %>% filter(Validity == 1)
+swap_V <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_V)
+```
+# N
+```{r swap N}
+d <- data 
+dt <- d %>% filter(Validity == 3)
+swap_N <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_N)
+```
+# I
+```{r swap I}
+d <- data 
+dt <- d %>% filter(Validity == 2)
+swap_I <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_I)
 ```
 
+# TP 
+```{r swap TP}
+d <- data 
+dt <- d %>% filter(targetContrast == 1)
+swap_TP <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TP)
+```
+## T1
+```{r swap TP T1}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, Target==1)
+swap_TPT1 <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPT1)
+```
+## T2
+```{r swap TP T2}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, Target==2)
+swap_TPT2 <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPT2)
+```
+## V
+```{r swap TP V}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, Validity==1)
+swap_TPV <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPV)
+```
+## N
+```{r swap TP N}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, Validity==3)
+swap_TPN <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPN)
+```
+## I 
+```{r swap TP I}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, Validity==2)
+swap_TPI <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPI)
+```
+## T1 V
+```{r swap TP T1 V}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, Validity==1, Target==1)
+swap_TPT1V <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPT1V)
+```
+## T1 N
+```{r swap TP T1 N}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, Validity==3, Target==1)
+swap_TPT1N <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPT1N)
+```
+## T1 I
+```{r swap TP T1 I}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, Validity==2, Target==1)
+swap_TPT1I <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPT1I)
+```
+## T2 V
+```{r swap TP T2 V}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, Validity==1, Target==2)
+swap_TPT2V <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPT2V)
+```
+## T2 N
+```{r swap TP T2 N}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, Validity==3, Target==2)
+swap_TPT2N <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPT2N)
+```
+## T2 I
+```{r swap TP T2 I}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, Validity==2, Target==2)
+swap_TPT2I <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPT2I)
+```
 
+# TA 
+```{r swap TA}
+d <- data 
+dt <- d %>% filter(targetContrast == 0)
+swap_TA <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TA)
+```
+## T1
+```{r swap TA T1}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, Target==1)
+swap_TAT1 <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TAT1)
+```
+## T2
+```{r swap TA T2}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, Target==2)
+swap_TAT2 <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TAT2)
+```
+## V
+```{r swap TA V}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, Validity==1)
+swap_TAV <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TAV)
+```
+## N
+```{r swap TA N}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, Validity==3)
+swap_TAN <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TAN)
+```
+## I 
+```{r swap TA I}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, Validity==2)
+swap_TAI <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TAI)
+```
+## T1 V
+```{r swap TA T1 V}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, Validity==1, Target==1)
+swap_TAT1V <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TAT1V)
+```
+## T1 N
+```{r swap TA T1 N}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, Validity==3, Target==1)
+swap_TAT1N <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TAT1N)
+```
+## T1 I
+```{r swap TA T1 I}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, Validity==2, Target==1)
+swap_TAT1I <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TAT1I)
+```
+## T2 V
+```{r swap TA T2 V}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, Validity==1, Target==2)
+swap_TAT2V <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TAT2V)
+```
+## T2 N
+```{r swap TA T2 N}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, Validity==3, Target==2)
+swap_TAT2N <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TAT2N)
+```
+## T2 I
+```{r swap TA T2 I}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, Validity==2, Target==2)
+swap_TAT2I <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TAT2I)
+```
+
+#TPNP
 ```{r swap TPNP}
 d <- data 
 dt <- d %>% filter(targetContrast == 1, nontargetContrast == 1)
-t_test_result <-t.test(dt$twoIncorrect, mu=0.5) 
-tidy_res <- tidy(t_test_result)
-print(tidy_res)
+swap_TPNP <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNP)
 ```
-
-
+## T1
 ```{r swap TPNP T1}
 d <- data 
-dt <- d %>% filter(targetContrast == 1, nontargetContrast == 1)
-t_test_result <-t.test(dt$twoIncorrect, mu=0.5) 
-tidy_res <- tidy(t_test_result)
-print(tidy_res)
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 1, Target==1)
+swap_TPNPT1 <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNPT1)
+```
+## T2
+```{r swap TPNP T2}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 1, Target==2)
+swap_TPNPT2 <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNPT2)
+```
+## V
+```{r swap TPNP V}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 1, Validity==1)
+swap_TPNPV <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNPV)
+```
+## N
+```{r swap TPNP N}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 1, Validity==3)
+swap_TPNPN <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNPN)
+```
+## I 
+```{r swap TPNP I}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 1, Validity==2)
+swap_TPNPI <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNPI)
+```
+## T1 V
+```{r swap TPNP T1 V}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 1, Validity==1, Target==1)
+swap_TPNPT1V <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNPT1V)
+```
+## T1 N
+```{r swap TPNP T1 N}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 1, Validity==3, Target==1)
+swap_TPNPT1N <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNPT1N)
+```
+## T1 I
+```{r swap TPNP T1 I}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 1, Validity==2, Target==1)
+swap_TPNPT1I <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNPT1I)
+```
+## T2 V
+```{r swap TPNP T2 V}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 1, Validity==1, Target==2)
+swap_TPNPT2V <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNPT2V)
+```
+## T2 N
+```{r swap TPNP T2 N}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 1, Validity==3, Target==2)
+swap_TPNPT2N <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNPT2N)
+```
+## T2 I
+```{r swap TPNP T2 I}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 1, Validity==2, Target==2)
+swap_TPNPT2I <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNPT2I)
+```
+
+# TPNA
+```{r swap TPNA}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 0)
+swap_TPNA <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNA)
+```
+## T1
+```{r swap TPNA T1}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 0, Target==1)
+swap_TPNAT1 <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNAT1)
+```
+## T2
+```{r swap TPNA T2}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 0, Target==2)
+swap_TPNAT2 <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNAT2)
+```
+## V
+```{r swap TPNA V}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 0, Validity==1)
+swap_TPNAV <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNAV)
+```
+## N
+```{r swap TPNA N}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 0, Validity==3)
+swap_TPNAN <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNAN)
+```
+## I 
+```{r swap TPNA I}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 0, Validity==2)
+swap_TPNAI <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNAI)
+```
+## T1 V
+```{r swap TPNA T1 V}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 0, Validity==1, Target==1)
+swap_TPNAT1V <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNAT1V)
+```
+## T1 N
+```{r swap TPNA T1 N}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 0, Validity==3, Target==1)
+swap_TPNAT1N <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNAT1N)
+```
+## T1 I
+```{r swap TPNA T1 I}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 0, Validity==2, Target==1)
+swap_TPNAT1I <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNAT1I)
+```
+## T2 V
+```{r swap TPNA T2 V}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 0, Validity==1, Target==2)
+swap_TPNAT2V <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNAT2V)
+```
+## T2 N
+```{r swap TPNA T2 N}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 0, Validity==3, Target==2)
+swap_TPNAT2N <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNAT2N)
+```
+## T2 I
+```{r swap TPNA T2 I}
+d <- data 
+dt <- d %>% filter(targetContrast == 1, nontargetContrast == 0, Validity==2, Target==2)
+swap_TPNAT2I <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TPNAT2I)
+```
+
+# TANP
+```{r swap TANP}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1)
+swap_TANP <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TANP)
+```
+## T1
+```{r swap TANP T1}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Target==1)
+swap_TANPT1 <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TANPT1)
+```
+## T2
+```{r swap TANP T2}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Target==2)
+swap_TANPT2 <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TANPT2)
+```
+## V
+```{r swap TANP V}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Validity==1)
+swap_TANPV <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TANPV)
+```
+## N
+```{r swap TANP N}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Validity==3)
+swap_TANPN <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TANPN)
+```
+## I 
+```{r swap TANP I}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Validity==2)
+swap_TANPI <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TANPI)
+```
+## T1 V
+```{r swap TANP T1 V}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Validity==1, Target==1)
+swap_TANPT1V <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TANPT1V)
+```
+## T1 N
+```{r swap TANP T1 N}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Validity==3, Target==1)
+swap_TANPT1N <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TANPT1N)
+```
+## T1 I
+```{r swap TANP T1 I}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Validity==2, Target==1)
+swap_TANPT1I <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TANPT1I)
+```
+## T2 V
+```{r swap TANP T2 V}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Validity==1, Target==2)
+swap_TANPT2V <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TANPT2V)
+```
+## T2 N
+```{r swap TANP T2 N}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Validity==3, Target==2)
+swap_TANPT2N <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TANPT2N)
+```
+## T2 I
+```{r swap TANP T2 I}
+d <- data 
+dt <- d %>% filter(targetContrast == 0, nontargetContrast == 1, Validity==2, Target==2)
+swap_TANPT2I <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_TANPT2I)
 ```
 
 

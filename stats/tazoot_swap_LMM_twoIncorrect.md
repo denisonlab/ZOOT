@@ -55,6 +55,7 @@ ggplot(d, aes(x = Validity, y = twoIncorrect, color = TNTC)) +
 ```
 
 ![](tazoot_swap_LMM_twoIncorrect_files/figure-gfm/swapPlot-1.png)<!-- -->
+\# full model \## combined contrast
 
 ``` r
 d <- data %>% mutate(combinedContrast = paste(targetContrast, nontargetContrast, sep = "_"))
@@ -143,6 +144,8 @@ print(aov.swap)
     ## Validity:Target:combinedContrast   8.7333  4  0.0681230 .  
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+## targetContrast and nontargetContrast
 
 ``` r
 d <- data 
@@ -249,6 +252,8 @@ print(aov.swap)
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
+## T1
+
 ``` r
 d <- data %>% filter(Target==1)
 swapT1.lmm.lme4 <- lmer(twoIncorrect ~ Validity * targetContrast * nontargetContrast + (1|SID), data = d)
@@ -346,6 +351,8 @@ print(aov.swapT1)
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
+## T2
+
 ``` r
 d <- data %>% filter(Target==2)
 swapT2.lmm.lme4 <- lmer(twoIncorrect ~ Validity * targetContrast * nontargetContrast + (1|SID), data = d)
@@ -440,6 +447,914 @@ print(aov.swapT2)
     ## Validity:nontargetContrast                 0.2667  2     0.8752    
     ## targetContrast:nontargetContrast          33.0079  1  9.178e-09 ***
     ## Validity:targetContrast:nontargetContrast  0.3855  1     0.5347    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+## TP
+
+``` r
+d <- data %>% filter(targetContrast==1)
+swapTP.lmm.lme4 <- lmer(twoIncorrect ~ Validity * nontargetContrast + (1|SID), data = d)
+summary(swapTP.lmm.lme4)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: twoIncorrect ~ Validity * nontargetContrast + (1 | SID)
+    ##    Data: d
+    ## 
+    ## REML criterion at convergence: 1542.1
+    ## 
+    ## Scaled residuals: 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -2.58054 -0.67066  0.00993  0.66909  2.70105 
+    ## 
+    ## Random effects:
+    ##  Groups   Name        Variance Std.Dev.
+    ##  SID      (Intercept)  71.8     8.474  
+    ##  Residual             475.9    21.815  
+    ## Number of obs: 173, groups:  SID, 15
+    ## 
+    ## Fixed effects:
+    ##                                Estimate Std. Error       df t value Pr(>|t|)
+    ## (Intercept)                     38.8640     2.7470  14.3503  14.148 7.97e-10
+    ## Validity.L                       2.3458     2.8552 153.5741   0.822 0.412581
+    ## Validity.Q                       0.2641     2.9012 154.1654   0.091 0.927599
+    ## nontargetContrast.L             -8.6490     2.3487 153.6560  -3.682 0.000319
+    ## Validity.L:nontargetContrast.L   5.2007     4.0384 153.6251   1.288 0.199748
+    ## Validity.Q:nontargetContrast.L   1.0730     4.0976 153.6859   0.262 0.793782
+    ##                                   
+    ## (Intercept)                    ***
+    ## Validity.L                        
+    ## Validity.Q                        
+    ## nontargetContrast.L            ***
+    ## Validity.L:nontargetContrast.L    
+    ## Validity.Q:nontargetContrast.L    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Correlation of Fixed Effects:
+    ##             (Intr) Vldt.L Vldt.Q nntC.L V.L:C.
+    ## Validity.L   0.013                            
+    ## Validity.Q  -0.013  0.016                     
+    ## nntrgtCnt.L -0.004 -0.008 -0.004              
+    ## Vldty.L:C.L -0.005 -0.009 -0.006  0.022       
+    ## Vldty.Q:C.L -0.003 -0.005 -0.003 -0.020  0.016
+
+``` r
+aov.swapTP <- Anova(swapTP.lmm.lme4)
+print(aov.swapTP)
+```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                              Chisq Df Pr(>Chisq)    
+    ## Validity                    0.7047  2  0.7030388    
+    ## nontargetContrast          13.7460  1  0.0002093 ***
+    ## Validity:nontargetContrast  1.7170  2  0.4238030    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+## TP T1
+
+``` r
+d <- data %>% filter(Target==1, targetContrast==1)
+swapTPT1.lmm.lme4 <- lmer(twoIncorrect ~ Validity * nontargetContrast + (1|SID), data = d)
+summary(swapTPT1.lmm.lme4)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: twoIncorrect ~ Validity * nontargetContrast + (1 | SID)
+    ##    Data: d
+    ## 
+    ## REML criterion at convergence: 743.7
+    ## 
+    ## Scaled residuals: 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -2.02897 -0.67659 -0.01368  0.67969  2.93207 
+    ## 
+    ## Random effects:
+    ##  Groups   Name        Variance Std.Dev.
+    ##  SID      (Intercept)  92.12    9.598  
+    ##  Residual             299.04   17.293  
+    ## Number of obs: 89, groups:  SID, 15
+    ## 
+    ## Fixed effects:
+    ##                                Estimate Std. Error       df t value Pr(>|t|)
+    ## (Intercept)                    46.03100    3.08358 14.07823  14.928 5.03e-10
+    ## Validity.L                      2.86701    3.15721 69.08707   0.908  0.36699
+    ## Validity.Q                     -0.00668    3.19907 69.32203  -0.002  0.99834
+    ## nontargetContrast.L            -7.75499    2.59500 69.20620  -2.988  0.00388
+    ## Validity.L:nontargetContrast.L 10.04908    4.46497 69.08707   2.251  0.02759
+    ## Validity.Q:nontargetContrast.L -1.02740    4.52417 69.32203  -0.227  0.82102
+    ##                                   
+    ## (Intercept)                    ***
+    ## Validity.L                        
+    ## Validity.Q                        
+    ## nontargetContrast.L            ** 
+    ## Validity.L:nontargetContrast.L *  
+    ## Validity.Q:nontargetContrast.L    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Correlation of Fixed Effects:
+    ##             (Intr) Vldt.L Vldt.Q nntC.L V.L:C.
+    ## Validity.L   0.000                            
+    ## Validity.Q  -0.011  0.000                     
+    ## nntrgtCnt.L  0.008  0.000 -0.019              
+    ## Vldty.L:C.L  0.000  0.000  0.000  0.000       
+    ## Vldty.Q:C.L -0.011  0.000  0.026 -0.019  0.000
+
+``` r
+aov.swapTPT1 <- Anova(swapTPT1.lmm.lme4)
+print(aov.swapTPT1)
+```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                             Chisq Df Pr(>Chisq)   
+    ## Validity                   0.8246  2   0.662114   
+    ## nontargetContrast          8.9590  1   0.002761 **
+    ## Validity:nontargetContrast 5.1170  2   0.077421 . 
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+## TP T2
+
+``` r
+d <- data %>% filter(Target==2, targetContrast==1)
+swapTPT2.lmm.lme4 <- lmer(twoIncorrect ~ Validity * nontargetContrast + (1|SID), data = d)
+summary(swapTPT2.lmm.lme4)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: twoIncorrect ~ Validity * nontargetContrast + (1 | SID)
+    ##    Data: d
+    ## 
+    ## REML criterion at convergence: 739
+    ## 
+    ## Scaled residuals: 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -2.04600 -0.72543 -0.02734  0.67168  2.60677 
+    ## 
+    ## Random effects:
+    ##  Groups   Name        Variance Std.Dev.
+    ##  SID      (Intercept) 107.9    10.39   
+    ##  Residual             512.7    22.64   
+    ## Number of obs: 84, groups:  SID, 15
+    ## 
+    ## Fixed effects:
+    ##                                Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)                     31.1398     3.6563 14.3950   8.517 5.35e-07 ***
+    ## Validity.L                       0.9674     4.2594 65.0445   0.227    0.821    
+    ## Validity.Q                       0.4153     4.3583 66.4078   0.095    0.924    
+    ## nontargetContrast.L             -9.0734     3.5088 65.0627  -2.586    0.012 *  
+    ## Validity.L:nontargetContrast.L   0.8263     6.0271 65.1799   0.137    0.891    
+    ## Validity.Q:nontargetContrast.L   2.8442     6.1293 65.0344   0.464    0.644    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Correlation of Fixed Effects:
+    ##             (Intr) Vldt.L Vldt.Q nntC.L V.L:C.
+    ## Validity.L   0.031                            
+    ## Validity.Q  -0.020  0.034                     
+    ## nntrgtCnt.L -0.019 -0.017  0.010              
+    ## Vldty.L:C.L -0.011 -0.021 -0.013  0.048       
+    ## Vldty.Q:C.L  0.007 -0.013 -0.035 -0.023  0.034
+
+``` r
+aov.swapTPT2 <- Anova(swapTPT2.lmm.lme4)
+print(aov.swapTPT2)
+```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                             Chisq Df Pr(>Chisq)   
+    ## Validity                   0.0666  2   0.967261   
+    ## nontargetContrast          6.6808  1   0.009746 **
+    ## Validity:nontargetContrast 0.2301  2   0.891327   
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+## TA
+
+``` r
+d <- data %>% filter(targetContrast==0)
+swapTA.lmm.lme4 <- lmer(twoIncorrect ~ Validity  * nontargetContrast + (1|SID), data = d)
+summary(swapTA.lmm.lme4)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: twoIncorrect ~ Validity * nontargetContrast + (1 | SID)
+    ##    Data: d
+    ## 
+    ## REML criterion at convergence: 548.5
+    ## 
+    ## Scaled residuals: 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -3.9988 -0.2869  0.0419  0.5368  1.5154 
+    ## 
+    ## Random effects:
+    ##  Groups   Name        Variance Std.Dev.
+    ##  SID      (Intercept)  13.62    3.691  
+    ##  Residual             309.52   17.593  
+    ## Number of obs: 68, groups:  SID, 15
+    ## 
+    ## Fixed effects:
+    ##                                Estimate Std. Error       df t value Pr(>|t|)
+    ## (Intercept)                     39.6164     4.7830  40.1695   8.283 3.18e-10
+    ## Validity.L                      -1.8598     7.3773  61.9925  -0.252    0.802
+    ## Validity.Q                       4.5297     8.5126  53.3614   0.532    0.597
+    ## nontargetContrast.L            -57.1865     6.5919  61.7835  -8.675 2.76e-12
+    ## Validity.L:nontargetContrast.L   0.6187    10.3726  60.6740   0.060    0.953
+    ## Validity.Q:nontargetContrast.L  -5.2447    12.0477  54.0671  -0.435    0.665
+    ##                                   
+    ## (Intercept)                    ***
+    ## Validity.L                        
+    ## Validity.Q                        
+    ## nontargetContrast.L            ***
+    ## Validity.L:nontargetContrast.L    
+    ## Validity.Q:nontargetContrast.L    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Correlation of Fixed Effects:
+    ##             (Intr) Vldt.L Vldt.Q nntC.L V.L:C.
+    ## Validity.L   0.435                            
+    ## Validity.Q  -0.215  0.258                     
+    ## nntrgtCnt.L  0.858  0.411 -0.210              
+    ## Vldty.L:C.L  0.406  0.858  0.243  0.442       
+    ## Vldty.Q:C.L -0.205  0.237  0.885 -0.215  0.261
+
+``` r
+aov.swapTA <- Anova(swapTA.lmm.lme4)
+print(aov.swapTA)
+```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                               Chisq Df Pr(>Chisq)    
+    ## Validity                     4.6728  2    0.09668 .  
+    ## nontargetContrast          114.1064  1    < 2e-16 ***
+    ## Validity:nontargetContrast   0.2217  2    0.89506    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+## TA T1
+
+``` r
+d <- data %>% filter(Target==1, targetContrast==0)
+swapTAT1.lmm.lme4 <- lmer(twoIncorrect ~ Validity * nontargetContrast + (1|SID), data = d)
+summary(swapTAT1.lmm.lme4)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: twoIncorrect ~ Validity * nontargetContrast + (1 | SID)
+    ##    Data: d
+    ## 
+    ## REML criterion at convergence: 245.8
+    ## 
+    ## Scaled residuals: 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -2.26855 -0.35093  0.07795  0.50741  1.45935 
+    ## 
+    ## Random effects:
+    ##  Groups   Name        Variance Std.Dev.
+    ##  SID      (Intercept) 173.3    13.16   
+    ##  Residual             251.8    15.87   
+    ## Number of obs: 32, groups:  SID, 15
+    ## 
+    ## Fixed effects:
+    ##                                Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)                      33.640      9.951  24.263   3.380 0.002448 ** 
+    ## Validity.L                       -5.335     19.188  19.146  -0.278 0.783982    
+    ## Validity.Q                       11.722      5.446  17.010   2.153 0.046003 *  
+    ## nontargetContrast.L             -54.336     12.840  17.157  -4.232 0.000551 ***
+    ## Validity.L:nontargetContrast.L   16.726     26.157  18.559   0.639 0.530354    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Correlation of Fixed Effects:
+    ##             (Intr) Vldt.L Vldt.Q nntC.L
+    ## Validity.L  0.678                      
+    ## Validity.Q  0.247  0.320               
+    ## nntrgtCnt.L 0.878  0.697  0.240        
+    ## Vldty.L:C.L 0.649  0.953  0.252  0.711 
+    ## fit warnings:
+    ## fixed-effect model matrix is rank deficient so dropping 1 column / coefficient
+
+``` r
+aov.swapTAT1 <- Anova(swapTAT1.lmm.lme4)
+print(aov.swapTAT1)
+```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                              Chisq Df Pr(>Chisq)    
+    ## Validity                   17.3104  2  0.0001742 ***
+    ## nontargetContrast          44.3976  1   2.68e-11 ***
+    ## Validity:nontargetContrast  0.4089  1  0.5225392    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+## TA T2
+
+``` r
+d <- data %>% filter(Target==2, targetContrast==0)
+swapTAT2.lmm.lme4 <- lmer(twoIncorrect ~ Validity * nontargetContrast + (1|SID), data = d)
+summary(swapTAT2.lmm.lme4)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: twoIncorrect ~ Validity * nontargetContrast + (1 | SID)
+    ##    Data: d
+    ## 
+    ## REML criterion at convergence: 250.1
+    ## 
+    ## Scaled residuals: 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -2.74253 -0.35886  0.02657  0.63888  1.65068 
+    ## 
+    ## Random effects:
+    ##  Groups   Name        Variance Std.Dev.
+    ##  SID      (Intercept)   0.0     0.00   
+    ##  Residual             129.5    11.38   
+    ## Number of obs: 36, groups:  SID, 14
+    ## 
+    ## Fixed effects:
+    ##                                Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)                      43.335      3.570  31.000  12.137 2.59e-13 ***
+    ## Validity.L                        2.743      4.936  31.000   0.556    0.582    
+    ## Validity.Q                       -1.932      3.807  31.000  -0.507    0.615    
+    ## nontargetContrast.L             -60.170      4.936  31.000 -12.190 2.32e-13 ***
+    ## Validity.L:nontargetContrast.L   -3.879      6.981  31.000  -0.556    0.582    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Correlation of Fixed Effects:
+    ##             (Intr) Vldt.L Vldt.Q nntC.L
+    ## Validity.L   0.439                     
+    ## Validity.Q  -0.269  0.028              
+    ## nntrgtCnt.L  0.829  0.424 -0.171       
+    ## Vldty.L:C.L  0.427  0.772 -0.028  0.462
+    ## fit warnings:
+    ## fixed-effect model matrix is rank deficient so dropping 1 column / coefficient
+    ## optimizer (nloptwrap) convergence code: 0 (OK)
+    ## boundary (singular) fit: see help('isSingular')
+
+``` r
+aov.swapTAT2 <- Anova(swapTAT2.lmm.lme4)
+print(aov.swapTAT2)
+```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                               Chisq Df Pr(>Chisq)    
+    ## Validity                     2.8227  2     0.2438    
+    ## nontargetContrast          181.0474  1     <2e-16 ***
+    ## Validity:nontargetContrast   0.3089  1     0.5784    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+## NP
+
+``` r
+d <- data %>% filter(nontargetContrast==1)
+swapNP.lmm.lme4 <- lmer(twoIncorrect ~ Validity * targetContrast + (1|SID), data = d)
+summary(swapNP.lmm.lme4)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: twoIncorrect ~ Validity * targetContrast + (1 | SID)
+    ##    Data: d
+    ## 
+    ## REML criterion at convergence: 1271.4
+    ## 
+    ## Scaled residuals: 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -3.5903 -0.4650  0.0927  0.5788  2.8830 
+    ## 
+    ## Random effects:
+    ##  Groups   Name        Variance Std.Dev.
+    ##  SID      (Intercept)  27.15    5.21   
+    ##  Residual             364.04   19.08   
+    ## Number of obs: 148, groups:  SID, 15
+    ## 
+    ## Fixed effects:
+    ##                             Estimate Std. Error       df t value Pr(>|t|)    
+    ## (Intercept)                  62.3675     2.1157  16.5364  29.479 9.91e-16 ***
+    ## Validity.L                   -1.9708     2.7668 131.5336  -0.712    0.478    
+    ## Validity.Q                    3.8656     2.8538 132.4090   1.355    0.178    
+    ## targetContrast.L             24.5253     2.3079 135.2086  10.627  < 2e-16 ***
+    ## Validity.L:targetContrast.L  -0.9774     3.9207 132.7092  -0.249    0.804    
+    ## Validity.Q:targetContrast.L   6.1974     4.0347 132.2211   1.536    0.127    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Correlation of Fixed Effects:
+    ##             (Intr) Vldt.L Vldt.Q trgC.L V.L:C.
+    ## Validity.L   0.113                            
+    ## Validity.Q  -0.036  0.098                     
+    ## trgtCntrs.L  0.157  0.123 -0.034              
+    ## Vldty.L:C.L  0.097  0.180  0.080  0.149       
+    ## Vldty.Q:C.L -0.021  0.085  0.208 -0.041  0.101
+
+``` r
+aov.swapNP <- Anova(swapNP.lmm.lme4)
+print(aov.swapNP)
+```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                            Chisq Df Pr(>Chisq)    
+    ## Validity                  1.9306  2     0.3809    
+    ## targetContrast          118.6135  1     <2e-16 ***
+    ## Validity:targetContrast   2.5241  2     0.2831    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+## NP T1
+
+``` r
+d <- data %>% filter(Target==1, nontargetContrast==1)
+swapNPT1.lmm.lme4 <- lmer(twoIncorrect ~ Validity * targetContrast + (1|SID), data = d)
+summary(swapNPT1.lmm.lme4)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: twoIncorrect ~ Validity * targetContrast + (1 | SID)
+    ##    Data: d
+    ## 
+    ## REML criterion at convergence: 612.4
+    ## 
+    ## Scaled residuals: 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -3.2882 -0.6699  0.0595  0.6328  2.8096 
+    ## 
+    ## Random effects:
+    ##  Groups   Name        Variance Std.Dev.
+    ##  SID      (Intercept)  49.21    7.015  
+    ##  Residual             279.73   16.725  
+    ## Number of obs: 75, groups:  SID, 15
+    ## 
+    ## Fixed effects:
+    ##                             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)                   62.279      2.756 15.939  22.596 1.57e-13 ***
+    ## Validity.L                    -9.404      3.648 58.647  -2.578   0.0125 *  
+    ## Validity.Q                     6.817      3.510 57.925   1.942   0.0570 .  
+    ## targetContrast.L              15.223      2.938 59.560   5.181 2.75e-06 ***
+    ## Validity.L:targetContrast.L   -7.305      5.159 58.647  -1.416   0.1621    
+    ## Validity.Q:targetContrast.L    8.622      4.964 57.925   1.737   0.0877 .  
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Correlation of Fixed Effects:
+    ##             (Intr) Vldt.L Vldt.Q trgC.L V.L:C.
+    ## Validity.L  0.174                             
+    ## Validity.Q  0.040  0.158                      
+    ## trgtCntrs.L 0.211  0.231  0.054               
+    ## Vldty.L:C.L 0.174  0.299  0.158  0.231        
+    ## Vldty.Q:C.L 0.040  0.158  0.243  0.054  0.158
+
+``` r
+aov.swapNPT1 <- Anova(swapNPT1.lmm.lme4)
+print(aov.swapNPT1)
+```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                           Chisq Df Pr(>Chisq)    
+    ## Validity                10.4613  2    0.00535 ** 
+    ## targetContrast          31.6796  1  1.818e-08 ***
+    ## Validity:targetContrast  5.9502  2    0.05104 .  
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+## NP T2
+
+``` r
+d <- data %>% filter(Target==2,nontargetContrast==1)
+swapNPT2.lmm.lme4 <- lmer(twoIncorrect ~ Validity * targetContrast + (1|SID), data = d)
+summary(swapNPT2.lmm.lme4)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: twoIncorrect ~ Validity * targetContrast + (1 | SID)
+    ##    Data: d
+    ## 
+    ## REML criterion at convergence: 603.5
+    ## 
+    ## Scaled residuals: 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -2.0827 -0.6368  0.1054  0.5799  3.2049 
+    ## 
+    ## Random effects:
+    ##  Groups   Name        Variance Std.Dev.
+    ##  SID      (Intercept)  12.32    3.51   
+    ##  Residual             347.75   18.65   
+    ## Number of obs: 73, groups:  SID, 15
+    ## 
+    ## Fixed effects:
+    ##                             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)                  61.8159     2.4238 14.5129  25.503 1.84e-13 ***
+    ## Validity.L                    3.2958     3.7058 56.1074   0.889    0.378    
+    ## Validity.Q                   -1.4849     4.0490 58.8438  -0.367    0.715    
+    ## targetContrast.L             33.7292     3.1749 59.6587  10.624 2.21e-15 ***
+    ## Validity.L:targetContrast.L   3.1447     5.2455 57.1392   0.599    0.551    
+    ## Validity.Q:targetContrast.L  -0.1103     5.7187 57.3845  -0.019    0.985    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Correlation of Fixed Effects:
+    ##             (Intr) Vldt.L Vldt.Q trgC.L V.L:C.
+    ## Validity.L   0.091                            
+    ## Validity.Q  -0.113  0.065                     
+    ## trgtCntrs.L  0.143  0.047 -0.095              
+    ## Vldty.L:C.L  0.045  0.090  0.028  0.101       
+    ## Vldty.Q:C.L -0.083  0.031  0.198 -0.117  0.066
+
+``` r
+aov.swapNPT2 <- Anova(swapNPT2.lmm.lme4)
+print(aov.swapNPT2)
+```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                            Chisq Df Pr(>Chisq)    
+    ## Validity                  0.8917  2     0.6403    
+    ## targetContrast          114.3597  1     <2e-16 ***
+    ## Validity:targetContrast   0.3629  2     0.8341    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+## NA
+
+``` r
+d <- data %>% filter(nontargetContrast==0)
+swapNA.lmm.lme4 <- lmer(twoIncorrect ~ Validity  * targetContrast + (1|SID), data = d)
+summary(swapNA.lmm.lme4)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: twoIncorrect ~ Validity * targetContrast + (1 | SID)
+    ##    Data: d
+    ## 
+    ## REML criterion at convergence: 815.5
+    ## 
+    ## Scaled residuals: 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -1.91085 -0.57888  0.03036  0.52532  2.17436 
+    ## 
+    ## Random effects:
+    ##  Groups   Name        Variance Std.Dev.
+    ##  SID      (Intercept) 166.5    12.90   
+    ##  Residual             480.1    21.91   
+    ## Number of obs: 93, groups:  SID, 15
+    ## 
+    ## Fixed effects:
+    ##                             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)                    8.783      6.942  61.303   1.265 0.210607    
+    ## Validity.L                    -5.277      9.409  80.053  -0.561 0.576516    
+    ## Validity.Q                     5.341     10.610  75.153   0.503 0.616195    
+    ## targetContrast.L             -33.905      8.610  82.426  -3.938 0.000171 ***
+    ## Validity.L:targetContrast.L  -16.048     13.307  80.059  -1.206 0.231378    
+    ## Validity.Q:targetContrast.L    6.021     14.983  74.944   0.402 0.688929    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Correlation of Fixed Effects:
+    ##             (Intr) Vldt.L Vldt.Q trgC.L V.L:C.
+    ## Validity.L   0.405                            
+    ## Validity.Q  -0.208  0.205                     
+    ## trgtCntrs.L  0.812  0.459 -0.234              
+    ## Vldty.L:C.L  0.403  0.908  0.204  0.459       
+    ## Vldty.Q:C.L -0.207  0.207  0.925 -0.237  0.208
+
+``` r
+aov.swapNA <- Anova(swapNA.lmm.lme4)
+print(aov.swapNA)
+```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                           Chisq Df Pr(>Chisq)    
+    ## Validity                 1.6841  2  0.4308299    
+    ## targetContrast          14.7984  1  0.0001196 ***
+    ## Validity:targetContrast  1.8995  2  0.3868413    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+## NA T1
+
+``` r
+d <- data %>% filter(Target==1, nontargetContrast==0)
+swapNAT1.lmm.lme4 <- lmer(twoIncorrect ~ Validity * targetContrast + (1|SID), data = d)
+summary(swapNAT1.lmm.lme4)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: twoIncorrect ~ Validity * targetContrast + (1 | SID)
+    ##    Data: d
+    ## 
+    ## REML criterion at convergence: 372.6
+    ## 
+    ## Scaled residuals: 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -1.96952 -0.54443 -0.00096  0.60158  1.75044 
+    ## 
+    ## Random effects:
+    ##  Groups   Name        Variance Std.Dev.
+    ##  SID      (Intercept) 260.7    16.15   
+    ##  Residual             253.4    15.92   
+    ## Number of obs: 46, groups:  SID, 15
+    ## 
+    ## Fixed effects:
+    ##                             Estimate Std. Error       df t value Pr(>|t|)   
+    ## (Intercept)                  12.0705     9.9923  40.3548   1.208  0.23409   
+    ## Validity.L                   -4.5223    18.3007  30.6102  -0.247  0.80647   
+    ## Validity.Q                   -0.7017     4.2390  27.5340  -0.166  0.86973   
+    ## targetContrast.L            -40.2543    12.8600  30.3888  -3.130  0.00384 **
+    ## Validity.L:targetContrast.L -20.4992    25.8811  30.6102  -0.792  0.43442   
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Correlation of Fixed Effects:
+    ##             (Intr) Vldt.L Vldt.Q trgC.L
+    ## Validity.L  0.646                      
+    ## Validity.Q  0.164  0.201               
+    ## trgtCntrs.L 0.877  0.712  0.192        
+    ## Vldty.L:C.L 0.646  0.975  0.201  0.712 
+    ## fit warnings:
+    ## fixed-effect model matrix is rank deficient so dropping 1 column / coefficient
+
+``` r
+aov.swapNAT1 <- Anova(swapNAT1.lmm.lme4)
+print(aov.swapNAT1)
+```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                           Chisq Df Pr(>Chisq)    
+    ## Validity                 5.5368  2  0.0627625 .  
+    ## targetContrast          13.3686  1  0.0002559 ***
+    ## Validity:targetContrast  0.6273  1  0.4283293    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+## NA T2
+
+``` r
+d <- data %>% filter(Target==2, nontargetContrast==0)
+swapNAT2.lmm.lme4 <- lmer(twoIncorrect ~ Validity * targetContrast + (1|SID), data = d)
+summary(swapNAT2.lmm.lme4)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: twoIncorrect ~ Validity * targetContrast + (1 | SID)
+    ##    Data: d
+    ## 
+    ## REML criterion at convergence: 396.2
+    ## 
+    ## Scaled residuals: 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -1.64543 -0.53423 -0.07804  0.35634  2.25071 
+    ## 
+    ## Random effects:
+    ##  Groups   Name        Variance Std.Dev.
+    ##  SID      (Intercept) 327.6    18.10   
+    ##  Residual             350.4    18.72   
+    ## Number of obs: 47, groups:  SID, 15
+    ## 
+    ## Fixed effects:
+    ##                             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)                    2.639      7.735  35.731   0.341 0.734982    
+    ## Validity.L                   -10.366      8.902  32.033  -1.164 0.252848    
+    ## Validity.Q                     2.384      5.017  28.491   0.475 0.638343    
+    ## targetContrast.L             -31.648      8.714  31.226  -3.632 0.000997 ***
+    ## Validity.L:targetContrast.L  -17.406     12.592  32.052  -1.382 0.176439    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Correlation of Fixed Effects:
+    ##             (Intr) Vldt.L Vldt.Q trgC.L
+    ## Validity.L   0.378                     
+    ## Validity.Q  -0.125 -0.010              
+    ## trgtCntrs.L  0.710  0.464 -0.148       
+    ## Vldty.L:C.L  0.373  0.846 -0.024  0.468
+    ## fit warnings:
+    ## fixed-effect model matrix is rank deficient so dropping 1 column / coefficient
+
+``` r
+aov.swapNAT2 <- Anova(swapNAT2.lmm.lme4)
+print(aov.swapNAT2)
+```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                           Chisq Df Pr(>Chisq)    
+    ## Validity                 0.1948  2  0.9071751    
+    ## targetContrast          11.4079  1  0.0007313 ***
+    ## Validity:targetContrast  1.9107  1  0.1668816    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+## TPNP
+
+``` r
+d <- data %>% filter(targetContrast==1, nontargetContrast==1)
+swapTPNP.lmm.lme4 <- lmer(twoIncorrect ~ Validity * Target + (1|SID), data = d)
+summary(swapTPNP.lmm.lme4)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: twoIncorrect ~ Validity * Target + (1 | SID)
+    ##    Data: d
+    ## 
+    ## REML criterion at convergence: 724.4
+    ## 
+    ## Scaled residuals: 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -2.11292 -0.69725  0.06804  0.61058  2.94641 
+    ## 
+    ## Random effects:
+    ##  Groups   Name        Variance Std.Dev.
+    ##  SID      (Intercept)  24.91    4.991  
+    ##  Residual             367.36   19.167  
+    ## Number of obs: 86, groups:  SID, 15
+    ## 
+    ## Fixed effects:
+    ##                     Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)          44.7171     2.4414 14.1864  18.316 2.84e-11 ***
+    ## Validity.L           -1.6198     3.5693 66.9150  -0.454  0.65144    
+    ## Validity.Q           -0.3503     3.6160 67.4585  -0.097  0.92312    
+    ## Target.L             -9.6131     2.9326 66.9760  -3.278  0.00166 ** 
+    ## Validity.L:Target.L   3.7038     5.0478 66.9150   0.734  0.46567    
+    ## Validity.Q:Target.L  -1.5133     5.1137 67.4585  -0.296  0.76819    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Correlation of Fixed Effects:
+    ##             (Intr) Vldt.L Vldt.Q Trgt.L V.L:T.
+    ## Validity.L   0.027                            
+    ## Validity.Q  -0.015  0.022                     
+    ## Target.L     0.043  0.031 -0.018              
+    ## Vldty.L:T.L  0.027  0.039  0.022  0.031       
+    ## Vldty.Q:T.L -0.015  0.022  0.063 -0.018  0.022
+
+``` r
+aov.swapTPNP <- Anova(swapTPNP.lmm.lme4)
+print(aov.swapTPNP)
+```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                   Chisq Df Pr(>Chisq)    
+    ## Validity         0.2337  2  0.8897233    
+    ## Target          10.9493  1  0.0009364 ***
+    ## Validity:Target  0.6360  2  0.7275878    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+## TPNA
+
+``` r
+d <- data %>% filter(targetContrast==1, nontargetContrast==0)
+swapTPNA.lmm.lme4 <- lmer(twoIncorrect ~ Validity * Target + (1|SID), data = d)
+summary(swapTPNA.lmm.lme4)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: twoIncorrect ~ Validity * Target + (1 | SID)
+    ##    Data: d
+    ## 
+    ## REML criterion at convergence: 759
+    ## 
+    ## Scaled residuals: 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -1.93070 -0.69185  0.01969  0.56000  2.53346 
+    ## 
+    ## Random effects:
+    ##  Groups   Name        Variance Std.Dev.
+    ##  SID      (Intercept) 175.8    13.26   
+    ##  Residual             434.3    20.84   
+    ## Number of obs: 87, groups:  SID, 15
+    ## 
+    ## Fixed effects:
+    ##                     Estimate Std. Error       df t value Pr(>|t|)    
+    ## (Intercept)          32.6408     4.0915  14.2146   7.978 1.28e-06 ***
+    ## Validity.L            5.7914     3.8431  67.3839   1.507 0.136492    
+    ## Validity.Q            0.8845     3.9186  67.6595   0.226 0.822111    
+    ## Target.L            -11.0508     3.1692  67.5414  -3.487 0.000864 ***
+    ## Validity.L:Target.L  -5.9134     5.4349  67.3839  -1.088 0.280458    
+    ## Validity.Q:Target.L   1.9674     5.5431  67.6925   0.355 0.723747    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Correlation of Fixed Effects:
+    ##             (Intr) Vldt.L Vldt.Q Trgt.L V.L:T.
+    ## Validity.L   0.009                            
+    ## Validity.Q  -0.015  0.012                     
+    ## Target.L     0.007  0.016  0.009              
+    ## Vldty.L:T.L  0.009  0.020  0.012  0.016       
+    ## Vldty.Q:T.L  0.005  0.011  0.007 -0.028  0.011
+
+``` r
+aov.swapTPNA <- Anova(swapTPNA.lmm.lme4)
+print(aov.swapTPNA)
+```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                   Chisq Df Pr(>Chisq)    
+    ## Validity         2.3732  2  0.3052550    
+    ## Target          11.9786  1  0.0005381 ***
+    ## Validity:Target  1.3186  2  0.5172054    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+## TANP
+
+``` r
+d <- data %>% filter(targetContrast==0, nontargetContrast==1)
+swapTANP.lmm.lme4 <- lmer(twoIncorrect ~ Validity * Target + (1|SID), data = d)
+summary(swapTANP.lmm.lme4)
+```
+
+    ## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+    ## lmerModLmerTest]
+    ## Formula: twoIncorrect ~ Validity * Target + (1 | SID)
+    ##    Data: d
+    ## 
+    ## REML criterion at convergence: 491.3
+    ## 
+    ## Scaled residuals: 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -3.6148 -0.3970  0.1642  0.5927  2.1978 
+    ## 
+    ## Random effects:
+    ##  Groups   Name        Variance Std.Dev.
+    ##  SID      (Intercept)  20.04    4.477  
+    ##  Residual             256.46   16.014  
+    ## Number of obs: 62, groups:  SID, 15
+    ## 
+    ## Fixed effects:
+    ##                     Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)           79.648      2.463  14.049  32.343 1.36e-14 ***
+    ## Validity.L            -4.115      3.660  48.659  -1.125  0.26630    
+    ## Validity.Q             6.151      3.773  48.216   1.630  0.10960    
+    ## Target.L               8.461      3.037  48.728   2.787  0.00757 ** 
+    ## Validity.L:Target.L   13.523      5.167  48.026   2.617  0.01181 *  
+    ## Validity.Q:Target.L  -10.821      5.337  48.269  -2.028  0.04813 *  
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Correlation of Fixed Effects:
+    ##             (Intr) Vldt.L Vldt.Q Trgt.L V.L:T.
+    ## Validity.L   0.228                            
+    ## Validity.Q  -0.042  0.171                     
+    ## Target.L    -0.057 -0.134 -0.131              
+    ## Vldty.L:T.L -0.120 -0.169 -0.092  0.252       
+    ## Vldty.Q:T.L -0.119 -0.097  0.024 -0.047  0.169
+
+``` r
+aov.swapTANP <- Anova(swapTANP.lmm.lme4)
+print(aov.swapTANP)
+```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: twoIncorrect
+    ##                   Chisq Df Pr(>Chisq)   
+    ## Validity         5.3832  2   0.067773 . 
+    ## Target           3.8868  1   0.048667 * 
+    ## Validity:Target 13.1349  2   0.001405 **
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
