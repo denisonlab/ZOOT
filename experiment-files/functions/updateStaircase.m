@@ -17,7 +17,7 @@ lastFewAcc = [lastFewAcc correct];
 % if numel(lastFewAcc)>3
 %     lastFewAcc = lastFewAcc(end-2:end);
 % end
-if sum(lastFewAcc)==3
+if sum(lastFewAcc)==2
     stairIdx = stairIdx-1; % make it harder
     lastFewAcc=[]; %reset tracker at reversal
 elseif correct==0

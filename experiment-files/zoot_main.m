@@ -733,7 +733,7 @@ while iTrial <= size(trialOrder, 2)
             if currentStaircase == 1
                 [index_s1, lastFewAcc_s1] = updateStaircase(p.stairs, index_s1, lastFewAcc_s1, correct);
                 currentStaircase = 2;
-                threshold = p.stairs(index_s2);
+              threshold = p.stairs(index_s2);
             elseif currentStaircase == 2
                 [index_s2, lastFewAcc_s2] = updateStaircase(p.stairs, index_s2, lastFewAcc_s2, correct);
                 currentStaircase = 1;
