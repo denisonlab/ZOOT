@@ -51,6 +51,134 @@ report(swap_I)
     ## significant, and very small (difference = -3.42, 95% CI [39.36, 53.80], t(74) =
     ## -0.94, p = 0.348; Cohen's d = -0.11, 95% CI [-0.34, 0.12])
 
+# T1
+
+``` r
+d <- data 
+dt <- d %>% filter(Target == 1)
+swap_T1 <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_T1)
+```
+
+    ## Effect sizes were labelled following Cohen's (1988) recommendations.
+    ## 
+    ## The One Sample t-test testing the difference between dt$twoIncorrect (mean =
+    ## 52.86) and mu = 50 suggests that the effect is positive, statistically not
+    ## significant, and very small (difference = 2.86, 95% CI [48.24, 57.47], t(120) =
+    ## 1.23, p = 0.223; Cohen's d = 0.11, 95% CI [-0.07, 0.29])
+
+## V
+
+``` r
+d <- data 
+dt <- d %>% filter(Target==1, Validity == 1)
+swap_T1V <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_T1V)
+```
+
+    ## Effect sizes were labelled following Cohen's (1988) recommendations.
+    ## 
+    ## The One Sample t-test testing the difference between dt$twoIncorrect (mean =
+    ## 56.98) and mu = 50 suggests that the effect is positive, statistically not
+    ## significant, and small (difference = 6.98, 95% CI [48.41, 65.55], t(44) = 1.64,
+    ## p = 0.108; Cohen's d = 0.24, 95% CI [-0.05, 0.54])
+
+## N
+
+``` r
+d <- data 
+dt <- d %>% filter(Target==1, Validity == 3)
+swap_T1N <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_T1N)
+```
+
+    ## Effect sizes were labelled following Cohen's (1988) recommendations.
+    ## 
+    ## The One Sample t-test testing the difference between dt$twoIncorrect (mean =
+    ## 51.79) and mu = 50 suggests that the effect is positive, statistically not
+    ## significant, and very small (difference = 1.79, 95% CI [44.75, 58.84], t(35) =
+    ## 0.52, p = 0.609; Cohen's d = 0.09, 95% CI [-0.24, 0.41])
+
+## I
+
+``` r
+d <- data 
+dt <- d %>% filter(Target==1, Validity == 2)
+swap_T1I <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_T1I)
+```
+
+    ## Effect sizes were labelled following Cohen's (1988) recommendations.
+    ## 
+    ## The One Sample t-test testing the difference between dt$twoIncorrect (mean =
+    ## 49.18) and mu = 50 suggests that the effect is negative, statistically not
+    ## significant, and very small (difference = -0.82, 95% CI [40.82, 57.53], t(39) =
+    ## -0.20, p = 0.843; Cohen's d = -0.03, 95% CI [-0.34, 0.28])
+
+# T2
+
+``` r
+d <- data 
+dt <- d %>% filter(Target == 2)
+swap_T2 <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_T2)
+```
+
+    ## Effect sizes were labelled following Cohen's (1988) recommendations.
+    ## 
+    ## The One Sample t-test testing the difference between dt$twoIncorrect (mean =
+    ## 44.55) and mu = 50 suggests that the effect is negative, statistically not
+    ## significant, and very small (difference = -5.45, 95% CI [38.52, 50.59], t(119)
+    ## = -1.79, p = 0.076; Cohen's d = -0.16, 95% CI [-0.34, 0.02])
+
+## V
+
+``` r
+d <- data 
+dt <- d %>% filter(Target==2, Validity == 1)
+swap_T2V <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_T2V)
+```
+
+    ## Effect sizes were labelled following Cohen's (1988) recommendations.
+    ## 
+    ## The One Sample t-test testing the difference between dt$twoIncorrect (mean =
+    ## 43.74) and mu = 50 suggests that the effect is negative, statistically not
+    ## significant, and small (difference = -6.26, 95% CI [34.60, 52.88], t(46) =
+    ## -1.38, p = 0.175; Cohen's d = -0.20, 95% CI [-0.49, 0.09])
+
+## N
+
+``` r
+d <- data 
+dt <- d %>% filter(Target==2, Validity == 3)
+swap_T2N <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_T2N)
+```
+
+    ## Effect sizes were labelled following Cohen's (1988) recommendations.
+    ## 
+    ## The One Sample t-test testing the difference between dt$twoIncorrect (mean =
+    ## 46.42) and mu = 50 suggests that the effect is negative, statistically not
+    ## significant, and very small (difference = -3.58, 95% CI [35.32, 57.53], t(37) =
+    ## -0.65, p = 0.518; Cohen's d = -0.11, 95% CI [-0.42, 0.21])
+
+## I
+
+``` r
+d <- data 
+dt <- d %>% filter(Target==2, Validity == 2)
+swap_T2I <-t.test(dt$twoIncorrect, mu=50) 
+report(swap_T2I)
+```
+
+    ## Effect sizes were labelled following Cohen's (1988) recommendations.
+    ## 
+    ## The One Sample t-test testing the difference between dt$twoIncorrect (mean =
+    ## 43.61) and mu = 50 suggests that the effect is negative, statistically not
+    ## significant, and very small (difference = -6.39, 95% CI [31.02, 56.20], t(34) =
+    ## -1.03, p = 0.310; Cohen's d = -0.17, 95% CI [-0.51, 0.16])
+
 # TP
 
 ``` r
@@ -627,7 +755,7 @@ report(swap_TPNPT2I)
     ## significant, and small (difference = -10.77, 95% CI [21.74, 56.72], t(12) =
     ## -1.34, p = 0.204; Cohen's d = -0.37, 95% CI [-0.93, 0.20])
 
-\#TPNA
+# TPNA
 
 ``` r
 d <- data 
@@ -819,7 +947,7 @@ report(swap_TPNAT2I)
     ## significant, and large (difference = -27.38, 95% CI [4.28, 40.96], t(13) =
     ## -3.23, p = 0.007; Cohen's d = -0.86, 95% CI [-1.47, -0.23])
 
-\#TANP
+# TANP
 
 ``` r
 d <- data 
