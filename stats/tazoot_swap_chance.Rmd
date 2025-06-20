@@ -21,7 +21,6 @@ library(report)
 library(purrr)
 library(tidyr)
 library(broom)
-
 library(rempsyc) # for t-tests in nice tables
 knitr::opts_chunk$set(echo = TRUE)
 
