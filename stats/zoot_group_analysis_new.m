@@ -25,7 +25,7 @@ figDir = '/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/';
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/groupFigs/')
 
 %% compile
-subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071', 'S0085', 'S0105', 'S0108', 'S0111', 'S0122', 'S0133'};
+subs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071', 'S0085', 'S0105', 'S0108', 'S0111', 'S0122', 'S0133', 'S0149'};
 dataAll = [];
 
 for iSub=1:length(subs) % for participant

@@ -2,7 +2,7 @@
 
 load zoot_dataAll.mat
 
-SIDs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071', 'S0085', 'S0105', 'S0108', 'S0111', 'S0122', 'S0133'};
+SIDs = {'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071', 'S0085', 'S0105', 'S0108', 'S0111', 'S0122', 'S0133', 'S0149'};
 Validities = [ 1 2 3]; % Valid, Neutral, Invalid
 Targets = [1 2] ; % T1, T2
 Contrasts = [1 0]; % present absent 
@@ -64,7 +64,7 @@ for iSub = 1:length(SIDs)
         for iTarget = 1:numel(Targets)
             for iValid = 1:numel(Validities)
                 Acc = [Acc; dataAll(iSub).means(iContrast,iValid, iTarget)];
-                RT = [RT; dataAll(iSub).RTmeans(iContrast, iValid, iTarget)]; % RT means may be renamed, check dataAll.mat
+                RT = [RT; dataAll(iSub).TXNX_RTmeans(iContrast, iValid, iTarget)]; % RT means may be renamed, check dataAll.mat
             end
         end
     end
