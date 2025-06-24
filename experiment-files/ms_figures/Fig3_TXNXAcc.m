@@ -3,10 +3,10 @@ function Fig3_TXNXAcc
 % for zoot
 
 %% Settings 
-user = 'karen'; % 'jenny' 'karenlab' 'karen'
+user = 'jenny'; % 'jenny' 'karenlab' 'karen'
 
 % Fig saving
-savePlots = 1; 
+savePlots = 0; 
 figType = 'pdf';
 figTitle = 'Fig3_TXNXAcc_forAI';
 figNum=3;
@@ -37,7 +37,7 @@ count = 1;
 tcl = tiledlayout(2,2,'TileSpacing','compact','OuterPosition',fp.OuterPosition); % adds y height
     for iC = 1:4 % 1 is TPNP; 2 is TANP; 3 is TPNA; 4 is TANA
         panel(count).info = nexttile;
-        zoot_figureStyle(fp)
+        zoot_figureStyle
         xticklabels('')
         ylim([30 100]) % min changed to 30 there is an individual data point below 50 for TANP T1 V
         yticks(30:10:100)

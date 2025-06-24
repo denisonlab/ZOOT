@@ -26,7 +26,7 @@ for iSub=1:length(subs) % for participant
     for iF = 1:numel(fields) % initialize
         dataAll.(fields{iF}) = [];
     end
-    sessions = {'session1'};
+    sessions = {'session2'};
     for iSession = 1:numel(sessions) % for session
         highestBlock = 0;
         sesNum = sessions{iSession};
