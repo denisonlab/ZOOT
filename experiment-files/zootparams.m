@@ -40,7 +40,7 @@ switch s.comp
         p.retina = 0;
         p.useKbQueue = 1;
         if s.exptStage > 0
-            p.eyeTracking = 1;
+            p.eyeTracking = 1; 
         else
             p.eyeTracking = 0;
         end
