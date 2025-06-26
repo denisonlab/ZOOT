@@ -66,7 +66,7 @@ if s.exptStage > 2
         error('WARNING: no thresholding file found')
     else
         load(['data/' s.subjectID '/staircasing/threshold.mat'],'staircase')
-        staircase.threshold = 0.7;
+        %staircase.threshold = 0.7;
         disp(['Using participant''s saved threshold which is: ' num2str(staircase.threshold)]); % staircase.threshold
         threshold= staircase.threshold;
     end
