@@ -1,0 +1,131 @@
+---
+title: "tazoot_bayes_factor_SDT"
+author: Jenny Motzer
+output: github_document
+date: "2025-06-26"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+suppressPackageStartupMessages(library(tidyverse))
+library(ez)
+library(foreach)
+library(kableExtra)
+library(ggplot2)
+library(dplyr)
+library(ggpubr)
+library(lsr)
+library(report)
+library(BayesFactor)
+library(rempsyc) # for t-tests in nice tables
+
+knitr::opts_chunk$set(echo = TRUE)
+
+#### anova setup #### 
+options(contrasts=c("contr.sum","contr.poly"))
+
+#### load data #### 
+wd <- getwd()
+analysisName = 'tazoot_SDT_subsampled'
+dataName <- sprintf("/Users/jennymotzer/Documents/GitHub/ZOOT/stats/%s.csv", analysisName)
+data <- read.csv(dataName)
+
+#### Change to categorical vars ####
+data$SID = factor(data$sub_SID)
+data$nontargetContrast = factor(data$sub_nontargetContrast)
+data$Target = factor(data$sub_Target)
+data$Validity = factor(data$sub_Validity)
+
+### Plotting setup #### 
+colors = c("#F8A299","#CCCCCC","#98E6A1")
+attComparison <- list( c("1","3"), c("1","2"), c("2","3") )
+
+significance <- list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, Inf),
+symbols = c("****", "***", "**", "*", "ns"))
+```
+#det 
+## dprime 
+```{r full_interaction_det_dPrime_Bayes_Factor}
+d <- data
+bf_det_dPrime <- anovaBF(det_dPrime_sub ~ Validity * nontargetContrast * Target + SID, data = data, whichRandom = "SID", progress = FALSE)
+bf_det_dPrime=sort(bf_det_dPrime, decreasing = TRUE)
+print(bf_det_dPrime)
+```
+## calculate BF for detPrime Validity:nontargetContrast
+```{r TP_det_dPrime_Bayes_Factor_calc}
+bf_highestmodel <- as.vector(bf_det_dPrime[2])[[1]]/as.vector(bf_det_dPrime[3])[[1]] #the highest ranked model
+print(bf_highestmodel)
+
+
+bf_fullmodel <- as.vector(bf_det_dPrime[4])[[1]]/as.vector(bf_det_dPrime[6])[[1]] #the numerator contains all main effect and interaction effects
+print(bf_fullmodel)
+
+```
+## det dprime T1
+```{r full_interaction_det_dPrimeT1_Bayes_Factor}
+d <- data %>% filter(Target==1)
+bf_det_dPrimeT1 <- anovaBF(det_dPrime_sub ~ Validity * nontargetContrast + SID, data = d, whichRandom = "SID", progress = FALSE)
+bf_det_dPrimeT1=sort(bf_det_dPrimeT1, decreasing = TRUE)
+print(bf_det_dPrimeT1)
+```
+## calculate BF for detPrime T1 Validity:nontargetContrast
+```{r TP_det_dPrimeT1_Bayes_Factor_calc}
+bf <- as.vector(bf_det_dPrimeT1[1])[[1]]/as.vector(bf_det_dPrimeT1[4])[[1]] 
+print(bf)
+```
+## det dprime T2
+```{r full_interaction_det_dPrimeT2_Bayes_Factor}
+d <- data %>% filter(Target==2)
+bf_det_dPrimeT2 <- anovaBF(det_dPrime_sub ~ Validity * nontargetContrast + SID, data = d, whichRandom = "SID", progress = FALSE)
+bf_det_dPrimeT2=sort(bf_det_dPrimeT2, decreasing = TRUE)
+print(bf_det_dPrimeT2)
+```
+## calculate BF for detPrime T2 Validity:nontargetContrast
+```{r TP_det_dPrimeT2_Bayes_Factor_calc}
+bf <- as.vector(bf_det_dPrimeT2[3])[[1]]/as.vector(bf_det_dPrimeT2[2])[[1]] 
+print(bf)
+```
+
+# crit 
+```{r full_interaction_det_dPrime_Bayes_Factor}
+d <- data
+bf_det_crit <- anovaBF(det_crit_sub ~ Validity * nontargetContrast * Target + SID, data = data, whichRandom = "SID", progress = FALSE)
+bf_det_crit=sort(bf_det_crit, decreasing = TRUE)
+print(bf_det_crit)
+```
+#calculate BF for detCrit Validity:nontargetContrast
+```{r TP_det_dPrime_Bayes_Factor_calc}
+bf_highestmodel <- as.vector(bf_det_crit[7])[[1]]/as.vector(bf_det_crit[2])[[1]] #the highest ranked model
+print(bf_highestmodel)
+
+
+bf_fullmodel <- as.vector(bf_det_crit[9])[[1]]/as.vector(bf_det_crit[6])[[1]] #the numerator contains all main effect and interaction effects
+print(bf_fullmodel)
+
+```
+## det crit T1
+```{r full_interaction_det_critT1_Bayes_Factor}
+d <- data %>% filter(Target==1)
+bf_det_critT1 <- anovaBF(det_crit_sub ~ Validity * nontargetContrast + SID, data = d, whichRandom = "SID", progress = FALSE)
+bf_det_critT1=sort(bf_det_critT1, decreasing = TRUE)
+print(bf_det_critT1)
+```
+## calculate BF for detCrit T1 Validity:nontargetContrast
+```{r TP_det_critT1_Bayes_Factor_calc}
+bf <- as.vector(bf_det_critT1[2])[[1]]/as.vector(bf_det_critT1[1])[[1]] 
+print(bf)
+```
+## det crit T2
+```{r full_interaction_det_critT2_Bayes_Factor}
+d <- data %>% filter(Target==2)
+bf_det_critT2 <- anovaBF(det_crit_sub ~ Validity * nontargetContrast + SID, data = d, whichRandom = "SID", progress = FALSE)
+bf_det_critT2=sort(bf_det_critT2, decreasing = TRUE)
+print(bf_det_critT2)
+```
+## calculate BF for detCrit T2 Validity:nontargetContrast
+```{r TP_det_critT2_Bayes_Factor_calc}
+bf <- as.vector(bf_det_critT2[3])[[1]]/as.vector(bf_det_critT2[2])[[1]] 
+print(bf)
+```

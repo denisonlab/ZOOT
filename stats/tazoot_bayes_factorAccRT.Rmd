@@ -80,6 +80,36 @@ print(bf_simplestmodel)
 bf_reducedmodel <- as.vector(bf_full[7])[[1]]/as.vector(bf_full[4])[[1]] #the numerator contains all main effect but missing Target:nontargetContrast but has higher ranked model than full
 print(bf_reducedmodel)
 ```
+## TP T1
+```{r TPT1_acc_Bayes_Factor}
+d <- data%>% filter(targetContrast==1, Target==1)
+bf_TPT1 <- anovaBF(Acc ~ Validity * nontargetContrast + SID, data = d, whichRandom = "SID", progress = FALSE)
+bf_TPT1=sort(bf_TPT1, decreasing = TRUE)
+print(bf_TPT1)
+
+#bf_null <- anovaBF(Acc ~ Validity * Target, data = d, whichRandom = "SID", progress = FALSE)
+
+```
+#calculate BF for Target Present T1 Validity:nontargetContrast
+```{r TPT1_acc_Bayes_Factor_calc}
+bf <- as.vector(bf_TPT1[3])[[1]]/as.vector(bf_TPT1[2])[[1]] 
+print(bf)
+```
+## TP T2
+```{r TPT2_acc_Bayes_Factor}
+d <- data%>% filter(targetContrast==1, Target==2)
+bf_TPT2 <- anovaBF(Acc ~ Validity * nontargetContrast + SID, data = d, whichRandom = "SID", progress = FALSE)
+bf_TPT2=sort(bf_TPT2, decreasing = TRUE)
+print(bf_TPT2)
+
+#bf_null <- anovaBF(Acc ~ Validity * Target, data = d, whichRandom = "SID", progress = FALSE)
+
+```
+#calculate BF for Target Present T2 Validity:nontargetContrast
+```{r TPT2_acc_Bayes_Factor_calc}
+bf <- as.vector(bf_TPT2[3])[[1]]/as.vector(bf_TPT2[2])[[1]] 
+print(bf)
+```
 
 ## TA
 ```{r TA_acc_Bayes_Factor}
@@ -88,7 +118,6 @@ bf_TA <- anovaBF(Acc ~ Validity * Target * nontargetContrast + SID, data = data,
 bf_TA <- sort(bf_TA, decreasing = TRUE)
 print(bf_TA)
 ```
-
 #calculate BF for Target Absent Validity:nontargetContrast
 ```{r TA_acc_Bayes_Factor_calc}
 bf_highestmodel <- as.vector(bf_TA[5])[[1]]/as.vector(bf_TA[2])[[1]] #the numerator contains highest, simple model with V:NTP
@@ -100,6 +129,36 @@ print(bf_fullmodel)
 bf_reducedmodel <- as.vector(bf_TA[10])[[1]]/as.vector(bf_TA[3])[[1]] #the numerator contains all main effect but missing Validity:Target intereaction, has higher ranked models than the full model
 print(bf_reducedmodel)
 
+```
+## TA T1
+```{r TAT1_acc_Bayes_Factor}
+d <- data%>% filter(targetContrast==0, Target==1)
+bf_TAT1 <- anovaBF(Acc ~ Validity * nontargetContrast + SID, data = d, whichRandom = "SID", progress = FALSE)
+bf_TAT1=sort(bf_TAT1, decreasing = TRUE)
+print(bf_TAT1)
+
+#bf_null <- anovaBF(Acc ~ Validity * Target, data = d, whichRandom = "SID", progress = FALSE)
+
+```
+#calculate BF for Target Absent T1 Validity:nontargetContrast
+```{r TAT1_acc_Bayes_Factor_calc}
+bf <- as.vector(bf_TAT1[3])[[1]]/as.vector(bf_TAT1[2])[[1]] 
+print(bf)
+```
+## TA T2
+```{r TAT2_acc_Bayes_Factor}
+d <- data%>% filter(targetContrast==0, Target==2)
+bf_TAT2 <- anovaBF(Acc ~ Validity * nontargetContrast + SID, data = d, whichRandom = "SID", progress = FALSE)
+bf_TAT2=sort(bf_TAT2, decreasing = TRUE)
+print(bf_TAT2)
+
+#bf_null <- anovaBF(Acc ~ Validity * Target, data = d, whichRandom = "SID", progress = FALSE)
+
+```
+#calculate BF for Target Absent T2 Validity:nontargetContrast
+```{r TAT2_acc_Bayes_Factor_calc}
+bf <- as.vector(bf_TAT2[3])[[1]]/as.vector(bf_TAT2[2])[[1]] 
+print(bf)
 ```
 
 # RT 
@@ -135,7 +194,36 @@ print(bf_simplestmodel)
 bf_reducedmodel <- as.vector(bf_full[8])[[1]]/as.vector(bf_full[4])[[1]] #the numerator contains all main effect but missing Target:nontargetContrast but has higher ranked model than full
 print(bf_reducedmodel)
 ```
+## TP T1
+```{r TPT1_RT_Bayes_Factor}
+d <- data%>% filter(targetContrast==1, Target==1)
+bf_TPT1 <- anovaBF(RT ~ Validity * nontargetContrast + SID, data = d, whichRandom = "SID", progress = FALSE)
+bf_TPT1=sort(bf_TPT1, decreasing = TRUE)
+print(bf_TPT1)
 
+#bf_null <- anovaBF(Acc ~ Validity * Target, data = d, whichRandom = "SID", progress = FALSE)
+
+```
+#calculate BF for Target Present T1 Validity:nontargetContrast
+```{r TPT1_RT_Bayes_Factor_calc}
+bf <- as.vector(bf_TPT1[3])[[1]]/as.vector(bf_TPT1[2])[[1]] 
+print(bf)
+```
+## TP T2
+```{r TPT2_RT_Bayes_Factor}
+d <- data%>% filter(targetContrast==1, Target==2)
+bf_TPT2 <- anovaBF(RT ~ Validity * nontargetContrast + SID, data = d, whichRandom = "SID", progress = FALSE)
+bf_TPT2=sort(bf_TPT2, decreasing = TRUE)
+print(bf_TPT2)
+
+#bf_null <- anovaBF(Acc ~ Validity * Target, data = d, whichRandom = "SID", progress = FALSE)
+
+```
+#calculate BF for Target Present T2 Validity:nontargetContrast
+```{r TPT2_RT_Bayes_Factor_calc}
+bf <- as.vector(bf_TPT2[3])[[1]]/as.vector(bf_TPT2[2])[[1]] 
+print(bf)
+```
 ## TA
 ```{r TA_RT_Bayes_Factor}
 d <- data%>% filter(targetContrast==0)
@@ -155,4 +243,34 @@ print(bf_fullmodel)
 bf_reducedmodel <- as.vector(bf_TA[5])[[1]]/as.vector(bf_TA[2])[[1]] #the numerator contains all main effect but missing Validity:Target intereaction, has higher ranked models than the full model
 print(bf_reducedmodel)
 
+```
+## TA T1
+```{r TAT1_RT_Bayes_Factor}
+d <- data%>% filter(targetContrast==0, Target==1)
+bf_TAT1 <- anovaBF(RT ~ Validity * nontargetContrast + SID, data = d, whichRandom = "SID", progress = FALSE)
+bf_TAT1=sort(bf_TAT1, decreasing = TRUE)
+print(bf_TAT1)
+
+#bf_null <- anovaBF(Acc ~ Validity * Target, data = d, whichRandom = "SID", progress = FALSE)
+
+```
+#calculate BF for Target Absent T1 Validity:nontargetContrast
+```{r TAT1_RT_Bayes_Factor_calc}
+bf <- as.vector(bf_TAT1[3])[[1]]/as.vector(bf_TAT1[2])[[1]] 
+print(bf)
+```
+## TA T2
+```{r TAT2_RT_Bayes_Factor}
+d <- data%>% filter(targetContrast==0, Target==2)
+bf_TAT2 <- anovaBF(RT ~ Validity * nontargetContrast + SID, data = d, whichRandom = "SID", progress = FALSE)
+bf_TAT2=sort(bf_TAT2, decreasing = TRUE)
+print(bf_TAT2)
+
+#bf_null <- anovaBF(Acc ~ Validity * Target, data = d, whichRandom = "SID", progress = FALSE)
+
+```
+#calculate BF for Target Absent T2 Validity:nontargetContrast
+```{r TAT2_RT_Bayes_Factor_calc}
+bf <- as.vector(bf_TAT2[1])[[1]]/as.vector(bf_TAT2[2])[[1]] 
+print(bf)
 ```
