@@ -68,7 +68,7 @@ print(bf_full)
 
 ```
 
-#calculate BF for Target Present Validity:nontargetContrast
+## calculate BF for Target Present Validity:nontargetContrast
 ```{r TP_acc_Bayes_Factor_calc}
 bf_fullmodel <- as.vector(bf_full[10])[[1]]/as.vector(bf_full[6])[[1]] #the numerator contains all main effect and interaction effects
 print(bf_fullmodel)
@@ -90,7 +90,7 @@ print(bf_TPT1)
 #bf_null <- anovaBF(Acc ~ Validity * Target, data = d, whichRandom = "SID", progress = FALSE)
 
 ```
-#calculate BF for Target Present T1 Validity:nontargetContrast
+## calculate BF for Target Present T1 Validity:nontargetContrast
 ```{r TPT1_acc_Bayes_Factor_calc}
 bf <- as.vector(bf_TPT1[3])[[1]]/as.vector(bf_TPT1[2])[[1]] 
 print(bf)
@@ -105,7 +105,7 @@ print(bf_TPT2)
 #bf_null <- anovaBF(Acc ~ Validity * Target, data = d, whichRandom = "SID", progress = FALSE)
 
 ```
-#calculate BF for Target Present T2 Validity:nontargetContrast
+## calculate BF for Target Present T2 Validity:nontargetContrast
 ```{r TPT2_acc_Bayes_Factor_calc}
 bf <- as.vector(bf_TPT2[3])[[1]]/as.vector(bf_TPT2[2])[[1]] 
 print(bf)
@@ -118,7 +118,7 @@ bf_TA <- anovaBF(Acc ~ Validity * Target * nontargetContrast + SID, data = data,
 bf_TA <- sort(bf_TA, decreasing = TRUE)
 print(bf_TA)
 ```
-#calculate BF for Target Absent Validity:nontargetContrast
+## calculate BF for Target Absent Validity:nontargetContrast
 ```{r TA_acc_Bayes_Factor_calc}
 bf_highestmodel <- as.vector(bf_TA[5])[[1]]/as.vector(bf_TA[2])[[1]] #the numerator contains highest, simple model with V:NTP
 print(bf_highestmodel)
@@ -140,7 +140,7 @@ print(bf_TAT1)
 #bf_null <- anovaBF(Acc ~ Validity * Target, data = d, whichRandom = "SID", progress = FALSE)
 
 ```
-#calculate BF for Target Absent T1 Validity:nontargetContrast
+## calculate BF for Target Absent T1 Validity:nontargetContrast
 ```{r TAT1_acc_Bayes_Factor_calc}
 bf <- as.vector(bf_TAT1[3])[[1]]/as.vector(bf_TAT1[2])[[1]] 
 print(bf)
@@ -155,7 +155,7 @@ print(bf_TAT2)
 #bf_null <- anovaBF(Acc ~ Validity * Target, data = d, whichRandom = "SID", progress = FALSE)
 
 ```
-#calculate BF for Target Absent T2 Validity:nontargetContrast
+## calculate BF for Target Absent T2 Validity:nontargetContrast
 ```{r TAT2_acc_Bayes_Factor_calc}
 bf <- as.vector(bf_TAT2[3])[[1]]/as.vector(bf_TAT2[2])[[1]] 
 print(bf)
@@ -182,7 +182,7 @@ print(bf_full)
 
 ```
 
-#calculate BF for Target Present Validity:nontargetContrast
+## calculate BF for Target Present Validity:nontargetContrast
 ```{r TP_RT_Bayes_Factor_calc}
 bf_fullmodel <- as.vector(bf_full[10])[[1]]/as.vector(bf_full[6])[[1]] #the numerator contains all main effect and interaction effects
 print(bf_fullmodel)
@@ -204,7 +204,7 @@ print(bf_TPT1)
 #bf_null <- anovaBF(Acc ~ Validity * Target, data = d, whichRandom = "SID", progress = FALSE)
 
 ```
-#calculate BF for Target Present T1 Validity:nontargetContrast
+## calculate BF for Target Present T1 Validity:nontargetContrast
 ```{r TPT1_RT_Bayes_Factor_calc}
 bf <- as.vector(bf_TPT1[3])[[1]]/as.vector(bf_TPT1[2])[[1]] 
 print(bf)
@@ -219,7 +219,7 @@ print(bf_TPT2)
 #bf_null <- anovaBF(Acc ~ Validity * Target, data = d, whichRandom = "SID", progress = FALSE)
 
 ```
-#calculate BF for Target Present T2 Validity:nontargetContrast
+## calculate BF for Target Present T2 Validity:nontargetContrast
 ```{r TPT2_RT_Bayes_Factor_calc}
 bf <- as.vector(bf_TPT2[3])[[1]]/as.vector(bf_TPT2[2])[[1]] 
 print(bf)
@@ -232,7 +232,7 @@ bf_TA <- sort(bf_TA, decreasing = TRUE)
 print(bf_TA)
 ```
 
-#calculate BF for Target Absent Validity:nontargetContrast
+## calculate BF for Target Absent Validity:nontargetContrast
 ```{r TA_RT_Bayes_Factor_calc}
 bf_highestmodel <- as.vector(bf_TA[3])[[1]]/as.vector(bf_TA[1])[[1]] #the numerator contains highest, simple model with V:NTP
 print(bf_highestmodel)
@@ -254,7 +254,7 @@ print(bf_TAT1)
 #bf_null <- anovaBF(Acc ~ Validity * Target, data = d, whichRandom = "SID", progress = FALSE)
 
 ```
-#calculate BF for Target Absent T1 Validity:nontargetContrast
+## calculate BF for Target Absent T1 Validity:nontargetContrast
 ```{r TAT1_RT_Bayes_Factor_calc}
 bf <- as.vector(bf_TAT1[3])[[1]]/as.vector(bf_TAT1[2])[[1]] 
 print(bf)
@@ -269,7 +269,7 @@ print(bf_TAT2)
 #bf_null <- anovaBF(Acc ~ Validity * Target, data = d, whichRandom = "SID", progress = FALSE)
 
 ```
-#calculate BF for Target Absent T2 Validity:nontargetContrast
+## calculate BF for Target Absent T2 Validity:nontargetContrast
 ```{r TAT2_RT_Bayes_Factor_calc}
 bf <- as.vector(bf_TAT2[1])[[1]]/as.vector(bf_TAT2[2])[[1]] 
 print(bf)
