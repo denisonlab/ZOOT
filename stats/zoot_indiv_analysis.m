@@ -9,7 +9,7 @@ fp = zoot_figureparams;
 addpath('/Users/jennymotzer/Documents/GitHub/ZOOT/experiment-files/functions/')
 
 %% compile
-subs = {'S0135'}; %, 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071','S0085', 'S0105', 'S0108', 'S0122', 'S0133'};
+subs = {'S0001'}; %, 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071','S0085', 'S0105', 'S0108', 'S0122', 'S0133'};
 dataAll = [];
 
 
@@ -26,7 +26,7 @@ for iSub=1:length(subs) % for participant
     for iF = 1:numel(fields) % initialize
         dataAll.(fields{iF}) = [];
     end
-    sessions = {'session2'};
+    sessions = {'session1'};
     for iSession = 1:numel(sessions) % for session
         highestBlock = 0;
         sesNum = sessions{iSession};
