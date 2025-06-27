@@ -9,7 +9,7 @@ user = 'jenny'; % 'jenny' 'karenlab' 'karen'
 % Fig saving
 savePlots = 1; 
 figType = 'pdf';
-figTitle = 'Fig6_SwapErr';
+figTitle = 'Fig6_SwapErr_twoIncorrect';
 figNum=6;
 
 % Fig plotting
