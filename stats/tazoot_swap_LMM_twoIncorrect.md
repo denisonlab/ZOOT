@@ -14,27 +14,27 @@ knitr::kable(d, digits=3, caption=sprintf("twoIncorrect swap"))
 
 | Validity | Target | targetContrast | nontargetContrast |   mean |     sd |   n |    se | ci.lower | ci.upper |
 |:---------|:-------|:---------------|:------------------|-------:|-------:|----:|------:|---------:|---------:|
-| 1        | 1      | 1              | 1                 | 54.806 | 15.363 |  15 | 3.967 |   47.031 |   62.580 |
-| 1        | 1      | 1              | 0                 | 33.196 | 18.119 |  15 | 4.678 |   24.027 |   42.366 |
-| 1        | 1      | 0              | 1                 | 88.860 | 11.913 |  14 | 3.184 |   82.620 |   95.100 |
+| 1        | 1      | 1              | 1                 | 57.616 | 15.442 |  18 | 3.640 |   50.482 |   64.750 |
+| 1        | 1      | 1              | 0                 | 33.004 | 17.647 |  18 | 4.159 |   24.852 |   41.157 |
+| 1        | 1      | 0              | 1                 | 88.269 | 11.705 |  15 | 3.022 |   82.346 |   94.193 |
 | 1        | 1      | 0              | 0                 |  0.000 |     NA |   1 |    NA |       NA |       NA |
-| 1        | 2      | 1              | 1                 | 36.633 | 21.121 |  15 | 5.453 |   25.945 |   47.322 |
-| 1        | 2      | 1              | 0                 | 24.617 | 18.992 |  15 | 4.904 |   15.006 |   34.228 |
-| 1        | 2      | 0              | 1                 | 81.213 | 11.178 |  14 | 2.987 |   75.358 |   87.069 |
+| 1        | 2      | 1              | 1                 | 37.380 | 20.078 |  18 | 4.732 |   28.104 |   46.655 |
+| 1        | 2      | 1              | 0                 | 23.094 | 18.189 |  18 | 4.287 |   14.691 |   31.497 |
+| 1        | 2      | 0              | 1                 | 84.529 | 12.491 |  17 | 3.029 |   78.591 |   90.466 |
 | 1        | 2      | 0              | 0                 |  0.000 |  0.000 |   3 | 0.000 |    0.000 |    0.000 |
-| 2        | 1      | 1              | 1                 | 50.927 | 19.327 |  15 | 4.990 |   41.146 |   60.708 |
-| 2        | 1      | 1              | 0                 | 41.440 | 25.327 |  14 | 6.769 |   28.173 |   54.707 |
+| 2        | 1      | 1              | 1                 | 49.661 | 17.889 |  18 | 4.217 |   41.397 |   57.926 |
+| 2        | 1      | 1              | 0                 | 45.682 | 25.165 |  17 | 6.103 |   33.719 |   57.644 |
 | 2        | 1      | 0              | 1                 | 62.295 | 29.846 |  10 | 9.438 |   43.796 |   80.794 |
 | 2        | 1      | 0              | 0                 |  0.000 |     NA |   1 |    NA |       NA |       NA |
-| 2        | 2      | 1              | 1                 | 39.231 | 28.937 |  13 | 8.026 |   23.501 |   54.961 |
-| 2        | 2      | 1              | 0                 | 22.619 | 31.762 |  14 | 8.489 |    5.981 |   39.257 |
-| 2        | 2      | 0              | 1                 | 87.459 | 10.039 |   8 | 3.549 |   80.503 |   94.416 |
-| 3        | 1      | 1              | 1                 | 48.811 | 13.988 |  15 | 3.612 |   41.732 |   55.890 |
-| 3        | 1      | 1              | 0                 | 47.300 | 24.342 |  15 | 6.285 |   34.981 |   59.619 |
-| 3        | 1      | 0              | 1                 | 70.476 | 17.965 |   6 | 7.334 |   56.101 |   84.851 |
-| 3        | 2      | 1              | 1                 | 38.263 | 17.844 |  13 | 4.949 |   28.564 |   47.963 |
-| 3        | 2      | 1              | 0                 | 26.922 | 28.125 |  14 | 7.517 |   12.189 |   41.655 |
-| 3        | 2      | 0              | 1                 | 88.972 | 13.686 |  10 | 4.328 |   80.489 |   97.455 |
+| 2        | 2      | 1              | 1                 | 41.161 | 28.005 |  16 | 7.001 |   27.438 |   54.883 |
+| 2        | 2      | 1              | 0                 | 23.125 | 29.701 |  16 | 7.425 |    8.571 |   37.679 |
+| 2        | 2      | 0              | 1                 | 80.539 | 23.047 |  10 | 7.288 |   66.254 |   94.823 |
+| 3        | 1      | 1              | 1                 | 48.378 | 14.398 |  18 | 3.394 |   41.727 |   55.030 |
+| 3        | 1      | 1              | 0                 | 46.880 | 22.112 |  18 | 5.212 |   36.665 |   57.095 |
+| 3        | 1      | 0              | 1                 | 74.693 | 19.836 |   7 | 7.497 |   59.998 |   89.388 |
+| 3        | 2      | 1              | 1                 | 42.101 | 18.654 |  16 | 4.664 |   32.960 |   51.241 |
+| 3        | 2      | 1              | 0                 | 31.125 | 28.891 |  17 | 7.007 |   17.391 |   44.859 |
+| 3        | 2      | 0              | 1                 | 83.866 | 17.553 |  12 | 5.067 |   73.934 |   93.797 |
 | 3        | 2      | 0              | 0                 |  0.000 |     NA |   1 |    NA |       NA |       NA |
 
 twoIncorrect swap
@@ -72,57 +72,57 @@ summary(swap.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity * Target * combinedContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1990
+    ## REML criterion at convergence: 2385.1
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -2.9437 -0.5966  0.0016  0.5975  3.2156 
+    ## -2.9379 -0.5978  0.0394  0.6670  3.2111 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  58.08    7.621  
-    ##  Residual             385.50   19.634  
-    ## Number of obs: 235, groups:  SID, 15
+    ##  SID      (Intercept)  52.49    7.245  
+    ##  Residual             390.10   19.751  
+    ## Number of obs: 279, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                                        Estimate Std. Error       df t value
-    ## (Intercept)                             51.9994     2.3772  14.7737  21.874
-    ## Validity.L                              -0.2939     2.2710 204.2479  -0.129
-    ## Validity.Q                               2.0788     2.3261 204.9235   0.894
-    ## Target.L                                -4.2083     1.8780 204.7923  -2.241
-    ## combinedContrast.L                      23.9831     2.4017 206.7825   9.986
-    ## combinedContrast.Q                      23.7579     2.2088 204.7401  10.756
-    ## Validity.L:Target.L                      3.6514     3.2127 204.3659   1.137
-    ## Validity.Q:Target.L                     -3.0459     3.2917 205.1831  -0.925
-    ## Validity.L:combinedContrast.L           -2.4811     4.0919 205.3493  -0.606
-    ## Validity.Q:combinedContrast.L            4.1979     4.1842 204.8247   1.003
-    ## Validity.L:combinedContrast.Q           -7.3215     3.7784 203.8301  -1.938
-    ## Validity.Q:combinedContrast.Q            1.5714     3.8550 203.8983   0.408
-    ## Target.L:combinedContrast.L             12.5861     3.3745 204.6251   3.730
-    ## Target.L:combinedContrast.Q              8.6397     3.1201 204.2663   2.769
-    ## Validity.L:Target.L:combinedContrast.L   6.6141     5.7708 204.4703   1.146
-    ## Validity.Q:Target.L:combinedContrast.L  -6.0975     5.9140 204.6569  -1.031
-    ## Validity.L:Target.L:combinedContrast.Q  11.9004     5.3486 204.1541   2.225
-    ## Validity.Q:Target.L:combinedContrast.Q  -6.4532     5.4531 203.9670  -1.183
+    ## (Intercept)                             52.6299     2.1073  18.0214  24.975
+    ## Validity.L                              -0.1011     2.0958 245.5505  -0.048
+    ## Validity.Q                               3.0032     2.1616 246.4557   1.389
+    ## Target.L                                -4.7942     1.7401 246.4960  -2.755
+    ## combinedContrast.L                      22.7215     2.2290 248.7744  10.193
+    ## combinedContrast.Q                      23.1102     2.0389 245.9701  11.335
+    ## Validity.L:Target.L                      3.7204     2.9676 246.1407   1.254
+    ## Validity.Q:Target.L                     -1.5416     3.0614 247.1812  -0.504
+    ## Validity.L:combinedContrast.L           -3.3576     3.7833 246.7231  -0.887
+    ## Validity.Q:combinedContrast.L            5.6243     3.8968 246.2586   1.443
+    ## Validity.L:combinedContrast.Q           -9.4850     3.4764 244.9808  -2.728
+    ## Validity.Q:combinedContrast.Q            4.5988     3.5723 245.0513   1.287
+    ## Target.L:combinedContrast.L              9.6187     3.1352 246.3962   3.068
+    ## Target.L:combinedContrast.Q              8.0102     2.8836 245.9654   2.778
+    ## Validity.L:Target.L:combinedContrast.L   0.1945     5.3478 246.5537   0.036
+    ## Validity.Q:Target.L:combinedContrast.L  -3.3691     5.5149 246.6154  -0.611
+    ## Validity.L:Target.L:combinedContrast.Q   8.3123     4.9232 245.6300   1.688
+    ## Validity.Q:Target.L:combinedContrast.Q  -8.3636     5.0551 245.3236  -1.654
     ##                                        Pr(>|t|)    
-    ## (Intercept)                            1.15e-12 ***
-    ## Validity.L                             0.897146    
-    ## Validity.Q                             0.372550    
-    ## Target.L                               0.026112 *  
+    ## (Intercept)                            1.96e-15 ***
+    ## Validity.L                              0.96158    
+    ## Validity.Q                              0.16599    
+    ## Target.L                                0.00631 ** 
     ## combinedContrast.L                      < 2e-16 ***
     ## combinedContrast.Q                      < 2e-16 ***
-    ## Validity.L:Target.L                    0.257049    
-    ## Validity.Q:Target.L                    0.355875    
-    ## Validity.L:combinedContrast.L          0.544953    
-    ## Validity.Q:combinedContrast.L          0.316914    
-    ## Validity.L:combinedContrast.Q          0.054040 .  
-    ## Validity.Q:combinedContrast.Q          0.683977    
-    ## Target.L:combinedContrast.L            0.000248 ***
-    ## Target.L:combinedContrast.Q            0.006140 ** 
-    ## Validity.L:Target.L:combinedContrast.L 0.253081    
-    ## Validity.Q:Target.L:combinedContrast.L 0.303746    
-    ## Validity.L:Target.L:combinedContrast.Q 0.027178 *  
-    ## Validity.Q:Target.L:combinedContrast.Q 0.238022    
+    ## Validity.L:Target.L                     0.21115    
+    ## Validity.Q:Target.L                     0.61501    
+    ## Validity.L:combinedContrast.L           0.37568    
+    ## Validity.Q:combinedContrast.L           0.15021    
+    ## Validity.L:combinedContrast.Q           0.00683 ** 
+    ## Validity.Q:combinedContrast.Q           0.19919    
+    ## Target.L:combinedContrast.L             0.00240 ** 
+    ## Target.L:combinedContrast.Q             0.00589 ** 
+    ## Validity.L:Target.L:combinedContrast.L  0.97102    
+    ## Validity.Q:Target.L:combinedContrast.L  0.54182    
+    ## Validity.L:Target.L:combinedContrast.Q  0.09261 .  
+    ## Validity.Q:Target.L:combinedContrast.Q  0.09931 .  
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -135,13 +135,13 @@ print(aov.swap)
     ## 
     ## Response: twoIncorrect
     ##                                     Chisq Df Pr(>Chisq)    
-    ## Validity                           0.8862  2  0.6420323    
-    ## Target                            11.8548  1  0.0005751 ***
-    ## combinedContrast                 212.8646  2  < 2.2e-16 ***
-    ## Validity:Target                    1.4975  2  0.4729565    
-    ## Validity:combinedContrast          5.5321  4  0.2369221    
-    ## Target:combinedContrast           15.8174  2  0.0003675 ***
-    ## Validity:Target:combinedContrast   8.7333  4  0.0681230 .  
+    ## Validity                           1.3579  2  0.5071374    
+    ## Target                            14.7177  1  0.0001249 ***
+    ## combinedContrast                 234.2451  2  < 2.2e-16 ***
+    ## Validity:Target                    1.5548  2  0.4595985    
+    ## Validity:combinedContrast         11.8418  4  0.0185673 *  
+    ## Target:combinedContrast           13.5186  2  0.0011600 ** 
+    ## Validity:Target:combinedContrast   6.0736  4  0.1937186    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -160,65 +160,65 @@ summary(swap.lmm.lme4)
     ##     (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 2015.8
+    ## REML criterion at convergence: 2411
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -2.9570 -0.5702  0.0000  0.5903  3.2299 
+    ## -2.9490 -0.5802  0.0307  0.6504  3.2228 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  57.87    7.607  
-    ##  Residual             381.95   19.544  
-    ## Number of obs: 241, groups:  SID, 15
+    ##  SID      (Intercept)  52.35    7.235  
+    ##  Residual             387.10   19.675  
+    ## Number of obs: 285, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                                                 Estimate Std. Error       df
-    ## (Intercept)                                      37.0041     3.5140  60.8463
-    ## Validity.L                                       -3.6918     4.7906 210.9184
-    ## Validity.Q                                        0.7796     6.9009 208.7632
-    ## Target.L                                         -1.3623     4.7455 209.2770
-    ## targetContrast.L                                 -2.3538     4.1232 213.3435
-    ## nontargetContrast.L                             -34.9170     4.0375 212.2546
-    ## Validity.L:Target.L                               3.5594     4.0457 206.4262
-    ## Validity.Q:Target.L                              -3.8750     4.1604 207.0958
-    ## Validity.L:targetContrast.L                      -8.1594     6.7668 211.0110
-    ## Validity.Q:targetContrast.L                       0.7082     9.7531 208.0567
-    ## Target.L:targetContrast.L                        12.8159     6.7045 208.7375
-    ## Validity.L:nontargetContrast.L                   -0.5747     6.5968 209.4433
-    ## Validity.Q:nontargetContrast.L                   -2.7520     9.6897 208.3875
-    ## Target.L:nontargetContrast.L                     -0.9567     6.5381 208.3079
-    ## targetContrast.L:nontargetContrast.L            -37.2415     5.7161 212.3050
-    ## Validity.L:Target.L:targetContrast.L              6.6123     5.7442 206.4107
-    ## Validity.Q:Target.L:targetContrast.L             -6.0941     5.8868 206.6022
-    ## Validity.L:Target.L:nontargetContrast.L          -6.9993     5.1201 205.4585
-    ## Validity.Q:Target.L:nontargetContrast.L           2.5389     5.1968 205.5456
-    ## Validity.L:targetContrast.L:nontargetContrast.L  -8.0250     9.3697 209.4616
-    ## Validity.Q:targetContrast.L:nontargetContrast.L  -4.9350    13.6890 208.4135
-    ## Target.L:targetContrast.L:nontargetContrast.L     0.3285     9.2043 208.2527
+    ## (Intercept)                                      37.4325     3.3475  91.1451
+    ## Validity.L                                       -2.3952     4.7208 253.7581
+    ## Validity.Q                                        3.9622     6.8259 250.7850
+    ## Target.L                                         -3.6432     4.6758 251.4851
+    ## targetContrast.L                                 -3.4581     4.0728 257.1171
+    ## nontargetContrast.L                             -34.8308     4.0109 255.6572
+    ## Validity.L:Target.L                               2.0922     3.7548 248.4770
+    ## Validity.Q:Target.L                              -1.0183     3.9016 249.4233
+    ## Validity.L:targetContrast.L                      -7.6612     6.6705 253.8309
+    ## Validity.Q:targetContrast.L                       5.4908     9.6394 249.9717
+    ## Target.L:targetContrast.L                         8.7523     6.6031 250.8680
+    ## Validity.L:nontargetContrast.L                    2.2347     6.5038 252.0323
+    ## Validity.Q:nontargetContrast.L                   -1.3039     9.6369 250.4035
+    ## Target.L:nontargetContrast.L                     -2.9921     6.4600 250.4191
+    ## targetContrast.L:nontargetContrast.L            -37.0207     5.6725 255.6695
+    ## Validity.L:Target.L:targetContrast.L              0.1943     5.3272 248.4914
+    ## Validity.Q:Target.L:targetContrast.L             -3.3659     5.4937 248.5568
+    ## Validity.L:Target.L:nontargetContrast.L          -7.1017     4.6928 246.4758
+    ## Validity.Q:Target.L:nontargetContrast.L           5.5578     4.7771 246.7297
+    ## Validity.L:targetContrast.L:nontargetContrast.L  -6.0819     9.2260 252.0450
+    ## Validity.Q:targetContrast.L:nontargetContrast.L  -0.1882    13.6090 250.3995
+    ## Target.L:targetContrast.L:nontargetContrast.L    -1.2226     9.1007 250.2986
     ##                                                 t value Pr(>|t|)    
-    ## (Intercept)                                      10.530 2.45e-15 ***
-    ## Validity.L                                       -0.771   0.4418    
-    ## Validity.Q                                        0.113   0.9102    
-    ## Target.L                                         -0.287   0.7743    
-    ## targetContrast.L                                 -0.571   0.5687    
-    ## nontargetContrast.L                              -8.648 1.29e-15 ***
-    ## Validity.L:Target.L                               0.880   0.3800    
-    ## Validity.Q:Target.L                              -0.931   0.3527    
-    ## Validity.L:targetContrast.L                      -1.206   0.2292    
-    ## Validity.Q:targetContrast.L                       0.073   0.9422    
-    ## Target.L:targetContrast.L                         1.912   0.0573 .  
-    ## Validity.L:nontargetContrast.L                   -0.087   0.9307    
-    ## Validity.Q:nontargetContrast.L                   -0.284   0.7767    
-    ## Target.L:nontargetContrast.L                     -0.146   0.8838    
-    ## targetContrast.L:nontargetContrast.L             -6.515 5.18e-10 ***
-    ## Validity.L:Target.L:targetContrast.L              1.151   0.2510    
-    ## Validity.Q:Target.L:targetContrast.L             -1.035   0.3018    
-    ## Validity.L:Target.L:nontargetContrast.L          -1.367   0.1731    
-    ## Validity.Q:Target.L:nontargetContrast.L           0.489   0.6257    
-    ## Validity.L:targetContrast.L:nontargetContrast.L  -0.856   0.3927    
-    ## Validity.Q:targetContrast.L:nontargetContrast.L  -0.361   0.7188    
-    ## Target.L:targetContrast.L:nontargetContrast.L     0.036   0.9716    
+    ## (Intercept)                                      11.182  < 2e-16 ***
+    ## Validity.L                                       -0.507    0.612    
+    ## Validity.Q                                        0.580    0.562    
+    ## Target.L                                         -0.779    0.437    
+    ## targetContrast.L                                 -0.849    0.397    
+    ## nontargetContrast.L                              -8.684 4.61e-16 ***
+    ## Validity.L:Target.L                               0.557    0.578    
+    ## Validity.Q:Target.L                              -0.261    0.794    
+    ## Validity.L:targetContrast.L                      -1.149    0.252    
+    ## Validity.Q:targetContrast.L                       0.570    0.569    
+    ## Target.L:targetContrast.L                         1.325    0.186    
+    ## Validity.L:nontargetContrast.L                    0.344    0.731    
+    ## Validity.Q:nontargetContrast.L                   -0.135    0.892    
+    ## Target.L:nontargetContrast.L                     -0.463    0.644    
+    ## targetContrast.L:nontargetContrast.L             -6.526 3.60e-10 ***
+    ## Validity.L:Target.L:targetContrast.L              0.036    0.971    
+    ## Validity.Q:Target.L:targetContrast.L             -0.613    0.541    
+    ## Validity.L:Target.L:nontargetContrast.L          -1.513    0.131    
+    ## Validity.Q:Target.L:nontargetContrast.L           1.163    0.246    
+    ## Validity.L:targetContrast.L:nontargetContrast.L  -0.659    0.510    
+    ## Validity.Q:targetContrast.L:nontargetContrast.L  -0.014    0.989    
+    ## Target.L:targetContrast.L:nontargetContrast.L    -0.134    0.893    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -234,20 +234,20 @@ print(aov.swap)
     ## 
     ## Response: twoIncorrect
     ##                                                    Chisq Df Pr(>Chisq)    
-    ## Validity                                          0.9444  2  0.6236255    
-    ## Target                                           11.7423  1  0.0006110 ***
-    ## targetContrast                                   70.2330  1  < 2.2e-16 ***
-    ## nontargetContrast                                48.0669  1  4.119e-12 ***
-    ## Validity:Target                                   1.5067  2  0.4707902    
-    ## Validity:targetContrast                           2.3867  2  0.3032080    
-    ## Target:targetContrast                            12.6070  1  0.0003843 ***
-    ## Validity:nontargetContrast                        1.3612  2  0.5063206    
-    ## Target:nontargetContrast                          0.0580  1  0.8096688    
-    ## targetContrast:nontargetContrast                 54.5046  1  1.551e-13 ***
-    ## Validity:Target:targetContrast                    2.6907  2  0.2604495    
-    ## Validity:Target:nontargetContrast                 2.1299  2  0.3447450    
-    ## Validity:targetContrast:nontargetContrast         0.7356  2  0.6922599    
-    ## Target:targetContrast:nontargetContrast           0.0013  1  0.9715311    
+    ## Validity                                          1.3972  2  0.4972759    
+    ## Target                                           14.6044  1  0.0001326 ***
+    ## targetContrast                                   79.5686  1  < 2.2e-16 ***
+    ## nontargetContrast                                50.9272  1  9.586e-13 ***
+    ## Validity:Target                                   1.5652  2  0.4572125    
+    ## Validity:targetContrast                           4.3042  2  0.1162409    
+    ## Target:targetContrast                             9.6904  1  0.0018523 ** 
+    ## Validity:nontargetContrast                        3.4338  2  0.1796214    
+    ## Target:nontargetContrast                          0.4078  1  0.5230795    
+    ## targetContrast:nontargetContrast                 55.5004  1  9.344e-14 ***
+    ## Validity:Target:targetContrast                    0.3857  2  0.8246094    
+    ## Validity:Target:nontargetContrast                 3.6913  2  0.1579237    
+    ## Validity:targetContrast:nontargetContrast         0.4952  2  0.7806912    
+    ## Target:targetContrast:nontargetContrast           0.0180  1  0.8931309    
     ## Validity:Target:targetContrast:nontargetContrast          0               
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -266,58 +266,58 @@ summary(swapT1.lmm.lme4)
     ##     (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 989.6
+    ## REML criterion at convergence: 1161.3
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.1465 -0.6040  0.0000  0.6761  2.9784 
+    ## -3.1990 -0.6023  0.0000  0.7215  3.0836 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 103.1    10.15   
-    ##  Residual             297.8    17.26   
-    ## Number of obs: 121, groups:  SID, 15
+    ##  SID      (Intercept)  82.28    9.071  
+    ##  Residual             294.90   17.173  
+    ## Number of obs: 141, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##                                                 Estimate Std. Error       df
-    ## (Intercept)                                      39.7286     5.6505  83.5189
-    ## Validity.L                                       -2.7755    10.1344 101.0794
-    ## Validity.Q                                        5.1744     3.6696  97.8925
-    ## targetContrast.L                                 -8.9165     7.0922 100.4102
-    ## nontargetContrast.L                             -31.7261     6.9841  99.5563
-    ## Validity.L:targetContrast.L                      -7.9797    14.3323 101.0794
-    ## Validity.Q:targetContrast.L                       7.3358     5.1220  97.2870
-    ## Validity.L:nontargetContrast.L                    9.6115    13.9831 100.4331
-    ## Validity.Q:nontargetContrast.L                   -1.0361     4.5136  96.0978
-    ## targetContrast.L:nontargetContrast.L            -33.9053     9.8949  99.5756
-    ## Validity.L:targetContrast.L:nontargetContrast.L  -0.6188    19.7750 100.4331
+    ##                                                 Estimate Std. Error      df
+    ## (Intercept)                                       40.097      5.350 113.389
+    ## Validity.L                                        -3.969      9.924 120.173
+    ## Validity.Q                                         4.064      3.471 115.867
+    ## targetContrast.L                                  -9.522      6.944 119.336
+    ## nontargetContrast.L                              -32.715      6.879 118.184
+    ## Validity.L:targetContrast.L                       -7.932     14.035 120.173
+    ## Validity.Q:targetContrast.L                        6.994      4.861 115.233
+    ## Validity.L:nontargetContrast.L                     7.086     13.751 119.375
+    ## Validity.Q:nontargetContrast.L                    -5.099      4.091 113.286
+    ## targetContrast.L:nontargetContrast.L             -36.155      9.741 118.201
+    ## Validity.L:targetContrast.L:nontargetContrast.L   -6.324     19.447 119.375
     ##                                                 t value Pr(>|t|)    
-    ## (Intercept)                                       7.031 5.18e-10 ***
-    ## Validity.L                                       -0.274  0.78475    
-    ## Validity.Q                                        1.410  0.16170    
-    ## targetContrast.L                                 -1.257  0.21159    
-    ## nontargetContrast.L                              -4.543 1.56e-05 ***
-    ## Validity.L:targetContrast.L                      -0.557  0.57892    
-    ## Validity.Q:targetContrast.L                       1.432  0.15529    
-    ## Validity.L:nontargetContrast.L                    0.687  0.49344    
-    ## Validity.Q:nontargetContrast.L                   -0.230  0.81893    
-    ## targetContrast.L:nontargetContrast.L             -3.427  0.00089 ***
-    ## Validity.L:targetContrast.L:nontargetContrast.L  -0.031  0.97510    
+    ## (Intercept)                                       7.495 1.58e-11 ***
+    ## Validity.L                                       -0.400 0.689909    
+    ## Validity.Q                                        1.171 0.244120    
+    ## targetContrast.L                                 -1.371 0.172897    
+    ## nontargetContrast.L                              -4.756 5.63e-06 ***
+    ## Validity.L:targetContrast.L                      -0.565 0.573005    
+    ## Validity.Q:targetContrast.L                       1.439 0.152915    
+    ## Validity.L:nontargetContrast.L                    0.515 0.607321    
+    ## Validity.Q:nontargetContrast.L                   -1.246 0.215201    
+    ## targetContrast.L:nontargetContrast.L             -3.712 0.000315 ***
+    ## Validity.L:targetContrast.L:nontargetContrast.L  -0.325 0.745625    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##              (Intr) Vldt.L Vldt.Q trgC.L nntC.L Vldty.L:tC.L Vldty.Q:tC.L
-    ## Validity.L   0.638                                                       
-    ## Validity.Q   0.274  0.352                                                
-    ## trgtCntrs.L  0.827  0.721  0.316                                         
-    ## nntrgtCnt.L  0.804  0.699  0.290  0.906                                  
-    ## Vldty.L:tC.L 0.638  0.952  0.352  0.721  0.699                           
-    ## Vldty.Q:tC.L 0.275  0.349  0.617  0.311  0.291  0.349                    
-    ## Vldty.L:nC.L 0.617  0.930  0.301  0.698  0.712  0.930        0.297       
-    ## Vldty.Q:nC.L 0.228  0.275  0.450  0.264  0.261  0.275        0.433       
-    ## trgtC.L:C.L  0.803  0.700  0.297  0.908  0.931  0.700        0.292       
-    ## V.L:C.L:C.L  0.617  0.930  0.301  0.698  0.712  0.930        0.297       
+    ## Validity.L   0.657                                                       
+    ## Validity.Q   0.265  0.336                                                
+    ## trgtCntrs.L  0.864  0.718  0.294                                         
+    ## nntrgtCnt.L  0.839  0.702  0.286  0.915                                  
+    ## Vldty.L:tC.L 0.657  0.958  0.336  0.718  0.702                           
+    ## Vldty.Q:tC.L 0.266  0.334  0.649  0.290  0.287  0.334                    
+    ## Vldty.L:nC.L 0.640  0.937  0.291  0.699  0.713  0.937        0.289       
+    ## Vldty.Q:nC.L 0.219  0.254  0.428  0.244  0.240  0.254        0.415       
+    ## trgtC.L:C.L  0.839  0.702  0.291  0.916  0.942  0.702        0.287       
+    ## V.L:C.L:C.L  0.640  0.937  0.291  0.699  0.713  0.937        0.289       
     ##              Vldty.L:nC.L Vldty.Q:nC.L tC.L:C
     ## Validity.L                                   
     ## Validity.Q                                   
@@ -326,9 +326,9 @@ summary(swapT1.lmm.lme4)
     ## Vldty.L:tC.L                                 
     ## Vldty.Q:tC.L                                 
     ## Vldty.L:nC.L                                 
-    ## Vldty.Q:nC.L 0.280                           
-    ## trgtC.L:C.L  0.713        0.267              
-    ## V.L:C.L:C.L  0.949        0.280        0.713 
+    ## Vldty.Q:nC.L 0.258                           
+    ## trgtC.L:C.L  0.714        0.245              
+    ## V.L:C.L:C.L  0.957        0.258        0.714 
     ## fit warnings:
     ## fixed-effect model matrix is rank deficient so dropping 1 column / coefficient
 
@@ -341,13 +341,13 @@ print(aov.swapT1)
     ## 
     ## Response: twoIncorrect
     ##                                             Chisq Df Pr(>Chisq)    
-    ## Validity                                   2.2183  2    0.32985    
-    ## targetContrast                            17.3247  1  3.151e-05 ***
-    ## nontargetContrast                         21.0361  1  4.507e-06 ***
-    ## Validity:targetContrast                    5.4547  2    0.06539 .  
-    ## Validity:nontargetContrast                 5.3105  2    0.07028 .  
-    ## targetContrast:nontargetContrast          23.5885  1  1.193e-06 ***
-    ## Validity:targetContrast:nontargetContrast  0.0010  1    0.97503    
+    ## Validity                                   1.6438  2   0.439606    
+    ## targetContrast                            22.2374  1  2.409e-06 ***
+    ## nontargetContrast                         20.4909  1  5.992e-06 ***
+    ## Validity:targetContrast                    3.7047  2   0.156864    
+    ## Validity:nontargetContrast                 9.7907  2   0.007481 ** 
+    ## targetContrast:nontargetContrast          24.6745  1  6.788e-07 ***
+    ## Validity:targetContrast:nontargetContrast  0.1057  1   0.745055    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -365,58 +365,58 @@ summary(swapT2.lmm.lme4)
     ##     (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1015.1
+    ## REML criterion at convergence: 1238.6
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -2.0720 -0.7710 -0.0077  0.6095  3.2378 
+    ## -2.6424 -0.6668  0.0125  0.6162  3.1669 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  43.42    6.59   
-    ##  Residual             437.90   20.93   
-    ## Number of obs: 120, groups:  SID, 15
+    ##  SID      (Intercept)  38.89    6.236  
+    ##  Residual             462.13   21.497  
+    ## Number of obs: 144, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##                                                 Estimate Std. Error       df
-    ## (Intercept)                                      35.4443     4.0194  57.8401
-    ## Validity.L                                        0.3408     5.0556 104.4216
-    ## Validity.Q                                        0.4327     4.4936  98.3628
-    ## targetContrast.L                                  5.9278     5.1515 103.5748
-    ## nontargetContrast.L                             -36.9133     5.0445 102.5261
-    ## Validity.L:targetContrast.L                      -1.1911     7.1536 104.6390
-    ## Validity.Q:targetContrast.L                      -0.1126     6.4320  98.2438
-    ## Validity.L:nontargetContrast.L                   -3.7869     7.1212 103.0865
-    ## Validity.Q:nontargetContrast.L                    2.8328     5.6591  96.7111
-    ## targetContrast.L:nontargetContrast.L            -39.1866     7.1121 102.7221
-    ## Validity.L:targetContrast.L:nontargetContrast.L  -6.2532    10.0719 103.1020
+    ##                                                 Estimate Std. Error      df
+    ## (Intercept)                                       35.207      3.928  81.205
+    ## Validity.L                                         0.573      5.071 128.183
+    ## Validity.Q                                         3.254      4.205 121.177
+    ## targetContrast.L                                   3.253      5.143 127.151
+    ## nontargetContrast.L                              -36.873      5.072 126.310
+    ## Validity.L:targetContrast.L                       -5.349      7.174 128.365
+    ## Validity.Q:targetContrast.L                        3.183      5.949 120.151
+    ## Validity.L:nontargetContrast.L                    -1.013      7.149 126.736
+    ## Validity.Q:nontargetContrast.L                     3.013      5.319 118.089
+    ## targetContrast.L:nontargetContrast.L             -37.983      7.141 126.299
+    ## Validity.L:targetContrast.L:nontargetContrast.L   -4.065     10.110 126.752
     ##                                                 t value Pr(>|t|)    
-    ## (Intercept)                                       8.818 2.71e-12 ***
-    ## Validity.L                                        0.067    0.946    
-    ## Validity.Q                                        0.096    0.923    
-    ## targetContrast.L                                  1.151    0.253    
-    ## nontargetContrast.L                              -7.318 5.82e-11 ***
-    ## Validity.L:targetContrast.L                      -0.166    0.868    
-    ## Validity.Q:targetContrast.L                      -0.018    0.986    
-    ## Validity.L:nontargetContrast.L                   -0.532    0.596    
-    ## Validity.Q:nontargetContrast.L                    0.501    0.618    
-    ## targetContrast.L:nontargetContrast.L             -5.510 2.67e-07 ***
-    ## Validity.L:targetContrast.L:nontargetContrast.L  -0.621    0.536    
+    ## (Intercept)                                       8.963 9.23e-14 ***
+    ## Validity.L                                        0.113    0.910    
+    ## Validity.Q                                        0.774    0.441    
+    ## targetContrast.L                                  0.633    0.528    
+    ## nontargetContrast.L                              -7.270 3.31e-11 ***
+    ## Validity.L:targetContrast.L                      -0.746    0.457    
+    ## Validity.Q:targetContrast.L                       0.535    0.594    
+    ## Validity.L:nontargetContrast.L                   -0.142    0.887    
+    ## Validity.Q:nontargetContrast.L                    0.566    0.572    
+    ## targetContrast.L:nontargetContrast.L             -5.319 4.58e-07 ***
+    ## Validity.L:targetContrast.L:nontargetContrast.L  -0.402    0.688    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##              (Intr) Vldt.L Vldt.Q trgC.L nntC.L Vldty.L:tC.L Vldty.Q:tC.L
-    ## Validity.L    0.348                                                      
-    ## Validity.Q   -0.269  0.020                                               
-    ## trgtCntrs.L   0.727  0.371 -0.291                                        
-    ## nntrgtCnt.L   0.682  0.357 -0.223  0.759                                 
-    ## Vldty.L:tC.L  0.335  0.698  0.013  0.379  0.357                          
-    ## Vldty.Q:tC.L -0.265  0.014  0.606 -0.302 -0.235  0.029                   
-    ## Vldty.L:nC.L  0.329  0.659 -0.020  0.365  0.394  0.665       -0.012      
-    ## Vldty.Q:nC.L -0.198 -0.004  0.429 -0.225 -0.237  0.005        0.453      
-    ## trgtC.L:C.L   0.686  0.362 -0.219  0.753  0.793  0.354       -0.225      
-    ## V.L:C.L:C.L   0.337  0.665 -0.025  0.366  0.389  0.659       -0.025      
+    ## Validity.L    0.369                                                      
+    ## Validity.Q   -0.256  0.020                                               
+    ## trgtCntrs.L   0.766  0.389 -0.264                                        
+    ## nntrgtCnt.L   0.731  0.375 -0.216  0.791                                 
+    ## Vldty.L:tC.L  0.360  0.738  0.014  0.395  0.375                          
+    ## Vldty.Q:tC.L -0.248  0.016  0.598 -0.275 -0.218  0.027                   
+    ## Vldty.L:nC.L  0.354  0.705 -0.020  0.383  0.408  0.709       -0.013      
+    ## Vldty.Q:nC.L -0.197 -0.003  0.445 -0.208 -0.226  0.004        0.450      
+    ## trgtC.L:C.L   0.732  0.380 -0.204  0.788  0.820  0.374       -0.211      
+    ## V.L:C.L:C.L   0.360  0.709 -0.024  0.384  0.404  0.705       -0.024      
     ##              Vldty.L:nC.L Vldty.Q:nC.L tC.L:C
     ## Validity.L                                   
     ## Validity.Q                                   
@@ -425,9 +425,9 @@ summary(swapT2.lmm.lme4)
     ## Vldty.L:tC.L                                 
     ## Vldty.Q:tC.L                                 
     ## Vldty.L:nC.L                                 
-    ## Vldty.Q:nC.L  0.013                          
-    ## trgtC.L:C.L   0.384       -0.223             
-    ## V.L:C.L:C.L   0.695       -0.012        0.402
+    ## Vldty.Q:nC.L  0.009                          
+    ## trgtC.L:C.L   0.402       -0.206             
+    ## V.L:C.L:C.L   0.737       -0.010        0.414
     ## fit warnings:
     ## fixed-effect model matrix is rank deficient so dropping 1 column / coefficient
 
@@ -440,13 +440,13 @@ print(aov.swapT2)
     ## 
     ## Response: twoIncorrect
     ##                                             Chisq Df Pr(>Chisq)    
-    ## Validity                                   0.4298  2     0.8066    
-    ## targetContrast                            59.3736  1  1.304e-14 ***
-    ## nontargetContrast                         28.8030  1  8.013e-08 ***
-    ## Validity:targetContrast                    0.1065  2     0.9481    
-    ## Validity:nontargetContrast                 0.2667  2     0.8752    
-    ## targetContrast:nontargetContrast          33.0079  1  9.178e-09 ***
-    ## Validity:targetContrast:nontargetContrast  0.3855  1     0.5347    
+    ## Validity                                   1.0114  2     0.6031    
+    ## targetContrast                            60.2841  1  8.211e-15 ***
+    ## nontargetContrast                         31.6577  1  1.839e-08 ***
+    ## Validity:targetContrast                    0.7462  2     0.6886    
+    ## Validity:nontargetContrast                 0.3625  2     0.8342    
+    ## targetContrast:nontargetContrast          32.0505  1  1.502e-08 ***
+    ## Validity:targetContrast:nontargetContrast  0.1616  1     0.6877    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -463,43 +463,43 @@ summary(swapTP.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity * nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1542.1
+    ## REML criterion at convergence: 1852.1
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.58054 -0.67066  0.00993  0.66909  2.70105 
+    ## -2.58243 -0.61551 -0.02338  0.65765  2.77411 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  71.8     8.474  
-    ##  Residual             475.9    21.815  
-    ## Number of obs: 173, groups:  SID, 15
+    ##  SID      (Intercept)  61.32    7.831  
+    ##  Residual             457.63   21.392  
+    ## Number of obs: 208, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##                                Estimate Std. Error       df t value Pr(>|t|)
-    ## (Intercept)                     38.8640     2.7470  14.3503  14.148 7.97e-10
-    ## Validity.L                       2.3458     2.8552 153.5741   0.822 0.412581
-    ## Validity.Q                       0.2641     2.9012 154.1654   0.091 0.927599
-    ## nontargetContrast.L             -8.6490     2.3487 153.6560  -3.682 0.000319
-    ## Validity.L:nontargetContrast.L   5.2007     4.0384 153.6251   1.288 0.199748
-    ## Validity.Q:nontargetContrast.L   1.0730     4.0976 153.6859   0.262 0.793782
+    ##                                 Estimate Std. Error        df t value Pr(>|t|)
+    ## (Intercept)                     40.04868    2.36914  17.38753  16.904 3.12e-12
+    ## Validity.L                       3.16595    2.54978 185.63598   1.242   0.2159
+    ## Validity.Q                      -0.08988    2.59733 186.36438  -0.035   0.9724
+    ## nontargetContrast.L             -8.58185    2.10048 185.78982  -4.086 6.53e-05
+    ## Validity.L:nontargetContrast.L   6.65263    3.60626 185.68130   1.845   0.0667
+    ## Validity.Q:nontargetContrast.L  -1.14236    3.66954 185.86881  -0.311   0.7559
     ##                                   
     ## (Intercept)                    ***
     ## Validity.L                        
     ## Validity.Q                        
     ## nontargetContrast.L            ***
-    ## Validity.L:nontargetContrast.L    
+    ## Validity.L:nontargetContrast.L .  
     ## Validity.Q:nontargetContrast.L    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr) Vldt.L Vldt.Q nntC.L V.L:C.
-    ## Validity.L   0.013                            
-    ## Validity.Q  -0.013  0.016                     
-    ## nntrgtCnt.L -0.004 -0.008 -0.004              
-    ## Vldty.L:C.L -0.005 -0.009 -0.006  0.022       
-    ## Vldty.Q:C.L -0.003 -0.005 -0.003 -0.020  0.016
+    ## Validity.L   0.011                            
+    ## Validity.Q  -0.016  0.013                     
+    ## nntrgtCnt.L  0.000 -0.006 -0.011              
+    ## Vldty.L:C.L -0.004 -0.008 -0.005  0.018       
+    ## Vldty.Q:C.L -0.007 -0.004  0.008 -0.024  0.013
 
 ``` r
 aov.swapTP <- Anova(swapTP.lmm.lme4)
@@ -510,9 +510,9 @@ print(aov.swapTP)
     ## 
     ## Response: twoIncorrect
     ##                              Chisq Df Pr(>Chisq)    
-    ## Validity                    0.7047  2  0.7030388    
-    ## nontargetContrast          13.7460  1  0.0002093 ***
-    ## Validity:nontargetContrast  1.7170  2  0.4238030    
+    ## Validity                    1.5756  2     0.4548    
+    ## nontargetContrast          17.0534  1  3.634e-05 ***
+    ## Validity:nontargetContrast  3.5152  2     0.1725    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -529,43 +529,36 @@ summary(swapTPT1.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity * nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 743.7
+    ## REML criterion at convergence: 897
     ## 
     ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -2.02897 -0.67659 -0.01368  0.67969  2.93207 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -2.3055 -0.6983 -0.0519  0.7367  3.0556 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  92.12    9.598  
-    ##  Residual             299.04   17.293  
-    ## Number of obs: 89, groups:  SID, 15
+    ##  SID      (Intercept)  70.73    8.41   
+    ##  Residual             292.97   17.12   
+    ## Number of obs: 107, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##                                Estimate Std. Error       df t value Pr(>|t|)
-    ## (Intercept)                    46.03100    3.08358 14.07823  14.928 5.03e-10
-    ## Validity.L                      2.86701    3.15721 69.08707   0.908  0.36699
-    ## Validity.Q                     -0.00668    3.19907 69.32203  -0.002  0.99834
-    ## nontargetContrast.L            -7.75499    2.59500 69.20620  -2.988  0.00388
-    ## Validity.L:nontargetContrast.L 10.04908    4.46497 69.08707   2.251  0.02759
-    ## Validity.Q:nontargetContrast.L -1.02740    4.52417 69.32203  -0.227  0.82102
-    ##                                   
-    ## (Intercept)                    ***
-    ## Validity.L                        
-    ## Validity.Q                        
-    ## nontargetContrast.L            ** 
-    ## Validity.L:nontargetContrast.L *  
-    ## Validity.Q:nontargetContrast.L    
+    ##                                Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)                     46.8332     2.5829 17.0794  18.132 1.36e-12 ***
+    ## Validity.L                       1.6398     2.8527 84.0911   0.575  0.56694    
+    ## Validity.Q                      -0.8909     2.8836 84.3608  -0.309  0.75811    
+    ## nontargetContrast.L             -7.1444     2.3419 84.2275  -3.051  0.00305 ** 
+    ## Validity.L:nontargetContrast.L  11.5569     4.0343 84.0911   2.865  0.00527 ** 
+    ## Validity.Q:nontargetContrast.L  -5.1116     4.0780 84.3608  -1.253  0.21350    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr) Vldt.L Vldt.Q nntC.L V.L:C.
     ## Validity.L   0.000                            
-    ## Validity.Q  -0.011  0.000                     
-    ## nntrgtCnt.L  0.008  0.000 -0.019              
+    ## Validity.Q  -0.010  0.000                     
+    ## nntrgtCnt.L  0.007  0.000 -0.015              
     ## Vldty.L:C.L  0.000  0.000  0.000  0.000       
-    ## Vldty.Q:C.L -0.011  0.000  0.026 -0.019  0.000
+    ## Vldty.Q:C.L -0.010  0.000  0.021 -0.015  0.000
 
 ``` r
 aov.swapTPT1 <- Anova(swapTPT1.lmm.lme4)
@@ -576,9 +569,9 @@ print(aov.swapTPT1)
     ## 
     ## Response: twoIncorrect
     ##                             Chisq Df Pr(>Chisq)   
-    ## Validity                   0.8246  2   0.662114   
-    ## nontargetContrast          8.9590  1   0.002761 **
-    ## Validity:nontargetContrast 5.1170  2   0.077421 . 
+    ## Validity                   0.4102  2   0.814584   
+    ## nontargetContrast          9.4251  1   0.002140 **
+    ## Validity:nontargetContrast 9.7773  2   0.007531 **
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -595,36 +588,36 @@ summary(swapTPT2.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity * nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 739
+    ## REML criterion at convergence: 892.8
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.04600 -0.72543 -0.02734  0.67168  2.60677 
+    ## -2.09720 -0.73471 -0.00505  0.63556  2.70850 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 107.9    10.39   
-    ##  Residual             512.7    22.64   
-    ## Number of obs: 84, groups:  SID, 15
+    ##  SID      (Intercept)  89.69    9.47   
+    ##  Residual             499.22   22.34   
+    ## Number of obs: 101, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                                Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)                     31.1398     3.6563 14.3950   8.517 5.35e-07 ***
-    ## Validity.L                       0.9674     4.2594 65.0445   0.227    0.821    
-    ## Validity.Q                       0.4153     4.3583 66.4078   0.095    0.924    
-    ## nontargetContrast.L             -9.0734     3.5088 65.0627  -2.586    0.012 *  
-    ## Validity.L:nontargetContrast.L   0.8263     6.0271 65.1799   0.137    0.891    
-    ## Validity.Q:nontargetContrast.L   2.8442     6.1293 65.0344   0.464    0.644    
+    ## (Intercept)                     32.8147     3.1578 17.3672  10.392 7.09e-09 ***
+    ## Validity.L                       4.1540     3.8157 79.1055   1.089  0.27961    
+    ## Validity.Q                       0.8801     3.9300 80.8013   0.224  0.82336    
+    ## nontargetContrast.L             -9.8680     3.1564 79.3030  -3.126  0.00247 ** 
+    ## Validity.L:nontargetContrast.L   2.0404     5.3982 79.2247   0.378  0.70646    
+    ## Validity.Q:nontargetContrast.L   2.9621     5.5351 79.3774   0.535  0.59404    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr) Vldt.L Vldt.Q nntC.L V.L:C.
-    ## Validity.L   0.031                            
-    ## Validity.Q  -0.020  0.034                     
-    ## nntrgtCnt.L -0.019 -0.017  0.010              
-    ## Vldty.L:C.L -0.011 -0.021 -0.013  0.048       
-    ## Vldty.Q:C.L  0.007 -0.013 -0.035 -0.023  0.034
+    ## Validity.L   0.026                            
+    ## Validity.Q  -0.028  0.028                     
+    ## nntrgtCnt.L -0.008 -0.014 -0.008              
+    ## Vldty.L:C.L -0.010 -0.017 -0.010  0.039       
+    ## Vldty.Q:C.L -0.005 -0.010 -0.006 -0.035  0.027
 
 ``` r
 aov.swapTPT2 <- Anova(swapTPT2.lmm.lme4)
@@ -635,9 +628,9 @@ print(aov.swapTPT2)
     ## 
     ## Response: twoIncorrect
     ##                             Chisq Df Pr(>Chisq)   
-    ## Validity                   0.0666  2   0.967261   
-    ## nontargetContrast          6.6808  1   0.009746 **
-    ## Validity:nontargetContrast 0.2301  2   0.891327   
+    ## Validity                   1.2506  2   0.535095   
+    ## nontargetContrast          9.7750  1   0.001769 **
+    ## Validity:nontargetContrast 0.4186  2   0.811165   
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -654,43 +647,36 @@ summary(swapTA.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity * nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 548.5
+    ## REML criterion at convergence: 632.6
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.9988 -0.2869  0.0419  0.5368  1.5154 
+    ## -3.6594 -0.3192  0.0286  0.6043  1.5799 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  13.62    3.691  
-    ##  Residual             309.52   17.593  
-    ## Number of obs: 68, groups:  SID, 15
+    ##  SID      (Intercept)  27.47    5.242  
+    ##  Residual             327.22   18.089  
+    ## Number of obs: 77, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##                                Estimate Std. Error       df t value Pr(>|t|)
-    ## (Intercept)                     39.6164     4.7830  40.1695   8.283 3.18e-10
-    ## Validity.L                      -1.8598     7.3773  61.9925  -0.252    0.802
-    ## Validity.Q                       4.5297     8.5126  53.3614   0.532    0.597
-    ## nontargetContrast.L            -57.1865     6.5919  61.7835  -8.675 2.76e-12
-    ## Validity.L:nontargetContrast.L   0.6187    10.3726  60.6740   0.060    0.953
-    ## Validity.Q:nontargetContrast.L  -5.2447    12.0477  54.0671  -0.435    0.665
-    ##                                   
-    ## (Intercept)                    ***
-    ## Validity.L                        
-    ## Validity.Q                        
-    ## nontargetContrast.L            ***
-    ## Validity.L:nontargetContrast.L    
-    ## Validity.Q:nontargetContrast.L    
+    ##                                Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)                      38.841      5.048  53.652   7.695 3.20e-10 ***
+    ## Validity.L                       -3.461      7.640  70.077  -0.453    0.652    
+    ## Validity.Q                        5.662      8.749  59.477   0.647    0.520    
+    ## nontargetContrast.L             -57.072      6.859  70.825  -8.321 4.31e-12 ***
+    ## Validity.L:nontargetContrast.L    1.405     10.718  67.827   0.131    0.896    
+    ## Validity.Q:nontargetContrast.L   -5.992     12.385  60.152  -0.484    0.630    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr) Vldt.L Vldt.Q nntC.L V.L:C.
-    ## Validity.L   0.435                            
-    ## Validity.Q  -0.215  0.258                     
-    ## nntrgtCnt.L  0.858  0.411 -0.210              
-    ## Vldty.L:C.L  0.406  0.858  0.243  0.442       
-    ## Vldty.Q:C.L -0.205  0.237  0.885 -0.215  0.261
+    ## Validity.L   0.436                            
+    ## Validity.Q  -0.220  0.243                     
+    ## nntrgtCnt.L  0.866  0.422 -0.216              
+    ## Vldty.L:C.L  0.414  0.880  0.234  0.448       
+    ## Vldty.Q:C.L -0.206  0.225  0.897 -0.221  0.247
 
 ``` r
 aov.swapTA <- Anova(swapTA.lmm.lme4)
@@ -701,9 +687,9 @@ print(aov.swapTA)
     ## 
     ## Response: twoIncorrect
     ##                               Chisq Df Pr(>Chisq)    
-    ## Validity                     4.6728  2    0.09668 .  
-    ## nontargetContrast          114.1064  1    < 2e-16 ***
-    ## Validity:nontargetContrast   0.2217  2    0.89506    
+    ## Validity                     8.3822  2    0.01513 *  
+    ## nontargetContrast          107.3653  1    < 2e-16 ***
+    ## Validity:nontargetContrast   0.3010  2    0.86029    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -720,34 +706,34 @@ summary(swapTAT1.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity * nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 245.8
+    ## REML criterion at convergence: 264.6
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.26855 -0.35093  0.07795  0.50741  1.45935 
+    ## -2.32138 -0.34907  0.05318  0.46013  1.48692 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 173.3    13.16   
-    ##  Residual             251.8    15.87   
-    ## Number of obs: 32, groups:  SID, 15
+    ##  SID      (Intercept) 159.8    12.64   
+    ##  Residual             269.3    16.41   
+    ## Number of obs: 34, groups:  SID, 17
     ## 
     ## Fixed effects:
     ##                                Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)                      33.640      9.951  24.263   3.380 0.002448 ** 
-    ## Validity.L                       -5.335     19.188  19.146  -0.278 0.783982    
-    ## Validity.Q                       11.722      5.446  17.010   2.153 0.046003 *  
-    ## nontargetContrast.L             -54.336     12.840  17.157  -4.232 0.000551 ***
-    ## Validity.L:nontargetContrast.L   16.726     26.157  18.559   0.639 0.530354    
+    ## (Intercept)                      36.074     10.022  24.319   3.599 0.001418 ** 
+    ## Validity.L                       -1.504     19.604  19.515  -0.077 0.939610    
+    ## Validity.Q                       13.170      5.521  17.194   2.386 0.028815 *  
+    ## nontargetContrast.L             -53.457     13.221  16.895  -4.043 0.000854 ***
+    ## Validity.L:nontargetContrast.L   17.607     26.867  18.644   0.655 0.520253    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr) Vldt.L Vldt.Q nntC.L
-    ## Validity.L  0.678                      
-    ## Validity.Q  0.247  0.320               
-    ## nntrgtCnt.L 0.878  0.697  0.240        
-    ## Vldty.L:C.L 0.649  0.953  0.252  0.711 
+    ## Validity.L  0.681                      
+    ## Validity.Q  0.227  0.308               
+    ## nntrgtCnt.L 0.895  0.699  0.241        
+    ## Vldty.L:C.L 0.659  0.957  0.249  0.712 
     ## fit warnings:
     ## fixed-effect model matrix is rank deficient so dropping 1 column / coefficient
 
@@ -760,9 +746,9 @@ print(aov.swapTAT1)
     ## 
     ## Response: twoIncorrect
     ##                              Chisq Df Pr(>Chisq)    
-    ## Validity                   17.3104  2  0.0001742 ***
-    ## nontargetContrast          44.3976  1   2.68e-11 ***
-    ## Validity:nontargetContrast  0.4089  1  0.5225392    
+    ## Validity                   14.7263  2  0.0006342 ***
+    ## nontargetContrast          41.1886  1  1.382e-10 ***
+    ## Validity:nontargetContrast  0.4295  1  0.5122477    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -779,38 +765,42 @@ summary(swapTAT2.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity * nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 250.1
+    ## REML criterion at convergence: 333.9
     ## 
     ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -2.74253 -0.35886  0.02657  0.63888  1.65068 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -3.5913 -0.3000  0.0060  0.8579  1.1658 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)   0.0     0.00   
-    ##  Residual             129.5    11.38   
-    ## Number of obs: 36, groups:  SID, 14
+    ##  SID      (Intercept)   2.146   1.465  
+    ##  Residual             278.531  16.689  
+    ## Number of obs: 43, groups:  SID, 17
     ## 
     ## Fixed effects:
-    ##                                Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)                      43.335      3.570  31.000  12.137 2.59e-13 ***
-    ## Validity.L                        2.743      4.936  31.000   0.556    0.582    
-    ## Validity.Q                       -1.932      3.807  31.000  -0.507    0.615    
-    ## nontargetContrast.L             -60.170      4.936  31.000 -12.190 2.32e-13 ***
-    ## Validity.L:nontargetContrast.L   -3.879      6.981  31.000  -0.556    0.582    
+    ##                                Estimate Std. Error       df t value Pr(>|t|)
+    ## (Intercept)                     40.8960     5.1845  34.2099   7.888 3.33e-09
+    ## Validity.L                      -0.2230     7.1943  37.9800  -0.031    0.975
+    ## Validity.Q                       3.0003     5.0223  29.8112   0.597    0.555
+    ## nontargetContrast.L            -59.5164     7.1882  36.7486  -8.280 6.35e-10
+    ## Validity.L:nontargetContrast.L   0.3312    10.1684  37.3511   0.033    0.974
+    ##                                   
+    ## (Intercept)                    ***
+    ## Validity.L                        
+    ## Validity.Q                        
+    ## nontargetContrast.L            ***
+    ## Validity.L:nontargetContrast.L    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr) Vldt.L Vldt.Q nntC.L
-    ## Validity.L   0.439                     
-    ## Validity.Q  -0.269  0.028              
-    ## nntrgtCnt.L  0.829  0.424 -0.171       
-    ## Vldty.L:C.L  0.427  0.772 -0.028  0.462
+    ## Validity.L   0.449                     
+    ## Validity.Q  -0.241  0.027              
+    ## nntrgtCnt.L  0.855  0.435 -0.159       
+    ## Vldty.L:C.L  0.438  0.808 -0.027  0.469
     ## fit warnings:
     ## fixed-effect model matrix is rank deficient so dropping 1 column / coefficient
-    ## optimizer (nloptwrap) convergence code: 0 (OK)
-    ## boundary (singular) fit: see help('isSingular')
 
 ``` r
 aov.swapTAT2 <- Anova(swapTAT2.lmm.lme4)
@@ -820,10 +810,10 @@ print(aov.swapTAT2)
     ## Analysis of Deviance Table (Type II Wald chisquare tests)
     ## 
     ## Response: twoIncorrect
-    ##                               Chisq Df Pr(>Chisq)    
-    ## Validity                     2.8227  2     0.2438    
-    ## nontargetContrast          181.0474  1     <2e-16 ***
-    ## Validity:nontargetContrast   0.3089  1     0.5784    
+    ##                              Chisq Df Pr(>Chisq)    
+    ## Validity                    0.3802  2     0.8269    
+    ## nontargetContrast          88.1951  1     <2e-16 ***
+    ## Validity:nontargetContrast  0.0011  1     0.9740    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -840,36 +830,36 @@ summary(swapNP.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity * targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1271.4
+    ## REML criterion at convergence: 1509.6
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.5903 -0.4650  0.0927  0.5788  2.8830 
+    ## -3.4503 -0.5136  0.0454  0.6169  2.9210 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  27.15    5.21   
-    ##  Residual             364.04   19.08   
-    ## Number of obs: 148, groups:  SID, 15
+    ##  SID      (Intercept)  33.76    5.81   
+    ##  Residual             360.10   18.98   
+    ## Number of obs: 175, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##                             Estimate Std. Error       df t value Pr(>|t|)    
-    ## (Intercept)                  62.3675     2.1157  16.5364  29.479 9.91e-16 ***
-    ## Validity.L                   -1.9708     2.7668 131.5336  -0.712    0.478    
-    ## Validity.Q                    3.8656     2.8538 132.4090   1.355    0.178    
-    ## targetContrast.L             24.5253     2.3079 135.2086  10.627  < 2e-16 ***
-    ## Validity.L:targetContrast.L  -0.9774     3.9207 132.7092  -0.249    0.804    
-    ## Validity.Q:targetContrast.L   6.1974     4.0347 132.2211   1.536    0.127    
+    ##                             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)                   62.558      2.032  19.393  30.790   <2e-16 ***
+    ## Validity.L                    -3.121      2.527 155.261  -1.235   0.2188    
+    ## Validity.Q                     5.326      2.636 156.447   2.020   0.0450 *  
+    ## targetContrast.L              23.179      2.122 159.593  10.922   <2e-16 ***
+    ## Validity.L:targetContrast.L   -2.333      3.581 156.293  -0.652   0.5156    
+    ## Validity.Q:targetContrast.L    6.529      3.727 156.217   1.752   0.0818 .  
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr) Vldt.L Vldt.Q trgC.L V.L:C.
-    ## Validity.L   0.113                            
-    ## Validity.Q  -0.036  0.098                     
-    ## trgtCntrs.L  0.157  0.123 -0.034              
-    ## Vldty.L:C.L  0.097  0.180  0.080  0.149       
-    ## Vldty.Q:C.L -0.021  0.085  0.208 -0.041  0.101
+    ## Validity.L   0.100                            
+    ## Validity.Q  -0.046  0.091                     
+    ## trgtCntrs.L  0.170  0.116 -0.052              
+    ## Vldty.L:C.L  0.088  0.194  0.076  0.138       
+    ## Vldty.Q:C.L -0.034  0.080  0.243 -0.057  0.093
 
 ``` r
 aov.swapNP <- Anova(swapNP.lmm.lme4)
@@ -879,10 +869,10 @@ print(aov.swapNP)
     ## Analysis of Deviance Table (Type II Wald chisquare tests)
     ## 
     ## Response: twoIncorrect
-    ##                            Chisq Df Pr(>Chisq)    
-    ## Validity                  1.9306  2     0.3809    
-    ## targetContrast          118.6135  1     <2e-16 ***
-    ## Validity:targetContrast   2.5241  2     0.2831    
+    ##                           Chisq Df Pr(>Chisq)    
+    ## Validity                  4.713  2    0.09475 .  
+    ## targetContrast          127.162  1    < 2e-16 ***
+    ## Validity:targetContrast   3.738  2    0.15427    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -899,36 +889,36 @@ summary(swapNPT1.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity * targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 612.4
+    ## REML criterion at convergence: 705.6
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.2882 -0.6699  0.0595  0.6328  2.8096 
+    ## -3.3680 -0.5946  0.0179  0.6406  2.9131 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  49.21    7.015  
-    ##  Residual             279.73   16.725  
-    ## Number of obs: 75, groups:  SID, 15
+    ##  SID      (Intercept)  36.55    6.045  
+    ##  Residual             279.16   16.708  
+    ## Number of obs: 86, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                             Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)                   62.279      2.756 15.939  22.596 1.57e-13 ***
-    ## Validity.L                    -9.404      3.648 58.647  -2.578   0.0125 *  
-    ## Validity.Q                     6.817      3.510 57.925   1.942   0.0570 .  
-    ## targetContrast.L              15.223      2.938 59.560   5.181 2.75e-06 ***
-    ## Validity.L:targetContrast.L   -7.305      5.159 58.647  -1.416   0.1621    
-    ## Validity.Q:targetContrast.L    8.622      4.964 57.925   1.737   0.0877 .  
+    ## (Intercept)                   63.225      2.418 20.088  26.152  < 2e-16 ***
+    ## Validity.L                    -8.764      3.386 69.077  -2.588   0.0118 *  
+    ## Validity.Q                     8.632      3.341 67.758   2.584   0.0119 *  
+    ## targetContrast.L              16.038      2.762 70.488   5.806 1.68e-07 ***
+    ## Validity.L:targetContrast.L   -3.157      4.789 69.077  -0.659   0.5120    
+    ## Validity.Q:targetContrast.L    8.356      4.725 67.758   1.769   0.0815 .  
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr) Vldt.L Vldt.Q trgC.L V.L:C.
-    ## Validity.L  0.174                             
-    ## Validity.Q  0.040  0.158                      
-    ## trgtCntrs.L 0.211  0.231  0.054               
-    ## Vldty.L:C.L 0.174  0.299  0.158  0.231        
-    ## Vldty.Q:C.L 0.040  0.158  0.243  0.054  0.158
+    ## Validity.L  0.168                             
+    ## Validity.Q  0.010  0.143                      
+    ## trgtCntrs.L 0.260  0.207  0.013               
+    ## Vldty.L:C.L 0.168  0.324  0.143  0.207        
+    ## Vldty.Q:C.L 0.010  0.143  0.305  0.013  0.143
 
 ``` r
 aov.swapNPT1 <- Anova(swapNPT1.lmm.lme4)
@@ -939,9 +929,9 @@ print(aov.swapNPT1)
     ## 
     ## Response: twoIncorrect
     ##                           Chisq Df Pr(>Chisq)    
-    ## Validity                10.4613  2    0.00535 ** 
-    ## targetContrast          31.6796  1  1.818e-08 ***
-    ## Validity:targetContrast  5.9502  2    0.05104 .  
+    ## Validity                13.5158  2   0.001162 ** 
+    ## targetContrast          37.3278  1  9.985e-10 ***
+    ## Validity:targetContrast  3.9785  2   0.136801    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -958,36 +948,36 @@ summary(swapNPT2.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity * targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 603.5
+    ## REML criterion at convergence: 755.6
     ## 
     ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -2.0827 -0.6368  0.1054  0.5799  3.2049 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -2.85566 -0.47508  0.08485  0.51579  2.89698 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  12.32    3.51   
-    ##  Residual             347.75   18.65   
-    ## Number of obs: 73, groups:  SID, 15
+    ##  SID      (Intercept)  29.49    5.43   
+    ##  Residual             386.14   19.65   
+    ## Number of obs: 89, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##                             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)                  61.8159     2.4238 14.5129  25.503 1.84e-13 ***
-    ## Validity.L                    3.2958     3.7058 56.1074   0.889    0.378    
-    ## Validity.Q                   -1.4849     4.0490 58.8438  -0.367    0.715    
-    ## targetContrast.L             33.7292     3.1749 59.6587  10.624 2.21e-15 ***
-    ## Validity.L:targetContrast.L   3.1447     5.2455 57.1392   0.599    0.551    
-    ## Validity.Q:targetContrast.L  -0.1103     5.7187 57.3845  -0.019    0.985    
+    ##                             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)                   61.361      2.503 17.133  24.518 8.77e-15 ***
+    ## Validity.L                     1.534      3.554 68.623   0.432    0.667    
+    ## Validity.Q                     1.462      3.854 71.682   0.379    0.706    
+    ## targetContrast.L              30.077      3.034 71.958   9.914 4.28e-15 ***
+    ## Validity.L:targetContrast.L   -2.427      5.033 69.639  -0.482    0.631    
+    ## Validity.Q:targetContrast.L    3.506      5.440 70.310   0.644    0.521    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr) Vldt.L Vldt.Q trgC.L V.L:C.
-    ## Validity.L   0.091                            
-    ## Validity.Q  -0.113  0.065                     
-    ## trgtCntrs.L  0.143  0.047 -0.095              
-    ## Vldty.L:C.L  0.045  0.090  0.028  0.101       
-    ## Vldty.Q:C.L -0.083  0.031  0.198 -0.117  0.066
+    ## Validity.L   0.085                            
+    ## Validity.Q  -0.098  0.066                     
+    ## trgtCntrs.L  0.135  0.055 -0.091              
+    ## Vldty.L:C.L  0.050  0.096  0.033  0.102       
+    ## Vldty.Q:C.L -0.070  0.038  0.196 -0.106  0.066
 
 ``` r
 aov.swapNPT2 <- Anova(swapNPT2.lmm.lme4)
@@ -998,9 +988,9 @@ print(aov.swapNPT2)
     ## 
     ## Response: twoIncorrect
     ##                            Chisq Df Pr(>Chisq)    
-    ## Validity                  0.8917  2     0.6403    
-    ## targetContrast          114.3597  1     <2e-16 ***
-    ## Validity:targetContrast   0.3629  2     0.8341    
+    ## Validity                  0.2697  2     0.8739    
+    ## targetContrast          103.1746  1     <2e-16 ***
+    ## Validity:targetContrast   0.6921  2     0.7075    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -1017,36 +1007,36 @@ summary(swapNA.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity * targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 815.5
+    ## REML criterion at convergence: 969
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.91085 -0.57888  0.03036  0.52532  2.17436 
+    ## -1.95811 -0.55489  0.02205  0.56956  2.08156 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 166.5    12.90   
-    ##  Residual             480.1    21.91   
-    ## Number of obs: 93, groups:  SID, 15
+    ##  SID      (Intercept) 139.9    11.83   
+    ##  Residual             472.2    21.73   
+    ## Number of obs: 110, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)                    8.783      6.942  61.303   1.265 0.210607    
-    ## Validity.L                    -5.277      9.409  80.053  -0.561 0.576516    
-    ## Validity.Q                     5.341     10.610  75.153   0.503 0.616195    
-    ## targetContrast.L             -33.905      8.610  82.426  -3.938 0.000171 ***
-    ## Validity.L:targetContrast.L  -16.048     13.307  80.059  -1.206 0.231378    
-    ## Validity.Q:targetContrast.L    6.021     14.983  74.944   0.402 0.688929    
+    ## (Intercept)                   10.222      6.625  83.061   1.543 0.126623    
+    ## Validity.L                    -3.879      9.268  96.338  -0.419 0.676487    
+    ## Validity.Q                     4.018     10.482  89.819   0.383 0.702419    
+    ## targetContrast.L             -33.701      8.495  99.599  -3.967 0.000137 ***
+    ## Validity.L:targetContrast.L  -16.668     13.108  96.343  -1.272 0.206566    
+    ## Validity.Q:targetContrast.L    7.109     14.806  89.585   0.480 0.632289    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr) Vldt.L Vldt.Q trgC.L V.L:C.
-    ## Validity.L   0.405                            
-    ## Validity.Q  -0.208  0.205                     
-    ## trgtCntrs.L  0.812  0.459 -0.234              
-    ## Vldty.L:C.L  0.403  0.908  0.204  0.459       
-    ## Vldty.Q:C.L -0.207  0.207  0.925 -0.237  0.208
+    ## Validity.L   0.419                            
+    ## Validity.Q  -0.215  0.210                     
+    ## trgtCntrs.L  0.850  0.460 -0.234              
+    ## Vldty.L:C.L  0.418  0.922  0.209  0.460       
+    ## Vldty.Q:C.L -0.213  0.212  0.936 -0.236  0.213
 
 ``` r
 aov.swapNA <- Anova(swapNA.lmm.lme4)
@@ -1057,9 +1047,9 @@ print(aov.swapNA)
     ## 
     ## Response: twoIncorrect
     ##                           Chisq Df Pr(>Chisq)    
-    ## Validity                 1.6841  2  0.4308299    
-    ## targetContrast          14.7984  1  0.0001196 ***
-    ## Validity:targetContrast  1.8995  2  0.3868413    
+    ## Validity                 3.7298  2  0.1549106    
+    ## targetContrast          14.4971  1  0.0001404 ***
+    ## Validity:targetContrast  2.2069  2  0.3317268    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -1076,34 +1066,34 @@ summary(swapNAT1.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity * targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 372.6
+    ## REML criterion at convergence: 452.3
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.96952 -0.54443 -0.00096  0.60158  1.75044 
+    ## -2.16179 -0.55108 -0.03353  0.56371  1.65648 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 260.7    16.15   
-    ##  Residual             253.4    15.92   
-    ## Number of obs: 46, groups:  SID, 15
+    ##  SID      (Intercept) 199.6    14.13   
+    ##  Residual             273.1    16.53   
+    ## Number of obs: 55, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##                             Estimate Std. Error       df t value Pr(>|t|)   
-    ## (Intercept)                  12.0705     9.9923  40.3548   1.208  0.23409   
-    ## Validity.L                   -4.5223    18.3007  30.6102  -0.247  0.80647   
-    ## Validity.Q                   -0.7017     4.2390  27.5340  -0.166  0.86973   
-    ## targetContrast.L            -40.2543    12.8600  30.3888  -3.130  0.00384 **
-    ## Validity.L:targetContrast.L -20.4992    25.8811  30.6102  -0.792  0.43442   
+    ##                             Estimate Std. Error      df t value Pr(>|t|)   
+    ## (Intercept)                   12.287      9.896  47.721   1.242  0.22043   
+    ## Validity.L                    -7.083     18.746  38.736  -0.378  0.70761   
+    ## Validity.Q                    -4.498      3.993  33.654  -1.126  0.26797   
+    ## targetContrast.L             -41.707     13.192  38.445  -3.162  0.00306 **
+    ## Validity.L:targetContrast.L  -23.893     26.510  38.736  -0.901  0.37302   
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr) Vldt.L Vldt.Q trgC.L
-    ## Validity.L  0.646                      
-    ## Validity.Q  0.164  0.201               
-    ## trgtCntrs.L 0.877  0.712  0.192        
-    ## Vldty.L:C.L 0.646  0.975  0.201  0.712 
+    ## Validity.L  0.669                      
+    ## Validity.Q  0.158  0.184               
+    ## trgtCntrs.L 0.914  0.711  0.176        
+    ## Vldty.L:C.L 0.669  0.978  0.184  0.711 
     ## fit warnings:
     ## fixed-effect model matrix is rank deficient so dropping 1 column / coefficient
 
@@ -1116,9 +1106,9 @@ print(aov.swapNAT1)
     ## 
     ## Response: twoIncorrect
     ##                           Chisq Df Pr(>Chisq)    
-    ## Validity                 5.5368  2  0.0627625 .  
-    ## targetContrast          13.3686  1  0.0002559 ***
-    ## Validity:targetContrast  0.6273  1  0.4283293    
+    ## Validity                 6.9963  2  0.0302529 *  
+    ## targetContrast          12.8550  1  0.0003366 ***
+    ## Validity:targetContrast  0.8123  1  0.3674527    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -1135,34 +1125,34 @@ summary(swapNAT2.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity * targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 396.2
+    ## REML criterion at convergence: 469.9
     ## 
     ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -1.64543 -0.53423 -0.07804  0.35634  2.25071 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -1.5039 -0.6762 -0.1211  0.4274  2.2805 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 327.6    18.10   
-    ##  Residual             350.4    18.72   
-    ## Number of obs: 47, groups:  SID, 15
+    ##  SID      (Intercept) 277.9    16.67   
+    ##  Residual             368.3    19.19   
+    ## Number of obs: 55, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##                             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)                    2.639      7.735  35.731   0.341 0.734982    
-    ## Validity.L                   -10.366      8.902  32.033  -1.164 0.252848    
-    ## Validity.Q                     2.384      5.017  28.491   0.475 0.638343    
-    ## targetContrast.L             -31.648      8.714  31.226  -3.632 0.000997 ***
-    ## Validity.L:targetContrast.L  -17.406     12.592  32.052  -1.382 0.176439    
+    ##                             Estimate Std. Error      df t value Pr(>|t|)   
+    ## (Intercept)                    4.298      7.416  47.006   0.579  0.56503   
+    ## Validity.L                    -7.704      9.013  38.620  -0.855  0.39795   
+    ## Validity.Q                     2.357      4.789  33.926   0.492  0.62582   
+    ## targetContrast.L             -31.140      8.864  37.701  -3.513  0.00117 **
+    ## Validity.L:targetContrast.L  -19.266     12.749  38.638  -1.511  0.13886   
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr) Vldt.L Vldt.Q trgC.L
-    ## Validity.L   0.378                     
-    ## Validity.Q  -0.125 -0.010              
-    ## trgtCntrs.L  0.710  0.464 -0.148       
-    ## Vldty.L:C.L  0.373  0.846 -0.024  0.468
+    ## Validity.L   0.403                     
+    ## Validity.Q  -0.135 -0.009              
+    ## trgtCntrs.L  0.769  0.469 -0.137       
+    ## Vldty.L:C.L  0.400  0.869 -0.021  0.471
     ## fit warnings:
     ## fixed-effect model matrix is rank deficient so dropping 1 column / coefficient
 
@@ -1174,10 +1164,10 @@ print(aov.swapNAT2)
     ## Analysis of Deviance Table (Type II Wald chisquare tests)
     ## 
     ## Response: twoIncorrect
-    ##                           Chisq Df Pr(>Chisq)    
-    ## Validity                 0.1948  2  0.9071751    
-    ## targetContrast          11.4079  1  0.0007313 ***
-    ## Validity:targetContrast  1.9107  1  0.1668816    
+    ##                           Chisq Df Pr(>Chisq)   
+    ## Validity                 1.0599  2   0.588637   
+    ## targetContrast          10.0838  1   0.001496 **
+    ## Validity:targetContrast  2.2839  1   0.130723   
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -1194,36 +1184,36 @@ summary(swapTPNP.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity * Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 724.4
+    ## REML criterion at convergence: 879.2
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.11292 -0.69725  0.06804  0.61058  2.94641 
+    ## -2.27680 -0.68172  0.03135  0.61096  2.91098 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  24.91    4.991  
-    ##  Residual             367.36   19.167  
-    ## Number of obs: 86, groups:  SID, 15
+    ##  SID      (Intercept)  31.55    5.617  
+    ##  Residual             344.46   18.560  
+    ## Number of obs: 104, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                     Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)          44.7171     2.4414 14.1864  18.316 2.84e-11 ***
-    ## Validity.L           -1.6198     3.5693 66.9150  -0.454  0.65144    
-    ## Validity.Q           -0.3503     3.6160 67.4585  -0.097  0.92312    
-    ## Target.L             -9.6131     2.9326 66.9760  -3.278  0.00166 ** 
-    ## Validity.L:Target.L   3.7038     5.0478 66.9150   0.734  0.46567    
-    ## Validity.Q:Target.L  -1.5133     5.1137 67.4585  -0.296  0.76819    
+    ## (Intercept)          45.9751     2.2544 17.1007  20.393 1.94e-13 ***
+    ## Validity.L           -1.6846     3.1442 81.7782  -0.536  0.59358    
+    ## Validity.Q            0.8117     3.1783 82.2684   0.255  0.79906    
+    ## Target.L             -8.3579     2.5806 81.8592  -3.239  0.00174 ** 
+    ## Validity.L:Target.L   6.8555     4.4466 81.7782   1.542  0.12700    
+    ## Validity.Q:Target.L  -2.7038     4.4948 82.2684  -0.602  0.54914    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr) Vldt.L Vldt.Q Trgt.L V.L:T.
-    ## Validity.L   0.027                            
-    ## Validity.Q  -0.015  0.022                     
-    ## Target.L     0.043  0.031 -0.018              
-    ## Vldty.L:T.L  0.027  0.039  0.022  0.031       
-    ## Vldty.Q:T.L -0.015  0.022  0.063 -0.018  0.022
+    ## Validity.L   0.021                            
+    ## Validity.Q  -0.012  0.019                     
+    ## Target.L     0.034  0.026 -0.015              
+    ## Vldty.L:T.L  0.021  0.032  0.019  0.026       
+    ## Vldty.Q:T.L -0.012  0.019  0.053 -0.015  0.019
 
 ``` r
 aov.swapTPNP <- Anova(swapTPNP.lmm.lme4)
@@ -1233,10 +1223,10 @@ print(aov.swapTPNP)
     ## Analysis of Deviance Table (Type II Wald chisquare tests)
     ## 
     ## Response: twoIncorrect
-    ##                   Chisq Df Pr(>Chisq)    
-    ## Validity         0.2337  2  0.8897233    
-    ## Target          10.9493  1  0.0009364 ***
-    ## Validity:Target  0.6360  2  0.7275878    
+    ##                   Chisq Df Pr(>Chisq)   
+    ## Validity         0.4027  2   0.817606   
+    ## Target          10.8232  1   0.001002 **
+    ## Validity:Target  2.7743  2   0.249782   
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -1253,36 +1243,36 @@ summary(swapTPNA.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity * Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 759
+    ## REML criterion at convergence: 910.8
     ## 
     ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -1.93070 -0.69185  0.01969  0.56000  2.53346 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -2.1285 -0.6465 -0.0730  0.5369  2.6179 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 175.8    13.26   
-    ##  Residual             434.3    20.84   
-    ## Number of obs: 87, groups:  SID, 15
+    ##  SID      (Intercept) 145.7    12.07   
+    ##  Residual             423.2    20.57   
+    ## Number of obs: 104, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##                     Estimate Std. Error       df t value Pr(>|t|)    
-    ## (Intercept)          32.6408     4.0915  14.2146   7.978 1.28e-06 ***
-    ## Validity.L            5.7914     3.8431  67.3839   1.507 0.136492    
-    ## Validity.Q            0.8845     3.9186  67.6595   0.226 0.822111    
-    ## Target.L            -11.0508     3.1692  67.5414  -3.487 0.000864 ***
-    ## Validity.L:Target.L  -5.9134     5.4349  67.3839  -1.088 0.280458    
-    ## Validity.Q:Target.L   1.9674     5.5431  67.6925   0.355 0.723747    
+    ##                     Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)           33.865      3.491  17.236   9.700 2.13e-08 ***
+    ## Validity.L             7.729      3.457  81.422   2.236 0.028091 *  
+    ## Validity.Q            -0.859      3.554  81.933  -0.242 0.809616    
+    ## Target.L             -11.080      2.863  81.709  -3.870 0.000218 ***
+    ## Validity.L:Target.L   -2.945      4.889  81.422  -0.602 0.548610    
+    ## Validity.Q:Target.L    4.873      5.028  82.029   0.969 0.335294    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr) Vldt.L Vldt.Q Trgt.L V.L:T.
-    ## Validity.L   0.009                            
-    ## Validity.Q  -0.015  0.012                     
-    ## Target.L     0.007  0.016  0.009              
-    ## Vldty.L:T.L  0.009  0.020  0.012  0.016       
-    ## Vldty.Q:T.L  0.005  0.011  0.007 -0.028  0.011
+    ## Validity.L   0.007                            
+    ## Validity.Q  -0.022  0.010                     
+    ## Target.L     0.013  0.013 -0.009              
+    ## Vldty.L:T.L  0.007  0.016  0.010  0.013       
+    ## Vldty.Q:T.L -0.005  0.009  0.029 -0.039  0.009
 
 ``` r
 aov.swapTPNA <- Anova(swapTPNA.lmm.lme4)
@@ -1293,9 +1283,9 @@ print(aov.swapTPNA)
     ## 
     ## Response: twoIncorrect
     ##                   Chisq Df Pr(>Chisq)    
-    ## Validity         2.3732  2  0.3052550    
-    ## Target          11.9786  1  0.0005381 ***
-    ## Validity:Target  1.3186  2  0.5172054    
+    ## Validity         5.0861  2  0.0786254 .  
+    ## Target          14.6494  1  0.0001295 ***
+    ## Validity:Target  1.3132  2  0.5186214    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -1312,36 +1302,36 @@ summary(swapTANP.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity * Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 491.3
+    ## REML criterion at convergence: 583.8
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.6148 -0.3970  0.1642  0.5927  2.1978 
+    ## -3.1744 -0.3974  0.1084  0.6503  1.9284 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  20.04    4.477  
-    ##  Residual             256.46   16.014  
-    ## Number of obs: 62, groups:  SID, 15
+    ##  SID      (Intercept)  34.43    5.868  
+    ##  Residual             318.83   17.856  
+    ## Number of obs: 71, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##                     Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)           79.648      2.463  14.049  32.343 1.36e-14 ***
-    ## Validity.L            -4.115      3.660  48.659  -1.125  0.26630    
-    ## Validity.Q             6.151      3.773  48.216   1.630  0.10960    
-    ## Target.L               8.461      3.037  48.728   2.787  0.00757 ** 
-    ## Validity.L:Target.L   13.523      5.167  48.026   2.617  0.01181 *  
-    ## Validity.Q:Target.L  -10.821      5.337  48.269  -2.028  0.04813 *  
+    ##                     Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)           78.726      2.660 16.786  29.601 6.32e-16 ***
+    ## Validity.L            -5.642      3.788 54.863  -1.489   0.1421    
+    ## Validity.Q             9.414      3.954 54.623   2.381   0.0208 *  
+    ## Target.L               5.738      3.173 56.387   1.808   0.0759 .  
+    ## Validity.L:Target.L    7.532      5.374 56.504   1.401   0.1665    
+    ## Validity.Q:Target.L   -8.216      5.611 56.288  -1.464   0.1487    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr) Vldt.L Vldt.Q Trgt.L V.L:T.
-    ## Validity.L   0.228                            
-    ## Validity.Q  -0.042  0.171                     
-    ## Target.L    -0.057 -0.134 -0.131              
-    ## Vldty.L:T.L -0.120 -0.169 -0.092  0.252       
-    ## Vldty.Q:T.L -0.119 -0.097  0.024 -0.047  0.169
+    ## Validity.L   0.208                            
+    ## Validity.Q  -0.058  0.161                     
+    ## Target.L    -0.108 -0.121 -0.083              
+    ## Vldty.L:T.L -0.105 -0.202 -0.081  0.239       
+    ## Vldty.Q:T.L -0.078 -0.088 -0.060 -0.064  0.163
 
 ``` r
 aov.swapTANP <- Anova(swapTANP.lmm.lme4)
@@ -1351,10 +1341,10 @@ print(aov.swapTANP)
     ## Analysis of Deviance Table (Type II Wald chisquare tests)
     ## 
     ## Response: twoIncorrect
-    ##                   Chisq Df Pr(>Chisq)   
-    ## Validity         5.3832  2   0.067773 . 
-    ## Target           3.8868  1   0.048667 * 
-    ## Validity:Target 13.1349  2   0.001405 **
+    ##                  Chisq Df Pr(>Chisq)  
+    ## Validity        8.7731  2    0.01244 *
+    ## Target          1.7989  1    0.17984  
+    ## Validity:Target 4.9074  2    0.08598 .
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -1371,30 +1361,30 @@ summary(swap_validity.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 2306.1
+    ## REML criterion at convergence: 2718.6
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.95214 -0.64378  0.00288  0.77833  2.02894 
+    ## -1.98279 -0.67195  0.00048  0.78184  2.03491 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  50.32    7.094  
-    ##  Residual             856.42   29.265  
-    ## Number of obs: 241, groups:  SID, 15
+    ##  SID      (Intercept)  39.06    6.25   
+    ##  Residual             826.11   28.74   
+    ## Number of obs: 285, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)   48.223      2.640  14.150  18.264 3.08e-11 ***
-    ## Validity.L    -1.249      3.237 225.862  -0.386    0.700    
-    ## Validity.Q     2.649      3.339 226.500   0.793    0.428    
+    ##             Estimate Std. Error       df t value Pr(>|t|)    
+    ## (Intercept)  48.9390     2.2614  17.2316  21.641  6.2e-14 ***
+    ## Validity.L   -0.8974     2.9142 267.3822  -0.308    0.758    
+    ## Validity.Q    2.9453     3.0200 268.2929   0.975    0.330    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.064       
-    ## Validity.Q -0.033  0.059
+    ## Validity.L  0.059       
+    ## Validity.Q -0.039  0.053
 
 ``` r
 aov.swap_validity <- Anova(swap_validity.lmm.lme4)
@@ -1405,7 +1395,7 @@ print(aov.swap_validity)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)
-    ## Validity 0.8173  2     0.6645
+    ## Validity 1.0807  2     0.5825
 
 ## TP
 
@@ -1420,30 +1410,30 @@ summary(swap_validityTP.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1569.9
+    ## REML criterion at convergence: 1884.1
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.16646 -0.64954  0.08013  0.69204  2.90340 
+    ## -2.20840 -0.62388  0.04653  0.71231  2.89161 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  68.84    8.297  
-    ##  Residual             513.81   22.667  
-    ## Number of obs: 173, groups:  SID, 15
+    ##  SID      (Intercept)  58.28    7.634  
+    ##  Residual             500.13   22.363  
+    ## Number of obs: 208, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error       df t value Pr(>|t|)    
-    ## (Intercept)  38.8473     2.7509  14.3739  14.122 7.99e-10 ***
-    ## Validity.L    2.3060     2.9663 156.6108   0.777    0.438    
-    ## Validity.Q    0.2362     3.0141 157.2546   0.078    0.938    
+    ## (Intercept)  40.0641     2.3766  17.4117  16.858 3.19e-12 ***
+    ## Validity.L    3.1355     2.6653 188.6783   1.176    0.241    
+    ## Validity.Q   -0.1803     2.7147 189.4712  -0.066    0.947    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.013       
-    ## Validity.Q -0.014  0.016
+    ## Validity.L  0.012       
+    ## Validity.Q -0.016  0.013
 
 ``` r
 aov.swap_validityTP <- Anova(swap_validityTP.lmm.lme4)
@@ -1454,7 +1444,7 @@ print(aov.swap_validityTP)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)
-    ## Validity 0.6087  2     0.7376
+    ## Validity 1.3906  2     0.4989
 
 ### T1
 
@@ -1469,30 +1459,30 @@ summary(swap_validityTPT1.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 770.4
+    ## REML criterion at convergence: 927.7
     ## 
     ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -2.18837 -0.61990 -0.00774  0.58466  2.97544 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -2.2748 -0.6061 -0.0105  0.6737  2.9005 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  83.64    9.145  
-    ##  Residual             345.31   18.583  
-    ## Number of obs: 89, groups:  SID, 15
+    ##  SID      (Intercept)  61.34    7.832  
+    ##  Residual             347.61   18.644  
+    ## Number of obs: 107, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)   46.098      3.076 14.097  14.987 4.68e-10 ***
-    ## Validity.L     2.867      3.393 72.108   0.845    0.401    
-    ## Validity.Q    -0.170      3.436 72.365  -0.049    0.961    
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)  46.8602     2.5807 17.0959  18.158  1.3e-12 ***
+    ## Validity.L    1.6398     3.1074 87.1110   0.528    0.599    
+    ## Validity.Q   -0.9569     3.1395 87.4142  -0.305    0.761    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
     ## Validity.L  0.000       
-    ## Validity.Q -0.011  0.000
+    ## Validity.Q -0.010  0.000
 
 ``` r
 aov.swap_validityTPT1 <- Anova(swap_validityTPT1.lmm.lme4)
@@ -1503,7 +1493,7 @@ print(aov.swap_validityTPT1)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)
-    ## Validity 0.7166  2     0.6989
+    ## Validity 0.3714  2     0.8305
 
 ### T2
 
@@ -1518,30 +1508,30 @@ summary(swap_validityTPT2.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 761
+    ## REML criterion at convergence: 917.4
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.63319 -0.97583 -0.09549  0.70873  2.21707 
+    ## -1.63573 -0.67729 -0.05705  0.68246  2.25544 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 109.5    10.47   
-    ##  Residual             539.2    23.22   
-    ## Number of obs: 84, groups:  SID, 15
+    ##  SID      (Intercept)  89.96    9.485  
+    ##  Residual             539.20   23.221  
+    ## Number of obs: 101, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)  30.9688     3.7129 14.3669   8.341 6.99e-07 ***
-    ## Validity.L    0.8318     4.3661 68.0242   0.191    0.849    
-    ## Validity.Q    0.5991     4.4657 69.4515   0.134    0.894    
+    ## (Intercept)  32.7669     3.2223 17.3168  10.169 1.01e-08 ***
+    ## Validity.L    4.0490     3.9642 82.0693   1.021    0.310    
+    ## Validity.Q    0.8153     4.0828 83.8822   0.200    0.842    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.031       
-    ## Validity.Q -0.020  0.034
+    ## Validity.L  0.027       
+    ## Validity.Q -0.029  0.028
 
 ``` r
 aov.swap_validityTPT2 <- Anova(swap_validityTPT2.lmm.lme4)
@@ -1552,7 +1542,7 @@ print(aov.swap_validityTPT2)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)
-    ## Validity 0.0526  2      0.974
+    ## Validity 1.0727  2     0.5849
 
 ## TA
 
@@ -1567,30 +1557,30 @@ summary(swap_validityTA.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 634.9
+    ## REML criterion at convergence: 719.3
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -2.5832 -0.1414  0.2867  0.7006  1.0906 
+    ## -2.6235 -0.2631  0.3192  0.6966  1.1783 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  24.87    4.987  
-    ##  Residual             849.42   29.145  
-    ## Number of obs: 68, groups:  SID, 15
+    ##  SID      (Intercept)  31.25    5.59   
+    ##  Residual             815.65   28.56   
+    ## Number of obs: 77, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)   73.798      3.928 13.159  18.786 6.88e-11 ***
-    ## Validity.L     1.496      6.231 61.859   0.240    0.811    
-    ## Validity.Q     4.912      6.543 57.078   0.751    0.456    
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)  73.8169     3.6633 16.2358  20.151 6.45e-13 ***
+    ## Validity.L   -0.7833     5.6784 68.7145  -0.138    0.891    
+    ## Validity.Q    6.8470     6.0626 64.4601   1.129    0.263    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.236       
-    ## Validity.Q -0.073  0.166
+    ## Validity.L  0.215       
+    ## Validity.Q -0.094  0.152
 
 ``` r
 aov.swap_validityTA <- Anova(swap_validityTA.lmm.lme4)
@@ -1601,7 +1591,7 @@ print(aov.swap_validityTA)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)
-    ## Validity 0.5772  2     0.7493
+    ## Validity 1.3738  2     0.5031
 
 ### T1
 
@@ -1616,30 +1606,30 @@ summary(swap_validityTAT1.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 283.1
+    ## REML criterion at convergence: 301.2
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -2.9859 -0.2505  0.3425  0.6143  1.5614 
+    ## -3.0296 -0.2736  0.3550  0.6314  1.5877 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
     ##  SID      (Intercept)   0.0     0.00   
-    ##  Residual             771.5    27.78   
-    ## Number of obs: 32, groups:  SID, 15
+    ##  Residual             746.1    27.31   
+    ## Number of obs: 34, groups:  SID, 17
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)   70.014      5.272 29.000  13.280 7.43e-14 ***
-    ## Validity.L    -8.811      9.487 29.000  -0.929   0.3607    
-    ## Validity.Q    16.390      8.761 29.000   1.871   0.0715 .  
+    ## (Intercept)   71.359      4.956 31.000  14.399 2.82e-15 ***
+    ## Validity.L    -5.699      8.753 31.000  -0.651     0.52    
+    ## Validity.Q    18.037      8.411 31.000   2.144     0.04 *  
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L 0.364        
-    ## Validity.Q 0.117  0.268 
+    ## Validity.L 0.326        
+    ## Validity.Q 0.057  0.235 
     ## optimizer (nloptwrap) convergence code: 0 (OK)
     ## boundary (singular) fit: see help('isSingular')
 
@@ -1652,7 +1642,7 @@ print(aov.swap_validityTAT1)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)  
-    ## Validity 5.7028  2    0.05776 .
+    ## Validity 6.0109  2    0.04952 *
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -1669,30 +1659,30 @@ summary(swap_validityTAT2.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 324
+    ## REML criterion at convergence: 393.9
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -2.8016 -0.2151  0.3664  0.6238  1.1471 
+    ## -2.6031 -0.1862  0.3352  0.6378  0.9466 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
     ##  SID      (Intercept)   0.0     0.00   
-    ##  Residual             833.5    28.87   
-    ## Number of obs: 36, groups:  SID, 14
+    ##  Residual             884.5    29.74   
+    ## Number of obs: 43, groups:  SID, 17
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)   78.408      5.044  33.000  15.544   <2e-16 ***
-    ## Validity.L     9.901      7.900  33.000   1.253    0.219    
-    ## Validity.Q   -11.085      9.501  33.000  -1.167    0.252    
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   76.601      4.722 40.000  16.221   <2e-16 ***
+    ## Validity.L     3.935      7.492 40.000   0.525    0.602    
+    ## Validity.Q    -4.823      8.813 40.000  -0.547    0.587    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.158       
-    ## Validity.Q -0.237  0.103
+    ## Validity.L  0.159       
+    ## Validity.Q -0.211  0.104
     ## optimizer (nloptwrap) convergence code: 0 (OK)
     ## boundary (singular) fit: see help('isSingular')
 
@@ -1705,7 +1695,7 @@ print(aov.swap_validityTAT2)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)
-    ## Validity 3.2677  2     0.1952
+    ## Validity 0.6422  2     0.7254
 
 ## NP
 
@@ -1720,30 +1710,30 @@ summary(swap_validityNP.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1373.1
+    ## REML criterion at convergence: 1619.7
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.38585 -0.67506  0.01584  0.76193  1.77007 
+    ## -2.47337 -0.64096  0.01299  0.72975  1.86971 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  26.21    5.12   
-    ##  Residual             673.57   25.95   
-    ## Number of obs: 148, groups:  SID, 15
+    ##  SID      (Intercept)  27.69    5.263  
+    ##  Residual             643.99   25.377  
+    ## Number of obs: 175, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)   59.375      2.531  15.511  23.463 1.55e-13 ***
-    ## Validity.L    -5.089      3.672 133.672  -1.386    0.168    
-    ## Validity.Q     4.037      3.783 135.160   1.067    0.288    
+    ## (Intercept)   59.403      2.301  18.459  25.812 6.09e-16 ***
+    ## Validity.L    -5.677      3.291 157.872  -1.725   0.0865 .  
+    ## Validity.Q     5.608      3.406 159.379   1.646   0.1017    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.096       
-    ## Validity.Q -0.036  0.077
+    ## Validity.L  0.085       
+    ## Validity.Q -0.041  0.069
 
 ``` r
 aov.swap_validityNP <- Anova(swap_validityNP.lmm.lme4)
@@ -1753,8 +1743,10 @@ print(aov.swap_validityNP)
     ## Analysis of Deviance Table (Type II Wald chisquare tests)
     ## 
     ## Response: twoIncorrect
-    ##           Chisq Df Pr(>Chisq)
-    ## Validity 3.3066  2     0.1914
+    ##          Chisq Df Pr(>Chisq)  
+    ## Validity 6.109  2    0.04715 *
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ### T1
 
@@ -1769,30 +1761,30 @@ summary(swap_validityNPT1.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 657.3
+    ## REML criterion at convergence: 753.5
     ## 
     ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -2.4203 -0.7107 -0.0625  0.6480  2.1047 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -2.43220 -0.68136 -0.04373  0.61743  2.19916 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  38.62    6.215  
-    ##  Residual             433.40   20.818  
-    ## Number of obs: 75, groups:  SID, 15
+    ##  SID      (Intercept)  28.27    5.317  
+    ##  Residual             424.06   20.593  
+    ## Number of obs: 86, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)   60.304      2.917  14.924  20.671 2.15e-12 ***
-    ## Validity.L   -11.868      4.231  60.479  -2.805  0.00675 ** 
-    ## Validity.Q     5.955      4.196  60.756   1.419  0.16099    
+    ## (Intercept)   60.275      2.572  18.488  23.439 3.31e-15 ***
+    ## Validity.L   -11.490      3.873  70.329  -2.967  0.00411 ** 
+    ## Validity.Q     7.523      3.892  70.033   1.933  0.05730 .  
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L 0.114        
-    ## Validity.Q 0.010  0.093
+    ## Validity.L  0.100       
+    ## Validity.Q -0.008  0.080
 
 ``` r
 aov.swap_validityNPT1 <- Anova(swap_validityNPT1.lmm.lme4)
@@ -1803,7 +1795,7 @@ print(aov.swap_validityNPT1)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)   
-    ## Validity 10.721  2   0.004698 **
+    ## Validity 13.539  2   0.001148 **
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -1820,30 +1812,30 @@ summary(swap_validityNPT2.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 687.2
+    ## REML criterion at convergence: 838.1
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.98571 -0.68005 -0.03331  0.84715  1.39589 
+    ## -2.03526 -0.68473 -0.06574  0.82162  1.47524 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
     ##  SID      (Intercept)   0.0     0.00   
-    ##  Residual             922.5    30.37   
-    ## Number of obs: 73, groups:  SID, 15
+    ##  Residual             877.2    29.62   
+    ## Number of obs: 89, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)   58.690      3.588 70.000  16.358   <2e-16 ***
-    ## Validity.L     1.525      5.997 70.000   0.254    0.800    
-    ## Validity.Q     1.330      6.424 70.000   0.207    0.837    
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)  58.8622     3.1646 86.0000  18.600   <2e-16 ***
+    ## Validity.L   -0.1983     5.3101 86.0000  -0.037    0.970    
+    ## Validity.Q    3.1306     5.6473 86.0000   0.554    0.581    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.091       
-    ## Validity.Q -0.094  0.062
+    ## Validity.L  0.088       
+    ## Validity.Q -0.084  0.060
     ## optimizer (nloptwrap) convergence code: 0 (OK)
     ## boundary (singular) fit: see help('isSingular')
 
@@ -1856,7 +1848,7 @@ print(aov.swap_validityNPT2)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)
-    ## Validity 0.1014  2     0.9506
+    ## Validity 0.3123  2     0.8554
 
 ## NA
 
@@ -1871,30 +1863,30 @@ summary(swap_validityNA.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 850.1
+    ## REML criterion at convergence: 1003.8
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.92067 -0.92356  0.09612  0.66068  2.43731 
+    ## -1.98812 -0.75346 -0.00613  0.72074  2.41838 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  94.26    9.709  
-    ##  Residual             586.30   24.214  
-    ## Number of obs: 93, groups:  SID, 15
+    ##  SID      (Intercept)  82.92    9.106  
+    ##  Residual             561.30   23.692  
+    ## Number of obs: 110, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)  30.6955     3.5585 14.2788   8.626 4.87e-07 ***
-    ## Validity.L    7.1634     4.3059 77.4794   1.664    0.100    
-    ## Validity.Q    0.3735     4.4483 77.6720   0.084    0.933    
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   32.314      3.125 17.152  10.339 8.67e-09 ***
+    ## Validity.L     8.754      3.861 91.482   2.267   0.0257 *  
+    ## Validity.Q    -1.463      4.010 91.926  -0.365   0.7161    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.036       
-    ## Validity.Q -0.031  0.030
+    ## Validity.L  0.031       
+    ## Validity.Q -0.038  0.025
 
 ``` r
 aov.swap_validityNA <- Anova(swap_validityNA.lmm.lme4)
@@ -1904,8 +1896,10 @@ print(aov.swap_validityNA)
     ## Analysis of Deviance Table (Type II Wald chisquare tests)
     ## 
     ## Response: twoIncorrect
-    ##           Chisq Df Pr(>Chisq)
-    ## Validity 2.7689  2     0.2505
+    ##           Chisq Df Pr(>Chisq)  
+    ## Validity 5.3174  2    0.07004 .
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ### T1
 
@@ -1920,30 +1914,30 @@ summary(swap_validityNAT1.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 398.7
+    ## REML criterion at convergence: 478.6
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -2.2405 -0.5850  0.1611  0.7065  1.4996 
+    ## -2.3687 -0.5344  0.1284  0.7507  1.5349 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 188.5    13.73   
-    ##  Residual             370.2    19.24   
-    ## Number of obs: 46, groups:  SID, 15
+    ##  SID      (Intercept) 140.8    11.87   
+    ##  Residual             375.6    19.38   
+    ## Number of obs: 55, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)  38.9032     4.5525 13.7900   8.545 7.04e-07 ***
-    ## Validity.L   11.3396     4.9013 29.0707   2.314    0.028 *  
-    ## Validity.Q    0.9268     4.9926 29.7478   0.186    0.854    
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   40.375      3.837 16.687  10.524  8.8e-09 ***
+    ## Validity.L    10.939      4.516 35.050   2.422   0.0207 *  
+    ## Validity.Q    -3.013      4.582 35.825  -0.658   0.5150    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.014       
-    ## Validity.Q -0.016  0.016
+    ## Validity.L  0.013       
+    ## Validity.Q -0.014  0.013
 
 ``` r
 aov.swap_validityNAT1 <- Anova(swap_validityNAT1.lmm.lme4)
@@ -1954,7 +1948,7 @@ print(aov.swap_validityNAT1)
     ## 
     ## Response: twoIncorrect
     ##          Chisq Df Pr(>Chisq)  
-    ## Validity 5.375  2    0.06805 .
+    ## Validity 6.344  2    0.04192 *
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -1971,30 +1965,30 @@ summary(swap_validityNAT2.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 419.2
+    ## REML criterion at convergence: 492.6
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -1.8617 -0.6330 -0.1219  0.4778  2.6037 
+    ## -1.9624 -0.7507 -0.1248  0.5688  2.6749 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 177.9    13.34   
-    ##  Residual             516.7    22.73   
-    ## Number of obs: 47, groups:  SID, 15
+    ##  SID      (Intercept) 151.6    12.31   
+    ##  Residual             511.9    22.63   
+    ## Number of obs: 55, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)   22.526      4.808 14.510   4.685  0.00032 ***
-    ## Validity.L     2.571      5.681 31.814   0.453  0.65398    
-    ## Validity.Q    -0.256      5.989 31.818  -0.043  0.96617    
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)  24.1839     4.2406 17.1465   5.703 2.51e-05 ***
+    ## Validity.L    6.2346     5.1838 36.6711   1.203    0.237    
+    ## Validity.Q    0.4194     5.5518 37.2592   0.076    0.940    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.054       
-    ## Validity.Q -0.046  0.046
+    ## Validity.L  0.046       
+    ## Validity.Q -0.065  0.039
 
 ``` r
 aov.swap_validityNAT2 <- Anova(swap_validityNAT2.lmm.lme4)
@@ -2005,7 +1999,7 @@ print(aov.swap_validityNAT2)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)
-    ## Validity 0.2088  2     0.9009
+    ## Validity 1.4474  2      0.485
 
 ## TPNP
 
@@ -2020,30 +2014,30 @@ summary(swap_validityTPNP.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 749.6
+    ## REML criterion at convergence: 905.6
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.27103 -0.53582  0.08101  0.62979  2.68287 
+    ## -2.35698 -0.53936  0.06847  0.64143  2.78124 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  14.39    3.793  
-    ##  Residual             414.89   20.369  
-    ## Number of obs: 86, groups:  SID, 15
+    ##  SID      (Intercept)  22.27    4.719  
+    ##  Residual             389.09   19.725  
+    ## Number of obs: 104, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)   45.016      2.407 14.232  18.702 2.03e-11 ***
-    ## Validity.L    -1.312      3.786 70.014  -0.347    0.730    
-    ## Validity.Q    -0.550      3.831 70.556  -0.144    0.886    
+    ##             Estimate Std. Error      df t value Pr(>|t|)    
+    ## (Intercept)  46.1500     2.2330 17.1370  20.667 1.49e-13 ***
+    ## Validity.L   -1.5202     3.3375 84.8680  -0.455    0.650    
+    ## Validity.Q    0.6679     3.3708 85.3647   0.198    0.843    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.026       
-    ## Validity.Q -0.015  0.020
+    ## Validity.L  0.021       
+    ## Validity.Q -0.012  0.017
 
 ``` r
 aov.swap_validityTPNP <- Anova(swap_validityTPNP.lmm.lme4)
@@ -2054,7 +2048,7 @@ print(aov.swap_validityTPNP)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)
-    ## Validity 0.1387  2      0.933
+    ## Validity 0.2499  2     0.8825
 
 ### T1
 
@@ -2069,30 +2063,32 @@ summary(swap_validityTPNP_T1.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 363.1
+    ## REML criterion at convergence: 437.2
     ## 
     ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -1.50539 -0.84701  0.01104  0.53891  2.99259 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -1.5435 -0.8628  0.0212  0.6411  3.1507 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  16.53    4.066  
-    ##  Residual             251.88   15.871  
-    ## Number of obs: 45, groups:  SID, 15
+    ##  SID      (Intercept)   0.0     0.00   
+    ##  Residual             255.3    15.98   
+    ## Number of obs: 54, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)  51.5146     2.5883 14.0000  19.903 1.15e-11 ***
-    ## Validity.L   -4.2388     4.0978 28.0000  -1.034    0.310    
-    ## Validity.Q    0.7198     4.0978 28.0000   0.176    0.862    
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   51.885      2.174 51.000  23.864   <2e-16 ***
+    ## Validity.L    -6.532      3.766 51.000  -1.735   0.0889 .  
+    ## Validity.Q     2.724      3.766 51.000   0.723   0.4728    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
     ## Validity.L 0.000        
-    ## Validity.Q 0.000  0.000
+    ## Validity.Q 0.000  0.000 
+    ## optimizer (nloptwrap) convergence code: 0 (OK)
+    ## boundary (singular) fit: see help('isSingular')
 
 ``` r
 aov.swap_validityTPNP_T1 <- Anova(swap_validityTPNP_T1.lmm.lme4)
@@ -2103,7 +2099,7 @@ print(aov.swap_validityTPNP_T1)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)
-    ## Validity 1.1008  2     0.5767
+    ## Validity 3.5319  2      0.171
 
 ### T2
 
@@ -2118,32 +2114,30 @@ summary(swap_validityTPNP_T2.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 355.1
+    ## REML criterion at convergence: 435.4
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.70518 -0.79383  0.07548  0.51014  2.64136 
+    ## -1.82847 -0.64268  0.09215  0.60055  2.58896 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)   0.0     0.00   
-    ##  Residual             529.3    23.01   
-    ## Number of obs: 41, groups:  SID, 15
+    ##  SID      (Intercept)  38.75    6.225  
+    ##  Residual             468.52   21.645  
+    ## Number of obs: 50, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)   38.042      3.601 38.000  10.564 7.27e-13 ***
-    ## Validity.L     1.153      6.165 38.000   0.187    0.853    
-    ## Validity.Q    -1.455      6.310 38.000  -0.231    0.819    
+    ## (Intercept)   40.055      3.405 16.311  11.762  2.2e-09 ***
+    ## Validity.L     3.177      5.270 31.108   0.603    0.551    
+    ## Validity.Q    -1.052      5.381 32.040  -0.195    0.846    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.058       
-    ## Validity.Q -0.033  0.040
-    ## optimizer (nloptwrap) convergence code: 0 (OK)
-    ## boundary (singular) fit: see help('isSingular')
+    ## Validity.L  0.045       
+    ## Validity.Q -0.026  0.036
 
 ``` r
 aov.swap_validityTPNP_T2 <- Anova(swap_validityTPNP_T2.lmm.lme4)
@@ -2154,7 +2148,7 @@ print(aov.swap_validityTPNP_T2)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)
-    ## Validity 0.0918  2     0.9551
+    ## Validity 0.4107  2     0.8144
 
 ## TANP
 
@@ -2169,30 +2163,30 @@ summary(swap_validityTANP.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 521.1
+    ## REML criterion at convergence: 604.9
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.9058 -0.3243  0.1115  0.6807  1.4765 
+    ## -3.5871 -0.3600  0.1908  0.6083  1.5438 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  13.52    3.677  
-    ##  Residual             325.88   18.052  
-    ## Number of obs: 62, groups:  SID, 15
+    ##  SID      (Intercept)  27.34    5.229  
+    ##  Residual             342.60   18.509  
+    ## Number of obs: 71, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)   80.061      2.571 13.596  31.142  4.9e-14 ***
-    ## Validity.L    -2.288      4.020 51.696  -0.569   0.5717    
-    ## Validity.Q     8.235      4.192 51.701   1.964   0.0549 .  
+    ## (Intercept)   79.207      2.613 16.788  30.309 4.27e-16 ***
+    ## Validity.L    -4.440      3.819 57.636  -1.163   0.2498    
+    ## Validity.Q     9.890      4.061 58.437   2.436   0.0179 *  
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.211       
-    ## Validity.Q -0.056  0.152
+    ## Validity.L  0.187       
+    ## Validity.Q -0.079  0.140
 
 ``` r
 aov.swap_validityTANP <- Anova(swap_validityTANP.lmm.lme4)
@@ -2203,7 +2197,7 @@ print(aov.swap_validityTANP)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)  
-    ## Validity 4.6293  2     0.0988 .
+    ## Validity 8.2384  2    0.01626 *
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -2220,30 +2214,30 @@ summary(swap_validityTANP_T1.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 245.1
+    ## REML criterion at convergence: 263.9
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -2.2685 -0.3823  0.1662  0.5235  1.4593 
+    ## -2.3214 -0.3644  0.1210  0.5380  1.4869 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 173.3    13.16   
-    ##  Residual             251.8    15.87   
-    ## Number of obs: 30, groups:  SID, 15
+    ##  SID      (Intercept) 159.8    12.64   
+    ##  Residual             269.3    16.41   
+    ## Number of obs: 32, groups:  SID, 17
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)   72.061      4.770  15.128  15.109 1.55e-10 ***
-    ## Validity.L   -17.161      5.826  17.303  -2.946  0.00891 ** 
-    ## Validity.Q    11.722      5.446  17.010   2.153  0.04600 *  
+    ## (Intercept)   73.873      4.491  15.396  16.451 3.49e-11 ***
+    ## Validity.L   -13.954      5.719  18.757  -2.440   0.0248 *  
+    ## Validity.Q    13.170      5.521  17.194   2.386   0.0288 *  
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L 0.287        
-    ## Validity.Q 0.060  0.252
+    ## Validity.L 0.259        
+    ## Validity.Q 0.006  0.228
 
 ``` r
 aov.swap_validityTANP_T1 <- Anova(swap_validityTANP_T1.lmm.lme4)
@@ -2254,7 +2248,7 @@ print(aov.swap_validityTANP_T1)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)    
-    ## Validity 17.637  2   0.000148 ***
+    ## Validity 15.086  2  0.0005298 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -2271,32 +2265,30 @@ summary(swap_validityTANP_T2.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 233.4
+    ## REML criterion at convergence: 315.8
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -2.6526 -0.3506  0.1508  0.8149  1.5965 
+    ## -3.4968 -0.3207  0.1584  0.8946  1.1345 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)   0.0     0.00   
-    ##  Residual             138.5    11.77   
-    ## Number of obs: 32, groups:  SID, 14
+    ##  SID      (Intercept)   2.126   1.458  
+    ##  Residual             294.142  17.151  
+    ## Number of obs: 39, groups:  SID, 17
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)   85.882      2.136 29.000  40.215   <2e-16 ***
-    ## Validity.L     5.486      3.445 29.000   1.593    0.122    
-    ## Validity.Q    -1.932      3.936 29.000  -0.491    0.627    
+    ## (Intercept)   82.980      2.839 16.597  29.231 1.04e-15 ***
+    ## Validity.L    -0.458      4.575 26.677  -0.100    0.921    
+    ## Validity.Q     2.999      5.161 28.619   0.581    0.566    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.127       
-    ## Validity.Q -0.176  0.084
-    ## optimizer (nloptwrap) convergence code: 0 (OK)
-    ## boundary (singular) fit: see help('isSingular')
+    ## Validity.L  0.132       
+    ## Validity.Q -0.159  0.088
 
 ``` r
 aov.swap_validityTANP_T2 <- Anova(swap_validityTANP_T2.lmm.lme4)
@@ -2307,7 +2299,7 @@ print(aov.swap_validityTANP_T2)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)
-    ## Validity 2.9295  2     0.2311
+    ## Validity 0.3609  2     0.8349
 
 ## TPNA
 
@@ -2322,30 +2314,30 @@ summary(swap_validityTPNA.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 786.3
+    ## REML criterion at convergence: 939.9
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.87831 -0.60351  0.07269  0.52940  2.13638 
+    ## -1.93092 -0.56967  0.03008  0.59282  2.05167 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 170.5    13.06   
-    ##  Residual             496.3    22.28   
-    ## Number of obs: 87, groups:  SID, 15
+    ##  SID      (Intercept) 143.1    11.96   
+    ##  Residual             485.3    22.03   
+    ## Number of obs: 104, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)   32.772      4.135 14.208   7.927 1.38e-06 ***
-    ## Validity.L     6.071      4.106 70.382   1.478    0.144    
-    ## Validity.Q     1.047      4.188 70.708   0.250    0.803    
+    ## (Intercept)   34.063      3.556 17.200   9.580  2.6e-08 ***
+    ## Validity.L     7.907      3.701 84.393   2.137   0.0355 *  
+    ## Validity.Q    -1.037      3.803 84.963  -0.273   0.7857    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.009       
-    ## Validity.Q -0.016  0.011
+    ## Validity.L  0.008       
+    ## Validity.Q -0.023  0.009
 
 ``` r
 aov.swap_validityTPNA <- Anova(swap_validityTPNA.lmm.lme4)
@@ -2355,8 +2347,10 @@ print(aov.swap_validityTPNA)
     ## Analysis of Deviance Table (Type II Wald chisquare tests)
     ## 
     ## Response: twoIncorrect
-    ##           Chisq Df Pr(>Chisq)
-    ## Validity 2.2401  2     0.3263
+    ##           Chisq Df Pr(>Chisq)  
+    ## Validity 4.6505  2    0.09776 .
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ### T1
 
@@ -2371,30 +2365,32 @@ summary(swap_validityTPNA_T1.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 363.1
+    ## REML criterion at convergence: 437.2
     ## 
     ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -1.50539 -0.84701  0.01104  0.53891  2.99259 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -1.5435 -0.8628  0.0212  0.6411  3.1507 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  16.53    4.066  
-    ##  Residual             251.88   15.871  
-    ## Number of obs: 45, groups:  SID, 15
+    ##  SID      (Intercept)   0.0     0.00   
+    ##  Residual             255.3    15.98   
+    ## Number of obs: 54, groups:  SID, 18
     ## 
     ## Fixed effects:
-    ##             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)  51.5146     2.5883 14.0000  19.903 1.15e-11 ***
-    ## Validity.L   -4.2388     4.0978 28.0000  -1.034    0.310    
-    ## Validity.Q    0.7198     4.0978 28.0000   0.176    0.862    
+    ##             Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)   51.885      2.174 51.000  23.864   <2e-16 ***
+    ## Validity.L    -6.532      3.766 51.000  -1.735   0.0889 .  
+    ## Validity.Q     2.724      3.766 51.000   0.723   0.4728    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
     ## Validity.L 0.000        
-    ## Validity.Q 0.000  0.000
+    ## Validity.Q 0.000  0.000 
+    ## optimizer (nloptwrap) convergence code: 0 (OK)
+    ## boundary (singular) fit: see help('isSingular')
 
 ``` r
 aov.swap_validityTPNA_T1 <- Anova(swap_validityTPNA_T1.lmm.lme4)
@@ -2405,7 +2401,7 @@ print(aov.swap_validityTPNA_T1)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)
-    ## Validity 1.1008  2     0.5767
+    ## Validity 3.5319  2      0.171
 
 ### T2
 
@@ -2420,32 +2416,30 @@ summary(swap_validityTPNA_T2.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 355.1
+    ## REML criterion at convergence: 435.4
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.70518 -0.79383  0.07548  0.51014  2.64136 
+    ## -1.82847 -0.64268  0.09215  0.60055  2.58896 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)   0.0     0.00   
-    ##  Residual             529.3    23.01   
-    ## Number of obs: 41, groups:  SID, 15
+    ##  SID      (Intercept)  38.75    6.225  
+    ##  Residual             468.52   21.645  
+    ## Number of obs: 50, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)   38.042      3.601 38.000  10.564 7.27e-13 ***
-    ## Validity.L     1.153      6.165 38.000   0.187    0.853    
-    ## Validity.Q    -1.455      6.310 38.000  -0.231    0.819    
+    ## (Intercept)   40.055      3.405 16.311  11.762  2.2e-09 ***
+    ## Validity.L     3.177      5.270 31.108   0.603    0.551    
+    ## Validity.Q    -1.052      5.381 32.040  -0.195    0.846    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.058       
-    ## Validity.Q -0.033  0.040
-    ## optimizer (nloptwrap) convergence code: 0 (OK)
-    ## boundary (singular) fit: see help('isSingular')
+    ## Validity.L  0.045       
+    ## Validity.Q -0.026  0.036
 
 ``` r
 aov.swap_validityTPNA_T2 <- Anova(swap_validityTPNA_T2.lmm.lme4)
@@ -2456,7 +2450,7 @@ print(aov.swap_validityTPNA_T2)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)
-    ## Validity 0.0918  2     0.9551
+    ## Validity 0.4107  2     0.8144
 
 ## T1
 
@@ -2471,30 +2465,30 @@ summary(swap_validityT1.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1109.9
+    ## REML criterion at convergence: 1290.2
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.30413 -0.63864  0.00361  0.79428  2.15635 
+    ## -2.32032 -0.64466 -0.01091  0.78416  2.15182 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  63.72    7.983  
-    ##  Residual             596.88   24.431  
-    ## Number of obs: 121, groups:  SID, 15
+    ##  SID      (Intercept)  45.91    6.776  
+    ##  Residual             578.70   24.056  
+    ## Number of obs: 141, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)   52.418      3.043  13.822  17.226 9.81e-11 ***
-    ## Validity.L    -3.916      3.871 104.865  -1.012    0.314    
-    ## Validity.Q     3.985      3.878 105.779   1.028    0.306    
+    ## (Intercept)   52.746      2.590  17.170  20.362 1.83e-13 ***
+    ## Validity.L    -3.596      3.514 123.030  -1.023    0.308    
+    ## Validity.Q     3.519      3.544 123.604   0.993    0.323    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.068       
-    ## Validity.Q -0.002  0.064
+    ## Validity.L  0.061       
+    ## Validity.Q -0.011  0.055
 
 ``` r
 aov.swap_validityT1 <- Anova(swap_validityT1.lmm.lme4)
@@ -2504,8 +2498,8 @@ print(aov.swap_validityT1)
     ## Analysis of Deviance Table (Type II Wald chisquare tests)
     ## 
     ## Response: twoIncorrect
-    ##          Chisq Df Pr(>Chisq)
-    ## Validity 2.222  2     0.3292
+    ##           Chisq Df Pr(>Chisq)
+    ## Validity 2.1502  2     0.3413
 
 ## T2
 
@@ -2520,30 +2514,30 @@ summary(swap_validityT2.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1166.9
+    ## REML criterion at convergence: 1398
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.37964 -0.80169  0.08904  0.93289  1.67587 
+    ## -1.45971 -0.79336  0.04606  0.95241  1.71229 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)    0      0.00   
-    ##  Residual             1132     33.65   
-    ## Number of obs: 120, groups:  SID, 15
+    ##  SID      (Intercept)    0      0.0    
+    ##  Residual             1082     32.9    
+    ## Number of obs: 144, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)   44.590      3.095 117.000  14.405   <2e-16 ***
-    ## Validity.L     1.897      5.191 117.000   0.366    0.715    
-    ## Validity.Q     1.201      5.527 117.000   0.217    0.828    
+    ## (Intercept)   45.596      2.761 141.000  16.512   <2e-16 ***
+    ## Validity.L     2.069      4.629 141.000   0.447    0.656    
+    ## Validity.Q     2.364      4.932 141.000   0.479    0.632    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.084       
-    ## Validity.Q -0.086  0.057
+    ## Validity.L  0.077       
+    ## Validity.Q -0.087  0.053
     ## optimizer (nloptwrap) convergence code: 0 (OK)
     ## boundary (singular) fit: see help('isSingular')
 
@@ -2555,8 +2549,8 @@ print(aov.swap_validityT2)
     ## Analysis of Deviance Table (Type II Wald chisquare tests)
     ## 
     ## Response: twoIncorrect
-    ##           Chisq Df Pr(>Chisq)
-    ## Validity 0.1723  2     0.9175
+    ##          Chisq Df Pr(>Chisq)
+    ## Validity 0.408  2     0.8155
 
 # target
 
@@ -2571,28 +2565,28 @@ summary(swap_target.lmm.lme4)
     ## Formula: twoIncorrect ~ Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 2306.4
+    ## REML criterion at convergence: 2719.1
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.12266 -0.65226 -0.02677  0.74658  2.22925 
+    ## -2.12443 -0.66096 -0.04051  0.73343  2.19877 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  51.87    7.202  
-    ##  Residual             836.37   28.920  
-    ## Number of obs: 241, groups:  SID, 15
+    ##  SID      (Intercept)  40.41    6.357  
+    ##  Residual             810.58   28.471  
+    ## Number of obs: 285, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)   48.332      2.637  13.963  18.329 3.65e-11 ***
-    ## Target.L      -6.006      2.640 226.917  -2.275   0.0238 *  
+    ## (Intercept)   49.105      2.260  16.997  21.728 7.72e-14 ***
+    ## Target.L      -5.404      2.389 268.556  -2.262   0.0245 *  
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
-    ## Target.L 0.004
+    ## Target.L -0.007
 
 ``` r
 aov.swap_target <- Anova(swap_target.lmm.lme4)
@@ -2603,7 +2597,7 @@ print(aov.swap_target)
     ## 
     ## Response: twoIncorrect
     ##         Chisq Df Pr(>Chisq)  
-    ## Target 5.1754  1    0.02291 *
+    ## Target 5.1146  1    0.02373 *
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -2620,28 +2614,28 @@ summary(swap_targetTP.lmm.lme4)
     ## Formula: twoIncorrect ~ Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1554.7
+    ## REML criterion at convergence: 1868.1
     ## 
     ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -2.0271 -0.6224 -0.0188  0.6564  2.7798 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -2.04255 -0.61365 -0.01778  0.67903  2.77658 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  74.56    8.635  
-    ##  Residual             450.60   21.227  
-    ## Number of obs: 173, groups:  SID, 15
+    ##  SID      (Intercept)  63.25    7.953  
+    ##  Residual             446.77   21.137  
+    ## Number of obs: 208, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)   38.587      2.754  14.332  14.013 9.21e-10 ***
-    ## Target.L     -10.614      2.286 157.773  -4.642 7.21e-06 ***
+    ## (Intercept)   39.811      2.381  17.369  16.723 3.80e-12 ***
+    ## Target.L      -9.944      2.076 189.898  -4.791 3.34e-06 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
-    ## Target.L 0.018
+    ## Target.L 0.019
 
 ``` r
 aov.swap_targetTP <- Anova(swap_targetTP.lmm.lme4)
@@ -2652,7 +2646,7 @@ print(aov.swap_targetTP)
     ## 
     ## Response: twoIncorrect
     ##         Chisq Df Pr(>Chisq)    
-    ## Target 21.551  1  3.445e-06 ***
+    ## Target 22.949  1  1.664e-06 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -2669,28 +2663,28 @@ summary(swap_targetTA.lmm.lme4)
     ## Formula: twoIncorrect ~ Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 641.1
+    ## REML criterion at convergence: 726.3
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -2.5587 -0.2027  0.2603  0.6403  1.0384 
+    ## -2.5750 -0.2376  0.2860  0.7609  1.0104 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  28.89    5.374  
-    ##  Residual             836.19   28.917  
-    ## Number of obs: 68, groups:  SID, 15
+    ##  SID      (Intercept)  27.3     5.225  
+    ##  Residual             821.2    28.657  
+    ## Number of obs: 77, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)   73.802      3.811 13.067  19.368 5.24e-11 ***
-    ## Target.L       2.839      4.986 58.536   0.569    0.571    
+    ## (Intercept)   74.286      3.544 16.069  20.962 4.26e-13 ***
+    ## Target.L       1.942      4.672 67.376   0.416    0.679    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
-    ## Target.L -0.054
+    ## Target.L -0.112
 
 ``` r
 aov.swap_targetTA <- Anova(swap_targetTA.lmm.lme4)
@@ -2701,7 +2695,7 @@ print(aov.swap_targetTA)
     ## 
     ## Response: twoIncorrect
     ##         Chisq Df Pr(>Chisq)
-    ## Target 0.3241  1     0.5692
+    ## Target 0.1729  1     0.6776
 
 ## NP
 
@@ -2716,28 +2710,28 @@ summary(swap_targetNP.lmm.lme4)
     ## Formula: twoIncorrect ~ Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1380.8
+    ## REML criterion at convergence: 1630
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.25997 -0.71572 -0.05602  0.85068  1.69292 
+    ## -2.30591 -0.70811 -0.04997  0.81474  1.70058 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  22.53    4.747  
-    ##  Residual             684.84   26.169  
-    ## Number of obs: 148, groups:  SID, 15
+    ##  SID      (Intercept)  21.7     4.658  
+    ##  Residual             666.2    25.812  
+    ## Number of obs: 175, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)   59.847      2.482  15.292  24.111 1.38e-13 ***
-    ## Target.L      -2.054      3.048 136.364  -0.674    0.502    
+    ## (Intercept)   59.992      2.244  18.345   26.73 3.79e-16 ***
+    ## Target.L      -1.661      2.766 161.605   -0.60    0.549    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
-    ## Target.L 0.013
+    ## Target.L -0.014
 
 ``` r
 aov.swap_targetNP <- Anova(swap_targetNP.lmm.lme4)
@@ -2747,8 +2741,8 @@ print(aov.swap_targetNP)
     ## Analysis of Deviance Table (Type II Wald chisquare tests)
     ## 
     ## Response: twoIncorrect
-    ##        Chisq Df Pr(>Chisq)
-    ## Target 0.454  1     0.5004
+    ##         Chisq Df Pr(>Chisq)
+    ## Target 0.3605  1     0.5482
 
 ## NA
 
@@ -2763,28 +2757,28 @@ summary(swap_targetNA.lmm.lme4)
     ## Formula: twoIncorrect ~ Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 847.5
+    ## REML criterion at convergence: 1001.2
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.20230 -0.77296  0.00525  0.55820  2.85949 
+    ## -2.23088 -0.82417 -0.04037  0.51960  2.89082 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 102.0    10.1    
-    ##  Residual             524.5    22.9    
-    ## Number of obs: 93, groups:  SID, 15
+    ##  SID      (Intercept)  88.39    9.402  
+    ##  Residual             512.56   22.640  
+    ## Number of obs: 110, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)   30.553      3.533  14.288   8.648  4.7e-07 ***
-    ## Target.L     -11.263      3.367  77.975  -3.345  0.00127 ** 
+    ## (Intercept)   32.032      3.099  17.219  10.336 8.38e-09 ***
+    ## Target.L     -11.282      3.060  92.156  -3.687 0.000383 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
-    ## Target.L -0.007
+    ## Target.L 0.001
 
 ``` r
 aov.swap_targetNA <- Anova(swap_targetNA.lmm.lme4)
@@ -2795,7 +2789,7 @@ print(aov.swap_targetNA)
     ## 
     ## Response: twoIncorrect
     ##         Chisq Df Pr(>Chisq)    
-    ## Target 11.192  1  0.0008215 ***
+    ## Target 13.594  1  0.0002269 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -2812,28 +2806,28 @@ summary(swap_targetTPNP.lmm.lme4)
     ## Formula: twoIncorrect ~ Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 744.1
+    ## REML criterion at convergence: 900.3
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.10515 -0.72244  0.07554  0.56405  3.05291 
+    ## -2.23761 -0.70886  0.05814  0.56545  2.97232 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  27.83    5.275  
-    ##  Residual             350.90   18.732  
-    ## Number of obs: 86, groups:  SID, 15
+    ##  SID      (Intercept)  32.75    5.723  
+    ##  Residual             340.71   18.458  
+    ## Number of obs: 104, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)   44.677      2.440 14.152  18.312 2.97e-11 ***
-    ## Target.L      -9.669      2.863 70.867  -3.378  0.00119 ** 
+    ## (Intercept)   45.916      2.260 17.066  20.317 2.14e-13 ***
+    ## Target.L      -8.441      2.564 85.781  -3.292  0.00145 ** 
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
-    ## Target.L 0.040
+    ## Target.L 0.032
 
 ``` r
 aov.swap_targetTPNP <- Anova(swap_targetTPNP.lmm.lme4)
@@ -2844,7 +2838,7 @@ print(aov.swap_targetTPNP)
     ## 
     ## Response: twoIncorrect
     ##         Chisq Df Pr(>Chisq)    
-    ## Target 11.409  1   0.000731 ***
+    ## Target 10.836  1  0.0009952 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -2861,28 +2855,28 @@ summary(swap_targetTANP.lmm.lme4)
     ## Formula: twoIncorrect ~ Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 527.2
+    ## REML criterion at convergence: 615.9
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -4.1266 -0.4497  0.0928  0.7841  1.3303 
+    ## -3.8452 -0.3625  0.1452  0.7932  1.2283 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)   4.302   2.074  
-    ##  Residual             333.740  18.269  
-    ## Number of obs: 62, groups:  SID, 15
+    ##  SID      (Intercept)  10.45    3.233  
+    ##  Residual             383.75   19.589  
+    ## Number of obs: 71, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)   80.744      2.390 12.679  33.786  8.4e-14 ***
-    ## Target.L       6.237      3.287 52.108   1.897   0.0633 .  
+    ## (Intercept)   80.216      2.473 15.503  32.439 1.13e-15 ***
+    ## Target.L       4.307      3.316 60.662   1.299    0.199    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
-    ## Target.L -0.031
+    ## Target.L -0.095
 
 ``` r
 aov.swap_targetTANP <- Anova(swap_targetTANP.lmm.lme4)
@@ -2892,10 +2886,8 @@ print(aov.swap_targetTANP)
     ## Analysis of Deviance Table (Type II Wald chisquare tests)
     ## 
     ## Response: twoIncorrect
-    ##         Chisq Df Pr(>Chisq)  
-    ## Target 3.5996  1    0.05779 .
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ##         Chisq Df Pr(>Chisq)
+    ## Target 1.6871  1      0.194
 
 ## TPNA
 
@@ -2910,28 +2902,28 @@ summary(swap_targetTPNA.lmm.lme4)
     ## Formula: twoIncorrect ~ Target + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 782.3
+    ## REML criterion at convergence: 935.9
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.91494 -0.78182  0.04618  0.51983  2.44701 
+    ## -1.93083 -0.76996  0.02263  0.52171  2.49103 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 176.5    13.29   
-    ##  Residual             432.3    20.79   
-    ## Number of obs: 87, groups:  SID, 15
+    ##  SID      (Intercept) 145.8    12.07   
+    ##  Residual             434.4    20.84   
+    ## Number of obs: 104, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)   32.633      4.094  14.206   7.972 1.29e-06 ***
-    ## Target.L     -11.046      3.160  71.519  -3.496 0.000816 ***
+    ## (Intercept)   33.820      3.506  17.217   9.646 2.33e-08 ***
+    ## Target.L     -11.041      2.897  85.677  -3.811  0.00026 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##          (Intr)
-    ## Target.L 0.007
+    ## Target.L 0.012
 
 ``` r
 aov.swap_targetTPNA <- Anova(swap_targetTPNA.lmm.lme4)
@@ -2942,7 +2934,7 @@ print(aov.swap_targetTPNA)
     ## 
     ## Response: twoIncorrect
     ##         Chisq Df Pr(>Chisq)    
-    ## Target 12.222  1  0.0004723 ***
+    ## Target 14.521  1  0.0001386 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -2959,28 +2951,28 @@ summary(swap_targetContrast.lmm.lme4)
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 2233.7
+    ## REML criterion at convergence: 2633.5
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.2079 -0.4962  0.1633  0.6497  2.5721 
+    ## -3.2688 -0.5367  0.1437  0.7174  2.5858 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  39.15    6.257  
-    ##  Residual             616.99   24.839  
-    ## Number of obs: 241, groups:  SID, 15
+    ##  SID      (Intercept)  36.73    6.06   
+    ##  Residual             596.11   24.42   
+    ## Number of obs: 285, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                  Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)        55.977      2.413  17.491   23.20  1.4e-14 ***
-    ## targetContrast.L   24.271      2.533 231.451    9.58  < 2e-16 ***
+    ## (Intercept)        56.975      2.177  21.806   26.18   <2e-16 ***
+    ## targetContrast.L   23.972      2.321 273.956   10.33   <2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## trgtCntrs.L 0.330
+    ## trgtCntrs.L 0.353
 
 ``` r
 aov.swap_targetContrast <- Anova(swap_targetContrast.lmm.lme4)
@@ -2990,8 +2982,8 @@ print(aov.swap_targetContrast)
     ## Analysis of Deviance Table (Type II Wald chisquare tests)
     ## 
     ## Response: twoIncorrect
-    ##                Chisq Df Pr(>Chisq)    
-    ## targetContrast 91.78  1  < 2.2e-16 ***
+    ##                 Chisq Df Pr(>Chisq)    
+    ## targetContrast 106.64  1  < 2.2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -3008,28 +3000,28 @@ summary(swap_targetContrastT1.lmm.lme4)
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1089.6
+    ## REML criterion at convergence: 1264.4
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.5555 -0.5125  0.0536  0.6110  2.5089 
+    ## -3.6488 -0.4902  0.0587  0.6496  2.5422 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  70.69    8.408  
-    ##  Residual             469.84   21.676  
-    ## Number of obs: 121, groups:  SID, 15
+    ##  SID      (Intercept)  56.57    7.521  
+    ##  Residual             450.92   21.235  
+    ## Number of obs: 141, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                  Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)        58.665      3.133  17.092  18.727 7.91e-13 ***
-    ## targetContrast.L   17.750      3.194 108.288   5.558 1.98e-07 ***
+    ## (Intercept)        59.743      2.763  23.034  21.619  < 2e-16 ***
+    ## targetContrast.L   18.215      2.998 128.595   6.075 1.31e-08 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## trgtCntrs.L 0.348
+    ## trgtCntrs.L 0.407
 
 ``` r
 aov.swap_targetContrastT1 <- Anova(swap_targetContrastT1.lmm.lme4)
@@ -3040,7 +3032,7 @@ print(aov.swap_targetContrastT1)
     ## 
     ## Response: twoIncorrect
     ##                 Chisq Df Pr(>Chisq)    
-    ## targetContrast 30.891  1   2.73e-08 ***
+    ## targetContrast 36.902  1  1.242e-09 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -3057,28 +3049,28 @@ summary(swap_targetContrastT2.lmm.lme4)
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1116.6
+    ## REML criterion at convergence: 1340.4
     ## 
     ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -2.92316 -0.58826  0.09704  0.71480  2.56348 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -2.9525 -0.5619  0.1099  0.6752  2.5110 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)   7.575   2.752  
-    ##  Residual             693.318  26.331  
-    ## Number of obs: 120, groups:  SID, 15
+    ##  SID      (Intercept)   9.905   3.147  
+    ##  Residual             681.477  26.105  
+    ## Number of obs: 144, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                  Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)        53.392      2.722  19.355  19.612 3.11e-14 ***
-    ## targetContrast.L   31.444      3.715 111.888   8.464 1.13e-13 ***
+    ## (Intercept)        54.152      2.495  22.754  21.703  < 2e-16 ***
+    ## targetContrast.L   30.141      3.367 132.997   8.951 2.69e-15 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## trgtCntrs.L 0.388
+    ## trgtCntrs.L 0.386
 
 ``` r
 aov.swap_targetContrastT2 <- Anova(swap_targetContrastT2.lmm.lme4)
@@ -3089,7 +3081,7 @@ print(aov.swap_targetContrastT2)
     ## 
     ## Response: twoIncorrect
     ##                 Chisq Df Pr(>Chisq)    
-    ## targetContrast 71.639  1  < 2.2e-16 ***
+    ## targetContrast 80.115  1  < 2.2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -3106,28 +3098,28 @@ summary(swap_targetContrastNP.lmm.lme4)
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1292.7
+    ## REML criterion at convergence: 1534.2
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.9888 -0.4892  0.1067  0.6600  2.8854 
+    ## -3.9127 -0.4666  0.0952  0.6591  2.8196 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  25.74    5.073  
-    ##  Residual             366.02   19.132  
-    ## Number of obs: 148, groups:  SID, 15
+    ##  SID      (Intercept)  29.85    5.464  
+    ##  Residual             371.84   19.283  
+    ## Number of obs: 175, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                  Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)        62.803      2.072  15.984   30.31  1.5e-15 ***
-    ## targetContrast.L   25.119      2.270 138.292   11.07  < 2e-16 ***
+    ## (Intercept)        63.244      1.974  18.917   32.04   <2e-16 ***
+    ## targetContrast.L   24.112      2.116 163.071   11.40   <2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## trgtCntrs.L 0.134
+    ## trgtCntrs.L 0.152
 
 ``` r
 aov.swap_targetContrastNP <- Anova(swap_targetContrastNP.lmm.lme4)
@@ -3138,7 +3130,7 @@ print(aov.swap_targetContrastNP)
     ## 
     ## Response: twoIncorrect
     ##                 Chisq Df Pr(>Chisq)    
-    ## targetContrast 122.49  1  < 2.2e-16 ***
+    ## targetContrast 129.88  1  < 2.2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -3155,28 +3147,28 @@ summary(swap_targetContrastNPT1.lmm.lme4)
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 646.4
+    ## REML criterion at convergence: 740.2
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.8157 -0.5411  0.0133  0.5905  2.4978 
+    ## -3.9445 -0.5759  0.0519  0.5964  2.5298 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  39.85    6.313  
-    ##  Residual             337.11   18.361  
-    ## Number of obs: 75, groups:  SID, 15
+    ##  SID      (Intercept)  29.59    5.44   
+    ##  Residual             332.14   18.22   
+    ## Number of obs: 86, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                  Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)        63.805      2.722 14.671  23.439 4.91e-13 ***
-    ## targetContrast.L   17.381      3.083 62.375   5.637 4.46e-07 ***
+    ## (Intercept)        64.486      2.420 18.916   26.65  < 2e-16 ***
+    ## targetContrast.L   17.820      2.902 73.865    6.14 3.78e-08 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## trgtCntrs.L 0.170
+    ## trgtCntrs.L 0.229
 
 ``` r
 aov.swap_targetContrastNPT1 <- Anova(swap_targetContrastNPT1.lmm.lme4)
@@ -3186,8 +3178,8 @@ print(aov.swap_targetContrastNPT1)
     ## Analysis of Deviance Table (Type II Wald chisquare tests)
     ## 
     ## Response: twoIncorrect
-    ##                 Chisq Df Pr(>Chisq)    
-    ## targetContrast 31.777  1  1.729e-08 ***
+    ##                Chisq Df Pr(>Chisq)    
+    ## targetContrast  37.7  1   8.25e-10 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -3204,28 +3196,28 @@ summary(swap_targetContrastNPT2.lmm.lme4)
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 624.2
+    ## REML criterion at convergence: 775.7
     ## 
     ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -2.0686 -0.5600  0.0705  0.6816  3.3314 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -3.09138 -0.51262  0.08192  0.57536  3.00040 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  16.38    4.047  
-    ##  Residual             330.53   18.180  
-    ## Number of obs: 73, groups:  SID, 15
+    ##  SID      (Intercept)  28.98    5.383  
+    ##  Residual             372.28   19.295  
+    ## Number of obs: 89, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                  Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)        61.398      2.398 14.261   25.60 2.52e-13 ***
-    ## targetContrast.L   33.267      3.047 62.546   10.92 4.00e-16 ***
+    ## (Intercept)        61.504      2.435 17.021   25.26 6.23e-15 ***
+    ## targetContrast.L   30.444      2.932 75.172   10.38 3.56e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## trgtCntrs.L 0.118
+    ## trgtCntrs.L 0.113
 
 ``` r
 aov.swap_targetContrastNPT2 <- Anova(swap_targetContrastNPT2.lmm.lme4)
@@ -3236,7 +3228,7 @@ print(aov.swap_targetContrastNPT2)
     ## 
     ## Response: twoIncorrect
     ##                 Chisq Df Pr(>Chisq)    
-    ## targetContrast 119.21  1  < 2.2e-16 ***
+    ## targetContrast 107.82  1  < 2.2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -3253,28 +3245,28 @@ summary(swap_targetContrastNA.lmm.lme4)
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 842.4
+    ## REML criterion at convergence: 997.8
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.67632 -0.66662  0.04569  0.59442  2.18029 
+    ## -1.67907 -0.72847  0.01865  0.58166  2.20288 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 145.0    12.04   
-    ##  Residual             484.9    22.02   
-    ## Number of obs: 93, groups:  SID, 15
+    ##  SID      (Intercept) 120.9    11.00   
+    ##  Residual             488.8    22.11   
+    ## Number of obs: 110, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                  Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)        12.942      5.834  49.755   2.218 0.031129 *  
-    ## targetContrast.L  -27.997      6.992  86.107  -4.004 0.000132 ***
+    ## (Intercept)        14.160      5.568  71.027   2.543 0.013176 *  
+    ## targetContrast.L  -28.032      6.977 103.436  -4.018 0.000112 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## trgtCntrs.L 0.749
+    ## trgtCntrs.L 0.799
 
 ``` r
 aov.swap_targetContrastNA <- Anova(swap_targetContrastNA.lmm.lme4)
@@ -3285,7 +3277,7 @@ print(aov.swap_targetContrastNA)
     ## 
     ## Response: twoIncorrect
     ##                 Chisq Df Pr(>Chisq)    
-    ## targetContrast 16.031  1  6.231e-05 ***
+    ## targetContrast 16.141  1   5.88e-05 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -3302,28 +3294,28 @@ summary(swap_targetContrastNAT1.lmm.lme4)
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 396.2
+    ## REML criterion at convergence: 477.3
     ## 
     ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -1.8575 -0.5541  0.1054  0.6557  1.5527 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -1.85409 -0.47753  0.04024  0.61777  1.77095 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 246.2    15.69   
-    ##  Residual             281.8    16.79   
-    ## Number of obs: 46, groups:  SID, 15
+    ##  SID      (Intercept) 184.0    13.56   
+    ##  Residual             310.9    17.63   
+    ## Number of obs: 55, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                  Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)        15.693      7.792  41.933   2.014 0.050449 .  
-    ## targetContrast.L  -35.116      9.398  33.942  -3.736 0.000686 ***
+    ## (Intercept)        17.187      7.614  52.808   2.257 0.028163 *  
+    ## targetContrast.L  -34.664      9.765  42.435  -3.550 0.000957 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## trgtCntrs.L 0.792
+    ## trgtCntrs.L 0.852
 
 ``` r
 aov.swap_targetContrastNAT1 <- Anova(swap_targetContrastNAT1.lmm.lme4)
@@ -3334,7 +3326,7 @@ print(aov.swap_targetContrastNAT1)
     ## 
     ## Response: twoIncorrect
     ##                 Chisq Df Pr(>Chisq)    
-    ## targetContrast 13.961  1  0.0001867 ***
+    ## targetContrast 12.602  1  0.0003853 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -3351,28 +3343,28 @@ summary(swap_targetContrastNAT2.lmm.lme4)
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 415.1
+    ## REML criterion at convergence: 489.9
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -1.6061 -0.5593 -0.0826  0.4873  2.4369 
+    ## -1.5420 -0.6161 -0.1550  0.4853  2.4181 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 289.9    17.03   
-    ##  Residual             353.4    18.80   
-    ## Number of obs: 47, groups:  SID, 15
+    ##  SID      (Intercept) 243.9    15.62   
+    ##  Residual             384.2    19.60   
+    ## Number of obs: 55, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                  Estimate Std. Error      df t value Pr(>|t|)   
-    ## (Intercept)         7.217      6.887  32.087   1.048  0.30252   
-    ## targetContrast.L  -25.195      7.533  35.248  -3.345  0.00197 **
+    ## (Intercept)         8.671      6.612  44.211   1.311  0.19648   
+    ## targetContrast.L  -24.902      7.788  42.202  -3.197  0.00263 **
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## trgtCntrs.L 0.657
+    ## trgtCntrs.L 0.726
 
 ``` r
 aov.swap_targetContrastNAT2 <- Anova(swap_targetContrastNAT2.lmm.lme4)
@@ -3382,8 +3374,8 @@ print(aov.swap_targetContrastNAT2)
     ## Analysis of Deviance Table (Type II Wald chisquare tests)
     ## 
     ## Response: twoIncorrect
-    ##                 Chisq Df Pr(>Chisq)    
-    ## targetContrast 11.186  1   0.000824 ***
+    ##                 Chisq Df Pr(>Chisq)   
+    ## targetContrast 10.223  1   0.001387 **
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -3400,28 +3392,28 @@ summary(swap_targetContrast.lmm.lme4)
     ## Formula: twoIncorrect ~ targetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 2233.7
+    ## REML criterion at convergence: 2633.5
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.2079 -0.4962  0.1633  0.6497  2.5721 
+    ## -3.2688 -0.5367  0.1437  0.7174  2.5858 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  39.15    6.257  
-    ##  Residual             616.99   24.839  
-    ## Number of obs: 241, groups:  SID, 15
+    ##  SID      (Intercept)  36.73    6.06   
+    ##  Residual             596.11   24.42   
+    ## Number of obs: 285, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                  Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)        55.977      2.413  17.491   23.20  1.4e-14 ***
-    ## targetContrast.L   24.271      2.533 231.451    9.58  < 2e-16 ***
+    ## (Intercept)        56.975      2.177  21.806   26.18   <2e-16 ***
+    ## targetContrast.L   23.972      2.321 273.956   10.33   <2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## trgtCntrs.L 0.330
+    ## trgtCntrs.L 0.353
 
 ``` r
 aov.swap_nontargetContrast <- Anova(swap_nontargetContrast.lmm.lme4)
@@ -3431,8 +3423,8 @@ print(aov.swap_nontargetContrast)
     ## Analysis of Deviance Table (Type II Wald chisquare tests)
     ## 
     ## Response: twoIncorrect
-    ##                    Chisq Df Pr(>Chisq)    
-    ## nontargetContrast 74.854  1  < 2.2e-16 ***
+    ##                   Chisq Df Pr(>Chisq)    
+    ## nontargetContrast 82.42  1  < 2.2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -3449,28 +3441,28 @@ summary(swap_nontargetContrastT1.lmm.lme4)
     ## Formula: twoIncorrect ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1089.9
+    ## REML criterion at convergence: 1268.8
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.50874 -0.71193 -0.04347  0.75151  1.94021 
+    ## -2.54127 -0.71118  0.01196  0.76123  1.94338 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  79.41    8.911  
-    ##  Residual             466.77   21.605  
-    ## Number of obs: 121, groups:  SID, 15
+    ##  SID      (Intercept)  59.52    7.715  
+    ##  Residual             463.91   21.539  
+    ## Number of obs: 141, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                     Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)           49.926      3.069  14.365  16.268 1.18e-10 ***
-    ## nontargetContrast.L  -15.937      2.869 105.578  -5.556 2.09e-07 ***
+    ## (Intercept)           50.631      2.606  17.774  19.431 2.03e-13 ***
+    ## nontargetContrast.L  -14.865      2.637 123.413  -5.638 1.11e-07 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## nntrgtCnt.L 0.157
+    ## nntrgtCnt.L 0.155
 
 ``` r
 aov.swap_nontargetContrastT1 <- Anova(swap_nontargetContrastT1.lmm.lme4)
@@ -3481,7 +3473,7 @@ print(aov.swap_nontargetContrastT1)
     ## 
     ## Response: twoIncorrect
     ##                    Chisq Df Pr(>Chisq)    
-    ## nontargetContrast 30.866  1  2.764e-08 ***
+    ## nontargetContrast 31.784  1  1.723e-08 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -3498,28 +3490,28 @@ summary(swap_nontargetContrastT2.lmm.lme4)
     ## Formula: twoIncorrect ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1133.8
+    ## REML criterion at convergence: 1358.2
     ## 
     ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -2.1012 -0.7838 -0.0678  0.8983  2.6653 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -2.12757 -0.84799 -0.06028  0.89000  2.69437 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  10.08    3.175  
-    ##  Residual             799.59   28.277  
-    ## Number of obs: 120, groups:  SID, 15
+    ##  SID      (Intercept)   4.357   2.087  
+    ##  Residual             778.376  27.899  
+    ## Number of obs: 144, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                     Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)           40.560      2.771  15.743  14.637 1.39e-10 ***
-    ## nontargetContrast.L  -25.442      3.742 107.630  -6.799 6.11e-10 ***
+    ## (Intercept)           41.440      2.444  19.243  16.958 4.97e-13 ***
+    ## nontargetContrast.L  -24.814      3.385 129.273  -7.331 2.21e-11 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## nntrgtCnt.L 0.206
+    ## nntrgtCnt.L 0.231
 
 ``` r
 aov.swap_nontargetContrastT2 <- Anova(swap_nontargetContrastT2.lmm.lme4)
@@ -3530,7 +3522,7 @@ print(aov.swap_nontargetContrastT2)
     ## 
     ## Response: twoIncorrect
     ##                    Chisq Df Pr(>Chisq)    
-    ## nontargetContrast 46.228  1  1.053e-11 ***
+    ## nontargetContrast 53.746  1  2.281e-13 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -3547,28 +3539,28 @@ summary(swap_nontargetContrastTP.lmm.lme4)
     ## Formula: twoIncorrect ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 1561.7
+    ## REML criterion at convergence: 1873.5
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.57884 -0.68146 -0.00527  0.66346  2.73431 
+    ## -2.60294 -0.67185  0.00158  0.69096  2.73457 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  72.18    8.496  
-    ##  Residual             471.14   21.706  
-    ## Number of obs: 173, groups:  SID, 15
+    ##  SID      (Intercept)  61.15    7.82   
+    ##  Residual             460.24   21.45   
+    ## Number of obs: 208, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                     Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)           38.855      2.746  14.338   14.15 8.05e-10 ***
-    ## nontargetContrast.L   -8.688      2.336 157.635   -3.72 0.000277 ***
+    ## (Intercept)           40.026      2.369  17.376  16.893 3.19e-12 ***
+    ## nontargetContrast.L   -8.654      2.105 189.772  -4.111 5.87e-05 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## nntrgtCnt.L -0.004
+    ## nntrgtCnt.L 0.000
 
 ``` r
 aov.swap_nontargetContrastTP <- Anova(swap_nontargetContrastTP.lmm.lme4)
@@ -3579,7 +3571,7 @@ print(aov.swap_nontargetContrastTP)
     ## 
     ## Response: twoIncorrect
     ##                    Chisq Df Pr(>Chisq)    
-    ## nontargetContrast 13.836  1  0.0001995 ***
+    ## nontargetContrast 16.898  1  3.944e-05 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -3596,28 +3588,28 @@ summary(swap_nontargetContrastTPT1.lmm.lme4)
     ## Formula: twoIncorrect ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 767.6
+    ## REML criterion at convergence: 924.1
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -1.97279 -0.70535 -0.06278  0.59488  2.85891 
+    ## -2.03377 -0.73095 -0.00182  0.57864  2.82298 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  90.88    9.533  
-    ##  Residual             306.96   17.520  
-    ## Number of obs: 89, groups:  SID, 15
+    ##  SID      (Intercept)  67.87    8.238  
+    ##  Residual             313.30   17.700  
+    ## Number of obs: 107, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                     Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)           46.024      3.084 14.075  14.923 5.06e-10 ***
-    ## nontargetContrast.L   -7.765      2.628 73.200  -2.954  0.00421 ** 
+    ## (Intercept)           46.797      2.589 17.069  18.077 1.44e-12 ***
+    ## nontargetContrast.L   -7.196      2.421 88.220  -2.972  0.00381 ** 
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## nntrgtCnt.L 0.008
+    ## nntrgtCnt.L 0.007
 
 ``` r
 aov.swap_nontargetContrastTPT1 <- Anova(swap_nontargetContrastTPT1.lmm.lme4)
@@ -3628,7 +3620,7 @@ print(aov.swap_nontargetContrastTPT1)
     ## 
     ## Response: twoIncorrect
     ##                    Chisq Df Pr(>Chisq)   
-    ## nontargetContrast 8.7282  1   0.003133 **
+    ## nontargetContrast 8.8331  1   0.002958 **
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -3645,28 +3637,28 @@ summary(swap_nontargetContrastTPT2.lmm.lme4)
     ## Formula: twoIncorrect ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 759.6
+    ## REML criterion at convergence: 914
     ## 
     ## Scaled residuals: 
     ##      Min       1Q   Median       3Q      Max 
-    ## -2.05709 -0.78974 -0.04454  0.69163  2.55407 
+    ## -2.09159 -0.80441 -0.06746  0.63577  2.61107 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept) 112.6    10.61   
-    ##  Residual             485.0    22.02   
-    ## Number of obs: 84, groups:  SID, 15
+    ##  SID      (Intercept)  94.17    9.704  
+    ##  Residual             484.01   22.000  
+    ## Number of obs: 101, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                     Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)           31.105      3.651 14.373   8.521 5.38e-07 ***
-    ## nontargetContrast.L   -9.031      3.407 68.970  -2.650  0.00996 ** 
+    ## (Intercept)           32.755      3.171 17.328  10.330 7.93e-09 ***
+    ## nontargetContrast.L   -9.789      3.104 83.193  -3.154  0.00224 ** 
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## nntrgtCnt.L -0.017
+    ## nntrgtCnt.L -0.007
 
 ``` r
 aov.swap_nontargetContrastTPT2 <- Anova(swap_nontargetContrastTPT2.lmm.lme4)
@@ -3677,7 +3669,7 @@ print(aov.swap_nontargetContrastTPT2)
     ## 
     ## Response: twoIncorrect
     ##                    Chisq Df Pr(>Chisq)   
-    ## nontargetContrast 7.0247  1   0.008039 **
+    ## nontargetContrast 9.9489  1   0.001609 **
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -3694,28 +3686,28 @@ summary(swap_nontargetContrastTA.lmm.lme4)
     ## Formula: twoIncorrect ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 575.7
+    ## REML criterion at convergence: 663.2
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -4.4422 -0.2835  0.1155  0.6220  1.1525 
+    ## -4.1316 -0.2504  0.1170  0.6443  1.1312 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)   6.545   2.558  
-    ##  Residual             319.488  17.874  
-    ## Number of obs: 68, groups:  SID, 15
+    ##  SID      (Intercept)  10.65    3.263  
+    ##  Residual             361.04   19.001  
+    ## Number of obs: 77, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##                     Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)           40.427      3.922  36.441   10.31 2.39e-12 ***
-    ## nontargetContrast.L  -57.199      5.461  65.845  -10.47 1.17e-15 ***
+    ## (Intercept)           40.229      4.182  44.662   9.620 1.86e-12 ***
+    ## nontargetContrast.L  -56.980      5.800  74.869  -9.825 4.16e-15 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## nntrgtCnt.L 0.814
+    ## nntrgtCnt.L 0.832
 
 ``` r
 aov.swap_nontargetContrastTA <- Anova(swap_nontargetContrastTA.lmm.lme4)
@@ -3726,7 +3718,7 @@ print(aov.swap_nontargetContrastTA)
     ## 
     ## Response: twoIncorrect
     ##                    Chisq Df Pr(>Chisq)    
-    ## nontargetContrast 109.71  1  < 2.2e-16 ***
+    ## nontargetContrast 96.526  1  < 2.2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -3741,15 +3733,15 @@ print(swap_nontargetContrastTAT1.lmm.lme4)
     ## Linear mixed model fit by REML ['lmerModLmerTest']
     ## Formula: twoIncorrect ~ nontargetContrast + (1 | SID)
     ##    Data: d
-    ## REML criterion at convergence: 277.9274
+    ## REML criterion at convergence: 295.2481
     ## Random effects:
     ##  Groups   Name        Std.Dev.
-    ##  SID      (Intercept)  6.366  
-    ##  Residual             22.139  
-    ## Number of obs: 32, groups:  SID, 15
+    ##  SID      (Intercept)  5.943  
+    ##  Residual             21.884  
+    ## Number of obs: 34, groups:  SID, 17
     ## Fixed Effects:
     ##         (Intercept)  nontargetContrast.L  
-    ##               37.01               -55.49
+    ##               37.65               -55.91
 
 ``` r
 aov.swap_nontargetContrastTAT1 <- Anova(swap_nontargetContrastTAT1.lmm.lme4)
@@ -3757,12 +3749,12 @@ summary(aov.swap_nontargetContrastTAT1)
 ```
 
     ##      Chisq             Df      Pr(>Chisq)       
-    ##  Min.   :22.37   Min.   :1   Min.   :2.247e-06  
-    ##  1st Qu.:22.37   1st Qu.:1   1st Qu.:2.247e-06  
-    ##  Median :22.37   Median :1   Median :2.247e-06  
-    ##  Mean   :22.37   Mean   :1   Mean   :2.247e-06  
-    ##  3rd Qu.:22.37   3rd Qu.:1   3rd Qu.:2.247e-06  
-    ##  Max.   :22.37   Max.   :1   Max.   :2.247e-06
+    ##  Min.   :23.43   Min.   :1   Min.   :1.297e-06  
+    ##  1st Qu.:23.43   1st Qu.:1   1st Qu.:1.297e-06  
+    ##  Median :23.43   Median :1   Median :1.297e-06  
+    ##  Mean   :23.43   Mean   :1   Mean   :1.297e-06  
+    ##  3rd Qu.:23.43   3rd Qu.:1   3rd Qu.:1.297e-06  
+    ##  Max.   :23.43   Max.   :1   Max.   :1.297e-06
 
 ### T2
 
@@ -3777,30 +3769,28 @@ summary(swap_nontargetContrastTAT2.lmm.lme4)
     ## Formula: twoIncorrect ~ nontargetContrast + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 267.5
+    ## REML criterion at convergence: 350.5
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.0868 -0.4560  0.0000  0.5325  1.2979 
+    ## -3.8460 -0.2844  0.0117  0.8133  1.1404 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)   0       0.0    
-    ##  Residual             130      11.4    
-    ## Number of obs: 36, groups:  SID, 14
+    ##  SID      (Intercept)   5.523   2.35   
+    ##  Residual             257.404  16.04   
+    ## Number of obs: 43, groups:  SID, 17
     ## 
     ## Fixed effects:
-    ##                     Estimate Std. Error      df t value Pr(>|t|)    
-    ## (Intercept)           42.600      3.024  34.000   14.09 9.37e-16 ***
-    ## nontargetContrast.L  -60.245      4.276  34.000  -14.09 9.37e-16 ***
+    ##                     Estimate Std. Error     df t value Pr(>|t|)    
+    ## (Intercept)            41.71       4.28  34.45   9.744 1.97e-11 ***
+    ## nontargetContrast.L   -58.84       6.00  39.29  -9.807 4.09e-12 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##             (Intr)
-    ## nntrgtCnt.L 0.778 
-    ## optimizer (nloptwrap) convergence code: 0 (OK)
-    ## boundary (singular) fit: see help('isSingular')
+    ## nntrgtCnt.L 0.808
 
 ``` r
 aov.swap_nontargetContrastTAT2 <- Anova(swap_nontargetContrastTAT2.lmm.lme4)
@@ -3811,6 +3801,6 @@ print(aov.swap_nontargetContrastTAT2)
     ## 
     ## Response: twoIncorrect
     ##                    Chisq Df Pr(>Chisq)    
-    ## nontargetContrast 198.48  1  < 2.2e-16 ***
+    ## nontargetContrast 96.174  1  < 2.2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
