@@ -6,7 +6,7 @@ function Fig5_det
 user = 'jenny'; % 'jenny' 'karenlab' 'karen'
 
 % Fig saving
-savePlots = 0; 
+savePlots = 1; 
 figType = 'pdf';
 figTitle = 'Fig5_det';
 figNum=5;
