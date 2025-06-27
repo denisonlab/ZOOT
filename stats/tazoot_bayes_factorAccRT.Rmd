@@ -70,15 +70,12 @@ print(bf_full)
 
 ## calculate BF for Target Present Validity:nontargetContrast
 ```{r TP_acc_Bayes_Factor_calc}
-bf_fullmodel <- as.vector(bf_full[10])[[1]]/as.vector(bf_full[6])[[1]] #the numerator contains all main effect and interaction effects
+bf_fullmodel <- as.vector(bf_full[9])[[1]]/as.vector(bf_full[5])[[1]] #the numerator contains all main effect and interaction effects
 print(bf_fullmodel)
 
 
-bf_simplestmodel <- as.vector(bf_full[8])[[1]]/as.vector(bf_full[3])[[1]] #the numerator is the simplest model (contains least amount of factors while maintaining V:NTP) but has the highest ranked model (3)
-print(bf_simplestmodel)
-
-bf_reducedmodel <- as.vector(bf_full[7])[[1]]/as.vector(bf_full[4])[[1]] #the numerator contains all main effect but missing Target:nontargetContrast but has higher ranked model than full
-print(bf_reducedmodel)
+bf_highestmodel <- as.vector(bf_full[7])[[1]]/as.vector(bf_full[3])[[1]] #the numerator is the highest ranked model with the v:ntp interaction effect 
+print(bf_highestmodel)
 ```
 ## TP T1
 ```{r TPT1_acc_Bayes_Factor}
@@ -120,14 +117,11 @@ print(bf_TA)
 ```
 ## calculate BF for Target Absent Validity:nontargetContrast
 ```{r TA_acc_Bayes_Factor_calc}
-bf_highestmodel <- as.vector(bf_TA[5])[[1]]/as.vector(bf_TA[2])[[1]] #the numerator contains highest, simple model with V:NTP
+bf_highestmodel <- as.vector(bf_TA[6])[[1]]/as.vector(bf_TA[1])[[1]] #the numerator contains highest, simple model with V:NTP
 print(bf_highestmodel)
 
 bf_fullmodel <- as.vector(bf_TA[13])[[1]]/as.vector(bf_TA[9])[[1]] #the numerator contains all main effect and interaction effects
 print(bf_fullmodel)
-
-bf_reducedmodel <- as.vector(bf_TA[10])[[1]]/as.vector(bf_TA[3])[[1]] #the numerator contains all main effect but missing Validity:Target intereaction, has higher ranked models than the full model
-print(bf_reducedmodel)
 
 ```
 ## TA T1
@@ -188,11 +182,9 @@ bf_fullmodel <- as.vector(bf_full[10])[[1]]/as.vector(bf_full[6])[[1]] #the nume
 print(bf_fullmodel)
 
 
-bf_simplestmodel <- as.vector(bf_full[7])[[1]]/as.vector(bf_full[3])[[1]] #the numerator is the simplest model (contains least amount of factors while maintaining V:NTP) but has the highest ranked model (3)
-print(bf_simplestmodel)
+bf_highestmodel <- as.vector(bf_full[7])[[1]]/as.vector(bf_full[4])[[1]] #the numerator is the model with the highest ranking and V:NTP
+print(bf_highestmodel)
 
-bf_reducedmodel <- as.vector(bf_full[8])[[1]]/as.vector(bf_full[4])[[1]] #the numerator contains all main effect but missing Target:nontargetContrast but has higher ranked model than full
-print(bf_reducedmodel)
 ```
 ## TP T1
 ```{r TPT1_RT_Bayes_Factor}
@@ -237,11 +229,10 @@ print(bf_TA)
 bf_highestmodel <- as.vector(bf_TA[3])[[1]]/as.vector(bf_TA[1])[[1]] #the numerator contains highest, simple model with V:NTP
 print(bf_highestmodel)
 
-bf_fullmodel <- as.vector(bf_TA[10])[[1]]/as.vector(bf_TA[7])[[1]] #the numerator contains all main effect and interaction effects
+bf_fullmodel <- as.vector(bf_TA[10])[[1]]/as.vector(bf_TA[6])[[1]] #the numerator contains all main effect and interaction effects
 print(bf_fullmodel)
 
-bf_reducedmodel <- as.vector(bf_TA[5])[[1]]/as.vector(bf_TA[2])[[1]] #the numerator contains all main effect but missing Validity:Target intereaction, has higher ranked models than the full model
-print(bf_reducedmodel)
+
 
 ```
 ## TA T1

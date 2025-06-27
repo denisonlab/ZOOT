@@ -97,11 +97,11 @@ print(bf_det_crit)
 ```
 ## calculate BF for detCrit Validity:nontargetContrast
 ```{r TP_det_crit_Bayes_Factor_calc}
-bf_highestmodel <- as.vector(bf_det_crit[7])[[1]]/as.vector(bf_det_crit[2])[[1]] #the highest ranked model
+bf_highestmodel <- as.vector(bf_det_crit[8])[[1]]/as.vector(bf_det_crit[2])[[1]] #the highest ranked model
 print(bf_highestmodel)
 
 
-bf_fullmodel <- as.vector(bf_det_crit[9])[[1]]/as.vector(bf_det_crit[6])[[1]] #the numerator contains all main effect and interaction effects
+bf_fullmodel <- as.vector(bf_det_crit[10])[[1]]/as.vector(bf_det_crit[6])[[1]] #the numerator contains all main effect and interaction effects
 print(bf_fullmodel)
 
 ```
@@ -141,11 +141,11 @@ print(bf_dis_dPrime)
 ```
 ## calculate BF for disPrime Validity:nontargetContrast
 ```{r TP_dis_dPrime_Bayes_Factor_calc}
-bf_highestmodel <- as.vector(bf_dis_dPrime[3])[[1]]/as.vector(bf_dis_dPrime[2])[[1]] #the highest ranked model
+bf_highestmodel <- as.vector(bf_dis_dPrime[3])[[1]]/as.vector(bf_dis_dPrime[1])[[1]] #the highest ranked model
 print(bf_highestmodel)
 
 
-bf_fullmodel <- as.vector(bf_dis_dPrime[8])[[1]]/as.vector(bf_dis_dPrime[6])[[1]] #the numerator contains all main effect and interaction effects
+bf_fullmodel <- as.vector(bf_dis_dPrime[7])[[1]]/as.vector(bf_dis_dPrime[6])[[1]] #the numerator contains all main effect and interaction effects
 print(bf_fullmodel)
 
 ```
@@ -212,6 +212,6 @@ print(bf_dis_critT2)
 ```
 ## calculate BF for disCrit T2 Validity:nontargetContrast
 ```{r TP_dis_critT2_Bayes_Factor_calc}
-bf <- as.vector(bf_dis_critT2[4])[[1]]/as.vector(bf_dis_critT2[3])[[1]] 
+bf <- as.vector(bf_dis_critT2[4])[[1]]/as.vector(bf_dis_critT2[2])[[1]] 
 print(bf)
 ```
