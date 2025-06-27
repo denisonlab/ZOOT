@@ -3,7 +3,9 @@ tazoot_bayes_factor_SDT
 Jenny Motzer
 2025-06-26
 
-\#det \## dprime
+# det
+
+## dprime
 
 ``` r
 d <- data
@@ -14,24 +16,24 @@ print(bf_det_dPrime)
 
     ## Bayes factor analysis
     ## --------------
-    ## [1] nontargetContrast + Target + nontargetContrast:Target + SID                                                                                                   : 10350194   ±2.34%
-    ## [2] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + SID                                                           : 6239377    ±2.36%
-    ## [3] nontargetContrast + Target + nontargetContrast:Target + Validity + SID                                                                                        : 1721781    ±7.31%
-    ## [4] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + Target:Validity + SID                                         : 1170448    ±10.88%
-    ## [5] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + Target:Validity + nontargetContrast:Target:Validity +     SID : 526339.7   ±3.65%
-    ## [6] nontargetContrast + Target + nontargetContrast:Target + Validity + Target:Validity + SID                                                                      : 257677.1   ±3.86%
-    ## [7] nontargetContrast + Target + SID                                                                                                                              : 224.106    ±2.16%
-    ## [8] nontargetContrast + SID                                                                                                                                       : 115.5421   ±1.1%
-    ## [9] nontargetContrast + Target + Validity + nontargetContrast:Validity + SID                                                                                      : 71.3317    ±2.53%
-    ## [10] nontargetContrast + Validity + nontargetContrast:Validity + SID                                                                                              : 34.05154   ±1.69%
-    ## [11] nontargetContrast + Target + Validity + SID                                                                                                                  : 29.68881   ±1.96%
-    ## [12] nontargetContrast + Validity + SID                                                                                                                           : 15.57377   ±1.68%
-    ## [13] nontargetContrast + Target + Validity + nontargetContrast:Validity + Target:Validity + SID                                                                   : 10.72052   ±2.46%
-    ## [14] nontargetContrast + Target + Validity + Target:Validity + SID                                                                                                : 4.251238   ±4.29%
-    ## [15] Target + SID                                                                                                                                                 : 1.620801   ±1.38%
-    ## [16] Target + Validity + SID                                                                                                                                      : 0.2020925  ±1.26%
-    ## [17] Validity + SID                                                                                                                                               : 0.1270714  ±1.59%
-    ## [18] Target + Validity + Target:Validity + SID                                                                                                                    : 0.02757502 ±1.59%
+    ## [1] nontargetContrast + Target + nontargetContrast:Target + SID                                                                                                   : 10350668   ±2.94%
+    ## [2] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + SID                                                           : 6517555    ±4.53%
+    ## [3] nontargetContrast + Target + nontargetContrast:Target + Validity + SID                                                                                        : 1939916    ±18.88%
+    ## [4] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + Target:Validity + SID                                         : 1014464    ±2.64%
+    ## [5] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + Target:Validity + nontargetContrast:Target:Validity +     SID : 757733.9   ±25.4%
+    ## [6] nontargetContrast + Target + nontargetContrast:Target + Validity + Target:Validity + SID                                                                      : 256309.3   ±4.49%
+    ## [7] nontargetContrast + Target + SID                                                                                                                              : 228.9203   ±3.68%
+    ## [8] nontargetContrast + SID                                                                                                                                       : 116.4391   ±1.03%
+    ## [9] nontargetContrast + Target + Validity + nontargetContrast:Validity + SID                                                                                      : 74.39877   ±2.29%
+    ## [10] nontargetContrast + Validity + nontargetContrast:Validity + SID                                                                                              : 34.26062   ±1.29%
+    ## [11] nontargetContrast + Target + Validity + SID                                                                                                                  : 29.64623   ±2.6%
+    ## [12] nontargetContrast + Validity + SID                                                                                                                           : 15.65784   ±1.6%
+    ## [13] nontargetContrast + Target + Validity + nontargetContrast:Validity + Target:Validity + SID                                                                   : 11.1001    ±2.92%
+    ## [14] nontargetContrast + Target + Validity + Target:Validity + SID                                                                                                : 4.404858   ±3.61%
+    ## [15] Target + SID                                                                                                                                                 : 1.568554   ±0.77%
+    ## [16] Target + Validity + SID                                                                                                                                      : 0.2107845  ±2.46%
+    ## [17] Validity + SID                                                                                                                                               : 0.1259216  ±0.68%
+    ## [18] Target + Validity + Target:Validity + SID                                                                                                                    : 0.02861115 ±1.7%
     ## 
     ## Against denominator:
     ##   det_dPrime_sub ~ SID 
@@ -45,14 +47,14 @@ bf_highestmodel <- as.vector(bf_det_dPrime[2])[[1]]/as.vector(bf_det_dPrime[3])[
 print(bf_highestmodel)
 ```
 
-    ## [1] 3.623792
+    ## [1] 3.35971
 
 ``` r
 bf_fullmodel <- as.vector(bf_det_dPrime[4])[[1]]/as.vector(bf_det_dPrime[6])[[1]] #the numerator contains all main effect and interaction effects
 print(bf_fullmodel)
 ```
 
-    ## [1] 4.542305
+    ## [1] 3.957969
 
 ## det dprime T1
 
@@ -65,10 +67,10 @@ print(bf_det_dPrimeT1)
 
     ## Bayes factor analysis
     ## --------------
-    ## [1] nontargetContrast + Validity + nontargetContrast:Validity + SID : 0.8959608  ±3.78%
-    ## [2] Validity + SID                                                  : 0.3304188  ±0.69%
-    ## [3] nontargetContrast + SID                                         : 0.284193   ±1.44%
-    ## [4] nontargetContrast + Validity + SID                              : 0.09788356 ±2.77%
+    ## [1] nontargetContrast + Validity + nontargetContrast:Validity + SID : 0.8333284  ±1.25%
+    ## [2] Validity + SID                                                  : 0.3304613  ±0.68%
+    ## [3] nontargetContrast + SID                                         : 0.2819467  ±1.84%
+    ## [4] nontargetContrast + Validity + SID                              : 0.09524478 ±1.65%
     ## 
     ## Against denominator:
     ##   det_dPrime_sub ~ SID 
@@ -82,7 +84,7 @@ bf <- as.vector(bf_det_dPrimeT1[1])[[1]]/as.vector(bf_det_dPrimeT1[4])[[1]]
 print(bf)
 ```
 
-    ## [1] 9.153332
+    ## [1] 8.749334
 
 ## det dprime T2
 
@@ -95,10 +97,10 @@ print(bf_det_dPrimeT2)
 
     ## Bayes factor analysis
     ## --------------
-    ## [1] nontargetContrast + SID                                         : 5495030   ±1.29%
-    ## [2] nontargetContrast + Validity + SID                              : 692693.8  ±1.53%
-    ## [3] nontargetContrast + Validity + nontargetContrast:Validity + SID : 259451.5  ±2.31%
-    ## [4] Validity + SID                                                  : 0.1129196 ±1.63%
+    ## [1] nontargetContrast + SID                                         : 5456500   ±0.85%
+    ## [2] nontargetContrast + Validity + SID                              : 695768.3  ±2.39%
+    ## [3] nontargetContrast + Validity + nontargetContrast:Validity + SID : 288883.9  ±3.94%
+    ## [4] Validity + SID                                                  : 0.1106735 ±0.78%
     ## 
     ## Against denominator:
     ##   det_dPrime_sub ~ SID 
@@ -112,7 +114,7 @@ bf <- as.vector(bf_det_dPrimeT2[3])[[1]]/as.vector(bf_det_dPrimeT2[2])[[1]]
 print(bf)
 ```
 
-    ## [1] 0.3745544
+    ## [1] 0.4152013
 
 # crit
 
@@ -125,45 +127,45 @@ print(bf_det_crit)
 
     ## Bayes factor analysis
     ## --------------
-    ## [1] nontargetContrast + Target + nontargetContrast:Target + Validity + SID                                                                                         : 2.630998e+41 ±22.95%
-    ## [2] nontargetContrast + Target + Validity + SID                                                                                                                    : 2.009102e+41 ±1.85%
-    ## [3] nontargetContrast + Target + SID                                                                                                                               : 9.976172e+40 ±1.53%
-    ## [4] nontargetContrast + Target + nontargetContrast:Target + SID                                                                                                    : 9.132355e+40 ±3.04%
-    ## [5] nontargetContrast + Target + Validity + Target:Validity + SID                                                                                                  : 6.041045e+40 ±3.65%
-    ## [6] nontargetContrast + Target + nontargetContrast:Target + Validity + Target:Validity + SID                                                                       : 5.833925e+40 ±3.36%
-    ## [7] nontargetContrast + Target + Validity + nontargetContrast:Validity + SID                                                                                       : 5.068383e+40 ±1.89%
-    ## [8] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + SID                                                            : 5.006298e+40 ±5.73%
-    ## [9] nontargetContrast + Target + Validity + nontargetContrast:Validity + Target:Validity + SID                                                                     : 2.006329e+40 ±26.12%
-    ## [10] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + Target:Validity + SID                                         : 1.381356e+40 ±2.49%
-    ## [11] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + Target:Validity + nontargetContrast:Target:Validity +     SID : 2.629842e+39 ±4.05%
-    ## [12] nontargetContrast + Validity + SID                                                                                                                            : 1.376949e+37 ±1.27%
-    ## [13] nontargetContrast + SID                                                                                                                                       : 1.034601e+37 ±1.16%
-    ## [14] nontargetContrast + Validity + nontargetContrast:Validity + SID                                                                                               : 3.061069e+36 ±2.1%
-    ## [15] Target + SID                                                                                                                                                  : 14.97306     ±1.02%
-    ## [16] Target + Validity + SID                                                                                                                                       : 3.21555      ±1.45%
-    ## [17] Target + Validity + Target:Validity + SID                                                                                                                     : 0.4990592    ±14.9%
-    ## [18] Validity + SID                                                                                                                                                : 0.2013673    ±0.76%
+    ## [1] nontargetContrast + Target + Validity + SID                                                                                                                    : 1.937337e+41 ±6.56%
+    ## [2] nontargetContrast + Target + nontargetContrast:Target + Validity + SID                                                                                         : 1.871243e+41 ±7.2%
+    ## [3] nontargetContrast + Target + SID                                                                                                                               : 1.05451e+41  ±3.66%
+    ## [4] nontargetContrast + Target + nontargetContrast:Target + SID                                                                                                    : 8.863556e+40 ±1.94%
+    ## [5] nontargetContrast + Target + Validity + Target:Validity + SID                                                                                                  : 5.929606e+40 ±2.88%
+    ## [6] nontargetContrast + Target + nontargetContrast:Target + Validity + Target:Validity + SID                                                                       : 5.781413e+40 ±5.49%
+    ## [7] nontargetContrast + Target + Validity + nontargetContrast:Validity + SID                                                                                       : 5.375692e+40 ±4.24%
+    ## [8] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + SID                                                            : 4.931597e+40 ±3.24%
+    ## [9] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + Target:Validity + SID                                          : 1.548927e+40 ±5.49%
+    ## [10] nontargetContrast + Target + Validity + nontargetContrast:Validity + Target:Validity + SID                                                                    : 1.450158e+40 ±3.26%
+    ## [11] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + Target:Validity + nontargetContrast:Target:Validity +     SID : 2.47715e+39  ±3.51%
+    ## [12] nontargetContrast + Validity + SID                                                                                                                            : 1.400579e+37 ±1.79%
+    ## [13] nontargetContrast + SID                                                                                                                                       : 1.013007e+37 ±0.94%
+    ## [14] nontargetContrast + Validity + nontargetContrast:Validity + SID                                                                                               : 3.263858e+36 ±4.68%
+    ## [15] Target + SID                                                                                                                                                  : 16.1755      ±6.2%
+    ## [16] Target + Validity + SID                                                                                                                                       : 3.173664     ±1.33%
+    ## [17] Target + Validity + Target:Validity + SID                                                                                                                     : 0.4510226    ±1.87%
+    ## [18] Validity + SID                                                                                                                                                : 0.2033361    ±1.63%
     ## 
     ## Against denominator:
     ##   det_crit_sub ~ SID 
     ## ---
     ## Bayes factor type: BFlinearModel, JZS
 
-\#calculate BF for detCrit Validity:nontargetContrast
+## calculate BF for detCrit Validity:nontargetContrast
 
 ``` r
 bf_highestmodel <- as.vector(bf_det_crit[7])[[1]]/as.vector(bf_det_crit[2])[[1]] #the highest ranked model
 print(bf_highestmodel)
 ```
 
-    ## [1] 0.252271
+    ## [1] 0.2872792
 
 ``` r
 bf_fullmodel <- as.vector(bf_det_crit[9])[[1]]/as.vector(bf_det_crit[6])[[1]] #the numerator contains all main effect and interaction effects
 print(bf_fullmodel)
 ```
 
-    ## [1] 0.3439073
+    ## [1] 0.2679149
 
 ## det crit T1
 
@@ -176,10 +178,10 @@ print(bf_det_critT1)
 
     ## Bayes factor analysis
     ## --------------
-    ## [1] nontargetContrast + Validity + SID                              : 9.701252e+20 ±1.21%
-    ## [2] nontargetContrast + Validity + nontargetContrast:Validity + SID : 2.368955e+20 ±3.55%
-    ## [3] nontargetContrast + SID                                         : 2.21095e+20  ±1.01%
-    ## [4] Validity + SID                                                  : 0.3670646    ±1.45%
+    ## [1] nontargetContrast + Validity + SID                              : 1.18865e+21  ±18.33%
+    ## [2] nontargetContrast + Validity + nontargetContrast:Validity + SID : 2.250558e+20 ±1.58%
+    ## [3] nontargetContrast + SID                                         : 2.16994e+20  ±0.8%
+    ## [4] Validity + SID                                                  : 0.3644146    ±0.76%
     ## 
     ## Against denominator:
     ##   det_crit_sub ~ SID 
@@ -193,7 +195,7 @@ bf <- as.vector(bf_det_critT1[2])[[1]]/as.vector(bf_det_critT1[1])[[1]]
 print(bf)
 ```
 
-    ## [1] 0.2441906
+    ## [1] 0.1893372
 
 ## det crit T2
 
@@ -206,10 +208,10 @@ print(bf_det_critT2)
 
     ## Bayes factor analysis
     ## --------------
-    ## [1] nontargetContrast + SID                                         : 2.983228e+19 ±1.54%
-    ## [2] nontargetContrast + Validity + SID                              : 4.104484e+18 ±1.99%
-    ## [3] nontargetContrast + Validity + nontargetContrast:Validity + SID : 1.241441e+18 ±1.96%
-    ## [4] Validity + SID                                                  : 0.1028856    ±0.99%
+    ## [1] nontargetContrast + SID                                         : 2.936995e+19 ±0.93%
+    ## [2] nontargetContrast + Validity + SID                              : 4.075067e+18 ±1.37%
+    ## [3] nontargetContrast + Validity + nontargetContrast:Validity + SID : 1.24506e+18  ±2.75%
+    ## [4] Validity + SID                                                  : 0.1030487    ±0.79%
     ## 
     ## Against denominator:
     ##   det_crit_sub ~ SID 
@@ -223,9 +225,11 @@ bf <- as.vector(bf_det_critT2[3])[[1]]/as.vector(bf_det_critT2[2])[[1]]
 print(bf)
 ```
 
-    ## [1] 0.3024598
+    ## [1] 0.305531
 
-\#dis \## dprime
+# dis
+
+## dprime
 
 ``` r
 d <- data
@@ -236,24 +240,24 @@ print(bf_dis_dPrime)
 
     ## Bayes factor analysis
     ## --------------
-    ## [1] nontargetContrast + Target + nontargetContrast:Target + Validity + SID                                                                                        : 9.777239e+16 ±11.98%
-    ## [2] nontargetContrast + Target + Validity + SID                                                                                                                   : 9.515284e+16 ±2.31%
-    ## [3] nontargetContrast + Target + Validity + nontargetContrast:Validity + SID                                                                                      : 7.150874e+16 ±6.11%
-    ## [4] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + SID                                                           : 5.459234e+16 ±3.11%
-    ## [5] nontargetContrast + Target + Validity + Target:Validity + SID                                                                                                 : 2.977488e+16 ±6.9%
-    ## [6] nontargetContrast + Target + nontargetContrast:Target + Validity + Target:Validity + SID                                                                      : 2.240692e+16 ±2.02%
-    ## [7] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + Target:Validity + SID                                         : 1.870453e+16 ±10.61%
-    ## [8] nontargetContrast + Target + Validity + nontargetContrast:Validity + Target:Validity + SID                                                                    : 1.780585e+16 ±1.69%
-    ## [9] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + Target:Validity + nontargetContrast:Target:Validity +     SID : 2.69883e+15  ±4.07%
-    ## [10] nontargetContrast + Target + SID                                                                                                                             : 1.419617e+12 ±1.82%
-    ## [11] nontargetContrast + Target + nontargetContrast:Target + SID                                                                                                  : 1.0086e+12   ±2.49%
-    ## [12] nontargetContrast + Validity + SID                                                                                                                           : 2323247111   ±1.04%
-    ## [13] Target + Validity + SID                                                                                                                                      : 1624585613   ±1.98%
-    ## [14] nontargetContrast + Validity + nontargetContrast:Validity + SID                                                                                              : 1093573809   ±1.67%
-    ## [15] Target + Validity + Target:Validity + SID                                                                                                                    : 428879957    ±17.04%
-    ## [16] nontargetContrast + SID                                                                                                                                      : 438256.2     ±5.6%
-    ## [17] Target + SID                                                                                                                                                 : 277302.6     ±0.73%
-    ## [18] Validity + SID                                                                                                                                               : 1079.747     ±3.01%
+    ## [1] nontargetContrast + Target + Validity + SID                                                                                                                   : 9.465251e+16 ±2.67%
+    ## [2] nontargetContrast + Target + nontargetContrast:Target + Validity + SID                                                                                        : 8.300851e+16 ±3.48%
+    ## [3] nontargetContrast + Target + Validity + nontargetContrast:Validity + SID                                                                                      : 6.488734e+16 ±3.69%
+    ## [4] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + SID                                                           : 5.828981e+16 ±3.89%
+    ## [5] nontargetContrast + Target + Validity + Target:Validity + SID                                                                                                 : 2.761096e+16 ±2.55%
+    ## [6] nontargetContrast + Target + nontargetContrast:Target + Validity + Target:Validity + SID                                                                      : 2.235161e+16 ±2.12%
+    ## [7] nontargetContrast + Target + Validity + nontargetContrast:Validity + Target:Validity + SID                                                                    : 1.920943e+16 ±2.44%
+    ## [8] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + Target:Validity + SID                                         : 1.701853e+16 ±2.91%
+    ## [9] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + Target:Validity + nontargetContrast:Target:Validity +     SID : 2.738736e+15 ±4.76%
+    ## [10] nontargetContrast + Target + SID                                                                                                                             : 1.413696e+12 ±1.55%
+    ## [11] nontargetContrast + Target + nontargetContrast:Target + SID                                                                                                  : 945646101683 ±1.92%
+    ## [12] nontargetContrast + Validity + SID                                                                                                                           : 2306558657   ±1.06%
+    ## [13] Target + Validity + SID                                                                                                                                      : 1564770575   ±1.27%
+    ## [14] nontargetContrast + Validity + nontargetContrast:Validity + SID                                                                                              : 1111107378   ±2.16%
+    ## [15] Target + Validity + Target:Validity + SID                                                                                                                    : 366693904    ±2.03%
+    ## [16] nontargetContrast + SID                                                                                                                                      : 393025.5     ±1.08%
+    ## [17] Target + SID                                                                                                                                                 : 281356.8     ±1.48%
+    ## [18] Validity + SID                                                                                                                                               : 1034.719     ±0.62%
     ## 
     ## Against denominator:
     ##   dis_dPrime_sub ~ SID 
@@ -267,14 +271,14 @@ bf_highestmodel <- as.vector(bf_dis_dPrime[3])[[1]]/as.vector(bf_dis_dPrime[2])[
 print(bf_highestmodel)
 ```
 
-    ## [1] 0.7515145
+    ## [1] 0.7816951
 
 ``` r
 bf_fullmodel <- as.vector(bf_dis_dPrime[8])[[1]]/as.vector(bf_dis_dPrime[6])[[1]] #the numerator contains all main effect and interaction effects
 print(bf_fullmodel)
 ```
 
-    ## [1] 0.7946587
+    ## [1] 0.7614006
 
 ## dis dprime T1
 
@@ -287,10 +291,10 @@ print(bf_dis_dPrimeT1)
 
     ## Bayes factor analysis
     ## --------------
-    ## [1] nontargetContrast + Validity + SID                              : 90054107 ±7.16%
-    ## [2] nontargetContrast + Validity + nontargetContrast:Validity + SID : 35034012 ±1.78%
-    ## [3] nontargetContrast + SID                                         : 24069.62 ±1.2%
-    ## [4] Validity + SID                                                  : 261.3987 ±0.63%
+    ## [1] nontargetContrast + Validity + SID                              : 82344911 ±1.32%
+    ## [2] nontargetContrast + Validity + nontargetContrast:Validity + SID : 33871014 ±1.43%
+    ## [3] nontargetContrast + SID                                         : 23460.29 ±0.76%
+    ## [4] Validity + SID                                                  : 261.6895 ±0.56%
     ## 
     ## Against denominator:
     ##   dis_dPrime_sub ~ SID 
@@ -304,7 +308,7 @@ bf <- as.vector(bf_dis_dPrimeT1[2])[[1]]/as.vector(bf_dis_dPrimeT1[1])[[1]]
 print(bf)
 ```
 
-    ## [1] 0.3890329
+    ## [1] 0.411331
 
 ## dis dprime T2
 
@@ -317,10 +321,10 @@ print(bf_dis_dPrimeT2)
 
     ## Bayes factor analysis
     ## --------------
-    ## [1] nontargetContrast + Validity + SID                              : 154.2087 ±11.46%
-    ## [2] nontargetContrast + Validity + nontargetContrast:Validity + SID : 47.2699  ±1.11%
-    ## [3] nontargetContrast + SID                                         : 44.40782 ±0.92%
-    ## [4] Validity + SID                                                  : 1.979665 ±0.83%
+    ## [1] nontargetContrast + Validity + SID                              : 139.6399 ±2.18%
+    ## [2] nontargetContrast + Validity + nontargetContrast:Validity + SID : 47.0648  ±1.08%
+    ## [3] nontargetContrast + SID                                         : 44.97024 ±1.4%
+    ## [4] Validity + SID                                                  : 1.998431 ±1.4%
     ## 
     ## Against denominator:
     ##   dis_dPrime_sub ~ SID 
@@ -334,7 +338,7 @@ bf <- as.vector(bf_dis_dPrimeT2[2])[[1]]/as.vector(bf_dis_dPrimeT2[1])[[1]]
 print(bf)
 ```
 
-    ## [1] 0.306532
+    ## [1] 0.3370442
 
 # crit
 
@@ -347,45 +351,45 @@ print(bf_dis_crit)
 
     ## Bayes factor analysis
     ## --------------
-    ## [1] Target + SID                                                                                                                                                   : 0.4321818    ±1.02%
-    ## [2] nontargetContrast + SID                                                                                                                                        : 0.1638383    ±8.85%
-    ## [3] Validity + SID                                                                                                                                                 : 0.07213112   ±0.93%
-    ## [4] nontargetContrast + Target + SID                                                                                                                               : 0.06489722   ±2.42%
-    ## [5] Target + Validity + Target:Validity + SID                                                                                                                      : 0.03490625   ±1.31%
-    ## [6] Target + Validity + SID                                                                                                                                        : 0.03163519   ±1.59%
-    ## [7] nontargetContrast + Target + nontargetContrast:Target + SID                                                                                                    : 0.02643174   ±1.7%
-    ## [8] nontargetContrast + Validity + SID                                                                                                                             : 0.01045646   ±1.25%
-    ## [9] nontargetContrast + Target + Validity + Target:Validity + SID                                                                                                  : 0.005942017  ±6.11%
-    ## [10] nontargetContrast + Target + Validity + SID                                                                                                                   : 0.004683836  ±3.27%
-    ## [11] nontargetContrast + Target + nontargetContrast:Target + Validity + Target:Validity + SID                                                                      : 0.002235424  ±3.91%
-    ## [12] nontargetContrast + Target + nontargetContrast:Target + Validity + SID                                                                                        : 0.00189778   ±2.6%
-    ## [13] nontargetContrast + Validity + nontargetContrast:Validity + SID                                                                                               : 0.001165095  ±2.47%
-    ## [14] nontargetContrast + Target + Validity + nontargetContrast:Validity + Target:Validity + SID                                                                    : 0.0006072785 ±3.97%
-    ## [15] nontargetContrast + Target + Validity + nontargetContrast:Validity + SID                                                                                      : 0.0005399193 ±5.18%
-    ## [16] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + Target:Validity + SID                                         : 0.0002546291 ±3.45%
-    ## [17] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + SID                                                           : 0.0002281407 ±8.29%
-    ## [18] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + Target:Validity + nontargetContrast:Target:Validity +     SID : 0.0001308133 ±6.63%
+    ## [1] Target + SID                                                                                                                                                   : 0.4382065    ±1.29%
+    ## [2] nontargetContrast + SID                                                                                                                                        : 0.1492889    ±2.27%
+    ## [3] Validity + SID                                                                                                                                                 : 0.07175288   ±0.89%
+    ## [4] nontargetContrast + Target + SID                                                                                                                               : 0.06709497   ±3.81%
+    ## [5] Target + Validity + Target:Validity + SID                                                                                                                      : 0.03652103   ±2.37%
+    ## [6] Target + Validity + SID                                                                                                                                        : 0.03121563   ±1.44%
+    ## [7] nontargetContrast + Target + nontargetContrast:Target + SID                                                                                                    : 0.02675583   ±2.47%
+    ## [8] nontargetContrast + Validity + SID                                                                                                                             : 0.0101184    ±0.97%
+    ## [9] nontargetContrast + Target + Validity + Target:Validity + SID                                                                                                  : 0.005260566  ±2.09%
+    ## [10] nontargetContrast + Target + Validity + SID                                                                                                                   : 0.004508545  ±2.15%
+    ## [11] nontargetContrast + Target + nontargetContrast:Target + Validity + Target:Validity + SID                                                                      : 0.002257974  ±2.68%
+    ## [12] nontargetContrast + Target + nontargetContrast:Target + Validity + SID                                                                                        : 0.002038054  ±4.34%
+    ## [13] nontargetContrast + Validity + nontargetContrast:Validity + SID                                                                                               : 0.001154344  ±2.3%
+    ## [14] nontargetContrast + Target + Validity + nontargetContrast:Validity + Target:Validity + SID                                                                    : 0.0006386712 ±7.73%
+    ## [15] nontargetContrast + Target + Validity + nontargetContrast:Validity + SID                                                                                      : 0.0005216176 ±4.45%
+    ## [16] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + Target:Validity + SID                                         : 0.0002757065 ±8.16%
+    ## [17] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + SID                                                           : 0.0002160261 ±4.49%
+    ## [18] nontargetContrast + Target + nontargetContrast:Target + Validity + nontargetContrast:Validity + Target:Validity + nontargetContrast:Target:Validity +     SID : 0.0001109934 ±3.39%
     ## 
     ## Against denominator:
     ##   dis_crit_sub ~ SID 
     ## ---
     ## Bayes factor type: BFlinearModel, JZS
 
-\#calculate BF for disCrit Validity:nontargetContrast
+## calculate BF for disCrit Validity:nontargetContrast
 
 ``` r
 bf_highestmodel <- as.vector(bf_dis_crit[13])[[1]]/as.vector(bf_dis_crit[8])[[1]] #the highest ranked model
 print(bf_highestmodel)
 ```
 
-    ## [1] 0.1114235
+    ## [1] 0.1140836
 
 ``` r
 bf_fullmodel <- as.vector(bf_dis_crit[16])[[1]]/as.vector(bf_dis_crit[11])[[1]] #the numerator contains all main effect and interaction effects
 print(bf_fullmodel)
 ```
 
-    ## [1] 0.1139064
+    ## [1] 0.1221035
 
 ## dis crit T1
 
@@ -398,10 +402,10 @@ print(bf_dis_critT1)
 
     ## Bayes factor analysis
     ## --------------
-    ## [1] nontargetContrast + SID                                         : 0.3649382   ±13.78%
-    ## [2] Validity + SID                                                  : 0.1643916   ±2.25%
-    ## [3] nontargetContrast + Validity + SID                              : 0.05251885  ±1.88%
-    ## [4] nontargetContrast + Validity + nontargetContrast:Validity + SID : 0.009487223 ±1.75%
+    ## [1] nontargetContrast + SID                                         : 0.3120418   ±0.96%
+    ## [2] Validity + SID                                                  : 0.1654845   ±0.83%
+    ## [3] nontargetContrast + Validity + SID                              : 0.05277189  ±1.85%
+    ## [4] nontargetContrast + Validity + nontargetContrast:Validity + SID : 0.009651517 ±2.84%
     ## 
     ## Against denominator:
     ##   dis_crit_sub ~ SID 
@@ -415,7 +419,7 @@ bf <- as.vector(bf_dis_critT1[4])[[1]]/as.vector(bf_dis_critT1[3])[[1]]
 print(bf)
 ```
 
-    ## [1] 0.1806442
+    ## [1] 0.1828913
 
 ## dis crit T2
 
@@ -428,10 +432,10 @@ print(bf_dis_critT2)
 
     ## Bayes factor analysis
     ## --------------
-    ## [1] Validity + SID                                                  : 1.145403  ±0.69%
-    ## [2] nontargetContrast + Validity + SID                              : 0.3306175 ±1.58%
-    ## [3] nontargetContrast + SID                                         : 0.2821956 ±0.95%
-    ## [4] nontargetContrast + Validity + nontargetContrast:Validity + SID : 0.1755389 ±1.36%
+    ## [1] Validity + SID                                                  : 1.144778  ±0.74%
+    ## [2] nontargetContrast + Validity + SID                              : 0.3275484 ±1.16%
+    ## [3] nontargetContrast + SID                                         : 0.28203   ±1.29%
+    ## [4] nontargetContrast + Validity + nontargetContrast:Validity + SID : 0.1788476 ±1.86%
     ## 
     ## Against denominator:
     ##   dis_crit_sub ~ SID 
@@ -445,4 +449,4 @@ bf <- as.vector(bf_dis_critT2[4])[[1]]/as.vector(bf_dis_critT2[3])[[1]]
 print(bf)
 ```
 
-    ## [1] 0.6220469
+    ## [1] 0.6341437
