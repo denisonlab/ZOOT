@@ -37,7 +37,7 @@ count = 1;
 tcl = tiledlayout(2,2,'TileSpacing','compact','OuterPosition',fp.OuterPosition); % adds y height
     for iC = 1:4 % 1 is TPNP; 2 is TANP; 3 is TPNA; 4 is TANA
         panel(count).info = nexttile;
-        zoot_figureStyle(fp)
+        zoot_figureStyle
         xticklabels('')
         ylim([0 1.2])
         yticks(0:0.2:1.2)

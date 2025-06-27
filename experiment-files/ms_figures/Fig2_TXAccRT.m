@@ -38,7 +38,7 @@ tcl = tiledlayout(2,2,'TileSpacing','compact','OuterPosition',fp.OuterPosition);
 for iRep = 1:2 % 1 is accuracy; 2 is RT
     for iC = 1:2 % 1 is target present; 2 target absent
         panel(count).info = nexttile;
-        zoot_figureStyle(fp)
+        zoot_figureStyle
         switch count
             case {1,2} % Accuracy
                 xticklabels('')
