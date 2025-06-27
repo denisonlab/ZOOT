@@ -389,7 +389,7 @@ print(aov.swap_validityTPNA)
 ```
 ### T1
 ```{r swap validity TPNA T1}
-d <- data %>% filter(targetContrast==1, nontargetContrast==1, Target==1)
+d <- data %>% filter(targetContrast==1, nontargetContrast==0, Target==1)
 swap_validityTPNA_T1.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityTPNA_T1.lmm.lme4)
 aov.swap_validityTPNA_T1 <- Anova(swap_validityTPNA_T1.lmm.lme4)
@@ -397,7 +397,7 @@ print(aov.swap_validityTPNA_T1)
 ```
 ### T2
 ```{r swap validity TPNA T2}
-d <- data %>% filter(targetContrast==1, nontargetContrast==1, Target==2)
+d <- data %>% filter(targetContrast==1, nontargetContrast==0, Target==2)
 swap_validityTPNA_T2.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityTPNA_T2.lmm.lme4)
 aov.swap_validityTPNA_T2 <- Anova(swap_validityTPNA_T2.lmm.lme4)

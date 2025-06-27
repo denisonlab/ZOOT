@@ -2355,7 +2355,7 @@ print(aov.swap_validityTPNA)
 ### T1
 
 ``` r
-d <- data %>% filter(targetContrast==1, nontargetContrast==1, Target==1)
+d <- data %>% filter(targetContrast==1, nontargetContrast==0, Target==1)
 swap_validityTPNA_T1.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityTPNA_T1.lmm.lme4)
 ```
@@ -2365,32 +2365,30 @@ summary(swap_validityTPNA_T1.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 437.2
+    ## REML criterion at convergence: 451.6
     ## 
     ## Scaled residuals: 
-    ##     Min      1Q  Median      3Q     Max 
-    ## -1.5435 -0.8628  0.0212  0.6411  3.1507 
+    ##      Min       1Q   Median       3Q      Max 
+    ## -2.16179 -0.56418 -0.07447  0.56606  1.65648 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)   0.0     0.00   
-    ##  Residual             255.3    15.98   
-    ## Number of obs: 54, groups:  SID, 18
+    ##  SID      (Intercept) 199.6    14.13   
+    ##  Residual             273.1    16.53   
+    ## Number of obs: 53, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)   51.885      2.174 51.000  23.864   <2e-16 ***
-    ## Validity.L    -6.532      3.766 51.000  -1.735   0.0889 .  
-    ## Validity.Q     2.724      3.766 51.000   0.723   0.4728    
+    ## (Intercept)   41.778      4.034 17.182  10.356 8.32e-09 ***
+    ## Validity.L     9.812      3.895 33.220   2.519   0.0168 *  
+    ## Validity.Q    -4.498      3.993 33.654  -1.126   0.2680    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L 0.000        
-    ## Validity.Q 0.000  0.000 
-    ## optimizer (nloptwrap) convergence code: 0 (OK)
-    ## boundary (singular) fit: see help('isSingular')
+    ## Validity.L  0.000       
+    ## Validity.Q -0.020  0.000
 
 ``` r
 aov.swap_validityTPNA_T1 <- Anova(swap_validityTPNA_T1.lmm.lme4)
@@ -2400,13 +2398,15 @@ print(aov.swap_validityTPNA_T1)
     ## Analysis of Deviance Table (Type II Wald chisquare tests)
     ## 
     ## Response: twoIncorrect
-    ##           Chisq Df Pr(>Chisq)
-    ## Validity 3.5319  2      0.171
+    ##           Chisq Df Pr(>Chisq)  
+    ## Validity 7.6134  2    0.02222 *
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ### T2
 
 ``` r
-d <- data %>% filter(targetContrast==1, nontargetContrast==1, Target==2)
+d <- data %>% filter(targetContrast==1, nontargetContrast==0, Target==2)
 swap_validityTPNA_T2.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
 summary(swap_validityTPNA_T2.lmm.lme4)
 ```
@@ -2416,30 +2416,30 @@ summary(swap_validityTPNA_T2.lmm.lme4)
     ## Formula: twoIncorrect ~ Validity + (1 | SID)
     ##    Data: d
     ## 
-    ## REML criterion at convergence: 435.4
+    ## REML criterion at convergence: 450.4
     ## 
     ## Scaled residuals: 
-    ##      Min       1Q   Median       3Q      Max 
-    ## -1.82847 -0.64268  0.09215  0.60055  2.58896 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -1.4749 -0.6769 -0.1216  0.4495  2.2422 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  SID      (Intercept)  38.75    6.225  
-    ##  Residual             468.52   21.645  
-    ## Number of obs: 50, groups:  SID, 18
+    ##  SID      (Intercept) 285.4    16.89   
+    ##  Residual             381.9    19.54   
+    ## Number of obs: 51, groups:  SID, 18
     ## 
     ## Fixed effects:
     ##             Estimate Std. Error     df t value Pr(>|t|)    
-    ## (Intercept)   40.055      3.405 16.311  11.762  2.2e-09 ***
-    ## Validity.L     3.177      5.270 31.108   0.603    0.551    
-    ## Validity.Q    -1.052      5.381 32.040  -0.195    0.846    
+    ## (Intercept)   26.336      4.845 17.207   5.435 4.27e-05 ***
+    ## Validity.L     5.917      4.693 31.622   1.261    0.217    
+    ## Validity.Q     2.307      4.881 32.307   0.473    0.640    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## Correlation of Fixed Effects:
     ##            (Intr) Vldt.L
-    ## Validity.L  0.045       
-    ## Validity.Q -0.026  0.036
+    ## Validity.L  0.016       
+    ## Validity.Q -0.030  0.022
 
 ``` r
 aov.swap_validityTPNA_T2 <- Anova(swap_validityTPNA_T2.lmm.lme4)
@@ -2450,7 +2450,7 @@ print(aov.swap_validityTPNA_T2)
     ## 
     ## Response: twoIncorrect
     ##           Chisq Df Pr(>Chisq)
-    ## Validity 0.4107  2     0.8144
+    ## Validity 1.7877  2     0.4091
 
 ## T1
 
