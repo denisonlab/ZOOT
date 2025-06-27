@@ -31,10 +31,10 @@ data_clean <- data[!is.nan(data$twoIncorrect), ]
 data <- data_clean
 #### Change to categorical vars ####
 data$SID <- factor(data$SID)
-data$targetContrast <- factor(data$targetContrast, levels = c("1", "0"), ordered = TRUE)
-data$nontargetContrast <- factor(data$nontargetContrast, levels = c("1", "0"), ordered = TRUE)
-data$Target <- factor(data$Target, levels = c("1", "2"), ordered = TRUE)
-data$Validity <- factor(data$Validity,levels = c("1", "2", "3"),ordered = TRUE)
+data$targetContrast <- factor(data$targetContrast, levels = c("1", "0"), ordered = FALSE)
+data$nontargetContrast <- factor(data$nontargetContrast, levels = c("1", "0"), ordered = FALSE)
+data$Target <- factor(data$Target, levels = c("1", "2"), ordered = FALSE)
+data$Validity <- factor(data$Validity,levels = c("1", "2", "3"),ordered = FALSE)
 
 ### Plotting setup #### 
 colors = c("#F8A299","#CCCCCC","#98E6A1")
