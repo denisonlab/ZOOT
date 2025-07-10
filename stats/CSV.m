@@ -3,6 +3,8 @@
 load zoot_dataAll.mat
 
 SIDs = {'S0001', 'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071', 'S0085', 'S0105', 'S0108', 'S0111', 'S0122', 'S0133', 'S0135', 'S0149'};
+%SIDs = {'S0007', 'S0019', 'S0004', 'S0071', 'S0135', 'S0005', 'S0122','S0001', 'S0108'}; % acc split bottom half
+%SIDs = {'S0019', 'S0135', 'S0007', 'S0105', 'S0004','S0122', 'S0108', 'S0001', 'S0133'}; % dis split bottom half
 Validities = [ 1 2 3]; % Valid, Neutral, Invalid
 Targets = [1 2] ; % T1, T2
 Contrasts = [1 0]; % present absent 
@@ -59,6 +61,7 @@ end
 %% get accuracy and RT 
 Acc = [];
 RT = [];
+%acc_bottomHalf_indices = [4 8 2 10 17 3 15 1 13];
 for iSub = 1:length(SIDs)
     for iContrast = 1:4
         for iTarget = 1:numel(Targets)
@@ -74,6 +77,24 @@ accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, Acc, 
 writetable(accTable,'tazoot_Acc_RT.csv','Delimiter',',','QuoteStrings','all')
 type 'tazoot_Acc_RT.csv'
 
+%% get accuracy split half
+Acc = [];
+RT = [];
+acc_bottomHalf_indices = [4 8 2 10 17 3 15 1 13];
+for iSub = 1:length(SIDs)
+    for iContrast = 1:4
+        for iTarget = 1:numel(Targets)
+            for iValid = 1:numel(Validities)
+                Acc = [Acc; dataAll(acc_bottomHalf_indices(iSub)).means(iContrast,iValid, iTarget)];
+                RT = [RT; dataAll(acc_bottomHalf_indices(iSub)).TXNX_RTmeans(iContrast, iValid, iTarget)]; % RT means may be renamed, check dataAll.mat
+            end
+        end
+    end
+end
+
+accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, Acc, RT);
+writetable(accTable,'tazoot_bottomHalf_Acc_RT.csv','Delimiter',',','QuoteStrings','all')
+type 'tazoot_bottomHalf_Acc_RT.csv'
 %% accuracy of nontarget swapping 
 % create csv file for accuracy and RT data (needs to be separate from SDT
 % because acc and RT out of 4 contrast conditions (PP, PA, AP, AA) and SDT
@@ -346,3 +367,58 @@ end
 sdtTable = table(sub_SID, sub_Validity, sub_Target, sub_nontargetContrast, det_dPrime_sub, det_crit_sub, dis_dPrime_sub, dis_crit_sub);
 writetable(sdtTable,'tazoot_SDT_subsampled.csv','Delimiter',',','QuoteStrings','all')
 type 'tazoot_SDT_subsampled.csv'
+
+%% dis sub over2N subsampled split half
+% create csv file for SDT subsampling with over2N corrections
+numCondsSDT = 3*2*2; % three validities x two conditions (ntp, nta), and two targets
+
+sub_SID = [];
+sub_Validity = [];
+sub_Target = [];
+sub_nontargetContrast = [];
+for iSub = 1:length(SIDs)
+    for i = 1:numCondsSDT
+        sub_SID = [sub_SID; SIDs{iSub}];
+    end
+    for iNontargetContrast = 1:numel(ntpntaContrasts)
+        for i = 1:6
+            sub_nontargetContrast = [sub_nontargetContrast; ntpntaContrasts(iNontargetContrast)];
+        end
+    end
+end
+
+for iSub = 1:length(SIDs)*2 % times by two because two nontarget contrasts (ntp, nta), so need same pattern twice per participant
+    for i = 1:2
+        for iValid = 1:numel(Validities)
+            sub_Validity = [sub_Validity; Validities(iValid)];
+        end
+    end
+    for iTarget = 1:numel(Targets)
+        for i = 1:3 % for each validity - does three sets of each target (1 1 1, 2 2 2) for each validity
+            sub_Target = [sub_Target; Targets(iTarget)];
+        end
+    end
+end
+
+dis_bottomHalf_indices = [8 17 4 12 2 15 13 1 16];
+dis_dPrime_sub = [];
+dis_crit_sub = [];
+for iSub = 1:length(dis_bottomHalf_indices)
+ 
+    dataAll(dis_bottomHalf_indices(iSub)).disdPrime_sub = cat(3, dataAll(dis_bottomHalf_indices(iSub)).disd_sub_over2N.nontargetPresent, dataAll(iSub).disd_sub_over2N.nontargetAbsent);
+    dataAll(dis_bottomHalf_indices(iSub)).disCrit_sub = cat(3, dataAll(dis_bottomHalf_indices(iSub)).disc_sub_over2N.nontargetPresent, dataAll(iSub).disc_sub_over2N.nontargetAbsent);
+    for iNontargetContrast = 1:numel(ntpntaContrasts)
+        for iTarget = 1:numel(Targets)
+            for iValid = 1:numel(Validities)
+              
+                dis_dPrime_sub = [dis_dPrime_sub; dataAll(dis_bottomHalf_indices(iSub)).disdPrime_sub(iTarget,iValid, iNontargetContrast)];
+                dis_crit_sub = [dis_crit_sub; dataAll(dis_bottomHalf_indices(iSub)).disCrit_sub(iTarget, iValid, iNontargetContrast)];
+            end
+        end
+    end
+end
+
+
+sdtTable = table(sub_SID, sub_Validity, sub_Target, sub_nontargetContrast, dis_dPrime_sub, dis_crit_sub);
+writetable(sdtTable,'tazoot_SDT_dis_subsampled_bottomHalf.csv','Delimiter',',','QuoteStrings','all')
+type 'tazoot_SDT_dis_subsampled_bottomHalf.csv'
