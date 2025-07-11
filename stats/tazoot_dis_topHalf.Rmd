@@ -2,7 +2,7 @@
 title: "tazoot_dis_topHalf"
 author: "Jenny Motzer"
 date: "2025-07-11"
-output: html_document
+output: github_document
 ---
 
 ---
