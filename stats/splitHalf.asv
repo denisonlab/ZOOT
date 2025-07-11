@@ -26,7 +26,7 @@ acc_bottomHalf_indices = original_indices(1:9);
 acc_topHalf = sortedSubs_overall(10:end);
 acc_topHalf_indices = original_indices(10:end);
 
-% %finds overall T2 accuracy
+ %finds overall T2 accuracy
 Acc_scatter_splitHalf_T2 = [];
 for i=1:numel(TXNX)  
     avg = mean(Acc_scatterplot.(TXNX{i}),1);
@@ -64,6 +64,29 @@ for iContrast = 1:numel(contrastConds)
         end
     end
 end
+
+% finds overall TP accuracy
+%finds overall T2 accuracy
+Acc_scatter_splitHalf_TP = [];
+for i=1:numel(TXNX)  
+    avg = mean(Acc_scatterplot.(TXNX{i}),3);
+    if i
+    Acc_scatter_splitHalf_TP = [Acc_scatter_splitHalf_TP; avg];
+    avg = [];
+end 
+Acc_scatter_splitHalf_TP_overall = mean(Acc_scatter_splitHalf_TP,1);
+
+[sorted_array_TP, original_indices_TP] = sort(Acc_scatter_splitHalf_TP_overall);
+
+sortedSubs_TP_overall = [];
+for i=1:numel(subs)
+    sortedSubs_TP_overall = [sortedSubs_TP_overall subs(original_indices_TP(i))];
+end 
+
+acc_bottomHalf_TP = sortedSubs_TP_overall(1:9);
+acc_bottomHalf_TP_indices = original_indices_TP(1:9);
+acc_topHalf_TP = sortedSubs_TP_overall(10:end);
+acc_topHalf_TP_indices = original_indices_TP(10:end);
 
 %% plot bottom half - accuracy
 % Figure styling
@@ -116,9 +139,9 @@ for i=1:numel(NX)
     dis_scatter_splitHalf_overAttTarg = [dis_scatter_splitHalf_overAttTarg; mean(firstAverage,1)]; % averages across attention conditions (VNI)
     firstAverage = [];
 end 
-dis_scatter_splitHalf_overall = mean(dis_scatter_splitHalf_overAttTarg,1);
+dis_scatter_splitHalf_overall = mean(dis_scatter_splitHalf_overAttTarg,1); % averages across TXNX conditions
 
-[dis_sorted_array, dis_original_indices] = sort(dis_scatter_splitHalf_overall);
+[dis_sorted_array, dis_original_indices] = sort(dis_scatter_splitHalf_overall); % sorts dis d' from lowest to highest
 
 dis_sortedSubs_overall = [];
 for i=1:numel(subs)
@@ -147,6 +170,27 @@ for iTarget = 1:2
     end
 end
 
+%finds overall T2 accuracy
+dis_scatter_splitHalf_T2 = [];
+for i=1:numel(NX)  
+    avg = mean(disd_sub_over2N_scatterplot.(NX{i}),1);
+    T2avg = avg(:,:,2);
+    dis_scatter_splitHalf_T2 = [dis_scatter_splitHalf_T2; T2avg];
+    avg = [];
+end 
+dis_scatter_splitHalf_T2_overall = mean(dis_scatter_splitHalf_T2,1);
+
+[dis_sorted_array_T2, dis_original_indices_T2] = sort(dis_scatter_splitHalf_T2_overall);
+
+dis_sortedSubs_T2_overall = [];
+for i=1:numel(subs)
+    dis_sortedSubs_T2_overall = [dis_sortedSubs_T2_overall subs(dis_original_indices_T2(i))];
+end 
+
+dis_bottomHalf_T2 = dis_sortedSubs_T2_overall(1:9);
+dis_bottomHalf_T2_indices = dis_original_indices_T2(1:9);
+dis_topHalf_T2 = dis_sortedSubs_T2_overall(10:end);
+dis_topHalf_T2_indices = dis_original_indices_T2(10:end);
 
 %% plot discrimination
 fp = zoot_figureparams;

@@ -2,9 +2,11 @@
 
 load zoot_dataAll.mat
 
-SIDs = {'S0001', 'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071', 'S0085', 'S0105', 'S0108', 'S0111', 'S0122', 'S0133', 'S0135', 'S0149'};
-%SIDs = {'S0007', 'S0019', 'S0004', 'S0071', 'S0135', 'S0005', 'S0122','S0001', 'S0108'}; % acc split bottom half
-%SIDs = {'S0019', 'S0135', 'S0007', 'S0105', 'S0004','S0122', 'S0108', 'S0001', 'S0133'}; % dis split bottom half
+%SIDs = {'S0001', 'S0004', 'S0005', 'S0007', 'S0013', 'S0015', 'S0018', 'S0019', 'S0070', 'S0071', 'S0085', 'S0105', 'S0108', 'S0111', 'S0122', 'S0133', 'S0135', 'S0149'};
+%SIDs_accbottom = {'S0007', 'S0019', 'S0004', 'S0071', 'S0135', 'S0005', 'S0122','S0001', 'S0108'}; % acc split bottom half
+%SIDs_acctop = {'S0015', 'S0133', 'S0111', 'S0105', 'S0149', 'S0070', 'S0085', 'S0013', 'S0018'}; %acc split top half
+%SIDs_disbottom = {'S0019', 'S0135', 'S0007', 'S0105', 'S0004','S0122', 'S0108', 'S0001', 'S0133'}; % dis split bottom half
+SIDs = {'S0005', 'S0071', 'S0149', 'S0013', 'S0015', 'S0018', 'S0111', 'S0070', 'S0085'}; %dis split top half
 Validities = [ 1 2 3]; % Valid, Neutral, Invalid
 Targets = [1 2] ; % T1, T2
 Contrasts = [1 0]; % present absent 
@@ -61,7 +63,6 @@ end
 %% get accuracy and RT 
 Acc = [];
 RT = [];
-%acc_bottomHalf_indices = [4 8 2 10 17 3 15 1 13];
 for iSub = 1:length(SIDs)
     for iContrast = 1:4
         for iTarget = 1:numel(Targets)
@@ -78,23 +79,34 @@ writetable(accTable,'tazoot_Acc_RT.csv','Delimiter',',','QuoteStrings','all')
 type 'tazoot_Acc_RT.csv'
 
 %% get accuracy split half
+% Acc_bottom = [];
+% RT_bottom = [];
 Acc = [];
 RT = [];
-acc_bottomHalf_indices = [4 8 2 10 17 3 15 1 13];
+% acc_bottomHalf_indices = [4 8 2 10 17 3 15 1 13];
+acc_topHalf_indices = [6 16 14 12 18 9 11 5 7];
 for iSub = 1:length(SIDs)
     for iContrast = 1:4
         for iTarget = 1:numel(Targets)
             for iValid = 1:numel(Validities)
-                Acc = [Acc; dataAll(acc_bottomHalf_indices(iSub)).means(iContrast,iValid, iTarget)];
-                RT = [RT; dataAll(acc_bottomHalf_indices(iSub)).TXNX_RTmeans(iContrast, iValid, iTarget)]; % RT means may be renamed, check dataAll.mat
+                % Acc_bottom = [Acc_bottom; dataAll(acc_bottomHalf_indices(iSub)).means(iContrast,iValid, iTarget)]; % bottom half acc
+                % RT_bottom = [RT_bottom; dataAll(acc_bottomHalf_indices(iSub)).TXNX_RTmeans(iContrast, iValid, iTarget)]; % bottom half RT
+
+                Acc = [Acc; dataAll(acc_topHalf_indices(iSub)).means(iContrast,iValid, iTarget)]; % bottom half acc
+                RT = [RT; dataAll(acc_topHalf_indices(iSub)).TXNX_RTmeans(iContrast, iValid, iTarget)]; % bottom half RT
+
             end
         end
     end
 end
 
+% accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, Acc_bottom, RT_bottom);
+% writetable(accTable,'tazoot_bottomHalf_Acc_RT.csv','Delimiter',',','QuoteStrings','all')
+% type 'tazoot_bottomHalf_Acc_RT.csv'
+% 
 accTable = table(SID, Validity, Target, targetContrast, nontargetContrast, Acc, RT);
-writetable(accTable,'tazoot_bottomHalf_Acc_RT.csv','Delimiter',',','QuoteStrings','all')
-type 'tazoot_bottomHalf_Acc_RT.csv'
+writetable(accTable,'tazoot_topHalf_Acc_RT.csv','Delimiter',',','QuoteStrings','all')
+type 'tazoot_topHalf_Acc_RT.csv'
 %% accuracy of nontarget swapping 
 % create csv file for accuracy and RT data (needs to be separate from SDT
 % because acc and RT out of 4 contrast conditions (PP, PA, AP, AA) and SDT
@@ -378,7 +390,7 @@ sub_Target = [];
 sub_nontargetContrast = [];
 for iSub = 1:length(SIDs)
     for i = 1:numCondsSDT
-        sub_SID = [sub_SID; SIDs{iSub}];
+        sub_SID = [sub_SID; SIDs_distop{iSub}];
     end
     for iNontargetContrast = 1:numel(ntpntaContrasts)
         for i = 1:6
@@ -401,18 +413,19 @@ for iSub = 1:length(SIDs)*2 % times by two because two nontarget contrasts (ntp,
 end
 
 dis_bottomHalf_indices = [8 17 4 12 2 15 13 1 16];
+dis_topHalf_indices = [ 3 10 18 5 6 7 14 9 11];
 dis_dPrime_sub = [];
 dis_crit_sub = [];
-for iSub = 1:length(dis_bottomHalf_indices)
+for iSub = 1:length(dis_topHalf_indices)
  
-    dataAll(dis_bottomHalf_indices(iSub)).disdPrime_sub = cat(3, dataAll(dis_bottomHalf_indices(iSub)).disd_sub_over2N.nontargetPresent, dataAll(iSub).disd_sub_over2N.nontargetAbsent);
-    dataAll(dis_bottomHalf_indices(iSub)).disCrit_sub = cat(3, dataAll(dis_bottomHalf_indices(iSub)).disc_sub_over2N.nontargetPresent, dataAll(iSub).disc_sub_over2N.nontargetAbsent);
+    dataAll(dis_topHalf_indices(iSub)).disdPrime_sub = cat(3, dataAll(dis_topHalf_indices(iSub)).disd_sub_over2N.nontargetPresent, dataAll(iSub).disd_sub_over2N.nontargetAbsent);
+    dataAll(dis_topHalf_indices(iSub)).disCrit_sub = cat(3, dataAll(dis_topHalf_indices(iSub)).disc_sub_over2N.nontargetPresent, dataAll(iSub).disc_sub_over2N.nontargetAbsent);
     for iNontargetContrast = 1:numel(ntpntaContrasts)
         for iTarget = 1:numel(Targets)
             for iValid = 1:numel(Validities)
               
-                dis_dPrime_sub = [dis_dPrime_sub; dataAll(dis_bottomHalf_indices(iSub)).disdPrime_sub(iTarget,iValid, iNontargetContrast)];
-                dis_crit_sub = [dis_crit_sub; dataAll(dis_bottomHalf_indices(iSub)).disCrit_sub(iTarget, iValid, iNontargetContrast)];
+                dis_dPrime_sub = [dis_dPrime_sub; dataAll(dis_topHalf_indices(iSub)).disdPrime_sub(iTarget,iValid, iNontargetContrast)];
+                dis_crit_sub = [dis_crit_sub; dataAll(dis_topHalf_indices(iSub)).disCrit_sub(iTarget, iValid, iNontargetContrast)];
             end
         end
     end
@@ -420,5 +433,5 @@ end
 
 
 sdtTable = table(sub_SID, sub_Validity, sub_Target, sub_nontargetContrast, dis_dPrime_sub, dis_crit_sub);
-writetable(sdtTable,'tazoot_SDT_dis_subsampled_bottomHalf.csv','Delimiter',',','QuoteStrings','all')
-type 'tazoot_SDT_dis_subsampled_bottomHalf.csv'
+writetable(sdtTable,'tazoot_SDT_dis_subsampled_topHalf.csv','Delimiter',',','QuoteStrings','all')
+type 'tazoot_SDT_dis_subsampled_topHalf.csv'

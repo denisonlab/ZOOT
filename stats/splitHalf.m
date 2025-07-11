@@ -1,4 +1,6 @@
 load('zoot_dataAll.mat')
+addpath('C:\Users\Jenny Motzer\OneDrive\Documents\GitHub\ZOOT\experiment-files\functions')
+addpath('C:\Users\Jenny Motzer\OneDrive\Documents\GitHub\ZOOT\experiment-files\ms_figures')
 %% accuracy 
 TXNX = [{'PP'},{'AP'},{'PA'},{'AA'}];
 
@@ -54,8 +56,9 @@ for iContrast = 1:numel(contrastConds)
     for iValid = 1:numel(Validities)
         for iTarget = 1:2
             for iSub = 1:length(acc_bottomHalf_indices)
-                accIdx = [accIdx dataAll(acc_bottomHalf_indices(iSub)).means(iContrast,iValid,iTarget)]; % collects the accuracy of each condition by each participant into a list so can do group analysis
+                accIdx = [accIdx dataAll(acc_bottomHalf_indices(iSub)).means(iContrast,iValid,iTarget)]; % collects the accuracy of each condition of bottom half participant into a list so can do group analysis
                 Acc_bottom_scatterplot.(txnx_contrasts{iContrast})(iValid,iSub,iTarget) = dataAll(acc_bottomHalf_indices(iSub)).means(iContrast,iValid,iTarget);
+                Acc_top_scatterplot.(txnx_contrasts{iContrast})(iValid,iSub,iTarget) = dataAll(acc_topHalf_indices(iSub)).means(iContrast,iValid,iTarget);
             end
             Acc_bottom.std(iContrast,iValid,iTarget) = std(accIdx); % finds std of the accuracy of each condition for each participant
             Acc_bottom.mean(iContrast, iValid, iTarget) = mean(accIdx); % finds means of accuracy for each condition for each participant
@@ -65,11 +68,35 @@ for iContrast = 1:numel(contrastConds)
     end
 end
 
+% finds overall TP accuracy
+Acc_scatter_splitHalf_TP = [];
+for i=1:numel(TXNX)
+    avg = mean(Acc_scatterplot.(TXNX{i}),3);
+    if i==1 || i ==3
+        Acc_scatter_splitHalf_TP = [Acc_scatter_splitHalf_TP; mean(avg,1)];
+    end
+    avg = [];
+end
+Acc_scatter_splitHalf_TP_overall = mean(Acc_scatter_splitHalf_TP,1);
+
+[sorted_array_TP, original_indices_TP] = sort(Acc_scatter_splitHalf_TP_overall);
+
+sortedSubs_TP_overall = [];
+for i=1:numel(subs)
+    sortedSubs_TP_overall = [sortedSubs_TP_overall subs(original_indices_TP(i))];
+end 
+
+acc_bottomHalf_TP = sortedSubs_TP_overall(1:9);
+acc_bottomHalf_TP_indices = original_indices_TP(1:9);
+acc_topHalf_TP = sortedSubs_TP_overall(10:end);
+acc_topHalf_TP_indices = original_indices_TP(10:end);
+
 %% plot bottom half - accuracy
 % Figure styling
 fp = zoot_figureparams;
 xVals = fp.xVals; 
 clear panel 
+for i = 1:2
 figure
 set(gcf,'Position',fp.rect)
 
@@ -98,12 +125,17 @@ tcl = tiledlayout(2,2,'TileSpacing','compact','OuterPosition',fp.OuterPosition);
         end
         for iT = 1:2
             for iV = 1:3
+                if i==1
                 b = zoot_bar(xVals(iT,iV),squeeze(Acc_bottom_scatterplot.(contrasts{iC})(iV,:,iT)),...
                     iC,iV,iT,1,Acc.err(iC,iV,iT), 3);
+                elseif i==2
+                     b = zoot_bar(xVals(iT,iV),squeeze(Acc_top_scatterplot.(contrasts{iC})(iV,:,iT)),...
+                    iC,iV,iT,1,Acc.err(iC,iV,iT), 3);
+                end 
             end
         end
 
-      
+    end 
 
         count = count+1;
     end

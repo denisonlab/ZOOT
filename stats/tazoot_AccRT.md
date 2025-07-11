@@ -107,21 +107,25 @@ knitr::kable(accTP_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
-|     | Effect                            | DFn | DFd |          F |         p | p\<.05 |       ges |
-|:----|:----------------------------------|----:|----:|-----------:|----------:|:-------|----------:|
-| 2   | nontargetContrast                 |   1 |  17 |  0.0753495 | 0.7870094 |        | 0.0005960 |
-| 3   | Target                            |   1 |  17 | 69.1163196 | 0.0000002 | \*     | 0.2260237 |
-| 4   | Validity                          |   2 |  34 | 28.7381783 | 0.0000000 | \*     | 0.1484665 |
-| 5   | nontargetContrast:Target          |   1 |  17 |  0.8094003 | 0.3808652 |        | 0.0024412 |
-| 6   | nontargetContrast:Validity        |   2 |  34 |  0.0610879 | 0.9408436 |        | 0.0005150 |
-| 7   | Target:Validity                   |   2 |  34 |  4.3061224 | 0.0215306 | \*     | 0.0272036 |
-| 8   | nontargetContrast:Target:Validity |   2 |  34 |  0.0192410 | 0.9809536 |        | 0.0000949 |
+|  | Effect | DFn | DFd | F | p | p\<.05 | ges |
+|:---|:---|---:|---:|---:|---:|:---|---:|
+| 2 | nontargetContrast | 1 | 17 | 0.0753495 | 0.7870094 |  | 0.0005960 |
+| 3 | Target | 1 | 17 | 69.1163196 | 0.0000002 | \* | 0.2260237 |
+| 4 | Validity | 2 | 34 | 28.7381783 | 0.0000000 | \* | 0.1484665 |
+| 5 | nontargetContrast:Target | 1 | 17 | 0.8094003 | 0.3808652 |  | 0.0024412 |
+| 6 | nontargetContrast:Validity | 2 | 34 | 0.0610879 | 0.9408436 |  | 0.0005150 |
+| 7 | Target:Validity | 2 | 34 | 4.3061224 | 0.0215306 | \* | 0.0272036 |
+| 8 | nontargetContrast:Target:Validity | 2 | 34 | 0.0192410 | 0.9809536 |  | 0.0000949 |
 
 </td>
+
 <td>
 
 |     | Effect                            |         W |         p | p\<.05 |
@@ -132,18 +136,22 @@ knitr::kable(accTP_anova)
 | 8   | nontargetContrast:Target:Validity | 0.8982876 | 0.4239583 |        |
 
 </td>
+
 <td>
 
-|     | Effect                            |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:----------------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 4   | Validity                          | 0.8902198 | 0.0000002 | \*           | 0.9871478 | 0.0000001 | \*           |
-| 6   | nontargetContrast:Validity        | 0.9998043 | 0.9408177 |              | 1.1330689 | 0.9408436 |              |
-| 7   | Target:Validity                   | 0.8487063 | 0.0283439 | \*           | 0.9329607 | 0.0243155 | \*           |
-| 8   | nontargetContrast:Target:Validity | 0.9076779 | 0.9739865 |              | 1.0101127 | 0.9809536 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 4 | Validity | 0.8902198 | 0.0000002 | \* | 0.9871478 | 0.0000001 | \* |
+| 6 | nontargetContrast:Validity | 0.9998043 | 0.9408177 |  | 1.1330689 | 0.9408436 |  |
+| 7 | Target:Validity | 0.8487063 | 0.0283439 | \* | 0.9329607 | 0.0243155 | \* |
+| 8 | nontargetContrast:Target:Validity | 0.9076779 | 0.9739865 |  | 1.0101127 | 0.9809536 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -160,8 +168,11 @@ knitr::kable(accTP_T1_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect                     | DFn | DFd |          F |         p | p\<.05 |       ges |
@@ -171,6 +182,7 @@ knitr::kable(accTP_T1_anova)
 | 4   | nontargetContrast:Validity |   2 |  34 |  0.0181475 | 0.9820257 |        | 0.0002833 |
 
 </td>
+
 <td>
 
 |     | Effect                     |         W |         p | p\<.05 |
@@ -179,16 +191,20 @@ knitr::kable(accTP_T1_anova)
 | 4   | nontargetContrast:Validity | 0.9206607 | 0.5161748 |        |
 
 </td>
+
 <td>
 
-|     | Effect                     |       GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:---------------------------|----------:|----------:|:-------------|---------:|----------:|:-------------|
-| 3   | Validity                   | 0.9575087 | 0.0000006 | \*           | 1.076246 | 0.0000004 | \*           |
-| 4   | nontargetContrast:Validity | 0.9264927 | 0.9768702 |              | 1.034981 | 0.9820257 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.9575087 | 0.0000006 | \* | 1.076246 | 0.0000004 | \* |
+| 4 | nontargetContrast:Validity | 0.9264927 | 0.9768702 |  | 1.034981 | 0.9820257 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -205,8 +221,11 @@ knitr::kable(accTP_T2_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect                     | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -216,6 +235,7 @@ knitr::kable(accTP_T2_anova)
 | 4   | nontargetContrast:Validity |   2 |  34 | 0.1178635 | 0.8891789 |        | 0.0011416 |
 
 </td>
+
 <td>
 
 |     | Effect                     |         W |         p | p\<.05 |
@@ -224,16 +244,20 @@ knitr::kable(accTP_T2_anova)
 | 4   | nontargetContrast:Validity | 0.8617123 | 0.3040172 |        |
 
 </td>
+
 <td>
 
-|     | Effect                     |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:---------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity                   | 0.9416487 | 0.0068400 | \*           | 1.0551028 | 0.0057675 | \*           |
-| 4   | nontargetContrast:Validity | 0.8785125 | 0.8646587 |              | 0.9718067 | 0.8839712 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.9416487 | 0.0068400 | \* | 1.0551028 | 0.0057675 | \* |
+| 4 | nontargetContrast:Validity | 0.8785125 | 0.8646587 |  | 0.9718067 | 0.8839712 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -250,21 +274,25 @@ knitr::kable(accTA_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
-|     | Effect                            | DFn | DFd |          F |         p | p\<.05 |       ges |
-|:----|:----------------------------------|----:|----:|-----------:|----------:|:-------|----------:|
-| 2   | nontargetContrast                 |   1 |  17 | 21.3065783 | 0.0002466 | \*     | 0.2954417 |
-| 3   | Target                            |   1 |  17 |  3.0301711 | 0.0997965 |        | 0.0097843 |
-| 4   | Validity                          |   2 |  34 |  2.3293792 | 0.1127009 |        | 0.0052049 |
-| 5   | nontargetContrast:Target          |   1 |  17 |  3.7336976 | 0.0701647 |        | 0.0107002 |
-| 6   | nontargetContrast:Validity        |   2 |  34 |  2.1651505 | 0.1302938 |        | 0.0045458 |
-| 7   | Target:Validity                   |   2 |  34 |  0.7391791 | 0.4850225 |        | 0.0026106 |
-| 8   | nontargetContrast:Target:Validity |   2 |  34 |  1.0591028 | 0.3579289 |        | 0.0042788 |
+|  | Effect | DFn | DFd | F | p | p\<.05 | ges |
+|:---|:---|---:|---:|---:|---:|:---|---:|
+| 2 | nontargetContrast | 1 | 17 | 21.3065783 | 0.0002466 | \* | 0.2954417 |
+| 3 | Target | 1 | 17 | 3.0301711 | 0.0997965 |  | 0.0097843 |
+| 4 | Validity | 2 | 34 | 2.3293792 | 0.1127009 |  | 0.0052049 |
+| 5 | nontargetContrast:Target | 1 | 17 | 3.7336976 | 0.0701647 |  | 0.0107002 |
+| 6 | nontargetContrast:Validity | 2 | 34 | 2.1651505 | 0.1302938 |  | 0.0045458 |
+| 7 | Target:Validity | 2 | 34 | 0.7391791 | 0.4850225 |  | 0.0026106 |
+| 8 | nontargetContrast:Target:Validity | 2 | 34 | 1.0591028 | 0.3579289 |  | 0.0042788 |
 
 </td>
+
 <td>
 
 |     | Effect                            |         W |         p | p\<.05 |
@@ -275,18 +303,22 @@ knitr::kable(accTA_anova)
 | 8   | nontargetContrast:Target:Validity | 0.7486873 | 0.0987197 |        |
 
 </td>
+
 <td>
 
-|     | Effect                            |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:----------------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 4   | Validity                          | 0.9399404 | 0.1164746 |              | 1.0528307 | 0.1127009 |              |
-| 6   | nontargetContrast:Validity        | 0.8812037 | 0.1373848 |              | 0.9753291 | 0.1317499 |              |
-| 7   | Target:Validity                   | 0.7598490 | 0.4521959 |              | 0.8189299 | 0.4611561 |              |
-| 8   | nontargetContrast:Target:Validity | 0.7991608 | 0.3465215 |              | 0.8690542 | 0.3509673 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 4 | Validity | 0.9399404 | 0.1164746 |  | 1.0528307 | 0.1127009 |  |
+| 6 | nontargetContrast:Validity | 0.8812037 | 0.1373848 |  | 0.9753291 | 0.1317499 |  |
+| 7 | Target:Validity | 0.7598490 | 0.4521959 |  | 0.8189299 | 0.4611561 |  |
+| 8 | nontargetContrast:Target:Validity | 0.7991608 | 0.3465215 |  | 0.8690542 | 0.3509673 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -303,8 +335,11 @@ knitr::kable(accTA_T1_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect                     | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -314,6 +349,7 @@ knitr::kable(accTA_T1_anova)
 | 4   | nontargetContrast:Validity |   2 |  34 |  1.744722 | 0.1899716 |        | 0.0086587 |
 
 </td>
+
 <td>
 
 |     | Effect                     |         W |         p | p\<.05 |
@@ -322,16 +358,20 @@ knitr::kable(accTA_T1_anova)
 | 4   | nontargetContrast:Validity | 0.9313495 | 0.5661106 |        |
 
 </td>
+
 <td>
 
-|     | Effect                     |       GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:---------------------------|----------:|----------:|:-------------|---------:|----------:|:-------------|
-| 3   | Validity                   | 0.9613426 | 0.0908478 |              | 1.081371 | 0.0883502 |              |
-| 4   | nontargetContrast:Validity | 0.9357596 | 0.1924800 |              | 1.047275 | 0.1899716 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.9613426 | 0.0908478 |  | 1.081371 | 0.0883502 |  |
+| 4 | nontargetContrast:Validity | 0.9357596 | 0.1924800 |  | 1.047275 | 0.1899716 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -348,8 +388,11 @@ knitr::kable(accTA_T2_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect                     | DFn | DFd |          F |         p | p\<.05 |       ges |
@@ -359,6 +402,7 @@ knitr::kable(accTA_T2_anova)
 | 4   | nontargetContrast:Validity |   2 |  34 |  1.2579023 | 0.2971438 |        | 0.0088917 |
 
 </td>
+
 <td>
 
 |     | Effect                     |         W |         p | p\<.05 |
@@ -367,16 +411,20 @@ knitr::kable(accTA_T2_anova)
 | 4   | nontargetContrast:Validity | 0.6687909 | 0.0400242 | \*     |
 
 </td>
+
 <td>
 
-|     | Effect                     |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:---------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity                   | 0.7804209 | 0.4786795 |              | 0.8450964 | 0.4892489 |              |
-| 4   | nontargetContrast:Validity | 0.7511968 | 0.2915812 |              | 0.8079662 | 0.2933416 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.7804209 | 0.4786795 |  | 0.8450964 | 0.4892489 |  |
+| 4 | nontargetContrast:Validity | 0.7511968 | 0.2915812 |  | 0.8079662 | 0.2933416 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -393,21 +441,25 @@ knitr::kable(accNP_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
-|     | Effect                         | DFn | DFd |          F |         p | p\<.05 |       ges |
-|:----|:-------------------------------|----:|----:|-----------:|----------:|:-------|----------:|
-| 2   | targetContrast                 |   1 |  17 |  6.4204715 | 0.0214084 | \*     | 0.0793120 |
-| 3   | Target                         |   1 |  17 |  3.6801103 | 0.0720187 |        | 0.0109042 |
-| 4   | Validity                       |   2 |  34 |  3.4951884 | 0.0416437 | \*     | 0.0194947 |
-| 5   | targetContrast:Target          |   1 |  17 | 26.5330534 | 0.0000800 | \*     | 0.0716802 |
-| 6   | targetContrast:Validity        |   2 |  34 | 15.5647465 | 0.0000159 | \*     | 0.0437653 |
-| 7   | Target:Validity                |   2 |  34 |  0.1286571 | 0.8797015 |        | 0.0006783 |
-| 8   | targetContrast:Target:Validity |   2 |  34 |  2.7395360 | 0.0788685 |        | 0.0115647 |
+|  | Effect | DFn | DFd | F | p | p\<.05 | ges |
+|:---|:---|---:|---:|---:|---:|:---|---:|
+| 2 | targetContrast | 1 | 17 | 6.4204715 | 0.0214084 | \* | 0.0793120 |
+| 3 | Target | 1 | 17 | 3.6801103 | 0.0720187 |  | 0.0109042 |
+| 4 | Validity | 2 | 34 | 3.4951884 | 0.0416437 | \* | 0.0194947 |
+| 5 | targetContrast:Target | 1 | 17 | 26.5330534 | 0.0000800 | \* | 0.0716802 |
+| 6 | targetContrast:Validity | 2 | 34 | 15.5647465 | 0.0000159 | \* | 0.0437653 |
+| 7 | Target:Validity | 2 | 34 | 0.1286571 | 0.8797015 |  | 0.0006783 |
+| 8 | targetContrast:Target:Validity | 2 | 34 | 2.7395360 | 0.0788685 |  | 0.0115647 |
 
 </td>
+
 <td>
 
 |     | Effect                         |         W |         p | p\<.05 |
@@ -418,18 +470,22 @@ knitr::kable(accNP_anova)
 | 8   | targetContrast:Target:Validity | 0.7603621 | 0.1117284 |        |
 
 </td>
+
 <td>
 
-|     | Effect                         |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:-------------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 4   | Validity                       | 0.9557520 | 0.0440835 | \*           | 1.0739000 | 0.0416437 | \*           |
-| 6   | targetContrast:Validity        | 0.7691971 | 0.0001085 | \*           | 0.8308030 | 0.0000648 | \*           |
-| 7   | Target:Validity                | 0.7913148 | 0.8326128 |              | 0.8590094 | 0.8499066 |              |
-| 8   | targetContrast:Target:Validity | 0.8066872 | 0.0920576 |              | 0.8787092 | 0.0869256 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 4 | Validity | 0.9557520 | 0.0440835 | \* | 1.0739000 | 0.0416437 | \* |
+| 6 | targetContrast:Validity | 0.7691971 | 0.0001085 | \* | 0.8308030 | 0.0000648 | \* |
+| 7 | Target:Validity | 0.7913148 | 0.8326128 |  | 0.8590094 | 0.8499066 |  |
+| 8 | targetContrast:Target:Validity | 0.8066872 | 0.0920576 |  | 0.8787092 | 0.0869256 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -446,8 +502,11 @@ knitr::kable(accNP_T1_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect                  | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -457,6 +516,7 @@ knitr::kable(accNP_T1_anova)
 | 4   | targetContrast:Validity |   2 |  34 | 14.509554 | 0.0000278 | \*     | 0.0910822 |
 
 </td>
+
 <td>
 
 |     | Effect                  |         W |         p | p\<.05 |
@@ -465,16 +525,20 @@ knitr::kable(accNP_T1_anova)
 | 4   | targetContrast:Validity | 0.8670509 | 0.3194162 |        |
 
 </td>
+
 <td>
 
-|     | Effect                  |       GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:------------------------|----------:|----------:|:-------------|---------:|----------:|:-------------|
-| 3   | Validity                | 0.9981463 | 0.1220061 |              | 1.130829 | 0.1218938 |              |
-| 4   | targetContrast:Validity | 0.8826522 | 0.0000693 | \*           | 0.977226 | 0.0000332 | \*           |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.9981463 | 0.1220061 |  | 1.130829 | 0.1218938 |  |
+| 4 | targetContrast:Validity | 0.8826522 | 0.0000693 | \* | 0.977226 | 0.0000332 | \* |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -491,8 +555,11 @@ knitr::kable(accNP_T2_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect                  | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -502,6 +569,7 @@ knitr::kable(accNP_T2_anova)
 | 4   | targetContrast:Validity |   2 |  34 | 2.3570076 | 0.1099973 |        | 0.0173596 |
 
 </td>
+
 <td>
 
 |     | Effect                  |         W |         p | p\<.05 |
@@ -510,16 +578,20 @@ knitr::kable(accNP_T2_anova)
 | 4   | targetContrast:Validity | 0.7644832 | 0.1166658 |        |
 
 </td>
+
 <td>
 
-|     | Effect                  |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity                | 0.9389882 | 0.2354951 |              | 1.0515648 | 0.2343614 |              |
-| 4   | targetContrast:Validity | 0.8093779 | 0.1223781 |              | 0.8821655 | 0.1175431 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.9389882 | 0.2354951 |  | 1.0515648 | 0.2343614 |  |
+| 4 | targetContrast:Validity | 0.8093779 | 0.1223781 |  | 0.8821655 | 0.1175431 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -536,21 +608,25 @@ knitr::kable(accNA_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
-|     | Effect                         | DFn | DFd |          F |         p | p\<.05 |       ges |
-|:----|:-------------------------------|----:|----:|-----------:|----------:|:-------|----------:|
-| 2   | targetContrast                 |   1 |  17 | 140.996755 | 0.0000000 | \*     | 0.6729669 |
-| 3   | Target                         |   1 |  17 |  33.304318 | 0.0000226 | \*     | 0.1399724 |
-| 4   | Validity                       |   2 |  34 |  14.648701 | 0.0000258 | \*     | 0.0644764 |
-| 5   | targetContrast:Target          |   1 |  17 |  38.944055 | 0.0000090 | \*     | 0.1359327 |
-| 6   | targetContrast:Validity        |   2 |  34 |  14.031746 | 0.0000361 | \*     | 0.0703036 |
-| 7   | Target:Validity                |   2 |  34 |   3.969343 | 0.0282286 | \*     | 0.0154483 |
-| 8   | targetContrast:Target:Validity |   2 |  34 |   2.835941 | 0.0725995 |        | 0.0134135 |
+|  | Effect | DFn | DFd | F | p | p\<.05 | ges |
+|:---|:---|---:|---:|---:|---:|:---|---:|
+| 2 | targetContrast | 1 | 17 | 140.996755 | 0.0000000 | \* | 0.6729669 |
+| 3 | Target | 1 | 17 | 33.304318 | 0.0000226 | \* | 0.1399724 |
+| 4 | Validity | 2 | 34 | 14.648701 | 0.0000258 | \* | 0.0644764 |
+| 5 | targetContrast:Target | 1 | 17 | 38.944055 | 0.0000090 | \* | 0.1359327 |
+| 6 | targetContrast:Validity | 2 | 34 | 14.031746 | 0.0000361 | \* | 0.0703036 |
+| 7 | Target:Validity | 2 | 34 | 3.969343 | 0.0282286 | \* | 0.0154483 |
+| 8 | targetContrast:Target:Validity | 2 | 34 | 2.835941 | 0.0725995 |  | 0.0134135 |
 
 </td>
+
 <td>
 
 |     | Effect                         |         W |         p | p\<.05 |
@@ -561,18 +637,22 @@ knitr::kable(accNA_anova)
 | 8   | targetContrast:Target:Validity | 0.7773061 | 0.1332713 |        |
 
 </td>
+
 <td>
 
-|     | Effect                         |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:-------------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 4   | Validity                       | 0.9698324 | 0.0000327 | \*           | 1.0927368 | 0.0000258 | \*           |
-| 6   | targetContrast:Validity        | 0.9613052 | 0.0000482 | \*           | 1.0813207 | 0.0000361 | \*           |
-| 7   | Target:Validity                | 0.7826419 | 0.0399540 | \*           | 0.8479297 | 0.0359888 | \*           |
-| 8   | targetContrast:Target:Validity | 0.8178662 | 0.0849369 |              | 0.8930847 | 0.0796202 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 4 | Validity | 0.9698324 | 0.0000327 | \* | 1.0927368 | 0.0000258 | \* |
+| 6 | targetContrast:Validity | 0.9613052 | 0.0000482 | \* | 1.0813207 | 0.0000361 | \* |
+| 7 | Target:Validity | 0.7826419 | 0.0399540 | \* | 0.8479297 | 0.0359888 | \* |
+| 8 | targetContrast:Target:Validity | 0.8178662 | 0.0849369 |  | 0.8930847 | 0.0796202 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -589,8 +669,11 @@ knitr::kable(accNA_T1_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect                  | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -600,6 +683,7 @@ knitr::kable(accNA_T1_anova)
 | 4   | targetContrast:Validity |   2 |  34 |  10.37969 | 0.0003029 | \*     | 0.1021003 |
 
 </td>
+
 <td>
 
 |     | Effect                  |         W |         p | p\<.05 |
@@ -608,16 +692,20 @@ knitr::kable(accNA_T1_anova)
 | 4   | targetContrast:Validity | 0.8933741 | 0.4057579 |        |
 
 </td>
+
 <td>
 
-|     | Effect                  |       GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:------------------------|----------:|----------:|:-------------|---------:|----------:|:-------------|
-| 3   | Validity                | 0.9309952 | 0.0002580 | \*           | 1.040950 | 0.0001695 | \*           |
-| 4   | targetContrast:Validity | 0.9036478 | 0.0005176 | \*           | 1.004802 | 0.0003029 | \*           |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.9309952 | 0.0002580 | \* | 1.040950 | 0.0001695 | \* |
+| 4 | targetContrast:Validity | 0.9036478 | 0.0005176 | \* | 1.004802 | 0.0003029 | \* |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -634,8 +722,11 @@ knitr::kable(accNA_T2_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect                  | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -645,6 +736,7 @@ knitr::kable(accNA_T2_anova)
 | 4   | targetContrast:Validity |   2 |  34 |  4.485739 | 0.0186671 | \*     | 0.0370860 |
 
 </td>
+
 <td>
 
 |     | Effect                  |         W |         p | p\<.05 |
@@ -653,16 +745,20 @@ knitr::kable(accNA_T2_anova)
 | 4   | targetContrast:Validity | 0.7382346 | 0.0882175 |        |
 
 </td>
+
 <td>
 
-|     | Effect                  |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity                | 0.9809930 | 0.0118122 | \*           | 1.1077177 | 0.0112968 | \*           |
-| 4   | targetContrast:Validity | 0.7925403 | 0.0278965 | \*           | 0.8605771 | 0.0244450 | \*           |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.9809930 | 0.0118122 | \* | 1.1077177 | 0.0112968 | \* |
+| 4 | targetContrast:Validity | 0.7925403 | 0.0278965 | \* | 0.8605771 | 0.0244450 | \* |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -679,8 +775,11 @@ knitr::kable(accTPNP_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect          | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -690,6 +789,7 @@ knitr::kable(accTPNP_anova)
 | 4   | Target:Validity |   2 |  34 |  1.784437 | 0.1832579 |        | 0.0259027 |
 
 </td>
+
 <td>
 
 |     | Effect          |         W |         p | p\<.05 |
@@ -698,16 +798,20 @@ knitr::kable(accTPNP_anova)
 | 4   | Target:Validity | 0.7519856 | 0.1022531 |        |
 
 </td>
+
 <td>
 
-|     | Effect          |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:----------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity        | 0.9253560 | 0.0004520 | \*           | 1.0334749 | 0.0002982 | \*           |
-| 4   | Target:Validity | 0.8012728 | 0.1912731 |              | 0.8717617 | 0.1885433 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.9253560 | 0.0004520 | \* | 1.0334749 | 0.0002982 | \* |
+| 4 | Target:Validity | 0.8012728 | 0.1912731 |  | 0.8717617 | 0.1885433 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -724,8 +828,11 @@ knitr::kable(accTPNA_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect          | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -735,6 +842,7 @@ knitr::kable(accTPNA_anova)
 | 4   | Target:Validity |   2 |  34 |  3.529756 | 0.0404676 | \*     | 0.0285321 |
 
 </td>
+
 <td>
 
 |     | Effect          |         W |         p | p\<.05 |
@@ -743,16 +851,20 @@ knitr::kable(accTPNA_anova)
 | 4   | Target:Validity | 0.7493311 | 0.0994009 |        |
 
 </td>
+
 <td>
 
-|     | Effect          |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:----------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity        | 0.9636492 | 0.0000289 | \*           | 1.0844562 | 0.0000216 | \*           |
-| 4   | Target:Validity | 0.7995722 | 0.0526225 |              | 0.8695815 | 0.0480078 | \*           |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.9636492 | 0.0000289 | \* | 1.0844562 | 0.0000216 | \* |
+| 4 | Target:Validity | 0.7995722 | 0.0526225 |  | 0.8695815 | 0.0480078 | \* |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -769,8 +881,11 @@ knitr::kable(accTANP_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect          | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -780,6 +895,7 @@ knitr::kable(accTANP_anova)
 | 4   | Target:Validity |   2 |  34 | 0.9009104 | 0.4156757 |        | 0.0066147 |
 
 </td>
+
 <td>
 
 |     | Effect          |         W |         p | p\<.05 |
@@ -788,16 +904,20 @@ knitr::kable(accTANP_anova)
 | 4   | Target:Validity | 0.7290941 | 0.0798488 |        |
 
 </td>
+
 <td>
 
-|     | Effect          |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:----------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity        | 0.9145135 | 0.1158082 |              | 1.0191333 | 0.1103762 |              |
-| 4   | Target:Validity | 0.7868403 | 0.3958653 |              | 0.8532901 | 0.4026690 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.9145135 | 0.1158082 |  | 1.0191333 | 0.1103762 |  |
+| 4 | Target:Validity | 0.7868403 | 0.3958653 |  | 0.8532901 | 0.4026690 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -814,8 +934,11 @@ knitr::kable(accTANA_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect          | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -825,6 +948,7 @@ knitr::kable(accTANA_anova)
 | 4   | Target:Validity |   2 |  34 | 1.1292639 | 0.3350956 |        | 0.0257379 |
 
 </td>
+
 <td>
 
 |     | Effect          |         W |         p | p\<.05 |
@@ -833,16 +957,20 @@ knitr::kable(accTANA_anova)
 | 4   | Target:Validity | 0.4668121 | 0.0022550 | \*     |
 
 </td>
+
 <td>
 
-|     | Effect          |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:----------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity        | 0.9029925 | 0.8207468 |              | 1.0039391 | 0.8419723 |              |
-| 4   | Target:Validity | 0.6522358 | 0.3171295 |              | 0.6842869 | 0.3194670 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.9029925 | 0.8207468 |  | 1.0039391 | 0.8419723 |  |
+| 4 | Target:Validity | 0.6522358 | 0.3171295 |  | 0.6842869 | 0.3194670 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -859,8 +987,11 @@ knitr::kable(accTPNP_T1_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect   | DFn | DFd |        F |         p | p\<.05 |       ges |
@@ -868,6 +999,7 @@ knitr::kable(accTPNP_T1_anova)
 | 2   | Validity |   2 |  34 | 9.109017 | 0.0006795 | \*     | 0.2519941 |
 
 </td>
+
 <td>
 
 |     | Effect   |         W |         p | p\<.05 |
@@ -875,6 +1007,7 @@ knitr::kable(accTPNP_T1_anova)
 | 2   | Validity | 0.9610258 | 0.7275795 |        |
 
 </td>
+
 <td>
 
 |     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
@@ -882,8 +1015,11 @@ knitr::kable(accTPNP_T1_anova)
 | 2   | Validity | 0.9624878 | 0.0008141 | \*           | 1.082902 | 0.0006795 | \*           |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -900,8 +1036,11 @@ knitr::kable(accTPNA_T1_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect   | DFn | DFd |        F |         p | p\<.05 |       ges |
@@ -909,6 +1048,7 @@ knitr::kable(accTPNA_T1_anova)
 | 2   | Validity |   2 |  34 | 11.42181 | 0.0001605 | \*     | 0.1858981 |
 
 </td>
+
 <td>
 
 |     | Effect   |         W |         p | p\<.05 |
@@ -916,6 +1056,7 @@ knitr::kable(accTPNA_T1_anova)
 | 2   | Validity | 0.9365571 | 0.5919353 |        |
 
 </td>
+
 <td>
 
 |     | Effect   |      GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
@@ -923,8 +1064,11 @@ knitr::kable(accTPNA_T1_anova)
 | 2   | Validity | 0.940342 | 0.0002315 | \*           | 1.053365 | 0.0001605 | \*           |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -941,8 +1085,11 @@ knitr::kable(accTANP_T1_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect   | DFn | DFd |        F |        p | p\<.05 |       ges |
@@ -950,6 +1097,7 @@ knitr::kable(accTANP_T1_anova)
 | 2   | Validity |   2 |  34 | 2.295779 | 0.116084 |        | 0.0199377 |
 
 </td>
+
 <td>
 
 |     | Effect   |         W |         p | p\<.05 |
@@ -957,6 +1105,7 @@ knitr::kable(accTANP_T1_anova)
 | 2   | Validity | 0.9622289 | 0.7348982 |        |
 
 </td>
+
 <td>
 
 |     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |  p\[HF\] | p\[HF\]\<.05 |
@@ -964,8 +1113,11 @@ knitr::kable(accTANP_T1_anova)
 | 2   | Validity | 0.9636036 | 0.1183396 |              | 1.084395 | 0.116084 |              |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -982,8 +1134,11 @@ knitr::kable(accTANA_T1_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect   | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -991,6 +1146,7 @@ knitr::kable(accTANA_T1_anova)
 | 2   | Validity |   2 |  34 | 0.5091641 | 0.6055077 |        | 0.0204362 |
 
 </td>
+
 <td>
 
 |     | Effect   |         W |         p | p\<.05 |
@@ -998,6 +1154,7 @@ knitr::kable(accTANA_T1_anova)
 | 2   | Validity | 0.5252197 | 0.0057907 | \*     |
 
 </td>
+
 <td>
 
 |     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |  p\[HF\] | p\[HF\]\<.05 |
@@ -1005,8 +1162,11 @@ knitr::kable(accTANA_T1_anova)
 | 2   | Validity | 0.6780671 | 0.5374146 |              | 0.7162685 | 0.546931 |              |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1023,8 +1183,11 @@ knitr::kable(accTPNP_T2_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect   | DFn | DFd |        F |         p | p\<.05 |       ges |
@@ -1032,6 +1195,7 @@ knitr::kable(accTPNP_T2_anova)
 | 2   | Validity |   2 |  34 | 3.076318 | 0.0591565 |        | 0.0881418 |
 
 </td>
+
 <td>
 
 |     | Effect   |         W |         p | p\<.05 |
@@ -1039,6 +1203,7 @@ knitr::kable(accTPNP_T2_anova)
 | 2   | Validity | 0.9453946 | 0.6381238 |        |
 
 </td>
+
 <td>
 
 |     | Effect   |      GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
@@ -1046,8 +1211,11 @@ knitr::kable(accTPNP_T2_anova)
 | 2   | Validity | 0.948222 | 0.0623556 |              | 1.063855 | 0.0591565 |              |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1064,8 +1232,11 @@ knitr::kable(accTPNA_T2_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect   | DFn | DFd |        F |         p | p\<.05 |       ges |
@@ -1073,6 +1244,7 @@ knitr::kable(accTPNA_T2_anova)
 | 2   | Validity |   2 |  34 | 5.037037 | 0.0121346 | \*     | 0.0685854 |
 
 </td>
+
 <td>
 
 |     | Effect   |         W |         p | p\<.05 |
@@ -1080,6 +1252,7 @@ knitr::kable(accTPNA_T2_anova)
 | 2   | Validity | 0.9183464 | 0.5058853 |        |
 
 </td>
+
 <td>
 
 |     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
@@ -1087,8 +1260,11 @@ knitr::kable(accTPNA_T2_anova)
 | 2   | Validity | 0.9245104 | 0.0144245 | \*           | 1.032355 | 0.0121346 | \*           |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1105,8 +1281,11 @@ knitr::kable(accTANP_T2_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect   | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -1114,6 +1293,7 @@ knitr::kable(accTANP_T2_anova)
 | 2   | Validity |   2 |  34 | 0.9697774 | 0.3894089 |        | 0.0132488 |
 
 </td>
+
 <td>
 
 |     | Effect   |         W |         p | p\<.05 |
@@ -1121,6 +1301,7 @@ knitr::kable(accTANP_T2_anova)
 | 2   | Validity | 0.6883586 | 0.0504102 |        |
 
 </td>
+
 <td>
 
 |     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
@@ -1128,8 +1309,11 @@ knitr::kable(accTANP_T2_anova)
 | 2   | Validity | 0.7624035 | 0.3707777 |              | 0.8221716 | 0.3761286 |              |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1146,8 +1330,11 @@ knitr::kable(accTANA_T2_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect   | DFn | DFd |        F |         p | p\<.05 |       ges |
@@ -1155,6 +1342,7 @@ knitr::kable(accTANA_T2_anova)
 | 2   | Validity |   2 |  34 | 1.242308 | 0.3014918 |        | 0.0430229 |
 
 </td>
+
 <td>
 
 |     | Effect   |         W |        p | p\<.05 |
@@ -1162,6 +1350,7 @@ knitr::kable(accTANA_T2_anova)
 | 2   | Validity | 0.3882249 | 0.000516 | \*     |
 
 </td>
+
 <td>
 
 |     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
@@ -1169,8 +1358,11 @@ knitr::kable(accTANA_T2_anova)
 | 2   | Validity | 0.6204339 | 0.2891804 |              | 0.6452012 | 0.2905513 |              |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1187,21 +1379,25 @@ knitr::kable(accT1_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
-|     | Effect                                    | DFn | DFd |           F |         p | p\<.05 |       ges |
-|:----|:------------------------------------------|----:|----:|------------:|----------:|:-------|----------:|
-| 2   | targetContrast                            |   1 |  17 | 175.2232393 | 0.0000000 | \*     | 0.4833102 |
-| 3   | nontargetContrast                         |   1 |  17 |  12.4136749 | 0.0026088 | \*     | 0.0649030 |
-| 4   | Validity                                  |   2 |  34 |  11.8092549 | 0.0001275 | \*     | 0.0478605 |
-| 5   | targetContrast:nontargetContrast          |   1 |  17 |   6.6017959 | 0.0198987 | \*     | 0.0759618 |
-| 6   | targetContrast:Validity                   |   2 |  34 |  25.3274035 | 0.0000002 | \*     | 0.0923511 |
-| 7   | nontargetContrast:Validity                |   2 |  34 |   0.2281879 | 0.7971838 |        | 0.0014833 |
-| 8   | targetContrast:nontargetContrast:Validity |   2 |  34 |   0.6548571 | 0.5259448 |        | 0.0027228 |
+|  | Effect | DFn | DFd | F | p | p\<.05 | ges |
+|:---|:---|---:|---:|---:|---:|:---|---:|
+| 2 | targetContrast | 1 | 17 | 175.2232393 | 0.0000000 | \* | 0.4833102 |
+| 3 | nontargetContrast | 1 | 17 | 12.4136749 | 0.0026088 | \* | 0.0649030 |
+| 4 | Validity | 2 | 34 | 11.8092549 | 0.0001275 | \* | 0.0478605 |
+| 5 | targetContrast:nontargetContrast | 1 | 17 | 6.6017959 | 0.0198987 | \* | 0.0759618 |
+| 6 | targetContrast:Validity | 2 | 34 | 25.3274035 | 0.0000002 | \* | 0.0923511 |
+| 7 | nontargetContrast:Validity | 2 | 34 | 0.2281879 | 0.7971838 |  | 0.0014833 |
+| 8 | targetContrast:nontargetContrast:Validity | 2 | 34 | 0.6548571 | 0.5259448 |  | 0.0027228 |
 
 </td>
+
 <td>
 
 |     | Effect                                    |         W |         p | p\<.05 |
@@ -1212,18 +1408,22 @@ knitr::kable(accT1_anova)
 | 8   | targetContrast:nontargetContrast:Validity | 0.6309918 | 0.0251299 | \*     |
 
 </td>
+
 <td>
 
-|     | Effect                                    |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:------------------------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 4   | Validity                                  | 0.9305075 | 0.0001983 | \*           | 1.0403033 | 0.0001275 | \*           |
-| 6   | targetContrast:Validity                   | 0.9918303 | 0.0000002 | \*           | 1.1223071 | 0.0000002 | \*           |
-| 7   | nontargetContrast:Validity                | 0.9648522 | 0.7895381 |              | 1.0860663 | 0.7971838 |              |
-| 8   | targetContrast:nontargetContrast:Validity | 0.7304558 | 0.4820015 |              | 0.7817836 | 0.4914620 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 4 | Validity | 0.9305075 | 0.0001983 | \* | 1.0403033 | 0.0001275 | \* |
+| 6 | targetContrast:Validity | 0.9918303 | 0.0000002 | \* | 1.1223071 | 0.0000002 | \* |
+| 7 | nontargetContrast:Validity | 0.9648522 | 0.7895381 |  | 1.0860663 | 0.7971838 |  |
+| 8 | targetContrast:nontargetContrast:Validity | 0.7304558 | 0.4820015 |  | 0.7817836 | 0.4914620 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1239,21 +1439,25 @@ knitr::kable(accT2_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
-|     | Effect                                    | DFn | DFd |          F |         p | p\<.05 |       ges |
-|:----|:------------------------------------------|----:|----:|-----------:|----------:|:-------|----------:|
-| 2   | targetContrast                            |   1 |  17 | 20.9383054 | 0.0002685 | \*     | 0.1303549 |
-| 3   | nontargetContrast                         |   1 |  17 | 25.3950716 | 0.0001009 | \*     | 0.1623623 |
-| 4   | Validity                                  |   2 |  34 |  2.7401363 | 0.0788278 |        | 0.0159263 |
-| 5   | targetContrast:nontargetContrast          |   1 |  17 | 15.4473459 | 0.0010784 | \*     | 0.1189307 |
-| 6   | targetContrast:Validity                   |   2 |  34 |  4.9799493 | 0.0126817 | \*     | 0.0179220 |
-| 7   | nontargetContrast:Validity                |   2 |  34 |  0.7560771 | 0.4772350 |        | 0.0030615 |
-| 8   | targetContrast:nontargetContrast:Validity |   2 |  34 |  0.7482391 | 0.4808306 |        | 0.0029978 |
+|  | Effect | DFn | DFd | F | p | p\<.05 | ges |
+|:---|:---|---:|---:|---:|---:|:---|---:|
+| 2 | targetContrast | 1 | 17 | 20.9383054 | 0.0002685 | \* | 0.1303549 |
+| 3 | nontargetContrast | 1 | 17 | 25.3950716 | 0.0001009 | \* | 0.1623623 |
+| 4 | Validity | 2 | 34 | 2.7401363 | 0.0788278 |  | 0.0159263 |
+| 5 | targetContrast:nontargetContrast | 1 | 17 | 15.4473459 | 0.0010784 | \* | 0.1189307 |
+| 6 | targetContrast:Validity | 2 | 34 | 4.9799493 | 0.0126817 | \* | 0.0179220 |
+| 7 | nontargetContrast:Validity | 2 | 34 | 0.7560771 | 0.4772350 |  | 0.0030615 |
+| 8 | targetContrast:nontargetContrast:Validity | 2 | 34 | 0.7482391 | 0.4808306 |  | 0.0029978 |
 
 </td>
+
 <td>
 
 |     | Effect                                    |         W |         p | p\<.05 |
@@ -1264,18 +1468,22 @@ knitr::kable(accT2_anova)
 | 8   | targetContrast:nontargetContrast:Validity | 0.8578714 | 0.2933441 |        |
 
 </td>
+
 <td>
 
-|     | Effect                                    |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:------------------------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 4   | Validity                                  | 0.9467108 | 0.0822769 |              | 1.0618417 | 0.0788278 |              |
-| 6   | targetContrast:Validity                   | 0.7873961 | 0.0205022 | \*           | 0.8540001 | 0.0176298 | \*           |
-| 7   | nontargetContrast:Validity                | 0.9411919 | 0.4702496 |              | 1.0544952 | 0.4772350 |              |
-| 8   | targetContrast:nontargetContrast:Validity | 0.8755581 | 0.4652509 |              | 0.9679427 | 0.4770129 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 4 | Validity | 0.9467108 | 0.0822769 |  | 1.0618417 | 0.0788278 |  |
+| 6 | targetContrast:Validity | 0.7873961 | 0.0205022 | \* | 0.8540001 | 0.0176298 | \* |
+| 7 | nontargetContrast:Validity | 0.9411919 | 0.4702496 |  | 1.0544952 | 0.4772350 |  |
+| 8 | targetContrast:nontargetContrast:Validity | 0.8755581 | 0.4652509 |  | 0.9679427 | 0.4770129 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ## RT
@@ -1373,21 +1581,25 @@ knitr::kable(RTTP_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
-|     | Effect                            | DFn | DFd |          F |         p | p\<.05 |       ges |
-|:----|:----------------------------------|----:|----:|-----------:|----------:|:-------|----------:|
-| 2   | nontargetContrast                 |   1 |  17 |  0.3212098 | 0.5782885 |        | 0.0002331 |
-| 3   | Target                            |   1 |  17 | 24.5297112 | 0.0001210 | \*     | 0.0295881 |
-| 4   | Validity                          |   2 |  34 | 18.2027958 | 0.0000042 | \*     | 0.0724221 |
-| 5   | nontargetContrast:Target          |   1 |  17 |  1.7534531 | 0.2029722 |        | 0.0008271 |
-| 6   | nontargetContrast:Validity        |   2 |  34 |  0.1430929 | 0.8671927 |        | 0.0001244 |
-| 7   | Target:Validity                   |   2 |  34 |  5.1492225 | 0.0111311 | \*     | 0.0045344 |
-| 8   | nontargetContrast:Target:Validity |   2 |  34 |  1.0089712 | 0.3752497 |        | 0.0005489 |
+|  | Effect | DFn | DFd | F | p | p\<.05 | ges |
+|:---|:---|---:|---:|---:|---:|:---|---:|
+| 2 | nontargetContrast | 1 | 17 | 0.3212098 | 0.5782885 |  | 0.0002331 |
+| 3 | Target | 1 | 17 | 24.5297112 | 0.0001210 | \* | 0.0295881 |
+| 4 | Validity | 2 | 34 | 18.2027958 | 0.0000042 | \* | 0.0724221 |
+| 5 | nontargetContrast:Target | 1 | 17 | 1.7534531 | 0.2029722 |  | 0.0008271 |
+| 6 | nontargetContrast:Validity | 2 | 34 | 0.1430929 | 0.8671927 |  | 0.0001244 |
+| 7 | Target:Validity | 2 | 34 | 5.1492225 | 0.0111311 | \* | 0.0045344 |
+| 8 | nontargetContrast:Target:Validity | 2 | 34 | 1.0089712 | 0.3752497 |  | 0.0005489 |
 
 </td>
+
 <td>
 
 |     | Effect                            |         W |         p | p\<.05 |
@@ -1398,18 +1610,22 @@ knitr::kable(RTTP_anova)
 | 8   | nontargetContrast:Target:Validity | 0.9064703 | 0.4558569 |        |
 
 </td>
+
 <td>
 
-|     | Effect                            |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:----------------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 4   | Validity                          | 0.6727094 | 0.0000977 | \*           | 0.7096178 | 0.0000684 | \*           |
-| 6   | nontargetContrast:Validity        | 0.9951997 | 0.8662649 |              | 1.1268518 | 0.8671927 |              |
-| 7   | Target:Validity                   | 0.9084699 | 0.0138193 | \*           | 1.0111570 | 0.0111311 | \*           |
-| 8   | nontargetContrast:Target:Validity | 0.9144699 | 0.3700091 |              | 1.0190756 | 0.3752497 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 4 | Validity | 0.6727094 | 0.0000977 | \* | 0.7096178 | 0.0000684 | \* |
+| 6 | nontargetContrast:Validity | 0.9951997 | 0.8662649 |  | 1.1268518 | 0.8671927 |  |
+| 7 | Target:Validity | 0.9084699 | 0.0138193 | \* | 1.0111570 | 0.0111311 | \* |
+| 8 | nontargetContrast:Target:Validity | 0.9144699 | 0.3700091 |  | 1.0190756 | 0.3752497 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1426,8 +1642,11 @@ knitr::kable(RTTP_T1_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect                     | DFn | DFd |          F |         p | p\<.05 |       ges |
@@ -1437,6 +1656,7 @@ knitr::kable(RTTP_T1_anova)
 | 4   | nontargetContrast:Validity |   2 |  34 |  0.2223491 | 0.8017908 |        | 0.0002730 |
 
 </td>
+
 <td>
 
 |     | Effect                     |         W |         p | p\<.05 |
@@ -1445,16 +1665,20 @@ knitr::kable(RTTP_T1_anova)
 | 4   | nontargetContrast:Validity | 0.9840623 | 0.8793881 |        |
 
 </td>
+
 <td>
 
-|     | Effect                     |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:---------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity                   | 0.8503462 | 0.0000367 | \*           | 0.9350902 | 0.0000175 | \*           |
-| 4   | nontargetContrast:Validity | 0.9843123 | 0.7984312 |              | 1.1121817 | 0.8017908 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.8503462 | 0.0000367 | \* | 0.9350902 | 0.0000175 | \* |
+| 4 | nontargetContrast:Validity | 0.9843123 | 0.7984312 |  | 1.1121817 | 0.8017908 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1471,8 +1695,11 @@ knitr::kable(RTTP_T2_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect                     | DFn | DFd |          F |         p | p\<.05 |       ges |
@@ -1482,6 +1709,7 @@ knitr::kable(RTTP_T2_anova)
 | 4   | nontargetContrast:Validity |   2 |  34 |  0.7079166 | 0.4997867 |        | 0.0011589 |
 
 </td>
+
 <td>
 
 |     | Effect                     |         W |         p | p\<.05 |
@@ -1490,16 +1718,20 @@ knitr::kable(RTTP_T2_anova)
 | 4   | nontargetContrast:Validity | 0.9116234 | 0.4770057 |        |
 
 </td>
+
 <td>
 
-|     | Effect                     |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:---------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity                   | 0.5941369 | 0.0005584 | \*           | 0.6131187 | 0.0004782 | \*           |
-| 4   | nontargetContrast:Validity | 0.9187996 | 0.4890161 |              | 1.0247976 | 0.4997867 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.5941369 | 0.0005584 | \* | 0.6131187 | 0.0004782 | \* |
+| 4 | nontargetContrast:Validity | 0.9187996 | 0.4890161 |  | 1.0247976 | 0.4997867 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1516,21 +1748,25 @@ knitr::kable(RTTA_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
-|     | Effect                            | DFn | DFd |         F |         p | p\<.05 |       ges |
-|:----|:----------------------------------|----:|----:|----------:|----------:|:-------|----------:|
-| 2   | nontargetContrast                 |   1 |  17 | 35.702681 | 0.0000151 | \*     | 0.1369682 |
-| 3   | Target                            |   1 |  17 | 12.444378 | 0.0025843 | \*     | 0.0181932 |
-| 4   | Validity                          |   2 |  34 |  5.418904 | 0.0090612 | \*     | 0.0157877 |
-| 5   | nontargetContrast:Target          |   1 |  17 |  5.961506 | 0.0258500 | \*     | 0.0105976 |
-| 6   | nontargetContrast:Validity        |   2 |  34 | 10.624024 | 0.0002605 | \*     | 0.0174017 |
-| 7   | Target:Validity                   |   2 |  34 |  1.451732 | 0.2483134 |        | 0.0017300 |
-| 8   | nontargetContrast:Target:Validity |   2 |  34 |  1.276830 | 0.2919556 |        | 0.0015869 |
+|  | Effect | DFn | DFd | F | p | p\<.05 | ges |
+|:---|:---|---:|---:|---:|---:|:---|---:|
+| 2 | nontargetContrast | 1 | 17 | 35.702681 | 0.0000151 | \* | 0.1369682 |
+| 3 | Target | 1 | 17 | 12.444378 | 0.0025843 | \* | 0.0181932 |
+| 4 | Validity | 2 | 34 | 5.418904 | 0.0090612 | \* | 0.0157877 |
+| 5 | nontargetContrast:Target | 1 | 17 | 5.961506 | 0.0258500 | \* | 0.0105976 |
+| 6 | nontargetContrast:Validity | 2 | 34 | 10.624024 | 0.0002605 | \* | 0.0174017 |
+| 7 | Target:Validity | 2 | 34 | 1.451732 | 0.2483134 |  | 0.0017300 |
+| 8 | nontargetContrast:Target:Validity | 2 | 34 | 1.276830 | 0.2919556 |  | 0.0015869 |
 
 </td>
+
 <td>
 
 |     | Effect                            |         W |         p | p\<.05 |
@@ -1541,18 +1777,22 @@ knitr::kable(RTTA_anova)
 | 8   | nontargetContrast:Target:Validity | 0.5692651 | 0.0110285 | \*     |
 
 </td>
+
 <td>
 
-|     | Effect                            |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:----------------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 4   | Validity                          | 0.9995042 | 0.0090726 | \*           | 1.1326634 | 0.0090612 | \*           |
-| 6   | nontargetContrast:Validity        | 0.9012887 | 0.0004571 | \*           | 1.0016959 | 0.0002605 | \*           |
-| 7   | Target:Validity                   | 0.9421951 | 0.2489826 |              | 1.0558299 | 0.2483134 |              |
-| 8   | nontargetContrast:Target:Validity | 0.6989415 | 0.2853777 |              | 0.7422677 | 0.2868844 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 4 | Validity | 0.9995042 | 0.0090726 | \* | 1.1326634 | 0.0090612 | \* |
+| 6 | nontargetContrast:Validity | 0.9012887 | 0.0004571 | \* | 1.0016959 | 0.0002605 | \* |
+| 7 | Target:Validity | 0.9421951 | 0.2489826 |  | 1.0558299 | 0.2483134 |  |
+| 8 | nontargetContrast:Target:Validity | 0.6989415 | 0.2853777 |  | 0.7422677 | 0.2868844 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1569,8 +1809,11 @@ knitr::kable(RTTA_T1_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect                     | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -1580,6 +1823,7 @@ knitr::kable(RTTA_T1_anova)
 | 4   | nontargetContrast:Validity |   2 |  34 |  4.860451 | 0.0139132 | \*     | 0.0122515 |
 
 </td>
+
 <td>
 
 |     | Effect                     |         W |         p | p\<.05 |
@@ -1588,16 +1832,20 @@ knitr::kable(RTTA_T1_anova)
 | 4   | nontargetContrast:Validity | 0.7916300 | 0.1542332 |        |
 
 </td>
+
 <td>
 
-|     | Effect                     |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:---------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity                   | 0.9227806 | 0.0786809 |              | 1.0300646 | 0.0736649 |              |
-| 4   | nontargetContrast:Validity | 0.8275611 | 0.0202616 | \*           | 0.9055855 | 0.0170869 | \*           |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.9227806 | 0.0786809 |  | 1.0300646 | 0.0736649 |  |
+| 4 | nontargetContrast:Validity | 0.8275611 | 0.0202616 | \* | 0.9055855 | 0.0170869 | \* |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1614,8 +1862,11 @@ knitr::kable(RTTA_T2_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect                     | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -1625,6 +1876,7 @@ knitr::kable(RTTA_T2_anova)
 | 4   | nontargetContrast:Validity |   2 |  34 |  8.467569 | 0.0010372 | \*     | 0.0280865 |
 
 </td>
+
 <td>
 
 |     | Effect                     |         W |         p | p\<.05 |
@@ -1633,16 +1885,20 @@ knitr::kable(RTTA_T2_anova)
 | 4   | nontargetContrast:Validity | 0.6149096 | 0.0204404 | \*     |
 
 </td>
+
 <td>
 
-|     | Effect                     |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:---------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity                   | 0.9273243 | 0.0100938 | \*           | 1.0360828 | 0.0083523 | \*           |
-| 4   | nontargetContrast:Validity | 0.7219745 | 0.0035831 | \*           | 0.7711174 | 0.0028746 | \*           |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.9273243 | 0.0100938 | \* | 1.0360828 | 0.0083523 | \* |
+| 4 | nontargetContrast:Validity | 0.7219745 | 0.0035831 | \* | 0.7711174 | 0.0028746 | \* |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1659,21 +1915,25 @@ knitr::kable(RTNP_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
-|     | Effect                         | DFn | DFd |          F |         p | p\<.05 |       ges |
-|:----|:-------------------------------|----:|----:|-----------:|----------:|:-------|----------:|
-| 2   | targetContrast                 |   1 |  17 | 11.9907582 | 0.0029747 | \*     | 0.0777986 |
-| 3   | Target                         |   1 |  17 | 37.9978065 | 0.0000104 | \*     | 0.0278866 |
-| 4   | Validity                       |   2 |  34 | 17.1460412 | 0.0000071 | \*     | 0.0657241 |
-| 5   | targetContrast:Target          |   1 |  17 |  0.1583017 | 0.6956768 |        | 0.0001362 |
-| 6   | targetContrast:Validity        |   2 |  34 |  7.3309902 | 0.0022538 | \*     | 0.0089355 |
-| 7   | Target:Validity                |   2 |  34 |  4.1144338 | 0.0251062 | \*     | 0.0039839 |
-| 8   | targetContrast:Target:Validity |   2 |  34 |  3.8457615 | 0.0312126 | \*     | 0.0020457 |
+|  | Effect | DFn | DFd | F | p | p\<.05 | ges |
+|:---|:---|---:|---:|---:|---:|:---|---:|
+| 2 | targetContrast | 1 | 17 | 11.9907582 | 0.0029747 | \* | 0.0777986 |
+| 3 | Target | 1 | 17 | 37.9978065 | 0.0000104 | \* | 0.0278866 |
+| 4 | Validity | 2 | 34 | 17.1460412 | 0.0000071 | \* | 0.0657241 |
+| 5 | targetContrast:Target | 1 | 17 | 0.1583017 | 0.6956768 |  | 0.0001362 |
+| 6 | targetContrast:Validity | 2 | 34 | 7.3309902 | 0.0022538 | \* | 0.0089355 |
+| 7 | Target:Validity | 2 | 34 | 4.1144338 | 0.0251062 | \* | 0.0039839 |
+| 8 | targetContrast:Target:Validity | 2 | 34 | 3.8457615 | 0.0312126 | \* | 0.0020457 |
 
 </td>
+
 <td>
 
 |     | Effect                         |         W |         p | p\<.05 |
@@ -1684,18 +1944,22 @@ knitr::kable(RTNP_anova)
 | 8   | targetContrast:Target:Validity | 0.9696202 | 0.7812915 |        |
 
 </td>
+
 <td>
 
-|     | Effect                         |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:-------------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 4   | Validity                       | 0.6399550 | 0.0001885 | \*           | 0.6691559 | 0.0001442 | \*           |
-| 6   | targetContrast:Validity        | 0.6577209 | 0.0081888 | \*           | 0.6910604 | 0.0072152 | \*           |
-| 7   | Target:Validity                | 0.8480706 | 0.0324653 | \*           | 0.9321355 | 0.0281566 | \*           |
-| 8   | targetContrast:Target:Validity | 0.9705159 | 0.0326372 | \*           | 1.0936530 | 0.0312126 | \*           |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 4 | Validity | 0.6399550 | 0.0001885 | \* | 0.6691559 | 0.0001442 | \* |
+| 6 | targetContrast:Validity | 0.6577209 | 0.0081888 | \* | 0.6910604 | 0.0072152 | \* |
+| 7 | Target:Validity | 0.8480706 | 0.0324653 | \* | 0.9321355 | 0.0281566 | \* |
+| 8 | targetContrast:Target:Validity | 0.9705159 | 0.0326372 | \* | 1.0936530 | 0.0312126 | \* |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1712,8 +1976,11 @@ knitr::kable(RTNP_T1_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect                  | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -1723,6 +1990,7 @@ knitr::kable(RTNP_T1_anova)
 | 4   | targetContrast:Validity |   2 |  34 | 10.485911 | 0.0002836 | \*     | 0.0160585 |
 
 </td>
+
 <td>
 
 |     | Effect                  |         W |         p | p\<.05 |
@@ -1731,16 +1999,20 @@ knitr::kable(RTNP_T1_anova)
 | 4   | targetContrast:Validity | 0.8288634 | 0.2227735 |        |
 
 </td>
+
 <td>
 
-|     | Effect                  |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |  p\[HF\] | p\[HF\]\<.05 |
-|:----|:------------------------|----------:|----------:|:-------------|----------:|---------:|:-------------|
-| 3   | Validity                | 0.8600942 | 0.0000633 | \*           | 0.9477666 | 3.11e-05 | \*           |
-| 4   | targetContrast:Validity | 0.8538713 | 0.0006453 | \*           | 0.9396706 | 3.98e-04 | \*           |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.8600942 | 0.0000633 | \* | 0.9477666 | 3.11e-05 | \* |
+| 4 | targetContrast:Validity | 0.8538713 | 0.0006453 | \* | 0.9396706 | 3.98e-04 | \* |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1757,8 +2029,11 @@ knitr::kable(RTNP_T2_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect                  | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -1768,6 +2043,7 @@ knitr::kable(RTNP_T2_anova)
 | 4   | targetContrast:Validity |   2 |  34 |  2.118124 | 0.1358507 |        | 0.0042789 |
 
 </td>
+
 <td>
 
 |     | Effect                  |         W |         p | p\<.05 |
@@ -1776,16 +2052,20 @@ knitr::kable(RTNP_T2_anova)
 | 4   | targetContrast:Validity | 0.7190375 | 0.0714516 |        |
 
 </td>
+
 <td>
 
-|     | Effect                  |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity                | 0.5809376 | 0.0008209 | \*           | 0.5970958 | 0.0007245 | \*           |
-| 4   | targetContrast:Validity | 0.7806630 | 0.1486695 |              | 0.8454051 | 0.1448668 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.5809376 | 0.0008209 | \* | 0.5970958 | 0.0007245 | \* |
+| 4 | targetContrast:Validity | 0.7806630 | 0.1486695 |  | 0.8454051 | 0.1448668 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1802,8 +2082,11 @@ knitr::kable(RTNA_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect                         | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -1817,6 +2100,7 @@ knitr::kable(RTNA_anova)
 | 8   | targetContrast:Target:Validity |   2 |  34 |  2.432824 | 0.1029250 |        | 0.0020335 |
 
 </td>
+
 <td>
 
 |     | Effect                         |         W |         p | p\<.05 |
@@ -1827,18 +2111,22 @@ knitr::kable(RTNA_anova)
 | 8   | targetContrast:Target:Validity | 0.9595949 | 0.7189578 |        |
 
 </td>
+
 <td>
 
-|     | Effect                         |       GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:-------------------------------|----------:|----------:|:-------------|---------:|----------:|:-------------|
-| 4   | Validity                       | 0.9032807 | 0.0003226 | \*           | 1.004319 | 0.0001799 | \*           |
-| 6   | targetContrast:Validity        | 0.9758561 | 0.0000765 | \*           | 1.100817 | 0.0000647 | \*           |
-| 7   | Target:Validity                | 0.9816302 | 0.2715082 |              | 1.108574 | 0.2715015 |              |
-| 8   | targetContrast:Target:Validity | 0.9611641 | 0.1054025 |              | 1.081132 | 0.1029250 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 4 | Validity | 0.9032807 | 0.0003226 | \* | 1.004319 | 0.0001799 | \* |
+| 6 | targetContrast:Validity | 0.9758561 | 0.0000765 | \* | 1.100817 | 0.0000647 | \* |
+| 7 | Target:Validity | 0.9816302 | 0.2715082 |  | 1.108574 | 0.2715015 |  |
+| 8 | targetContrast:Target:Validity | 0.9611641 | 0.1054025 |  | 1.081132 | 0.1029250 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1855,8 +2143,11 @@ knitr::kable(RTNA_T1_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect                  | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -1866,6 +2157,7 @@ knitr::kable(RTNA_T1_anova)
 | 4   | targetContrast:Validity |   2 |  34 | 10.996134 | 0.0002075 | \*     | 0.0398525 |
 
 </td>
+
 <td>
 
 |     | Effect                  |         W |         p | p\<.05 |
@@ -1874,16 +2166,20 @@ knitr::kable(RTNA_T1_anova)
 | 4   | targetContrast:Validity | 0.9558073 | 0.6965667 |        |
 
 </td>
+
 <td>
 
-|     | Effect                  |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity                | 0.8864743 | 0.0011346 | \*           | 0.9822346 | 0.0007123 | \*           |
-| 4   | targetContrast:Validity | 0.9576776 | 0.0002663 | \*           | 1.0764720 | 0.0002075 | \*           |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.8864743 | 0.0011346 | \* | 0.9822346 | 0.0007123 | \* |
+| 4 | targetContrast:Validity | 0.9576776 | 0.0002663 | \* | 1.0764720 | 0.0002075 | \* |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1900,8 +2196,11 @@ knitr::kable(RTNA_T2_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect                  | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -1911,6 +2210,7 @@ knitr::kable(RTNA_T2_anova)
 | 4   | targetContrast:Validity |   2 |  34 |  8.403655 | 0.0010824 | \*     | 0.0188344 |
 
 </td>
+
 <td>
 
 |     | Effect                  |         W |         p | p\<.05 |
@@ -1919,16 +2219,20 @@ knitr::kable(RTNA_T2_anova)
 | 4   | targetContrast:Validity | 0.8308425 | 0.2270647 |        |
 
 </td>
+
 <td>
 
-|     | Effect                  |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity                | 0.9913825 | 0.0025090 | \*           | 1.1217034 | 0.0024308 | \*           |
-| 4   | targetContrast:Validity | 0.8553168 | 0.0020479 | \*           | 0.9415499 | 0.0013997 | \*           |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.9913825 | 0.0025090 | \* | 1.1217034 | 0.0024308 | \* |
+| 4 | targetContrast:Validity | 0.8553168 | 0.0020479 | \* | 0.9415499 | 0.0013997 | \* |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1945,8 +2249,11 @@ knitr::kable(RTTPNP_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect          | DFn | DFd |        F |         p | p\<.05 |       ges |
@@ -1956,6 +2263,7 @@ knitr::kable(RTTPNP_anova)
 | 4   | Target:Validity |   2 |  34 |  4.62210 | 0.0167636 | \*     | 0.0062722 |
 
 </td>
+
 <td>
 
 |     | Effect          |         W |         p | p\<.05 |
@@ -1964,16 +2272,20 @@ knitr::kable(RTTPNP_anova)
 | 4   | Target:Validity | 0.9358422 | 0.5883300 |        |
 
 </td>
+
 <td>
 
-|     | Effect          |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:----------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity        | 0.5731715 | 0.0005955 | \*           | 0.5876933 | 0.0005276 | \*           |
-| 4   | Target:Validity | 0.9397103 | 0.0189345 | \*           | 1.0525248 | 0.0167636 | \*           |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.5731715 | 0.0005955 | \* | 0.5876933 | 0.0005276 | \* |
+| 4 | Target:Validity | 0.9397103 | 0.0189345 | \* | 1.0525248 | 0.0167636 | \* |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -1990,8 +2302,11 @@ knitr::kable(RTTPNA_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect          | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -2001,6 +2316,7 @@ knitr::kable(RTTPNA_anova)
 | 4   | Target:Validity |   2 |  34 |  2.688319 | 0.0824299 |        | 0.0039818 |
 
 </td>
+
 <td>
 
 |     | Effect          |         W |         p | p\<.05 |
@@ -2009,16 +2325,20 @@ knitr::kable(RTTPNA_anova)
 | 4   | Target:Validity | 0.9232017 | 0.5276826 |        |
 
 </td>
+
 <td>
 
-|     | Effect          |       GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:----------------|----------:|----------:|:-------------|---------:|----------:|:-------------|
-| 3   | Validity        | 0.9056907 | 0.0000476 | \*           | 1.007493 | 0.0000224 | \*           |
-| 4   | Target:Validity | 0.9286790 | 0.0870877 |              | 1.037878 | 0.0824299 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.9056907 | 0.0000476 | \* | 1.007493 | 0.0000224 | \* |
+| 4 | Target:Validity | 0.9286790 | 0.0870877 |  | 1.037878 | 0.0824299 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -2035,8 +2355,11 @@ knitr::kable(RTTANP_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect          | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -2046,6 +2369,7 @@ knitr::kable(RTTANP_anova)
 | 4   | Target:Validity |   2 |  34 |  2.803482 | 0.0746492 |        | 0.0052877 |
 
 </td>
+
 <td>
 
 |     | Effect          |         W |         p | p\<.05 |
@@ -2054,16 +2378,20 @@ knitr::kable(RTTANP_anova)
 | 4   | Target:Validity | 0.6548639 | 0.0338227 | \*     |
 
 </td>
+
 <td>
 
-|     | Effect          |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:----------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity        | 0.9287555 | 0.0001051 | \*           | 1.0379798 | 0.0000638 | \*           |
-| 4   | Target:Validity | 0.7434192 | 0.0925640 |              | 0.7981317 | 0.0884511 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.9287555 | 0.0001051 | \* | 1.0379798 | 0.0000638 | \* |
+| 4 | Target:Validity | 0.7434192 | 0.0925640 |  | 0.7981317 | 0.0884511 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -2080,8 +2408,11 @@ knitr::kable(RTTANA_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect          | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -2091,6 +2422,7 @@ knitr::kable(RTTANA_anova)
 | 4   | Target:Validity |   2 |  34 | 0.0723999 | 0.9303018 |        | 0.0002373 |
 
 </td>
+
 <td>
 
 |     | Effect          |         W |         p | p\<.05 |
@@ -2099,16 +2431,20 @@ knitr::kable(RTTANA_anova)
 | 4   | Target:Validity | 0.7291957 | 0.0799379 |        |
 
 </td>
+
 <td>
 
-|     | Effect          |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:----------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 3   | Validity        | 0.8359883 | 0.9381309 |              | 0.9164776 | 0.9500956 |              |
-| 4   | Target:Validity | 0.7869032 | 0.8905702 |              | 0.8533705 | 0.9051267 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 3 | Validity | 0.8359883 | 0.9381309 |  | 0.9164776 | 0.9500956 |  |
+| 4 | Target:Validity | 0.7869032 | 0.8905702 |  | 0.8533705 | 0.9051267 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -2125,8 +2461,11 @@ knitr::kable(RTTPNP_T1_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect   | DFn | DFd |        F |       p | p\<.05 |       ges |
@@ -2134,6 +2473,7 @@ knitr::kable(RTTPNP_T1_anova)
 | 2   | Validity |   2 |  34 | 16.82754 | 8.3e-06 | \*     | 0.0956603 |
 
 </td>
+
 <td>
 
 |     | Effect   |         W |       p | p\<.05 |
@@ -2141,6 +2481,7 @@ knitr::kable(RTTPNP_T1_anova)
 | 2   | Validity | 0.7423807 | 0.09226 |        |
 
 </td>
+
 <td>
 
 |     | Effect   |       GGe |  p\[GG\] | p\[GG\]\<.05 |      HFe | p\[HF\] | p\[HF\]\<.05 |
@@ -2148,8 +2489,11 @@ knitr::kable(RTTPNP_T1_anova)
 | 2   | Validity | 0.7951532 | 5.18e-05 | \*           | 0.863921 | 2.8e-05 | \*           |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -2166,8 +2510,11 @@ knitr::kable(RTTPNA_T1_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect   | DFn | DFd |        F |         p | p\<.05 |       ges |
@@ -2175,6 +2522,7 @@ knitr::kable(RTTPNA_T1_anova)
 | 2   | Validity |   2 |  34 | 11.57017 | 0.0001469 | \*     | 0.0873015 |
 
 </td>
+
 <td>
 
 |     | Effect   |         W |         p | p\<.05 |
@@ -2182,6 +2530,7 @@ knitr::kable(RTTPNA_T1_anova)
 | 2   | Validity | 0.8742539 | 0.3412721 |        |
 
 </td>
+
 <td>
 
 |     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
@@ -2189,8 +2538,11 @@ knitr::kable(RTTPNA_T1_anova)
 | 2   | Validity | 0.8882998 | 0.0002946 | \*           | 0.9846287 | 0.0001617 | \*           |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -2207,8 +2559,11 @@ knitr::kable(RTTANP_T1_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect   | DFn | DFd |        F |         p | p\<.05 |       ges |
@@ -2216,6 +2571,7 @@ knitr::kable(RTTANP_T1_anova)
 | 2   | Validity |   2 |  34 | 5.876612 | 0.0064265 | \*     | 0.0337791 |
 
 </td>
+
 <td>
 
 |     | Effect   |         W |         p | p\<.05 |
@@ -2223,6 +2579,7 @@ knitr::kable(RTTANP_T1_anova)
 | 2   | Validity | 0.9770354 | 0.8303908 |        |
 
 </td>
+
 <td>
 
 |     | Effect   |      GGe |   p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
@@ -2230,8 +2587,11 @@ knitr::kable(RTTANP_T1_anova)
 | 2   | Validity | 0.977551 | 0.0068475 | \*           | 1.103093 | 0.0064265 | \*           |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -2248,8 +2608,11 @@ knitr::kable(RTTANA_T1_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect   | DFn | DFd |         F |         p | p\<.05 |       ges |
@@ -2257,6 +2620,7 @@ knitr::kable(RTTANA_T1_anova)
 | 2   | Validity |   2 |  34 | 0.0729186 | 0.9298215 |        | 0.0004132 |
 
 </td>
+
 <td>
 
 |     | Effect   |         W |         p | p\<.05 |
@@ -2264,6 +2628,7 @@ knitr::kable(RTTANA_T1_anova)
 | 2   | Validity | 0.9481306 | 0.6530481 |        |
 
 </td>
+
 <td>
 
 |     | Effect   |       GGe |  p\[GG\] | p\[GG\]\<.05 |      HFe |   p\[HF\] | p\[HF\]\<.05 |
@@ -2271,8 +2636,11 @@ knitr::kable(RTTANA_T1_anova)
 | 2   | Validity | 0.9506883 | 0.922249 |              | 1.067143 | 0.9298215 |              |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -2289,8 +2657,11 @@ knitr::kable(RTTPNP_T2_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect   | DFn | DFd |        F |         p | p\<.05 |       ges |
@@ -2298,6 +2669,7 @@ knitr::kable(RTTPNP_T2_anova)
 | 2   | Validity |   2 |  34 | 9.906292 | 0.0004075 | \*     | 0.0739924 |
 
 </td>
+
 <td>
 
 |     | Effect   |         W |       p | p\<.05 |
@@ -2305,6 +2677,7 @@ knitr::kable(RTTPNP_T2_anova)
 | 2   | Validity | 0.3094146 | 8.4e-05 | \*     |
 
 </td>
+
 <td>
 
 |     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
@@ -2312,8 +2685,11 @@ knitr::kable(RTTPNP_T2_anova)
 | 2   | Validity | 0.5915111 | 0.0035878 | \*           | 0.6099268 | 0.0032496 | \*           |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -2330,8 +2706,11 @@ knitr::kable(RTTPNA_T2_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect   | DFn | DFd |        F |        p | p\<.05 |       ges |
@@ -2339,6 +2718,7 @@ knitr::kable(RTTPNA_T2_anova)
 | 2   | Validity |   2 |  34 | 12.98247 | 6.47e-05 | \*     | 0.0445506 |
 
 </td>
+
 <td>
 
 |     | Effect   |         W |         p | p\<.05 |
@@ -2346,6 +2726,7 @@ knitr::kable(RTTPNA_T2_anova)
 | 2   | Validity | 0.8859325 | 0.3794942 |        |
 
 </td>
+
 <td>
 
 |     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |  p\[HF\] | p\[HF\]\<.05 |
@@ -2353,8 +2734,11 @@ knitr::kable(RTTPNA_T2_anova)
 | 2   | Validity | 0.8976117 | 0.0001323 | \*           | 0.9968585 | 6.61e-05 | \*           |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -2371,8 +2755,11 @@ knitr::kable(RTTANP_T2_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect   | DFn | DFd |        F |        p | p\<.05 |      ges |
@@ -2380,6 +2767,7 @@ knitr::kable(RTTANP_T2_anova)
 | 2   | Validity |   2 |  34 | 15.14262 | 1.98e-05 | \*     | 0.089059 |
 
 </td>
+
 <td>
 
 |     | Effect   |         W |         p | p\<.05 |
@@ -2387,6 +2775,7 @@ knitr::kable(RTTANP_T2_anova)
 | 2   | Validity | 0.7150573 | 0.0683482 |        |
 
 </td>
+
 <td>
 
 |     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |  p\[HF\] | p\[HF\]\<.05 |
@@ -2394,8 +2783,11 @@ knitr::kable(RTTANP_T2_anova)
 | 2   | Validity | 0.7782448 | 0.0001198 | \*           | 0.8423219 | 7.12e-05 | \*           |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -2412,8 +2804,11 @@ knitr::kable(RTTANA_T2_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
 |     | Effect   | DFn | DFd |        F |        p | p\<.05 |       ges |
@@ -2421,6 +2816,7 @@ knitr::kable(RTTANA_T2_anova)
 | 2   | Validity |   2 |  34 | 0.040869 | 0.960002 |        | 0.0004979 |
 
 </td>
+
 <td>
 
 |     | Effect   |         W |         p | p\<.05 |
@@ -2428,6 +2824,7 @@ knitr::kable(RTTANA_T2_anova)
 | 2   | Validity | 0.6076268 | 0.0185821 | \*     |
 
 </td>
+
 <td>
 
 |     | Effect   |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
@@ -2435,8 +2832,11 @@ knitr::kable(RTTANA_T2_anova)
 | 2   | Validity | 0.7181982 | 0.9148533 |              | 0.7663757 | 0.9253708 |              |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -2453,21 +2853,25 @@ knitr::kable(RTT1_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
-|     | Effect                                    | DFn | DFd |         F |         p | p\<.05 |       ges |
-|:----|:------------------------------------------|----:|----:|----------:|----------:|:-------|----------:|
-| 2   | targetContrast                            |   1 |  17 | 20.249922 | 0.0003158 | \*     | 0.1709387 |
-| 3   | nontargetContrast                         |   1 |  17 | 17.941326 | 0.0005570 | \*     | 0.0219067 |
-| 4   | Validity                                  |   2 |  34 | 14.752842 | 0.0000244 | \*     | 0.0494894 |
-| 5   | targetContrast:nontargetContrast          |   1 |  17 | 18.421509 | 0.0004934 | \*     | 0.0267091 |
-| 6   | targetContrast:Validity                   |   2 |  34 | 14.274836 | 0.0000316 | \*     | 0.0265726 |
-| 7   | nontargetContrast:Validity                |   2 |  34 |  2.194134 | 0.1269892 |        | 0.0017693 |
-| 8   | targetContrast:nontargetContrast:Validity |   2 |  34 |  1.776929 | 0.1845075 |        | 0.0012854 |
+|  | Effect | DFn | DFd | F | p | p\<.05 | ges |
+|:---|:---|---:|---:|---:|---:|:---|---:|
+| 2 | targetContrast | 1 | 17 | 20.249922 | 0.0003158 | \* | 0.1709387 |
+| 3 | nontargetContrast | 1 | 17 | 17.941326 | 0.0005570 | \* | 0.0219067 |
+| 4 | Validity | 2 | 34 | 14.752842 | 0.0000244 | \* | 0.0494894 |
+| 5 | targetContrast:nontargetContrast | 1 | 17 | 18.421509 | 0.0004934 | \* | 0.0267091 |
+| 6 | targetContrast:Validity | 2 | 34 | 14.274836 | 0.0000316 | \* | 0.0265726 |
+| 7 | nontargetContrast:Validity | 2 | 34 | 2.194134 | 0.1269892 |  | 0.0017693 |
+| 8 | targetContrast:nontargetContrast:Validity | 2 | 34 | 1.776929 | 0.1845075 |  | 0.0012854 |
 
 </td>
+
 <td>
 
 |     | Effect                                    |         W |         p | p\<.05 |
@@ -2478,18 +2882,22 @@ knitr::kable(RTT1_anova)
 | 8   | targetContrast:nontargetContrast:Validity | 0.8088449 | 0.1831985 |        |
 
 </td>
+
 <td>
 
-|     | Effect                                    |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:------------------------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 4   | Validity                                  | 0.8918309 | 0.0000573 | \*           | 0.9892628 | 0.0000266 | \*           |
-| 6   | targetContrast:Validity                   | 0.8083330 | 0.0001374 | \*           | 0.8808230 | 0.0000787 | \*           |
-| 7   | nontargetContrast:Validity                | 0.9905374 | 0.1275533 |              | 1.1205645 | 0.1269892 |              |
-| 8   | targetContrast:nontargetContrast:Validity | 0.8395212 | 0.1909752 |              | 0.9210509 | 0.1877587 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 4 | Validity | 0.8918309 | 0.0000573 | \* | 0.9892628 | 0.0000266 | \* |
+| 6 | targetContrast:Validity | 0.8083330 | 0.0001374 | \* | 0.8808230 | 0.0000787 | \* |
+| 7 | nontargetContrast:Validity | 0.9905374 | 0.1275533 |  | 1.1205645 | 0.1269892 |  |
+| 8 | targetContrast:nontargetContrast:Validity | 0.8395212 | 0.1909752 |  | 0.9210509 | 0.1877587 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 ``` r
@@ -2506,21 +2914,25 @@ knitr::kable(RTT2_anova)
 ```
 
 <table class="kable_wrapper">
+
 <tbody>
+
 <tr>
+
 <td>
 
-|     | Effect                                    | DFn | DFd |         F |         p | p\<.05 |       ges |
-|:----|:------------------------------------------|----:|----:|----------:|----------:|:-------|----------:|
-| 2   | targetContrast                            |   1 |  17 | 14.202628 | 0.0015317 | \*     | 0.1216584 |
-| 3   | nontargetContrast                         |   1 |  17 | 19.281468 | 0.0003988 | \*     | 0.0173362 |
-| 4   | Validity                                  |   2 |  34 | 15.347480 | 0.0000178 | \*     | 0.0425953 |
-| 5   | targetContrast:nontargetContrast          |   1 |  17 |  6.539822 | 0.0204006 | \*     | 0.0055106 |
-| 6   | targetContrast:Validity                   |   2 |  34 |  7.095616 | 0.0026588 | \*     | 0.0100876 |
-| 7   | nontargetContrast:Validity                |   2 |  34 |  4.133627 | 0.0247214 | \*     | 0.0052819 |
-| 8   | targetContrast:nontargetContrast:Validity |   2 |  34 |  2.190760 | 0.1273692 |        | 0.0015765 |
+|  | Effect | DFn | DFd | F | p | p\<.05 | ges |
+|:---|:---|---:|---:|---:|---:|:---|---:|
+| 2 | targetContrast | 1 | 17 | 14.202628 | 0.0015317 | \* | 0.1216584 |
+| 3 | nontargetContrast | 1 | 17 | 19.281468 | 0.0003988 | \* | 0.0173362 |
+| 4 | Validity | 2 | 34 | 15.347480 | 0.0000178 | \* | 0.0425953 |
+| 5 | targetContrast:nontargetContrast | 1 | 17 | 6.539822 | 0.0204006 | \* | 0.0055106 |
+| 6 | targetContrast:Validity | 2 | 34 | 7.095616 | 0.0026588 | \* | 0.0100876 |
+| 7 | nontargetContrast:Validity | 2 | 34 | 4.133627 | 0.0247214 | \* | 0.0052819 |
+| 8 | targetContrast:nontargetContrast:Validity | 2 | 34 | 2.190760 | 0.1273692 |  | 0.0015765 |
 
 </td>
+
 <td>
 
 |     | Effect                                    |         W |         p | p\<.05 |
@@ -2531,18 +2943,22 @@ knitr::kable(RTT2_anova)
 | 8   | targetContrast:nontargetContrast:Validity | 0.8341379 | 0.2343705 |        |
 
 </td>
+
 <td>
 
-|     | Effect                                    |       GGe |   p\[GG\] | p\[GG\]\<.05 |       HFe |   p\[HF\] | p\[HF\]\<.05 |
-|:----|:------------------------------------------|----------:|----------:|:-------------|----------:|----------:|:-------------|
-| 4   | Validity                                  | 0.7034391 | 0.0002041 | \*           | 0.7478877 | 0.0001414 | \*           |
-| 6   | targetContrast:Validity                   | 0.8875275 | 0.0039872 | \*           | 0.9836157 | 0.0028201 | \*           |
-| 7   | nontargetContrast:Validity                | 0.8514867 | 0.0318423 | \*           | 0.9365716 | 0.0275395 | \*           |
-| 8   | targetContrast:nontargetContrast:Validity | 0.8577344 | 0.1359889 |              | 0.9446949 | 0.1306840 |              |
+|  | Effect | GGe | p\[GG\] | p\[GG\]\<.05 | HFe | p\[HF\] | p\[HF\]\<.05 |
+|:---|:---|---:|---:|:---|---:|---:|:---|
+| 4 | Validity | 0.7034391 | 0.0002041 | \* | 0.7478877 | 0.0001414 | \* |
+| 6 | targetContrast:Validity | 0.8875275 | 0.0039872 | \* | 0.9836157 | 0.0028201 | \* |
+| 7 | nontargetContrast:Validity | 0.8514867 | 0.0318423 | \* | 0.9365716 | 0.0275395 | \* |
+| 8 | targetContrast:nontargetContrast:Validity | 0.8577344 | 0.1359889 |  | 0.9446949 | 0.1306840 |  |
 
 </td>
+
 </tr>
+
 </tbody>
+
 </table>
 
 # paired t-tests

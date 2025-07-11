@@ -1,8 +1,8 @@
 ---
-title: "tazoot_AccRT"
-author: Jenny
+title: "tazoot_AccRT_topHalf"
+author: "Jenny Motzer"
+date: "2025-07-11"
 output: github_document
-date: "2024-07-29"
 ---
 
 ```{r setup, include=FALSE}
@@ -26,7 +26,7 @@ options(contrasts=c("contr.sum","contr.poly"))
 
 #### load data #### 
 wd <- getwd()
-analysisName = 'tazoot_Acc_RT'
+analysisName = 'tazoot_topHalf_Acc_RT'
 dataName <- sprintf("C:/Users/Jenny Motzer/OneDrive/Documents/GitHub/ZOOT/stats/%s.csv", analysisName)
 data <- read.csv(dataName)
 
@@ -340,7 +340,7 @@ knitr::kable(accTANA_T1_anova)
 
 ```{r TPNP T2 accuracy}
 ## accuracy filtered target present/nontarget present T2
-d <- data %>% filter(targetContrast==1, nontargetContrast==1, Target == 2)
+d <- data %>% filter(targetContrast==1, nontargetContrast==1, Target==2)
 
 accTPNP_T2_anova = ezANOVA(
   data = d,
@@ -2304,27 +2304,3 @@ names(stats.table) <- c(
 my_table <- nice_table(stats.table, report = "t.test", title = "tazoot RT: NA T2 invalid vs neutral")
 my_table
 ```
-
-# Look up how to make a bar plot with ggplot 
-ggplot(data=d, aes(x=targetContrast,y=Acc)) + geom_bar(position="dodge", stat="summary", fun.y="mean")
-
-# Facet grid 
-```
-
-
-
-
-Null hypothesis: There is no effect of target contrast on accuracy. 
-
-There was a main effect of target contrast on accuracy (F(1,14)=84.1, p<0.001, GES=0.27).
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-

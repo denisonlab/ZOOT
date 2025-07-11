@@ -1,0 +1,175 @@
+---
+title: "tazoot_dis_topHalf"
+author: "Jenny Motzer"
+date: "2025-07-11"
+output: html_document
+---
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+suppressPackageStartupMessages(library(tidyverse))
+library(ez)
+library(foreach)
+library(kableExtra)
+library(ggplot2)
+library(dplyr)
+library(ggpubr)
+library(lsr)
+library(report)
+library(rempsyc) # for t-tests in nice tables
+knitr::opts_chunk$set(echo = TRUE)
+
+#### anova setup #### 
+options(contrasts=c("contr.sum","contr.poly"))
+
+#### load data #### 
+wd <- getwd()
+analysisName = 'tazoot_SDT_dis_subsampled_topHalf'
+dataName <- sprintf("C:/Users/Jenny Motzer/OneDrive/Documents/GitHub/ZOOT/stats/%s.csv", analysisName)
+data <- read.csv(dataName)
+
+#### Change to categorical vars ####
+data$SID = factor(data$sub_SID)
+data$nontargetContrast = factor(data$sub_nontargetContrast)
+data$Target = factor(data$sub_Target)
+data$Validity = factor(data$sub_Validity)
+
+### Plotting setup #### 
+colors = c("#F8A299","#CCCCCC","#98E6A1")
+attComparison <- list( c("1","3"), c("1","2"), c("2","3") )
+
+significance <- list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, Inf),
+symbols = c("****", "***", "**", "*", "ns"))
+```
+
+
+### discrimination sub
+## anovas
+#dprime
+```{r Dis}
+
+## dis dprime sub
+d = data 
+disdPrime_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime_sub),
+  wid = .(SID),
+  within = .(Target, nontargetContrast, Validity)
+)
+knitr::kable(disdPrime_anova)
+
+```
+
+```{r NP dis}
+## dis dprime filtered nontarget present
+d = data %>% filter(nontargetContrast==1)
+
+disdPrimeNP_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime_sub),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(disdPrimeNP_anova)
+
+```
+
+```{r NP T1 dis}
+## det dprime filtered nontarget present T1
+d = data %>% filter(nontargetContrast==1, Target == 1)
+
+disdPrimeNP_T1_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime_sub),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(disdPrimeNP_T1_anova)
+
+```
+
+```{r NP T2 dis}
+## dis dprime filtered nontarget present T2
+d = data %>% filter(nontargetContrast==1, Target == 2)
+
+disdPrimeNP_T2_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime_sub),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(disdPrimeNP_T2_anova)
+```
+
+```{r NA dis}
+## dis dprime filtered nontarget absent
+d = data %>% filter(nontargetContrast==2)
+
+disdPrimeNA_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime_sub),
+  wid = .(SID),
+  within = .(Target, Validity)
+)
+knitr::kable(disdPrimeNA_anova)
+
+```
+
+```{r NA T1 dis}
+## dis dprime filtered nontarget absent T1
+d = data %>% filter(nontargetContrast==2, Target == 1)
+    
+disdPrimeNA_T1_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime_sub),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(disdPrimeNA_T1_anova)
+
+```
+
+```{r NA T2 dis}
+## dis dprime filtered nontarget absent T2
+d = data %>% filter(nontargetContrast==2, Target == 2)
+
+disdPrimeNA_T2_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime_sub),
+  wid = .(SID),
+  within = .( Validity)
+)
+knitr::kable(disdPrimeNA_T2_anova)
+```
+
+```{r T1 dis}
+## dis dprime filtered T1
+d = data %>% filter(Target==1)
+
+disdPrimeT1_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime_sub),
+  wid = .(SID),
+  within = .(nontargetContrast, Validity)
+)
+knitr::kable(disdPrimeT1_anova)
+
+```
+
+```{r T2 dis}
+## dis dprime filtered T2
+d = data %>% filter(Target==2)
+
+disdPrimeT2_anova = ezANOVA(
+  data = d,
+  dv = .(dis_dPrime_sub),
+  wid = .(SID),
+  within = .(nontargetContrast, Validity)
+)
+knitr::kable(disdPrimeT2_anova)
+
+```
