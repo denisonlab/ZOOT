@@ -108,7 +108,7 @@ print(aov.swapT2)
 ## TP
 ```{r swap TP}
 d <- data %>% filter(targetContrast==1)
-swapTP.lmm.lme4 <- lmer(twoIncorrect ~ Validity * nontargetContrast + (1|SID), data = d)
+swapTP.lmm.lme4 <- lmer(twoIncorrect ~ Validity * Target * nontargetContrast + (1|SID), data = d)
 summary(swapTP.lmm.lme4)
 aov.swapTP <- Anova(swapTP.lmm.lme4)
 print(aov.swapTP)
@@ -132,7 +132,7 @@ print(aov.swapTPT2)
 ## TA
 ```{r swap TA}
 d <- data %>% filter(targetContrast==0)
-swapTA.lmm.lme4 <- lmer(twoIncorrect ~ Validity  * nontargetContrast + (1|SID), data = d)
+swapTA.lmm.lme4 <- lmer(twoIncorrect ~ Validity  * Target * nontargetContrast + (1|SID), data = d)
 summary(swapTA.lmm.lme4)
 aov.swapTA <- Anova(swapTA.lmm.lme4)
 print(aov.swapTA)
