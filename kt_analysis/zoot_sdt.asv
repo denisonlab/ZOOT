@@ -435,14 +435,9 @@ xlabel('p(correct) neutral')
 ylabel('p(correct) valid-invalid')
 
 %% T1 and T2 overlaid: Plot size of validity effect by performance on neutral trials
-clear val_valid val_neutral val_invalid x y
 figure
-set(gcf,'Position',[100 100 170 170])
-% title('Target present, nontarget absent')
-zoot_figureStyle2
-% xlim([1 4])
-% xticks(0:1:4)
-yticks(-1:1:2)
+title('Target present, nontarget absent')
+figureStyle
 hold on
 for iT=1:2
     iTC=1; % Target present only
@@ -451,6 +446,62 @@ for iT=1:2
         val_valid(iS) = mean ( A.disSS.dprime(iS,iNT,iT,1,iTC), 5, 'omitnan');
         val_neutral(iS) = mean ( A.disSS.dprime(iS,iNT,iT,2,iTC), 5, 'omitnan');
         val_invalid(iS) = mean ( A.disSS.dprime(iS,iNT,iT,3,iTC), 5, 'omitnan');
+    end
+
+    x = val_neutral;
+    y = val_valid-val_invalid;
+
+    % 1) Compute the correlation coefficient
+    [r, p] = corr(x(:), y(:), 'Type', 'Pearson', 'Rows', 'complete');
+    fprintf('r = %.3f, p = %.3f\n', r, p);
+
+    % 2) Fit a straight line (y = m*x + b) by least squares
+    [p,S] = polyfit(x, y, 1);
+    m = p(1);
+    b = p(2);
+
+    fprintf('Best‐fit line: y = %.3f*x + %.3f\n', m, b);
+
+    % 3) Evaluate the fit over the x-range
+    x_fit = linspace(min(x), max(x), 100);
+    [y_fit,delta] = polyval(p, x_fit, S);
+
+    %
+    fl = fill( [x_fit, fliplr(x_fit)], ...
+        [y_fit+delta, fliplr(y_fit-delta)], ...
+        fp.colorsTargets(iT,3,:), ...    
+        'EdgeColor','none','FaceAlpha',0.3 );
+    % switch iT
+    %     case 1
+    %         fl.FaceColor = 
+    %     case 2
+    % end
+
+    % scatter(val_neutral,val_valid-val_invalid,'filled')
+    pl = plot(x_fit, y_fit, 'b-', 'LineWidth', 2);  % best‐fit line
+    pl.Color = fp.colorsTargets(iT,1,:);
+
+    rl = refline(0,0);
+    rl.Color = 'k';
+
+    xlabel(sprintf('Discrimination d''\n neutral'))
+    ylabel(sprintf('Discrimination d''\nvalid - invalid'))
+end
+
+%% Correlate NonTarget present and NonTarget Absent
+clear val_valid val_neutral val
+figure
+title('Target present, nontarget absent')
+figureStyle
+hold on
+for iT=1:2
+    iTC=1; % Target present only
+    for iNT=1:2 % Nontarget present then absent
+        for iS = 1:nSubs
+            val_valid(iS,iNT) = mean ( A.disSS.dprime(iS,iNT,iT,1,iTC), 5, 'omitnan');
+            val_neutral(iS,iNT) = mean ( A.disSS.dprime(iS,iNT,iT,2,iTC), 5, 'omitnan');
+            val_invalid(iS,iNT) = mean ( A.disSS.dprime(iS,iNT,iT,3,iTC), 5, 'omitnan');
+        end
     end
 
     x = val_neutral;
@@ -487,82 +538,5 @@ for iT=1:2
     xlabel(sprintf('Discrimination d''\n neutral'))
     ylabel(sprintf('Discrimination d''\nvalid - invalid'))
 end
-
-if savePlots
-    figTitle = 'Fig4c_dis_correlation';
-    export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10','-painters')
-end
-
-
-%% Correlate NonTarget present and NonTarget Absent
-clear val_valid val_neutral val_invalid
-figure
-title('Target present, nontarget absent')
-figureStyle
-hold on
-for iT=1:2
-    iTC=1; % Target present only
-    for iNT=1:2 % Nontarget present then absent
-        for iS = 1:nSubs
-            val_valid(iS,iNT) = mean ( A.disSS.dprime(iS,iNT,iT,1,iTC), 5, 'omitnan');
-            val_neutral(iS,iNT) = mean ( A.disSS.dprime(iS,iNT,iT,2,iTC), 5, 'omitnan');
-            val_invalid(iS,iNT) = mean ( A.disSS.dprime(iS,iNT,iT,3,iTC), 5, 'omitnan');
-        end
-    end
-    
-    clear x y
-    x = [val_neutral(:,1); val_neutral(:,2)];
-    y = [val_valid(:,1); val_valid(:,2)]-[val_invalid(:,1); val_invalid(:,2)];
-
-    % 1) Compute the correlation coefficient
-    [r, p] = corr(x(:), y(:), 'Type', 'Pearson', 'Rows', 'complete');
-    fprintf('r = %.3f, p = %.3f\n', r, p);
-
-    % 2) Fit a straight line (y = m*x + b) by least squares
-    [p,S] = polyfit(x, y, 1);
-    m = p(1);
-    b = p(2);
-
-    fprintf('Best‐fit line: y = %.3f*x + %.3f\n', m, b);
-
-    % 3) Evaluate the fit over the x-range
-    x_fit = linspace(min(x), max(x), 100);
-    [y_fit,delta] = polyval(p, x_fit, S);
-
-    %
-    fl = fill( [x_fit, fliplr(x_fit)], ...
-        [y_fit+delta, fliplr(y_fit-delta)], ...
-        fp.colorsTargets(iT,3,:), ...    
-        'EdgeColor','none','FaceAlpha',0.3 );
-
-    % scatter(val_neutral,val_valid-val_invalid,'filled')
-    pl = plot(x_fit, y_fit, 'b-', 'LineWidth', 2);  % best‐fit line
-    pl.Color = fp.colorsTargets(iT,1,:);
-
-    rl = refline(0,0);
-    rl.Color = 'k';
-
-    xlabel(sprintf('Discrimination d''\n neutral'))
-    ylabel(sprintf('Discrimination d''\nvalid - invalid'))
-end
-
-%% Calculate across targets 
-clear val_valid val_neutral val_invalid x y
-for iTC=1:2 % Target present only
-    iNT=2; % nontarget absent
-    for iS = 1:nSubs
-        val_valid(iS,iT) = mean ( A.disSS.dprime(iS,iNT,iT,1,iTC), 5, 'omitnan');
-        val_neutral(iS,iT) = mean ( A.disSS.dprime(iS,iNT,iT,2,iTC), 5, 'omitnan');
-        val_invalid(iS,iT) = mean ( A.disSS.dprime(iS,iNT,iT,3,iTC), 5, 'omitnan');
-    end
-end
-
-x = [val_neutral(:,1); val_neutral(:,2)];
-y = [val_valid(:,1); val_valid(:,2)]-[val_invalid(:,1); val_invalid(:,2)];
-
-% 1) Compute the correlation coefficient
-[r, p] = corr(x(:), y(:), 'Type', 'Pearson', 'Rows', 'complete');
-fprintf('r = %.3f, p = %.3f\n', r, p);
-
 
 

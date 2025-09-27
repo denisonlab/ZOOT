@@ -19,50 +19,51 @@ options(contrasts=c("contr.sum","contr.poly"))
 
 #### load data #### 
 wd <- getwd()
-analysisName = 'tazoot_swapAcc_kt'
+analysisName = 'tazoot_twoIncorrect_errSwapAcc'
 dataName <- sprintf("/Users/kantian/Dropbox/GitHub/ZOOT/stats/%s.csv", analysisName)
 data <- read.csv(dataName)
 
 #### Change to categorical vars ####
 data$SID <- factor(data$SID) 
 data$targetContrast <- factor(data$targetContrast)
-data$nonTargetContrast <- factor(data$nonTargetContrast)
+data$nontargetContrast <- factor(data$nontargetContrast)
 
 # factorize target
 data <- data %>%
   mutate(
-    target = case_when(
-      target == 1 ~ "T1",
-      target == 2 ~ "T2",
+    Target = case_when(
+      Target == 1 ~ "T1",
+      Target == 2 ~ "T2",
       TRUE ~ NA_character_  # in case there are other values
     ),
-    target = factor(target, levels = c("T1", "T2"), ordered = TRUE)
+    Target = factor(Target, levels = c("T1", "T2"), ordered = TRUE)
   )
 
 # factorize validity
 data <- data %>%
   mutate(
-    validity = case_when(
-      validity == 1 ~ "valid",
-      validity == 2 ~ "neutral",
-      validity == 3 ~ "invalid",
+    Validity = case_when(
+      Validity == 1 ~ "valid",
+      Validity == 2 ~ "neutral",
+      Validity == 3 ~ "invalid",
       TRUE ~ NA_character_  # in case there are other values
     ),
-    validity = factor(validity, levels = c("valid","neutral","invalid"), ordered = TRUE)
+    Validity = factor(Validity, levels = c("valid","neutral","invalid"), ordered = TRUE)
   )
 
 # combine target and non target contrast
 data <- data %>%
   mutate(
-    TNTC = paste0("T", targetContrast, "_N", nonTargetContrast)
+    TNTC = paste0("T", targetContrast, "_N", nontargetContrast)
   )
+data$TNTC <- factor(data$TNTC)
 ```
 
 Linear mixed effects model assessing swap rates
 ```{r swap}
-d <- data %>% filter(target=="T1")
+d <- data %>% filter(Target=="T1") %>% filter(TNTC!="T0_N0")
 # %>% filter(swapAcc<=93.5) %>% %>% filter(if_all(c(swapAcc, target, validity), ~ !is.nan(.)))
-model <- lmer(swapAcc ~ validity + (1|SID), data=d)
+model <- lmer(twoIncorrect ~ Validity * TNTC + (Validity|SID), data=d)
 summary(model)
 ```
 ```{r swapPlot}
