@@ -1,5 +1,5 @@
 
-exportCSV = 0;
+exportCSV = 1;
 
 %% Export SDT analysis for CSV
 SID = []; 
