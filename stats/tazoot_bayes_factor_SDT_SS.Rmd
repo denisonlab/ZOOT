@@ -1,0 +1,200 @@
+---
+title: "tazoot_bayes_factor_SDT_SS"
+author: "Karen Tian"
+date: "2025-12-12"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+suppressPackageStartupMessages(library(tidyverse))
+library(ez)
+library(foreach)
+library(kableExtra)
+library(ggplot2)
+library(dplyr)
+library(ggpubr)
+library(lsr)
+library(report)
+library(BayesFactor)
+library(rempsyc) # for t-tests in nice tables
+library(psych)
+
+knitr::opts_chunk$set(echo = TRUE)
+
+#### anova setup #### 
+options(contrasts=c("contr.sum","contr.poly"))
+
+#### load data #### 
+wd <- getwd()
+analysisName = 'tazoot_SDT_kt'
+dataName <- sprintf("/Users/kantian/Dropbox/github/ZOOT/stats/data/%s.csv", analysisName)
+data <- read.csv(dataName)
+
+#### Change to categorical vars ####
+data$SID = factor(data$SID)
+data$validity = factor(data$validity)
+data$nonTargetContrast = factor(data$nonTargetContrast)
+data$target = factor(data$target)
+```
+
+# Dis
+## dprime 
+```{r dis_dprime_anova}
+d <- data
+bf_dis_dPrime <- anovaBF(dis_dp_SS ~ validity * nonTargetContrast * target + SID, data = data, whichRandom = "SID", progress = FALSE)
+bf_dis_dPrime=sort(bf_dis_dPrime, decreasing = TRUE)
+# print(bf_dis_dPrime)
+
+# Frequentist statistics
+# === Discrimination sensitivity overall 
+d <- data 
+anova = ezANOVA(
+  data = d,
+  dv = .(dis_dp_SS),
+  wid = .(SID),
+  within = .(nonTargetContrast, target, validity)
+)
+kable(anova, 
+      caption = "Discrimination dprime overall",
+      digits = 3)
+
+stats_table <- d %>%
+  group_by(validity) %>%
+  summarise(
+    m = mean(dis_dp_SS),
+    sd = sd(dis_dp_SS),
+    .groups = 'drop'
+  )
+kable(stats_table,
+      caption = "Discrimination dprime summary statistics overall")
+
+# === Discrimination sensitivity - with competition
+d <- data %>% filter(nonTargetContrast==1)
+anova = ezANOVA(
+  data = d,
+  dv = .(dis_dp_SS),
+  wid = .(SID),
+  within = .(target, validity)
+)
+kable(anova, 
+      caption = "Discrimination dprime with competition",
+      digits = 3)
+
+# === Discrimination sensitivity - without competition - T1
+d <- data %>% filter(nonTargetContrast==2) %>% filter(target==1)
+anova = ezANOVA(
+  data = d,
+  dv = .(dis_dp_SS),
+  wid = .(SID),
+  within = .(validity)
+)
+kable(anova, 
+      caption = "Discrimination dprime without competition T1",
+      digits = 3)
+
+# === Discrimination sensitivity - without competition - T2
+d <- data %>% filter(nonTargetContrast==2) %>% filter(target==2)
+anova = ezANOVA(
+  data = d,
+  dv = .(dis_dp_SS),
+  wid = .(SID),
+  within = .(validity)
+)
+kable(anova, 
+      caption = "Discrimination dprime without competition T2",
+      digits = 3)
+
+
+# === Discrimination sensitivity - with competition - T1
+d <- data %>% filter(nonTargetContrast==1) %>% filter(target==1)
+anova = ezANOVA(
+  data = d,
+  dv = .(dis_dp_SS),
+  wid = .(SID),
+  within = .(validity)
+)
+kable(anova, 
+      caption = "Discrimination dprime with competition T1",
+      digits = 3)
+
+# === Discrimination sensitivity - with competition - T2
+d <- data %>% filter(nonTargetContrast==1) %>% filter(target==2)
+anova = ezANOVA(
+  data = d,
+  dv = .(dis_dp_SS),
+  wid = .(SID),
+  within = .(validity)
+)
+kable(anova, 
+      caption = "Discrimination dprime with competition T2",
+      digits = 3)
+
+```
+
+
+## Compare full model with iteraction term to reduced model without
+```{r TP_dis_dPrime_Bayes_Factor_compare}
+
+# Set seed for reproducibility
+set.seed(1234)
+
+# Is there an interaction of validity and non target contrast?
+m_null <- lmBF(dis_dp_SS ~ validity + nonTargetContrast + target + SID, 
+               data = data, 
+               whichRandom = "SID", 
+               progress = FALSE)
+
+m_full <- lmBF(dis_dp_SS ~ validity * nonTargetContrast + target + SID, 
+               data = data, 
+               whichRandom = "SID", 
+               progress = FALSE)
+
+# Compare full vs reduced model
+bf_interaction <- m_full/m_null
+print(bf_interaction)
+
+# Try the anovaBF method (equivalent)
+bf_anova <- anovaBF(dis_dp_SS ~ validity + nonTargetContrast + target + SID, 
+               data = data, 
+               whichRandom = "SID", 
+               progress = FALSE)
+# model 8 is the null model of interest
+# model 11 is the full model of interest
+bf_null_anova <- bf_anova[8]
+bf_full_anova <- bf_anova[11]
+bf_compare_anova <- bf_full_anova/bf_null_anova
+
+# Is there an effect of validity?
+d <- data %>% filter(target==2) %>% filter(nonTargetContrast==2)
+m_null <- lmBF(dis_dp_SS ~ SID, 
+               data = d, 
+               whichRandom = "SID", 
+               progress = FALSE)
+
+m_full <- lmBF(dis_dp_SS ~ validity + SID, 
+               data = d, 
+               whichRandom = "SID", 
+               progress = FALSE)
+
+# Compare full vs reduced model
+bf_interaction <- m_full/m_null
+print(bf_interaction)
+
+```
+
+## calculate BF for disPrime Validity:nontargetContrast
+```{r TP_dis_dPrime_Bayes_Factor_calc}
+bf_highestmodel <- as.vector(bf_dis_dPrime[3])[[1]]/as.vector(bf_dis_dPrime[1])[[1]] #the highest ranked model
+
+sprintf("Discriminability (both targets)")
+sprintf("The BF of a model without an interaction term between validity and nontarget is %0.3f", bf_highestmodel)
+
+bf_fullmodel <- as.vector(bf_dis_dPrime[7])[[1]]/as.vector(bf_dis_dPrime[6])[[1]] #the numerator contains all main effect and interaction effects
+sprintf("The BF with the interaction term is %0.3f", bf_fullmodel)
+
+sprintf("The BF10 between the reduced and full model is %0.3f", bf_highestmodel/bf_fullmodel)
+
+```
