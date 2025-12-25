@@ -1,4 +1,4 @@
-%% Calculate 3 way accuracy and SDT measures
+%% Calculate SDT measures
 % Separately for tilt discrimination and target detection sensitivity and
 % criterion. 
 % 
@@ -9,7 +9,6 @@
 
 %% Setup
 fp = zoot_figureparams; 
-load('/Users/kantian/Dropbox/github/ZOOT/experiment-files/zoot_dataAll.mat')
 
 %% 
 % indices for all conditions based on (2) target, (3) validity, (4) SDT variable -
@@ -17,15 +16,15 @@ load('/Users/kantian/Dropbox/github/ZOOT/experiment-files/zoot_dataAll.mat')
 % rows = T1/T2 data, columns = V/N/I data, matrices for nh nfa nsignal and  nnoise
 % precue 1 valid, 2 neutral, 3 valid
 iS = 1; % index of subject in dataAll
+nSubs = 18; % total number of subjects
 nReps = 1; % number of reps for subsampling
 
 validities = [1 0 -1]; % valid neutral invalid
 targetContrasts = [1 0];
 nontargetContrasts = [1 0]; 
 
-nSubs = 18; % 15
-
-%% Calculate validity 
+%% 
+% Calculate validity 
 for iS=1:nSubs
     nTrials = size(dataAll(iS).precue,2); 
     dataAll(iS).validity=NaN(1,nTrials);
@@ -46,7 +45,7 @@ for iS=1:nSubs
     dataAll(iS).validity(idx)=0; 
 end
 
-%% Calculate acc
+%% Calculate acc, detection sensitivity, discrimination sensitivity
 clear acc
 for iS=1:nSubs
     for iNT=1:2 % nontarget present, absent
@@ -63,9 +62,6 @@ for iS=1:nSubs
                     idx = idxE & idxT & idxV & idxTC & idxNT;
 
                     % get accuracy on 3 way task
-                    nTrialsCond(iS,iNT,iT,iV,iTC) = numel(dataAll(iS).correct(idx),'omitnan'); 
-                    nTrialsCorrect(iS,iNT,iT,iV,iTC) = sum(dataAll(iS).correct(idx),'omitnan');
-                    nTrialsIncorrect(iS,iNT,iT,iV,iTC) = sum(~dataAll(iS).correct(idx),'omitnan');
                     acc(iS,iNT,iT,iV,iTC) = mean(dataAll(iS).correct(idx),'omitnan');
                 end
             end
@@ -73,50 +69,12 @@ for iS=1:nSubs
     end
 end
 
-A.nTrialsCond = nTrialsCond; 
-A.nTrialsCorrect = nTrialsCorrect; 
-A.nTrialsIncorrect = nTrialsIncorrect; 
 A.acc = acc; 
-
-nTrialsT = squeeze(nTrialsCond(1,:,:,:,:)); 
-
-%% Calculate swaps
-% i.e. sensitivity to non-target when target identification is incorrect
-clear swaps
-for iS=1:nSubs
-    for iNT=1:2 % nontarget present, absent
-        for iT=1:2 % target T1 T2
-            for iTC=1:numel(targetContrasts) % target present, absent
-                for iV=1:3 % valid, neutral, invalid
-                    % get trials of this condition
-                    clear idx
-                    idxE = ~dataAll(iS).eyeSkip; % exclude trials with fixation break
-                    idxNT = dataAll(iS).nonTargetContrast==nontargetContrasts(iNT); 
-                    idxT = dataAll(iS).target==iT;
-                    idxTC = dataAll(iS).targetContrast==targetContrasts(iTC);
-                    idxV = dataAll(iS).validity==validities(iV);
-                    idxI = dataAll(iS).correct==0; % incorrect trials
-                    idx = idxE & idxT & idxV & idxTC & idxNT & idxI;
-
-                    % non target correctly identified? 
-                    % if target accuracy>=93.75? Where did the 93.75 come
-                    % from? 
-                    swaps(iS,iNT,iT,iV,iTC) = mean(dataAll(iS).NTcorrect(idx),'omitnan');
-                end
-            end
-        end
-    end
-end
-
-A.swaps = swaps; 
-
 
 %% Calculate discrimination SDT
 % conditioned on when the target was reported seen
-% nsignal: valid (48), neutral (16), invalid (16)
+% nsignal: valid (48), neutral (16), invalid (16) 
 correctionType = 'over2N'; % how to handle 0 or 1 FARs or Hs
-nsignal_SS = 16;
-nnoise_SS = 16;
 
 for iS=1:nSubs
     for iNT=1:2
@@ -125,11 +83,11 @@ for iS=1:nSubs
                 % get trials of this condition
                 clear idx
                 idxE = ~dataAll(iS).eyeSkip; % exclude trials with fixation break
-                idxNT = dataAll(iS).nonTargetContrast==nontargetContrasts(iNT);
+                idxNT = dataAll(iS).nonTargetContrast==nontargetContrasts(iNT); 
                 idxTC = dataAll(iS).targetContrast==1; % only target present trials
                 idxT = dataAll(iS).target==iT;
                 idxV = dataAll(iS).validity==validities(iV);
-                idxSeen = dataAll(iS).seen==1;
+                idxSeen = dataAll(iS).seen==1; 
                 idx = idxE & idxT & idxV & idxTC & idxNT & idxSeen;
 
                 % calculate discrimination SDT
@@ -143,49 +101,50 @@ for iS=1:nSubs
                 nh = sum(idxS & idxCW);
                 nfa = sum(idxN & idxCW);
 
+                % calculate hit and false alarm rate
+                hr = nh/nsignal; 
+                far = nfa/nnoise; 
+
                 [dprime, criterion] = kt_dprime2(nh,nfa,nsignal,nnoise,correctionType);
 
                 % save analysis
                 A.dis.dprime(iS,iNT,iT,iV) = dprime;
                 A.dis.criterion(iS,iNT,iT,iV) = criterion;
-                A.dis.nsignal(iS,iNT,iT,iV) = nsignal;
-                A.dis.nnoise(iS,iNT,iT,iV) = nnoise;
-                A.dis.nh(iS,iNT,iT,iV) = nh;
-                A.dis.nfa(iS,iNT,iT,iV) = nfa;
+                A.dis.nsignal(iS,iNT,iT,iV) = nsignal; 
+                A.dis.nnoise(iS,iNT,iT,iV) = nnoise; 
+                A.dis.nh(iS,iNT,iT,iV) = nh; 
+                A.dis.nfa(iS,iNT,iT,iV) = nfa; 
+                A.dis.hr(iS,iNT,iT,iV) = hr; 
+                A.dis.far(iS,iNT,iT,iV) = far; 
+                
 
                 if iV==1 % valid only
                     for iSS=1:1000
+                        % ADD SUBSAMPLING
                         % subsample signal
+                        nsignal_SS = 16;
                         rCW = idxCW(idxS);
                         idxSS = randperm(numel(rCW));
                         nh_SS = sum(rCW(idxSS(1:nsignal_SS)));
-
+                        
                         % subsample noise
+                        nnoise_SS = 16;
                         rCW = idxCW(idxN);
                         idxSS = randperm(numel(rCW));
                         nfa_SS = sum(rCW(idxSS(1:nnoise_SS)));
 
                         [dprime_SS, criterion_SS] = kt_dprime2(nh_SS,nfa_SS,nsignal_SS,nnoise_SS,correctionType);
-
+                        
                         % save analysis
-                        A.disSS.dprime(iS,iNT,iT,iV,iSS) = dprime_SS;
+                        A.disSS.dprime(iS,iNT,iT,iSS) = dprime_SS;
                         A.disSS.criterion(iS,iNT,iT,iV,iSS) = criterion_SS;
                         A.disSS.nsignal(iS,iNT,iT,iV,iSS) = nsignal_SS;
                         A.disSS.nnoise(iS,iNT,iT,iV,iSS) = nnoise_SS;
                         A.disSS.nh(iS,iNT,iT,iV,iSS) = nh_SS;
                         A.disSS.nfa(iS,iNT,iT,iV,iSS) = nfa_SS;
                     end
-                else % neutral invalid
-                    for iSS=1:1000
-                        A.disSS.dprime(iS,iNT,iT,iV,iSS) = A.dis.dprime(iS,iNT,iT,iV);
-                        A.disSS.criterion(iS,iNT,iT,iV,iSS) = A.dis.criterion(iS,iNT,iT,iV);
-                        A.disSS.nsignal(iS,iNT,iT,iV,iSS) = A.dis.nsignal(iS,iNT,iT,iV);
-                        A.disSS.nnoise(iS,iNT,iT,iV,iSS) = A.dis.nnoise(iS,iNT,iT,iV);
-                        A.disSS.nh(iS,iNT,iT,iV,iSS) = A.dis.nh(iS,iNT,iT,iV);
-                        A.disSS.nfa(iS,iNT,iT,iV,iSS) = A.dis.nfa(iS,iNT,iT,iV);
-                    end
                 end
-
+               
             end
         end
     end
@@ -194,7 +153,6 @@ end
 %% Calculate detection sensitivity
 % nsignal: valid (96), neutral (32), invalid (32) 
 nsignal_SS = 32; % for subsampling
-nnoise_SS = 32;
 
 for iS=1:nSubs
     for iNT=1:2
@@ -221,14 +179,20 @@ for iS=1:nSubs
 
                 [dprime, criterion] = kt_dprime2(nh,nfa,nsignal,nnoise,correctionType);
 
+                % calculate hit and false alarm rate
+                hr = nh/nsignal; 
+                far = nfa/nnoise; 
+
                 % save analysis
                 sdtVar = 'det'; 
-                A.det.dprime(iS,iNT,iT,iV) = dprime;
-                A.det.criterion(iS,iNT,iT,iV) = criterion;
-                A.det.nsignal(iS,iNT,iT,iV) = nsignal; 
-                A.det.nnoise(iS,iNT,iT,iV) = nnoise; 
-                A.det.nh(iS,iNT,iT,iV) = nh; 
-                A.det.nfa(iS,iNT,iT,iV) = nfa; 
+                A.(sdtVar).dprime(iS,iNT,iT,iV) = dprime;
+                A.(sdtVar).criterion(iS,iNT,iT,iV) = criterion;
+                A.(sdtVar).nsignal(iS,iNT,iT,iV) = nsignal; 
+                A.(sdtVar).nnoise(iS,iNT,iT,iV) = nnoise; 
+                A.(sdtVar).nh(iS,iNT,iT,iV) = nh; 
+                A.(sdtVar).nfa(iS,iNT,iT,iV) = nfa; 
+                A.(sdtVar).hr(iS,iNT,iT,iV) = hr; 
+                A.(sdtVar).far(iS,iNT,iT,iV) = far; 
 
                 if iV==1 % ---- start subsampling (valid only) --- 
                     for iSS=1:1000
@@ -239,6 +203,7 @@ for iS=1:nSubs
                         nh_SS = sum(rCW(idxSS(1:nsignal_SS)));
                         
                         % subsample noise
+                        nnoise_SS = 16;
                         rCW = idxR(idxN);
                         idxSS = randperm(numel(rCW));
                         nfa_SS = sum(rCW(idxSS(1:nnoise_SS)));
@@ -246,24 +211,16 @@ for iS=1:nSubs
                         [dprime_SS, criterion_SS] = kt_dprime2(nh_SS,nfa_SS,nsignal_SS,nnoise_SS,correctionType);
                         
                         % save analysis
-                        A.detSS.dprime(iS,iNT,iT,iV,iSS) = dprime_SS;
-                        A.detSS.criterion(iS,iNT,iT,iV,iSS) = criterion_SS;
-                        A.detSS.nsignal(iS,iNT,iT,iV,iSS) = nsignal_SS;
-                        A.detSS.nnoise(iS,iNT,iT,iV,iSS) = nnoise_SS;
-                        A.detSS.nh(iS,iNT,iT,iV,iSS) = nh_SS;
-                        A.detSS.nfa(iS,iNT,iT,iV,iSS) = nfa_SS;
-                    end
-                elseif iV==2 || iV==3 % neutral invalid
-                    for iSS=1:1000
-                        A.detSS.dprime(iS,iNT,iT,iV,iSS) = A.det.dprime(iS,iNT,iT,iV);
-                        A.detSS.criterion(iS,iNT,iT,iV,iSS) = A.det.criterion(iS,iNT,iT,iV);
-                        A.detSS.nsignal(iS,iNT,iT,iV,iSS) = A.det.nsignal(iS,iNT,iT,iV);
-                        A.detSS.nnoise(iS,iNT,iT,iV,iSS) = A.det.nnoise(iS,iNT,iT,iV);
-                        A.detSS.nh(iS,iNT,iT,iV,iSS) = A.det.nh(iS,iNT,iT,iV);
-                        A.detSS.nfa(iS,iNT,iT,iV,iSS) = A.det.nfa(iS,iNT,iT,iV);
-                    end
-                end % ---- end subsampling ---
-
+                        sdtVar = 'detSS'; 
+                        A.(sdtVar).dprime(iS,iNT,iT,iSS) = dprime_SS;
+                        A.(sdtVar).criterion(iS,iNT,iT,iV,iSS) = criterion_SS;
+                        A.(sdtVar).nsignal(iS,iNT,iT,iV,iSS) = nsignal_SS;
+                        A.(sdtVar).nnoise(iS,iNT,iT,iV,iSS) = nnoise_SS;
+                        A.(sdtVar).nh(iS,iNT,iT,iV,iSS) = nh_SS;
+                        A.(sdtVar).nfa(iS,iNT,iT,iV,iSS) = nfa_SS;
+                    end 
+                end % ---- end subsampling --- 
+               
             end
         end
     end
@@ -313,41 +270,33 @@ end
 
 %% Plot discrimination SDT 
 figure
-count = 1; 
 for iNT=1:2
     subplot (1,2,iNT)
     zoot_figureStyle
+    switch iNT
+        case 1
+            title('Non target present')
+        case 2
+            title('Non target absent')
+    end
     for iT=1:2
         xlim([0.5 3.5])
         xticks(1:3)
         ylim([0 4])
         ylabel('Discrimination d''')
         xticklabels({'V','N','I'})
-        val = A.dis.dprime(:,iNT,iT,:); % (15)subjects x (2)NT x (2)T x (3)validity
+        val = A.dis.dprime(:,iNT,iT,:); % (3) validity x (15) subjects
         valG = mean(squeeze(val),1,'omitnan'); % average subjects
-        pl(count) = plot(1:3,valG,'-o','LineWidth',2,'Color',fp.colorsTargets(iT,3,:)); 
-        count = count+1; 
+        plot(1:3,valG,'-o','LineWidth',2,'Color',fp.colorsTargets(iT,3,:))
 
-        % Plot subsampled
-        valSS = A.disSS.dprime(:,iNT,iT,:,:);
-        valSS = mean(valSS,5,'omitnan'); % average subsamples 
-        valGSS = squeeze(mean(valSS,1,'omitnan')); % average subjects
-        pl(count) = plot(1:3,valGSS,'--o','LineWidth',2,'Color',fp.colorsTargets(iT,1,:)); 
-        count = count+1; 
-    end
-
-    switch iNT
-        case 1
-            title('Non target present')
-            legendStr = {'T1','T1 subsampled','T2','T2 subsampled'};
-            l = legend(pl(1:4),legendStr, 'Location','southwest');
-        case 2
-            title('Non target absent')
+        % Plot subsampled valid
+        valSS = mean(squeeze(A.disSS.dprime(:,iNT,iT,:)),2,'omitnan');
+        valGSS = mean(valSS);
+        plot(1:3,[valGSS valG(2) valG(3)],'--o','LineWidth',2,'Color',fp.colorsTargets(iT,1,:))
     end
 end
 
 %% Plot detection SDT 
-sdtVar = 'dprime'; % dprime 'criterion'
 figure
 count = 1; 
 for iNT=1:2
@@ -356,27 +305,19 @@ for iNT=1:2
     for iT=1:2
         xlim([0.5 3.5])
         xticks(1:3)
-        switch sdtVar 
-            case 'dprime'
-                ylabel('Detection d''')
-                ylim([0 4.5])
-            case 'criterion'
-                ylabel('Criterion') 
-                ylim([-1 0.5])
-                yline(0)
-        end
+        ylim([0 4.5])
+        ylabel('Detection d''')
         xticklabels({'V','N','I'})
-        val = A.det.(sdtVar)(:,iNT,iT,:); % (3) validity x (15) subjects
+        val = A.det.dprime(:,iNT,iT,:); % (3) validity x (15) subjects
         valG = mean(squeeze(val),1,'omitnan'); % average subjects
         pl(count) = plot(1:3,valG,'-o','LineWidth',2,'Color',fp.colorsTargets(iT,3,:));
         count = count+1; 
 
-        % Plot subsampled
-        valSS = A.detSS.dprime(:,iNT,iT,:,:);
-        valSS = mean(valSS,5,'omitnan'); % average subsamples 
-        valGSS = squeeze(mean(valSS,1,'omitnan')); % average subjects
-        pl(count) = plot(1:3,valGSS,'--o','LineWidth',2,'Color',fp.colorsTargets(iT,1,:)); 
-        count = count+1; 
+        % Plot subsampled valid
+        valSS = mean(squeeze(A.detSS.dprime(:,iNT,iT,:)),2,'omitnan');
+        valGSS = mean(valSS);
+        pl(count) = plot(1:3,[valGSS valG(2) valG(3)],'--o','LineWidth',2,'Color',fp.colorsTargets(iT,1,:));
+        count = count+1;
     end
     switch iNT
         case 1
@@ -388,181 +329,122 @@ for iNT=1:2
     end
 end
 
-%% T2: Plot size of validity effect by level of T2 discriminability on neutral trials
-iT=2; iTC=1; 
-iNT=2; % nontarget absent 
-for iS = 1:nSubs
-    val_valid(iS) = mean ( A.disSS.dprime(iS,iNT,iT,1,iTC,:), 5, 'omitnan'); 
-    val_neutral(iS) = mean ( A.disSS.dprime(iS,iNT,iT,2,iTC,:), 5, 'omitnan'); 
-    val_invalid(iS) = mean ( A.disSS.dprime(iS,iNT,iT,3,iTC,:), 5, 'omitnan'); 
-end
 
-x = val_neutral; 
-y = val_valid-val_invalid; 
-
-% 1) Compute the correlation coefficient
-[r, p] = corr(x(:), y(:), 'Type', 'Pearson', 'Rows', 'complete');
-fprintf('r = %.3f, p = %.3f\n', r, p);
-
-% 2) Fit a straight line (y = m*x + b) by least squares
-[p,S] = polyfit(x, y, 1);
-m = p(1);
-b = p(2);
-
-fprintf('Best‐fit line: y = %.3f*x + %.3f\n', m, b);
-
-% 3) Evaluate the fit over the x-range
-x_fit = linspace(min(x), max(x), 100);
-[y_fit,delta] = polyval(p, x_fit, S);
-
-% 
+%% Plot Hits and False alarm rates 
 figure
-title('T1 target present, nontarget absent')
-figureStyle
-hold on 
-fill( [x_fit, fliplr(x_fit)], ...
-      [y_fit+delta, fliplr(y_fit-delta)], ...
-      [0.9 0.9 0.9], ...        % light gray fill color
-      'EdgeColor','none' );
+count = 1;
 
-scatter(val_neutral,val_valid-val_invalid,'filled')
-plot(x_fit, y_fit, 'b-', 'LineWidth', 2);  % best‐fit line
-
-rl = refline(0,0);
-rl.Color = 'k'; 
-
-xlabel('p(correct) neutral')
-ylabel('p(correct) valid-invalid')
-
-%% T1 and T2 overlaid: Plot size of validity effect by performance on neutral trials
-clear val_valid val_neutral val_invalid x y
-figure
-set(gcf,'Position',[100 100 170 170])
-% title('Target present, nontarget absent')
-zoot_figureStyle2
-% xlim([1 4])
-% xticks(0:1:4)
-yticks(-1:1:2)
-hold on
 for iT=1:2
-    iTC=1; % Target present only
-    iNT=2; % nontarget absent
-    for iS = 1:nSubs
-        val_valid(iS) = mean ( A.disSS.dprime(iS,iNT,iT,1,iTC), 5, 'omitnan');
-        val_neutral(iS) = mean ( A.disSS.dprime(iS,iNT,iT,2,iTC), 5, 'omitnan');
-        val_invalid(iS) = mean ( A.disSS.dprime(iS,iNT,iT,3,iTC), 5, 'omitnan');
-    end
+    subplot (2,2,count)
+    zoot_figureStyle
+    hold on
+    xlim([0.5 3.5])
+    xticks(1:3)
+    % ylim([0 1])
+    ylabel('Hit rate')
+    xticklabels({'V','N','I'})
 
-    x = val_neutral;
-    y = val_valid-val_invalid;
-
-    % 1) Compute the correlation coefficient
-    [r, p] = corr(x(:), y(:), 'Type', 'Pearson', 'Rows', 'complete');
-    fprintf('r = %.3f, p = %.3f\n', r, p);
-
-    % 2) Fit a straight line (y = m*x + b) by least squares
-    [p,S] = polyfit(x, y, 1);
-    m = p(1);
-    b = p(2);
-
-    fprintf('Best‐fit line: y = %.3f*x + %.3f\n', m, b);
-
-    % 3) Evaluate the fit over the x-range
-    x_fit = linspace(min(x), max(x), 100);
-    [y_fit,delta] = polyval(p, x_fit, S);
-
-    %
-    fl = fill( [x_fit, fliplr(x_fit)], ...
-        [y_fit+delta, fliplr(y_fit-delta)], ...
-        fp.colorsTargets(iT,3,:), ...    
-        'EdgeColor','none','FaceAlpha',0.3 );
-
-    % scatter(val_neutral,val_valid-val_invalid,'filled')
-    pl = plot(x_fit, y_fit, 'b-', 'LineWidth', 2);  % best‐fit line
-    pl.Color = fp.colorsTargets(iT,1,:);
-
-    rl = refline(0,0);
-    rl.Color = 'k';
-
-    xlabel(sprintf('Discrimination d''\n neutral'))
-    ylabel(sprintf('Discrimination d''\nvalid - invalid'))
-end
-
-if savePlots
-    figTitle = 'Fig4c_dis_correlation';
-    export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10','-painters')
-end
-
-
-%% Correlate NonTarget present and NonTarget Absent
-clear val_valid val_neutral val_invalid
-figure
-title('Target present, nontarget absent')
-figureStyle
-hold on
-for iT=1:2
-    iTC=1; % Target present only
-    for iNT=1:2 % Nontarget present then absent
-        for iS = 1:nSubs
-            val_valid(iS,iNT) = mean ( A.disSS.dprime(iS,iNT,iT,1,iTC), 5, 'omitnan');
-            val_neutral(iS,iNT) = mean ( A.disSS.dprime(iS,iNT,iT,2,iTC), 5, 'omitnan');
-            val_invalid(iS,iNT) = mean ( A.disSS.dprime(iS,iNT,iT,3,iTC), 5, 'omitnan');
+    for iNT=1:2
+        % Plot hit rate
+        val = A.det.hr(:,iNT,iT,:); % (3) validity x (15) subjects
+        valG = mean(squeeze(val),1,'omitnan'); % average subjects
+        switch iNT
+            case 1 % non target present
+                pl(count) = plot(1:3,valG,'-.','LineWidth',2,'Color',fp.colorsTargets(iT,3,:));
+            case 2 % non target absent
+                pl(count) = plot(1:3,valG,'-o','LineWidth',2,'Color',fp.colorsTargets(iT,3,:));
         end
     end
+    count=count+1;
     
-    clear x y
-    x = [val_neutral(:,1); val_neutral(:,2)];
-    y = [val_valid(:,1); val_valid(:,2)]-[val_invalid(:,1); val_invalid(:,2)];
+    subplot (2,2,count)
+    zoot_figureStyle
+    hold on
+    xlim([0.5 3.5])
+    xticks(1:3)
+    % ylim([0 1])
+    ylabel('False alarm rate')
+    xticklabels({'V','N','I'})
+    for iNT=1:2
+        % Plot FAR
+        val = A.det.far(:,iNT,iT,:); % (3) validity x (15) subjects
+        valG = mean(squeeze(val),1,'omitnan'); % average subjects
+        switch iNT
+            case 1 % non target present
+                pl(count) = plot(1:3,valG,'-.','LineWidth',2,'Color',fp.colorsTargets(iT,3,:));
+            case 2 % non target absent
+                pl(count) = plot(1:3,valG,'-o','LineWidth',2,'Color',fp.colorsTargets(iT,3,:));
+        end
+    end
+    count=count+1;
 
-    % 1) Compute the correlation coefficient
-    [r, p] = corr(x(:), y(:), 'Type', 'Pearson', 'Rows', 'complete');
-    fprintf('r = %.3f, p = %.3f\n', r, p);
-
-    % 2) Fit a straight line (y = m*x + b) by least squares
-    [p,S] = polyfit(x, y, 1);
-    m = p(1);
-    b = p(2);
-
-    fprintf('Best‐fit line: y = %.3f*x + %.3f\n', m, b);
-
-    % 3) Evaluate the fit over the x-range
-    x_fit = linspace(min(x), max(x), 100);
-    [y_fit,delta] = polyval(p, x_fit, S);
-
-    %
-    fl = fill( [x_fit, fliplr(x_fit)], ...
-        [y_fit+delta, fliplr(y_fit-delta)], ...
-        fp.colorsTargets(iT,3,:), ...    
-        'EdgeColor','none','FaceAlpha',0.3 );
-
-    % scatter(val_neutral,val_valid-val_invalid,'filled')
-    pl = plot(x_fit, y_fit, 'b-', 'LineWidth', 2);  % best‐fit line
-    pl.Color = fp.colorsTargets(iT,1,:);
-
-    rl = refline(0,0);
-    rl.Color = 'k';
-
-    xlabel(sprintf('Discrimination d''\n neutral'))
-    ylabel(sprintf('Discrimination d''\nvalid - invalid'))
 end
 
-%% Calculate across targets 
-clear val_valid val_neutral val_invalid x y
-for iTC=1:2 % Target present only
-    iNT=2; % nontarget absent
-    for iS = 1:nSubs
-        val_valid(iS,iT) = mean ( A.disSS.dprime(iS,iNT,iT,1,iTC), 5, 'omitnan');
-        val_neutral(iS,iT) = mean ( A.disSS.dprime(iS,iNT,iT,2,iTC), 5, 'omitnan');
-        val_invalid(iS,iT) = mean ( A.disSS.dprime(iS,iNT,iT,3,iTC), 5, 'omitnan');
+%%
+for iNT=1:2
+    subplot (1,2,iNT)
+    zoot_figureStyle
+    for iT=1:2
+        xlim([0.5 3.5])
+        xticks(1:3)
+        ylim([0 1])
+        ylabel('Hit rate')
+        xticklabels({'V','N','I'})
+
+        % Plot hit rate 
+        val = A.det.hr(:,iNT,iT,:); % (3) validity x (15) subjects
+        valG = mean(squeeze(val),1,'omitnan'); % average subjects
+        pl(count) = plot(1:3,valG,'-o','LineWidth',2,'Color',fp.colorsTargets(iT,3,:));
+
+        % Plot false alarm rate 
+        val = A.det.far(:,iNT,iT,:); % (3) validity x (15) subjects
+        valG = mean(squeeze(val),1,'omitnan'); % average subjects
+        pl(count) = plot(1:3,valG,'-x','LineWidth',2,'Color',fp.colorsTargets(iT,3,:));
+        count = count+1; 
+    end
+    switch iNT
+        case 1
+            title('Non target present')
+            legendStr = {'T1','T1 subsampled','T2','T2 subsampled'}; 
+            l = legend(pl(1:4),legendStr, 'Location','northwest'); 
+        case 2
+            title('Non target absent')
     end
 end
 
-x = [val_neutral(:,1); val_neutral(:,2)];
-y = [val_valid(:,1); val_valid(:,2)]-[val_invalid(:,1); val_invalid(:,2)];
 
-% 1) Compute the correlation coefficient
-[r, p] = corr(x(:), y(:), 'Type', 'Pearson', 'Rows', 'complete');
-fprintf('r = %.3f, p = %.3f\n', r, p);
+%% Plot just one subject
+iS=1; 
+figure
+for iNT=1:2
+    subplot (1,2,iNT)
+    zoot_figureStyle
+    switch iNT
+        case 1
+            title('Non target present')
+        case 2
+            title('Non target absent')
+    end
+    for iT=1:2
+        xlim([0.5 3.5])
+        xticks(1:3)
+        ylim([0 4])
+        ylabel('Discrimination d''')
+        xticklabels({'V','N','I'})
+        val = A.dis.dprime(iS,iNT,iT,:); % (3) validity x (15) subjects
+        valG = squeeze(mean((val),1,'omitnan')); % average subjects
+        plot(1:3,valG,'-o','LineWidth',2,'Color',fp.colorsTargets(iT,3,:))
+
+        % Plot subsampled valid
+        valSS = squeeze(mean(A.disSS.dprime(iS,iNT,iT,:),4,'omitnan'));
+        valGSS = mean(valSS);
+        plot(1:3,[valGSS valG(2) valG(3)],'--o','LineWidth',2,'Color',fp.colorsTargets(iT,1,:))
+    end
+end
 
 
 
+
+
+
+%% 

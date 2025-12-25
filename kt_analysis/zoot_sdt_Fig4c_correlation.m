@@ -9,7 +9,8 @@
 
 %% Setup
 fp = zoot_figureparams; 
-load('/Users/kantian/Dropbox/github/ZOOT/analyses/zoot_dataAll.mat')
+load('/Users/kantian/Dropbox/github/ZOOT/data/zoot_dataAll.mat')
+savePlots = 0; 
 
 %% 
 % indices for all conditions based on (2) target, (3) validity, (4) SDT variable -
@@ -107,9 +108,7 @@ for iS=1:nSubs
         end
     end
 end
-
 A.swaps = swaps; 
-
 
 %% Calculate discrimination SDT
 % conditioned on when the target was reported seen
@@ -243,42 +242,6 @@ for iS=1:nSubs
                 A.(sdtVar).nnoise(iS,iNT,iT,iV) = nnoise; 
                 A.(sdtVar).nh(iS,iNT,iT,iV) = nh; 
                 A.(sdtVar).nfa(iS,iNT,iT,iV) = nfa; 
-
-                % if iV==1 % ---- start subsampling (valid only) --- 
-                %     for iSS=1:1000
-                %         % ADD SUBSAMPLING
-                %         % The number of trials per subsample was data driven, to equal the number of trials
-                %         % in the condition with the least # of trials 
-                %         % subsample signal
-                %         rCW = idxR(idxS);
-                %         idxSS = randperm(numel(rCW));
-                %         nh_SS = sum(rCW(idxSS(1:nsignal_SS)));
-                % 
-                %         % subsample noise
-                %         rCW = idxR(idxN);
-                %         idxSS = randperm(numel(rCW));
-                %         nfa_SS = sum(rCW(idxSS(1:nnoise_SS)));
-                % 
-                %         [dprime_SS, criterion_SS] = kt_dprime2(nh_SS,nfa_SS,nsignal_SS,nnoise_SS,correctionType);
-                % 
-                %         % save analysis
-                %         A.detSS.dprime(iS,iNT,iT,iV,iSS) = dprime_SS;
-                %         A.detSS.criterion(iS,iNT,iT,iV,iSS) = criterion_SS;
-                %         A.detSS.nsignal(iS,iNT,iT,iV,iSS) = nsignal_SS;
-                %         A.detSS.nnoise(iS,iNT,iT,iV,iSS) = nnoise_SS;
-                %         A.detSS.nh(iS,iNT,iT,iV,iSS) = nh_SS;
-                %         A.detSS.nfa(iS,iNT,iT,iV,iSS) = nfa_SS;
-                %     end
-                % elseif iV==2 || iV==3 % neutral invalid
-                %     for iSS=1:1000
-                %         A.detSS.dprime(iS,iNT,iT,iV,iSS) = A.det.dprime(iS,iNT,iT,iV);
-                %         A.detSS.criterion(iS,iNT,iT,iV,iSS) = A.det.criterion(iS,iNT,iT,iV);
-                %         A.detSS.nsignal(iS,iNT,iT,iV,iSS) = A.det.nsignal(iS,iNT,iT,iV);
-                %         A.detSS.nnoise(iS,iNT,iT,iV,iSS) = A.det.nnoise(iS,iNT,iT,iV);
-                %         A.detSS.nh(iS,iNT,iT,iV,iSS) = A.det.nh(iS,iNT,iT,iV);
-                %         A.detSS.nfa(iS,iNT,iT,iV,iSS) = A.det.nfa(iS,iNT,iT,iV);
-                %     end
-                % end % ---- end subsampling ---
                 minTrials(iV) = min([nsignal nnoise]);
             end
 
@@ -436,54 +399,55 @@ for iNT=1:2
     end
 end
 
-%% T2: Plot size of validity effect by level of T2 discriminability on neutral trials
-iT=2; iTC=1; 
-iNT=2; % nontarget absent 
-for iS = 1:nSubs
-    val_valid(iS) = mean ( A.disSS.dprime(iS,iNT,iT,1,iTC,:), 5, 'omitnan'); 
-    val_neutral(iS) = mean ( A.disSS.dprime(iS,iNT,iT,2,iTC,:), 5, 'omitnan'); 
-    val_invalid(iS) = mean ( A.disSS.dprime(iS,iNT,iT,3,iTC,:), 5, 'omitnan'); 
-end
-
-x = val_neutral; 
-y = val_valid-val_invalid; 
-
-% 1) Compute the correlation coefficient
-[r, p] = corr(x(:), y(:), 'Type', 'Pearson', 'Rows', 'complete');
-fprintf('r = %.3f, p = %.3f\n', r, p);
-
-% 2) Fit a straight line (y = m*x + b) by least squares
-[p,S] = polyfit(x, y, 1);
-m = p(1);
-b = p(2);
-
-fprintf('Best‐fit line: y = %.3f*x + %.3f\n', m, b);
-
-% 3) Evaluate the fit over the x-range
-x_fit = linspace(min(x), max(x), 100);
-[y_fit,delta] = polyval(p, x_fit, S);
-
+%% (outdated) T2: Plot correlation between size of validity effect and discriminability on neutral trials
+% iT=2; iTC=1; 
+% iNT=2; % nontarget absent 
+% for iS = 1:nSubs
+%     val_valid(iS) = mean ( A.disSS.dprime(iS,iNT,iT,1,iTC,:), 5, 'omitnan'); 
+%     val_neutral(iS) = mean ( A.disSS.dprime(iS,iNT,iT,2,iTC,:), 5, 'omitnan'); 
+%     val_invalid(iS) = mean ( A.disSS.dprime(iS,iNT,iT,3,iTC,:), 5, 'omitnan'); 
+% end
 % 
-figure
-title('T1 target present, nontarget absent')
-figureStyle
-hold on 
-fill( [x_fit, fliplr(x_fit)], ...
-      [y_fit+delta, fliplr(y_fit-delta)], ...
-      [0.9 0.9 0.9], ...        % light gray fill color
-      'EdgeColor','none' );
+% x = val_neutral; 
+% y = val_valid-val_invalid; 
+% 
+% % 1) Compute the correlation coefficient
+% [r, p] = corr(x(:), y(:), 'Type', 'Pearson', 'Rows', 'complete');
+% fprintf('r = %.3f, p = %.3f\n', r, p);
+% 
+% % 2) Fit a straight line (y = m*x + b) by least squares
+% [p,S] = polyfit(x, y, 1);
+% m = p(1);
+% b = p(2);
+% 
+% fprintf('Best‐fit line: y = %.3f*x + %.3f\n', m, b);
+% 
+% % 3) Evaluate the fit over the x-range
+% x_fit = linspace(min(x), max(x), 100);
+% [y_fit,delta] = polyval(p, x_fit, S);
+% 
+% % 
+% figure
+% title('T1 target present, nontarget absent')
+% zoot_figureStyle
+% hold on 
+% fill( [x_fit, fliplr(x_fit)], ...
+%       [y_fit+delta, fliplr(y_fit-delta)], ...
+%       [0.9 0.9 0.9], ...        % light gray fill color
+%       'EdgeColor','none' );
+% 
+% scatter(val_neutral,val_valid-val_invalid,'filled')
+% plot(x_fit, y_fit, 'b-', 'LineWidth', 2);  % best‐fit line
+% 
+% rl = refline(0,0);
+% rl.Color = 'k'; 
+% 
+% xlabel('p(correct) neutral')
+% ylabel('p(correct) valid-invalid')
 
-scatter(val_neutral,val_valid-val_invalid,'filled')
-plot(x_fit, y_fit, 'b-', 'LineWidth', 2);  % best‐fit line
-
-rl = refline(0,0);
-rl.Color = 'k'; 
-
-xlabel('p(correct) neutral')
-ylabel('p(correct) valid-invalid')
-
-%% T1 and T2 overlaid: Plot size of validity effect by performance on neutral trials
+%% T1 and T2 overlaid: Plot size of validity effect by performance on neutral trials (final)
 clear val_valid val_neutral val_invalid x y
+varName = 'dis'; % dis, disSS
 figure
 set(gcf,'Position',[100 100 170 170])
 % title('Target present, nontarget absent')
@@ -496,9 +460,9 @@ for iT=1:2
     iTC=1; % Target present only
     iNT=2; % nontarget absent
     for iS = 1:nSubs
-        val_valid(iS) = mean ( A.disSS.dprime(iS,iNT,iT,1,iTC), 5, 'omitnan');
-        val_neutral(iS) = mean ( A.disSS.dprime(iS,iNT,iT,2,iTC), 5, 'omitnan');
-        val_invalid(iS) = mean ( A.disSS.dprime(iS,iNT,iT,3,iTC), 5, 'omitnan');
+        val_valid(iS) = mean ( A.(varName).dprime(iS,iNT,iT,1,iTC), 5, 'omitnan');
+        val_neutral(iS) = mean ( A.(varName).dprime(iS,iNT,iT,2,iTC), 5, 'omitnan');
+        val_invalid(iS) = mean ( A.(varName).dprime(iS,iNT,iT,3,iTC), 5, 'omitnan');
     end
 
     x = val_neutral;
@@ -541,12 +505,35 @@ if savePlots
     export_fig(gcf,sprintf('%s/%s.%s', figDir, figTitle, figType), '-transparent','-p10','-painters')
 end
 
+%% Combine data across targets, non-target conditions, then calculate correlation
+% betweeen neural performance and magnitude of the attentional benefit
+clear val_valid val_neutral val_invalid x y r p
+varName = 'disSS'; % disSS
+iT=1; % :2; % Target 
+iTC=1; % Target present (1); Target absent (2)
+iNT=1:2; % Nontarget present (1); Nontarget absent (2)
 
-%% Correlate NonTarget present and NonTarget Absent
+val_valid = A.(varName).dprime(:,iNT,iT,1,iTC); 
+val_valid = val_valid(:);
+
+val_neutral = A.(varName).dprime(:,iNT,iT,2,iTC); 
+val_neutral = val_neutral(:);
+
+val_invalid = A.(varName).dprime(:,iNT,iT,3,iTC); 
+val_invalid = val_invalid(:);
+
+x = val_neutral;
+y = val_valid-val_invalid;
+
+% Compute the correlation coefficient
+[r, p] = corr(x(:), y(:), 'Type', 'Pearson', 'Rows', 'complete');
+fprintf('r = %.3f, p = %.3f\n', r, p);
+
+%% Correlate nontarget present and nontarget absent (outdated)
 clear val_valid val_neutral val_invalid
 figure
 title('Target present, nontarget absent')
-figureStyle
+zoot_figureStyle
 hold on
 for iT=1:2
     iTC=1; % Target present only
@@ -594,7 +581,7 @@ for iT=1:2
     ylabel(sprintf('Discrimination d''\nvalid - invalid'))
 end
 
-%% Calculate across targets 
+%% Calculate correlation across targets 
 clear val_valid val_neutral val_invalid x y
 for iTC=1:2 % Target present only
     iNT=2; % nontarget absent

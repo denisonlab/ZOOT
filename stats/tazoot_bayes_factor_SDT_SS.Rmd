@@ -83,6 +83,18 @@ kable(anova,
       caption = "Discrimination dprime with competition",
       digits = 3)
 
+# === Discrimination sensitivity - without competition
+d <- data %>% filter(nonTargetContrast==2)
+anova = ezANOVA(
+  data = d,
+  dv = .(dis_dp_SS),
+  wid = .(SID),
+  within = .(target, validity)
+)
+kable(anova, 
+      caption = "Discrimination dprime without competition",
+      digits = 3)
+
 # === Discrimination sensitivity - without competition - T1
 d <- data %>% filter(nonTargetContrast==2) %>% filter(target==1)
 anova = ezANOVA(

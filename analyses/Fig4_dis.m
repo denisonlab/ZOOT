@@ -3,7 +3,7 @@ function Fig4_dis % please name the function
 % OLD 
 
 %% Settings 
-user = 'jenny'; % 'jenny'
+user = 'kantian'; % 'jenny'
 saveplots = 0; 
 plotStats = 1; 
 target_ANOVA = 1; % to plot individual target (T1/T2) ANOVAs main ANOVAs

@@ -1,5 +1,5 @@
 ---
-title: "tazoot_swap_LLM_kt"
+title: "tazoot_swap_LME_kt"
 output: github_document
 date: "2025-04-30"
 ---
@@ -20,7 +20,7 @@ options(contrasts=c("contr.sum","contr.poly"))
 #### load data #### 
 wd <- getwd()
 analysisName = 'tazoot_twoIncorrect_errSwapAcc'
-dataName <- sprintf("/Users/kantian/Dropbox/GitHub/ZOOT/stats/%s.csv", analysisName)
+dataName <- sprintf("/Users/kantian/Dropbox/github/ZOOT/stats/data/%s.csv", analysisName)
 data <- read.csv(dataName)
 
 #### Change to categorical vars ####
@@ -91,10 +91,5 @@ model_reduced <- lmer(point95_SwapAcc ~ Validity + (1|SID), data=model_data)
 summary(model_reduced)
 
 anova(model_reduced, model)
-```
-
-## Including Plots
-```{r pressure, echo=FALSE}
-plot(pressure)
 ```
 

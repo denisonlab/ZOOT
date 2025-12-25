@@ -15,7 +15,6 @@ library(car)
 library(dplyr)
 library(lmerTest)
 
-
 knitr::opts_chunk$set(echo = TRUE)
 
 #### anova setup #### 
@@ -24,7 +23,8 @@ options(contrasts=c("contr.sum","contr.poly"))
 #### load data #### 
 wd <- getwd()
 analysisName = 'tazoot_twoIncorrect_errSwapAcc'
-dataName <- sprintf("/Users/jennymotzer/Documents/GitHub/ZOOT/stats/%s.csv", analysisName)
+# dataName <- sprintf("/Users/jennymotzer/Documents/GitHub/ZOOT/stats/%s.csv", analysisName)
+dataName <- sprintf("/Users/kantian/Dropbox/GitHub/ZOOT/stats/data/%s.csv", analysisName)
 data <- read.csv(dataName)
 # removes NaN rows from data 
 data_clean <- data[!is.nan(data$twoIncorrect), ]
@@ -34,14 +34,7 @@ data$SID <- factor(data$SID)
 data$targetContrast <- factor(data$targetContrast, levels = c("1", "0"), ordered = FALSE)
 data$nontargetContrast <- factor(data$nontargetContrast, levels = c("1", "0"), ordered = FALSE)
 data$Target <- factor(data$Target, levels = c("1", "2"), ordered = FALSE)
-data$Validity <- factor(data$Validity,levels = c("1", "2", "3"),ordered = FALSE)
-
-### Plotting setup #### 
-colors = c("#F8A299","#CCCCCC","#98E6A1")
-attComparison <- list( c("1","3"), c("1","2"), c("2","3") )
-
-significance <- list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, Inf),
-symbols = c("****", "***", "**", "*", "ns"))
+data$Validity <- factor(data$Validity,levels = c("1", "2", "3"), ordered = FALSE) # 
 
 ```
 
@@ -56,9 +49,9 @@ knitr::kable(d, digits=3, caption=sprintf("twoIncorrect swap"))
 
 ```{r swapPlot}
 library(ggplot2)
-d <- data %>%
+data <- data %>%
   mutate(TNTC = paste0("T", targetContrast, "_N", nontargetContrast))
-ggplot(d, aes(x = Validity, y = twoIncorrect, color = TNTC)) + 
+ggplot(data, aes(x = Validity, y = twoIncorrect, color = TNTC)) + 
   geom_point() + stat_summary(
     fun = "mean",
     geom = "point",
@@ -81,6 +74,107 @@ summary(swap.lmm.lme4)
 aov.swap <- Anova(swap.lmm.lme4)
 print(aov.swap)
 ```
+## combined contrast - T1
+```{r swap combined contrast T1}
+d <- data %>% mutate(combinedContrast = paste(targetContrast, nontargetContrast, sep = "_"))
+d <- d %>% 
+  mutate(combinedContrast = factor(combinedContrast,
+                                   levels =  c("1_1", "1_0", "0_1"),
+                                   ordered = TRUE)) %>% filter(Target==1)
+swap.lmm.lme4 <- lmer(twoIncorrect ~ Validity * combinedContrast + (1|SID), data = d)
+summary(swap.lmm.lme4)
+aov.swap <- Anova(swap.lmm.lme4)
+print(aov.swap)
+```
+
+## combined contrast - T1 - TPNA
+```{r swap combined contrast T1}
+d <- data %>% mutate(combinedContrast = paste(targetContrast, nontargetContrast, sep = "_"))
+d <- d %>% 
+  mutate(combinedContrast = factor(combinedContrast,
+                                   levels =  c("1_1", "1_0", "0_1"),
+                                   ordered = TRUE)) %>% 
+  filter(Target==1) %>% 
+  filter(combinedContrast=="1_0")
+swap.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
+summary(swap.lmm.lme4)
+aov.swap <- Anova(swap.lmm.lme4)
+print(aov.swap)
+```
+
+## combined contrast - T1 - TANP
+```{r swap combined contrast T1}
+d <- data %>% mutate(combinedContrast = paste(targetContrast, nontargetContrast, sep = "_"))
+d <- d %>% 
+  mutate(combinedContrast = factor(combinedContrast,
+                                   levels =  c("1_1", "1_0", "0_1"),
+                                   ordered = TRUE)) %>% 
+  filter(Target==1) %>% 
+  filter(combinedContrast=="0_1")
+swap.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
+summary(swap.lmm.lme4)
+aov.swap <- Anova(swap.lmm.lme4)
+print(aov.swap)
+```
+
+## combined contrast - T2 
+```{r swap combined contrast T2}
+d <- data %>% mutate(combinedContrast = paste(targetContrast, nontargetContrast, sep = "_"))
+d <- d %>% 
+  mutate(combinedContrast = factor(combinedContrast,
+                                   levels =  c("1_1", "1_0", "0_1"),
+                                   ordered = TRUE)) %>% filter(Target==2)
+swap.lmm.lme4 <- lmer(twoIncorrect ~ Validity * combinedContrast + (1|SID), data = d)
+summary(swap.lmm.lme4)
+aov.swap <- Anova(swap.lmm.lme4)
+print(aov.swap)
+```
+
+## combined contrast - T2 - TPNA
+```{r swap combined contrast T2}
+d <- data %>% mutate(combinedContrast = paste(targetContrast, nontargetContrast, sep = "_"))
+d <- d %>% 
+  mutate(combinedContrast = factor(combinedContrast,
+                                   levels =  c("1_1", "1_0", "0_1"),
+                                   ordered = TRUE)) %>% 
+  filter(Target==2) %>% 
+  filter(combinedContrast=="1_0")
+swap.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
+summary(swap.lmm.lme4)
+aov.swap <- Anova(swap.lmm.lme4)
+print(aov.swap)
+```
+
+## combined contrast - T2 - TANP
+```{r swap combined contrast T2}
+d <- data %>% mutate(combinedContrast = paste(targetContrast, nontargetContrast, sep = "_"))
+d <- d %>% 
+  mutate(combinedContrast = factor(combinedContrast,
+                                   levels =  c("1_1", "1_0", "0_1"),
+                                   ordered = TRUE)) %>% 
+  filter(Target==2) %>% 
+  filter(combinedContrast=="0_1")
+swap.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
+summary(swap.lmm.lme4)
+aov.swap <- Anova(swap.lmm.lme4)
+print(aov.swap)
+```
+
+## combined contrast - T2 - TPNP
+```{r swap combined contrast T2}
+d <- data %>% mutate(combinedContrast = paste(targetContrast, nontargetContrast, sep = "_"))
+d <- d %>% 
+  mutate(combinedContrast = factor(combinedContrast,
+                                   levels =  c("1_1", "1_0", "0_1"),
+                                   ordered = TRUE)) %>% 
+  filter(Target==2) %>% 
+  filter(combinedContrast=="1_1")
+swap.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
+summary(swap.lmm.lme4)
+aov.swap <- Anova(swap.lmm.lme4)
+print(aov.swap)
+```
+
 ## targetContrast and nontargetContrast
 ```{r swap uncombined contrast}
 d <- data 
@@ -89,6 +183,24 @@ summary(swap.lmm.lme4)
 aov.swap <- Anova(swap.lmm.lme4)
 print(aov.swap)
 ```
+
+## T1 target absent non-target present
+```{r swap combined contrast}
+d <- data %>% filter(combinedContrast=="1_0") %>% filter(Target==2)
+df_clean <- na.omit(d)
+swap.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = df_clean)
+summary(swap.lmm.lme4)
+aov.swap <- Anova(swap.lmm.lme4)
+print(aov.swap)
+
+# One-sample t-test comparing mean(x) to 5
+# %>% filter(Validity==1)
+x <- data %>% filter(Target==2) %>% filter(combinedContrast=="1_1") %>%
+  group_by(SID) %>% summarise(mean_swapRate = mean(twoIncorrect, na.rm = TRUE))
+
+t.test(x$mean_swapRate, mu=50, alternative = "two.sided")
+```
+
 ## T1
 ```{r swap T1}
 d <- data %>% filter(Target==1)
@@ -104,6 +216,7 @@ swapT2.lmm.lme4 <- lmer(twoIncorrect ~ Validity * targetContrast * nontargetCont
 summary(swapT2.lmm.lme4)
 aov.swapT2 <- Anova(swapT2.lmm.lme4)
 print(aov.swapT2)
+
 ```
 ## TP
 ```{r swap TP}
@@ -209,6 +322,15 @@ summary(swapTPNP.lmm.lme4)
 aov.swapTPNP <- Anova(swapTPNP.lmm.lme4)
 print(aov.swapTPNP)
 ```
+## TPNP T1
+```{r swap TPNPT1}
+d <- data %>% filter(targetContrast==1, nontargetContrast==1, Target==1)
+swapTPNP.lmm.lme4 <- lmer(twoIncorrect ~ Validity + (1|SID), data = d)
+summary(swapTPNP.lmm.lme4)
+aov.swapTPNP <- Anova(swapTPNP.lmm.lme4)
+print(aov.swapTPNP)
+```
+
 ## TPNA
 ```{r swap TPNA}
 d <- data %>% filter(targetContrast==1, nontargetContrast==0)

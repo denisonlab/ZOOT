@@ -27,7 +27,7 @@ options(contrasts=c("contr.sum","contr.poly"))
 #### load data #### 
 wd <- getwd()
 analysisName = 'tazoot_SDT_subsampled'
-dataName <- sprintf("/Users/jennymotzer/Documents/GitHub/ZOOT/stats/%s.csv", analysisName)
+dataName <- sprintf("/Users/kantian/Dropbox/github/ZOOT/stats/data/%s.csv", analysisName)
 data <- read.csv(dataName)
 
 #### Change to categorical vars ####
@@ -35,29 +35,14 @@ data$SID = factor(data$sub_SID)
 data$nontargetContrast = factor(data$sub_nontargetContrast)
 data$Target = factor(data$sub_Target)
 data$Validity = factor(data$sub_Validity)
-
-### Plotting setup #### 
-colors = c("#F8A299","#CCCCCC","#98E6A1")
-attComparison <- list( c("1","3"), c("1","2"), c("2","3") )
-
-significance <- list(cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, Inf),
-symbols = c("****", "***", "**", "*", "ns"))
 ```
 
-```
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-  
-```
 ### detection sub
 ## anovas
-#dprime
+# dprime
 ```{r Det}
-
 ## det dprime sub
+
 d = data 
 detdPrime_anova = ezANOVA(
   data = d,
@@ -66,9 +51,7 @@ detdPrime_anova = ezANOVA(
   within = .(Target, nontargetContrast, Validity)
 )
 knitr::kable(detdPrime_anova)
-
 ```
-
 ```{r NP Det}
 ## det dprime filtered nontarget present
 d = data %>% filter(nontargetContrast==1)
@@ -80,7 +63,6 @@ detdPrimeNP_anova = ezANOVA(
   within = .(Target, Validity)
 )
 knitr::kable(detdPrimeNP_anova)
-
 ```
 
 ```{r NP T1 Det}
@@ -94,7 +76,6 @@ detdPrimeNP_T1_anova = ezANOVA(
   within = .( Validity)
 )
 knitr::kable(detdPrimeNP_T1_anova)
-
 ```
 
 ```{r NP T2 Det}

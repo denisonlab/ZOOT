@@ -1,4 +1,6 @@
 
+%% Define a few variables 
+nSubs = 18; 
 exportCSV = 1;
 
 %% Export SDT analysis for CSV
@@ -7,7 +9,7 @@ validity = [];
 target = []; 
 nonTargetContrast = []; 
 count = 1; 
-for iS=1:15
+for iS=1:nSubs
     for iNT=1:2
         for iT=1:2 % target T1 T2
             for iV=1:3 % valid, neutral, invalid
@@ -42,5 +44,7 @@ accTable = table(SID', validity', target', nonTargetContrast',...
     'VariableNames',tblHdrs);
 
 if exportCSV
-    writetable(accTable,'zoot_sdt_kt.csv','Delimiter',',','QuoteStrings','all')
+    fileName = 'zoot_sdt_kt.csv';
+    filePath = sprintf('Users/kantian/Dropbox/github/ZOOT/stats/data/%s',fileName); 
+    writetable(accTable,filePath,'Delimiter',',','QuoteStrings','all')
 end
