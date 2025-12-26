@@ -7,6 +7,5 @@ experiment-files/data/S0071/eyedata/S0020708.edf
 .DS_Store
 experiment-files/functions/kt_dprime2.asv
 stats/CSV.m
-docs/zoot.key
-docs/zoot_ms_figs_250901.ai
-docs/zoot_task.ai
+docs
+OSF
