@@ -14,7 +14,7 @@ switch user
 end
 addpath(genpath(pathToZoot))
 
-figDir = sprintf('%s/analysis/zoot_ms_figures/pdfs',pathToZoot); 
+figDir = sprintf('%s/analyses/zoot_ms_figures/pdfs',pathToZoot); 
 if ~exist(figDir,'dir')
     mkdir(figDir)
 end
